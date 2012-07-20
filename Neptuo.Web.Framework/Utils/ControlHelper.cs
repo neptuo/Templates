@@ -22,11 +22,16 @@ namespace Neptuo.Web.Framework.Utils
 
         public static PropertyInfo GetDefaultProperty(Type control)
         {
-            foreach (KeyValuePair<string, PropertyInfo> property in GetProperties(control))
+            object[] attributes = control.GetCustomAttributes(typeof(DefaultPropertyAttribute), true);
+            if (attributes.Length > 0)
             {
-                object[] attributes = property.Value.GetCustomAttributes(typeof(DefaultPropertyAttribute), true);
-                if (attributes.Length == 1)
-                    return property.Value;
+                DefaultPropertyAttribute defaultPropertyAttribute = attributes[0] as DefaultPropertyAttribute;
+                if (defaultPropertyAttribute != null && defaultPropertyAttribute.Name != null)
+                {
+                    PropertyInfo property = control.GetProperty(defaultPropertyAttribute.Name);
+                    if (property != null)
+                        return property;
+                }
             }
 
             return null;

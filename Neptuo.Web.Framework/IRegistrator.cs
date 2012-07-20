@@ -12,6 +12,8 @@ namespace Neptuo.Web.Framework
     {
         Type GetControl(string tagNamespace, string tagName);
 
+        Type GetExtension(string extensionNamespace, string extensionName);
+
         /// <summary>
         /// Registers all controls, markup extensions and attribute handlers from passed <paramref name="newNamespace"/>.
         /// </summary>

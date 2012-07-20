@@ -39,5 +39,13 @@ namespace Neptuo.Web.Framework
                     control.Render(writer);
             }
         }
+
+        protected override bool GetIsSelfClosing()
+        {
+            if (Content != null & Content.Count != 0)
+                return false;
+
+            return base.GetIsSelfClosing();
+        }
     }
 }

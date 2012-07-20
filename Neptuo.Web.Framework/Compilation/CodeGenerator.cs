@@ -88,6 +88,45 @@ namespace Neptuo.Web.Framework.Compilation
             CreateControlsMethod.Statements.Add(invokeStatement);
         }
 
+        public void AddToParent(ParentInfo parent, CodeMemberField field)
+        {
+            if (parent.MethodName != null)
+            {
+                CodeMethodInvokeExpression invokeStatement = new CodeMethodInvokeExpression(
+                    new CodeFieldReferenceExpression(
+                        new CodePropertyReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            parent.MemberName
+                        ),
+                        parent.PropertyName
+                    ),
+                    "Add",
+                    new CodeFieldReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        field.Name
+                    )
+                );
+                CreateControlsMethod.Statements.Add(invokeStatement);
+            }
+            else
+            {
+                CodeAssignStatement assignStatement = new CodeAssignStatement(
+                    new CodeFieldReferenceExpression(
+                        new CodePropertyReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            parent.MemberName
+                        ),
+                        parent.PropertyName
+                    ),
+                    new CodeFieldReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        field.Name
+                    )
+                );
+                CreateControlsMethod.Statements.Add(assignStatement);
+            }
+        }
+
         public CodeMethodInvokeExpression InvokeRenderMethod(CodeMemberField field)
         {
             return InvokeMethod(field, RenderMethod, "Render", new CodeVariableReferenceExpression(GeneratedRenderMethodWriterParameterName));

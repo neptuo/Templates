@@ -76,10 +76,11 @@ namespace Neptuo.Web.Framework.Compilation
 
             IContentCompiler<T> compiler = compilerFactory();
             IContentParser<T> parser = parserFactory();
+
+            var context = contentCompilerContextFactory(parser);
+
             parser.OnParsedItem += e =>
             {
-                var context = contentCompilerContextFactory(parser);
-
                 if (e.StartPosition > lastEndPosition)
                     compiler.AppendPlainText(e.OriginalContent.Substring(lastEndPosition, e.StartPosition - lastEndPosition), context);
 
@@ -88,8 +89,6 @@ namespace Neptuo.Web.Framework.Compilation
             };
             parser.OnParserDone += e =>
             {
-                var context = contentCompilerContextFactory(parser);
-
                 if (lastEndPosition < e.OriginalContent.Length)
                     compiler.AppendPlainText(e.OriginalContent.Substring(lastEndPosition), context);
             };
