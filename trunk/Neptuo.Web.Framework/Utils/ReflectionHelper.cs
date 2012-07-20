@@ -45,6 +45,11 @@ namespace Neptuo.Web.Framework.Utils
             return IsGenericType(testedType, typeof(TAssignable), typeof(TArgument));
         }
 
+        public static bool IsGenericType<TAssignable>(Type testedType)
+        {
+            return IsGenericType(testedType, typeof(TAssignable));
+        }
+
         public static bool IsGenericType(Type testedType, Type assignableType, Type argumentType)
         {
             if (argumentType == null)
@@ -53,6 +58,20 @@ namespace Neptuo.Web.Framework.Utils
             return assignableType.IsAssignableFrom(testedType)
                 && testedType.IsGenericType
                 && (testedType.GetGenericArguments()[0].IsAssignableFrom(argumentType) || argumentType.IsAssignableFrom(testedType.GetGenericArguments()[0]));
+        }
+
+        public static bool IsGenericType(Type testedType, Type assignableType)
+        {
+            return assignableType.IsAssignableFrom(testedType)
+                && testedType.IsGenericType;
+        }
+
+        public static Type GetGenericArgument(Type type, int index = 0)
+        {
+            if (!type.IsGenericType)
+                return null;
+
+            return type.GetGenericArguments()[index];
         }
 
         public static bool CanBeUsedInMarkup(Type type)

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,6 +18,8 @@ namespace TestConsole
 
             //TestParser.Test();
             TestCompiler.Test();
+            //TestConverter.Test();
+
             //TestExtensionParser.Test();
             //TestReflection.Test();
             //TestReflection.Test3();

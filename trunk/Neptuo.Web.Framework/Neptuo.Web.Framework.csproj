@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotations\ControlAttribute.cs" />
+    <Compile Include="Annotations\ControlBuilderAttribute.cs" />
     <Compile Include="Annotations\ControlPropertyAttribute.cs" />
     <Compile Include="BaseContentControl.cs" />
     <Compile Include="BaseControl.cs" />
@@ -51,13 +52,20 @@
     <Compile Include="Compilation\Compiler.cs" />
     <Compile Include="Compilation\CompilerContext.cs" />
     <Compile Include="Compilation\ContentCompilerContext.cs" />
+    <Compile Include="Compilation\ControlBuilderContext.cs" />
     <Compile Include="Compilation\ControlContentCompiler.cs" />
     <Compile Include="Compilation\IContentCompiler.cs" />
+    <Compile Include="Compilation\IControlBuilder.cs" />
     <Compile Include="Compilation\IValueCompiler.cs" />
     <Compile Include="Compilation\ValueCompilerContext.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericControl.cs" />
+    <Compile Include="Controls\GridControl.cs" />
     <Compile Include="Controls\LiteralControl.cs" />
+    <Compile Include="Controls\PanelControl.cs" />
+    <Compile Include="Controls\PanelControlBuilder.cs" />
+    <Compile Include="Controls\TextBoxControl.cs" />
+    <Compile Include="Extensions\BindingExtension.cs" />
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />
@@ -75,6 +83,7 @@
     <Compile Include="Impl\StandartLivecycleObserver.cs" />
     <Compile Include="Utils\ControlHelper.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
+    <Compile Include="Utils\TypeConverter.cs" />
     <Compile Include="Utils\TypeHelper.cs" />
   </ItemGroup>
   <ItemGroup>

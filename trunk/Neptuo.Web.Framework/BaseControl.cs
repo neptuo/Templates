@@ -39,6 +39,7 @@ namespace Neptuo.Web.Framework
                 if (GetIsSelfClosing())
                 {
                     result.Append(" />");
+                    writer.Write(result);
                 }
                 else
                 {
@@ -60,11 +61,13 @@ namespace Neptuo.Web.Framework
 
         protected virtual void RenderBody(HtmlTextWriter writer) { }
 
+        #region Helper
+
         protected virtual string GetTagName()
         {
             ControlAttribute attr = ControlAttribute.GetAttribute(GetType());
             if(attr != null)
-                return attr.Name;
+                return attr.TagName;
 
             return null;
         }
@@ -78,7 +81,7 @@ namespace Neptuo.Web.Framework
             return true;
         }
 
-        public string GetDefaultPropertyName()
+        protected string GetDefaultPropertyName()
         {
             DefaultPropertyAttribute attr = ReflectionHelper.GetAttribute<DefaultPropertyAttribute>(GetType());
             if (attr != null)
@@ -86,5 +89,7 @@ namespace Neptuo.Web.Framework
 
             return null;
         }
+
+        #endregion
     }
 }

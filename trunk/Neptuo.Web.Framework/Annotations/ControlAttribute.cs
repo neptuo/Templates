@@ -9,11 +9,11 @@ namespace Neptuo.Web.Framework.Annotations
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class ControlAttribute : Attribute
     {
-        public string Name { get; private set; }
+        public string Name { get; set; }
 
-        public string TagName { get; private set; }
+        public string TagName { get; set; }
 
-        public bool IsSelfClosing { get; private set; }
+        public bool IsSelfClosing { get; set; }
 
         public ControlAttribute()
         {

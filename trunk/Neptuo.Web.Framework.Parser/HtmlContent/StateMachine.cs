@@ -175,19 +175,20 @@ namespace Neptuo.Web.Framework.Parser.HtmlContent
         {
             Stack += input;
 
-            string endTag = "</" + HtmlTag.Fullname.ToLowerInvariant();
+            string endTag = "</" + HtmlTag.Fullname.ToLowerInvariant() + ">";
             if (Stack.ToLowerInvariant().EndsWith(endTag))
             {
                 if (InnerSameTags == 0)
                 {
                     HtmlTag.Content = Stack.Substring(0, Stack.Length - endTag.Length);
-                    return Create<ClosingState>();
+                    return Create<DoneState>();
                 }
 
                 InnerSameTags--;
                 //Stack = "";
             }
-            else if (Stack.ToLowerInvariant().EndsWith("<" + HtmlTag.Fullname.ToLowerInvariant()))
+            else if (Stack.ToLowerInvariant().EndsWith("<" + HtmlTag.Fullname.ToLowerInvariant() + ">")
+                || Stack.ToLowerInvariant().EndsWith("<" + HtmlTag.Fullname.ToLowerInvariant() + " "))
             {
                 InnerSameTags++;
                 //Stack = "";

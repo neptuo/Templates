@@ -33,6 +33,9 @@ namespace Neptuo.Web.Framework.Parser.HtmlContent
             if (OnParsedItem == null)
                 throw new ArgumentNullException("OnHtmlTag");
 
+            if (String.IsNullOrEmpty(content))
+                return true;
+
             int lastIndex = -1;
             MatchCollection results = Config.StartTagRegex.Matches(content);
             foreach (Match match in results)
