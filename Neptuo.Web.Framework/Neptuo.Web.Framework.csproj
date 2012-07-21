@@ -82,7 +82,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Impl\StandartLivecycleObserver.cs" />
     <Compile Include="Utils\ControlHelper.cs" />
+    <Compile Include="Utils\Func.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
+    <Compile Include="Utils\TReturn.cs" />
     <Compile Include="Utils\TypeConverter.cs" />
     <Compile Include="Utils\TypeHelper.cs" />
   </ItemGroup>

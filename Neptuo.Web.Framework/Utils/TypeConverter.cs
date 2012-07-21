@@ -23,6 +23,14 @@ namespace Neptuo.Web.Framework.Utils
 
         public static object Convert(string value, Type target)
         {
+            if (target.IsGenericType && target.GetGenericTypeDefinition() == typeof(Nullable<>))
+            {
+                if (String.IsNullOrEmpty(value))
+                    return null;
+
+                target = target.GetGenericArguments()[0];
+            }
+
             if (String.IsNullOrEmpty(value))
                 return GetDefaultValue(target);
 
@@ -37,29 +45,17 @@ namespace Neptuo.Web.Framework.Utils
                     if (enumValue != null)
                         return enumValue;
                 }
-                catch (ArgumentException e)
+                catch (ArgumentException)
                 {
-                    throw new ApplicationException("Unconvertable value of enum", e);
+                    return GetDefaultValue(target);
                 }
             }
 
             if (target == typeof(bool))
-            {
-                bool converted;
-                if (Boolean.TryParse(value, out converted))
-                    return converted;
-                else
-                    return false;
-            }
+                return Convert(value, Boolean.TryParse, false);
 
             if (target == typeof(int))
-            {
-                int converted;
-                if (Int32.TryParse(value, out converted))
-                    return converted;
-                else
-                    return 0;
-            }
+                return Convert(value, Int32.TryParse, 0);
 
             throw new ApplicationException("Unsupported type!");
         }
@@ -67,7 +63,7 @@ namespace Neptuo.Web.Framework.Utils
         private static object Convert<T>(string value, Func<string, T, bool> func, T defaultValue)
         {
             T converted = defaultValue;
-            if (func(value, converted))
+            if (func(value, out converted))
                 return converted;
 
             return defaultValue;
@@ -78,6 +74,9 @@ namespace Neptuo.Web.Framework.Utils
             Type nullable = Nullable.GetUnderlyingType(target);
             if (nullable != null)
                 return null;
+
+            if (target.IsValueType)
+                return Activator.CreateInstance(target);
 
             if(target == typeof(String))
                 return null;
