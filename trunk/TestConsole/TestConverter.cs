@@ -18,8 +18,8 @@ namespace TestConsole
             Console.WriteLine(TypeConverter.Convert(null, typeof(bool)));
             Console.WriteLine(TypeConverter.Convert("125", typeof(bool)));
             Console.WriteLine(TypeConverter.Convert("true", typeof(bool)));
-            //Console.WriteLine(TypeConverter.Convert(null, typeof(TestEnum)));
-            //Console.WriteLine(TypeConverter.Convert("XX", typeof(TestEnum)));
+            Console.WriteLine(TypeConverter.Convert(null, typeof(TestEnum)));
+            Console.WriteLine(TypeConverter.Convert("XX", typeof(TestEnum)));
             Console.WriteLine(TypeConverter.Convert("One", typeof(TestEnum)));
         }
 
