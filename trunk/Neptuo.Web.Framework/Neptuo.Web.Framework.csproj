@@ -47,17 +47,6 @@
     <Compile Include="BaseContentControl.cs" />
     <Compile Include="BaseControl.cs" />
     <Compile Include="BaseViewPage.cs" />
-    <Compile Include="CompilationOld\BaseCodeGenerator.cs" />
-    <Compile Include="CompilationOld\CodeGenerator.cs" />
-    <Compile Include="CompilationOld\Compiler.cs" />
-    <Compile Include="CompilationOld\CompilerContext.cs" />
-    <Compile Include="CompilationOld\ContentCompilerContext.cs" />
-    <Compile Include="CompilationOld\ControlBuilderContext.cs" />
-    <Compile Include="CompilationOld\ControlContentCompiler.cs" />
-    <Compile Include="CompilationOld\IContentCompiler.cs" />
-    <Compile Include="CompilationOld\IControlBuilder.cs" />
-    <Compile Include="CompilationOld\IValueCompiler.cs" />
-    <Compile Include="CompilationOld\ValueCompilerContext.cs" />
     <Compile Include="Compilation\BaseCodeGenerator.cs" />
     <Compile Include="Compilation\CodeGenerator.cs" />
     <Compile Include="Compilation\CompilerContext.cs" />
