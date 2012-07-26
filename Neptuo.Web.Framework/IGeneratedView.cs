@@ -6,15 +6,11 @@ using System.Web;
 
 namespace Neptuo.Web.Framework
 {
-    public interface IGeneratedView
+    public interface IGeneratedView : IDisposable
     {
-        HttpRequest Request { get; set; }
-
-        HttpResponse Response { get; set; }
-
-        IViewPage ViewPage { get; set; }
-
         void CreateControls();
+
+        void Setup(IViewPage page, HttpRequest request, HttpResponse response);
 
         void Init();
 

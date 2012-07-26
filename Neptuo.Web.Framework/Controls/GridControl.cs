@@ -1,17 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
-using System.ComponentModel;
+using System.Xml;
+using Neptuo.Web.Framework.Annotations;
+using Neptuo.Web.Framework.Compilation;
 
 namespace Neptuo.Web.Framework.Controls
 {
+    //[ControlBuilder(typeof(GridControlBuilder))]
     public class GridControl : BaseContentControl
     {
         public List<GridItemControl> Header { get; set; }
 
         [DefaultValue(2)]
         public int Repeat { get; set; }
+
+        public GridOptions Options { get; set; }
 
         public GridControl()
         {
@@ -66,6 +72,16 @@ namespace Neptuo.Web.Framework.Controls
         }
     }
 
+    public class GridControlBuilder : IXmlControlBuilder
+    {
+        public void GenerateControl(Type controlType, XmlElement source, XmlBuilderContext context)
+        {
+            XmlContentCompiler compiler = context.ContentCompiler as XmlContentCompiler;
+            if (compiler != null)
+                compiler.GenerateControl(new XmlContentCompiler.Helper(null, context), controlType, source);
+        }
+    }
+
     [DefaultProperty("Text")]
     public class GridItemControl : BaseControl
     {
@@ -75,5 +91,12 @@ namespace Neptuo.Web.Framework.Controls
         {
             writer.Write(Text);
         }
+    }
+
+    public class GridOptions
+    {
+        public string Key { get; set; }
+
+        public string Value { get; set; }
     }
 }

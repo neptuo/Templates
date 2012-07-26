@@ -19,6 +19,7 @@ namespace TestConsole
             //TestParser.Test();
             TestCompiler.Test();
             //TestConverter.Test();
+            //TestXml.Test();
 
             //TestExtensionParser.Test();
             //TestReflection.Test();

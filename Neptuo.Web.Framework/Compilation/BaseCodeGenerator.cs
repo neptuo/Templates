@@ -16,43 +16,39 @@ namespace Neptuo.Web.Framework.Compilation
         public const string GeneratedCodeNamespace = "Neptuo.Web.Framework.Generated";
         public const string GeneratedRequestField = "request";
         public const string GeneratedResponseField = "response";
-        public const string GeneratedRequestProperty = "Request";
-        public const string GeneratedResponseProperty = "Response";
         public const string GeneratedViewPageField = "viewPage";
-        public const string GeneratedViewPageProperty = "ViewPage";
         public const string GeneratedCreateControlsMethod = "CreateControls";
+        public const string GeneratedSetupMethod = "Setup";
         public const string GeneratedInitMethod = "Init";
         public const string GeneratedRenderMethod = "Render";
+        public const string GeneratedDisposeMethod = "Dispose";
+
+        public const string GeneratedSetupMethodViewPageParameterName = "viewPage";
+        public const string GeneratedSetupMethodRequestParameterName = "request";
+        public const string GeneratedSetupMethodResponseParameterName = "response";
 
         public const string GeneratedRenderMethodWriterParameterName = "writer";
 
         public CodeCompileUnit Unit { get; protected set; }
-
+        public CodeNamespace CodeNamespace { get; protected set; }
         public CodeTypeDeclaration Class { get; protected set; }
 
         public CodeMemberField ViewPageField { get; protected set; }
-        public CodeMemberProperty ViewPageProperty { get; protected set; }
-
         public CodeMemberField RequestField { get; protected set; }
-        public CodeMemberProperty RequestProperty { get; protected set; }
-
         public CodeMemberField ResponseField { get; protected set; }
-        public CodeMemberProperty ResponseProperty { get; protected set; }
 
         public CodeMemberMethod CreateControlsMethod { get; protected set; }
-
+        public CodeMemberMethod SetupMethod { get; protected set; }
         public CodeMemberMethod InitMethod { get; protected set; }
-
         public CodeMemberMethod RenderMethod { get; protected set; }
+        public CodeMemberMethod DisposeMethod { get; protected set; }
 
-        public CodeNamespace CodeNamespace { get; protected set; }
 
         public BaseCodeGenerator()
         {
             CreateBase();
             CreateClass();
             CreateFields();
-            CreateProperties();
             CreateMethods();
         }
 
@@ -62,46 +58,11 @@ namespace Neptuo.Web.Framework.Compilation
             CodeGeneratorOptions options = new CodeGeneratorOptions
             {
                 BracingStyle = "C",
+                BlankLinesBetweenMembers = false,
+                VerbatimOrder = false
             };
 
             provider.GenerateCodeFromCompileUnit(Unit, writer, options);
-            CompileCSharpCode("GeneratedView.dll");
-        }
-
-        public bool CompileCSharpCode(string exeFile)
-        {
-            CSharpCodeProvider provider = new CSharpCodeProvider();
-            CompilerParameters cp = new CompilerParameters();
-            cp.ReferencedAssemblies.Add("System.dll");
-            cp.ReferencedAssemblies.Add("System.Web.dll");
-            cp.ReferencedAssemblies.Add("Neptuo.Web.Framework.dll");
-            cp.GenerateExecutable = false;
-            cp.OutputAssembly = exeFile;
-            cp.GenerateInMemory = false;
-
-            //CompilerResults cr = provider.CompileAssemblyFromFile(cp, sourceFile);
-            CompilerResults cr = provider.CompileAssemblyFromDom(cp, Unit);
-
-            if (cr.Errors.Count > 0)
-            {
-                // Display compilation errors.
-                Console.WriteLine("Errors building {0}", cr.PathToAssembly);
-                foreach (CompilerError ce in cr.Errors)
-                {
-                    Console.WriteLine("  {0}", ce.ToString());
-                    Console.WriteLine();
-                }
-            }
-            else
-            {
-                Console.WriteLine("{0} built successfully.", cr.PathToAssembly);
-            }
-
-            // Return the results of compilation.
-            if (cr.Errors.Count > 0)
-                return false;
-            else
-                return true;
         }
 
         private void CreateBase()
@@ -120,6 +81,7 @@ namespace Neptuo.Web.Framework.Compilation
             Class.IsClass = true;
             Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
             Class.BaseTypes.Add(new CodeTypeReference(typeof(IGeneratedView)));
+            Class.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
             CodeNamespace.Types.Add(Class);
         }
 
@@ -150,67 +112,6 @@ namespace Neptuo.Web.Framework.Compilation
             Class.Members.Add(ViewPageField);
         }
 
-        private void CreateProperties()
-        {
-            RequestProperty = new CodeMemberProperty
-            {
-                Name = GeneratedRequestProperty,
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Type = new CodeTypeReference(typeof(HttpRequest)),
-                HasGet = true,
-                HasSet = true
-            };
-            RequestProperty.GetStatements.Add(new CodeMethodReturnStatement(
-                new CodeFieldReferenceExpression(
-                    new CodeThisReferenceExpression(),
-                    GeneratedRequestField
-                )
-            ));
-            RequestProperty.SetStatements.Add(new CodeAssignStatement(
-                new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), GeneratedRequestField),
-                new CodePropertySetValueReferenceExpression()
-            ));
-            Class.Members.Add(RequestProperty);
-
-
-            ResponseProperty = new CodeMemberProperty
-            {
-                Name = GeneratedResponseProperty,
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Type = new CodeTypeReference(typeof(HttpResponse))
-            };
-            ResponseProperty.GetStatements.Add(new CodeMethodReturnStatement(
-                new CodeFieldReferenceExpression(
-                    new CodeThisReferenceExpression(),
-                    GeneratedResponseField
-                )
-            ));
-            ResponseProperty.SetStatements.Add(new CodeAssignStatement(
-                new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), GeneratedResponseField),
-                new CodePropertySetValueReferenceExpression()
-            ));
-            Class.Members.Add(ResponseProperty);
-
-
-            ViewPageProperty = new CodeMemberProperty
-            {
-                Name = GeneratedViewPageProperty,
-                Attributes = MemberAttributes.Public | MemberAttributes.Final,
-                Type = new CodeTypeReference(typeof(IViewPage))
-            };
-            ViewPageProperty.GetStatements.Add(new CodeMethodReturnStatement(
-                new CodeFieldReferenceExpression(
-                    new CodeThisReferenceExpression(),
-                    GeneratedViewPageField
-                )
-            ));
-            ViewPageProperty.SetStatements.Add(new CodeAssignStatement(
-                new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), GeneratedViewPageField),
-                new CodePropertySetValueReferenceExpression()
-            ));
-            Class.Members.Add(ViewPageProperty);
-        }
-
         private void CreateMethods()
         {
             CreateControlsMethod = new CodeMemberMethod
@@ -219,6 +120,49 @@ namespace Neptuo.Web.Framework.Compilation
                 Attributes = MemberAttributes.Public | MemberAttributes.Final
             };
             Class.Members.Add(CreateControlsMethod);
+
+            SetupMethod = new CodeMemberMethod
+            {
+                Name = GeneratedSetupMethod,
+                Attributes = MemberAttributes.Public | MemberAttributes.Final
+            };
+            SetupMethod.Parameters.Add(new CodeParameterDeclarationExpression
+            {
+                Name = GeneratedSetupMethodViewPageParameterName,
+                Type = new CodeTypeReference(typeof(IViewPage))
+            });
+            SetupMethod.Parameters.Add(new CodeParameterDeclarationExpression
+            {
+                Name = GeneratedSetupMethodRequestParameterName,
+                Type = new CodeTypeReference(typeof(HttpRequest))
+            });
+            SetupMethod.Parameters.Add(new CodeParameterDeclarationExpression
+            {
+                Name = GeneratedSetupMethodResponseParameterName,
+                Type = new CodeTypeReference(typeof(HttpResponse))
+            });
+            Class.Members.Add(SetupMethod);
+            SetupMethod.Statements.Add(new CodeAssignStatement(
+                new CodeFieldReferenceExpression(
+                    new CodeThisReferenceExpression(),
+                    GeneratedViewPageField
+                ),
+                new CodeVariableReferenceExpression(GeneratedSetupMethodViewPageParameterName)
+            ));
+            SetupMethod.Statements.Add(new CodeAssignStatement(
+                new CodeFieldReferenceExpression(
+                    new CodeThisReferenceExpression(),
+                    GeneratedRequestField
+                ),
+                new CodeVariableReferenceExpression(GeneratedSetupMethodRequestParameterName)
+            ));
+            SetupMethod.Statements.Add(new CodeAssignStatement(
+                new CodeFieldReferenceExpression(
+                    new CodeThisReferenceExpression(),
+                    GeneratedResponseField
+                ),
+                new CodeVariableReferenceExpression(GeneratedSetupMethodResponseParameterName)
+            ));
 
             InitMethod = new CodeMemberMethod
             {
@@ -239,34 +183,34 @@ namespace Neptuo.Web.Framework.Compilation
             });
             Class.Members.Add(RenderMethod);
 
-
-            CodeMethodInvokeExpression invokeViewInit = new CodeMethodInvokeExpression(
-                new CodePropertyReferenceExpression(
-                    new CodeThisReferenceExpression(),
-                    GeneratedViewPageProperty
-                ),
-                "OnInit"
-            );
-            InitMethod.Statements.Add(invokeViewInit);
+            DisposeMethod = new CodeMemberMethod
+            {
+                Name = GeneratedDisposeMethod,
+                Attributes = MemberAttributes.Public | MemberAttributes.Final
+            };
+            Class.Members.Add(DisposeMethod);
 
             CodeMethodInvokeExpression invokeViewRender = new CodeMethodInvokeExpression(
                 new CodePropertyReferenceExpression(
                     new CodeThisReferenceExpression(),
-                    GeneratedViewPageProperty
+                    GeneratedViewPageField
                 ),
                 "Render",
                 new CodeVariableReferenceExpression(GeneratedRenderMethodWriterParameterName)
             );
             RenderMethod.Statements.Add(invokeViewRender);
+        }
 
-            //TODO: Remove this ...
-            //RenderMethod.Statements.Add(
-            //    new CodeMethodInvokeExpression(
-            //        new CodeVariableReferenceExpression(GeneratedRenderMethodWriterParameterName),
-            //        "WriteLine",
-            //        new CodePrimitiveExpression("Hello, World!")
-            //    )
-            //);
+        public void FinalizeClass()
+        {
+            CodeMethodInvokeExpression invokeViewInit = new CodeMethodInvokeExpression(
+                new CodePropertyReferenceExpression(
+                    new CodeThisReferenceExpression(),
+                    GeneratedViewPageField
+                ),
+                "OnInit"
+            );
+            InitMethod.Statements.Add(invokeViewInit);
         }
     }
 }

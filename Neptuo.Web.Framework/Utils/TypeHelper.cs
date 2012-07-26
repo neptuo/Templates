@@ -21,7 +21,12 @@ namespace Neptuo.Web.Framework.Utils
 
         public static string MethodName<T, TResult>(Expression<Func<T, Func<TResult>>> propertyGetter)
         {
-            return (((((UnaryExpression) propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
+            return (((((UnaryExpression)propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
+        }
+
+        public static string MethodName<T>(Expression<Func<T, Action>> propertyGetter)
+        {
+            return (((((UnaryExpression)propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Neptuo.Web.Framework.Compilation;
+using Neptuo.Web.Framework.CompilationOld;
 using Neptuo.Web.Framework.Parser.HtmlContent;
 
 namespace Neptuo.Web.Framework.Controls

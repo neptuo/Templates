@@ -14,5 +14,12 @@ namespace Neptuo.Web.Framework.Controls
         {
             Content = new List<object>();
         }
+
+        public override void OnInit()
+        {
+            base.OnInit();
+
+            Models.CurrentModel = "Hello!";
+        }
     }
 }

@@ -13,14 +13,12 @@ namespace Neptuo.Web.Framework
         public HtmlTextWriter(TextWriter writer)
             : base(writer)
         {
-
+            
         }
 
         public override Encoding Encoding
         {
             get { return InnerWriter.Encoding; }
         }
-
-
     }
 }

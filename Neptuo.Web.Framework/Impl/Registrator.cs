@@ -106,5 +106,20 @@ namespace Neptuo.Web.Framework
                 }
             }
         }
+
+        public IEnumerable<RegisteredNamespace> GetRegisteredNamespaces()
+        {
+            foreach (KeyValuePair<string, List<string>> entry in Namespaces)
+            {
+                foreach (string item in entry.Value)
+                {
+                    yield return new RegisteredNamespace
+                    {
+                        Prefix = entry.Key,
+                        Namespace = item
+                    };
+                }
+            }
+        }
     }
 }

@@ -7,5 +7,10 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public class CompilerContext
     {
+        public CodeGenerator CodeGenerator { get; set; }
+
+        public IServiceProvider ServiceProvider { get; set; }
+
+        public ParentInfo ParentInfo { get; set; }
     }
 }

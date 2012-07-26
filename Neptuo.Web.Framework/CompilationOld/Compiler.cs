@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Neptuo.Web.Framework.Parser;
 
-namespace Neptuo.Web.Framework.Compilation
+namespace Neptuo.Web.Framework.CompilationOld
 {
     public static class Compiler
     {
@@ -58,7 +58,7 @@ namespace Neptuo.Web.Framework.Compilation
             parser.Parse(content);
         }
 
-        public static void CompileValue(string value, CompilerContext context)
+        public static void CompileValue(string value, ContentCompilerContext context)
         {
             foreach (var registry in valueCompilers)
             {

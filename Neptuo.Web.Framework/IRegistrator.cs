@@ -20,5 +20,14 @@ namespace Neptuo.Web.Framework
         /// <param name="prefix">Prefix to register controls/extensions under.</param>
         /// <param name="newNamespace">Namespace to register.</param>
         void RegisterNamespace(string prefix, string newNamespace);
+
+        IEnumerable<RegisteredNamespace> GetRegisteredNamespaces();
+    }
+
+    public class RegisteredNamespace
+    {
+        public string Prefix { get; set; }
+
+        public string Namespace { get; set; }
     }
 }
