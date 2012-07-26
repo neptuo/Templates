@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.ComponentModel;
 
 namespace Neptuo.Web.Framework.Utils
 {
@@ -57,6 +58,7 @@ namespace Neptuo.Web.Framework.Utils
             if (target == typeof(int))
                 return Convert(value, Int32.TryParse, 0);
 
+            //TypeDescriptor.GetConverter(typeof(GradientColor))
             throw new ApplicationException("Unsupported type!");
         }
 

@@ -47,15 +47,28 @@
     <Compile Include="BaseContentControl.cs" />
     <Compile Include="BaseControl.cs" />
     <Compile Include="BaseViewPage.cs" />
+    <Compile Include="CompilationOld\BaseCodeGenerator.cs" />
+    <Compile Include="CompilationOld\CodeGenerator.cs" />
+    <Compile Include="CompilationOld\Compiler.cs" />
+    <Compile Include="CompilationOld\CompilerContext.cs" />
+    <Compile Include="CompilationOld\ContentCompilerContext.cs" />
+    <Compile Include="CompilationOld\ControlBuilderContext.cs" />
+    <Compile Include="CompilationOld\ControlContentCompiler.cs" />
+    <Compile Include="CompilationOld\IContentCompiler.cs" />
+    <Compile Include="CompilationOld\IControlBuilder.cs" />
+    <Compile Include="CompilationOld\IValueCompiler.cs" />
+    <Compile Include="CompilationOld\ValueCompilerContext.cs" />
     <Compile Include="Compilation\BaseCodeGenerator.cs" />
     <Compile Include="Compilation\CodeGenerator.cs" />
-    <Compile Include="Compilation\Compiler.cs" />
     <Compile Include="Compilation\CompilerContext.cs" />
+    <Compile Include="Compilation\CompilerService.cs" />
     <Compile Include="Compilation\ContentCompilerContext.cs" />
-    <Compile Include="Compilation\ControlBuilderContext.cs" />
-    <Compile Include="Compilation\ControlContentCompiler.cs" />
+    <Compile Include="Compilation\DefaultValueCompiler.cs" />
+    <Compile Include="Compilation\ExtensionValueCompiler.cs" />
+    <Compile Include="Compilation\XmlBuilderContext.cs" />
+    <Compile Include="Compilation\XmlContentCompiler.cs" />
     <Compile Include="Compilation\IContentCompiler.cs" />
-    <Compile Include="Compilation\IControlBuilder.cs" />
+    <Compile Include="Compilation\IXmlControlBuilder.cs" />
     <Compile Include="Compilation\IValueCompiler.cs" />
     <Compile Include="Compilation\ValueCompilerContext.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
@@ -73,6 +86,7 @@
     <Compile Include="ILivecycle.cs" />
     <Compile Include="ILivecycleObserver.cs" />
     <Compile Include="IMarkupExtension.cs" />
+    <Compile Include="Impl\Models.cs" />
     <Compile Include="Impl\Registrator.cs" />
     <Compile Include="IRegistrator.cs" />
     <Compile Include="IViewPage.cs" />
@@ -87,6 +101,7 @@
     <Compile Include="Utils\TReturn.cs" />
     <Compile Include="Utils\TypeConverter.cs" />
     <Compile Include="Utils\TypeHelper.cs" />
+    <Compile Include="Utils\XmlExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Web.Framework.Parser\Neptuo.Web.Framework.Parser.csproj">

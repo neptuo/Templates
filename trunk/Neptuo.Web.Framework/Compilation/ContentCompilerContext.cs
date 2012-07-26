@@ -2,27 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Neptuo.Web.Framework.Parser;
 using System.CodeDom;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class ContentCompilerContext
+    public class ContentCompilerContext : CompilerContext
     {
-        public CodeGenerator CodeGenerator { get; set; }
+        public CompilerService CompilerService { get; set; }
 
         public CompilerContext CompilerContext { get; set; }
 
-        public IServiceProvider ServiceProvider { get; set; }
-
-        public IContentParser Parser { get; set; }
-
-        public ParentInfo ParentInfo { get; set; }
+        public ContentCompilerContext(CompilerContext compilerContext, CompilerService compilerService)
+        {
+            CompilerContext = compilerContext;
+            CompilerService = compilerService;
+            CodeGenerator = compilerContext.CodeGenerator;
+            ServiceProvider = compilerContext.ServiceProvider;
+            ParentInfo = compilerContext.ParentInfo;
+        }
     }
 
     public class ParentInfo
     {
-        public string MemberName { get; set; }
+        public CodeMemberField Parent { get; set; }
 
         public string PropertyName { get; set; }
 
@@ -30,11 +32,11 @@ namespace Neptuo.Web.Framework.Compilation
 
         public Type RequiredType { get; set; }
 
-        public ParentInfo(string memberName, string propertyName, string methodName, Type requiredType)
+        public ParentInfo(CodeMemberField parent, string propertyName, string methodName, Type requiredType)
         {
-            MemberName = memberName;
+            Parent = parent;
             PropertyName = propertyName;
-            MethodName = memberName;
+            MethodName = methodName;
             RequiredType = requiredType;
         }
     }

@@ -14,7 +14,7 @@ using System.ComponentModel;
 using TypeConverter = Neptuo.Web.Framework.Utils.TypeConverter;
 using Neptuo.Web.Framework.Annotations;
 
-namespace Neptuo.Web.Framework.Compilation
+namespace Neptuo.Web.Framework.CompilationOld
 {
     public class ControlContentCompiler : IContentCompiler<HtmlTag>
     {
@@ -137,6 +137,7 @@ namespace Neptuo.Web.Framework.Compilation
         private Dictionary<string, ContentParserEventArgs<HtmlTag>> ParseInnerTags(HtmlTag tag)
         {
             Dictionary<string, ContentParserEventArgs<HtmlTag>> result = new Dictionary<string, ContentParserEventArgs<HtmlTag>>();
+            int lastIndex = 0;
 
             HtmlContentParser parser = new HtmlContentParser(new HtmlContentParser.Configuration
             {
@@ -145,7 +146,12 @@ namespace Neptuo.Web.Framework.Compilation
             });
             parser.OnParsedItem += (e) =>
             {
-                result.Add(e.ParsedItem.Fullname.ToLowerInvariant(), e);
+                string subPart = e.OriginalContent.Substring(lastIndex, e.StartPosition - lastIndex);
+                if (String.IsNullOrWhiteSpace(subPart))
+                {
+                    result.Add(e.ParsedItem.Fullname.ToLowerInvariant(), e);
+                    lastIndex = e.EndPosition;
+                }
             };
             parser.Parse(tag.Content);
 
@@ -171,7 +177,7 @@ namespace Neptuo.Web.Framework.Compilation
             else
             {
                 ParentInfo parent = context.ParentInfo;
-                context.ParentInfo = new ParentInfo(control.Name, prop.Name, null, ReflectionHelper.GetGenericArgument(prop.PropertyType));
+                context.ParentInfo = new ParentInfo(control.Name, prop.Name, null, prop.PropertyType);
 
                 RunParser(context, value);
 

@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Neptuo.Web.Framework.Parser.HtmlContent;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class ControlBuilderContext : ContentCompilerContext
+    public class XmlBuilderContext : ContentCompilerContext
     {
-        public IContentCompiler<HtmlTag> ContentCompiler { get; set; }
+        public IContentCompiler ContentCompiler { get; set; }
 
-        public ControlBuilderContext(ContentCompilerContext baseContext, IContentCompiler<HtmlTag> contentCompiler)
+        public XmlBuilderContext(ContentCompilerContext baseContext, IContentCompiler contentCompiler)
+            : base(baseContext.CompilerContext, baseContext.CompilerService)
         {
             CodeGenerator = baseContext.CodeGenerator;
             CompilerContext = baseContext.CompilerContext;
             ServiceProvider = baseContext.ServiceProvider;
-            Parser = baseContext.Parser;
             ParentInfo = baseContext.ParentInfo;
             ContentCompiler = contentCompiler;
         }

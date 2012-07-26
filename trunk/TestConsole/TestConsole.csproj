@@ -50,6 +50,7 @@
     <Compile Include="TestCompiler.cs" />
     <Compile Include="TestConverter.cs" />
     <Compile Include="TestParser.cs" />
+    <Compile Include="TestXml.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Web.Framework.Parser\Neptuo.Web.Framework.Parser.csproj">

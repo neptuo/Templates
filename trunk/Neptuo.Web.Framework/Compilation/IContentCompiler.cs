@@ -5,12 +5,8 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public interface IContentCompiler { }
-
-    public interface IContentCompiler<T> : IContentCompiler
+    public interface IContentCompiler
     {
-        void GenerateCode(T parsedItem, ContentCompilerContext context);
-
-        void AppendPlainText(string text, ContentCompilerContext context);
+        bool GenerateCode(string content, ContentCompilerContext context);
     }
 }
