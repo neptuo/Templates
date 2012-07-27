@@ -7,7 +7,6 @@ using Neptuo.Web.Framework.Annotations;
 namespace Neptuo.Web.Framework.Controls
 {
     [Control(TagName = "div")]
-    [ControlBuilder(typeof(PanelControlBuilder))]
     public class PanelControl : BaseContentControl
     {
         public PanelControl()

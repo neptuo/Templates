@@ -7,11 +7,15 @@ namespace Neptuo.Web.Framework
 {
     public class BaseViewPage : IViewPage
     {
+        private ILivecycleObserver livecycleObserver;
+
         public List<object> Content { get; set; }
 
-        public BaseViewPage()
+        public BaseViewPage(ILivecycleObserver livecycleObserver)
         {
             Content = new List<object>();
+
+            this.livecycleObserver = livecycleObserver;
         }
 
         public void OnInit()
@@ -20,7 +24,7 @@ namespace Neptuo.Web.Framework
             {
                 IControl control = item as IControl;
                 if (control != null)
-                    control.OnInit();
+                    livecycleObserver.Init(control);
             }
         }
 
@@ -30,8 +34,14 @@ namespace Neptuo.Web.Framework
             {
                 IControl control = item as IControl;
                 if (control != null)
-                    control.Render(writer);
+                    livecycleObserver.Render(control, writer);
             }
+        }
+
+        public void Dispose()
+        {
+            foreach (object control in livecycleObserver.GetControls())
+                livecycleObserver.Dispose(control);
         }
     }
 }

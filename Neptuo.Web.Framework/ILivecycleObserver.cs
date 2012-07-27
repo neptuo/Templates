@@ -7,16 +7,16 @@ namespace Neptuo.Web.Framework
 {
     public interface ILivecycleObserver
     {
-        void Add(ILivecycle livecycleObject);
+        IEnumerable<object> GetControls();
 
-        void Add(object objectToResolve);
+        void Register(object parent, object control);
 
-        void OnInit();
+        void Register(object parent, object control, Action propertyBinder);
 
-        void OnLoad();
+        void Init(object control);
 
-        void BeforeRender();
+        void Render(object control, HtmlTextWriter writer);
 
-        void BeforeUnLoad();
+        void Dispose(object control);
     }
 }

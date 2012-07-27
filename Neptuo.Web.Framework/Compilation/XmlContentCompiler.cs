@@ -101,35 +101,30 @@ namespace Neptuo.Web.Framework.Compilation
 
             text = text.Trim();
 
-            CodeGenerator generator = context.CodeGenerator;
-
-            CodeMemberField declareText = generator.DeclareField(typeof(LiteralControl));
-            generator.CreateInstance(declareText, typeof(LiteralControl));
-            generator.SetProperty(declareText, "Text", text);
-            generator.AddToParent(context.ParentInfo, declareText);
-
-            if (typeof(LiteralControl).IsAssignableFrom(typeof(IDisposable)))
-                generator.InvokeDisposeMethod(declareText);
+            context.CodeGenerator.CreateControl()
+                .Declare(typeof(LiteralControl))
+                .CreateInstance()
+                .SetProperty(TypeHelper.PropertyName<LiteralControl>(l => l.Text), text)
+                .AddToParent(context.ParentInfo)
+                .RegisterLivecycleObserver(context.ParentInfo);
         }
 
         public void GenerateControl(Helper helper, Type controlType, XmlElement element)
         {
-            CodeGenerator generator = helper.Context.CodeGenerator;
+            CodeObjectCreator creator = helper.Context.CodeGenerator
+                .CreateControl()
+                .Declare(controlType)
+                .CreateInstance()
+                .RegisterLivecycleObserver(helper.Context.ParentInfo);
 
-            CodeMemberField control = generator.DeclareField(controlType);
-            generator.CreateInstance(control, controlType);
+            BindProperties(helper, creator, controlType, element);
 
-            BindProperties(helper, control, controlType, element);
-
-            generator.AddToParent(helper.Context.ParentInfo, control);
-
-            if (controlType.IsAssignableFrom(typeof(IDisposable)))
-                generator.InvokeDisposeMethod(control);
+            creator
+                .AddToParent(helper.Context.ParentInfo);
         }
 
-        private void BindProperties(Helper helper, CodeMemberField control, Type controlType, XmlElement element)
+        private void BindProperties(Helper helper, CodeObjectCreator creator, Type controlType, XmlElement element)
         {
-            CodeGenerator generator = helper.Context.CodeGenerator;
             HashSet<string> boundProperies = new HashSet<string>();
             PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(controlType);
 
@@ -142,7 +137,7 @@ namespace Neptuo.Web.Framework.Compilation
                     if (propertyName == attribute.Name.ToLowerInvariant())
                     {
                         ParentInfo parent = helper.Context.ParentInfo;
-                        helper.Context.ParentInfo = new ParentInfo(control, item.Value.Name, null, item.Value.PropertyType);
+                        helper.Context.ParentInfo = new ParentInfo(creator, item.Value.Name, null, item.Value.PropertyType);
                         
                         helper.Context.CompilerService.CompileValue(attribute.Value, helper.Context);
                         
@@ -156,7 +151,7 @@ namespace Neptuo.Web.Framework.Compilation
                 XmlNode child;
                 if (!bound && FindChildNode(element, propertyName, out child))
                 {
-                    ResolvePropertyValue(helper, control, controlType, item.Value, child.ChildNodes.ToEnumerable());
+                    ResolvePropertyValue(helper, creator, item.Value, child.ChildNodes.ToEnumerable());
                     //ResolvePropertyValue(control, controlType, context, item.Value, args.ParsedItem.Content);
                     boundProperies.Add(propertyName);
                     bound = true;
@@ -164,7 +159,7 @@ namespace Neptuo.Web.Framework.Compilation
 
                 if (!bound && item.Value != defaultProperty)
                 {
-                    BindPropertyDefaultValue(helper, control, item.Value);
+                    BindPropertyDefaultValue(helper, creator, item.Value);
                     boundProperies.Add(propertyName);
                     bound = true;
                 }
@@ -174,9 +169,9 @@ namespace Neptuo.Web.Framework.Compilation
             {
                 IEnumerable<XmlNode> defaultChildNodes = FindNotUsedChildNodes(element, boundProperies);
                 if (defaultChildNodes.Any())
-                    ResolvePropertyValue(helper, control, controlType, defaultProperty, defaultChildNodes);
+                    ResolvePropertyValue(helper, creator, defaultProperty, defaultChildNodes);
                 else
-                    BindPropertyDefaultValue(helper, control, defaultProperty);
+                    BindPropertyDefaultValue(helper, creator, defaultProperty);
             }
         }
 
@@ -204,20 +199,27 @@ namespace Neptuo.Web.Framework.Compilation
             }
         }
 
-        private void BindPropertyDefaultValue(Helper helper, CodeMemberField control, PropertyInfo prop)
+        private void BindPropertyDefaultValue(Helper helper, CodeObjectCreator creator, PropertyInfo prop)
         {
-            DefaultValueAttribute attr = ReflectionHelper.GetAttribute<DefaultValueAttribute>(prop);
-            if (attr != null)
-                helper.Context.CodeGenerator.SetProperty(control, prop.Name, attr.Value);
+            DependencyAttribute dependency = DependencyAttribute.GetAttribute(prop);
+            if (dependency != null)
+            {
+                creator.SetProperty(prop.Name, helper.Context.CodeGenerator.GetDependencyFromService(prop.PropertyType));
+            }
+            else
+            {
+                DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(prop);
+                if (defaultValue != null)
+                    creator.SetProperty(prop.Name, defaultValue.Value);
+            }
         }
 
-        private void ResolvePropertyValue(Helper helper, CodeMemberField control, Type controlType, PropertyInfo prop, IEnumerable<XmlNode> content)
+        private void ResolvePropertyValue(Helper helper, CodeObjectCreator creator, PropertyInfo prop, IEnumerable<XmlNode> content)
         {
-            CodeGenerator generator = helper.Context.CodeGenerator;
             if (ReflectionHelper.IsGenericType<IList>(prop.PropertyType))
             {
                 ParentInfo parent = helper.Context.ParentInfo;
-                helper.Context.ParentInfo = new ParentInfo(control, prop.Name, "Add", ReflectionHelper.GetGenericArgument(prop.PropertyType));
+                helper.Context.ParentInfo = new ParentInfo(creator, prop.Name, "Add", ReflectionHelper.GetGenericArgument(prop.PropertyType));
 
                 //TODO: Run ...
                 GenerateRecursive(helper, content);
@@ -230,12 +232,12 @@ namespace Neptuo.Web.Framework.Compilation
                 foreach (XmlNode node in content)
                     contentValue.Append(node.OuterXml);
 
-                generator.SetProperty(control, prop.Name, TypeConverter.Convert(contentValue.ToString(), prop.PropertyType));
+                creator.SetProperty(prop.Name, TypeConverter.Convert(contentValue.ToString(), prop.PropertyType));
             }
             else
             {
                 ParentInfo parent = helper.Context.ParentInfo;
-                helper.Context.ParentInfo = new ParentInfo(control, prop.Name, null, prop.PropertyType);
+                helper.Context.ParentInfo = new ParentInfo(creator, prop.Name, null, prop.PropertyType);
 
                 //TODO: Run ...
                 GenerateRecursive(helper, content);

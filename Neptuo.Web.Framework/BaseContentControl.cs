@@ -11,6 +11,9 @@ namespace Neptuo.Web.Framework
     [DefaultProperty("Content")]
     public abstract class BaseContentControl : BaseControl, IContentControl
     {
+        [Dependency]
+        public ILivecycleObserver LivecycleObserver { get; set; }
+
         public List<object> Content { get; set; }
 
         public BaseContentControl()
