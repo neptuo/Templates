@@ -16,11 +16,15 @@ namespace TestConsole
 {
     class TestCompiler
     {
+        static ILivecycleObserver livecycleObserver = new StandartLivecycleObserver();
+        static IRegistrator registrator = new Registrator();
+        static IServiceProvider serviceProvider = new ServiceProvider(registrator, livecycleObserver);
+
         public static void Test()
         {
             GenerateCode();
-            //CompileCode();
-            //RunCode();
+            CompileCode();
+            RunCode();
         }
 
         private static void GenerateCode()
@@ -29,20 +33,20 @@ namespace TestConsole
             stopwatch.Start();
 
             Neptuo.Web.Framework.Compilation.CodeGenerator generator = new Neptuo.Web.Framework.Compilation.CodeGenerator();
-            IRegistrator registrator = new Registrator();
+            
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
 
             var context = new CompilerContext
             {
                 CodeGenerator = generator,
-                ServiceProvider = new ServiceProvider(registrator),
-                ParentInfo = new ParentInfo(generator.ViewPageField, TypeHelper.PropertyName<IViewPage>(p => p.Content), "Add", typeof(object))
+                ServiceProvider = serviceProvider,
+                ParentInfo = new ParentInfo(generator.CreateViewPage(), TypeHelper.PropertyName<IViewPage>(p => p.Content), "Add", typeof(object))
             };
 
             CompilerService compiler = new CompilerService();
             compiler.ContentCompiler = new XmlContentCompiler();
-            compiler.ValueCompilers.Add(new ExtensionValueCompiler());
+            //compiler.ValueCompilers.Add(new ExtensionValueCompiler());
             compiler.CompileContent(File.ReadAllText("Index.html"), context);
 
             generator.FinalizeClass();
@@ -64,6 +68,7 @@ namespace TestConsole
             cp.GenerateExecutable = false;
             cp.OutputAssembly = "GeneratedView.dll";
             cp.GenerateInMemory = false;
+            cp.IncludeDebugInformation = true;
 
             CompilerResults cr = provider.CompileAssemblyFromFile(cp, "GeneratedView.cs");
             if (cr.Errors.Count > 0)
@@ -93,8 +98,8 @@ namespace TestConsole
             StringWriter output = new StringWriter();
 
             IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
+            view.Setup(new BaseViewPage(livecycleObserver), livecycleObserver, serviceProvider, null, null);
             view.CreateControls();
-            view.Setup(new BaseViewPage(), null, null);
             view.Init();
             view.Render(new HtmlTextWriter(output));
 
@@ -108,16 +113,21 @@ namespace TestConsole
     class ServiceProvider : IServiceProvider
     {
         private IRegistrator registrator;
+        private ILivecycleObserver livecycleObserver;
 
-        public ServiceProvider(IRegistrator registrator)
+        public ServiceProvider(IRegistrator registrator, ILivecycleObserver livecycleObserver)
         {
             this.registrator = registrator;
+            this.livecycleObserver = livecycleObserver;
         }
 
         public object GetService(Type serviceType)
         {
             if (serviceType == typeof(IRegistrator))
                 return registrator;
+
+            if (serviceType == typeof(ILivecycleObserver))
+                return livecycleObserver;
 
             return null;
         }
@@ -145,7 +155,7 @@ namespace TestConsole
         //            CompilerContext = new CompilerContext(),
         //            ServiceProvider = new ServiceProvider(registrator),
         //            Parser = parser,
-        //            ParentInfo = new ParentInfo(BaseCodeGenerator.GeneratedViewPageField, TypeHelper.PropertyName<IViewPage>(p => p.Content), "Add", typeof(object))
+        //            ParentInfo = new ParentInfo(BaseCodeGenerator.Names.ViewPageField, TypeHelper.PropertyName<IViewPage>(p => p.Content), "Add", typeof(object))
         //        };
         //    });
         //    Compiler.CompileContent(File.ReadAllText("Index.html"), new CompilerContext());

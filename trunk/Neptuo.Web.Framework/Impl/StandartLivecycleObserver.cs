@@ -7,108 +7,144 @@ namespace Neptuo.Web.Framework
 {
     public class StandartLivecycleObserver : ILivecycleObserver
     {
-        private List<ILivecycle> objects = new List<ILivecycle>();
-        private List<ILivecycle> addedObjects;
-        private bool isEvaluating = false;
-        private LivecycleState state = LivecycleState.Null;
+        private Dictionary<object, LivecycleEntry> entries = new Dictionary<object, LivecycleEntry>();
+        private Dictionary<object, List<LivecycleEntry>> children = new Dictionary<object, List<LivecycleEntry>>();
 
-        public void Add(ILivecycle livecycleObject)
+        private object root = new object();
+
+        public StandartLivecycleObserver()
         {
-            if (!isEvaluating)
+            children.Add(root, new List<LivecycleEntry>());
+        }
+
+        public IEnumerable<object> GetControls()
+        {
+            return entries.Values;
+        }
+
+        public void Register(object parent, object control)
+        {
+            Register(parent, control, null);
+        }
+
+        public void Register(object parent, object control, Action propertyBinder)
+        {
+            if (parent == null)
+                parent = root;
+
+            if (!children.ContainsKey(parent))
+                throw new LivecycleException("Parent is not registered!");
+
+            if (!(control is IControl) && !(control is IViewPage))
+                return;
+
+            LivecycleEntry entry = new LivecycleEntry
             {
-                objects.Add(livecycleObject);
-                ProcessMissedEvents(livecycleObject);
-            }
-            else
-                addedObjects.Add(livecycleObject);
+                Control = control,
+                Parent = parent,
+                ArePropertiesBound = propertyBinder == null,
+                PropertyBinder = propertyBinder
+            };
+
+            children[parent].Add(entry);
+
+            if(!children.ContainsKey(control))
+                children.Add(control, new List<LivecycleEntry>());
+
+            entries.Add(control, entry);
         }
 
-        public void Add(object objectToResolve)
+        public void Init(object control)
         {
-            ILivecycle livecycleObject = objectToResolve as ILivecycle;
-            if (livecycleObject != null)
-                Add(livecycleObject);
-        }
+            if (!entries.ContainsKey(control))
+                throw new LivecycleException("Not registered control!");
 
-        public void OnInit()
-        {
-            if (state != LivecycleState.Null)
-                throw new LivecycleException("OnInit called!");
+            LivecycleEntry entry = entries[control];
+            if (entry.IsInited)
+                throw new LivecycleException("Control is already inited!");
 
-            OnEvent(objects, l => l.OnInit());
-            state = LivecycleState.OnInited;
-        }
+            if (entry.IsDisposed)
+                throw new LivecycleException("Control is already disposed!");
 
-        public void OnLoad()
-        {
-            if (state != LivecycleState.OnInited)
-                throw new LivecycleException("OnLoad called or OnInit not yet called!");
-
-            OnEvent(objects, l => l.OnLoad());
-            state = LivecycleState.OnLoaded;
-        }
-
-        public void BeforeRender()
-        {
-            if (state != LivecycleState.OnLoaded)
-                throw new LivecycleException("BeforeRender called or OnLoad not yet called!");
-
-            OnEvent(objects, l => l.BeforeRender());
-            state = LivecycleState.Rendered;
-        }
-
-        public void BeforeUnLoad()
-        {
-            if (state != LivecycleState.Rendered)
-                throw new LivecycleException("BeforeUnLoad called or BeforeRender not yet called!");
-
-            OnEvent(objects, l => l.BeforeUnLoad());
-            state = LivecycleState.UnLoaded;
-        }
-
-        private void OnEvent(IEnumerable<ILivecycle> objects, Action<ILivecycle> itemEvent)
-        {
-            isEvaluating = true;
-            addedObjects = new List<ILivecycle>();
-
-            foreach (ILivecycle item in objects)
-                itemEvent(item);
-
-            if (addedObjects.Count != 0)
+            if (!entry.ArePropertiesBound)
             {
-                foreach (ILivecycle livecycleObject in addedObjects)
-                    ProcessMissedEvents(livecycleObject);
-
-                IEnumerable<ILivecycle> newObjects = addedObjects.ToList();
-                addedObjects = new List<ILivecycle>();
-                OnEvent(newObjects, itemEvent);
+                entry.PropertyBinder();
+                entry.ArePropertiesBound = true;
             }
-            isEvaluating = false;
+
+            entry.IsInited = true;
+
+            IControl target = entry.Control as IControl;
+            if (target == null)
+                return;
+
+            target.OnInit();
         }
 
-        private void ProcessMissedEvents(ILivecycle livecycleObject)
+        public void Render(object control, HtmlTextWriter writer)
         {
-            if (state == LivecycleState.OnInited)
+            if (!entries.ContainsKey(control))
+                throw new LivecycleException("Not registered control!");
+
+            LivecycleEntry entry = entries[control];
+
+            if (!entry.IsInited)
+                Init(control);
+
+            if (entry.IsDisposed)
+                throw new LivecycleException("Control is already disposed!");
+
+            IControl target = entry.Control as IControl;
+            if (target == null)
+                return;
+
+            target.Render(writer);
+        }
+
+        public void Dispose(object control)
+        {
+            if (!entries.ContainsKey(control))
+                throw new LivecycleException("Not registered control!");
+
+            LivecycleEntry entry = entries[control];
+
+            if (!entry.IsInited)
+                Init(control);
+
+            if (entry.IsDisposed)
+                throw new LivecycleException("Control is already disposed!");
+
+            IDisposable target = entry.Control as IDisposable;
+            if (target != null)
             {
-                livecycleObject.OnInit();
-            }
-            else if (state == LivecycleState.OnLoaded)
-            {
-                livecycleObject.OnInit();
-                livecycleObject.OnLoad();
-            }
-            else if (state == LivecycleState.Rendered)
-            {
-                livecycleObject.OnInit();
-                livecycleObject.OnLoad();
-                livecycleObject.BeforeRender();
-            }
-            else if (state == LivecycleState.UnLoaded)
-            {
-                livecycleObject.OnInit();
-                livecycleObject.OnLoad();
-                livecycleObject.BeforeUnLoad();
+                target.Dispose();
+                entry.IsDisposed = true;
             }
         }
+    }
+
+    public class LivecycleEntry
+    {
+        public object Parent { get; set; }
+
+        public object Control { get; set; }
+
+        public Action PropertyBinder { get; set; }
+
+        public bool ArePropertiesBound { get; set; }
+        public bool IsInited { get; set; }
+        public bool IsDisposed { get; set; }
+    }
+
+    [Serializable]
+    public class LivecycleException : Exception
+    {
+        public LivecycleException() { }
+        public LivecycleException(string message) : base(message) { }
+        public LivecycleException(string message, Exception inner) : base(message, inner) { }
+        protected LivecycleException(
+          System.Runtime.Serialization.SerializationInfo info,
+          System.Runtime.Serialization.StreamingContext context)
+            : base(info, context) { }
     }
 }

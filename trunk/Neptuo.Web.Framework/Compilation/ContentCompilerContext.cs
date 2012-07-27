@@ -24,7 +24,7 @@ namespace Neptuo.Web.Framework.Compilation
 
     public class ParentInfo
     {
-        public CodeMemberField Parent { get; set; }
+        public CodeObjectCreator Creator { get; set; }
 
         public string PropertyName { get; set; }
 
@@ -32,9 +32,9 @@ namespace Neptuo.Web.Framework.Compilation
 
         public Type RequiredType { get; set; }
 
-        public ParentInfo(CodeMemberField parent, string propertyName, string methodName, Type requiredType)
+        public ParentInfo(CodeObjectCreator creator, string propertyName, string methodName, Type requiredType)
         {
-            Parent = parent;
+            Creator = creator;
             PropertyName = propertyName;
             MethodName = methodName;
             RequiredType = requiredType;

@@ -8,7 +8,7 @@ namespace Neptuo.Web.Framework
     /// <summary>
     /// Represents complete view.
     /// </summary>
-    public interface IViewPage
+    public interface IViewPage : IDisposable
     {
         /// <summary>
         /// Controls in view.

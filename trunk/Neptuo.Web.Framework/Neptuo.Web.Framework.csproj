@@ -44,6 +44,7 @@
     <Compile Include="Annotations\ControlAttribute.cs" />
     <Compile Include="Annotations\ControlBuilderAttribute.cs" />
     <Compile Include="Annotations\ControlPropertyAttribute.cs" />
+    <Compile Include="Annotations\DependencyAttribute.cs" />
     <Compile Include="BaseContentControl.cs" />
     <Compile Include="BaseControl.cs" />
     <Compile Include="BaseViewPage.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Compilation\ContentCompilerContext.cs" />
     <Compile Include="Compilation\DefaultValueCompiler.cs" />
     <Compile Include="Compilation\ExtensionValueCompiler.cs" />
+    <Compile Include="Compilation\CodeObjectCreator.cs" />
     <Compile Include="Compilation\XmlBuilderContext.cs" />
     <Compile Include="Compilation\XmlContentCompiler.cs" />
     <Compile Include="Compilation\IContentCompiler.cs" />
@@ -65,14 +67,12 @@
     <Compile Include="Controls\GridControl.cs" />
     <Compile Include="Controls\LiteralControl.cs" />
     <Compile Include="Controls\PanelControl.cs" />
-    <Compile Include="Controls\PanelControlBuilder.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Extensions\BindingExtension.cs" />
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />
     <Compile Include="IGeneratedView.cs" />
-    <Compile Include="ILivecycle.cs" />
     <Compile Include="ILivecycleObserver.cs" />
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="Impl\Models.cs" />
@@ -80,8 +80,6 @@
     <Compile Include="IRegistrator.cs" />
     <Compile Include="IViewPage.cs" />
     <Compile Include="IVirtualPathProvider.cs" />
-    <Compile Include="Impl\LivecycleException.cs" />
-    <Compile Include="Impl\LivecycleState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Impl\StandartLivecycleObserver.cs" />
     <Compile Include="Utils\ControlHelper.cs" />

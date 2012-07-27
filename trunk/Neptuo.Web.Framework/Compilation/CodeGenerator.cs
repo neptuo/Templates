@@ -11,60 +11,35 @@ namespace Neptuo.Web.Framework.Compilation
     {
         private int fieldCount = 0;
 
-        public CodeMemberField DeclareField(Type fieldType)
+        public CodeObjectCreator CreateControl()
         {
-            CodeMemberField field = new CodeMemberField
-            {
-                Name = GenerateFieldName(),
-                Attributes = MemberAttributes.Private,
-                Type = new CodeTypeReference(fieldType)
-            };
-            Class.Members.Add(field);
-            return field;
+            return new CodeObjectCreator(this);
         }
 
-        public CodeAssignStatement CreateInstance(CodeMemberField fieldToAssign, Type instanceType)
+        public CodeObjectCreator CreateViewPage()
         {
-            CodeAssignStatement instance = new CodeAssignStatement(
+            return new CodeObjectCreator(this)
+            {
+                FieldType = typeof(IViewPage),
+                Field = ViewPageField,
+                BindMethod = CodeObjectCreator.CreateBindMethod(BaseCodeGenerator.Names.ViewPageField, typeof(IViewPage), this)
+            };
+        }
+
+        public CodeExpression GetDependencyFromService(Type toResolve)
+        {
+            return new CodeCastExpression(
+                new CodeTypeReference(toResolve),
+                new CodeMethodInvokeExpression(
                 new CodeFieldReferenceExpression(
                     new CodeThisReferenceExpression(),
-                    fieldToAssign.Name
+                    Names.ServiceProviderField
                 ),
-                new CodeObjectCreateExpression(
-                    new CodeTypeReference(instanceType)
-                )
-            );
-            CreateControlsMethod.Statements.Add(instance);
-            return instance;
+                TypeHelper.MethodName<IServiceProvider, Type, object>(p => p.GetService),
+                new CodeTypeOfExpression(new CodeTypeReference(toResolve))
+            ));
         }
 
-        public CodeAssignStatement SetProperty(string fieldName, string propertyName, CodeExpression assign)
-        {
-            CodeAssignStatement assignStatement = new CodeAssignStatement(
-                new CodePropertyReferenceExpression(
-                    new CodeVariableReferenceExpression(fieldName),
-                    propertyName
-                ),
-                assign
-            );
-            InitMethod.Statements.Add(assignStatement);
-            return assignStatement;
-        }
-
-        public CodeAssignStatement SetProperty(string fieldName, string propertyName, object value)
-        {
-            return SetProperty(fieldName, propertyName, new CodePrimitiveExpression(value));
-        }
-
-        public CodeAssignStatement SetProperty(CodeMemberField field, string propertyName, CodeExpression assign)
-        {
-            return SetProperty(field.Name, propertyName, assign);
-        }
-
-        public CodeAssignStatement SetProperty(CodeMemberField field, string propertyName, object value)
-        {
-            return SetProperty(field, propertyName, new CodePrimitiveExpression(value));
-        }
 
         public CodeMethodInvokeExpression InvokeMethod(CodeMemberField field, CodeMemberMethod invokeInMethod, string methodToInvoke, params CodeExpression[] parameters)
         {
@@ -80,7 +55,25 @@ namespace Neptuo.Web.Framework.Compilation
             return invokeStatement;
         }
 
-        private CodeExpression CreateFieldReferenceOrMethodCall(CodeMemberField field, string fieldMethodName = null, Type castTo = null)
+
+        public CodeMethodInvokeExpression InvokeRenderMethod(CodeMemberField field)
+        {
+            return InvokeMethod(field, RenderMethod, "Render", new CodeVariableReferenceExpression(Names.RenderMethodWriterParameter));
+        }
+
+        public CodeMethodInvokeExpression InvokeDisposeMethod(CodeMemberField field)
+        {
+            return InvokeMethod(
+                field, 
+                DisposeMethod, 
+                TypeHelper.MethodName<IDisposable>(d => d.Dispose), 
+                new CodeVariableReferenceExpression(Names.RenderMethodWriterParameter)
+            );
+        }
+
+
+
+        public CodeExpression CreateFieldReferenceOrMethodCall(CodeMemberField field, string fieldMethodName = null, Type castTo = null)
         {
             CodeExpression result;
 
@@ -110,61 +103,7 @@ namespace Neptuo.Web.Framework.Compilation
             return result;
         }
 
-        public void AddToParent(ParentInfo parent, CodeMemberField field, string fieldMethodName = null, bool cast = false, bool inInit = false)
-        {
-            if (parent.MethodName != null)
-            {
-                CodeMethodInvokeExpression invokeStatement = new CodeMethodInvokeExpression(
-                    new CodeFieldReferenceExpression(
-                        new CodePropertyReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            parent.Parent.Name
-                        ),
-                        parent.PropertyName
-                    ),
-                    parent.MethodName,
-                    CreateFieldReferenceOrMethodCall(field, fieldMethodName, cast ? parent.RequiredType : null)
-                );
-                if (inInit)
-                    InitMethod.Statements.Add(invokeStatement);
-                else
-                    CreateControlsMethod.Statements.Add(invokeStatement);
-            }
-            else
-            {
-                CodeAssignStatement assignStatement = new CodeAssignStatement(
-                    new CodeFieldReferenceExpression(
-                        new CodePropertyReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            parent.Parent.Name
-                        ),
-                        parent.PropertyName
-                    ),
-                    CreateFieldReferenceOrMethodCall(field, fieldMethodName, cast ? parent.RequiredType : null)
-                );
-                if (inInit)
-                    InitMethod.Statements.Add(assignStatement);
-                else
-                    CreateControlsMethod.Statements.Add(assignStatement);
-            }
-        }
-
-        public CodeMethodInvokeExpression InvokeRenderMethod(CodeMemberField field)
-        {
-            return InvokeMethod(field, RenderMethod, "Render", new CodeVariableReferenceExpression(GeneratedRenderMethodWriterParameterName));
-        }
-
-        public CodeMethodInvokeExpression InvokeDisposeMethod(CodeMemberField field)
-        {
-            return InvokeMethod(
-                field, 
-                DisposeMethod, 
-                TypeHelper.MethodName<IDisposable>(d => d.Dispose), 
-                new CodeVariableReferenceExpression(GeneratedRenderMethodWriterParameterName)
-            );
-        }
-
-        private string GenerateFieldName()
+        public string GenerateFieldName()
         {
             return String.Format("field{0}", ++fieldCount);
         }

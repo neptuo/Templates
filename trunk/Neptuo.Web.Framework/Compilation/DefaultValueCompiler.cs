@@ -16,7 +16,7 @@ namespace Neptuo.Web.Framework.Compilation
 
             if (TypeConverter.CanConvert(context.ParentInfo.RequiredType))
             {
-                generator.SetProperty(context.ParentInfo.Parent.Name, context.ParentInfo.PropertyName, TypeConverter.Convert(content, context.ParentInfo.RequiredType));
+                context.ParentInfo.Creator.SetProperty(context.ParentInfo.PropertyName, TypeConverter.Convert(content, context.ParentInfo.RequiredType));
                 return true;
             }
 
@@ -28,7 +28,7 @@ namespace Neptuo.Web.Framework.Compilation
         {
             DefaultValueAttribute attr = ReflectionHelper.GetAttribute<DefaultValueAttribute>(context.ParentInfo.RequiredType);
             if (attr != null)
-                context.CodeGenerator.SetProperty(context.ParentInfo.Parent.Name, context.ParentInfo.PropertyName, attr.Value);
+                context.ParentInfo.Creator.SetProperty(context.ParentInfo.PropertyName, attr.Value);
         }
     }
 }
