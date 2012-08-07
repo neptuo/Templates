@@ -16,7 +16,11 @@ namespace Neptuo.Web.Framework.Compilation
 
             if (TypeConverter.CanConvert(context.ParentInfo.RequiredType))
             {
-                context.ParentInfo.Creator.SetProperty(context.ParentInfo.PropertyName, TypeConverter.Convert(content, context.ParentInfo.RequiredType));
+                if (context.ParentInfo.AsReturnStatement)
+                    context.ParentInfo.Creator.AddToParent(context.ParentInfo);
+                else
+                    context.ParentInfo.Creator.SetProperty(context.ParentInfo.PropertyName, TypeConverter.Convert(content, context.ParentInfo.RequiredType));
+
                 return true;
             }
 

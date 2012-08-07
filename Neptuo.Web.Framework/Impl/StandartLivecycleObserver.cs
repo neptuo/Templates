@@ -54,6 +54,14 @@ namespace Neptuo.Web.Framework
             entries.Add(control, entry);
         }
 
+        public void RegisterObserver(object control, IObserver observer, string attributeName, Func<object> observerInitializer)
+        {
+            if(!entries.ContainsKey(control))
+                throw new LivecycleException("Control is not registered, unnable to register observer");
+
+            entries[control].Observers.Add(new ObserverInfo(attributeName, observer, observerInitializer));
+        }
+
         public void Init(object control)
         {
             if (!entries.ContainsKey(control))
@@ -78,7 +86,23 @@ namespace Neptuo.Web.Framework
             if (target == null)
                 return;
 
-            target.OnInit();
+            bool canInit = true;
+            if (entry.Observers.Count > 0)
+            {
+                foreach (ObserverInfo info in entry.Observers)
+                {
+                    info.AttributeValue = info.Initializer();
+
+                    ObserverEventArgs args = CreateObserverEventArgs(entry.Control, info);
+                    info.Observer.OnInit(args);
+
+                    if (args.Cancel)
+                        canInit = false;
+                }
+            }
+
+            if (canInit)
+                target.OnInit();
         }
 
         public void Render(object control, HtmlTextWriter writer)
@@ -98,7 +122,21 @@ namespace Neptuo.Web.Framework
             if (target == null)
                 return;
 
-            target.Render(writer);
+            bool canRender = true;
+            if (entry.Observers.Count > 0)
+            {
+                foreach (ObserverInfo info in entry.Observers)
+                {
+                    ObserverEventArgs args = CreateObserverEventArgs(entry.Control, info);
+                    info.Observer.Render(args, writer);
+
+                    if (args.Cancel)
+                        canRender = false;
+                }
+            }
+
+            if (canRender)
+                target.Render(writer);
         }
 
         public void Dispose(object control)
@@ -121,19 +159,34 @@ namespace Neptuo.Web.Framework
                 entry.IsDisposed = true;
             }
         }
+
+        private ObserverEventArgs CreateObserverEventArgs(object target, ObserverInfo observerInfo)
+        {
+            return new ObserverEventArgs
+            {
+                AttributeName = observerInfo.AttributeName,
+                AttributeValue = observerInfo.AttributeValue,
+                Target = target
+            };
+        }
     }
 
     public class LivecycleEntry
     {
         public object Parent { get; set; }
-
         public object Control { get; set; }
-
         public Action PropertyBinder { get; set; }
+
+        public List<ObserverInfo> Observers { get; set; }
 
         public bool ArePropertiesBound { get; set; }
         public bool IsInited { get; set; }
         public bool IsDisposed { get; set; }
+
+        public LivecycleEntry()
+        {
+            Observers = new List<ObserverInfo>();
+        }
     }
 
     [Serializable]
@@ -146,5 +199,23 @@ namespace Neptuo.Web.Framework
           System.Runtime.Serialization.SerializationInfo info,
           System.Runtime.Serialization.StreamingContext context)
             : base(info, context) { }
+    }
+
+    public class ObserverInfo
+    {
+        public string AttributeName { get; set; }
+
+        public object AttributeValue { get; set; }
+
+        public Func<object> Initializer { get; set; }
+
+        public IObserver Observer { get; set; }
+
+        public ObserverInfo(string attributeName, IObserver observer, Func<object> initializer)
+        {
+            AttributeName = attributeName;
+            Observer = observer;
+            Initializer = initializer;
+        }
     }
 }

@@ -14,12 +14,16 @@ namespace Neptuo.Web.Framework
 
         Type GetExtension(string extensionNamespace, string extensionName);
 
+        Type GetObserver(string attributeNamespace, string attributeName);
+
         /// <summary>
         /// Registers all controls, markup extensions and attribute handlers from passed <paramref name="newNamespace"/>.
         /// </summary>
         /// <param name="prefix">Prefix to register controls/extensions under.</param>
         /// <param name="newNamespace">Namespace to register.</param>
         void RegisterNamespace(string prefix, string newNamespace);
+
+        void RegisterObserver(string prefix, string attributePattern, Type observer);
 
         IEnumerable<RegisteredNamespace> GetRegisteredNamespaces();
     }

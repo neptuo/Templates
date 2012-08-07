@@ -29,7 +29,7 @@ namespace Neptuo.Web.Framework
             {
                 IControl control = item as IControl;
                 if (control != null)
-                    control.OnInit();
+                    LivecycleObserver.Init(control);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Neptuo.Web.Framework
             {
                 IControl control = item as IControl;
                 if (control != null)
-                    control.Render(writer);
+                    LivecycleObserver.Render(control, writer);
             }
         }
 

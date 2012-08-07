@@ -13,6 +13,8 @@ namespace Neptuo.Web.Framework
 
         void Register(object parent, object control, Action propertyBinder);
 
+        void RegisterObserver(object control, IObserver observer, string attributeName, Func<object> observerInitializer);
+
         void Init(object control);
 
         void Render(object control, HtmlTextWriter writer);

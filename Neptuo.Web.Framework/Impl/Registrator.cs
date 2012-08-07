@@ -12,16 +12,21 @@ namespace Neptuo.Web.Framework
         public Dictionary<string, List<string>> Namespaces { get; protected set; }
         public Dictionary<string, Dictionary<string, Type>> ControlsInNamespaces { get; protected set; }
         public Dictionary<string, Dictionary<string, Type>> ExtensionsInNamespaces { get; protected set; }
+        public Dictionary<string, Dictionary<string, Type>> Observers { get; protected set; }
 
         public Registrator()
         {
             Namespaces = new Dictionary<string, List<string>>();
             ControlsInNamespaces = new Dictionary<string, Dictionary<string, Type>>();
             ExtensionsInNamespaces = new Dictionary<string, Dictionary<string, Type>>();
+            Observers = new Dictionary<string, Dictionary<string, Type>>();
         }
 
         public Type GetControl(string tagNamespace, string tagName)
         {
+            tagNamespace = tagNamespace.ToLowerInvariant();
+            tagName = tagName.ToLowerInvariant();
+
             if (ControlsInNamespaces.ContainsKey(tagNamespace)
                 && ControlsInNamespaces[tagNamespace].ContainsKey(tagName))
             {
@@ -34,12 +39,32 @@ namespace Neptuo.Web.Framework
 
         public Type GetExtension(string tagNamespace, string tagName)
         {
+            tagNamespace = tagNamespace.ToLowerInvariant();
+            tagName = tagName.ToLowerInvariant();
+
             if (ExtensionsInNamespaces.ContainsKey(tagNamespace)
                 && ExtensionsInNamespaces[tagNamespace].ContainsKey(tagName))
             {
                 Type controlType = ExtensionsInNamespaces[tagNamespace][tagName];
                 return controlType;
             }
+
+            return null;
+        }
+
+        public Type GetObserver(string attributeNamespace, string attributeName)
+        {
+            attributeNamespace = attributeNamespace.ToLowerInvariant();
+            attributeName = attributeName.ToLowerInvariant();
+
+            if (!Observers.ContainsKey(attributeNamespace))
+                return null;
+
+            if (Observers[attributeNamespace].ContainsKey(attributeName))
+                return Observers[attributeNamespace][attributeName];
+
+            if (Observers[attributeNamespace].ContainsKey("*"))
+                return Observers[attributeNamespace]["*"];
 
             return null;
         }
@@ -107,6 +132,20 @@ namespace Neptuo.Web.Framework
             }
         }
 
+        public void RegisterObserver(string prefix, string attributePattern, Type observer)
+        {
+            if (!typeof(IObserver).IsAssignableFrom(observer))
+                throw new ApplicationException("This type is not an observer!");
+
+            if (!Observers.ContainsKey(prefix))
+                Observers.Add(prefix, new Dictionary<string, Type>());
+
+            if (Observers[prefix].ContainsKey(attributePattern))
+                Observers[prefix].Add(attributePattern, observer);
+            else
+                Observers[prefix][attributePattern] = observer;
+        }
+
         public IEnumerable<RegisteredNamespace> GetRegisteredNamespaces()
         {
             foreach (KeyValuePair<string, List<string>> entry in Namespaces)
@@ -119,6 +158,15 @@ namespace Neptuo.Web.Framework
                         Namespace = item
                     };
                 }
+            }
+
+            foreach (KeyValuePair<string, Dictionary<string, Type>> item in Observers)
+            {
+                yield return new RegisteredNamespace
+                {
+                    Prefix = item.Key,
+                    Namespace = null
+                };
             }
         }
     }

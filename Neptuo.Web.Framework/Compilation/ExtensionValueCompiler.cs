@@ -1,119 +1,131 @@
-﻿//using System;
-//using System.Collections.Generic;
-//using System.Linq;
-//using System.Text;
-//using Neptuo.Web.Framework.Parser.ExtensionContent;
-//using System.CodeDom;
-//using Neptuo.Web.Framework.Utils;
-//using System.Reflection;
-//using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Neptuo.Web.Framework.Parser.ExtensionContent;
+using System.CodeDom;
+using Neptuo.Web.Framework.Utils;
+using System.Reflection;
+using System.ComponentModel;
+using Neptuo.Web.Framework.Annotations;
 
-//namespace Neptuo.Web.Framework.Compilation
-//{
-//    public class ExtensionValueCompiler : IValueCompiler
-//    {
-//        public bool GenerateCode(string content, ValueCompilerContext context)
-//        {
-//            bool parsed = false;
+namespace Neptuo.Web.Framework.Compilation
+{
+    public class ExtensionValueCompiler : IValueCompiler
+    {
+        public bool GenerateCode(string content, ValueCompilerContext context)
+        {
+            bool parsed = false;
 
-//            Helper helper = new Helper(context);
-//            helper.Parser.OnParsedItem = (e) =>
-//            {
-//                parsed = GenerateExtension(helper, e.ParsedItem);
-//            };
-//            helper.Parser.Parse(content);
+            Helper helper = new Helper(context);
+            helper.Parser.OnParsedItem = (e) =>
+            {
+                parsed = GenerateExtension(helper, e.ParsedItem);
+            };
+            helper.Parser.Parse(content);
 
-//            return parsed;
-//        }
+            return parsed;
+        }
 
-//        private bool GenerateExtension(Helper helper, Extension extension)
-//        {
-//            Type controlType = helper.Registrator.GetExtension(extension.Namespace.ToLowerInvariant(), extension.Name.ToLowerInvariant());
-//            if (controlType == null)
-//                return false;
+        private bool GenerateExtension(Helper helper, Extension extension)
+        {
+            Type controlType = helper.Registrator.GetExtension(extension.Namespace.ToLowerInvariant(), extension.Name.ToLowerInvariant());
+            if (controlType == null)
+                return false;
 
-//            CodeGenerator generator = helper.Context.CodeGenerator;
-//            CodeMemberField control = generator.DeclareField(controlType);
-//            generator.CreateInstance(control, controlType);
+            CodeObjectCreator creator = helper.Context.CodeGenerator.CreateControl()
+                .Declare(controlType)
+                .CreateInstance();
 
-//            BindProperties(helper, control, controlType, extension);
-//            generator.AddToParent(helper.Context.ParentInfo, control, TypeHelper.MethodName<IMarkupExtension, object>(e => e.ProvideValue), true, true);
+            BindProperties(helper, creator, extension);
 
-//            return true;
-//        }
+            creator
+                .CallBind(helper.Context.ParentInfo)
+                .AddToParent(helper.Context.ParentInfo, TypeHelper.MethodName<IMarkupExtension, object>(e => e.ProvideValue), true, true);
 
-//        private void BindProperties(Helper helper, CodeMemberField control, Type controlType, Extension extension)
-//        {
-//            HashSet<string> boundProperies = new HashSet<string>();
-//            PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(controlType);
+            return true;
+        }
 
-//            foreach (KeyValuePair<string, PropertyInfo> item in ControlHelper.GetProperties(controlType))
-//            {
-//                bool bound = false;
-//                string propertyName = item.Key.ToLowerInvariant();
-//                foreach (ExtensionAttribute attribute in extension.Attributes)
-//                {
-//                    if (propertyName == attribute.Name.ToLowerInvariant())
-//                    {
-//                        ParentInfo parent = helper.Context.ParentInfo;
-//                        helper.Context.ParentInfo = new ParentInfo(control, item.Value.Name, null, item.Value.PropertyType);
+        private void BindProperties(Helper helper, CodeObjectCreator creator, Extension extension)
+        {
+            HashSet<string> boundProperies = new HashSet<string>();
+            PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(creator.FieldType);
 
-//                        helper.Context.CompilerService.CompileValue(attribute.Value, helper.Context);
+            foreach (KeyValuePair<string, PropertyInfo> item in ControlHelper.GetProperties(creator.FieldType))
+            {
+                bool bound = false;
+                string propertyName = item.Key.ToLowerInvariant();
+                foreach (ExtensionAttribute attribute in extension.Attributes)
+                {
+                    if (propertyName == attribute.Name.ToLowerInvariant())
+                    {
+                        ParentInfo parent = helper.Context.ParentInfo;
+                        helper.Context.ParentInfo = new ParentInfo(creator, item.Value.Name, null, item.Value.PropertyType);
 
-//                        helper.Context.ParentInfo = parent;
+                        helper.Context.CompilerService.CompileValue(attribute.Value, helper.Context);
 
-//                        boundProperies.Add(propertyName);
-//                        bound = true;
-//                    }
-//                }
+                        helper.Context.ParentInfo = parent;
 
-//                if (!bound && item.Value != defaultProperty)
-//                {
-//                    BindPropertyDefaultValue(helper, control, item.Value);
-//                    boundProperies.Add(propertyName);
-//                    bound = true;
-//                }
-//            }
+                        boundProperies.Add(propertyName);
+                        bound = true;
+                    }
+                }
 
-//            if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
-//            {
-//                if (!String.IsNullOrWhiteSpace(extension.DefaultAttributeValue))
-//                {
-//                    ParentInfo parent = helper.Context.ParentInfo;
-//                    helper.Context.ParentInfo = new ParentInfo(control, defaultProperty.Name, null, defaultProperty.PropertyType);
+                if (!bound && item.Value != defaultProperty)
+                {
+                    BindPropertyDefaultValue(helper, creator, item.Value);
+                    boundProperies.Add(propertyName);
+                    bound = true;
+                }
+            }
 
-//                    helper.Context.CompilerService.CompileValue(extension.DefaultAttributeValue, helper.Context);
+            if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
+            {
+                if (!String.IsNullOrWhiteSpace(extension.DefaultAttributeValue))
+                {
+                    ParentInfo parent = helper.Context.ParentInfo;
+                    helper.Context.ParentInfo = new ParentInfo(creator, defaultProperty.Name, null, defaultProperty.PropertyType);
 
-//                    helper.Context.ParentInfo = parent;
-//                }
-//                else
-//                {
-//                    BindPropertyDefaultValue(helper, control, defaultProperty);
-//                }
-//            }
-//        }
+                    helper.Context.CompilerService.CompileValue(extension.DefaultAttributeValue, helper.Context);
 
-//        private void BindPropertyDefaultValue(Helper helper, CodeMemberField control, PropertyInfo prop)
-//        {
-//            DefaultValueAttribute attr = ReflectionHelper.GetAttribute<DefaultValueAttribute>(prop);
-//            if (attr != null)
-//                helper.Context.CodeGenerator.SetProperty(control, prop.Name, attr.Value);
-//        }
-        
-//        public class Helper
-//        {
-//            public ValueCompilerContext Context { get; protected set; }
+                    helper.Context.ParentInfo = parent;
+                }
+                else
+                {
+                    BindPropertyDefaultValue(helper, creator, defaultProperty);
+                }
+            }
+        }
 
-//            public IRegistrator Registrator { get; protected set; }
+        private void BindPropertyDefaultValue(Helper helper, CodeObjectCreator creator, PropertyInfo prop)
+        {
+            DependencyAttribute dependency = DependencyAttribute.GetAttribute(prop);
+            if (dependency != null)
+            {
+                creator.SetProperty(prop.Name, helper.Context.CodeGenerator.GetDependencyFromService(prop.PropertyType));
+            }
+            else
+            {
+                DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(prop);
+                if (defaultValue != null)
+                    creator.SetProperty(prop.Name, defaultValue.Value);
+            }
+        }
 
-//            public ExtensionContentParser Parser { get; protected set; }
+        public class Helper
+        {
+            public ValueCompilerContext Context { get; protected set; }
 
-//            public Helper(ValueCompilerContext context)
-//            {
-//                Context = context;
-//                Registrator = ((IRegistrator)Context.ServiceProvider.GetService(typeof(IRegistrator)));
-//                Parser = new ExtensionContentParser();
-//            }
-//        }
-//    }
-//}
+            public IRegistrator Registrator { get; protected set; }
+
+            public ExtensionContentParser Parser { get; protected set; }
+
+            public Helper(ValueCompilerContext context)
+            {
+                Context = context;
+                Registrator = ((IRegistrator)Context.ServiceProvider.GetService(typeof(IRegistrator)));
+                Parser = new ExtensionContentParser();
+            }
+        }
+    }
+}
