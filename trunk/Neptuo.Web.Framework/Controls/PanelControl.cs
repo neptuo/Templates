@@ -16,9 +16,8 @@ namespace Neptuo.Web.Framework.Controls
 
         public override void OnInit()
         {
-            base.OnInit();
-
             Models.CurrentModel = "Hello!";
+            base.OnInit();
         }
     }
 }

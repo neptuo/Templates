@@ -11,6 +11,7 @@ using Neptuo.Web.Framework.Utils;
 using System.Diagnostics;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
+using Neptuo.Web.Framework.Observers;
 
 namespace TestConsole
 {
@@ -23,8 +24,8 @@ namespace TestConsole
         public static void Test()
         {
             GenerateCode();
-            CompileCode();
-            RunCode();
+            //CompileCode();
+            //RunCode();
         }
 
         private static void GenerateCode()
@@ -36,6 +37,7 @@ namespace TestConsole
             
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
+            registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
 
             var context = new CompilerContext
             {
@@ -46,7 +48,7 @@ namespace TestConsole
 
             CompilerService compiler = new CompilerService();
             compiler.ContentCompiler = new XmlContentCompiler();
-            //compiler.ValueCompilers.Add(new ExtensionValueCompiler());
+            compiler.ValueCompilers.Add(new ExtensionValueCompiler());
             compiler.CompileContent(File.ReadAllText("Index.html"), context);
 
             generator.FinalizeClass();

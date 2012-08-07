@@ -39,7 +39,12 @@ namespace Neptuo.Web.Framework.Compilation
                     if (node.GetType() == typeof(XmlElement))
                     {
                         XmlElement element = node as XmlElement;
-                        Type controlType = helper.Registrator.GetControl(element.Prefix, element.LocalName);
+
+                        Type controlType;
+                        if (String.IsNullOrWhiteSpace(element.Prefix))
+                            controlType = typeof(GenericContentControl);
+                        else
+                            controlType = helper.Registrator.GetControl(element.Prefix, element.LocalName);
 
                         if (controlType != null)
                         {
@@ -86,7 +91,19 @@ namespace Neptuo.Web.Framework.Compilation
         private bool NeedsServerProcessing(XmlNode node)
         {
             XmlElement element = node as XmlElement;
-            return element != null && !String.IsNullOrWhiteSpace(element.Prefix);
+            if (element == null)
+                return false;
+
+            if(!String.IsNullOrWhiteSpace(element.Prefix))
+                return true;
+
+            foreach (XmlAttribute attribute in element.Attributes)
+            {
+                if (!String.IsNullOrWhiteSpace(attribute.Prefix))
+                    return true;
+            }
+
+            return false;
         }
 
         private void AppendPlainText(string text, ContentCompilerContext context)
@@ -117,18 +134,22 @@ namespace Neptuo.Web.Framework.Compilation
                 .CreateInstance()
                 .RegisterLivecycleObserver(helper.Context.ParentInfo);
 
-            BindProperties(helper, creator, controlType, element);
+            if (String.IsNullOrWhiteSpace(element.Prefix))
+                creator.SetProperty(TypeHelper.PropertyName<GenericContentControl>(c => c.TagName), element.Name);
+
+            BindProperties(helper, creator, element);
 
             creator
                 .AddToParent(helper.Context.ParentInfo);
         }
 
-        private void BindProperties(Helper helper, CodeObjectCreator creator, Type controlType, XmlElement element)
+        private void BindProperties(Helper helper, CodeObjectCreator creator, XmlElement element)
         {
             HashSet<string> boundProperies = new HashSet<string>();
-            PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(controlType);
+            PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(creator.FieldType);
+            List<XmlAttribute> observerAttributes = new List<XmlAttribute>();
 
-            foreach (KeyValuePair<string, PropertyInfo> item in ControlHelper.GetProperties(controlType))
+            foreach (KeyValuePair<string, PropertyInfo> item in ControlHelper.GetProperties(creator.FieldType))
             {
                 bool bound = false;
                 string propertyName = item.Key.ToLowerInvariant();
@@ -146,6 +167,9 @@ namespace Neptuo.Web.Framework.Compilation
                         boundProperies.Add(propertyName);
                         bound = true;
                     }
+
+                    if (!bound && !String.IsNullOrWhiteSpace(attribute.Prefix) && !observerAttributes.Contains(attribute))
+                        observerAttributes.Add(attribute);
                 }
 
                 XmlNode child;
@@ -162,6 +186,16 @@ namespace Neptuo.Web.Framework.Compilation
                     BindPropertyDefaultValue(helper, creator, item.Value);
                     boundProperies.Add(propertyName);
                     bound = true;
+                }
+            }
+
+            foreach (XmlAttribute attribute in observerAttributes)
+            {
+                Type observerType = helper.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
+                if (observerType != null)
+                {
+                    //TODO: Register observer
+                    RegisterObserver(helper, creator, observerType, attribute);
                 }
             }
 
@@ -244,6 +278,32 @@ namespace Neptuo.Web.Framework.Compilation
 
                 helper.Context.ParentInfo = parent;
             }
+        }
+
+        private void RegisterObserver(Helper helper, CodeObjectCreator creator, Type observerType, XmlAttribute attribute)
+        {
+            ObserverLivecycle livecycle = ObserverLivecycle.PerAttribute;
+
+            ObserverAttribute observerAttribute = ObserverAttribute.GetAttribute(observerType);
+            if (observerAttribute != null)
+                livecycle = observerAttribute.Livecycle;
+
+            //TODO: ObserverBuilder
+
+
+            CodeObjectCreator observer = helper.Context.CodeGenerator.CreateControl()
+                .Declare(observerType, typeof(object))
+                .CreateInstance();
+
+            //TODO: Compile attribute value
+            ParentInfo parent = helper.Context.ParentInfo;
+            helper.Context.ParentInfo = new ParentInfo(observer, null, null, typeof(object)) { AsReturnStatement = true };
+
+            helper.Context.CompilerService.CompileValue(attribute.Value, helper.Context);
+
+            helper.Context.ParentInfo = parent;
+
+            creator.RegisterObserver(attribute.LocalName, observer);
         }
 
         public class Helper

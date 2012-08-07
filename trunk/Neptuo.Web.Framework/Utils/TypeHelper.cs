@@ -48,5 +48,10 @@ namespace Neptuo.Web.Framework.Utils
         {
             return (((((UnaryExpression)propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
         }
+
+        public static string MethodName<T, TParam1, TParam2, TParam3, TParam4>(Expression<Func<T, Action<TParam1, TParam2, TParam3, TParam4>>> propertyGetter)
+        {
+            return (((((UnaryExpression)propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
+        }
     }
 }

@@ -10,7 +10,7 @@ namespace Neptuo.Web.Framework.Utils
     {
         public static bool CanConvert(Type target)
         {
-            if (target == typeof(String))
+            if (target == typeof(Object) || target == typeof(String))
                 return true;
 
             if (target.IsEnum)

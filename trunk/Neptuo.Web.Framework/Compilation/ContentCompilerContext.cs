@@ -32,6 +32,8 @@ namespace Neptuo.Web.Framework.Compilation
 
         public Type RequiredType { get; set; }
 
+        public bool AsReturnStatement { get; set; }
+
         public ParentInfo(CodeObjectCreator creator, string propertyName, string methodName, Type requiredType)
         {
             Creator = creator;

@@ -250,7 +250,7 @@ namespace Neptuo.Web.Framework.Compilation
                 ),
                 new CodePrimitiveExpression(null),
                 new CodeVariableReferenceExpression(ViewPageField.Name),
-                new CodeVariableReferenceExpression("Bind_viewPage")
+                new CodeVariableReferenceExpression("viewPage_Bind")
             ));
 
             CodeMethodInvokeExpression invokeViewRender = new CodeMethodInvokeExpression(

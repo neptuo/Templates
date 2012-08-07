@@ -45,6 +45,7 @@
     <Compile Include="Annotations\ControlBuilderAttribute.cs" />
     <Compile Include="Annotations\ControlPropertyAttribute.cs" />
     <Compile Include="Annotations\DependencyAttribute.cs" />
+    <Compile Include="Annotations\ObserverAttribute.cs" />
     <Compile Include="BaseContentControl.cs" />
     <Compile Include="BaseControl.cs" />
     <Compile Include="BaseViewPage.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Compilation\DefaultValueCompiler.cs" />
     <Compile Include="Compilation\ExtensionValueCompiler.cs" />
     <Compile Include="Compilation\CodeObjectCreator.cs" />
+    <Compile Include="Compilation\IXmlObserverBuilder.cs" />
     <Compile Include="Compilation\XmlBuilderContext.cs" />
     <Compile Include="Compilation\XmlContentCompiler.cs" />
     <Compile Include="Compilation\IContentCompiler.cs" />
@@ -77,15 +79,16 @@
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="Impl\Models.cs" />
     <Compile Include="Impl\Registrator.cs" />
+    <Compile Include="IObserver.cs" />
     <Compile Include="IRegistrator.cs" />
     <Compile Include="IViewPage.cs" />
     <Compile Include="IVirtualPathProvider.cs" />
+    <Compile Include="Observers\VisibleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Impl\StandartLivecycleObserver.cs" />
     <Compile Include="Utils\ControlHelper.cs" />
     <Compile Include="Utils\Func.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
-    <Compile Include="Utils\TReturn.cs" />
     <Compile Include="Utils\TypeConverter.cs" />
     <Compile Include="Utils\TypeHelper.cs" />
     <Compile Include="Utils\XmlExtensions.cs" />
