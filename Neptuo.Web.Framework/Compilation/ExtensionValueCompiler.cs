@@ -39,9 +39,19 @@ namespace Neptuo.Web.Framework.Compilation
 
             BindProperties(helper, creator, extension);
 
-            creator
-                .CallBind(helper.Context.ParentInfo)
-                .AddToParent(helper.Context.ParentInfo, TypeHelper.MethodName<IMarkupExtension, object>(e => e.ProvideValue), true, true);
+            creator.CallBind(helper.Context.ParentInfo);
+
+            if (helper.Context.ParentInfo.AsReturnStatement)
+            {
+                creator.AsReturnStatement(
+                    helper.Context.ParentInfo, 
+                    helper.Context.CodeGenerator.CreateFieldReferenceOrMethodCall(creator.Field, TypeHelper.MethodName<IMarkupExtension, object>(e => e.ProvideValue))
+                );
+            }
+            else
+            {
+                creator.AddToParent(helper.Context.ParentInfo, TypeHelper.MethodName<IMarkupExtension, object>(e => e.ProvideValue), true, true);
+            }
 
             return true;
         }

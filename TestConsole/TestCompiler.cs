@@ -12,6 +12,7 @@ using System.Diagnostics;
 using Microsoft.CSharp;
 using System.CodeDom.Compiler;
 using Neptuo.Web.Framework.Observers;
+using Neptuo.Web.Framework.Controls;
 
 namespace TestConsole
 {
@@ -47,7 +48,7 @@ namespace TestConsole
             };
 
             CompilerService compiler = new CompilerService();
-            compiler.ContentCompiler = new XmlContentCompiler();
+            compiler.ContentCompiler = new XmlContentCompiler(typeof(LiteralControl), TypeHelper.PropertyName<LiteralControl>(l => l.Text), typeof(GenericContentControl), TypeHelper.PropertyName<GenericContentControl>(c => c.TagName));
             compiler.ValueCompilers.Add(new ExtensionValueCompiler());
             compiler.CompileContent(File.ReadAllText("Index.html"), context);
 

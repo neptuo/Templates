@@ -6,7 +6,7 @@ using Neptuo.Web.Framework.Annotations;
 
 namespace Neptuo.Web.Framework.Observers
 {
-    [Observer(Livecycle = ObserverLivecycle.PerAttribute)]
+    [Observer(Livecycle = ObserverLivecycle.PerPage)]
     public class VisibleObserver : IObserver
     {
         public void OnInit(ObserverEventArgs e)

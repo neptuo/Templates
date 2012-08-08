@@ -25,8 +25,6 @@ namespace Neptuo.Web.Framework.Compilation
             FieldType = controlType;
             string fieldName = generator.GenerateFieldName();
 
-            BindMethod = CreateBindMethod(fieldName, controlType, generator, bindReturnType);
-
             Field = new CodeMemberField
             {
                 Name = fieldName,
@@ -34,6 +32,8 @@ namespace Neptuo.Web.Framework.Compilation
                 Type = new CodeTypeReference(controlType)
             };
             generator.Class.Members.Add(Field);
+
+            CreateBindMethod(bindReturnType);
 
             return this;
         }
@@ -49,6 +49,15 @@ namespace Neptuo.Web.Framework.Compilation
                     new CodeTypeReference(FieldType),
                     parameters
                 )
+            ));
+
+            return this;
+        }
+
+        public CodeObjectCreator AsReturnStatement(ParentInfo parent, CodeExpression result)
+        {
+            parent.Creator.BindMethod.Statements.Add(new CodeMethodReturnStatement(
+                result
             ));
 
             return this;
@@ -91,33 +100,6 @@ namespace Neptuo.Web.Framework.Compilation
             CodeMemberMethod method = generator.CreateControlsMethod;
             if (inBindMethod || parent.AsReturnStatement)
                 method = parent.Creator.BindMethod;
-
-            if (parent.AsReturnStatement)
-            {
-                if (parent.MethodName != null)
-                {
-                    method.Statements.Add(new CodeMethodReturnStatement(
-                        new CodeMethodInvokeExpression(
-                            new CodeFieldReferenceExpression(
-                                new CodePropertyReferenceExpression(
-                                    new CodeThisReferenceExpression(),
-                                    parent.Creator.Field.Name
-                                ),
-                                parent.PropertyName
-                            ),
-                            parent.MethodName,
-                            generator.CreateFieldReferenceOrMethodCall(Field, fieldMethodName, cast ? parent.RequiredType : null)
-                    )));
-                }
-                else
-                {
-                    method.Statements.Add(new CodeMethodReturnStatement(
-                        generator.CreateFieldReferenceOrMethodCall(Field, fieldMethodName, cast ? parent.RequiredType : null)
-                    ));
-                }
-
-                return this;
-            }
 
             if (parent.MethodName != null)
             {
@@ -185,6 +167,12 @@ namespace Neptuo.Web.Framework.Compilation
                 new CodeVariableReferenceExpression(observerCreator.BindMethod.Name)
             ));
 
+            return this;
+        }
+
+        public CodeObjectCreator CreateBindMethod(Type bindReturnType = null)
+        {
+            BindMethod = CreateBindMethod(Field.Name, FieldType, generator, bindReturnType);
             return this;
         }
 

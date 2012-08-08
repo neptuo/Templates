@@ -42,7 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotations\ControlAttribute.cs" />
-    <Compile Include="Annotations\ControlBuilderAttribute.cs" />
+    <Compile Include="Annotations\BuilderAttribute.cs" />
     <Compile Include="Annotations\ControlPropertyAttribute.cs" />
     <Compile Include="Annotations\DependencyAttribute.cs" />
     <Compile Include="Annotations\ObserverAttribute.cs" />
