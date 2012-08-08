@@ -1,4 +1,5 @@
 ﻿using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Neptuo.Web.Framework.Compilation
             if (TypeConverter.CanConvert(context.ParentInfo.RequiredType))
             {
                 if (context.ParentInfo.AsReturnStatement)
-                    context.ParentInfo.Creator.AddToParent(context.ParentInfo);
+                    context.ParentInfo.Creator.AsReturnStatement(context.ParentInfo, new CodePrimitiveExpression(content));
                 else
                     context.ParentInfo.Creator.SetProperty(context.ParentInfo.PropertyName, TypeConverter.Convert(content, context.ParentInfo.RequiredType));
 

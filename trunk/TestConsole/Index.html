@@ -1,4 +1,4 @@
-﻿<div>
+﻿<h:panel>
     Hello World!
 
     <h:grid Repeat="1" ui:visible="false">
@@ -15,5 +15,5 @@
         </content>
     </h:grid>
 
-    <h:textbox name="surname" text="{h:Binding Expression={h:Binding Kitty}}" />
-</div>
+    <h:textbox name="surname" text="{h:Binding Expression={h:Binding Kitty}}" ui:visible="{h:Binding TextBoxVisible}" />
+</h:panel>

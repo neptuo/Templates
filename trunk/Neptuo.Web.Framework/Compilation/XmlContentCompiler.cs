@@ -9,7 +9,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
 using Neptuo.Web.Framework.Annotations;
-using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Utils;
 using TypeConverter = Neptuo.Web.Framework.Utils.TypeConverter;
 
@@ -17,6 +16,21 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public class XmlContentCompiler : IContentCompiler
     {
+        private Dictionary<Type, CodeObjectCreator> globalObservers = new Dictionary<Type, CodeObjectCreator>();
+        private Dictionary<object, Dictionary<Type, CodeObjectCreator>> controlObservers = new Dictionary<object, Dictionary<Type, CodeObjectCreator>>();
+        private Type literalType;
+        private string literalTextPropertyName;
+        private Type genericContentType;
+        private string genericContentTagNamePropertyName;
+
+        public XmlContentCompiler(Type literalType, string literalTextPropertyName, Type genericContentType, string genericContentTagNamePropertyName)
+        {
+            this.literalType = literalType;
+            this.literalTextPropertyName = literalTextPropertyName;
+            this.genericContentType = genericContentType;
+            this.genericContentTagNamePropertyName = genericContentTagNamePropertyName;
+        }
+
         public bool GenerateCode(string content, ContentCompilerContext context)
         {
             Helper helper = new Helper(content, context);
@@ -42,13 +56,13 @@ namespace Neptuo.Web.Framework.Compilation
 
                         Type controlType;
                         if (String.IsNullOrWhiteSpace(element.Prefix))
-                            controlType = typeof(GenericContentControl);
+                            controlType = genericContentType;
                         else
                             controlType = helper.Registrator.GetControl(element.Prefix, element.LocalName);
 
                         if (controlType != null)
                         {
-                            ControlBuilderAttribute attr = ControlBuilderAttribute.GetAttribute(controlType);
+                            BuilderAttribute attr = BuilderAttribute.GetAttribute(controlType);
                             if (attr != null)
                             {
                                 IXmlControlBuilder builder = Activator.CreateInstance(attr.BuilderType) as IXmlControlBuilder;
@@ -108,7 +122,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         private void AppendPlainText(string text, ContentCompilerContext context)
         {
-            bool canUse = context.ParentInfo.RequiredType.IsAssignableFrom(typeof(LiteralControl));
+            bool canUse = context.ParentInfo.RequiredType.IsAssignableFrom(literalType);
 
             if (!canUse)
                 return;
@@ -119,9 +133,9 @@ namespace Neptuo.Web.Framework.Compilation
             text = text.Trim();
 
             context.CodeGenerator.CreateControl()
-                .Declare(typeof(LiteralControl))
+                .Declare(literalType)
                 .CreateInstance()
-                .SetProperty(TypeHelper.PropertyName<LiteralControl>(l => l.Text), text)
+                .SetProperty(literalTextPropertyName, text)
                 .AddToParent(context.ParentInfo)
                 .RegisterLivecycleObserver(context.ParentInfo);
         }
@@ -135,7 +149,7 @@ namespace Neptuo.Web.Framework.Compilation
                 .RegisterLivecycleObserver(helper.Context.ParentInfo);
 
             if (String.IsNullOrWhiteSpace(element.Prefix))
-                creator.SetProperty(TypeHelper.PropertyName<GenericContentControl>(c => c.TagName), element.Name);
+                creator.SetProperty(genericContentTagNamePropertyName, element.Name);
 
             BindProperties(helper, creator, element);
 
@@ -273,7 +287,6 @@ namespace Neptuo.Web.Framework.Compilation
                 ParentInfo parent = helper.Context.ParentInfo;
                 helper.Context.ParentInfo = new ParentInfo(creator, prop.Name, null, prop.PropertyType);
 
-                //TODO: Run ...
                 GenerateRecursive(helper, content);
 
                 helper.Context.ParentInfo = parent;
@@ -288,14 +301,51 @@ namespace Neptuo.Web.Framework.Compilation
             if (observerAttribute != null)
                 livecycle = observerAttribute.Livecycle;
 
-            //TODO: ObserverBuilder
+            CodeObjectCreator observer = helper.Context.CodeGenerator.CreateControl();
+            if (livecycle == ObserverLivecycle.PerPage && globalObservers.ContainsKey(observerType))
+            {
+                //TODO: Nutno vyřešit porblém se jménem bind metody
+                //observer.Field = globalObservers[observerType].Field;
+                //observer.FieldType = globalObservers[observerType].FieldType;
+                observer = globalObservers[observerType];
+            }
+            else if (livecycle == ObserverLivecycle.PerControl && controlObservers.ContainsKey(creator) && controlObservers[creator].ContainsKey(observerType))
+            {
+                //TODO: Nutno vyřešit porblém se jménem bind metody
+                //observer.Field = controlObservers[creator][observerType].Field;
+                //observer.FieldType = controlObservers[creator][observerType].FieldType;
+                //observer.CreateBindMethod(typeof(object));
+                observer = controlObservers[creator][observerType];
+            }
+            else
+            {
+                //TODO: ObserverBuilder
+                BuilderAttribute builder = BuilderAttribute.GetAttribute(observerType);
+                if (builder != null)
+                {
+                    throw new NotImplementedException("Remove parent info before supporting ObserverBuilder");
+                }
+                else
+                {
+                    observer = helper.Context.CodeGenerator
+                        .CreateControl()
+                        .Declare(observerType, typeof(object))
+                        .CreateInstance();
+                }
 
+                if (livecycle == ObserverLivecycle.PerPage)
+                {
+                    globalObservers.Add(observerType, observer);
+                }
+                else if (livecycle == ObserverLivecycle.PerControl)
+                {
+                    if (!controlObservers.ContainsKey(creator))
+                        controlObservers.Add(creator, new Dictionary<Type, CodeObjectCreator>());
 
-            CodeObjectCreator observer = helper.Context.CodeGenerator.CreateControl()
-                .Declare(observerType, typeof(object))
-                .CreateInstance();
+                    controlObservers[creator].Add(observerType, observer);
+                }
+            }
 
-            //TODO: Compile attribute value
             ParentInfo parent = helper.Context.ParentInfo;
             helper.Context.ParentInfo = new ParentInfo(observer, null, null, typeof(object)) { AsReturnStatement = true };
 
