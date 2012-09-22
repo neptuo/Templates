@@ -58,6 +58,7 @@
     <Compile Include="Compilation\ExtensionValueCompiler.cs" />
     <Compile Include="Compilation\CodeObjectCreator.cs" />
     <Compile Include="Compilation\IXmlObserverBuilder.cs" />
+    <Compile Include="Compilation\StandartCodeCompiler.cs" />
     <Compile Include="Compilation\XmlBuilderContext.cs" />
     <Compile Include="Compilation\XmlContentCompiler.cs" />
     <Compile Include="Compilation\IContentCompiler.cs" />

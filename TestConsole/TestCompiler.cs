@@ -24,9 +24,20 @@ namespace TestConsole
 
         public static void Test()
         {
-            GenerateCode();
+            //GenerateCode();
             //CompileCode();
             //RunCode();
+            RunStandart();
+        }
+
+        private static void RunStandart()
+        {
+            StandartCodeCompiler compiler = new StandartCodeCompiler();
+            compiler.GeneratedCodeFolder = @"C:\Temp\NeptuoFramework";
+            compiler.Registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
+            compiler.Registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
+            compiler.Registrator.RegisterObserver("ui", "visible", typeof(Neptuo.Web.Framework.Observers.VisibleObserver));
+            compiler.ProcessView("Index.html");
         }
 
         private static void GenerateCode()

@@ -311,7 +311,7 @@ namespace Neptuo.Web.Framework.Compilation
             }
             else if (livecycle == ObserverLivecycle.PerControl && controlObservers.ContainsKey(creator) && controlObservers[creator].ContainsKey(observerType))
             {
-                //TODO: Nutno vyřešit porblém se jménem bind metody
+                //TODO: Nutno vyřešit problém se jménem bind metody
                 //observer.Field = controlObservers[creator][observerType].Field;
                 //observer.FieldType = controlObservers[creator][observerType].FieldType;
                 //observer.CreateBindMethod(typeof(object));
