@@ -33,6 +33,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,24 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration.cs" />
-    <Compile Include="DependencyAttributes.cs" />
-    <Compile Include="DirectViewProcessor.cs" />
-    <Compile Include="HtmlEvaluator.cs" />
-    <Compile Include="HtmlExtensionEvaluator.cs" />
-    <Compile Include="HtmlView.cs" />
-    <Compile Include="HtmlViewEngine.cs" />
-    <Compile Include="IViewProcessor.cs" />
-    <Compile Include="MarkupExtensions\BindingExtension.cs" />
+    <Compile Include="View.cs" />
+    <Compile Include="ViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utils\DependencyContainer.cs" />
-    <Compile Include="Utils\Dynamic.cs" />
-    <Compile Include="Utils\EvaluationHelper.cs" />
-    <Compile Include="Utils\ObjectActivator.cs" />
     <Compile Include="Utils\StackStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controls\" />
+    <Folder Include="Extensions\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Web.Framework\Neptuo.Web.Framework.csproj">
+      <Project>{d99d6428-ba37-4426-9ab3-7a57ac3cc9ca}</Project>
+      <Name>Neptuo.Web.Framework</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

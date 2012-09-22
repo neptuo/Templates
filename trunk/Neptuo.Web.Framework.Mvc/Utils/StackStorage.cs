@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Mvc.ViewEngine.Utils
+namespace Neptuo.Web.Framework.Mvc.Utils
 {
     /// <summary>
     /// Stack storage.

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Neptuo.Web.Framework.Mvc;
 
 namespace TestWebMvc
 {
@@ -35,6 +36,8 @@ namespace TestWebMvc
 
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
+
+            ViewEngines.Engines.Insert(0, new ViewEngine());
         }
     }
 }
