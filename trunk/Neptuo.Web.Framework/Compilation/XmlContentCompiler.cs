@@ -1,12 +1,10 @@
 ﻿using System;
-using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Xml;
 using Neptuo.Web.Framework.Annotations;
 using Neptuo.Web.Framework.Utils;
@@ -252,7 +250,7 @@ namespace Neptuo.Web.Framework.Compilation
             DependencyAttribute dependency = DependencyAttribute.GetAttribute(prop);
             if (dependency != null)
             {
-                creator.SetProperty(prop.Name, helper.Context.CodeGenerator.GetDependencyFromService(prop.PropertyType));
+                creator.SetProperty(prop.Name, helper.Context.CodeGenerator.GetDependencyFromServiceProvider(prop.PropertyType));
             }
             else
             {
@@ -267,9 +265,13 @@ namespace Neptuo.Web.Framework.Compilation
             if (ReflectionHelper.IsGenericType<IList>(prop.PropertyType))
             {
                 ParentInfo parent = helper.Context.ParentInfo;
-                helper.Context.ParentInfo = new ParentInfo(creator, prop.Name, "Add", ReflectionHelper.GetGenericArgument(prop.PropertyType));
+                helper.Context.ParentInfo = new ParentInfo(
+                    creator, 
+                    prop.Name, 
+                    TypeHelper.MethodName<IList, object, int>(l => l.Add), 
+                    ReflectionHelper.GetGenericArgument(prop.PropertyType)
+                );
 
-                //TODO: Run ...
                 GenerateRecursive(helper, content);
 
                 helper.Context.ParentInfo = parent;
@@ -304,7 +306,7 @@ namespace Neptuo.Web.Framework.Compilation
             CodeObjectCreator observer = helper.Context.CodeGenerator.CreateControl();
             if (livecycle == ObserverLivecycle.PerPage && globalObservers.ContainsKey(observerType))
             {
-                //TODO: Nutno vyřešit porblém se jménem bind metody
+                //TODO: Nutno vyřešit problém se jménem bind metody
                 //observer.Field = globalObservers[observerType].Field;
                 //observer.FieldType = globalObservers[observerType].FieldType;
                 observer = globalObservers[observerType];

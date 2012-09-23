@@ -15,9 +15,7 @@ namespace Neptuo.Web.Framework.Annotations
         public string Name { get; private set; }
 
         public ControlPropertyAttribute()
-        {
-
-        }
+        { }
 
         public ControlPropertyAttribute(string name)
         {

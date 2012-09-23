@@ -26,7 +26,7 @@ namespace Neptuo.Web.Framework.Compilation
             };
         }
 
-        public CodeExpression GetDependencyFromService(Type toResolve)
+        public CodeExpression GetDependencyFromServiceProvider(Type toResolve)
         {
             return new CodeCastExpression(
                 new CodeTypeReference(toResolve),
@@ -58,7 +58,12 @@ namespace Neptuo.Web.Framework.Compilation
 
         public CodeMethodInvokeExpression InvokeRenderMethod(CodeMemberField field)
         {
-            return InvokeMethod(field, RenderMethod, "Render", new CodeVariableReferenceExpression(Names.RenderMethodWriterParameter));
+            return InvokeMethod(
+                field, 
+                RenderMethod, 
+                TypeHelper.MethodName<IViewPage, HtmlTextWriter>(v => v.Render), 
+                new CodeVariableReferenceExpression(Names.RenderMethodWriterParameter)
+            );
         }
 
         public CodeMethodInvokeExpression InvokeDisposeMethod(CodeMemberField field)
@@ -70,8 +75,6 @@ namespace Neptuo.Web.Framework.Compilation
                 new CodeVariableReferenceExpression(Names.RenderMethodWriterParameter)
             );
         }
-
-
 
         public CodeExpression CreateFieldReferenceOrMethodCall(CodeMemberField field, string fieldMethodName = null, Type castTo = null)
         {

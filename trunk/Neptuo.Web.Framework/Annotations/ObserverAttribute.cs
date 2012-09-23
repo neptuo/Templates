@@ -13,8 +13,12 @@ namespace Neptuo.Web.Framework.Annotations
         public ObserverLivecycle Livecycle { get; set; }
 
         public ObserverAttribute()
+            : this(ObserverLivecycle.PerAttribute)
+        { }
+
+        public ObserverAttribute(ObserverLivecycle livecycle)
         {
-            Livecycle = ObserverLivecycle.PerAttribute;
+            Livecycle = livecycle;
         }
 
         public static ObserverAttribute GetAttribute(Type prop)

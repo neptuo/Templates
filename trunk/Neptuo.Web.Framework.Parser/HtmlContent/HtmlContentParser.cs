@@ -6,6 +6,7 @@ using System.Text.RegularExpressions;
 
 namespace Neptuo.Web.Framework.Parser.HtmlContent
 {
+    [Obsolete]
     public class HtmlContentParser : IContentParser<HtmlTag>
     {
         private static readonly Regex StartTagRegex = new Regex(@"<(?<TagNamespace>\w+):(?<TagName>\w+)");

@@ -171,7 +171,7 @@ namespace Neptuo.Web.Framework
         }
     }
 
-    public class LivecycleEntry
+    internal class LivecycleEntry
     {
         public object Parent { get; set; }
         public object Control { get; set; }
@@ -189,19 +189,7 @@ namespace Neptuo.Web.Framework
         }
     }
 
-    [Serializable]
-    public class LivecycleException : Exception
-    {
-        public LivecycleException() { }
-        public LivecycleException(string message) : base(message) { }
-        public LivecycleException(string message, Exception inner) : base(message, inner) { }
-        protected LivecycleException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
-    }
-
-    public class ObserverInfo
+    internal class ObserverInfo
     {
         public string AttributeName { get; set; }
 

@@ -147,7 +147,6 @@ namespace Neptuo.Web.Framework.Compilation
                 new CodeVariableReferenceExpression(BindMethod.Name)
             ));
 
-
             return this;
         }
 
