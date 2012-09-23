@@ -18,10 +18,7 @@ namespace Neptuo.Web.Framework.Compilation
             bool parsed = false;
 
             Helper helper = new Helper(context);
-            helper.Parser.OnParsedItem = (e) =>
-            {
-                parsed = GenerateExtension(helper, e.ParsedItem);
-            };
+            helper.Parser.OnParsedItem = (e) => parsed = GenerateExtension(helper, e.ParsedItem);
             helper.Parser.Parse(content);
 
             return parsed;
@@ -45,7 +42,10 @@ namespace Neptuo.Web.Framework.Compilation
             {
                 creator.AsReturnStatement(
                     helper.Context.ParentInfo, 
-                    helper.Context.CodeGenerator.CreateFieldReferenceOrMethodCall(creator.Field, TypeHelper.MethodName<IMarkupExtension, object>(e => e.ProvideValue))
+                    helper.Context.CodeGenerator.CreateFieldReferenceOrMethodCall(
+                        creator.Field, 
+                        TypeHelper.MethodName<IMarkupExtension, object>(e => e.ProvideValue)
+                    )
                 );
             }
             else
@@ -112,7 +112,7 @@ namespace Neptuo.Web.Framework.Compilation
             DependencyAttribute dependency = DependencyAttribute.GetAttribute(prop);
             if (dependency != null)
             {
-                creator.SetProperty(prop.Name, helper.Context.CodeGenerator.GetDependencyFromService(prop.PropertyType));
+                creator.SetProperty(prop.Name, helper.Context.CodeGenerator.GetDependencyFromServiceProvider(prop.PropertyType));
             }
             else
             {

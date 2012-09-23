@@ -28,7 +28,14 @@ namespace TestConsole
             //TestLocalization.Test();
             //TestLambda.Test();
 
+            //PropertyInfo property = typeof(X).GetProperty("Getter");
+
             Console.ReadKey(true);
         }
+    }
+
+    class X
+    {
+        public Func<int, int> Getter { get; set; }
     }
 }

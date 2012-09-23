@@ -84,8 +84,6 @@ namespace Neptuo.Web.Framework.Compilation
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            //Assembly views = Assembly.Load(assemblyName.Substring(0, assemblyName.Length - 4));
-            //TODO: Absolutní název view!!!!
             Assembly views = Assembly.LoadFile(assemblyName);
             Type generatedView = views.GetType("Neptuo.Web.Framework.Generated.GeneratedView");
 
@@ -147,7 +145,12 @@ namespace Neptuo.Web.Framework.Compilation
             {
                 CodeGenerator = generator,
                 ServiceProvider = serviceProvider,
-                ParentInfo = new ParentInfo(generator.CreateViewPage(), TypeHelper.PropertyName<IViewPage>(p => p.Content), "Add", typeof(object))
+                ParentInfo = new ParentInfo(
+                    generator.CreateViewPage(), 
+                    TypeHelper.PropertyName<IViewPage>(p => p.Content), 
+                    TypeHelper.MethodName<IList<object>, object>(l => l.Add), 
+                    typeof(object)
+                )
             };
 
             CompilerService compiler = new CompilerService();

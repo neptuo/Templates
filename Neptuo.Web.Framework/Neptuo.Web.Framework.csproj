@@ -78,6 +78,7 @@
     <Compile Include="IGeneratedView.cs" />
     <Compile Include="ILivecycleObserver.cs" />
     <Compile Include="IMarkupExtension.cs" />
+    <Compile Include="Impl\LivecycleException.cs" />
     <Compile Include="Impl\Models.cs" />
     <Compile Include="Impl\Registrator.cs" />
     <Compile Include="IObserver.cs" />
@@ -96,7 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Web.Framework.Parser\Neptuo.Web.Framework.Parser.csproj">
-      <Project>{EBF1D2D2-3170-470A-A168-EB613268F777}</Project>
+      <Project>{ebf1d2d2-3170-470a-a168-eb613268f777}</Project>
       <Name>Neptuo.Web.Framework.Parser</Name>
     </ProjectReference>
   </ItemGroup>
