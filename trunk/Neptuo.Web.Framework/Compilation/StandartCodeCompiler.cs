@@ -28,7 +28,6 @@ namespace Neptuo.Web.Framework.Compilation
             AddAssembly(@"C:\Temp\NeptuoFramework\Neptuo.Web.Framework.dll");
         }
 
-        //TODO: Vytvořit třídu, která se o vše postará - instance per ProcessView
         public string ProcessView(string fileName)
         {
             ILivecycleObserver observer = new StandartLivecycleObserver();
@@ -85,7 +84,9 @@ namespace Neptuo.Web.Framework.Compilation
             stopwatch.Start();
 
             Assembly views = Assembly.LoadFile(assemblyName);
-            Type generatedView = views.GetType("Neptuo.Web.Framework.Generated.GeneratedView");
+            Type generatedView = views.GetType(
+                String.Format("{0}.{1}", BaseCodeGenerator.Names.CodeNamespace, BaseCodeGenerator.Names.ClassName)
+            );
 
             StringWriter output = new StringWriter();
 
@@ -141,7 +142,7 @@ namespace Neptuo.Web.Framework.Compilation
 
             Neptuo.Web.Framework.Compilation.CodeGenerator generator = new Neptuo.Web.Framework.Compilation.CodeGenerator();
 
-            var context = new CompilerContext
+            var context = new GeneratorContext
             {
                 CodeGenerator = generator,
                 ServiceProvider = serviceProvider,
@@ -153,10 +154,10 @@ namespace Neptuo.Web.Framework.Compilation
                 )
             };
 
-            CompilerService compiler = new CompilerService();
-            compiler.ContentCompiler = new XmlContentCompiler(typeof(LiteralControl), TypeHelper.PropertyName<LiteralControl>(l => l.Text), typeof(GenericContentControl), TypeHelper.PropertyName<GenericContentControl>(c => c.TagName));
-            compiler.ValueCompilers.Add(new ExtensionValueCompiler());
-            compiler.CompileContent(viewContent, context);
+            CodeGeneratorService compiler = new CodeGeneratorService();
+            compiler.ContentGenerator = new DefaultContentGenerator(typeof(LiteralControl), TypeHelper.PropertyName<LiteralControl>(l => l.Text), typeof(GenericContentControl), TypeHelper.PropertyName<GenericContentControl>(c => c.TagName));
+            compiler.ValueGenerators.Add(new ExtensionValueGenerator());
+            compiler.ProcessContent(viewContent, context);
 
             generator.FinalizeClass();
 

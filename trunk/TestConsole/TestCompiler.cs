@@ -51,17 +51,17 @@ namespace TestConsole
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
             registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
 
-            var context = new CompilerContext
+            var context = new GeneratorContext
             {
                 CodeGenerator = generator,
                 ServiceProvider = serviceProvider,
                 ParentInfo = new ParentInfo(generator.CreateViewPage(), TypeHelper.PropertyName<IViewPage>(p => p.Content), "Add", typeof(object))
             };
 
-            CompilerService compiler = new CompilerService();
-            compiler.ContentCompiler = new XmlContentCompiler(typeof(LiteralControl), TypeHelper.PropertyName<LiteralControl>(l => l.Text), typeof(GenericContentControl), TypeHelper.PropertyName<GenericContentControl>(c => c.TagName));
-            compiler.ValueCompilers.Add(new ExtensionValueCompiler());
-            compiler.CompileContent(File.ReadAllText("Index.html"), context);
+            CodeGeneratorService compiler = new CodeGeneratorService();
+            compiler.ContentGenerator = new DefaultContentGenerator(typeof(LiteralControl), TypeHelper.PropertyName<LiteralControl>(l => l.Text), typeof(GenericContentControl), TypeHelper.PropertyName<GenericContentControl>(c => c.TagName));
+            compiler.ValueGenerators.Add(new ExtensionValueGenerator());
+            compiler.ProcessContent(File.ReadAllText("Index.html"), context);
 
             generator.FinalizeClass();
 

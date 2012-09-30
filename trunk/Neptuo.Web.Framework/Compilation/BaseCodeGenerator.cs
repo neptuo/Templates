@@ -17,6 +17,7 @@ namespace Neptuo.Web.Framework.Compilation
         public static class Names
         {
             public const string CodeNamespace = "Neptuo.Web.Framework.Generated";
+            public const string ClassName = "GeneratedView";
             public const string RequestField = "request";
             public const string ResponseField = "response";
             public const string ViewPageField = "viewPage";
@@ -87,7 +88,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         private void CreateClass()
         {
-            Class = new CodeTypeDeclaration("GeneratedView");
+            Class = new CodeTypeDeclaration(Names.ClassName);
             Class.IsClass = true;
             Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
             Class.BaseTypes.Add(new CodeTypeReference(typeof(IGeneratedView)));
