@@ -76,9 +76,9 @@ namespace Neptuo.Web.Framework.Controls
     {
         public void GenerateControl(Type controlType, XmlElement source, XmlBuilderContext context)
         {
-            XmlContentCompiler compiler = context.ContentCompiler as XmlContentCompiler;
+            DefaultContentGenerator compiler = context.ContentGenerator as DefaultContentGenerator;
             if (compiler != null)
-                compiler.GenerateControl(new XmlContentCompiler.Helper(null, context), controlType, source);
+                compiler.GenerateControl(new DefaultContentGenerator.Helper(null, context), controlType, source);
         }
     }
 

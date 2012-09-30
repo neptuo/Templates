@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class XmlBuilderContext : ContentCompilerContext
+    public class XmlBuilderContext : ContentGeneratorContext
     {
-        public IContentCompiler ContentCompiler { get; set; }
+        public IContentCodeGenerator ContentGenerator { get; set; }
 
-        public XmlBuilderContext(ContentCompilerContext baseContext, IContentCompiler contentCompiler)
-            : base(baseContext.CompilerContext, baseContext.CompilerService)
+        public XmlBuilderContext(ContentGeneratorContext baseContext, IContentCodeGenerator contentGenerator)
+            : base(baseContext.GeneratorContext, baseContext.GeneratorService)
         {
             CodeGenerator = baseContext.CodeGenerator;
-            CompilerContext = baseContext.CompilerContext;
+            GeneratorContext = baseContext.GeneratorContext;
             ServiceProvider = baseContext.ServiceProvider;
             ParentInfo = baseContext.ParentInfo;
-            ContentCompiler = contentCompiler;
+            ContentGenerator = contentGenerator;
         }
     }
 }

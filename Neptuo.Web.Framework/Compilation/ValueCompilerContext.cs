@@ -5,19 +5,19 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class ValueCompilerContext : CompilerContext
+    public class ValueGeneratorContext : GeneratorContext
     {
-        public CompilerService CompilerService { get; set; }
+        public CodeGeneratorService GeneratorService { get; set; }
 
-        public CompilerContext CompilerContext { get; set; }
+        public GeneratorContext GeneratorContext { get; set; }
 
-        public ValueCompilerContext(CompilerContext compilerContext, CompilerService compilerService)
+        public ValueGeneratorContext(GeneratorContext generatorContext, CodeGeneratorService generatorService)
         {
-            CompilerContext = compilerContext;
-            CompilerService = compilerService;
-            CodeGenerator = compilerContext.CodeGenerator;
-            ServiceProvider = compilerContext.ServiceProvider;
-            ParentInfo = compilerContext.ParentInfo;
+            GeneratorContext = generatorContext;
+            GeneratorService = generatorService;
+            CodeGenerator = generatorContext.CodeGenerator;
+            ServiceProvider = generatorContext.ServiceProvider;
+            ParentInfo = generatorContext.ParentInfo;
         }
     }
 }
