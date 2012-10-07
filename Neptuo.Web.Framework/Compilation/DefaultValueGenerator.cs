@@ -9,9 +9,9 @@ using TypeConverter = Neptuo.Web.Framework.Utils.TypeConverter;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class DefaultValueCompiler : IValueCompiler
+    public class DefaultValueGenerator : IValueCodeGenerator
     {
-        public bool GenerateCode(string content, ValueCompilerContext context)
+        public bool GenerateCode(string content, ValueGeneratorContext context)
         {
             CodeGenerator generator = context.CodeGenerator;
 
@@ -29,7 +29,7 @@ namespace Neptuo.Web.Framework.Compilation
             return true;
         }
 
-        private void BindPropertyDefaultValue(ValueCompilerContext context)
+        private void BindPropertyDefaultValue(ValueGeneratorContext context)
         {
             DefaultValueAttribute attr = ReflectionHelper.GetAttribute<DefaultValueAttribute>(context.ParentInfo.RequiredType);
             if (attr != null)

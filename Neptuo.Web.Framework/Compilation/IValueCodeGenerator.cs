@@ -7,12 +7,12 @@ using System.Reflection;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public interface IValueCompiler
+    public interface IValueCodeGenerator
     {
-        bool GenerateCode(string content, ValueCompilerContext context);
+        bool GenerateCode(string content, ValueGeneratorContext context);
     }
 
-    public class ValueCompilerTarget
+    public class ValueCodeGeneratorTarget
     {
         public CodeMemberField Field { get; set; }
 

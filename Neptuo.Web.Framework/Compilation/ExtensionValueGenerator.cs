@@ -11,9 +11,9 @@ using Neptuo.Web.Framework.Annotations;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class ExtensionValueCompiler : IValueCompiler
+    public class ExtensionValueGenerator : IValueCodeGenerator
     {
-        public bool GenerateCode(string content, ValueCompilerContext context)
+        public bool GenerateCode(string content, ValueGeneratorContext context)
         {
             bool parsed = false;
 
@@ -72,7 +72,7 @@ namespace Neptuo.Web.Framework.Compilation
                         ParentInfo parent = helper.Context.ParentInfo;
                         helper.Context.ParentInfo = new ParentInfo(creator, item.Value.Name, null, item.Value.PropertyType);
 
-                        helper.Context.CompilerService.CompileValue(attribute.Value, helper.Context);
+                        helper.Context.GeneratorService.ProcessValue(attribute.Value, helper.Context);
 
                         helper.Context.ParentInfo = parent;
 
@@ -96,7 +96,7 @@ namespace Neptuo.Web.Framework.Compilation
                     ParentInfo parent = helper.Context.ParentInfo;
                     helper.Context.ParentInfo = new ParentInfo(creator, defaultProperty.Name, null, defaultProperty.PropertyType);
 
-                    helper.Context.CompilerService.CompileValue(extension.DefaultAttributeValue, helper.Context);
+                    helper.Context.GeneratorService.ProcessValue(extension.DefaultAttributeValue, helper.Context);
 
                     helper.Context.ParentInfo = parent;
                 }
@@ -124,13 +124,13 @@ namespace Neptuo.Web.Framework.Compilation
 
         public class Helper
         {
-            public ValueCompilerContext Context { get; protected set; }
+            public ValueGeneratorContext Context { get; protected set; }
 
             public IRegistrator Registrator { get; protected set; }
 
             public ExtensionContentParser Parser { get; protected set; }
 
-            public Helper(ValueCompilerContext context)
+            public Helper(ValueGeneratorContext context)
             {
                 Context = context;
                 Registrator = ((IRegistrator)Context.ServiceProvider.GetService(typeof(IRegistrator)));

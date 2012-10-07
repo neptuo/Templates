@@ -6,16 +6,16 @@ using System.CodeDom;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class ContentCompilerContext : CompilerContext
+    public class ContentGeneratorContext : GeneratorContext
     {
-        public CompilerService CompilerService { get; set; }
+        public CodeGeneratorService GeneratorService { get; set; }
 
-        public CompilerContext CompilerContext { get; set; }
+        public GeneratorContext GeneratorContext { get; set; }
 
-        public ContentCompilerContext(CompilerContext compilerContext, CompilerService compilerService)
+        public ContentGeneratorContext(GeneratorContext compilerContext, CodeGeneratorService compilerService)
         {
-            CompilerContext = compilerContext;
-            CompilerService = compilerService;
+            GeneratorContext = compilerContext;
+            GeneratorService = compilerService;
             CodeGenerator = compilerContext.CodeGenerator;
             ServiceProvider = compilerContext.ServiceProvider;
             ParentInfo = compilerContext.ParentInfo;
