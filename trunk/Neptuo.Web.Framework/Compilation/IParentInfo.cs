@@ -5,8 +5,10 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public interface IContentCompiler
+    public interface IParentInfo
     {
-        bool GenerateCode(string content, ContentCompilerContext context);
+        Type RequiredType { get; }
+
+        void AddChild(CodeObjectCreator codeObject);
     }
 }

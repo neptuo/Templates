@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class CompilerContext
+    public class GeneratorContext
     {
         public CodeGenerator CodeGenerator { get; set; }
 

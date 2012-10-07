@@ -12,7 +12,7 @@ using TypeConverter = Neptuo.Web.Framework.Utils.TypeConverter;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class XmlContentCompiler : IContentCompiler
+    public class DefaultContentGenerator : IContentCodeGenerator
     {
         private Dictionary<Type, CodeObjectCreator> globalObservers = new Dictionary<Type, CodeObjectCreator>();
         private Dictionary<object, Dictionary<Type, CodeObjectCreator>> controlObservers = new Dictionary<object, Dictionary<Type, CodeObjectCreator>>();
@@ -21,7 +21,7 @@ namespace Neptuo.Web.Framework.Compilation
         private Type genericContentType;
         private string genericContentTagNamePropertyName;
 
-        public XmlContentCompiler(Type literalType, string literalTextPropertyName, Type genericContentType, string genericContentTagNamePropertyName)
+        public DefaultContentGenerator(Type literalType, string literalTextPropertyName, Type genericContentType, string genericContentTagNamePropertyName)
         {
             this.literalType = literalType;
             this.literalTextPropertyName = literalTextPropertyName;
@@ -29,7 +29,7 @@ namespace Neptuo.Web.Framework.Compilation
             this.genericContentTagNamePropertyName = genericContentTagNamePropertyName;
         }
 
-        public bool GenerateCode(string content, ContentCompilerContext context)
+        public bool GenerateCode(string content, ContentGeneratorContext context)
         {
             Helper helper = new Helper(content, context);
 
@@ -118,7 +118,7 @@ namespace Neptuo.Web.Framework.Compilation
             return false;
         }
 
-        private void AppendPlainText(string text, ContentCompilerContext context)
+        private void AppendPlainText(string text, ContentGeneratorContext context)
         {
             bool canUse = context.ParentInfo.RequiredType.IsAssignableFrom(literalType);
 
@@ -172,7 +172,7 @@ namespace Neptuo.Web.Framework.Compilation
                         ParentInfo parent = helper.Context.ParentInfo;
                         helper.Context.ParentInfo = new ParentInfo(creator, item.Value.Name, null, item.Value.PropertyType);
                         
-                        helper.Context.CompilerService.CompileValue(attribute.Value, helper.Context);
+                        helper.Context.GeneratorService.ProcessValue(attribute.Value, helper.Context);
                         
                         helper.Context.ParentInfo = parent;
 
@@ -351,7 +351,7 @@ namespace Neptuo.Web.Framework.Compilation
             ParentInfo parent = helper.Context.ParentInfo;
             helper.Context.ParentInfo = new ParentInfo(observer, null, null, typeof(object)) { AsReturnStatement = true };
 
-            helper.Context.CompilerService.CompileValue(attribute.Value, helper.Context);
+            helper.Context.GeneratorService.ProcessValue(attribute.Value, helper.Context);
 
             helper.Context.ParentInfo = parent;
 
@@ -360,7 +360,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         public class Helper
         {
-            public ContentCompilerContext Context { get; protected set; }
+            public ContentGeneratorContext Context { get; protected set; }
 
             public XmlDocument Document { get; protected set; }
 
@@ -368,7 +368,7 @@ namespace Neptuo.Web.Framework.Compilation
 
             public StringBuilder Content { get; protected set; }
 
-            public Helper(string xml, ContentCompilerContext context)
+            public Helper(string xml, ContentGeneratorContext context)
             {
                 Context = context;
                 Registrator = ((IRegistrator)Context.ServiceProvider.GetService(typeof(IRegistrator)));
