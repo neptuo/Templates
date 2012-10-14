@@ -5,11 +5,10 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    public class StandartLivecycleObserver : ILivecycleObserver
+    public partial class StandartLivecycleObserver : ILivecycleObserver
     {
         private Dictionary<object, LivecycleEntry> entries = new Dictionary<object, LivecycleEntry>();
         private Dictionary<object, List<LivecycleEntry>> children = new Dictionary<object, List<LivecycleEntry>>();
-
         private object root = new object();
 
         public StandartLivecycleObserver()
@@ -19,7 +18,7 @@ namespace Neptuo.Web.Framework
 
         public IEnumerable<object> GetControls()
         {
-            return entries.Values;
+            return entries.Keys;
         }
 
         public void Register(object parent, object control, Action propertyBinder)
@@ -84,7 +83,7 @@ namespace Neptuo.Web.Framework
             bool canInit = true;
             if (entry.Observers.Count > 0)
             {
-                ObserverEventArgs args = CreateObserverEventArgs(target);
+                ObserverEventArgs args = new ObserverEventArgs(target);
                 foreach (ObserverInfo info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
@@ -123,7 +122,7 @@ namespace Neptuo.Web.Framework
             bool canRender = true;
             if (entry.Observers.Count > 0)
             {
-                ObserverEventArgs args = CreateObserverEventArgs(target);
+                ObserverEventArgs args = new ObserverEventArgs(target);
                 foreach (ObserverInfo info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
@@ -161,46 +160,6 @@ namespace Neptuo.Web.Framework
                 target.Dispose();
                 entry.IsDisposed = true;
             }
-        }
-
-        private ObserverEventArgs CreateObserverEventArgs(IControl target)
-        {
-            return new ObserverEventArgs
-            {
-                Target = target
-            };
-        }
-    }
-
-    internal class LivecycleEntry
-    {
-        public object Parent { get; set; }
-        public object Control { get; set; }
-        public Action PropertyBinder { get; set; }
-
-        public List<ObserverInfo> Observers { get; set; }
-
-        public bool ArePropertiesBound { get; set; }
-        public bool IsInited { get; set; }
-        public bool IsDisposed { get; set; }
-
-        public LivecycleEntry()
-        {
-            Observers = new List<ObserverInfo>();
-        }
-    }
-
-    internal class ObserverInfo
-    {
-        public IObserver Observer { get; set; }
-        public Action PropertyBinder { get; set; }
-
-        public bool ArePropertiesBound { get; set; }
-
-        public ObserverInfo(IObserver observer, Action propertyBinder)
-        {
-            Observer = observer;
-            PropertyBinder = propertyBinder;
         }
     }
 }
