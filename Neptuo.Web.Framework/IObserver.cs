@@ -14,11 +14,7 @@ namespace Neptuo.Web.Framework
 
     public class ObserverEventArgs : EventArgs
     {
-        public string AttributeName { get; set; }
-
-        public object AttributeValue { get; set; }
-
-        public object Target { get; set; }
+        public IControl Target { get; set; }
 
         public bool Cancel { get; set; }
     }
