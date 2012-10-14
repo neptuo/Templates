@@ -48,7 +48,6 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCompilation.cs" />
-    <Compile Include="TestCompilerOLD.cs" />
     <Compile Include="TestConverter.cs" />
     <Compile Include="TestParser.cs" />
     <Compile Include="TestXml.cs" />
