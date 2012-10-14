@@ -15,7 +15,11 @@ namespace Neptuo.Web.Framework
     public class ObserverEventArgs : EventArgs
     {
         public IControl Target { get; set; }
-
         public bool Cancel { get; set; }
+
+        public ObserverEventArgs(IControl target)
+        {
+            Target = target;
+        }
     }
 }

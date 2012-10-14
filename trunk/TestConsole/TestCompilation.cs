@@ -34,14 +34,8 @@ namespace TestConsole
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            XmlContentParser.LiteralTypeDescriptor literal = new XmlContentParser.LiteralTypeDescriptor(
-                typeof(LiteralControl), 
-                TypeHelper.PropertyName<LiteralControl>(l => l.Text)
-            );
-            XmlContentParser.GenericContentTypeDescriptor genericContent = new XmlContentParser.GenericContentTypeDescriptor(
-                typeof(GenericContentControl),
-                TypeHelper.PropertyName<GenericContentControl>(c => c.TagName)
-            );
+            XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
+            XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
             IParserService parserService = new DefaultParserService();
             parserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
