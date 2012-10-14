@@ -47,12 +47,17 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestCompiler.cs" />
+    <Compile Include="TestCompilation.cs" />
+    <Compile Include="TestCompilerOLD.cs" />
     <Compile Include="TestConverter.cs" />
     <Compile Include="TestParser.cs" />
     <Compile Include="TestXml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Web.Framework.Implementation\Neptuo.Web.Framework.Implementation.csproj">
+      <Project>{b516b554-2ac9-4a6e-b9b0-35504ad425fe}</Project>
+      <Name>Neptuo.Web.Framework.Implementation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Web.Framework.Parser\Neptuo.Web.Framework.Parser.csproj">
       <Project>{EBF1D2D2-3170-470A-A168-EB613268F777}</Project>
       <Name>Neptuo.Web.Framework.Parser</Name>

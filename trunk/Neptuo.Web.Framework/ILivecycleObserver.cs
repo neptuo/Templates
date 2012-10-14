@@ -9,11 +9,9 @@ namespace Neptuo.Web.Framework
     {
         IEnumerable<object> GetControls();
 
-        void Register(object parent, object control);
-
         void Register(object parent, object control, Action propertyBinder);
 
-        void RegisterObserver(object control, IObserver observer, string attributeName, Func<object> observerInitializer);
+        void AttachObserver(IControl control, IObserver observer, Action propertyBinder);
 
         void Init(object control);
 

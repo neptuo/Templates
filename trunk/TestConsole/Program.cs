@@ -17,7 +17,7 @@ namespace TestConsole
             //IEvaluator evaluator = (IEvaluator)Activator.CreateInstance(LoadType("Neptuo.Web.Mvc.ViewEngine.HtmlEvaluator, Neptuo.Web.Mvc"));
 
             //TestParser.Test();
-            TestCompiler.Test();
+            TestCompilation.Test();
             //TestConverter.Test();
             //TestXml.Test();
 

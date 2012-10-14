@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebMvc", "TestWebMvc\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Web.Framework.Parser", "Neptuo.Web.Framework.Parser\Neptuo.Web.Framework.Parser.csproj", "{EBF1D2D2-3170-470A-A168-EB613268F777}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Web.Framework.Implementation", "Neptuo.Web.Framework.Implementation\Neptuo.Web.Framework.Implementation.csproj", "{B516B554-2AC9-4A6E-B9B0-35504AD425FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,16 @@ Global
 		{EBF1D2D2-3170-470A-A168-EB613268F777}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{EBF1D2D2-3170-470A-A168-EB613268F777}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{EBF1D2D2-3170-470A-A168-EB613268F777}.Release|x86.ActiveCfg = Release|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{B516B554-2AC9-4A6E-B9B0-35504AD425FE}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
