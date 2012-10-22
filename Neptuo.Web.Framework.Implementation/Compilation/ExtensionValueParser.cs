@@ -8,7 +8,7 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public partial class ExtensionValueParser : BaseParser, IValueParser
     {
-        public bool Parse(string content, IParserContext context)
+        public bool Parse(string content, IContentParserContext context)
         {
             bool parsed = false;
 
@@ -46,7 +46,7 @@ namespace Neptuo.Web.Framework.Compilation
                     if (propertyName == attribute.Name.ToLowerInvariant())
                     {
                         codeObject.PropertyInfo = new SetPropertyInfo(item.Value);
-                        bool result = helper.Context.GeneratorService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, codeObject));
+                        bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, codeObject));
                         if (!result)
                             BindPropertyDefaultValue(codeObject, item.Value);
 
@@ -68,7 +68,7 @@ namespace Neptuo.Web.Framework.Compilation
                 if (!String.IsNullOrWhiteSpace(extension.DefaultAttributeValue))
                 {
                     codeObject.PropertyInfo = new SetPropertyInfo(defaultProperty);
-                    bool result = helper.Context.GeneratorService.ProcessValue(extension.DefaultAttributeValue, new DefaultParserServiceContext(helper.Context.ServiceProvider, codeObject));
+                    bool result = helper.Context.ParserService.ProcessValue(extension.DefaultAttributeValue, new DefaultParserServiceContext(helper.Context.ServiceProvider, codeObject));
                     if (!result)
                         BindPropertyDefaultValue(codeObject, defaultProperty);
                 }

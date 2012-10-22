@@ -6,21 +6,58 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
+    //public interface ICodeObject
+    //{
+    //    //ITypeDescriptor Type { get; }
+    //    //Dictionary<IPropertyDescriptor, ICodeObject> Properties { get; }
+    //    //IEnumerable<ICodeObserver> Observers { get; }
+
+    //    void AddProperty(ICodeObject propertyObject);
+
+    //    void Generate(ICodeGenerator codeGenerator, ICodeObjectContext context);
+    //}
+
+    //public interface ICodeObjectContext
+    //{
+    //    ICodeObject ParentObject { get; }
+    //}
+
+
+
     public interface ICodeObject
     {
-        //ITypeDescriptor Type { get; }
-        //Dictionary<IPropertyDescriptor, ICodeObject> Properties { get; }
-        //IEnumerable<ICodeObserver> Observers { get; }
 
-        void AddProperty(ICodeObject propertyObject);
-
-        void Generate(ICodeGenerator codeGenerator, ICodeObjectContext context);
     }
 
-    public interface ICodeObjectContext
+    public interface IPropertiesCodeObject : ICodeObject
     {
-        ICodeObject ParentObject { get; }
+        List<IPropertyDescriptor> Properties { get; set; }
     }
+
+    public interface IPlainValueCodeObject : ICodeObject
+    {
+        object Value { get; set; }
+    }
+
+    public interface IControlCodeObject : IPropertiesCodeObject
+    {
+        Type Type { get; set; }
+        List<IObserverCodeObject> Observers { get; set; }
+    }
+
+    public interface IObserverCodeObject : IPropertiesCodeObject
+    {
+        Type Type { get; set; }
+    }
+
+    public interface IPropertyDescriptor
+    {
+        PropertyInfo Property { get; set; }
+
+        void SetValue(ICodeObject value);
+    }
+
+
 
     //public interface ICodeObserver
     //{
@@ -34,11 +71,6 @@ namespace Neptuo.Web.Framework.Compilation
     //public interface ITypeDescriptor
     //{
     //    string Name { get; }
-    //}
-
-    //public interface IPropertyDescriptor
-    //{
-    //    string name { get; }
     //}
 
     //public interface IObserverDescriptor

@@ -24,7 +24,7 @@ namespace Neptuo.Web.Framework.Compilation
             this.genericContentDescriptor = genericContentDescriptor;
         }
 
-        public bool Parse(string content, IParserContext context)
+        public bool Parse(string content, IContentParserContext context)
         {
             Helper helper = new Helper(content, context);
 
@@ -105,13 +105,16 @@ namespace Neptuo.Web.Framework.Compilation
                 return;
 
             text = text.Trim();//TODO: Trim??
-            helper.Parent.AddProperty(new LiteralCodeObject(literalDescriptor, text));
+
+            helper.Parent.SetValue(new PlainValueCodeObject(text));
+            //helper.Parent.AddProperty(new LiteralCodeObject(literalDescriptor, text));
         }
 
         public void GenerateControl(Helper helper, Type controlType, XmlElement element)
         {
             ControlCodeObject codeObject = new ControlCodeObject(controlType);
-            helper.Parent.AddProperty(codeObject);
+            helper.Parent.SetValue(codeObject);
+            //helper.Parent.AddProperty(codeObject);
 
             if (String.IsNullOrWhiteSpace(element.Prefix))
                 codeObject.Properties.Add(genericContentDescriptor.TagNameProperty, new PlainValueCodeObject(element.Name));
@@ -119,7 +122,7 @@ namespace Neptuo.Web.Framework.Compilation
             BindProperties(helper, codeObject, element);
         }
 
-        private void BindProperties(Helper helper, ControlCodeObject codeObject, XmlElement element)
+        private void BindProperties(Helper helper, IControlCodeObject codeObject, XmlElement element)
         {
             HashSet<string> boundProperies = new HashSet<string>();
             PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(codeObject.Type);
@@ -134,7 +137,7 @@ namespace Neptuo.Web.Framework.Compilation
                     if (propertyName == attribute.Name.ToLowerInvariant())
                     {
                         codeObject.PropertyInfo = new SetPropertyInfo(item.Value);
-                        bool result = helper.Context.GeneratorService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, codeObject));
+                        bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, codeObject));
                         if (!result)
                             BindPropertyDefaultValue(codeObject, item.Value);
 
@@ -183,7 +186,7 @@ namespace Neptuo.Web.Framework.Compilation
             }
         }
 
-        private void ResolvePropertyValue(Helper helper, CodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
+        private void ResolvePropertyValue(Helper helper, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
         {
             if (ReflectionHelper.IsGenericType<IList>(prop.PropertyType))
             {
@@ -227,7 +230,7 @@ namespace Neptuo.Web.Framework.Compilation
                 if (property.Key.ToLowerInvariant() == attribute.Name.ToLowerInvariant())
                 {
                     observerObject.PropertyInfo = new SetPropertyInfo(property.Value);
-                    if (!helper.Context.GeneratorService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, observerObject)))
+                    if (!helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, observerObject)))
                         BindPropertyDefaultValue(observerObject, property.Value);
                 }
                 else

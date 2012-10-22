@@ -5,10 +5,10 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public interface IParserContext
+    public interface IValueParserContext
     {
         IServiceProvider ServiceProvider { get; }
-        IParserService GeneratorService { get; }
-        ICodeObject RootObject { get; }
+        IParserService ParserService { get; }
+        IPropertyDescriptor PropertyDescriptor { get; }
     }
 }

@@ -42,12 +42,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\ICodeGenerator.cs" />
+    <Compile Include="Compilation\ICodeGeneratorContext.cs" />
     <Compile Include="Compilation\IParserService.cs" />
     <Compile Include="Compilation\ICodeObject.cs" />
-    <Compile Include="Compilation\IParserContext.cs" />
+    <Compile Include="Compilation\IContentParserContext.cs" />
     <Compile Include="Compilation\IParserServiceContext.cs" />
     <Compile Include="Compilation\IContentParser.cs" />
     <Compile Include="Compilation\IValueParser.cs" />
+    <Compile Include="Compilation\IValueParserContext.cs" />
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />

@@ -23,7 +23,7 @@ namespace Neptuo.Web.Framework.Compilation
                 Value = value;
             }
 
-            public override void Generate(ICodeGenerator codeGenerator, ICodeObjectContext context)
+            public override void Generate(CodeDomGenerator codeGenerator, ICodeObjectContext context)
             {
                 throw new NotImplementedException();
                 //base.Generate(codeGenerator, context);

@@ -9,6 +9,6 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public interface IValueParser
     {
-        bool Parse(string content, IParserContext context);
+        bool Parse(string content, IValueParserContext context);
     }
 }
