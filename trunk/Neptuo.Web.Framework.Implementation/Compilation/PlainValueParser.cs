@@ -11,12 +11,12 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public class PlainValueParser : BaseParser, IValueParser
     {
-        public bool Parse(string content, IParserContext context)
+        public bool Parse(string content, IValueParserContext context)
         {
             XmlContentParser.CodeObject codeObject = context.RootObject as XmlContentParser.CodeObject;
             if (codeObject != null)
             {
-                if (TypeConverter.CanConvert(codeObject.PropertyInfo.RequiredType))
+                if (TypeConverter.CanConvert(context.PropertyDescriptor.Property.PropertyType))
                 {
                     codeObject.AddProperty(
                         new XmlContentParser.PlainValueCodeObject(

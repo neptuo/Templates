@@ -16,7 +16,7 @@ namespace Neptuo.Web.Framework.Compilation
                 Type = type;
             }
 
-            public override void Generate(ICodeGenerator codeGenerator, ICodeObjectContext context)
+            public override void Generate(CodeDomGenerator codeGenerator, ICodeObjectContext context)
             {
                 throw new NotImplementedException();
             }

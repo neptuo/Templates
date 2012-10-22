@@ -11,26 +11,18 @@ namespace Neptuo.Web.Framework.Compilation
     {
         public class Helper
         {
-            public ICodeObject Parent { get; set; }
-            public IParserContext Context { get; protected set; }
+            public IPropertyDescriptor Parent { get; set; }
+            public IContentParserContext Context { get; protected set; }
             public XmlDocument Document { get; protected set; }
             public IRegistrator Registrator { get; protected set; }
             public StringBuilder Content { get; protected set; }
 
-            public Helper(string xml, IParserContext context)
+            public Helper(string xml, IContentParserContext context)
             {
                 Context = context;
                 Registrator = Context.ServiceProvider.GetService<IRegistrator>();
                 Content = new StringBuilder();
-                if (!(context.RootObject is IRootCodeObject))
-                {
-                    Parent = new RootCodeObject();
-                    context.RootObject.AddProperty(Parent);
-                }
-                else
-                {
-                    Parent = (IRootCodeObject)context.RootObject;
-                }
+                Parent = context.RootObject;
 
                 if (xml != null)
                 {

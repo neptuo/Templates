@@ -5,16 +5,16 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public class DefaultParserContext : IParserContext
+    public class DefaultParserContext : IContentParserContext
     {
         public IServiceProvider ServiceProvider { get; private set; }
-        public IParserService GeneratorService { get; private set; }
+        public IParserService ParserService { get; private set; }
         public ICodeObject RootObject { get; private set; }
 
         public DefaultParserContext(IServiceProvider serviceProvider, IParserService generatorService, ICodeObject rootObject)
         {
             ServiceProvider = serviceProvider;
-            GeneratorService = generatorService;
+            ParserService = generatorService;
             RootObject = rootObject;
         }
     }

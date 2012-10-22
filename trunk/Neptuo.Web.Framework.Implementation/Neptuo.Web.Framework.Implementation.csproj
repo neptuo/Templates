@@ -47,9 +47,15 @@
     <Compile Include="Annotations\ObserverAttribute.cs" />
     <Compile Include="BaseContentControl.cs" />
     <Compile Include="BaseControl.cs" />
+    <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="BaseViewPage.cs" />
+    <Compile Include="Compilation\CodeDomGenerator.cs" />
     <Compile Include="Compilation\BaseParser.CodeObjectContext.cs" />
     <Compile Include="Compilation\BaseParser.cs" />
+    <Compile Include="Compilation\CodeDomGenerator.GeneratorHelper.cs" />
+    <Compile Include="Compilation\CodeObjects\ListAddPropertyDescriptor.cs" />
+    <Compile Include="Compilation\CodeObjects\SetPropertyDescriptor.cs" />
+    <Compile Include="Compilation\DefaultCodeGeneratorContext.cs" />
     <Compile Include="Compilation\DefaultParserContext.cs" />
     <Compile Include="Compilation\DefaultParserService.cs" />
     <Compile Include="Compilation\DefaultParserServiceContext.cs" />

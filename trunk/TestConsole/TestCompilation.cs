@@ -11,6 +11,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using ICodeGenerator = Neptuo.Web.Framework.Compilation.ICodeGenerator;
 
 namespace TestConsole
 {
@@ -22,10 +23,14 @@ namespace TestConsole
 
         public static void Test()
         {
-            GenerateCode();
+            if (GenerateCode())
+            {
+                if (CompileCode())
+                    RunCode();
+            }
         }
 
-        static void GenerateCode()
+        static bool GenerateCode()
         {
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
@@ -42,21 +47,42 @@ namespace TestConsole
             parserService.ValueParsers.Add(new ExtensionValueParser());
 
             ICodeObject rootObject = new BaseParser.RootCodeObject();
-            parserService.ProcessContent(File.ReadAllText("index.html"), new DefaultParserServiceContext(serviceProvider, rootObject));
+            bool parserResult = parserService.ProcessContent(File.ReadAllText("index.html"), new DefaultParserServiceContext(serviceProvider, rootObject));
+            if (!parserResult)
+            {
+                Console.WriteLine("Parsing failed!");
+                return false;
+            }
+
+            using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
+            {
+                ICodeGenerator generator = new CodeDomGenerator();
+                bool generatorResult = generator.ProcessTree(rootObject, new DefaultCodeGeneratorContext(writer));
+                if (!generatorResult)
+                {
+                    Console.WriteLine("Generating failed!");
+                    return false;
+                }
+            }
 
             stopwatch.Stop();
-            Console.WriteLine("Compilation in {0}ms", stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("Generated in {0}ms", stopwatch.ElapsedMilliseconds);
+            return true;
         }
 
         #region Compile and run
 
-        static void CompileCode()
+        static bool CompileCode()
         {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
             CompilerParameters cp = new CompilerParameters();
             cp.ReferencedAssemblies.Add("System.dll");
             cp.ReferencedAssemblies.Add("System.Web.dll");
             cp.ReferencedAssemblies.Add("Neptuo.Web.Framework.dll");
+            cp.ReferencedAssemblies.Add("Neptuo.Web.Framework.Implementation.dll");
             cp.GenerateExecutable = false;
             cp.OutputAssembly = "GeneratedView.dll";
             cp.GenerateInMemory = false;
@@ -72,11 +98,16 @@ namespace TestConsole
                     Console.WriteLine("  {0}", ce.ToString());
                     Console.WriteLine();
                 }
+                return false;
             }
             else
             {
                 Console.WriteLine("{0} built successfully.", cr.PathToAssembly);
             }
+
+            stopwatch.Stop();
+            Console.WriteLine("Built in {0}ms", stopwatch.ElapsedMilliseconds);
+            return true;
         }
 
         static void RunCode()

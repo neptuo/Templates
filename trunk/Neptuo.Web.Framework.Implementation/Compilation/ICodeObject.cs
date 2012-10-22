@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public interface IControlCodeObject : ICodeObject
-    {
-        Type Type { get; }
-        Dictionary<string, ICodeObject> Properties { get; }
-        List<IObserverCodeObject> Observers { get; }
-    }
+    //public interface IControlCodeObject : ICodeObject
+    //{
+    //    Type Type { get; }
+    //    Dictionary<string, ICodeObject> Properties { get; }
+    //    List<IObserverCodeObject> Observers { get; }
+    //}
 
-    public interface IObserverCodeObject : ICodeObject
-    {
-        Type Type { get; }
-        Dictionary<string, ICodeObject> Properties { get; }
-    }
+    //public interface IObserverCodeObject : ICodeObject
+    //{
+    //    Type Type { get; }
+    //    Dictionary<string, ICodeObject> Properties { get; }
+    //}
 
     /// <summary>
     /// Marker interface.

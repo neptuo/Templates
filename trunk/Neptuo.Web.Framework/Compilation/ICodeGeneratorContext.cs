@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public interface IContentParser
+    public interface ICodeGeneratorContext
     {
-        bool Parse(string content, IContentParserContext context);
+        TextWriter Output { get; }
     }
 }
