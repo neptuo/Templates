@@ -19,7 +19,7 @@ namespace Neptuo.Web.Framework.Compilation
                 public const string RequestField = "request";
                 public const string ResponseField = "response";
                 public const string ViewPageField = "viewPage";
-                public const string LivecycleObserverField = "livecycleObserver";
+                public const string ComponentManagerField = "componentManager";
                 public const string ServiceProviderField = "serviceProvider";
 
                 public const string CreateControlsMethod = "CreateControlsOverride";

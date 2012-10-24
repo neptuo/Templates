@@ -41,10 +41,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilation\CodeObjects\IControlCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\IObserverCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\IObserversCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\IPlainValueCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\IPropertiesCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\IPropertyDescriptor.cs" />
+    <Compile Include="Compilation\CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="Compilation\ICodeGenerator.cs" />
     <Compile Include="Compilation\ICodeGeneratorContext.cs" />
     <Compile Include="Compilation\IParserService.cs" />
-    <Compile Include="Compilation\ICodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\ICodeObject.cs" />
     <Compile Include="Compilation\IContentParserContext.cs" />
     <Compile Include="Compilation\IParserServiceContext.cs" />
     <Compile Include="Compilation\IContentParser.cs" />
@@ -54,7 +61,7 @@
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />
     <Compile Include="IGeneratedView.cs" />
-    <Compile Include="ILivecycleObserver.cs" />
+    <Compile Include="IComponentManager.cs" />
     <Compile Include="IMarkupExtension.cs" />
     <Compile Include="IObserver.cs" />
     <Compile Include="IRegistrator.cs" />

@@ -14,13 +14,13 @@ namespace Neptuo.Web.Framework
         protected HttpRequest request;
         protected HttpResponse response;
         protected IViewPage viewPage;
-        protected ILivecycleObserver livecycleObserver;
+        protected IComponentManager componentManager;
         protected IServiceProvider serviceProvider;
 
-        public void Setup(IViewPage viewPage, ILivecycleObserver livecycleObserver, IServiceProvider serviceProvider, HttpRequest request, HttpResponse response)
+        public void Setup(IViewPage viewPage, IComponentManager componentManager, IServiceProvider serviceProvider, HttpRequest request, HttpResponse response)
         {
             this.viewPage = viewPage;
-            this.livecycleObserver = livecycleObserver;
+            this.componentManager = componentManager;
             this.serviceProvider = serviceProvider;
             this.request = request;
             this.response = response;
@@ -28,7 +28,7 @@ namespace Neptuo.Web.Framework
 
         public void CreateControls()
         {
-            livecycleObserver.Register(null, viewPage, null);
+            componentManager.Register(null, viewPage, null);
 
             CreateControlsOverride();
         }

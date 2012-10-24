@@ -1,4 +1,5 @@
 ﻿using Neptuo.Web.Framework.Annotations;
+using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Utils;
 using System;
 using System.Collections;
@@ -117,12 +118,19 @@ namespace Neptuo.Web.Framework.Compilation
             //helper.Parent.AddProperty(codeObject);
 
             if (String.IsNullOrWhiteSpace(element.Prefix))
-                codeObject.Properties.Add(genericContentDescriptor.TagNameProperty, new PlainValueCodeObject(element.Name));
+            {
+                codeObject.Properties.Add(
+                    new SetPropertyDescriptor(
+                        controlType.GetProperty(genericContentDescriptor.TagNameProperty), 
+                        new PlainValueCodeObject(element.Name)
+                    )
+                );
+            }
 
             BindProperties(helper, codeObject, element);
         }
 
-        private void BindProperties(Helper helper, IControlCodeObject codeObject, XmlElement element)
+        private void BindProperties(Helper helper, IComponentCodeObject codeObject, XmlElement element)
         {
             HashSet<string> boundProperies = new HashSet<string>();
             PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(codeObject.Type);
@@ -136,13 +144,21 @@ namespace Neptuo.Web.Framework.Compilation
                 {
                     if (propertyName == attribute.Name.ToLowerInvariant())
                     {
-                        codeObject.PropertyInfo = new SetPropertyInfo(item.Value);
-                        bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, codeObject));
-                        if (!result)
-                            BindPropertyDefaultValue(codeObject, item.Value);
+                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
+                        bool result = helper.Context.ParserService.ProcessValue(
+                            attribute.Value, 
+                            new DefaultParserServiceContext(helper.Context.ServiceProvider, propertyDescriptor)
+                        );
 
-                        boundProperies.Add(propertyName);
-                        bound = true;
+                        if (!result)
+                            result = BindPropertyDefaultValue(propertyDescriptor);
+
+                        if (result)
+                        {
+                            codeObject.Properties.Add(propertyDescriptor);
+                            boundProperies.Add(propertyName);
+                            bound = true;
+                        }
                     }
 
                     if (!bound && !String.IsNullOrWhiteSpace(attribute.Prefix) && !observerAttributes.Contains(attribute))
@@ -160,9 +176,13 @@ namespace Neptuo.Web.Framework.Compilation
 
                 if (!bound && item.Value != defaultProperty)
                 {
-                    BindPropertyDefaultValue(codeObject, item.Value);
-                    boundProperies.Add(propertyName);
-                    bound = true;
+                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
+                    if (BindPropertyDefaultValue(propertyDescriptor))
+                    {
+                        codeObject.Properties.Add(propertyDescriptor);
+                        boundProperies.Add(propertyName);
+                        bound = true;
+                    }
                 }
             }
 
@@ -180,9 +200,15 @@ namespace Neptuo.Web.Framework.Compilation
             {
                 IEnumerable<XmlNode> defaultChildNodes = Utils.FindNotUsedChildNodes(element, boundProperies);
                 if (defaultChildNodes.Any())
+                {
                     ResolvePropertyValue(helper, codeObject, defaultProperty, defaultChildNodes);
+                }
                 else
-                    BindPropertyDefaultValue(codeObject, defaultProperty);
+                {
+                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(defaultProperty);
+                    if (BindPropertyDefaultValue(propertyDescriptor))
+                        codeObject.Properties.Add(propertyDescriptor);
+                }
             }
         }
 
@@ -191,8 +217,9 @@ namespace Neptuo.Web.Framework.Compilation
             if (ReflectionHelper.IsGenericType<IList>(prop.PropertyType))
             {
                 //Prvek listu
-                codeObject.PropertyInfo = new ListAddPropertyInfo(prop);
-                helper.WithParent(codeObject, () => GenerateRecursive(helper, content));
+                IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(prop);
+                codeObject.Properties.Add(propertyDescriptor);
+                helper.WithParent(propertyDescriptor, () => GenerateRecursive(helper, content));
             }
             else if (TypeConverter.CanConvert(prop.PropertyType))
             {
@@ -201,16 +228,22 @@ namespace Neptuo.Web.Framework.Compilation
                 foreach (XmlNode node in content)
                     contentValue.Append(node.OuterXml);
 
-                codeObject.Properties.Add(prop.Name, new PlainValueCodeObject(TypeConverter.Convert(contentValue.ToString(), prop.PropertyType)));
+                codeObject.Properties.Add(
+                    new SetPropertyDescriptor(
+                        prop, 
+                        new PlainValueCodeObject(TypeConverter.Convert(contentValue.ToString(), prop.PropertyType))
+                    )
+                );
             }
             else
             {
-                codeObject.PropertyInfo = new SetPropertyInfo(prop);
-                helper.WithParent(codeObject, () => GenerateRecursive(helper, content));
+                IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(prop);
+                codeObject.Properties.Add(propertyDescriptor);
+                helper.WithParent(propertyDescriptor, () => GenerateRecursive(helper, content));
             }
         }
 
-        private void RegisterObserver(Helper helper, ControlCodeObject codeObject, Type observerType, XmlAttribute attribute)
+        private void RegisterObserver(Helper helper, IComponentCodeObject codeObject, Type observerType, XmlAttribute attribute)
         {
             ObserverLivecycle livecycle = ObserverLivecycle.PerControl;
 
@@ -218,24 +251,30 @@ namespace Neptuo.Web.Framework.Compilation
             if (observerAttribute != null)
                 livecycle = observerAttribute.Livecycle;
 
-            ObserverCodeObject observerObject = new ObserverCodeObject
-            {
-                Type = observerType,
-                Info = new ObserverCodeObject.ObserverInfo(livecycle)
-            };
+            //TODO: Nevytvářet vždy nového, ale hledat již existující podle životního cyklu!
+            IObserverCodeObject observerObject = new ObserverCodeObject(observerType, livecycle);
             codeObject.Observers.Add(observerObject);
 
             foreach (KeyValuePair<string, PropertyInfo> property in ControlHelper.GetProperties(observerType))
             {
-                if (property.Key.ToLowerInvariant() == attribute.Name.ToLowerInvariant())
+                if (property.Key.ToLowerInvariant() == attribute.LocalName.ToLowerInvariant())
                 {
-                    observerObject.PropertyInfo = new SetPropertyInfo(property.Value);
-                    if (!helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, observerObject)))
-                        BindPropertyDefaultValue(observerObject, property.Value);
+                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
+                    bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, propertyDescriptor));
+
+                    if (!result)
+                        result = BindPropertyDefaultValue(propertyDescriptor);
+
+                    if (result)
+                        observerObject.Properties.Add(propertyDescriptor);
                 }
                 else
                 {
-                    BindPropertyDefaultValue(observerObject, property.Value);
+                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
+                    bool result = BindPropertyDefaultValue(propertyDescriptor);
+
+                    if (result)
+                        observerObject.Properties.Add(propertyDescriptor);
                 }
             }
         }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    partial class StandartLivecycleObserver
+    partial class StandartComponentManager
     {
         internal class ObserverInfo
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -18,11 +19,12 @@ namespace Neptuo.Web.Framework.Compilation
             Helper = new GeneratorHelper();
         }
 
-        public bool ProcessTree(ICodeObject rootObject, ICodeGeneratorContext context)
+        public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
 
             WriteOutput(context.Output);
+            return true;
         }
 
         private void WriteOutput(TextWriter writer)

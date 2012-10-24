@@ -5,18 +5,18 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    public partial class StandartLivecycleObserver : ILivecycleObserver
+    public partial class StandartComponentManager : IComponentManager
     {
-        private Dictionary<object, LivecycleEntry> entries = new Dictionary<object, LivecycleEntry>();
-        private Dictionary<object, List<LivecycleEntry>> children = new Dictionary<object, List<LivecycleEntry>>();
+        private Dictionary<object, ComponentEntry> entries = new Dictionary<object, ComponentEntry>();
+        private Dictionary<object, List<ComponentEntry>> children = new Dictionary<object, List<ComponentEntry>>();
         private object root = new object();
 
-        public StandartLivecycleObserver()
+        public StandartComponentManager()
         {
-            children.Add(root, new List<LivecycleEntry>());
+            children.Add(root, new List<ComponentEntry>());
         }
 
-        public IEnumerable<object> GetControls()
+        public IEnumerable<object> GetComponents()
         {
             return entries.Keys;
         }
@@ -32,7 +32,7 @@ namespace Neptuo.Web.Framework
             if (!(control is IControl) && !(control is IViewPage))
                 return;
 
-            LivecycleEntry entry = new LivecycleEntry
+            ComponentEntry entry = new ComponentEntry
             {
                 Control = control,
                 Parent = parent,
@@ -43,7 +43,7 @@ namespace Neptuo.Web.Framework
             children[parent].Add(entry);
 
             if(!children.ContainsKey(control))
-                children.Add(control, new List<LivecycleEntry>());
+                children.Add(control, new List<ComponentEntry>());
 
             entries.Add(control, entry);
         }
@@ -61,7 +61,7 @@ namespace Neptuo.Web.Framework
             if (!entries.ContainsKey(control))
                 throw new LivecycleException("Not registered control!");
 
-            LivecycleEntry entry = entries[control];
+            ComponentEntry entry = entries[control];
             if (entry.IsInited)
                 throw new LivecycleException("Control is already inited!");
 
@@ -107,7 +107,7 @@ namespace Neptuo.Web.Framework
             if (!entries.ContainsKey(control))
                 throw new LivecycleException("Not registered control!");
 
-            LivecycleEntry entry = entries[control];
+            ComponentEntry entry = entries[control];
 
             if (!entry.IsInited)
                 Init(control);
@@ -146,7 +146,7 @@ namespace Neptuo.Web.Framework
             if (!entries.ContainsKey(control))
                 throw new LivecycleException("Not registered control!");
 
-            LivecycleEntry entry = entries[control];
+            ComponentEntry entry = entries[control];
 
             if (!entry.IsInited)
                 Init(control);

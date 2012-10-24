@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using Neptuo.Web.Framework.Utils;
+using Neptuo.Web.Framework.Compilation.CodeObjects;
 
 namespace Neptuo.Web.Framework.Compilation
 {
@@ -22,7 +23,7 @@ namespace Neptuo.Web.Framework.Compilation
                 Context = context;
                 Registrator = Context.ServiceProvider.GetService<IRegistrator>();
                 Content = new StringBuilder();
-                Parent = context.RootObject;
+                Parent = context.PropertyDescriptor;
 
                 if (xml != null)
                 {
@@ -31,9 +32,9 @@ namespace Neptuo.Web.Framework.Compilation
                 }
             }
 
-            public void WithParent(ICodeObject parent, Action execute)
+            public void WithParent(IPropertyDescriptor parent, Action execute)
             {
-                ICodeObject current = Parent;
+                IPropertyDescriptor current = Parent;
                 Parent = parent;
                 execute();
                 Parent = current;
