@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using Neptuo.Web.Framework.Utils;
 using TypeConverter = Neptuo.Web.Framework.Utils.TypeConverter;
+using Neptuo.Web.Framework.Compilation.CodeObjects;
 
 namespace Neptuo.Web.Framework.Compilation
 {
@@ -13,24 +14,20 @@ namespace Neptuo.Web.Framework.Compilation
     {
         public bool Parse(string content, IValueParserContext context)
         {
-            XmlContentParser.CodeObject codeObject = context.RootObject as XmlContentParser.CodeObject;
-            if (codeObject != null)
+            if (TypeConverter.CanConvert(context.PropertyDescriptor.Property.PropertyType))
             {
-                if (TypeConverter.CanConvert(context.PropertyDescriptor.Property.PropertyType))
-                {
-                    codeObject.AddProperty(
-                        new XmlContentParser.PlainValueCodeObject(
-                            TypeConverter.Convert(content, codeObject.PropertyInfo.RequiredType)
-                        )
-                    );
-                }
-                //else
-                //{
-                //    BindPropertyDefaultValue(context, codeObject);
-                //}
-
+                context.PropertyDescriptor.SetValue(
+                    new PlainValueCodeObject(
+                        TypeConverter.Convert(content, context.PropertyDescriptor.Property.PropertyType)
+                    )
+                );
                 return true;
             }
+            //else
+            //{
+            //    BindPropertyDefaultValue(context, codeObject);
+            //}
+
             return false;
         }
     }

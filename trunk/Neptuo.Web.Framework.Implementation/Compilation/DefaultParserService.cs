@@ -25,7 +25,7 @@ namespace Neptuo.Web.Framework.Compilation
 
             foreach (IContentParser contentParser in ContentParsers)
             {
-                if (contentParser.Parse(content, new DefaultParserContext(context.ServiceProvider, this, context.RootObject)))
+                if (contentParser.Parse(content, new DefaultParserContext(context.ServiceProvider, this, context.PropertyDescriptor)))
                     return true;
             }
 
@@ -37,7 +37,7 @@ namespace Neptuo.Web.Framework.Compilation
             bool generated = false;
             foreach (IValueParser valueParser in ValueParsers)
             {
-                if (valueParser.Parse(value, new DefaultParserContext(context.ServiceProvider, this, context.RootObject)))
+                if (valueParser.Parse(value, new DefaultParserContext(context.ServiceProvider, this, context.PropertyDescriptor)))
                 {
                     generated = true;
                     break;
@@ -45,7 +45,7 @@ namespace Neptuo.Web.Framework.Compilation
             }
 
             if (!generated)
-                generated = DefaultValueParser.Parse(value, new DefaultParserContext(context.ServiceProvider, this, context.RootObject));
+                generated = DefaultValueParser.Parse(value, new DefaultParserContext(context.ServiceProvider, this, context.PropertyDescriptor));
 
             return generated;
         }

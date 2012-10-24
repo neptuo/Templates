@@ -28,7 +28,7 @@ namespace Neptuo.Web.Framework.Controls
         public override void OnInit()
         {
             foreach (GridItemControl item in Header)
-                LivecycleObserver.Init(item);
+                ComponentManager.Init(item);
 
             base.OnInit();
         }
@@ -39,7 +39,7 @@ namespace Neptuo.Web.Framework.Controls
             foreach (GridItemControl item in Header)
             {
                 writer.WriteFullBeginTag("th");
-                LivecycleObserver.Render(item, writer);
+                ComponentManager.Render(item, writer);
 
                 writer.WriteEndTag("th");
             }
@@ -58,7 +58,7 @@ namespace Neptuo.Web.Framework.Controls
                             continue;
 
                         writer.WriteFullBeginTag("td");
-                        LivecycleObserver.Render(control, writer);
+                        ComponentManager.Render(control, writer);
                         writer.WriteEndTag("td");
                     }
                 }

@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    partial class StandartLivecycleObserver
+    partial class StandartComponentManager
     {
-        internal class LivecycleEntry
+        internal class ComponentEntry
         {
             public object Parent { get; set; }
             public object Control { get; set; }
@@ -19,7 +19,7 @@ namespace Neptuo.Web.Framework
             public bool IsInited { get; set; }
             public bool IsDisposed { get; set; }
 
-            public LivecycleEntry()
+            public ComponentEntry()
             {
                 Observers = new List<ObserverInfo>();
             }

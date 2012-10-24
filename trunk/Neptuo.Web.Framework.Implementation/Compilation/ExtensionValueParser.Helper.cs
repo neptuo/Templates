@@ -11,11 +11,11 @@ namespace Neptuo.Web.Framework.Compilation
     {
         public class Helper
         {
-            public IContentParserContext Context { get; protected set; }
+            public IValueParserContext Context { get; protected set; }
             public IRegistrator Registrator { get; protected set; }
             public ExtensionContentParser Parser { get; protected set; }
 
-            public Helper(IContentParserContext context)
+            public Helper(IValueParserContext context)
             {
                 Context = context;
                 Registrator = Context.ServiceProvider.GetService<IRegistrator>();

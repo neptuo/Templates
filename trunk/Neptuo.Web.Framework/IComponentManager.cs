@@ -5,9 +5,12 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    public interface ILivecycleObserver
+    /// <summary>
+    /// Component manager.
+    /// </summary>
+    public interface IComponentManager
     {
-        IEnumerable<object> GetControls();
+        IEnumerable<object> GetComponents();
 
         void Register(object parent, object control, Action propertyBinder);
 

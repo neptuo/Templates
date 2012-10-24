@@ -1,5 +1,6 @@
 ﻿using Neptuo.Web.Framework;
 using Neptuo.Web.Framework.Compilation;
+using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Observers;
 using Neptuo.Web.Framework.Utils;
@@ -17,16 +18,18 @@ namespace TestConsole
 {
     static class TestCompilation
     {
-        static ILivecycleObserver livecycleObserver = new StandartLivecycleObserver();
+        static IComponentManager componentManager = new StandartComponentManager();
         static IRegistrator registrator = new Registrator();
-        static IServiceProvider serviceProvider = new ServiceProvider(registrator, livecycleObserver);
+        static IServiceProvider serviceProvider = new ServiceProvider(registrator, componentManager);
 
         public static void Test()
         {
             if (GenerateCode())
             {
                 if (CompileCode())
+                {
                     RunCode();
+                }
             }
         }
 
@@ -46,8 +49,9 @@ namespace TestConsole
             parserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
             parserService.ValueParsers.Add(new ExtensionValueParser());
 
-            ICodeObject rootObject = new BaseParser.RootCodeObject();
-            bool parserResult = parserService.ProcessContent(File.ReadAllText("index.html"), new DefaultParserServiceContext(serviceProvider, rootObject));
+
+            IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
+            bool parserResult = parserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(serviceProvider, contentProperty));
             if (!parserResult)
             {
                 Console.WriteLine("Parsing failed!");
@@ -57,7 +61,7 @@ namespace TestConsole
             using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
             {
                 ICodeGenerator generator = new CodeDomGenerator();
-                bool generatorResult = generator.ProcessTree(rootObject, new DefaultCodeGeneratorContext(writer));
+                bool generatorResult = generator.ProcessTree(contentProperty, new DefaultCodeGeneratorContext(writer));
                 if (!generatorResult)
                 {
                     Console.WriteLine("Generating failed!");
@@ -116,12 +120,12 @@ namespace TestConsole
             stopwatch.Start();
 
             Assembly views = Assembly.Load("GeneratedView");
-            Type generatedView = views.GetType("Neptuo.Web.Framework.Generated.GeneratedView");
+            Type generatedView = views.GetType("Neptuo.Web.Framework.GeneratedView");
 
             StringWriter output = new StringWriter();
 
             IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
-            view.Setup(new BaseViewPage(livecycleObserver), livecycleObserver, serviceProvider, null, null);
+            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider, null, null);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
@@ -148,12 +152,12 @@ namespace TestConsole
     class ServiceProvider : IServiceProvider
     {
         private IRegistrator registrator;
-        private ILivecycleObserver livecycleObserver;
+        private IComponentManager componentManager;
 
-        public ServiceProvider(IRegistrator registrator, ILivecycleObserver livecycleObserver)
+        public ServiceProvider(IRegistrator registrator, IComponentManager componentManager)
         {
             this.registrator = registrator;
-            this.livecycleObserver = livecycleObserver;
+            this.componentManager = componentManager;
         }
 
         public object GetService(Type serviceType)
@@ -161,8 +165,8 @@ namespace TestConsole
             if (serviceType == typeof(IRegistrator))
                 return registrator;
 
-            if (serviceType == typeof(ILivecycleObserver))
-                return livecycleObserver;
+            if (serviceType == typeof(IComponentManager))
+                return componentManager;
 
             return null;
         }

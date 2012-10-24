@@ -12,7 +12,7 @@ namespace Neptuo.Web.Framework
     public abstract class BaseContentControl : BaseControl, IContentControl
     {
         [Dependency]
-        public ILivecycleObserver LivecycleObserver { get; set; }
+        public IComponentManager ComponentManager { get; set; }
 
         public List<object> Content { get; set; }
 
@@ -29,7 +29,7 @@ namespace Neptuo.Web.Framework
             {
                 IControl control = item as IControl;
                 if (control != null)
-                    LivecycleObserver.Init(control);
+                    ComponentManager.Init(control);
             }
         }
 
@@ -39,7 +39,7 @@ namespace Neptuo.Web.Framework
             {
                 IControl control = item as IControl;
                 if (control != null)
-                    LivecycleObserver.Render(control, writer);
+                    ComponentManager.Render(control, writer);
             }
         }
 

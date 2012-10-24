@@ -1,4 +1,5 @@
-﻿using Neptuo.Web.Framework.Utils;
+﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +11,7 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public partial class BaseParser
     {
-        protected void BindPropertyDefaultValue(CodeObject codeObject, PropertyInfo prop)
+        protected bool BindPropertyDefaultValue(IPropertyDescriptor propertyDescriptor)
         {
             //DependencyAttribute dependency = DependencyAttribute.GetAttribute(prop);
             //if (dependency != null)
@@ -19,10 +20,14 @@ namespace Neptuo.Web.Framework.Compilation
             //}
             //else
             //{
-            DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(prop);
+            DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(propertyDescriptor.Property);
             if (defaultValue != null)
-                codeObject.Properties.Add(prop.Name, new PlainValueCodeObject(defaultValue.Value));
+            {
+                propertyDescriptor.SetValue(new PlainValueCodeObject(defaultValue.Value));
+                return true;
+            }
             //}
+            return false;
         }
     }
 }
