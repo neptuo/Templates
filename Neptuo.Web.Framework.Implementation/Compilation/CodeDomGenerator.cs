@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
-    public partial class CodeDomGenerator : ICodeGenerator
+    public partial class CodeDomGenerator : ICodeGenerator, IExtensibleCodeGenerator
     {
         public GeneratorHelper Helper { get; protected set; }
 
@@ -38,6 +38,11 @@ namespace Neptuo.Web.Framework.Compilation
             };
 
             provider.GenerateCodeFromCompileUnit(Helper.Unit, writer, options);
+        }
+
+        public void AddExtension(Type codeObjectType, Type extensionCodeGeneratorType)
+        {
+            throw new NotImplementedException();
         }
     }
 }

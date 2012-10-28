@@ -28,21 +28,15 @@ namespace Neptuo.Web.Framework
 
         public void CreateControls()
         {
-            componentManager.Register(null, viewPage, null);
-
-            CreateControlsOverride();
+            componentManager.SetRootComponent(viewPage, CreateViewPageControls);
         }
 
-        protected abstract void CreateControlsOverride();
+        protected abstract void CreateViewPageControls();
 
         public void Init()
         {
-            InitOverride();
-
-            viewPage.OnInit();
+            componentManager.Init(viewPage);
         }
-
-        protected abstract void InitOverride();
 
         public void Render(HtmlTextWriter writer)
         {

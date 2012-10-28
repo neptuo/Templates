@@ -9,12 +9,10 @@ namespace Neptuo.Web.Framework
     {
         private IComponentManager componentManager;
 
-        public List<object> Content { get; set; }
+        public ICollection<object> Content { get; set; }
 
         public BaseViewPage(IComponentManager componentManager)
         {
-            Content = new List<object>();
-
             this.componentManager = componentManager;
         }
 

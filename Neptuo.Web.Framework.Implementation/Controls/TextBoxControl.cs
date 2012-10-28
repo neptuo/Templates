@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace Neptuo.Web.Framework.Controls
 {
-    //[Control(TagName = "input", IsSelfClosing = true)]
+    [Html("input", true)]
     [DefaultProperty("Text")]
     public class TextBoxControl : BaseControl
     {

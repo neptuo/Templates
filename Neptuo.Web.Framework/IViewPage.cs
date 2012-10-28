@@ -8,15 +8,11 @@ namespace Neptuo.Web.Framework
     /// <summary>
     /// Represents complete view.
     /// </summary>
-    public interface IViewPage : IDisposable
+    public interface IViewPage : IControl, IDisposable
     {
         /// <summary>
         /// Controls in view.
         /// </summary>
-        List<object> Content { get; set; }
-
-        void OnInit();
-
-        void Render(HtmlTextWriter writer);
+        ICollection<object> Content { get; set; }
     }
 }

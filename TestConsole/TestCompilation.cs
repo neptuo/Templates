@@ -24,13 +24,14 @@ namespace TestConsole
 
         public static void Test()
         {
-            if (GenerateCode())
-            {
-                if (CompileCode())
-                {
-                    RunCode();
-                }
-            }
+            //if (GenerateCode())
+            //{
+            //    if (CompileCode())
+            //    {
+            //        RunCode();
+            //    }
+            //}
+            RunStaticCode();
         }
 
         static bool GenerateCode()
@@ -38,6 +39,10 @@ namespace TestConsole
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
             registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
+            registrator.RegisterObserver("val", "max-length", typeof(ValidationObserver));
+            registrator.RegisterObserver("val", "min-length", typeof(ValidationObserver));
+            registrator.RegisterObserver("val", "regex", typeof(ValidationObserver));
+            registrator.RegisterObserver("val", "message", typeof(ValidationObserver));
 
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -60,7 +65,8 @@ namespace TestConsole
 
             using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
             {
-                ICodeGenerator generator = new CodeDomGenerator();
+                CodeDomGenerator generator = new CodeDomGenerator();
+                //generator.AddExtension<ExtensionCodeObject, CodeDomGenerator>();
                 bool generatorResult = generator.ProcessTree(contentProperty, new DefaultCodeGeneratorContext(writer));
                 if (!generatorResult)
                 {
@@ -119,7 +125,7 @@ namespace TestConsole
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            Assembly views = Assembly.Load("GeneratedView");
+            Assembly views = Assembly.GetExecutingAssembly(); //Assembly.Load("GeneratedView");
             Type generatedView = views.GetType("Neptuo.Web.Framework.GeneratedView");
 
             StringWriter output = new StringWriter();
@@ -137,6 +143,25 @@ namespace TestConsole
         }
 
         #endregion
+
+        static void RunStaticCode()
+        {
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            StringWriter output = new StringWriter();
+
+            IGeneratedView view = new GeneratedView();
+            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider, null, null);
+            view.CreateControls();
+            view.Init();
+            view.Render(new HtmlTextWriter(output));
+
+            stopwatch.Stop();
+
+            Console.WriteLine(output);
+            Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);
+        }
 
         //static void RunStandart()
         //{

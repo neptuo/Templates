@@ -12,7 +12,13 @@ namespace Neptuo.Web.Framework
     {
         IEnumerable<object> GetComponents();
 
-        void Register(object parent, object control, Action propertyBinder);
+        ICollection<object> GetComponents(object owner, string propertyName);
+
+        void SetRootComponent(object component, Action propertyBinder);
+
+        void AddComponent(object owner, string propertyName, object component, Action propertyBinder);
+
+        bool RemoveComponent(object owner, string propertyName, object component);
 
         void AttachObserver(IControl control, IObserver observer, Action propertyBinder);
 
@@ -20,6 +26,6 @@ namespace Neptuo.Web.Framework
 
         void Render(object control, HtmlTextWriter writer);
 
-        void Dispose(object control);
+        void Dispose(object component);
     }
 }

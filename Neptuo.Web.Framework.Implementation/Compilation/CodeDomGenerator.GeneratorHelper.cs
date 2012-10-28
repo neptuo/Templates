@@ -22,7 +22,7 @@ namespace Neptuo.Web.Framework.Compilation
                 public const string ComponentManagerField = "componentManager";
                 public const string ServiceProviderField = "serviceProvider";
 
-                public const string CreateControlsMethod = "CreateControlsOverride";
+                public const string CreateControlsMethod = "CreateViewPageControls";
                 public const string InitMethod = "InitOverride";
 
                 public static readonly Type BaseClassType = typeof(BaseGeneratedView);
