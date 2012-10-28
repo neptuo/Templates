@@ -11,7 +11,6 @@ namespace Neptuo.Web.Framework.Controls
     [DefaultProperty("Text")]
     public class LiteralControl : BaseControl
     {
-        [ControlProperty]
         public string Text { get; set; }
 
         protected override void RenderBody(HtmlTextWriter writer)

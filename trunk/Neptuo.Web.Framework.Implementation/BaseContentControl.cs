@@ -14,41 +14,31 @@ namespace Neptuo.Web.Framework
         [Dependency]
         public IComponentManager ComponentManager { get; set; }
 
-        public List<object> Content { get; set; }
-
-        public BaseContentControl()
+        protected override bool IsSelfClosing
         {
-            Content = new List<object>();
+            get
+            {
+                if (Content != null & Content.Count != 0)
+                    return false;
+
+                return base.IsSelfClosing;
+            }
         }
+
+        public ICollection<object> Content { get; set; }
 
         public override void OnInit()
         {
             base.OnInit();
 
             foreach (object item in Content)
-            {
-                IControl control = item as IControl;
-                if (control != null)
-                    ComponentManager.Init(control);
-            }
+                ComponentManager.Init(item);
         }
 
         protected override void RenderBody(HtmlTextWriter writer)
         {
             foreach (object item in Content)
-            {
-                IControl control = item as IControl;
-                if (control != null)
-                    ComponentManager.Render(control, writer);
-            }
-        }
-
-        protected override bool GetIsSelfClosing()
-        {
-            if (Content != null & Content.Count != 0)
-                return false;
-
-            return base.GetIsSelfClosing();
+                ComponentManager.Render(item, writer);
         }
     }
 }

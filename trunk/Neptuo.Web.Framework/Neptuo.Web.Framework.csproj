@@ -50,6 +50,7 @@
     <Compile Include="Compilation\CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="Compilation\ICodeGenerator.cs" />
     <Compile Include="Compilation\ICodeGeneratorContext.cs" />
+    <Compile Include="Compilation\IExtensibleCodeGenerator.cs" />
     <Compile Include="Compilation\IParserService.cs" />
     <Compile Include="Compilation\CodeObjects\ICodeObject.cs" />
     <Compile Include="Compilation\IContentParserContext.cs" />

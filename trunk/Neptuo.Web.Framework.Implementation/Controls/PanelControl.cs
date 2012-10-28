@@ -6,7 +6,7 @@ using Neptuo.Web.Framework.Annotations;
 
 namespace Neptuo.Web.Framework.Controls
 {
-    //[Control(TagName = "div")]
+    [Html("div")]
     public class PanelControl : BaseContentControl
     {
         public PanelControl()
@@ -16,7 +16,7 @@ namespace Neptuo.Web.Framework.Controls
 
         public override void OnInit()
         {
-            Models.CurrentModel = "Hello!";
+            Models.CurrentModel = "h:Panel";
             base.OnInit();
         }
     }

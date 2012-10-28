@@ -7,6 +7,6 @@ namespace Neptuo.Web.Framework
 {
     public interface IContentControl : IControl
     {
-        List<object> Content { get; set; }
+        ICollection<object> Content { get; set; }
     }
 }

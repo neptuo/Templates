@@ -12,18 +12,17 @@ namespace Neptuo.Web.Framework.Controls
     //[ControlBuilder(typeof(GridControlBuilder))]
     public class GridControl : BaseContentControl
     {
-        public List<GridItemControl> Header { get; set; }
+        public ICollection<GridItemControl> Header { get; set; }
 
         [DefaultValue(2)]
         public int Repeat { get; set; }
 
-        public GridOptions Options { get; set; }
-
-        public GridControl()
+        protected override string TagName
         {
-            Header = new List<GridItemControl>();
-            Content = new List<object>();
+            get { return "table"; }
         }
+
+        public GridOptions Options { get; set; }
 
         public override void OnInit()
         {
@@ -64,11 +63,6 @@ namespace Neptuo.Web.Framework.Controls
                 }
                 writer.WriteEndTag("tr");
             }
-        }
-
-        protected override string GetTagName()
-        {
-            return "table";
         }
     }
 

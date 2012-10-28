@@ -13,6 +13,7 @@ namespace Neptuo.Web.Framework
             public object Control { get; set; }
             public Action PropertyBinder { get; set; }
 
+            public Dictionary<string, List<object>> Properties { get; set; }
             public List<ObserverInfo> Observers { get; set; }
 
             public bool ArePropertiesBound { get; set; }
@@ -21,6 +22,7 @@ namespace Neptuo.Web.Framework
 
             public ComponentEntry()
             {
+                Properties = new Dictionary<string, List<object>>();
                 Observers = new List<ObserverInfo>();
             }
         }

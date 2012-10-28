@@ -16,6 +16,42 @@ namespace Neptuo.Web.Framework
     {
         public Dictionary<string, string> Attributes { get; protected set; }
 
+        protected virtual string TagName
+        {
+            get
+            {
+                HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
+                if (attr != null)
+                    return attr.TagName;
+
+                return null;
+            }
+        }
+
+        protected virtual bool IsSelfClosing
+        {
+            get
+            {
+                HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
+                if (attr != null)
+                    return attr.IsSelfClosing;
+
+                return true;
+            }
+        }
+
+        protected string DefaultPropertyName
+        {
+            get
+            {
+                DefaultPropertyAttribute attr = ReflectionHelper.GetAttribute<DefaultPropertyAttribute>(GetType());
+                if (attr != null)
+                    return attr.Name;
+
+                return null;
+            }
+        }
+
         public BaseControl()
         {
             Attributes = new Dictionary<string, string>();
@@ -26,17 +62,17 @@ namespace Neptuo.Web.Framework
         public virtual void Render(HtmlTextWriter writer)
         {
             ControlAttribute attr = ControlAttribute.GetAttribute(GetType());
-            if (!String.IsNullOrEmpty(GetTagName()))
+            if (!String.IsNullOrEmpty(TagName))
             {
                 StringBuilder result = new StringBuilder();
-                result.AppendFormat("<{0}", GetTagName());
+                result.AppendFormat("<{0}", TagName);
 
                 foreach (KeyValuePair<string, string> attribute in Attributes)
                 {
                     result.AppendFormat(" {0}=\"{1}\"", attribute.Key, attribute.Value);
                 }
 
-                if (GetIsSelfClosing())
+                if (IsSelfClosing)
                 {
                     result.Append(" />");
                     writer.Write(result);
@@ -49,7 +85,7 @@ namespace Neptuo.Web.Framework
                     RenderBody(writer);
 
                     result = new StringBuilder();
-                    result.AppendFormat("</{0}>", GetTagName());
+                    result.AppendFormat("</{0}>", TagName);
                     writer.Write(result);
                 }
             }
@@ -60,36 +96,5 @@ namespace Neptuo.Web.Framework
         }
 
         protected virtual void RenderBody(HtmlTextWriter writer) { }
-
-        #region Helper
-
-        protected virtual string GetTagName()
-        {
-            HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
-            if(attr != null)
-                return attr.TagName;
-
-            return null;
-        }
-
-        protected virtual bool GetIsSelfClosing()
-        {
-            HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
-            if (attr != null)
-                return attr.IsSelfClosing;
-
-            return true;
-        }
-
-        protected string GetDefaultPropertyName()
-        {
-            DefaultPropertyAttribute attr = ReflectionHelper.GetAttribute<DefaultPropertyAttribute>(GetType());
-            if (attr != null)
-                return attr.Name;
-
-            return null;
-        }
-
-        #endregion
     }
 }

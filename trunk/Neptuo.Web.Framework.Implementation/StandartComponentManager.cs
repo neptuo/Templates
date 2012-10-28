@@ -8,12 +8,20 @@ namespace Neptuo.Web.Framework
     public partial class StandartComponentManager : IComponentManager
     {
         private Dictionary<object, ComponentEntry> entries = new Dictionary<object, ComponentEntry>();
-        private Dictionary<object, List<ComponentEntry>> children = new Dictionary<object, List<ComponentEntry>>();
-        private object root = new object();
+        //private Dictionary<object, Dictionary<string, List<object>>> children = new Dictionary<object, Dictionary<string, List<object>>>();
+        private ComponentEntry rootComponent;
 
         public StandartComponentManager()
         {
-            children.Add(root, new List<ComponentEntry>());
+            ComponentEntry entry = new ComponentEntry
+            {
+                Control = rootComponent,
+                Parent = null,
+                ArePropertiesBound = true,
+                PropertyBinder = null
+            };
+            //entries.Add(rootComponent, entry);
+            //RegisterProperty(rootComponent, "Root");
         }
 
         public IEnumerable<object> GetComponents()
@@ -21,31 +29,79 @@ namespace Neptuo.Web.Framework
             return entries.Keys;
         }
 
-        public void Register(object parent, object control, Action propertyBinder)
+        public ICollection<object> GetComponents(object owner, string propertyName)
         {
-            if (parent == null)
-                parent = root;
+            if (!entries.ContainsKey(owner))
+                throw new LivecycleException("Owner is not registered!");
 
-            if (!children.ContainsKey(parent))
+            if (!entries[owner].Properties.ContainsKey(propertyName))
+                RegisterProperty(owner, propertyName);
+
+            return entries[owner].Properties[propertyName];
+        }
+
+        public void RegisterProperty(object owner, string propertyName)
+        {
+            if (!entries.ContainsKey(owner))
                 throw new LivecycleException("Parent is not registered!");
 
-            if (!(control is IControl) && !(control is IViewPage))
-                return;
+            if (!entries[owner].Properties.ContainsKey(propertyName))
+                entries[owner].Properties.Add(propertyName, new List<object>());
+        }
+
+        public void SetRootComponent(object component, Action propertyBinder)
+        {
+            if (rootComponent != null)
+                entries.Remove(rootComponent.Control);
+
+            rootComponent = new ComponentEntry
+            {
+                Control = component,
+                PropertyBinder = propertyBinder,
+                ArePropertiesBound = propertyBinder == null
+            };
+            entries.Add(component, rootComponent);
+        }
+
+        public void AddComponent(object parent, string propertyName, object component, Action propertyBinder)
+        {
+            if (parent == null)
+                parent = rootComponent.Control;
+
+            if (!entries.ContainsKey(parent))
+                throw new LivecycleException("Parent is not registered!");
+
+            if(!entries[parent].Properties.ContainsKey(propertyName))
+                RegisterProperty(parent, propertyName);
+
+            //if (!(control is IControl) && !(control is IViewPage))
+            //    return;
 
             ComponentEntry entry = new ComponentEntry
             {
-                Control = control,
+                Control = component,
                 Parent = parent,
                 ArePropertiesBound = propertyBinder == null,
                 PropertyBinder = propertyBinder
             };
+            entries.Add(component, entry);
+            entries[parent].Properties[propertyName].Add(component);
+        }
 
-            children[parent].Add(entry);
+        public bool RemoveComponent(object parent, string propertyName, object component)
+        {
+            if (parent == null)
+                parent = rootComponent;
 
-            if(!children.ContainsKey(control))
-                children.Add(control, new List<ComponentEntry>());
+            if (!entries.ContainsKey(parent))
+                throw new LivecycleException("Parent is not registered!");
 
-            entries.Add(control, entry);
+            if (entries[parent].Properties.ContainsKey(propertyName))
+            {
+                entries.Remove(component);
+                return entries[parent].Properties[propertyName].Remove(component);
+            }
+            return false;
         }
 
         public void AttachObserver(IControl control, IObserver observer, Action propertyBinder)
@@ -141,15 +197,15 @@ namespace Neptuo.Web.Framework
                 target.Render(writer);
         }
 
-        public void Dispose(object control)
+        public void Dispose(object component)
         {
-            if (!entries.ContainsKey(control))
+            if (!entries.ContainsKey(component))
                 throw new LivecycleException("Not registered control!");
 
-            ComponentEntry entry = entries[control];
+            ComponentEntry entry = entries[component];
 
             if (!entry.IsInited)
-                Init(control);
+                Init(component);
 
             if (entry.IsDisposed)
                 throw new LivecycleException("Control is already disposed!");
