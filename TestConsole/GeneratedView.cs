@@ -16,6 +16,7 @@ namespace Neptuo.Web.Framework
     using Neptuo.Web.Framework.Controls;
     using Neptuo.Web.Framework.Extensions;
     using Neptuo.Web.Framework.Observers;
+    using System.Collections.Generic;
 
     public sealed class GeneratedView : Neptuo.Web.Framework.BaseGeneratedView, Neptuo.Web.Framework.IGeneratedView, System.IDisposable
     {
@@ -32,18 +33,26 @@ namespace Neptuo.Web.Framework
 
         protected override void CreateViewPageControls()
         {
-            viewPage.Content = new ComponentManagerCollection<object>(componentManager, "Content", viewPage);
+            viewPage.Content = new List<object>();
+
             field1 = new PanelControl();
-            componentManager.AddComponent(viewPage, "Content", field1, field1_Bind);
+            componentManager.AddComponent(field1, field1_Bind);
+            viewPage.Content.Add(field1);
+
             field6 = new AnchorControl();
-            componentManager.AddComponent(viewPage, "Content", field6, field6_Bind);
+            componentManager.AddComponent(field6, field6_Bind);
+            viewPage.Content.Add(field6);
         }
 
         private void field1_Bind()
         {
-            field1.Content = new ComponentManagerCollection<object>(componentManager, "Content", field1);
+            field1.ComponentManager = componentManager;
+            field1.Content = new List<object>();
+
             field3 = new TextBoxControl();
-            componentManager.AddComponent(field1, "Content", field3, field3_Bind);
+            componentManager.AddComponent(field3, field3_Bind);
+            field1.Content.Add(field3);
+
             field2 = new VisibleObserver();
             componentManager.AttachObserver(field1, field2, field2_Bind);
         }
@@ -55,10 +64,13 @@ namespace Neptuo.Web.Framework
 
         private void field3_Bind()
         {
+            field3.ComponentManager = componentManager;
             field3.Name = "FullName";
+
             field4 = new BindingExtension();
             field4_Bind();
             field3.Text = (string)field4.ProvideValue();
+            
             field5 = new ValidationObserver();
             componentManager.AttachObserver(field3, field5, field5_Bind);
             componentManager.AttachObserver(field3, field5, field5_Bind2);
@@ -87,14 +99,21 @@ namespace Neptuo.Web.Framework
 
         private void field6_Bind()
         {
+            field6.ComponentManager = componentManager;
             field6.Url = "~/Admin";
-            field6.Parameters = new ComponentManagerCollection<Parameter>(componentManager, "Parameters", field6);
+            field6.Parameters = new List<Parameter>();
+
             field7 = new Parameter();
-            componentManager.AddComponent(field6, "Parameters", field7, field7_Bind);
+            componentManager.AddComponent(field7, field7_Bind);
+            field6.Parameters.Add(field7);
+
             field8 = new Parameter();
-            componentManager.AddComponent(field6, "Parameters", field8, field8_Bind);
+            componentManager.AddComponent(field8, field8_Bind);
+            field6.Parameters.Add(field8);
+
             field9 = new Security();
-            componentManager.SetComponent(field6, "Security", field9, field9_Bind);
+            componentManager.AddComponent(field9, field9_Bind);
+            field6.Security = field9;
         }
 
         private void field7_Bind()

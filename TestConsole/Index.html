@@ -1,3 +1,10 @@
 ﻿<h:panel>
-    <h:textbox name="surname" text="{h:Binding Expression={h:Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
+    <!--<h:textbox name="surname" text="{h:Binding Expression={h:Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />-->
+    <h:textbox name="surname" />
+    <h:anchor url="~/Admin">
+        <parameters>
+            <h:parameter name="ID" value="5" />
+            <h:parameter name="Detail" value="True" />
+        </parameters>
+    </h:anchor>
 </h:panel>

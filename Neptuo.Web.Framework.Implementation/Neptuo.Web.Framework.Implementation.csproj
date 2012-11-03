@@ -51,8 +51,8 @@
     <Compile Include="BaseViewPage.cs" />
     <Compile Include="Compilation\CodeDomGenerator.cs" />
     <Compile Include="Compilation\BaseParser.cs" />
-    <Compile Include="Compilation\CodeDomGenerator.GeneratorHelper.Base.cs" />
-    <Compile Include="Compilation\CodeDomGenerator.GeneratorHelper.cs" />
+    <Compile Include="Compilation\CodeDomGenerator.Private.cs" />
+    <Compile Include="Compilation\CodeDomGenerator.Protected.cs" />
     <Compile Include="Compilation\CodeObjects\ControlCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\ListAddPropertyDescriptor.cs" />
     <Compile Include="Compilation\CodeObjects\ObserverCodeObject.cs" />
@@ -72,7 +72,6 @@
     <Compile Include="Compilation\XmlContentParser.Helper.cs" />
     <Compile Include="Compilation\XmlContentParser.LiteralTypeDescriptor.cs" />
     <Compile Include="Compilation\BaseParser.Utils.cs" />
-    <Compile Include="ComponentManagerCollection.cs" />
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericControl.cs" />

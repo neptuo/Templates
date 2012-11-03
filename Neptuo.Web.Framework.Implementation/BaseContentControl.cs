@@ -29,13 +29,19 @@ namespace Neptuo.Web.Framework
             base.OnInit();
 
             if (Content != null)
-                ((ComponentManagerCollection<object>)Content).Init();
+            {
+                foreach (object item in Content)
+                    ComponentManager.Init(item);
+            }
         }
 
         protected override void RenderBody(HtmlTextWriter writer)
         {
             if (Content != null)
-                ((ComponentManagerCollection<object>)Content).Render(writer);
+            {
+                foreach (object item in Content)
+                    ComponentManager.Render(item, writer);
+            }
         }
     }
 }

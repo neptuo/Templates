@@ -10,17 +10,7 @@ namespace Neptuo.Web.Framework
     /// </summary>
     public interface IComponentManager
     {
-        IEnumerable<object> GetComponents();
-
-        ICollection<object> GetComponents(object owner, string propertyName);
-
-        void SetRootComponent(object component, Action propertyBinder);
-
-        void SetComponent(object owner, string propertyName, object value, Action propertyBinder);
-
-        void AddComponent(object owner, string propertyName, object component, Action propertyBinder);
-
-        bool RemoveComponent(object owner, string propertyName, object component);
+        void AddComponent(object component, Action propertyBinder);
 
         void AttachObserver(IControl control, IObserver observer, Action propertyBinder);
 

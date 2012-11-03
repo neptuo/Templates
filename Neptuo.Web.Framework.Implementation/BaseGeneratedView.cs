@@ -28,7 +28,7 @@ namespace Neptuo.Web.Framework
 
         public void CreateControls()
         {
-            componentManager.SetRootComponent(viewPage, CreateViewPageControls);
+            componentManager.AddComponent(viewPage, CreateViewPageControls);
         }
 
         protected abstract void CreateViewPageControls();
