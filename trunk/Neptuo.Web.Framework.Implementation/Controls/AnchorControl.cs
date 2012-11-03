@@ -16,9 +16,18 @@ namespace Neptuo.Web.Framework.Controls
         public override void OnInit()
         {
             base.OnInit();
-            ((ComponentManagerCollection<Parameter>)Parameters).Init();
 
+            Init(Security);
+            if (Security != null)
+            {
+                Parameters.Add(new Parameter
+                {
+                    Name = "Security",
+                    Value = Security.Identifier
+                });
+            }
 
+            Init(Parameters);
             foreach (Parameter parameter in Parameters)
             {
                 if (Url.Contains("?"))

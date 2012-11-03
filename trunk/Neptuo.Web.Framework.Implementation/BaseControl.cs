@@ -14,6 +14,8 @@ namespace Neptuo.Web.Framework
     /// </summary>
     public abstract class BaseControl : IControl
     {
+        public IComponentManager ComponentManager { get; set; }
+
         public Dictionary<string, string> Attributes { get; protected set; }
 
         protected virtual string TagName
@@ -96,5 +98,16 @@ namespace Neptuo.Web.Framework
         }
 
         protected virtual void RenderBody(HtmlTextWriter writer) { }
+
+        protected void Init(object component)
+        {
+            ComponentManager.Init(component);
+        }
+
+        protected void Init<T>(IEnumerable<T> compoments)
+        {
+            foreach (T component in compoments)
+                Init(component);
+        }
     }
 }

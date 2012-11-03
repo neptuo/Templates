@@ -12,19 +12,10 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public partial class CodeDomGenerator : ICodeGenerator, IExtensibleCodeGenerator
     {
-        public GeneratorHelper Helper { get; protected set; }
-
-        public CodeDomGenerator()
-        {
-            Helper = new GeneratorHelper();
-        }
-
         public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context)
         {
             if (propertyDescriptor is ListAddPropertyDescriptor)
-            {
-                Helper.GenerateProperty(propertyDescriptor as ListAddPropertyDescriptor, GeneratorHelper.Names.ViewPageField, Helper.CreateViewPageControlsMethod);
-            }
+                GenerateProperty(propertyDescriptor as ListAddPropertyDescriptor, Names.ViewPageField, CreateViewPageControlsMethod);
 
             WriteOutput(context.Output);
             return true;
@@ -40,7 +31,7 @@ namespace Neptuo.Web.Framework.Compilation
                 VerbatimOrder = false
             };
 
-            provider.GenerateCodeFromCompileUnit(Helper.Unit, writer, options);
+            provider.GenerateCodeFromCompileUnit(Unit, writer, options);
         }
 
         public void AddExtension(Type codeObjectType, Type extensionCodeGeneratorType)

@@ -24,14 +24,14 @@ namespace TestConsole
 
         public static void Test()
         {
-            //if (GenerateCode())
-            //{
-            //    if (CompileCode())
-            //    {
-            //        RunCode();
-            //    }
-            //}
-            RunStaticCode();
+            if (GenerateCode())
+            {
+                if (CompileCode())
+                {
+                    RunCode();
+                }
+            }
+            //RunStaticCode();
         }
 
         static bool GenerateCode()
