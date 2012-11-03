@@ -1,90 +1,134 @@
-﻿using System;
+﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Utils;
+using System;
 using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation
 {
     partial class CodeDomGenerator
     {
-        public class GeneratorHelper
+        partial class GeneratorHelper
         {
-            public static class Names
+            protected CodeExpression GenerateCodeObject(ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
             {
-                public const string CodeNamespace = "Neptuo.Web.Framework";
-                public const string ClassName = "GeneratedView";
-                public const string BaseClassName = "BaseGeneratedView";
-                public const string RequestField = "request";
-                public const string ResponseField = "response";
-                public const string ViewPageField = "viewPage";
-                public const string ComponentManagerField = "componentManager";
-                public const string ServiceProviderField = "serviceProvider";
+                if (codeObject is IComponentCodeObject)
+                    return GenerateComponent(codeObject as IComponentCodeObject, propertyDescriptor, parentBindMethod, parentFieldName);
+                else if (codeObject is IPlainValueCodeObject)
+                    return GeneratePlainValue(codeObject as IPlainValueCodeObject, propertyDescriptor, parentBindMethod, parentFieldName);
 
-                public const string CreateControlsMethod = "CreateViewPageControls";
-                public const string InitMethod = "InitOverride";
-
-                public static readonly Type BaseClassType = typeof(BaseGeneratedView);
+                throw new NotImplementedException("Not supported codeobject");
             }
 
-            private int fieldCount = 0;
-
-            public CodeCompileUnit Unit { get; protected set; }
-            public CodeNamespace CodeNamespace { get; protected set; }
-            public CodeTypeDeclaration Class { get; protected set; }
-
-            public CodeMemberMethod CreateControlsMethod { get; protected set; }
-            public CodeMemberMethod InitMethod { get; protected set; }
-
-            public GeneratorHelper()
+            protected CodeExpression GenerateComponent(IComponentCodeObject component, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
             {
-                CreateBase();
-                CreateClass();
-                CreateMethods();
-            }
+                string fieldName = GenerateFieldName();
+                CodeMemberField field = new CodeMemberField(component.Type, fieldName);
+                Class.Members.Add(field);
 
-            private void CreateBase()
-            {
-                Unit = new CodeCompileUnit();
-                CodeNamespace = new CodeNamespace(Names.CodeNamespace);
-                CodeNamespace.Imports.Add(new CodeNamespaceImport("System"));
-                CodeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web"));
-                CodeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web.Framework"));
-                Unit.Namespaces.Add(CodeNamespace);
-            }
+                parentBindMethod.Statements.Add(
+                    new CodeAssignStatement(
+                        new CodeFieldReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            fieldName
+                        ),
+                        new CodeObjectCreateExpression(component.Type)
+                    )
+                );
 
-            private void CreateClass()
-            {
-                Class = new CodeTypeDeclaration(Names.ClassName);
-                Class.IsClass = true;
-                Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
-                Class.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
-                Class.BaseTypes.Add(new CodeTypeReference(typeof(IGeneratedView)));
-                Class.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
-                CodeNamespace.Types.Add(Class);
-            }
-
-            private void CreateMethods()
-            {
-                CreateControlsMethod = new CodeMemberMethod
+                CodeMemberMethod bindMethod = new CodeMemberMethod
                 {
-                    Name = Names.CreateControlsMethod,
-                    Attributes = MemberAttributes.Override | MemberAttributes.Family
+                    Name = FormatBindMethod(fieldName)
                 };
-                Class.Members.Add(CreateControlsMethod);
+                Class.Members.Add(bindMethod);
 
-                InitMethod = new CodeMemberMethod
+                foreach (IPropertyDescriptor propertyDesc in component.Properties)
                 {
-                    Name = Names.InitMethod,
-                    Attributes = MemberAttributes.Override | MemberAttributes.Family
-                };
-                Class.Members.Add(InitMethod);
+                    if (propertyDesc is ListAddPropertyDescriptor)
+                        GenerateProperty(propertyDesc as ListAddPropertyDescriptor, fieldName, bindMethod);
+                    else if (propertyDesc is SetPropertyDescriptor)
+                        GenerateProperty(propertyDesc as SetPropertyDescriptor, fieldName, bindMethod);
+                }
+
+                return new CodeFieldReferenceExpression(
+                    new CodeThisReferenceExpression(),
+                    fieldName
+                );
             }
 
-            public string GenerateFieldName()
+            public CodeExpression GeneratePlainValue(IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
             {
-                return String.Format("field{0}", ++fieldCount);
+                return null;
+            }
+
+            public void GenerateProperty(ListAddPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
+            {
+                if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.Property.PropertyType.GetGenericTypeDefinition()))
+                {
+                    bindMethod.Statements.Add(
+                        new CodeAssignStatement(
+                            new CodePropertyReferenceExpression(
+                                new CodeFieldReferenceExpression(
+                                    new CodeThisReferenceExpression(),
+                                    fieldName
+                                ),
+                                propertyDescriptor.Property.Name
+                            ),
+                            new CodeObjectCreateExpression(
+                                typeof(ComponentManagerCollection<>).MakeGenericType(propertyDescriptor.Property.PropertyType.GetGenericArguments()[0]),
+                                new CodeFieldReferenceExpression(
+                                    new CodeThisReferenceExpression(),
+                                    Names.ComponentManagerField
+                                ),
+                                new CodePrimitiveExpression(propertyDescriptor.Property.Name),
+                                new CodeFieldReferenceExpression(
+                                    new CodeThisReferenceExpression(),
+                                    fieldName
+                                )
+                            )
+                        )
+                    );
+                }
+
+                foreach (ICodeObject propertyValue in propertyDescriptor.Values)
+                {
+
+
+                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.Property.PropertyType.GetGenericTypeDefinition()))
+                    {
+                        //bindMethod.Statements.Add(
+                        //    new CodeMethodInvokeExpression(
+                        //        new CodeFieldReferenceExpression(
+                        //            new CodeThisReferenceExpression(),
+                        //            Names.ComponentManagerField
+                        //        ),
+                        //        TypeHelper.MethodName<IComponentManager, object, string, object, Action>(c => c.AddComponent),
+                        //        new CodeFieldReferenceExpression(
+                        //            new CodeThisReferenceExpression(),
+                        //            parentFieldName
+                        //        ),
+                        //        new CodePrimitiveExpression(propertyDescriptor.Property.Name),
+                        //        new CodeFieldReferenceExpression(
+                        //            new CodeThisReferenceExpression(),
+                        //            fieldName
+                        //        ),
+                        //        new CodeMethodReferenceExpression(
+                        //            new CodeThisReferenceExpression(),
+                        //            bindMethod.Name
+                        //        )
+                        //    )
+                        //);
+                    }
+                    GenerateCodeObject(propertyValue, propertyDescriptor, bindMethod, fieldName);
+                }
+            }
+
+            public void GenerateProperty(SetPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
+            {
+                GenerateCodeObject(propertyDescriptor.Value, propertyDescriptor, bindMethod, fieldName);
             }
         }
     }

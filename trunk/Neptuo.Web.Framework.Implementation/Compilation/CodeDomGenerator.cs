@@ -21,7 +21,10 @@ namespace Neptuo.Web.Framework.Compilation
 
         public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context)
         {
-            //throw new NotImplementedException();
+            if (propertyDescriptor is ListAddPropertyDescriptor)
+            {
+                Helper.GenerateProperty(propertyDescriptor as ListAddPropertyDescriptor, GeneratorHelper.Names.ViewPageField, Helper.CreateViewPageControlsMethod);
+            }
 
             WriteOutput(context.Output);
             return true;

@@ -63,6 +63,12 @@ namespace Neptuo.Web.Framework
             entries.Add(component, rootComponent);
         }
 
+        public void SetComponent(object parent, string propertyName, object component, Action propertyBinder)
+        {
+            AddComponent(parent, propertyName, component, propertyBinder);
+            parent.GetType().GetProperty(propertyName).SetValue(parent, component, null);
+        }
+
         public void AddComponent(object parent, string propertyName, object component, Action propertyBinder)
         {
             if (parent == null)

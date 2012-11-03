@@ -21,6 +21,20 @@ namespace Neptuo.Web.Framework
             this.dataStorage = componentManager.GetComponents(owner, propertyName);
         }
 
+        public void Init()
+        {
+            foreach (object item in dataStorage)
+                componentManager.Init(item);
+        }
+
+        public void Render(HtmlTextWriter writer)
+        {
+            foreach (object item in dataStorage)
+                componentManager.Render(item, writer);
+        }
+
+        #region ICollection<T>
+
         public void Add(T item)
         {
             Add(item, null);
@@ -71,5 +85,7 @@ namespace Neptuo.Web.Framework
         {
             return dataStorage.GetEnumerator();
         }
+
+        #endregion
     }
 }

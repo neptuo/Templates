@@ -16,6 +16,8 @@ namespace Neptuo.Web.Framework
 
         void SetRootComponent(object component, Action propertyBinder);
 
+        void SetComponent(object owner, string propertyName, object value, Action propertyBinder);
+
         void AddComponent(object owner, string propertyName, object component, Action propertyBinder);
 
         bool RemoveComponent(object owner, string propertyName, object component);
