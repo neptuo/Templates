@@ -11,14 +11,11 @@ namespace Neptuo.Web.Framework
     [DefaultProperty("Content")]
     public abstract class BaseContentControl : BaseControl, IContentControl
     {
-        [Dependency]
-        public IComponentManager ComponentManager { get; set; }
-
         protected override bool IsSelfClosing
         {
             get
             {
-                if (Content != null & Content.Count != 0)
+                if (Content != null && Content.Count != 0)
                     return false;
 
                 return base.IsSelfClosing;
@@ -31,14 +28,14 @@ namespace Neptuo.Web.Framework
         {
             base.OnInit();
 
-            foreach (object item in Content)
-                ComponentManager.Init(item);
+            if (Content != null)
+                ((ComponentManagerCollection<object>)Content).Init();
         }
 
         protected override void RenderBody(HtmlTextWriter writer)
         {
-            foreach (object item in Content)
-                ComponentManager.Render(item, writer);
+            if (Content != null)
+                ((ComponentManagerCollection<object>)Content).Render(writer);
         }
     }
 }

@@ -214,7 +214,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         private void ResolvePropertyValue(Helper helper, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
         {
-            if (ReflectionHelper.IsGenericType<IList>(prop.PropertyType))
+            if (typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition()))
             {
                 //Prvek listu
                 IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(prop);

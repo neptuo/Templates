@@ -10,87 +10,87 @@ using Neptuo.Web.Framework.Compilation;
 namespace Neptuo.Web.Framework.Controls
 {
     //[ControlBuilder(typeof(GridControlBuilder))]
-    public class GridControl : BaseContentControl
-    {
-        public ICollection<GridItemControl> Header { get; set; }
-
-        [DefaultValue(2)]
-        public int Repeat { get; set; }
-
-        protected override string TagName
-        {
-            get { return "table"; }
-        }
-
-        public GridOptions Options { get; set; }
-
-        public override void OnInit()
-        {
-            foreach (GridItemControl item in Header)
-                ComponentManager.Init(item);
-
-            base.OnInit();
-        }
-
-        protected override void RenderBody(HtmlTextWriter writer)
-        {
-            writer.WriteFullBeginTag("tr");
-            foreach (GridItemControl item in Header)
-            {
-                writer.WriteFullBeginTag("th");
-                ComponentManager.Render(item, writer);
-
-                writer.WriteEndTag("th");
-            }
-            writer.WriteEndTag("tr");
-
-            for (int i = 0; i < Repeat; i++)
-            {
-                writer.WriteFullBeginTag("tr");
-                foreach (object item in Content)
-                {
-                    if (item is IControl)
-                    {
-                        IControl control = (item as IControl);
-                        LiteralControl literal = control as LiteralControl;
-                        if (literal != null && String.IsNullOrWhiteSpace(literal.Text))
-                            continue;
-
-                        writer.WriteFullBeginTag("td");
-                        ComponentManager.Render(control, writer);
-                        writer.WriteEndTag("td");
-                    }
-                }
-                writer.WriteEndTag("tr");
-            }
-        }
-    }
-
-    //public class GridControlBuilder : IXmlControlBuilder
+    //public class GridControl : BaseContentControl
     //{
-    //    public void GenerateControl(Type controlType, XmlElement source, XmlBuilderContext context)
+    //    public ICollection<GridItemControl> Header { get; set; }
+
+    //    [DefaultValue(2)]
+    //    public int Repeat { get; set; }
+
+    //    protected override string TagName
     //    {
-    //        DefaultContentGenerator compiler = context.ContentGenerator as DefaultContentGenerator;
-    //        if (compiler != null)
-    //            compiler.GenerateControl(new DefaultContentGenerator.Helper(null, context), controlType, source);
+    //        get { return "table"; }
+    //    }
+
+    //    public GridOptions Options { get; set; }
+
+    //    public override void OnInit()
+    //    {
+    //        foreach (GridItemControl item in Header)
+    //            ComponentManager.Init(item);
+
+    //        base.OnInit();
+    //    }
+
+    //    protected override void RenderBody(HtmlTextWriter writer)
+    //    {
+    //        writer.WriteFullBeginTag("tr");
+    //        foreach (GridItemControl item in Header)
+    //        {
+    //            writer.WriteFullBeginTag("th");
+    //            ComponentManager.Render(item, writer);
+
+    //            writer.WriteEndTag("th");
+    //        }
+    //        writer.WriteEndTag("tr");
+
+    //        for (int i = 0; i < Repeat; i++)
+    //        {
+    //            writer.WriteFullBeginTag("tr");
+    //            foreach (object item in Content)
+    //            {
+    //                if (item is IControl)
+    //                {
+    //                    IControl control = (item as IControl);
+    //                    LiteralControl literal = control as LiteralControl;
+    //                    if (literal != null && String.IsNullOrWhiteSpace(literal.Text))
+    //                        continue;
+
+    //                    writer.WriteFullBeginTag("td");
+    //                    ComponentManager.Render(control, writer);
+    //                    writer.WriteEndTag("td");
+    //                }
+    //            }
+    //            writer.WriteEndTag("tr");
+    //        }
     //    }
     //}
 
-    [DefaultProperty("Text")]
-    public class GridItemControl : BaseControl
-    {
-        public string Text { get; set; }
+    ////public class GridControlBuilder : IXmlControlBuilder
+    ////{
+    ////    public void GenerateControl(Type controlType, XmlElement source, XmlBuilderContext context)
+    ////    {
+    ////        DefaultContentGenerator compiler = context.ContentGenerator as DefaultContentGenerator;
+    ////        if (compiler != null)
+    ////            compiler.GenerateControl(new DefaultContentGenerator.Helper(null, context), controlType, source);
+    ////    }
+    ////}
 
-        public override void Render(HtmlTextWriter writer)
-        {
-            writer.Write(Text);
-        }
-    }
+    //[DefaultProperty("Text")]
+    //public class GridItemControl : BaseControl
+    //{
+    //    public string Text { get; set; }
 
-    public class GridOptions
-    {
-        public string Key { get; set; }
+    //    public override void Render(HtmlTextWriter writer)
+    //    {
+    //        writer.Write(Text);
+    //    }
+    //}
 
-        public string Value { get; set; }
-    }
+    //public class GridOptions
+    //{
+    //    public string Key { get; set; }
+
+    //    public string Value { get; set; }
+    //}
 }

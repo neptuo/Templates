@@ -125,7 +125,7 @@ namespace TestConsole
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            Assembly views = Assembly.GetExecutingAssembly(); //Assembly.Load("GeneratedView");
+            Assembly views = Assembly.Load("GeneratedView");
             Type generatedView = views.GetType("Neptuo.Web.Framework.GeneratedView");
 
             StringWriter output = new StringWriter();

@@ -25,31 +25,27 @@ namespace Neptuo.Web.Framework
         private BindingExtension field4;
         private ValidationObserver field5;
 
+        private AnchorControl field6;
+        private Parameter field7;
+        private Parameter field8;
+        private Security field9;
+
         protected override void CreateViewPageControls()
         {
             viewPage.Content = new ComponentManagerCollection<object>(componentManager, "Content", viewPage);
-            field1 = field1_Create();
+            field1 = new PanelControl();
             componentManager.AddComponent(viewPage, "Content", field1, field1_Bind);
-        }
-
-        private PanelControl field1_Create()
-        {
-            return new PanelControl();
+            field6 = new AnchorControl();
+            componentManager.AddComponent(viewPage, "Content", field6, field6_Bind);
         }
 
         private void field1_Bind()
         {
             field1.Content = new ComponentManagerCollection<object>(componentManager, "Content", field1);
-            field3 = field3_Create();
+            field3 = new TextBoxControl();
             componentManager.AddComponent(field1, "Content", field3, field3_Bind);
-            field1.ComponentManager = componentManager;
-            field2 = field2_Create();
+            field2 = new VisibleObserver();
             componentManager.AttachObserver(field1, field2, field2_Bind);
-        }
-
-        private VisibleObserver field2_Create()
-        {
-            return new VisibleObserver();
         }
 
         private void field2_Bind()
@@ -57,39 +53,21 @@ namespace Neptuo.Web.Framework
             field2.Visible = true;
         }
 
-        private TextBoxControl field3_Create()
-        {
-            return new TextBoxControl();
-        }
-
         private void field3_Bind()
         {
             field3.Name = "FullName";
-            field4 = field4_Create();
+            field4 = new BindingExtension();
             field4_Bind();
             field3.Text = (string)field4.ProvideValue();
-            field5 = field5_Create();
+            field5 = new ValidationObserver();
             componentManager.AttachObserver(field3, field5, field5_Bind);
             componentManager.AttachObserver(field3, field5, field5_Bind2);
             componentManager.AttachObserver(field3, field5, field5_Bind3);
         }
 
-        private BindingExtension field4_Create()
-        {
-            return new BindingExtension();
-        }
-
         private void field4_Bind()
         {
             field4.Expression = "John Doe";
-        }
-
-        private ValidationObserver field5_Create()
-        {
-            ValidationObserver item = new ValidationObserver();
-            item.MinLength = -1;
-            item.MaxLength = -1;
-            return item;
         }
 
         private void field5_Bind()
@@ -105,6 +83,35 @@ namespace Neptuo.Web.Framework
         private void field5_Bind3()
         {
             field5.ErrorMessage = "Provide a valid value!";
+        }
+
+        private void field6_Bind()
+        {
+            field6.Url = "~/Admin";
+            field6.Parameters = new ComponentManagerCollection<Parameter>(componentManager, "Parameters", field6);
+            field7 = new Parameter();
+            componentManager.AddComponent(field6, "Parameters", field7, field7_Bind);
+            field8 = new Parameter();
+            componentManager.AddComponent(field6, "Parameters", field8, field8_Bind);
+            field9 = new Security();
+            componentManager.SetComponent(field6, "Security", field9, field9_Bind);
+        }
+
+        private void field7_Bind()
+        {
+            field7.Name = "ID";
+            field7.Value = "5";
+        }
+
+        private void field8_Bind()
+        {
+            field8.Name = "Detail";
+            field8.Value = "True";
+        }
+
+        private void field9_Bind()
+        {
+            field9.Identifier = "Hello";
         }
     }
 }
