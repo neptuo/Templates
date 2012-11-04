@@ -49,29 +49,40 @@
     <Compile Include="BaseControl.cs" />
     <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="BaseViewPage.cs" />
-    <Compile Include="Compilation\CodeDomGenerator.cs" />
-    <Compile Include="Compilation\BaseParser.cs" />
-    <Compile Include="Compilation\CodeDomGenerator.Private.cs" />
-    <Compile Include="Compilation\CodeDomGenerator.Protected.cs" />
+    <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\BaseCodeObjectCodeDomExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\CodeDomCodeObjectExtensionContext.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\BaseCodeDomPropertyDescriptorExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\CodeDomPropertyDescriptorExtensionContext.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\ComponentCodeDomCodeObjectExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomCodeObjectExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomPropertyDescriptorExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\ListAddCodeDomPropertyDescriptorExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\PlainValueCodeDomCodeObjectExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\SetCodeDomPropertyDescriptorExtension.cs" />
+    <Compile Include="Compilation\Parsers\BaseParser.cs" />
+    <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.Private.cs" />
     <Compile Include="Compilation\CodeObjects\ControlCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\ListAddPropertyDescriptor.cs" />
     <Compile Include="Compilation\CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\SetPropertyDescriptor.cs" />
-    <Compile Include="Compilation\DefaultCodeGeneratorContext.cs" />
-    <Compile Include="Compilation\DefaultParserContext.cs" />
-    <Compile Include="Compilation\DefaultParserService.cs" />
-    <Compile Include="Compilation\DefaultParserServiceContext.cs" />
+    <Compile Include="Compilation\Parsers\Extensions\ComponentManagerExtension.cs" />
+    <Compile Include="Compilation\Parsers\Extensions\DefaultAttributeExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\DefaultCodeGeneratorContext.cs" />
+    <Compile Include="Compilation\Parsers\DefaultParserContext.cs" />
+    <Compile Include="Compilation\Parsers\DefaultParserService.cs" />
+    <Compile Include="Compilation\Parsers\DefaultParserServiceContext.cs" />
     <Compile Include="Compilation\CodeObjects\ExtensionCodeObject.cs" />
-    <Compile Include="Compilation\ExtensibleCodeGeneratorExtensions.cs" />
-    <Compile Include="Compilation\ExtensionValueParser.cs" />
-    <Compile Include="Compilation\ExtensionValueParser.Helper.cs" />
-    <Compile Include="Compilation\PlainValueParser.cs" />
-    <Compile Include="Compilation\XmlContentParser.cs" />
-    <Compile Include="Compilation\XmlContentParser.GenericContentTypeDescriptor.cs" />
-    <Compile Include="Compilation\XmlContentParser.Helper.cs" />
-    <Compile Include="Compilation\XmlContentParser.LiteralTypeDescriptor.cs" />
-    <Compile Include="Compilation\BaseParser.Utils.cs" />
+    <Compile Include="Compilation\Parsers\ExtensionValueParser.cs" />
+    <Compile Include="Compilation\Parsers\ExtensionValueParser.Helper.cs" />
+    <Compile Include="Compilation\Parsers\Extensions\IDefaultValueExtension.cs" />
+    <Compile Include="Compilation\Parsers\PlainValueParser.cs" />
+    <Compile Include="Compilation\Parsers\XmlContentParser.cs" />
+    <Compile Include="Compilation\Parsers\XmlContentParser.GenericContentTypeDescriptor.cs" />
+    <Compile Include="Compilation\Parsers\XmlContentParser.Helper.cs" />
+    <Compile Include="Compilation\Parsers\XmlContentParser.LiteralTypeDescriptor.cs" />
+    <Compile Include="Compilation\Parsers\BaseParser.Utils.cs" />
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericControl.cs" />
@@ -88,7 +99,7 @@
     <Compile Include="Registrator.cs" />
     <Compile Include="StandartComponentManager.cs" />
     <Compile Include="StandartComponentManager.ComponentEntry.cs" />
-    <Compile Include="StandartLivecycleObserver.ObserverInfo.cs" />
+    <Compile Include="StandartComponentManager.ObserverInfo.cs" />
     <Compile Include="Utils\ControlHelper.cs" />
     <Compile Include="Utils\Func.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
@@ -107,6 +118,7 @@
       <Name>Neptuo.Web.Framework</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
