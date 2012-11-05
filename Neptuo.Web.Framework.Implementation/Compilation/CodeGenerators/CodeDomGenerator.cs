@@ -18,7 +18,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
             CodeObjectExtensions = new Dictionary<Type, ICodeDomCodeObjectExtension>();
             SetCodeObjectExtension(typeof(ControlCodeObject), new ComponentCodeDomCodeObjectExtension());
             SetCodeObjectExtension(typeof(PlainValueCodeObject), new PlainValueCodeDomCodeObjectExtension());
-            //TODO: Support for DependencyCodeObject
+            SetCodeObjectExtension(typeof(DependencyCodeObject), new DependencyCodeDomCodeObjectExtension());
 
             PropertyDescriptorExtensions = new Dictionary<Type, ICodeDomPropertyDescriptorExtension>();
             SetPropertyDescriptorExtension(typeof(ListAddPropertyDescriptor), new ListAddCodeDomPropertyDescriptorExtension());

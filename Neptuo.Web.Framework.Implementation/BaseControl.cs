@@ -106,8 +106,11 @@ namespace Neptuo.Web.Framework
 
         protected void Init<T>(IEnumerable<T> compoments)
         {
-            foreach (T component in compoments)
-                Init(component);
+            if (compoments != null)
+            {
+                foreach (T component in compoments)
+                    Init(component);
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Neptuo.Web.Framework.Utils
         {
             Dictionary<string, PropertyInfo> result = new Dictionary<string, PropertyInfo>();
             foreach (PropertyInfo property in control.GetProperties())
-                result.Add(property.Name, property);
+                result[property.Name] = property;
 
             return result;
         }
@@ -26,7 +26,7 @@ namespace Neptuo.Web.Framework.Utils
                 DefaultPropertyAttribute defaultPropertyAttribute = attributes[0] as DefaultPropertyAttribute;
                 if (defaultPropertyAttribute != null && defaultPropertyAttribute.Name != null)
                 {
-                    PropertyInfo property = control.GetProperty(defaultPropertyAttribute.Name);
+                    PropertyInfo property = control.GetProperties().LastOrDefault(p => p.Name == defaultPropertyAttribute.Name);
                     if (property != null)
                         return property;
                 }

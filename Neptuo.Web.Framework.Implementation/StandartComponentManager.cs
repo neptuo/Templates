@@ -32,7 +32,7 @@ namespace Neptuo.Web.Framework
         public void Init(object control)
         {
             //throw new LivecycleException("Not registered control!");
-            if (!entries.ContainsKey(control))
+            if (control == null || !entries.ContainsKey(control))
                 return;
 
             //throw new LivecycleException("Control is already inited!");
@@ -80,6 +80,12 @@ namespace Neptuo.Web.Framework
 
         public void Render(object control, HtmlTextWriter writer)
         {
+            if(control == null)
+                return;
+
+            if (control.GetType() == typeof(String))
+                writer.Write(control);
+
             //throw new LivecycleException("Not registered control!");
             if (!entries.ContainsKey(control))
                 return;

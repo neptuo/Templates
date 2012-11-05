@@ -57,5 +57,10 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
                 fieldName
             );
         }
+
+        protected void AttachObservers(CodeDomCodeObjectExtensionContext context, IComponentCodeObject component)
+        {
+
+        }
     }
 }

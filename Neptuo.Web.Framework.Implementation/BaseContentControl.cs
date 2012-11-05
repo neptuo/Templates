@@ -5,6 +5,7 @@ using System.Text;
 using System.ComponentModel;
 using Neptuo.Web.Framework.Annotations;
 using System.IO;
+using System.Collections;
 
 namespace Neptuo.Web.Framework
 {

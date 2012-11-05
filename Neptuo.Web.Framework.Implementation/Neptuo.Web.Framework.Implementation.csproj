@@ -55,11 +55,13 @@
     <Compile Include="Compilation\CodeGenerators\Extensions\BaseCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\CodeDomPropertyDescriptorExtensionContext.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ComponentCodeDomCodeObjectExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\DependencyCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ListAddCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\PlainValueCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\SetCodeDomPropertyDescriptorExtension.cs" />
+    <Compile Include="Compilation\CodeObjects\DependencyCodeObject.cs" />
     <Compile Include="Compilation\Parsers\BaseParser.cs" />
     <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.Private.cs" />
     <Compile Include="Compilation\CodeObjects\ControlCodeObject.cs" />
