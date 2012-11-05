@@ -50,12 +50,14 @@
     <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="BaseViewPage.cs" />
     <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.cs" />
-    <Compile Include="Compilation\CodeGenerators\Extensions\BaseCodeObjectCodeDomExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\BaseCodeDomCodeObjectExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\BaseComponentCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\CodeDomCodeObjectExtensionContext.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\BaseCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\CodeDomPropertyDescriptorExtensionContext.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ComponentCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\DependencyCodeDomCodeObjectExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\ExtensionCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ListAddCodeDomPropertyDescriptorExtension.cs" />

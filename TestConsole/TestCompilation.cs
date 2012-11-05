@@ -1,6 +1,7 @@
 ﻿using Neptuo.Web.Framework;
 using Neptuo.Web.Framework.Compilation;
 using Neptuo.Web.Framework.Compilation.CodeGenerators;
+using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
 using Neptuo.Web.Framework.Controls;
@@ -67,7 +68,7 @@ namespace TestConsole
             using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
             {
                 CodeDomGenerator generator = new CodeDomGenerator();
-                //generator.AddExtension<ExtensionCodeObject, CodeDomGenerator>();
+                generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
                 bool generatorResult = generator.ProcessTree(contentProperty, new DefaultCodeGeneratorContext(writer));
                 if (!generatorResult)
                 {
