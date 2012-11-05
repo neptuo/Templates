@@ -18,14 +18,4 @@ namespace Neptuo.Web.Framework.Compilation.Parsers.Extensions
             return false;
         }
     }
-
-    public class DependencyCodeObject : ICodeObject
-    {
-        Type TargetType { get; set; }
-
-        public DependencyCodeObject(Type targetType)
-        {
-            TargetType = targetType;
-        }
-    }
 }

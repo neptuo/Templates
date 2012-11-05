@@ -30,7 +30,6 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             Helper helper = new Helper(content, context);
 
             GenerateRecursive(helper, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
-            AppendPlainText(helper.Content.ToString(), helper);
 
             return true;
         }
@@ -94,6 +93,8 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                     }
                 }
             }
+            AppendPlainText(helper.Content.ToString(), helper);
+            helper.Content.Clear();
         }
 
         private void AppendPlainText(string text, Helper helper)
@@ -214,7 +215,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
         private void ResolvePropertyValue(Helper helper, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
         {
-            if (typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition()))
+            if (typeof(ICollection).IsAssignableFrom(prop.PropertyType) || typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition()))
             {
                 //Prvek listu
                 IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(prop);

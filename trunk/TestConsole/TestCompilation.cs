@@ -62,7 +62,7 @@ namespace TestConsole
             {
                 Console.WriteLine("Parsing failed!");
                 return false;
-            }
+            } 
 
             using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
             {

@@ -51,7 +51,7 @@ namespace Neptuo.Web.Framework
 
             field3 = new TextBoxControl();
             componentManager.AddComponent(field3, field3_Bind);
-            field1.Content.Add(field3);
+            ((List<object>)field1.Content).Add(field3);
 
             field2 = new VisibleObserver();
             componentManager.AttachObserver(field1, field2, field2_Bind);
