@@ -20,7 +20,7 @@ namespace TestConsole
 {
     static class TestCompilation
     {
-        static IComponentManager componentManager = new StandartComponentManager();
+        static IComponentManager componentManager = new ComponentManager();
         static IRegistrator registrator = new Registrator();
         static IServiceProvider serviceProvider = new ServiceProvider(registrator, componentManager);
 

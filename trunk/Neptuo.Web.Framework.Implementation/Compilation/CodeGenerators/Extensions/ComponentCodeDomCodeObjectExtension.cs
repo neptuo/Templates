@@ -34,6 +34,8 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
                     )
                 )
             );
+
+            AttachObservers(context, component, field.FieldName);
             return field;
         }
 
@@ -45,10 +47,12 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
 
         protected void AttachObserver(CodeDomCodeObjectExtensionContext context, ObserverCodeObject observer, IComponentCodeObject component, string componentFieldName)
         {
+            bool newObserver = false;
             CodeFieldReferenceExpression observerField = null;
             if (observer.ObserverLivecycle == ObserverLivecycle.PerAttribute)
             {
                 observerField = GenerateCompoment(context, observer, observer);
+                newObserver = true;
             }
             else if (observer.ObserverLivecycle == ObserverLivecycle.PerControl)
             {
@@ -59,6 +63,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
                 {
                     observerField = GenerateCompoment(context, observer, observer);
                     perControl[observer.Type].Add(component, observerField);
+                    newObserver = true;
                 }
                 observerField = perControl[observer.Type][component];
             }
@@ -68,6 +73,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
                 {
                     observerField = GenerateCompoment(context, observer, observer);
                     perPage.Add(observer.Type, observerField);
+                    newObserver = true;
                 }
                 observerField = perPage[observer.Type];
             }
@@ -91,7 +97,12 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
                         ),
                         new CodeMethodReferenceExpression(
                             new CodeThisReferenceExpression(),
-                            context.CodeGenerator.FormatBindMethod(observerField.FieldName)
+                            newObserver ? context.CodeGenerator.FormatBindMethod(observerField.FieldName) : GenerateBindMethod(
+                                context, 
+                                observer, 
+                                observerField.FieldName, 
+                                context.CodeGenerator.FormatBindMethod(context.CodeGenerator.GenerateFieldName())
+                            ).Name
                         )
                     )
                 );

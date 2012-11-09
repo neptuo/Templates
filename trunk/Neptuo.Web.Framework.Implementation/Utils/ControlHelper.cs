@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.ComponentModel;
+using Neptuo.Web.Framework.Annotations;
 
 namespace Neptuo.Web.Framework.Utils
 {
@@ -13,7 +14,14 @@ namespace Neptuo.Web.Framework.Utils
         {
             Dictionary<string, PropertyInfo> result = new Dictionary<string, PropertyInfo>();
             foreach (PropertyInfo property in control.GetProperties())
-                result[property.Name] = property;
+            {
+                string propertyName = property.Name;
+                PropertyAttribute attribute = ReflectionHelper.GetAttribute<PropertyAttribute>(property);
+                if (attribute != null)
+                    propertyName = attribute.Name ?? propertyName;
+
+                result[propertyName] = property;
+            }
 
             return result;
         }

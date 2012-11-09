@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\CodeObjects\IControlCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\IDefaultPropertyValue.cs" />
     <Compile Include="Compilation\CodeObjects\IObserverCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\IObserversCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\IPlainValueCodeObject.cs" />

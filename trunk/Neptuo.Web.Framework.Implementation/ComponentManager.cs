@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    public partial class StandartComponentManager : IComponentManager
+    public partial class ComponentManager : IComponentManager
     {
         private Dictionary<object, ComponentEntry> entries = new Dictionary<object, ComponentEntry>();
 

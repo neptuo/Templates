@@ -10,17 +10,17 @@ namespace TestConsole
     {
         public static void Test()
         {
-            Console.WriteLine(TypeConverter.Convert("125", typeof(int)));
-            Console.WriteLine(TypeConverter.Convert(null, typeof(int)));
-            Console.WriteLine(TypeConverter.Convert(null, typeof(int?)));
-            Console.WriteLine(TypeConverter.Convert("125", typeof(String)));
-            Console.WriteLine(TypeConverter.Convert(null, typeof(String)));
-            Console.WriteLine(TypeConverter.Convert(null, typeof(bool)));
-            Console.WriteLine(TypeConverter.Convert("125", typeof(bool)));
-            Console.WriteLine(TypeConverter.Convert("true", typeof(bool)));
-            Console.WriteLine(TypeConverter.Convert(null, typeof(TestEnum)));
-            Console.WriteLine(TypeConverter.Convert("XX", typeof(TestEnum)));
-            Console.WriteLine(TypeConverter.Convert("One", typeof(TestEnum)));
+            Console.WriteLine(StringConverter.Convert("125", typeof(int)));
+            Console.WriteLine(StringConverter.Convert(null, typeof(int)));
+            Console.WriteLine(StringConverter.Convert(null, typeof(int?)));
+            Console.WriteLine(StringConverter.Convert("125", typeof(String)));
+            Console.WriteLine(StringConverter.Convert(null, typeof(String)));
+            Console.WriteLine(StringConverter.Convert(null, typeof(bool)));
+            Console.WriteLine(StringConverter.Convert("125", typeof(bool)));
+            Console.WriteLine(StringConverter.Convert("true", typeof(bool)));
+            Console.WriteLine(StringConverter.Convert(null, typeof(TestEnum)));
+            Console.WriteLine(StringConverter.Convert("XX", typeof(TestEnum)));
+            Console.WriteLine(StringConverter.Convert("One", typeof(TestEnum)));
         }
 
         enum TestEnum

@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace Neptuo.Web.Framework.Utils
 {
-    public static class TypeConverter
+    public static class StringConverter
     {
         public static bool CanConvert(Type target)
         {

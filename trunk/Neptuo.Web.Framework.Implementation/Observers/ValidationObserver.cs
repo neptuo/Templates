@@ -11,9 +11,15 @@ namespace Neptuo.Web.Framework.Observers
     public class ValidationObserver : IObserver
     {
         public string Regex { get; set; }
+
+        [Property("message")]
         public string ErrorMessage { get; set; }
+
+        [Property("max-length")]
         [DefaultValue(-1)]
         public int MaxLength { get; set; }
+
+        [Property("min-length")]
         [DefaultValue(-1)]
         public int MinLength { get; set; }
 
