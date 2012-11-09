@@ -29,10 +29,10 @@ namespace Neptuo.Web.Framework.Utils
             return (((((UnaryExpression)propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
         }
 
-        public static string MethodName<T, TParam1, TParam2, TResult>(Expression<Func<T, Func<TParam1, TParam2, TResult>>> propertyGetter)
-        {
-            return (((((UnaryExpression)propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
-        }
+        //public static string MethodName<T, TParam1, TParam2, TResult>(Expression<Func<T, Func<TParam1, TParam2, TResult>>> propertyGetter)
+        //{
+        //    return (((((UnaryExpression)propertyGetter.Body).Operand as MethodCallExpression).Arguments[2] as ConstantExpression).Value as MethodInfo).Name;
+        //}
 
         public static string MethodName<T>(Expression<Func<T, Action>> propertyGetter)
         {

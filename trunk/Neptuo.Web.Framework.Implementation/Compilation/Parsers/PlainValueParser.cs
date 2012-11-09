@@ -24,7 +24,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             //    return true;
             //}
             context.PropertyDescriptor.SetValue(new PlainValueCodeObject(content));
-            return false;
+            return true;
         }
     }
 }
