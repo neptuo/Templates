@@ -34,7 +34,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
                 );
             }
 
-            return null;
+            return new CodePrimitiveExpression(plainValue.Value);
         }
     }
 }
