@@ -98,7 +98,7 @@ namespace Neptuo.Web.Framework
             {
                 if (ReflectionHelper.CanBeUsedInMarkup(type))
                 {
-                    ControlAttribute controlAttr = ControlAttribute.GetAttribute(type);
+                    ComponentAttribute controlAttr = ComponentAttribute.GetAttribute(type);
 
                     string controlName = type.Name.ToLowerInvariant();
                     if (controlName.EndsWith("control"))
@@ -118,7 +118,7 @@ namespace Neptuo.Web.Framework
             {
                 if (ReflectionHelper.CanBeUsedInMarkup(type))
                 {
-                    ControlAttribute controlAttr = ControlAttribute.GetAttribute(type);
+                    ComponentAttribute controlAttr = ComponentAttribute.GetAttribute(type);
 
                     string extensionName = type.Name.ToLowerInvariant();
                     if (extensionName.EndsWith("extension"))

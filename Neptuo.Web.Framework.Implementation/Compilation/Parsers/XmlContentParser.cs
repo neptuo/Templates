@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using TypeConverter = Neptuo.Web.Framework.Utils.TypeConverter;
+using TypeConverter = Neptuo.Web.Framework.Utils.StringConverter;
 
 namespace Neptuo.Web.Framework.Compilation.Parsers
 {
@@ -220,30 +220,44 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 || typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition())
             )
             {
-                //Prvek listu
+                //Collection item
                 IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(prop);
                 codeObject.Properties.Add(propertyDescriptor);
                 helper.WithParent(propertyDescriptor, () => GenerateRecursive(helper, content));
             }
-            else if (TypeConverter.CanConvert(prop.PropertyType))
-            {
-                //Převeditelná hodnota ze stringu
-                StringBuilder contentValue = new StringBuilder();
-                foreach (XmlNode node in content)
-                    contentValue.Append(node.OuterXml);
-
-                codeObject.Properties.Add(
-                    new SetPropertyDescriptor(
-                        prop, 
-                        new PlainValueCodeObject(TypeConverter.Convert(contentValue.ToString(), prop.PropertyType))
-                    )
-                );
-            }
             else
             {
-                IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(prop);
-                codeObject.Properties.Add(propertyDescriptor);
-                helper.WithParent(propertyDescriptor, () => GenerateRecursive(helper, content));
+                // Count elements
+                IEnumerable<XmlElement> elements = content.OfType<XmlElement>();
+                if (elements.Any())
+                {
+                    // One XmlElement is ok
+                    if (elements.Count() == 1)
+                    {
+                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(prop);
+                        codeObject.Properties.Add(propertyDescriptor);
+                        helper.WithParent(propertyDescriptor, () => GenerateRecursive(helper, content));
+                    }
+                    else
+                    {
+                        //More elements can't be bound!
+                        throw new ArgumentException("Unbindable property!");
+                    }
+                }
+                else
+                {
+                    //Get string and add as plain value
+                    StringBuilder contentValue = new StringBuilder();
+                    foreach (XmlNode node in content)
+                        contentValue.Append(node.OuterXml);
+
+                    codeObject.Properties.Add(
+                        new SetPropertyDescriptor(
+                            prop,
+                            new PlainValueCodeObject(TypeConverter.Convert(contentValue.ToString(), prop.PropertyType))
+                        )
+                    );
+                }
             }
         }
 
@@ -256,6 +270,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 livecycle = observerAttribute.Livecycle;
 
             //TODO: Nevytvářet vždy nového, ale hledat již existující podle životního cyklu!
+            //TODO: Nebindovat defaultproperty, kvůli sdílení instance
             IObserverCodeObject observerObject = new ObserverCodeObject(observerType, livecycle);
             codeObject.Observers.Add(observerObject);
 

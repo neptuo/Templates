@@ -6,10 +6,11 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation.CodeObjects
 {
-    public class ListAddPropertyDescriptor : IPropertyDescriptor
+    public class ListAddPropertyDescriptor : IPropertyDescriptor, IDefaultPropertyValue
     {
         public PropertyInfo Property { get; set; }
         public List<ICodeObject> Values { get; set; }
+        public bool IsDefaultValue { get; set; }
 
         public ListAddPropertyDescriptor(PropertyInfo property)
         {

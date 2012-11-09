@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    partial class StandartComponentManager
+    partial class ComponentManager
     {
         internal class ComponentEntry
         {

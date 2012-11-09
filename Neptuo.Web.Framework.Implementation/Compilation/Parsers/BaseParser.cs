@@ -26,7 +26,12 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             foreach (IDefaultValueExtension extension in DefaultValueExtensions)
             {
                 if (extension.ProvideValue(propertyDescriptor))
+                {
+                    if (propertyDescriptor is IDefaultPropertyValue)
+                        ((IDefaultPropertyValue)propertyDescriptor).IsDefaultValue = true;
+
                     return true;
+                }
             }
             return false;
         }

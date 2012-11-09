@@ -10,7 +10,7 @@ using Neptuo.Web.Framework.Utils;
 namespace Neptuo.Web.Framework
 {
     /// <summary>
-    /// Controls extends this class support tag name specified in <see cref="ControlAttribute"/>.
+    /// Controls extends this class support tag name specified in <see cref="ComponentAttribute"/>.
     /// </summary>
     public abstract class BaseControl : IControl
     {
@@ -63,7 +63,7 @@ namespace Neptuo.Web.Framework
 
         public virtual void Render(HtmlTextWriter writer)
         {
-            ControlAttribute attr = ControlAttribute.GetAttribute(GetType());
+            ComponentAttribute attr = ComponentAttribute.GetAttribute(GetType());
             if (!String.IsNullOrEmpty(TagName))
             {
                 StringBuilder result = new StringBuilder();
