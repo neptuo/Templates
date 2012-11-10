@@ -61,6 +61,7 @@
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ListAddCodeDomPropertyDescriptorExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\MethodInvokeCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\PlainValueCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\SetCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeObjects\DependencyCodeObject.cs" />
