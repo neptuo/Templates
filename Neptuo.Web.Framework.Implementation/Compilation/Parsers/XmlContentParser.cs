@@ -136,6 +136,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             HashSet<string> boundProperies = new HashSet<string>();
             PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(codeObject.Type);
             List<XmlAttribute> observerAttributes = new List<XmlAttribute>();
+            List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
 
             foreach (KeyValuePair<string, PropertyInfo> item in ControlHelper.GetProperties(codeObject.Type))
             {
@@ -162,8 +163,11 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                         }
                     }
 
-                    if (!bound && !String.IsNullOrWhiteSpace(attribute.Prefix) && !observerAttributes.Contains(attribute))
-                        observerAttributes.Add(attribute);
+                    if (!bound)
+                        unboundAttributes.Add(attribute);
+
+                    //if (!bound && !String.IsNullOrWhiteSpace(attribute.Prefix) && !observerAttributes.Contains(attribute))
+                    //    observerAttributes.Add(attribute);
                 }
 
                 XmlNode child;
@@ -185,6 +189,23 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                         bound = true;
                     }
                 }
+            }
+
+            bool boundAttribute = false;
+            foreach (XmlAttribute attribute in unboundAttributes)
+            {
+                if (!String.IsNullOrWhiteSpace(attribute.Prefix) && !observerAttributes.Contains(attribute))
+                {
+                    Type observerType = helper.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
+                    if (observerType != null)
+                    {
+                        RegisterObserver(helper, codeObject, observerType, attribute);
+                        boundAttribute = true;
+                    }
+                }
+
+                if (!boundAttribute && codeObject.Type.IsAssignableFrom(typeof(IAttributeCollection)))
+                    boundAttribute = BindAttributeCollection(helper, codeObject, codeObject, attribute.Name, attribute.Value);
             }
 
             foreach (XmlAttribute attribute in observerAttributes)
@@ -269,11 +290,10 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             if (observerAttribute != null)
                 livecycle = observerAttribute.Livecycle;
 
-            //TODO: Nevytvářet vždy nového, ale hledat již existující podle životního cyklu!
-            //TODO: Nebindovat defaultproperty, kvůli sdílení instance
             IObserverCodeObject observerObject = new ObserverCodeObject(observerType, livecycle);
             codeObject.Observers.Add(observerObject);
 
+            bool bound = false;
             foreach (KeyValuePair<string, PropertyInfo> property in ControlHelper.GetProperties(observerType))
             {
                 if (property.Key.ToLowerInvariant() == attribute.LocalName.ToLowerInvariant())
@@ -286,6 +306,8 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
                     if (result)
                         observerObject.Properties.Add(propertyDescriptor);
+
+                    bound = true;
                 }
                 else
                 {
@@ -296,6 +318,26 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                         observerObject.Properties.Add(propertyDescriptor);
                 }
             }
+
+            if (!bound && observerObject.Type.IsAssignableFrom(typeof(IAttributeCollection)))
+                bound = BindAttributeCollection(helper, observerObject, observerObject, attribute.Name, attribute.Value);
+        }
+
+        private bool BindAttributeCollection(Helper helper, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
+        {
+            MethodInfo method = typeCodeObject.Type.GetMethod(TypeHelper.MethodName<IAttributeCollection, string, string>(a => a.SetAttribute));
+            MethodInvokePropertyDescriptor propertyDescriptor = new MethodInvokePropertyDescriptor(method);
+            propertyDescriptor.SetValue(new PlainValueCodeObject(name));
+
+            bool result = helper.Context.ParserService.ProcessValue(
+                value,
+                new DefaultParserServiceContext(helper.Context.ServiceProvider, propertyDescriptor)
+            );
+            if (result)
+                propertiesCodeObject.Properties.Add(propertyDescriptor);
+
+            //TODO: Else NOT result?
+            return result;
         }
     }
 }

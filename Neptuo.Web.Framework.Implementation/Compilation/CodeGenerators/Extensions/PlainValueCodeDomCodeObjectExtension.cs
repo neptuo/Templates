@@ -25,15 +25,19 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
 
             if (typeConverter != null && typeConverter.CanConvertTo(propertyDescriptor.Property.PropertyType))
             {
-                return new CodeMethodInvokeExpression(
-                    new CodeObjectCreateExpression(typeConverter.GetType()),
-                    "ConvertTo",
-                    //TypeHelper.MethodName<TypeConverter, object, Type, object>(t => t.ConvertTo),
-                    new CodePrimitiveExpression(plainValue.Value),
-                    new CodeTypeReferenceExpression(propertyDescriptor.Property.PropertyType)
+                return new CodeCastExpression(
+                    propertyDescriptor.Property.PropertyType,
+                    new CodeMethodInvokeExpression(
+                        new CodeObjectCreateExpression(typeConverter.GetType()),
+                        "ConvertTo",
+                        //TypeHelper.MethodName<TypeConverter, object, Type, object>(t => t.ConvertTo),
+                        new CodePrimitiveExpression(plainValue.Value),
+                        new CodeTypeOfExpression(propertyDescriptor.Property.PropertyType)
+                    )
                 );
             }
 
+            //TODO: Inconvertable value!!
             return new CodePrimitiveExpression(plainValue.Value);
         }
     }

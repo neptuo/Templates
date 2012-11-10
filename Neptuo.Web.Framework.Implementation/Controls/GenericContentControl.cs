@@ -8,11 +8,10 @@ namespace Neptuo.Web.Framework.Controls
 {
     public class GenericContentControl : BaseContentControl
     {
-        public new string TagName { get; set; }
-
-        protected override bool IsSelfClosing
+        public new string TagName
         {
-            get { return false; }
+            get { return base.TagName; }
+            set { base.TagName = value; }
         }
 
         public GenericContentControl(string tagName)
@@ -21,7 +20,9 @@ namespace Neptuo.Web.Framework.Controls
         }
 
         public GenericContentControl()
-        { }
+        { 
+            IsSelfClosing = false;
+        }
 
         public override void Render(HtmlTextWriter writer)
         {
