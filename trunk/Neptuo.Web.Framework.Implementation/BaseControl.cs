@@ -12,51 +12,65 @@ namespace Neptuo.Web.Framework
     /// <summary>
     /// Controls extends this class support tag name specified in <see cref="ComponentAttribute"/>.
     /// </summary>
-    public abstract class BaseControl : IControl
+    public abstract class BaseControl : IControl, IAttributeCollection
     {
-        public IComponentManager ComponentManager { get; set; }
+        private string tagName;
+        private bool? isSelfClosing;
+        private string defaultPropertyName;
 
-        public Dictionary<string, string> Attributes { get; protected set; }
+        public IComponentManager ComponentManager { get; set; }
+        public AttributeCollection Attributes { get; protected set; }
 
         protected virtual string TagName
         {
             get
             {
-                HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
-                if (attr != null)
-                    return attr.TagName;
+                if (tagName == null)
+                {
 
-                return null;
+                    HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
+                    if (attr != null)
+                        tagName = attr.TagName;
+                }
+                return tagName;
             }
+            set { tagName = value; }
         }
 
         protected virtual bool IsSelfClosing
         {
             get
             {
-                HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
-                if (attr != null)
-                    return attr.IsSelfClosing;
+                if (isSelfClosing == null)
+                {
+                    HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
+                    if (attr != null)
+                        isSelfClosing = attr.IsSelfClosing;
 
-                return true;
+                }
+                return isSelfClosing ?? true;
             }
+            set { isSelfClosing = value; }
         }
 
         protected string DefaultPropertyName
         {
             get
             {
-                DefaultPropertyAttribute attr = ReflectionHelper.GetAttribute<DefaultPropertyAttribute>(GetType());
-                if (attr != null)
-                    return attr.Name;
-
-                return null;
+                if (defaultPropertyName == null)
+                {
+                    DefaultPropertyAttribute attr = ReflectionHelper.GetAttribute<DefaultPropertyAttribute>(GetType());
+                    if (attr != null)
+                        defaultPropertyName = attr.Name;
+                }
+                return defaultPropertyName;
             }
+            set { defaultPropertyName = value; }
         }
 
         public BaseControl()
         {
-            Attributes = new Dictionary<string, string>();
+            Attributes = new AttributeCollection();
         }
 
         public virtual void OnInit() { }
@@ -111,6 +125,11 @@ namespace Neptuo.Web.Framework
                 foreach (T component in compoments)
                     Init(component);
             }
+        }
+
+        public void SetAttribute(string name, string value)
+        {
+            Attributes[name] = value;
         }
     }
 }

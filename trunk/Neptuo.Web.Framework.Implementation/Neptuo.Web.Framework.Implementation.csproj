@@ -64,6 +64,8 @@
     <Compile Include="Compilation\CodeGenerators\Extensions\PlainValueCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\SetCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeObjects\DependencyCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\DictionaryAddPropertyDescriptor.cs" />
+    <Compile Include="Compilation\CodeObjects\MethodInvokePropertyDescriptor.cs" />
     <Compile Include="Compilation\Parsers\BaseParser.cs" />
     <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.Private.cs" />
     <Compile Include="Compilation\CodeObjects\ControlCodeObject.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Extensions\BindingExtension.cs" />
     <Compile Include="Models.cs" />
+    <Compile Include="Observers\HtmlAttributeObserver.cs" />
     <Compile Include="Observers\ValidationObserver.cs" />
     <Compile Include="Observers\VisibleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
