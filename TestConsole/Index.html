@@ -3,7 +3,7 @@
         <title>Hello, World!</title>
     </head>
     <body ui:visible="true" class="ui-body">
-        <h:panel>
+        <h:panel html:id="main-panel" html:style="float: left;">
             <h:textbox name="surname" text="{h:Binding Expression={h:Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
             <h:textbox name="surname" />
             <h:anchor url="~/Admin">

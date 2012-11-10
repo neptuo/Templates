@@ -41,6 +41,7 @@ namespace TestConsole
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
             registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
+            registrator.RegisterObserver("html", "*", typeof(HtmlAttributeObserver));
             registrator.RegisterObserver("val", "max-length", typeof(ValidationObserver));
             registrator.RegisterObserver("val", "min-length", typeof(ValidationObserver));
             registrator.RegisterObserver("val", "regex", typeof(ValidationObserver));

@@ -135,8 +135,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         {
             HashSet<string> boundProperies = new HashSet<string>();
             PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(codeObject.Type);
-            List<XmlAttribute> observerAttributes = new List<XmlAttribute>();
-            List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
+            List<XmlAttribute> boundAttributes = new List<XmlAttribute>();
 
             foreach (KeyValuePair<string, PropertyInfo> item in ControlHelper.GetProperties(codeObject.Type))
             {
@@ -159,13 +158,10 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                         {
                             codeObject.Properties.Add(propertyDescriptor);
                             boundProperies.Add(propertyName);
+                            boundAttributes.Add(attribute);
                             bound = true;
                         }
                     }
-
-                    if (!bound)
-                        unboundAttributes.Add(attribute);
-
                     //if (!bound && !String.IsNullOrWhiteSpace(attribute.Prefix) && !observerAttributes.Contains(attribute))
                     //    observerAttributes.Add(attribute);
                 }
@@ -191,10 +187,18 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 }
             }
 
-            bool boundAttribute = false;
+            
+            List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
+            foreach (XmlAttribute attribute in element.Attributes)
+            {
+                if (!boundAttributes.Contains(attribute))
+                    unboundAttributes.Add(attribute);
+            }
+
             foreach (XmlAttribute attribute in unboundAttributes)
             {
-                if (!String.IsNullOrWhiteSpace(attribute.Prefix) && !observerAttributes.Contains(attribute))
+                bool boundAttribute = false;
+                if (!String.IsNullOrWhiteSpace(attribute.Prefix))
                 {
                     Type observerType = helper.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
                     if (observerType != null)
@@ -204,20 +208,10 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                     }
                 }
 
-                if (!boundAttribute && codeObject.Type.IsAssignableFrom(typeof(IAttributeCollection)))
-                    boundAttribute = BindAttributeCollection(helper, codeObject, codeObject, attribute.Name, attribute.Value);
+                if (!boundAttribute && typeof(IAttributeCollection).IsAssignableFrom(codeObject.Type))
+                    boundAttribute = BindAttributeCollection(helper, codeObject, codeObject, attribute.LocalName, attribute.Value);
             }
-
-            foreach (XmlAttribute attribute in observerAttributes)
-            {
-                Type observerType = helper.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
-                if (observerType != null)
-                {
-                    //TODO: Register observer
-                    RegisterObserver(helper, codeObject, observerType, attribute);
-                }
-            }
-
+            
             if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
             {
                 IEnumerable<XmlNode> defaultChildNodes = Utils.FindNotUsedChildNodes(element, boundProperies);
@@ -319,8 +313,8 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 }
             }
 
-            if (!bound && observerObject.Type.IsAssignableFrom(typeof(IAttributeCollection)))
-                bound = BindAttributeCollection(helper, observerObject, observerObject, attribute.Name, attribute.Value);
+            if (!bound && typeof(IAttributeCollection).IsAssignableFrom(observerObject.Type))
+                bound = BindAttributeCollection(helper, observerObject, observerObject, attribute.LocalName, attribute.Value);
         }
 
         private bool BindAttributeCollection(Helper helper, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)

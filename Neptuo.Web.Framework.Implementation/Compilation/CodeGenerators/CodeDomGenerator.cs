@@ -23,6 +23,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
             PropertyDescriptorExtensions = new Dictionary<Type, ICodeDomPropertyDescriptorExtension>();
             SetPropertyDescriptorExtension(typeof(ListAddPropertyDescriptor), new ListAddCodeDomPropertyDescriptorExtension());
             SetPropertyDescriptorExtension(typeof(SetPropertyDescriptor), new SetCodeDomPropertyDescriptorExtension());
+            SetPropertyDescriptorExtension(typeof(MethodInvokePropertyDescriptor), new MethodInvokeCodeDomPropertyDescriptorExtension());
         }
 
         #region ICodeDomCodeObjectExtension
