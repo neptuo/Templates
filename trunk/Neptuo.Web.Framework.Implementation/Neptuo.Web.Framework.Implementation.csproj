@@ -65,7 +65,6 @@
     <Compile Include="Compilation\CodeGenerators\Extensions\PlainValueCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\SetCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeObjects\DependencyCodeObject.cs" />
-    <Compile Include="Compilation\CodeObjects\DictionaryAddPropertyDescriptor.cs" />
     <Compile Include="Compilation\CodeObjects\MethodInvokePropertyDescriptor.cs" />
     <Compile Include="Compilation\Parsers\BaseParser.cs" />
     <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.Private.cs" />
