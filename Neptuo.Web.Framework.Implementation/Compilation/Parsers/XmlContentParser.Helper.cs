@@ -73,7 +73,13 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 foreach (RegisteredNamespace entry in Registrator.GetRegisteredNamespaces())
                 {
                     if (usedPrefixes.Add(entry.Prefix))
-                        result.AppendFormat(" xmlns:{0}=\"clr-namespace:{1}\"", entry.Prefix, entry.Namespace);
+                    {
+                        result.AppendFormat(
+                            " xmlns{0}=\"clr-namespace:{1}\"", 
+                            String.IsNullOrEmpty(entry.Prefix) ? String.Empty : String.Format(":{0}", entry.Prefix), 
+                            entry.Namespace
+                        );
+                    }
                 }
                 result.Append(">");
                 result.Append(content);

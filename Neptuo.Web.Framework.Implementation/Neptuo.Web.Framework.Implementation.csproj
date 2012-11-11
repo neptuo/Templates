@@ -61,10 +61,12 @@
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ICodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\ListAddCodeDomPropertyDescriptorExtension.cs" />
+    <Compile Include="Compilation\CodeGenerators\Extensions\LocalFieldCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\MethodInvokeCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\PlainValueCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\SetCodeDomPropertyDescriptorExtension.cs" />
     <Compile Include="Compilation\CodeObjects\DependencyCodeObject.cs" />
+    <Compile Include="Compilation\CodeObjects\LocalFieldCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\MethodInvokePropertyDescriptor.cs" />
     <Compile Include="Compilation\Parsers\BaseParser.cs" />
     <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.Private.cs" />
@@ -73,7 +75,7 @@
     <Compile Include="Compilation\CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\SetPropertyDescriptor.cs" />
-    <Compile Include="Compilation\Parsers\Extensions\ComponentManagerExtension.cs" />
+    <Compile Include="Compilation\Parsers\Extensions\LocalFieldExtension.cs" />
     <Compile Include="Compilation\Parsers\Extensions\DefaultAttributeExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\DefaultCodeGeneratorContext.cs" />
     <Compile Include="Compilation\Parsers\DefaultParserContext.cs" />
@@ -124,7 +126,9 @@
       <Name>Neptuo.Web.Framework</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Controls\TemplateControl.cs" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

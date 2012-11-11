@@ -39,7 +39,8 @@ namespace TestConsole
         static bool GenerateCode()
         {
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
-            registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
+            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Controls");
+            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
             registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
             registrator.RegisterObserver("html", "*", typeof(HtmlAttributeObserver));
             registrator.RegisterObserver("val", "max-length", typeof(ValidationObserver));
