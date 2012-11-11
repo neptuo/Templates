@@ -97,15 +97,12 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
         private void AppendPlainText(string text, Helper helper)
         {
-            //bool canUse = helper.Parent.PropertyInfo.RequiredType.IsAssignableFrom(literalDescriptor.Type);
-            //if (!canUse)
-            //    return;
-
             if (String.IsNullOrWhiteSpace(text))
                 return;
 
-            text = text.Trim();//TODO: Trim??
+            text = text.Trim(); //TODO: Trim??
 
+            //TODO: Test for LiteralControl (IsAssignableForm IControl/LiteralControl)
             helper.Parent.SetValue(new PlainValueCodeObject(text));
             //helper.Parent.AddProperty(new LiteralCodeObject(literalDescriptor, text));
         }
@@ -192,7 +189,26 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 if (!boundAttributes.Contains(attribute))
                     unboundAttributes.Add(attribute);
             }
+            ProcessUnboundAttributes(helper, codeObject, unboundAttributes);
+            
+            if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
+            {
+                IEnumerable<XmlNode> defaultChildNodes = Utils.FindNotUsedChildNodes(element, boundProperies);
+                if (defaultChildNodes.Any())
+                {
+                    ResolvePropertyValue(helper, codeObject, defaultProperty, defaultChildNodes);
+                }
+                else
+                {
+                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(defaultProperty);
+                    if (BindPropertyDefaultValue(propertyDescriptor))
+                        codeObject.Properties.Add(propertyDescriptor);
+                }
+            }
+        }
 
+        private void ProcessUnboundAttributes(Helper helper, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
+        {
             foreach (XmlAttribute attribute in unboundAttributes)
             {
                 bool boundAttribute = false;
@@ -219,21 +235,6 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
                 if (!boundAttribute && typeof(IAttributeCollection).IsAssignableFrom(codeObject.Type))
                     boundAttribute = BindAttributeCollection(helper, codeObject, codeObject, attribute.LocalName, attribute.Value);
-            }
-            
-            if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
-            {
-                IEnumerable<XmlNode> defaultChildNodes = Utils.FindNotUsedChildNodes(element, boundProperies);
-                if (defaultChildNodes.Any())
-                {
-                    ResolvePropertyValue(helper, codeObject, defaultProperty, defaultChildNodes);
-                }
-                else
-                {
-                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(defaultProperty);
-                    if (BindPropertyDefaultValue(propertyDescriptor))
-                        codeObject.Properties.Add(propertyDescriptor);
-                }
             }
         }
 
