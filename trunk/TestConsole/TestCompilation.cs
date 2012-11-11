@@ -38,6 +38,21 @@ namespace TestConsole
 
         static bool GenerateCode()
         {
+            XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
+            XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
+
+            IParserService parserService = new DefaultParserService();
+            parserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
+            parserService.ValueParsers.Add(new ExtensionValueParser());
+
+            CodeDomGenerator generator = new CodeDomGenerator();
+            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
+
+            ICodeGeneratorService generatorService = new DefaultCodeGeneratorService();
+            generatorService.AddGenerator("CSharp", generator);
+
+
+
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
@@ -48,16 +63,10 @@ namespace TestConsole
             registrator.RegisterObserver("val", "regex", typeof(ValidationObserver));
             registrator.RegisterObserver("val", "message", typeof(ValidationObserver));
 
+
+
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
-
-            XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
-            XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
-
-            IParserService parserService = new DefaultParserService();
-            parserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
-            parserService.ValueParsers.Add(new ExtensionValueParser());
-
 
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
             bool parserResult = parserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(serviceProvider, contentProperty));
@@ -65,13 +74,11 @@ namespace TestConsole
             {
                 Console.WriteLine("Parsing failed!");
                 return false;
-            } 
+            }
 
             using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
             {
-                CodeDomGenerator generator = new CodeDomGenerator();
-                generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
-                bool generatorResult = generator.ProcessTree(contentProperty, new DefaultCodeGeneratorContext(writer));
+                bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorContext(writer));
                 if (!generatorResult)
                 {
                     Console.WriteLine("Generating failed!");
