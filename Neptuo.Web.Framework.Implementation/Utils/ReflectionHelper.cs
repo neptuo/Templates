@@ -76,7 +76,16 @@ namespace Neptuo.Web.Framework.Utils
 
         public static bool CanBeUsedInMarkup(Type type)
         {
-            return type.GetConstructor(new Type[] { }) != null;
+            if (type.IsInterface)
+                return false;
+
+            if (type.IsAbstract)
+                return false;
+
+            if (type.GetConstructor(new Type[] { }) == null)
+                return false;
+
+            return true;
         }
     }
 }
