@@ -24,7 +24,11 @@ namespace Neptuo.Web.Framework
 
         public Type GetControl(string tagNamespace, string tagName)
         {
-            tagNamespace = tagNamespace.ToLowerInvariant();
+            if (tagNamespace == null)
+                tagNamespace = String.Empty;
+            else
+                tagNamespace = tagNamespace.ToLowerInvariant();
+
             tagName = tagName.ToLowerInvariant();
 
             if (ControlsInNamespaces.ContainsKey(tagNamespace)
@@ -39,7 +43,11 @@ namespace Neptuo.Web.Framework
 
         public Type GetExtension(string tagNamespace, string tagName)
         {
-            tagNamespace = tagNamespace.ToLowerInvariant();
+            if (tagNamespace == null)
+                tagNamespace = String.Empty;
+            else
+                tagNamespace = tagNamespace.ToLowerInvariant();
+
             tagName = tagName.ToLowerInvariant();
 
             if (ExtensionsInNamespaces.ContainsKey(tagNamespace)
@@ -54,7 +62,11 @@ namespace Neptuo.Web.Framework
 
         public Type GetObserver(string attributeNamespace, string attributeName)
         {
-            attributeNamespace = attributeNamespace.ToLowerInvariant();
+            if (attributeNamespace == null)
+                attributeNamespace = String.Empty;
+            else
+                attributeNamespace = attributeNamespace.ToLowerInvariant();
+
             attributeName = attributeName.ToLowerInvariant();
 
             if (!Observers.ContainsKey(attributeNamespace))

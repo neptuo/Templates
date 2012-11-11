@@ -22,7 +22,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
         private bool GenerateExtension(Helper helper, Extension extension)
         {
-            Type controlType = helper.Registrator.GetExtension(extension.Namespace.ToLowerInvariant(), extension.Name.ToLowerInvariant());
+            Type controlType = helper.Registrator.GetExtension(extension.Namespace, extension.Name);
             if (controlType == null)
                 return false;
 

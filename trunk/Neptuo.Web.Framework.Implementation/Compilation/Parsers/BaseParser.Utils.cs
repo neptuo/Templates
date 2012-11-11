@@ -34,18 +34,18 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 }
             }
 
-            public static bool NeedsServerProcessing(XmlNode node)
+            public static bool NeedsServerProcessing(IRegistrator registrator, XmlNode node)
             {
                 XmlElement element = node as XmlElement;
                 if (element == null)
                     return false;
 
-                if (!String.IsNullOrWhiteSpace(element.Prefix))
+                if (registrator.GetControl(element.Prefix, element.LocalName) != null)
                     return true;
 
                 foreach (XmlAttribute attribute in element.Attributes)
                 {
-                    if (!String.IsNullOrWhiteSpace(attribute.Prefix))
+                    if(registrator.GetObserver(attribute.Prefix, attribute.LocalName) != null)
                         return true;
                 }
 

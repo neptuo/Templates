@@ -17,7 +17,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         public BaseParser()
         {
             DefaultValueExtensions = new List<IDefaultValueExtension>();
-            DefaultValueExtensions.Add(new ComponentManagerExtension());
+            DefaultValueExtensions.Add(new LocalFieldExtension());
             DefaultValueExtensions.Add(new DefaultAttributeExtension());
         }
 

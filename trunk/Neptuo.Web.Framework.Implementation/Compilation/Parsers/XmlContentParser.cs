@@ -38,7 +38,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         {
             foreach (XmlNode node in childNodes)
             {
-                if (Utils.NeedsServerProcessing(node))
+                if (Utils.NeedsServerProcessing(helper.Registrator, node))
                 {
                     AppendPlainText(helper.Content.ToString(), helper);
                     helper.Content.Clear();
@@ -47,11 +47,9 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                     {
                         XmlElement element = node as XmlElement;
 
-                        Type controlType;
-                        if (String.IsNullOrWhiteSpace(element.Prefix))
+                        Type controlType = helper.Registrator.GetControl(element.Prefix, element.LocalName);
+                        if (controlType == null)
                             controlType = genericContentDescriptor.Type;
-                        else
-                            controlType = helper.Registrator.GetControl(element.Prefix, element.LocalName);
 
                         if (controlType != null)
                         {
@@ -118,7 +116,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             helper.Parent.SetValue(codeObject);
             //helper.Parent.AddProperty(codeObject);
 
-            if (String.IsNullOrWhiteSpace(element.Prefix))
+            if (controlType == genericContentDescriptor.Type)
             {
                 codeObject.Properties.Add(
                     new SetPropertyDescriptor(
