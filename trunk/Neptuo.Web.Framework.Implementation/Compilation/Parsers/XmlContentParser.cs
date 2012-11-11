@@ -196,7 +196,18 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             foreach (XmlAttribute attribute in unboundAttributes)
             {
                 bool boundAttribute = false;
-                if (!String.IsNullOrWhiteSpace(attribute.Prefix))
+
+                if (attribute.Prefix.ToLowerInvariant() == "xmlns")
+                {
+                    if (attribute.Value.StartsWith("clr-namespace:"))
+                    {
+                        helper.Registrator.RegisterNamespace(attribute.LocalName, attribute.Value.Substring("clr-namespace:".Length));
+                        //TODO: Register XMLNS, create temporal registrator or unregister XMLNS after this control
+                        boundAttribute = true;
+                    }
+                }
+
+                if (!boundAttribute)
                 {
                     Type observerType = helper.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
                     if (observerType != null)
