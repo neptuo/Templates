@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Compilation\CodeGenerators\ICodeGeneratorService.cs" />
     <Compile Include="Compilation\CodeObjects\IControlCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\IDefaultPropertyValue.cs" />
     <Compile Include="Compilation\CodeObjects\IObserverCodeObject.cs" />
