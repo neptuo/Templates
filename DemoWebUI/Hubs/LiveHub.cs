@@ -7,25 +7,25 @@ using Neptuo.Web.Framework.Compilation.Parsers;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Observers;
 using Neptuo.Web.Framework.Utils;
+using SignalR.Hubs;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Web;
-using System.Web.Mvc;
 
-namespace DemoWebUI.Controllers
+namespace DemoWebUI.Hubs
 {
-    public class LiveController : Controller
+    public class LiveHub : Hub
     {
         IComponentManager componentManager;
         IRegistrator registrator;
         IServiceProvider serviceProvider;
 
-        public LiveController()
+        public LiveHub()
         {
             componentManager = new ComponentManager();
             registrator = new Registrator();
@@ -42,27 +42,32 @@ namespace DemoWebUI.Controllers
             registrator.RegisterObserver("val", "message", typeof(ValidationObserver));
         }
 
-        public ActionResult Index()
+        public bool Compile(string viewContent)
         {
-            return View();
-        }
-
-        [HttpPost]
-        public string Index(LiveModel model)
-        {
-            string sourceCode = GenerateCode(model.ViewContent);
+            string sourceCode = GenerateCode(viewContent);
             if (sourceCode == null)
-                return "Error generating source code!";
+            {
+                Caller.Alert("Error generating source code!");
+                return false;
+            }
+            Caller.SourceCodeOutput(sourceCode);
 
             Assembly views = CompileCode(sourceCode);
             if (views == null)
-                return "Error compiling assembly!";
+            {
+                Caller.Alert("Error compiling assembly!");
+                return false;
+            }
 
             string result = RunCode(views);
             if (result == null)
-                return "Error runing code!";
+            {
+                Caller.Alert("Error runing code!");
+                return false;
+            }
+            Caller.Output(result);
 
-            return result;
+            return true;
         }
 
         private string GenerateCode(string viewContent)
@@ -85,7 +90,7 @@ namespace DemoWebUI.Controllers
             bool parserResult = parserService.ProcessContent(viewContent, new DefaultParserServiceContext(serviceProvider, contentProperty));
             if (!parserResult)
             {
-                Console.WriteLine("Parsing failed!");
+                Caller.Log("Parsing failed!");
                 return null;
             }
 
@@ -101,10 +106,10 @@ namespace DemoWebUI.Controllers
         {
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
             CompilerParameters cp = new CompilerParameters();
-            cp.ReferencedAssemblies.Add(Server.MapPath("~/Bin/System.dll"));
-            cp.ReferencedAssemblies.Add(Server.MapPath("~/Bin/System.Web.dll"));
-            cp.ReferencedAssemblies.Add(Server.MapPath("~/Bin/Neptuo.Web.Framework.dll"));
-            cp.ReferencedAssemblies.Add(Server.MapPath("~/Bin/Neptuo.Web.Framework.Implementation.dll"));
+            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/System.dll"));
+            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/System.Web.dll"));
+            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/Neptuo.Web.Framework.dll"));
+            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/Neptuo.Web.Framework.Implementation.dll"));
             cp.GenerateExecutable = false;
             cp.GenerateInMemory = true;
             cp.IncludeDebugInformation = true;
@@ -112,11 +117,11 @@ namespace DemoWebUI.Controllers
             CompilerResults cr = provider.CompileAssemblyFromSource(cp, sourceCode);
             if (cr.Errors.Count > 0)
             {
+                StringBuilder log = new StringBuilder();
                 foreach (CompilerError ce in cr.Errors)
-                {
-                    Console.WriteLine("  {0}", ce.ToString());
-                    Console.WriteLine();
-                }
+                    log.AppendFormat("  {0}", ce.ToString());
+
+                Caller.Log(log.ToString());
                 return null;
             }
 
@@ -136,33 +141,6 @@ namespace DemoWebUI.Controllers
             view.Render(new HtmlTextWriter(output));
 
             return output.ToString();
-        }
-
-        private string GetDefaultView()
-        {
-            return @"<html>
-    <head>
-        <title>Hello, World!</title>
-    </head>
-    <body ui:visible=""true"" class=""ui-body"">
-        <h:panel html:id=""main-panel"" html:style=""float: left;"">
-            <div>
-                <h:textbox name=""surname"" text=""{Binding John}"" val:min-length=""1"" val:max-length=""10"" val:message=""Provide a valid value!"" />
-            </div>
-            <div>
-                <h:textbox name=""surname"" />
-            </div>
-            
-            <h:anchor url=""~/Admin"">
-                <parameters>
-                    <h:parameter name=""ID"" value=""5"" />
-                    <h:parameter name=""Detail"" value=""True"" />
-                </parameters>
-                Hello World!
-            </h:anchor>
-        </h:panel>
-    </body>
-</html>";
         }
     }
 }

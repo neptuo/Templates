@@ -1,32 +1,74 @@
-﻿@model DemoWebUI.Models.LiveModel
+﻿@model string
 
 @{
     ViewBag.Title = "Index";
 }
 
-<form id="form" target="view" method="post" action="@Url.Action("index")">
-
-    @Html.HiddenFor(m => m.SessionID)
-    @Html.TextAreaFor(m => m.ViewContent)
-    
-    <input type="submit" name="submit" value="Compile" />
-
-</form>
-<hr />
-
-<iframe id="view" name="view" />
+<div id="top">
+    <textarea id="viewContent" style="border:1px solid black;"><h:panel html:id="main-panel" html:style="float: left;">
+    <div>
+        <h:textbox name="surname" text="{Binding John}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
+    </div>
+    <div>
+        <h:textbox name="surname" />
+    </div>
+            
+    <h:anchor url="~/Admin">
+        <parameters>
+            <h:parameter name="ID" value="5" />
+            <h:parameter name="Detail" value="True" />
+        </parameters>
+        Hello World!
+    </h:anchor>
+</h:panel></textarea>
+    <input type="button" id="compile" name="compile" value="Compile" />
+</div>
+<div id="bottom" style="margin-top:2px;">
+    <div id="preview" style="float:left;overflow:scroll;border:1px solid black;"></div>
+    <pre id="sourceCode" style="float:left;overflow:scroll;margin:0;margin-left:10px;border:1px solid black;"></pre>
+</div>
 
 @section scripts {
-
+    
+    @Scripts.Render("~/bundles/signalr")
+    <script src="@Url.Content("~/signalr/hubs")" type="text/javascript"></script>
     <script type="text/javascript">
 
+        var hub;
         $(function () {
+            hub = $.connection.liveHub;
+            hub.alert = function (message) {
+                alert(message);
+            };
+            hub.log = function (message) {
+                
+            }
+            hub.output = function (result) {
+                $("#preview").html(result);
+            }
+            hub.sourceCodeOutput = function (result) {
+                $("#sourceCode").html(result);
+            }
+            $.connection.hub.start();
 
-            var height = $(window).height();
 
-            $("#form").find("textarea").width("100%").height(height / 2 - 40);
-            $("#view").width("100%").height(height / 2 - 40);
 
+
+
+
+
+            $window = $(window);
+
+            var width = $window.width();
+            var height = $window.height();
+
+            $("#viewContent").height(height / 2 - 100).width(width - 20);
+            $("#preview").height(height / 2 - 100).width(width / 2 - 15);
+            $("#sourceCode").height(height / 2 - 100).width(width / 2 - 15);
+
+            $("#compile").click(function () {
+                hub.compile($("#viewContent").val())
+            });
         });
 
     </script>
