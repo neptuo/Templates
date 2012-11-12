@@ -1,0 +1,34 @@
+﻿@model DemoWebUI.Models.LiveModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<form id="form" target="view" method="post" action="@Url.Action("index")">
+
+    @Html.HiddenFor(m => m.SessionID)
+    @Html.TextAreaFor(m => m.ViewContent)
+    
+    <input type="submit" name="submit" value="Compile" />
+
+</form>
+<hr />
+
+<iframe id="view" name="view" />
+
+@section scripts {
+
+    <script type="text/javascript">
+
+        $(function () {
+
+            var height = $(window).height();
+
+            $("#form").find("textarea").width("100%").height(height / 2 - 40);
+            $("#view").width("100%").height(height / 2 - 40);
+
+        });
+
+    </script>
+    
+}
