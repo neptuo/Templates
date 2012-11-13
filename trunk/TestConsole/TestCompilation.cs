@@ -98,18 +98,11 @@ namespace TestConsole
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-            CompilerParameters cp = new CompilerParameters();
-            cp.ReferencedAssemblies.Add("System.dll");
-            cp.ReferencedAssemblies.Add("System.Web.dll");
-            cp.ReferencedAssemblies.Add("Neptuo.Web.Framework.dll");
-            cp.ReferencedAssemblies.Add("Neptuo.Web.Framework.Implementation.dll");
-            cp.GenerateExecutable = false;
-            cp.OutputAssembly = "GeneratedView.dll";
-            cp.GenerateInMemory = false;
-            cp.IncludeDebugInformation = true;
+            CodeDomCompiler compiler = new CodeDomCompiler();
+            compiler.IncludeDebugInformation = false;
+            compiler.AddReferencedFolder(Environment.CurrentDirectory);
 
-            CompilerResults cr = provider.CompileAssemblyFromFile(cp, "GeneratedView.cs");
+            CompilerResults cr = compiler.CompileAssemblyFromFile("GeneratedView.cs");
             if (cr.Errors.Count > 0)
             {
                 // Display compilation errors.
