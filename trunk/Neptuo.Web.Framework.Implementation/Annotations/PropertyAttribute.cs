@@ -19,10 +19,5 @@ namespace Neptuo.Web.Framework.Annotations
         {
             Name = name;
         }
-
-        public static PropertyAttribute GetAttribute(PropertyInfo prop)
-        {
-            return ReflectionHelper.GetAttribute<PropertyAttribute>(prop);
-        }
     }
 }

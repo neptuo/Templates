@@ -18,10 +18,5 @@ namespace Neptuo.Web.Framework.Annotations
         {
             Name = name;
         }
-
-        public static ComponentAttribute GetAttribute(Type type)
-        {
-            return ReflectionHelper.GetAttribute<ComponentAttribute>(type);
-        }
     }
 }

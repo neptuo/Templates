@@ -10,7 +10,7 @@ namespace Neptuo.Web.Framework
     {
         void CreateControls();
 
-        void Setup(IViewPage page, IComponentManager componentManager, IServiceProvider serviceProvider, HttpRequest request, HttpResponse response);
+        void Setup(IViewPage page, IComponentManager componentManager, IServiceProvider serviceProvider);
 
         void Init();
 

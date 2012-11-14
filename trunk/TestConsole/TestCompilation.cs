@@ -15,6 +15,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace TestConsole
 {
@@ -31,6 +32,12 @@ namespace TestConsole
                 if (CompileCode())
                 {
                     RunCode();
+
+                    //Thread.Sleep(4000);
+                    //RunCode();
+
+                    //for (int i = 0; i < 10; i++)
+                    //    RunCode();
                 }
             }
             //RunStaticCode();
@@ -62,6 +69,8 @@ namespace TestConsole
             registrator.RegisterObserver("val", "min-length", typeof(ValidationObserver));
             registrator.RegisterObserver("val", "regex", typeof(ValidationObserver));
             registrator.RegisterObserver("val", "message", typeof(ValidationObserver));
+            registrator.RegisterObserver("cache", "key", typeof(CacheObserver));
+            registrator.RegisterObserver("cache", "duration", typeof(CacheObserver));
 
 
 
@@ -135,7 +144,7 @@ namespace TestConsole
             StringWriter output = new StringWriter();
 
             IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
-            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider, null, null);
+            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
@@ -156,7 +165,7 @@ namespace TestConsole
             StringWriter output = new StringWriter();
 
             IGeneratedView view = new GeneratedView();
-            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider, null, null);
+            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));

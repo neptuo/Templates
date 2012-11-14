@@ -22,10 +22,5 @@ namespace Neptuo.Web.Framework.Annotations
         {
             IsSelfClosing = isSelfClosing;
         }
-
-        public static HtmlAttribute GetAttribute(Type type)
-        {
-            return ReflectionHelper.GetAttribute<HtmlAttribute>(type);
-        }
     }
 }
