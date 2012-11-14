@@ -9,6 +9,8 @@ namespace Neptuo.Web.Framework
 {
     public class Registrator : IRegistrator
     {
+        public const string ObserverWildcard = "*";
+
         public Dictionary<string, List<string>> Namespaces { get; protected set; }
         public Dictionary<string, Dictionary<string, Type>> ControlsInNamespaces { get; protected set; }
         public Dictionary<string, Dictionary<string, Type>> ExtensionsInNamespaces { get; protected set; }
@@ -75,8 +77,8 @@ namespace Neptuo.Web.Framework
             if (Observers[attributeNamespace].ContainsKey(attributeName))
                 return Observers[attributeNamespace][attributeName];
 
-            if (Observers[attributeNamespace].ContainsKey("*"))
-                return Observers[attributeNamespace]["*"];
+            if (Observers[attributeNamespace].ContainsKey(ObserverWildcard))
+                return Observers[attributeNamespace][ObserverWildcard];
 
             return null;
         }
@@ -148,6 +150,9 @@ namespace Neptuo.Web.Framework
         {
             if (!typeof(IObserver).IsAssignableFrom(observer))
                 throw new ApplicationException("This type is not an observer!");
+
+            if (String.IsNullOrEmpty(attributePattern))
+                attributePattern = ObserverWildcard;
 
             if (!Observers.ContainsKey(prefix))
                 Observers.Add(prefix, new Dictionary<string, Type>());
