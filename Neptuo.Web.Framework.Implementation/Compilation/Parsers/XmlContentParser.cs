@@ -207,6 +207,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
         private void ProcessUnboundAttributes(Helper helper, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
         {
+            ObserverList observers = new ObserverList();
             foreach (XmlAttribute attribute in unboundAttributes)
             {
                 bool boundAttribute = false;
@@ -226,7 +227,12 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                     Type observerType = helper.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
                     if (observerType != null)
                     {
-                        RegisterObserver(helper, codeObject, observerType, attribute);
+                        ObserverLivecycle livecycle = GetObserverLivecycle(observerType);
+                        if (livecycle == ObserverLivecycle.PerControl && observers.ContainsKey(observerType))
+                            observers[observerType].Attributes.Add(attribute);
+                        else
+                            observers.Add(new ParsedObserver(observerType, livecycle, attribute));
+
                         boundAttribute = true;
                     }
                 }
@@ -234,6 +240,9 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 if (!boundAttribute && typeof(IAttributeCollection).IsAssignableFrom(codeObject.Type))
                     boundAttribute = BindAttributeCollection(helper, codeObject, codeObject, attribute.LocalName, attribute.Value);
             }
+
+            foreach (ParsedObserver observer in observers)
+                RegisterObserver(helper, codeObject, observer.Type, observer.Attributes, observer.Livecycle);
         }
 
         private void ResolvePropertyValue(Helper helper, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
@@ -284,34 +293,34 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             }
         }
 
-        private void RegisterObserver(Helper helper, IComponentCodeObject codeObject, Type observerType, XmlAttribute attribute)
+        private void RegisterObserver(Helper helper, IComponentCodeObject codeObject, Type observerType, IEnumerable<XmlAttribute> attributes, ObserverLivecycle livecycle)
         {
-            ObserverLivecycle livecycle = ObserverLivecycle.PerControl;
-
-            ObserverAttribute observerAttribute = ReflectionHelper.GetAttribute<ObserverAttribute>(observerType);
-            if (observerAttribute != null)
-                livecycle = observerAttribute.Livecycle;
-
             IObserverCodeObject observerObject = new ObserverCodeObject(observerType, livecycle);
             codeObject.Observers.Add(observerObject);
 
-            bool bound = false;
+            List<XmlAttribute> boundAttributes = new List<XmlAttribute>();
             foreach (KeyValuePair<string, PropertyInfo> property in ControlHelper.GetProperties(observerType))
             {
-                if (property.Key.ToLowerInvariant() == attribute.LocalName.ToLowerInvariant())
+                bool boundProperty = false;
+                foreach (XmlAttribute attribute in attributes)
                 {
-                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
-                    bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, propertyDescriptor));
+                    if (property.Key.ToLowerInvariant() == attribute.LocalName.ToLowerInvariant())
+                    {
+                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
+                        bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.ServiceProvider, propertyDescriptor));
 
-                    if (!result)
-                        result = BindPropertyDefaultValue(propertyDescriptor);
+                        if (!result)
+                            result = BindPropertyDefaultValue(propertyDescriptor);
 
-                    if (result)
-                        observerObject.Properties.Add(propertyDescriptor);
+                        if (result)
+                            observerObject.Properties.Add(propertyDescriptor);
 
-                    bound = true;
+                        boundAttributes.Add(attribute);
+                        boundProperty = true;
+                    }
                 }
-                else
+
+                if (!boundProperty)
                 {
                     IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
                     bool result = BindPropertyDefaultValue(propertyDescriptor);
@@ -321,8 +330,18 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 }
             }
 
-            if (!bound && typeof(IAttributeCollection).IsAssignableFrom(observerObject.Type))
-                bound = BindAttributeCollection(helper, observerObject, observerObject, attribute.LocalName, attribute.Value);
+            List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
+            foreach (XmlAttribute attribute in attributes)
+            {
+                if (!boundAttributes.Contains(attribute))
+                    unboundAttributes.Add(attribute);
+            }
+
+            foreach (XmlAttribute attribute in unboundAttributes)
+            {
+                if (typeof(IAttributeCollection).IsAssignableFrom(observerObject.Type))
+                    BindAttributeCollection(helper, observerObject, observerObject, attribute.LocalName, attribute.Value);
+            }
         }
 
         private bool BindAttributeCollection(Helper helper, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
@@ -340,6 +359,17 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
             //TODO: Else NOT result?
             return result;
+        }
+
+        private ObserverLivecycle GetObserverLivecycle(Type observerType)
+        {
+            ObserverLivecycle livecycle = ObserverLivecycle.PerControl;
+
+            ObserverAttribute observerAttribute = ReflectionHelper.GetAttribute<ObserverAttribute>(observerType);
+            if (observerAttribute != null)
+                livecycle = observerAttribute.Livecycle;
+
+            return livecycle;
         }
     }
 }
