@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Neptuo.Web.Framework.Compilation.Parsers
 {
-    partial class BaseParser
+    partial class XmlContentParser
     {
         public static class Utils
         {

@@ -277,7 +277,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                     codeObject.Properties.Add(
                         new SetPropertyDescriptor(
                             prop,
-                            new PlainValueCodeObject(TypeConverter.Convert(contentValue.ToString(), prop.PropertyType))
+                            new PlainValueCodeObject(contentValue.ToString())
                         )
                     );
                 }
