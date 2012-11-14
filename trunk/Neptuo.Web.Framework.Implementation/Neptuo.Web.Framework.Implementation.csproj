@@ -94,7 +94,7 @@
     <Compile Include="Compilation\Parsers\XmlContentParser.GenericContentTypeDescriptor.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.Helper.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.LiteralTypeDescriptor.cs" />
-    <Compile Include="Compilation\Parsers\BaseParser.Utils.cs" />
+    <Compile Include="Compilation\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericControl.cs" />
