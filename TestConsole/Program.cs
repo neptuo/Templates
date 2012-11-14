@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
+using System.ComponentModel;
 
 namespace TestConsole
 {
@@ -29,6 +30,11 @@ namespace TestConsole
             //TestLambda.Test();
 
             //PropertyInfo property = typeof(X).GetProperty("Getter");
+
+            //TypeConverter typeConverter = TypeDescriptor.GetConverter(typeof(TimeSpan?));
+            //Console.WriteLine(typeConverter.CanConvertFrom(typeof(String)));
+            //TimeSpan timeSpan = (TimeSpan)typeConverter.ConvertFrom("0:0:5.1");
+            //Console.WriteLine(timeSpan);
 
             Console.ReadKey(true);
         }

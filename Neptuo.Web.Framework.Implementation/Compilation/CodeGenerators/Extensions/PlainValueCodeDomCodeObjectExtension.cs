@@ -23,16 +23,23 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
             else
                 typeConverter = TypeDescriptor.GetConverter(propertyDescriptor.Property.PropertyType);
 
-            if (typeConverter != null && typeConverter.CanConvertTo(propertyDescriptor.Property.PropertyType))
+            //Type propertyType = propertyDescriptor.Property.PropertyType;
+            //if (propertyType.IsGenericType && propertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+            //    propertyType = propertyType.GetGenericArguments()[0];
+
+            if (typeConverter != null && typeConverter.CanConvertFrom(typeof(String)))
             {
                 return new CodeCastExpression(
                     propertyDescriptor.Property.PropertyType,
                     new CodeMethodInvokeExpression(
-                        new CodeObjectCreateExpression(typeConverter.GetType()),
-                        "ConvertTo",
+                        new CodeMethodInvokeExpression(
+                            new CodeTypeReferenceExpression(typeof(TypeDescriptor)),
+                            "GetConverter",
+                            new CodeTypeOfExpression(propertyDescriptor.Property.PropertyType)
+                        ),
+                        "ConvertFrom",
                         //TypeHelper.MethodName<TypeConverter, object, Type, object>(t => t.ConvertTo),
-                        new CodePrimitiveExpression(plainValue.Value),
-                        new CodeTypeOfExpression(propertyDescriptor.Property.PropertyType)
+                        new CodePrimitiveExpression(plainValue.Value)
                     )
                 );
             }

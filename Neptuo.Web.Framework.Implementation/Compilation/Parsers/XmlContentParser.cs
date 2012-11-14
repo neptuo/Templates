@@ -53,18 +53,16 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
                         if (controlType != null)
                         {
-                            //BuilderAttribute attr = BuilderAttribute.GetAttribute(controlType);
-                            //if (attr != null)
-                            //{
-                            //    IXmlControlBuilder builder = Activator.CreateInstance(attr.BuilderType) as IXmlControlBuilder;
-                            //    if (builder != null)
-                            //    {
-                            //        builder.GenerateControl(controlType, element, new XmlBuilderContext(helper.Context, this));
-                            //        return;
-                            //    }
-                            //}
-
-                            GenerateControl(helper, controlType, element);
+                            BuilderAttribute attr = ReflectionHelper.GetAttribute<BuilderAttribute>(controlType);
+                            if (attr != null && typeof(IXmlControlBuilder).IsAssignableFrom(attr.Type))
+                            {
+                                IXmlControlBuilder builder = (IXmlControlBuilder)Activator.CreateInstance(attr.Type);
+                                builder.Parse(helper, controlType, element);
+                            }
+                            else 
+                            {
+                                GenerateControl(helper, controlType, element);
+                            }
                         }
                     }
                 }
@@ -290,7 +288,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         {
             ObserverLivecycle livecycle = ObserverLivecycle.PerControl;
 
-            ObserverAttribute observerAttribute = ObserverAttribute.GetAttribute(observerType);
+            ObserverAttribute observerAttribute = ReflectionHelper.GetAttribute<ObserverAttribute>(observerType);
             if (observerAttribute != null)
                 livecycle = observerAttribute.Livecycle;
 

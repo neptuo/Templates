@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Annotations\BuilderAttribute.cs" />
     <Compile Include="Annotations\ComponentAttribute.cs" />
     <Compile Include="Annotations\PropertyAttribute.cs" />
     <Compile Include="Annotations\DependencyAttribute.cs" />
@@ -87,6 +88,7 @@
     <Compile Include="Compilation\Parsers\ExtensionValueParser.cs" />
     <Compile Include="Compilation\Parsers\ExtensionValueParser.Helper.cs" />
     <Compile Include="Compilation\Parsers\Extensions\IDefaultValueExtension.cs" />
+    <Compile Include="Compilation\Parsers\IXmlControlBuilder.cs" />
     <Compile Include="Compilation\Parsers\PlainValueParser.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.GenericContentTypeDescriptor.cs" />
@@ -101,7 +103,9 @@
     <Compile Include="Controls\PanelControl.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Extensions\BindingExtension.cs" />
+    <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Models.cs" />
+    <Compile Include="Observers\CacheObserver.cs" />
     <Compile Include="Observers\HtmlAttributeObserver.cs" />
     <Compile Include="Observers\ValidationObserver.cs" />
     <Compile Include="Observers\VisibleObserver.cs" />

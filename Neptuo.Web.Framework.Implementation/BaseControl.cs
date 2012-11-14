@@ -28,7 +28,7 @@ namespace Neptuo.Web.Framework
                 if (tagName == null)
                 {
 
-                    HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
+                    HtmlAttribute attr = ReflectionHelper.GetAttribute<HtmlAttribute>(GetType());
                     if (attr != null)
                         tagName = attr.TagName;
                 }
@@ -43,7 +43,7 @@ namespace Neptuo.Web.Framework
             {
                 if (isSelfClosing == null)
                 {
-                    HtmlAttribute attr = HtmlAttribute.GetAttribute(GetType());
+                    HtmlAttribute attr = ReflectionHelper.GetAttribute<HtmlAttribute>(GetType());
                     if (attr != null)
                         isSelfClosing = attr.IsSelfClosing;
 
@@ -77,7 +77,7 @@ namespace Neptuo.Web.Framework
 
         public virtual void Render(HtmlTextWriter writer)
         {
-            ComponentAttribute attr = ComponentAttribute.GetAttribute(GetType());
+            ComponentAttribute attr = ReflectionHelper.GetAttribute<ComponentAttribute>(GetType());
             if (!String.IsNullOrEmpty(TagName))
             {
                 StringBuilder result = new StringBuilder();

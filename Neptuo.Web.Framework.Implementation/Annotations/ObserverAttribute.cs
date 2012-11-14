@@ -21,11 +21,6 @@ namespace Neptuo.Web.Framework.Annotations
         {
             Livecycle = livecycle;
         }
-
-        public static ObserverAttribute GetAttribute(Type prop)
-        {
-            return ReflectionHelper.GetAttribute<ObserverAttribute>(prop);
-        }
     }
 
     public enum ObserverLivecycle

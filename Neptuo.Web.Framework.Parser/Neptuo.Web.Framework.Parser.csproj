@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Engine.cs" />
     <Compile Include="ExtensionContent\Extension.cs" />
     <Compile Include="ExtensionContent\ExtensionAttribute.cs" />
     <Compile Include="ExtensionContent\ExtensionContentParser.cs" />

@@ -11,19 +11,15 @@ namespace Neptuo.Web.Framework
     /// </summary>
     public abstract class BaseGeneratedView : IGeneratedView
     {
-        protected HttpRequest request;
-        protected HttpResponse response;
         protected IViewPage viewPage;
         protected IComponentManager componentManager;
         protected IServiceProvider serviceProvider;
 
-        public void Setup(IViewPage viewPage, IComponentManager componentManager, IServiceProvider serviceProvider, HttpRequest request, HttpResponse response)
+        public void Setup(IViewPage viewPage, IComponentManager componentManager, IServiceProvider serviceProvider)
         {
             this.viewPage = viewPage;
             this.componentManager = componentManager;
             this.serviceProvider = serviceProvider;
-            this.request = request;
-            this.response = response;
         }
 
         public void CreateControls()
