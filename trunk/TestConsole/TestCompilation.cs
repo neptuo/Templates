@@ -25,22 +25,33 @@ namespace TestConsole
         static IRegistrator registrator = new Registrator();
         static IServiceProvider serviceProvider = new ServiceProvider(registrator, componentManager);
 
+        static TestCompilation()
+        {
+            registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
+            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Controls");
+            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
+            registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
+            registrator.RegisterObserver("html", null, typeof(HtmlAttributeObserver));
+            registrator.RegisterObserver("val", null, typeof(ValidationObserver));
+            registrator.RegisterObserver("cache", null, typeof(CacheObserver));
+        }
+
         public static void Test()
         {
-            if (GenerateCode())
-            {
-                if (CompileCode())
-                {
-                    RunCode();
+            //if (GenerateCode())
+            //{
+            //    if (CompileCode())
+            //    {
+            //        RunCode();
 
-                    //Thread.Sleep(4000);
-                    //RunCode();
+            //        //Thread.Sleep(4000);
+            //        //RunCode();
 
-                    //for (int i = 0; i < 10; i++)
-                    //    RunCode();
-                }
-            }
-            //RunStaticCode();
+            //        //for (int i = 0; i < 10; i++)
+            //        //    RunCode();
+            //    }
+            //}
+            RunViewService();
         }
 
         static bool GenerateCode()
@@ -58,19 +69,6 @@ namespace TestConsole
             ICodeGeneratorService generatorService = new DefaultCodeGeneratorService();
             generatorService.AddGenerator("CSharp", generator);
 
-
-
-            registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
-            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Controls");
-            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
-            registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
-            registrator.RegisterObserver("html", "*", typeof(HtmlAttributeObserver));
-            registrator.RegisterObserver("val", "max-length", typeof(ValidationObserver));
-            registrator.RegisterObserver("val", "min-length", typeof(ValidationObserver));
-            registrator.RegisterObserver("val", "regex", typeof(ValidationObserver));
-            registrator.RegisterObserver("val", "message", typeof(ValidationObserver));
-            registrator.RegisterObserver("cache", "key", typeof(CacheObserver));
-            registrator.RegisterObserver("cache", "duration", typeof(CacheObserver));
 
 
 
@@ -176,15 +174,36 @@ namespace TestConsole
             Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);
         }
 
-        //static void RunStandart()
-        //{
-        //    StandartCodeCompiler compiler = new StandartCodeCompiler();
-        //    compiler.GeneratedCodeFolder = @"C:\Temp\NeptuoFramework";
-        //    compiler.Registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
-        //    compiler.Registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Extensions");
-        //    compiler.Registrator.RegisterObserver("ui", "visible", typeof(Neptuo.Web.Framework.Observers.VisibleObserver));
-        //    compiler.ProcessView("Index.html");
-        //}
+        static void RunViewService()
+        {
+            XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
+            XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
+
+            CodeDomViewService viewService = new CodeDomViewService(serviceProvider);
+            viewService.BinDirectory = Environment.CurrentDirectory;
+            viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
+            viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
+            viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
+
+            CodeDomGenerator generator = new CodeDomGenerator();
+            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
+
+            viewService.CodeGeneratorService.AddGenerator("CSharp", generator);
+
+
+            StringWriter output = new StringWriter();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            IGeneratedView view = ((IViewService)viewService).Process("Index.html");
+            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
+            view.CreateControls();
+            view.Init();
+            view.Render(new HtmlTextWriter(output));
+
+            Console.WriteLine(output);
+            Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);
+        }
     }
 
     class ServiceProvider : IServiceProvider

@@ -53,6 +53,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         public CompilerResults CompileAssemblyFromSource(string source, string output = null)
         {
+            compilerParameters.GenerateExecutable = output == null;
             compilerParameters.OutputAssembly = output;
             return provider.CompileAssemblyFromSource(compilerParameters, source);
         }
