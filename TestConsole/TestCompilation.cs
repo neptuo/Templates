@@ -28,12 +28,12 @@ namespace TestConsole
         static TestCompilation()
         {
             registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
-            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Controls");
             registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
             registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
             registrator.RegisterObserver("html", null, typeof(HtmlAttributeObserver));
             registrator.RegisterObserver("val", null, typeof(ValidationObserver));
             registrator.RegisterObserver("cache", null, typeof(CacheObserver));
+            registrator.RegisterObserver("data", null, typeof(DataContextObserver));
         }
 
         public static void Test()
@@ -98,8 +98,6 @@ namespace TestConsole
             return true;
         }
 
-        #region Compile and run
-
         static bool CompileCode()
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -153,8 +151,6 @@ namespace TestConsole
             Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);
         }
 
-        #endregion
-
         static void RunStaticCode()
         {
             Stopwatch stopwatch = new Stopwatch();
@@ -179,15 +175,15 @@ namespace TestConsole
             XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
             XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
+            CodeDomGenerator generator = new CodeDomGenerator();
+            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
+
             CodeDomViewService viewService = new CodeDomViewService(serviceProvider);
+            viewService.DebugMode = true;
             viewService.BinDirectory = Environment.CurrentDirectory;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
-
-            CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
-
             viewService.CodeGeneratorService.AddGenerator("CSharp", generator);
 
 

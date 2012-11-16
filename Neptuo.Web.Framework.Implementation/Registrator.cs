@@ -16,13 +16,18 @@ namespace Neptuo.Web.Framework
         public Dictionary<string, Dictionary<string, Type>> ExtensionsInNamespaces { get; protected set; }
         public Dictionary<string, Dictionary<string, Type>> Observers { get; protected set; }
 
-        public Registrator()
+        public Registrator(Dictionary<string, List<string>> namespaces, Dictionary<string, Dictionary<string, Type>> controlsInNamespaces, 
+            Dictionary<string, Dictionary<string, Type>> extensionsInNamespaces, Dictionary<string, Dictionary<string, Type>> observers)
         {
-            Namespaces = new Dictionary<string, List<string>>();
-            ControlsInNamespaces = new Dictionary<string, Dictionary<string, Type>>();
-            ExtensionsInNamespaces = new Dictionary<string, Dictionary<string, Type>>();
-            Observers = new Dictionary<string, Dictionary<string, Type>>();
+            Namespaces = namespaces;
+            ControlsInNamespaces = controlsInNamespaces;
+            ExtensionsInNamespaces = extensionsInNamespaces;
+            Observers = observers;
         }
+
+        public Registrator()
+            : this(new Dictionary<string, List<string>>(), new Dictionary<string, Dictionary<string, Type>>(), new Dictionary<string, Dictionary<string, Type>>(), new Dictionary<string, Dictionary<string, Type>>())
+        { }
 
         public Type GetControl(string tagNamespace, string tagName)
         {
@@ -185,6 +190,16 @@ namespace Neptuo.Web.Framework
                     Namespace = null
                 };
             }
+        }
+
+        public IRegistrator CreateChildRegistrator()
+        {
+            return new Registrator(
+                new Dictionary<string, List<string>>(Namespaces),
+                new Dictionary<string, Dictionary<string, Type>>(ControlsInNamespaces),
+                new Dictionary<string, Dictionary<string, Type>>(ExtensionsInNamespaces),
+                new Dictionary<string, Dictionary<string, Type>>(Observers)
+            );
         }
     }
 }

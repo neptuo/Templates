@@ -26,6 +26,11 @@ namespace Neptuo.Web.Framework
         void RegisterObserver(string prefix, string attributePattern, Type observer);
 
         IEnumerable<RegisteredNamespace> GetRegisteredNamespaces();
+
+        /// <summary>
+        /// Creates registrator with all current registrations.
+        /// </summary>
+        IRegistrator CreateChildRegistrator();
     }
 
     public class RegisteredNamespace

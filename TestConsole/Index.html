@@ -1,24 +1,21 @@
 ﻿<html>
     <head>
         <title>Hello, World!</title>
-    </head>
+    </head> 
     <body ui:visible="true" class="ui-body">
-        <panel>
-            XXX
-        </panel>
         <h:panel html:id="main-panel" html:style="float: left;">
             <h:textbox name="surname" text="{Binding Expression={Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
             <h:textbox name="surname" />
-            <h:anchor url="~/Admin">
+            <i:anchor url="~/Admin" xmlns:i="clr-namespace:Neptuo.Web.Framework.Controls">
                 <parameters>
-                    <h:parameter name="ID" value="5" />
-                    <h:parameter name="Detail" value="True" />
+                    <i:parameter name="ID" value="5" />
+                    <i:parameter name="Detail" value="True" />
                 </parameters>
                 Hello World!
-            </h:anchor>
+            </i:anchor>
         </h:panel>
-        <h:panel>
-            <h:textbox text="{DateTime}" cache:key="DateTime" cache:duration="0:0:5.1" />
+        <h:panel data:DataContext="Hello, World!">
+            <h:textbox text="{Binding}" cache:key="DateTime" cache:duration="0:0:5.1" />
         </h:panel>
     </body>
 </html>

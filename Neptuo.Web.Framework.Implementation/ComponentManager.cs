@@ -29,6 +29,12 @@ namespace Neptuo.Web.Framework
             entries[control].Observers.Add(new ObserverInfo(observer, propertyBinder));
         }
 
+        public void AttachInitComplete(IControl control, OnInitComplete handler)
+        {
+            if (entries.ContainsKey(control))
+                entries[control].InitComplete.Add(handler);
+        }
+
         public void Init(object control)
         {
             //throw new LivecycleException("Not registered control!");
@@ -76,6 +82,13 @@ namespace Neptuo.Web.Framework
 
             if (canInit)
                 target.OnInit();
+
+            if (entry.InitComplete.Any())
+            {
+                ControlInitCompleteEventArgs args = new ControlInitCompleteEventArgs(target);
+                foreach (OnInitComplete handler in entry.InitComplete)
+                    handler(args);
+            }
         }
 
         public void Render(object control, HtmlTextWriter writer)

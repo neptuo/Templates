@@ -95,6 +95,7 @@
     <Compile Include="Compilation\Parsers\XmlContentParser.GenericContentTypeDescriptor.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.Helper.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.LiteralTypeDescriptor.cs" />
+    <Compile Include="Compilation\Parsers\XmlContentParser.NamespaceDeclaration.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Models.cs" />
     <Compile Include="Observers\CacheObserver.cs" />
+    <Compile Include="Observers\DataContextObserver.cs" />
     <Compile Include="Observers\HtmlAttributeObserver.cs" />
     <Compile Include="Observers\ValidationObserver.cs" />
     <Compile Include="Observers\VisibleObserver.cs" />

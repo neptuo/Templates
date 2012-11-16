@@ -35,7 +35,7 @@ namespace Neptuo.Web.Framework.Utils
             if (String.IsNullOrEmpty(value))
                 return GetDefaultValue(target);
 
-            if (target == typeof(String))
+            if (target == typeof(String) || target == typeof(Object))
                 return value;
 
             if (target.IsEnum)
