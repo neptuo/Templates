@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 using System.ComponentModel;
+using System.Configuration;
+using Neptuo.Web.Framework.Configuration;
 
 namespace TestConsole
 {
@@ -35,6 +37,8 @@ namespace TestConsole
             //Console.WriteLine(typeConverter.CanConvertFrom(typeof(String)));
             //TimeSpan timeSpan = (TimeSpan)typeConverter.ConvertFrom("0:0:5.1");
             //Console.WriteLine(timeSpan);
+
+            ComponentsSection controls = (ComponentsSection)ConfigurationManager.GetSection("neptuo.web.framework/components");
 
             Console.ReadKey(true);
         }

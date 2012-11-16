@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -97,6 +98,11 @@
     <Compile Include="Compilation\Parsers\XmlContentParser.LiteralTypeDescriptor.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.NamespaceDeclaration.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.Utils.cs" />
+    <Compile Include="Configuration\ComponentElement.cs" />
+    <Compile Include="Configuration\ComponentsCollection.cs" />
+    <Compile Include="Configuration\ComponentsSection.cs" />
+    <Compile Include="Configuration\ObserversCollection.cs" />
+    <Compile Include="Configuration\ObserverElement.cs" />
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericControl.cs" />

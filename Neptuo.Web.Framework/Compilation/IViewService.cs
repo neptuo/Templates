@@ -9,10 +9,6 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public interface IViewService
     {
-        //IParserService ParserService { get; }
-        //ICodeGeneratorService CodeGeneratorService { get; }
-
-        //void SetCurrent(string name);
         IGeneratedView Process(string fileName);
     }
 }
