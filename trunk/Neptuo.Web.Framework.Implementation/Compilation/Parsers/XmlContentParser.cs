@@ -38,14 +38,17 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         {
             foreach (XmlNode node in childNodes)
             {
-                if (Utils.NeedsServerProcessing(helper.Registrator, node))
+                XmlElement element = node as XmlElement;
+                if (element != null)
                 {
-                    AppendPlainText(helper.Content.ToString(), helper);
-                    helper.Content.Clear();
-
-                    if (node.GetType() == typeof(XmlElement))
+                    IRegistrator newRegistrator = Utils.CreateChildRegistrator(helper.Registrator, Utils.GetXmlNsClrNamespace(element));
+                    if (Utils.NeedsServerProcessing(newRegistrator, element))
                     {
-                        XmlElement element = node as XmlElement;
+                        AppendPlainText(helper.Content.ToString(), helper);
+                        helper.Content.Clear();
+
+                        IRegistrator currentRegistrator = helper.Registrator;
+                        helper.Registrator = newRegistrator;
 
                         Type controlType = helper.Registrator.GetControl(element.Prefix, element.LocalName);
                         if (controlType == null)
@@ -59,18 +62,16 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                                 IXmlControlBuilder builder = (IXmlControlBuilder)Activator.CreateInstance(attr.Type);
                                 builder.Parse(helper, controlType, element);
                             }
-                            else 
+                            else
                             {
                                 GenerateControl(helper, controlType, element);
                             }
                         }
+
+                        helper.Registrator = currentRegistrator;
                     }
-                }
-                else
-                {
-                    if (node.GetType() == typeof(XmlElement))
+                    else
                     {
-                        XmlElement element = node as XmlElement;
                         if (element.IsEmpty)
                         {
                             helper.FormatEmptyElement(element);
@@ -82,11 +83,11 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                             helper.FormatEndElement(element);
                         }
                     }
-                    else if (node.GetType() == typeof(XmlText))
-                    {
-                        XmlText text = node as XmlText;
-                        helper.Content.Append(text.InnerText);
-                    }
+                }
+                else if (node.GetType() == typeof(XmlText))
+                {
+                    XmlText text = node as XmlText;
+                    helper.Content.Append(text.InnerText);
                 }
             }
             AppendPlainText(helper.Content.ToString(), helper);
@@ -109,7 +110,6 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         {
             ControlCodeObject codeObject = new ControlCodeObject(controlType);
             helper.Parent.SetValue(codeObject);
-            //helper.Parent.AddProperty(codeObject);
 
             if (controlType == genericContentDescriptor.Type)
             {
@@ -213,14 +213,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 bool boundAttribute = false;
 
                 if (attribute.Prefix.ToLowerInvariant() == "xmlns")
-                {
-                    if (attribute.Value.StartsWith("clr-namespace:"))
-                    {
-                        helper.Registrator.RegisterNamespace(attribute.LocalName, attribute.Value.Substring("clr-namespace:".Length));
-                        //TODO: Register XMLNS, create temporal registrator or unregister XMLNS after this control
-                        boundAttribute = true;
-                    }
-                }
+                    boundAttribute = true;
 
                 if (!boundAttribute)
                 {

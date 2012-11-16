@@ -14,7 +14,10 @@ namespace Neptuo.Web.Framework.Extensions
 
         public object ProvideValue()
         {
-            return String.Format("Hello, {0} - {1}!", Expression, Models.CurrentModel);
+            if (!Models.CurrentModel.Any())
+                return null;
+
+            return Models.CurrentModel.Peek();
         }
     }
 }

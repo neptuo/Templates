@@ -7,6 +7,11 @@ namespace Neptuo.Web.Framework
 {
     public static class Models
     {
-        public static string CurrentModel { get; set; }
+        public static Stack<object> CurrentModel { get; private set; }
+
+        static Models()
+        {
+            CurrentModel = new Stack<object>();
+        }
     }
 }

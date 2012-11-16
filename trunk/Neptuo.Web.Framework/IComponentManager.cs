@@ -14,10 +14,24 @@ namespace Neptuo.Web.Framework
 
         void AttachObserver(IControl control, IObserver observer, Action propertyBinder);
 
+        void AttachInitComplete(IControl control, OnInitComplete handler);
+
         void Init(object control);
 
         void Render(object control, HtmlTextWriter writer);
 
         void Dispose(object component);
+    }
+
+    public delegate void OnInitComplete(ControlInitCompleteEventArgs e);
+
+    public class ControlInitCompleteEventArgs : EventArgs
+    {
+        public IControl Target { get; private set; }
+
+        public ControlInitCompleteEventArgs(IControl target)
+        {
+            Target = target;
+        }
     }
 }

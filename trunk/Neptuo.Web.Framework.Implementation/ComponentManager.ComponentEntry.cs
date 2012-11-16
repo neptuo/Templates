@@ -12,7 +12,8 @@ namespace Neptuo.Web.Framework
             public object Control { get; set; }
             public Action PropertyBinder { get; set; }
 
-            public List<ObserverInfo> Observers { get; set; }
+            public List<ObserverInfo> Observers { get; private set; }
+            public List<OnInitComplete> InitComplete { get; private set; }
 
             public bool ArePropertiesBound { get; set; }
             public bool IsInited { get; set; }
@@ -21,6 +22,7 @@ namespace Neptuo.Web.Framework
             public ComponentEntry()
             {
                 Observers = new List<ObserverInfo>();
+                InitComplete = new List<OnInitComplete>();
             }
         }
     }

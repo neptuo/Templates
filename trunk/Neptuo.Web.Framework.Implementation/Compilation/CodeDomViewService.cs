@@ -21,6 +21,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         public string BinDirectory { get; set; }
         public string TempDirectory { get; set; }
+        public bool DebugMode { get; set; }
 
         public CodeDomViewService(IServiceProvider serviceProvider)
         {
@@ -56,8 +57,11 @@ namespace Neptuo.Web.Framework.Compilation
         {
             string sourceCode = GenerateCodeFromView(viewContent);
 
+            if (DebugMode)
+                File.WriteAllText("GeneratedView.cs", sourceCode);//TODO: Do it better!
+
             CodeDomCompiler compiler = new CodeDomCompiler();
-            compiler.IncludeDebugInformation = false;
+            compiler.IncludeDebugInformation = DebugMode;
             compiler.AddReferencedFolder(BinDirectory);
 
             CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, assemblyName);
@@ -82,7 +86,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         private bool IsCompiled(string assemblyName)
         {
-            return File.Exists(assemblyName);
+            return !DebugMode && File.Exists(assemblyName);
         }
 
         private string GetAssemblyName(string fileName)

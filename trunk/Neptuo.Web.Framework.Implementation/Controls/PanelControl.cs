@@ -13,11 +13,5 @@ namespace Neptuo.Web.Framework.Controls
         {
             Content = new List<object>();
         }
-
-        public override void OnInit()
-        {
-            Models.CurrentModel = "h:Panel";
-            base.OnInit();
-        }
     }
 }
