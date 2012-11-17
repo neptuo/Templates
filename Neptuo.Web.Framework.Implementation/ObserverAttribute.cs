@@ -6,7 +6,7 @@ using System.Text;
 using Neptuo.Web.Framework.Compilation;
 using Neptuo.Web.Framework.Utils;
 
-namespace Neptuo.Web.Framework.Annotations
+namespace Neptuo.Web.Framework
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class ObserverAttribute : Attribute

@@ -41,12 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Annotations\BuilderAttribute.cs" />
-    <Compile Include="Annotations\ComponentAttribute.cs" />
-    <Compile Include="Annotations\PropertyAttribute.cs" />
-    <Compile Include="Annotations\DependencyAttribute.cs" />
-    <Compile Include="Annotations\HtmlAttribute.cs" />
-    <Compile Include="Annotations\ObserverAttribute.cs" />
+    <Compile Include="BuilderAttribute.cs" />
+    <Compile Include="ComponentAttribute.cs" />
+    <Compile Include="PropertyAttribute.cs" />
+    <Compile Include="HtmlAttribute.cs" />
+    <Compile Include="ObserverAttribute.cs" />
     <Compile Include="Controls\BaseContentControl.cs" />
     <Compile Include="Controls\BaseControl.cs" />
     <Compile Include="BaseGeneratedView.cs" />
