@@ -15,6 +15,7 @@ using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions;
 using Neptuo.Web.Framework.Compilation.CodeGenerators;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation;
+using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
 
 namespace TestWebMvc
 {
@@ -54,7 +55,7 @@ namespace TestWebMvc
             XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
             CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
+            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
             CodeDomViewService viewService = new CodeDomViewService(dependencyContainer);
             //viewService.DebugMode = true;

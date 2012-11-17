@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
+namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public class LocalFieldCodeDomCodeObjectExtension : BaseCodeDomCodeObjectExtension<LocalFieldCodeObject>
+    public class LocalFieldCodeObjectExtension : BaseCodeObjectExtension<LocalFieldCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeDomCodeObjectExtensionContext context, LocalFieldCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, LocalFieldCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
             return new CodeFieldReferenceExpression(
                 new CodeThisReferenceExpression(),

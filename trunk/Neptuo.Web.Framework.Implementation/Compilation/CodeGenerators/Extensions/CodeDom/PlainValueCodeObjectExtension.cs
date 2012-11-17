@@ -7,11 +7,11 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
+namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public class PlainValueCodeDomCodeObjectExtension : BaseCodeDomCodeObjectExtension<IPlainValueCodeObject>
+    public class PlainValueCodeObjectExtension : BaseCodeObjectExtension<IPlainValueCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeDomCodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
         {
             if (Utils.StringConverter.CanConvert(propertyDescriptor.Property.PropertyType))
                 return new CodePrimitiveExpression(Utils.StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.PropertyType));
