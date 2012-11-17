@@ -18,10 +18,11 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
                 new CodeMethodInvokeExpression(
                 new CodeFieldReferenceExpression(
                     new CodeThisReferenceExpression(),
-                    CodeDomGenerator.Names.ServiceProviderField
+                    CodeDomGenerator.Names.DependencyProviderField
                 ),
-                TypeHelper.MethodName<IServiceProvider, Type, object>(p => p.GetService),
-                new CodeTypeOfExpression(new CodeTypeReference(codeObject.TargetType))
+                TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
+                new CodeTypeOfExpression(new CodeTypeReference(codeObject.TargetType)),
+                new CodePrimitiveExpression(null)
             ));
         }
     }

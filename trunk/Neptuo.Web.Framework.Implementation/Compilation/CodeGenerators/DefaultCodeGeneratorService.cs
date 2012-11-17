@@ -18,7 +18,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
         public bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context)
         {
             if (generators.ContainsKey(name))
-                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, context.ServiceProvider));
+                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, context.DependencyProvider));
 
             return false;
         }

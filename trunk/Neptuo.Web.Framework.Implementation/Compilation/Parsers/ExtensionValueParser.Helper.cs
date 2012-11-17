@@ -18,7 +18,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             public Helper(IValueParserContext context)
             {
                 Context = context;
-                Registrator = Context.ServiceProvider.GetService<IRegistrator>();
+                Registrator = Context.DependencyProvider.Resolve<IRegistrator>();
                 Parser = new ExtensionContentParser();
             }
         }

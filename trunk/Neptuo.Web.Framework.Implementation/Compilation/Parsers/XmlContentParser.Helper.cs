@@ -21,7 +21,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             public Helper(string xml, IContentParserContext context)
             {
                 Context = context;
-                Registrator = Context.ServiceProvider.GetService<IRegistrator>();
+                Registrator = Context.DependencyProvider.Resolve<IRegistrator>();
                 Content = new StringBuilder();
                 Parent = context.PropertyDescriptor;
 

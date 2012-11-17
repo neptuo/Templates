@@ -112,6 +112,7 @@
     <Compile Include="Controls\LiteralControl.cs" />
     <Compile Include="Controls\PanelControl.cs" />
     <Compile Include="Controls\TextBoxControl.cs" />
+    <Compile Include="DependencyProviderExtensions.cs" />
     <Compile Include="Extensions\BindingExtension.cs" />
     <Compile Include="Extensions\DateTimeExtension.cs" />
     <Compile Include="Models.cs" />
@@ -128,7 +129,6 @@
     <Compile Include="Utils\ControlHelper.cs" />
     <Compile Include="Utils\Func.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
-    <Compile Include="Utils\ServiceProviderExtensions.cs" />
     <Compile Include="Utils\StringConverter.cs" />
     <Compile Include="Utils\TypeHelper.cs" />
     <Compile Include="Utils\XmlExtensions.cs" />

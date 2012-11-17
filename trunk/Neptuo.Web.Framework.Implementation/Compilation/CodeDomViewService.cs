@@ -17,17 +17,17 @@ namespace Neptuo.Web.Framework.Compilation
     {
         public IParserService ParserService { get; private set; }
         public ICodeGeneratorService CodeGeneratorService { get; private set; }
-        public IServiceProvider ServiceProvider { get; set; }
+        public IDependencyProvider DependencyProvider { get; set; }
 
         public string BinDirectory { get; set; }
         public string TempDirectory { get; set; }
         public bool DebugMode { get; set; }
 
-        public CodeDomViewService(IServiceProvider serviceProvider)
+        public CodeDomViewService(IDependencyProvider dependencyProvider)
         {
             ParserService = new DefaultParserService();
             CodeGeneratorService = new DefaultCodeGeneratorService();
-            ServiceProvider = serviceProvider;
+            DependencyProvider = dependencyProvider;
         }
 
         public IGeneratedView Process(string fileName)
@@ -72,12 +72,12 @@ namespace Neptuo.Web.Framework.Compilation
         private string GenerateCodeFromView(string viewContent)
         {
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
-            bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(ServiceProvider, contentProperty));
+            bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(DependencyProvider, contentProperty));
             if (!parserResult)
                 throw new CodeDomViewServiceException("Error parsing view content!");
 
             TextWriter writer = new StringWriter();
-            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, ServiceProvider));
+            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, DependencyProvider));
             if (!generatorResult)
                 throw new CodeDomViewServiceException("Error generating code from view!");
 
