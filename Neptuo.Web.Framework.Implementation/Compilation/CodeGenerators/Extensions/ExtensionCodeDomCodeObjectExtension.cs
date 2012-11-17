@@ -1,4 +1,5 @@
 ﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Extensions;
 using Neptuo.Web.Framework.Utils;
 using System;
 using System.CodeDom;

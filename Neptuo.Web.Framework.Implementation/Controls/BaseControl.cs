@@ -7,7 +7,7 @@ using Neptuo.Web.Framework.Annotations;
 using System.ComponentModel;
 using Neptuo.Web.Framework.Utils;
 
-namespace Neptuo.Web.Framework
+namespace Neptuo.Web.Framework.Controls
 {
     /// <summary>
     /// Controls extends this class support tag name specified in <see cref="ComponentAttribute"/>.
