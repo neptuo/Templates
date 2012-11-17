@@ -103,6 +103,7 @@
     <Compile Include="Configuration\ComponentsSection.cs" />
     <Compile Include="Configuration\ObserversCollection.cs" />
     <Compile Include="Configuration\ObserverElement.cs" />
+    <Compile Include="Configuration\RegistratorExtensions.cs" />
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericControl.cs" />
