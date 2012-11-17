@@ -8,12 +8,12 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 {
     public class DefaultParserServiceContext : IParserServiceContext
     {
-        public IServiceProvider ServiceProvider { get; private set; }
+        public IDependencyProvider DependencyProvider { get; private set; }
         public IPropertyDescriptor PropertyDescriptor { get; private set; }
 
-        public DefaultParserServiceContext(IServiceProvider serviceProvider, IPropertyDescriptor propertyDescriptor)
+        public DefaultParserServiceContext(IDependencyProvider dependencyProvider, IPropertyDescriptor propertyDescriptor)
         {
-            ServiceProvider = serviceProvider;
+            DependencyProvider = dependencyProvider;
             PropertyDescriptor = propertyDescriptor;
         }
     }

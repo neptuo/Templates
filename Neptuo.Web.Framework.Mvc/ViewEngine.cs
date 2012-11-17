@@ -14,23 +14,23 @@ namespace Neptuo.Web.Framework.Mvc
     /// </summary>
     public class ViewEngine : VirtualPathProviderViewEngine, IVirtualPathProvider
     {
-        private IExtendedServiceProvider serviceProvider;
+        private IDependencyProvider dependencyProvider;
 
-        public ViewEngine(IExtendedServiceProvider serviceProvider)
+        public ViewEngine(IDependencyProvider dependencyProvider)
         {
             base.ViewLocationFormats = new string[] { "~/Views/{1}/{0}.html" };
             base.PartialViewLocationFormats = base.ViewLocationFormats;
-            this.serviceProvider = serviceProvider;
+            this.dependencyProvider = dependencyProvider;
         }
 
         protected override IView CreatePartialView(ControllerContext controllerContext, string partialPath)
         {
-            return new View(serviceProvider.GetService<IViewService>(), serviceProvider, partialPath);
+            return new View(dependencyProvider.Resolve<IViewService>(), dependencyProvider, partialPath);
         }
 
         protected override IView CreateView(ControllerContext controllerContext, string viewPath, string masterPath)
         {
-            return new View(serviceProvider.GetService<IViewService>(), serviceProvider, viewPath, masterPath);
+            return new View(dependencyProvider.Resolve<IViewService>(), dependencyProvider, viewPath, masterPath);
         }
 
         public string MapPath(string path)

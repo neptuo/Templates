@@ -21,9 +21,9 @@ namespace Neptuo.Web.Framework.Compilation.Parsers.Extensions
                 propertyDescriptor.SetValue(new LocalFieldCodeObject(CodeDomGenerator.Names.ViewPageField));
                 return true;
             }
-            if (propertyDescriptor.Property.PropertyType == typeof(IServiceProvider))
+            if (propertyDescriptor.Property.PropertyType == typeof(IDependencyProvider))
             {
-                propertyDescriptor.SetValue(new LocalFieldCodeObject(CodeDomGenerator.Names.ServiceProviderField));
+                propertyDescriptor.SetValue(new LocalFieldCodeObject(CodeDomGenerator.Names.DependencyProviderField));
                 return true;
             }
             return false;

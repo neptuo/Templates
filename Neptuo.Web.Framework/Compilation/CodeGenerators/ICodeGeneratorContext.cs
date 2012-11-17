@@ -9,7 +9,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
     public interface ICodeGeneratorContext
     {
         ICodeGeneratorService CodeGeneratorService { get; }
-        IServiceProvider ServiceProvider { get; }
+        IDependencyProvider DependencyProvider { get; }
         TextWriter Output { get; }
     }
 }

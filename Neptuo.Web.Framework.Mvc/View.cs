@@ -16,7 +16,7 @@ namespace Neptuo.Web.Framework.Mvc
     public class View : IView
     {
         private IViewService viewService;
-        private IServiceProvider serviceProvider;
+        private IDependencyProvider dependencyProvider;
 
         public string ViewName { get; protected set; }
 
@@ -24,10 +24,10 @@ namespace Neptuo.Web.Framework.Mvc
 
         public bool UseCache { get; protected set; }
 
-        public View(IViewService viewService, IServiceProvider serviceProvider, string viewName, string masterName = null, bool? useCache = null)
+        public View(IViewService viewService, IDependencyProvider dependencyProvider, string viewName, string masterName = null, bool? useCache = null)
         {
             this.viewService = viewService;
-            this.serviceProvider = serviceProvider;
+            this.dependencyProvider = dependencyProvider;
             ViewName = viewName;
             MasterName = masterName;
             UseCache = useCache ?? true;
@@ -35,10 +35,10 @@ namespace Neptuo.Web.Framework.Mvc
 
         public void Render(ViewContext viewContext, TextWriter writer)
         {
-            IComponentManager componentManager = serviceProvider.GetService<IComponentManager>();
+            IComponentManager componentManager = dependencyProvider.Resolve<IComponentManager>();
 
             IGeneratedView view = viewService.Process(HttpContext.Current.Server.MapPath(ViewName));
-            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
+            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(writer));

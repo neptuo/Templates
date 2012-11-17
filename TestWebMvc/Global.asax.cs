@@ -46,7 +46,7 @@ namespace TestWebMvc
             RegisterGlobalFilters(GlobalFilters.Filters);
             RegisterRoutes(RouteTable.Routes);
 
-            UnityServiceProvider serviceProvider = new UnityServiceProvider();
+            IDependencyContainer dependencyContainer = new UnityDependencyContainer();
             Registrator registrator = new Registrator();
             registrator.LoadSection();
 
@@ -56,7 +56,7 @@ namespace TestWebMvc
             CodeDomGenerator generator = new CodeDomGenerator();
             generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
 
-            CodeDomViewService viewService = new CodeDomViewService(serviceProvider);
+            CodeDomViewService viewService = new CodeDomViewService(dependencyContainer);
             //viewService.DebugMode = true;
             viewService.BinDirectory = Server.MapPath("~/Bin");
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
@@ -64,13 +64,13 @@ namespace TestWebMvc
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             viewService.CodeGeneratorService.AddGenerator("CSharp", generator);
 
-            serviceProvider.Container
-                .RegisterInstance<IServiceProvider>(serviceProvider)
+            dependencyContainer
+                .RegisterInstance<IDependencyProvider>(dependencyContainer)
                 .RegisterInstance<IRegistrator>(registrator)
                 .RegisterInstance<IViewService>(viewService)
                 .RegisterType<IComponentManager, ComponentManager>();
 
-            ViewEngines.Engines.Insert(0, new ViewEngine(serviceProvider));
+            ViewEngines.Engines.Insert(0, new ViewEngine(dependencyContainer));
         }
     }
 }

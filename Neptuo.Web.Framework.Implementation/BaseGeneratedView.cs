@@ -13,13 +13,13 @@ namespace Neptuo.Web.Framework
     {
         protected IViewPage viewPage;
         protected IComponentManager componentManager;
-        protected IServiceProvider serviceProvider;
+        protected IDependencyProvider dependencyProvider;
 
-        public void Setup(IViewPage viewPage, IComponentManager componentManager, IServiceProvider serviceProvider)
+        public void Setup(IViewPage viewPage, IComponentManager componentManager, IDependencyProvider dependencyProvider)
         {
             this.viewPage = viewPage;
             this.componentManager = componentManager;
-            this.serviceProvider = serviceProvider;
+            this.dependencyProvider = dependencyProvider;
         }
 
         public void CreateControls()

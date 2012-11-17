@@ -24,7 +24,7 @@ namespace TestConsole
     {
         static IComponentManager componentManager = new ComponentManager();
         static IRegistrator registrator = new Registrator();
-        static IServiceProvider serviceProvider = new ServiceProvider(registrator, componentManager);
+        static IDependencyProvider dependencyProvider = new DependencyProvider(registrator, componentManager);
 
         static TestCompilation()
         {
@@ -78,7 +78,7 @@ namespace TestConsole
             stopwatch.Start();
 
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
-            bool parserResult = parserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(serviceProvider, contentProperty));
+            bool parserResult = parserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(dependencyProvider, contentProperty));
             if (!parserResult)
             {
                 Console.WriteLine("Parsing failed!");
@@ -87,7 +87,7 @@ namespace TestConsole
 
             using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
             {
-                bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorContext(writer));
+                bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, dependencyProvider));
                 if (!generatorResult)
                 {
                     Console.WriteLine("Generating failed!");
@@ -142,7 +142,7 @@ namespace TestConsole
             StringWriter output = new StringWriter();
 
             IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
-            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
+            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
@@ -161,7 +161,7 @@ namespace TestConsole
             StringWriter output = new StringWriter();
 
             IGeneratedView view = new GeneratedView();
-            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
+            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
@@ -180,7 +180,7 @@ namespace TestConsole
             CodeDomGenerator generator = new CodeDomGenerator();
             generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
 
-            CodeDomViewService viewService = new CodeDomViewService(serviceProvider);
+            CodeDomViewService viewService = new CodeDomViewService(dependencyProvider);
             viewService.DebugMode = true;
             viewService.BinDirectory = Environment.CurrentDirectory;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
@@ -194,7 +194,7 @@ namespace TestConsole
             stopwatch.Start();
 
             IGeneratedView view = ((IViewService)viewService).Process("Index.html");
-            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
+            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
@@ -204,18 +204,23 @@ namespace TestConsole
         }
     }
 
-    class ServiceProvider : IServiceProvider
+    class DependencyProvider : IDependencyProvider
     {
         private IRegistrator registrator;
         private IComponentManager componentManager;
 
-        public ServiceProvider(IRegistrator registrator, IComponentManager componentManager)
+        public DependencyProvider(IRegistrator registrator, IComponentManager componentManager)
         {
             this.registrator = registrator;
             this.componentManager = componentManager;
         }
 
-        public object GetService(Type serviceType)
+        public IDependencyContainer CreateChildContainer()
+        {
+            return null;
+        }
+
+        public object Resolve(Type serviceType, string name)
         {
             if (serviceType == typeof(IRegistrator))
                 return registrator;
@@ -223,6 +228,11 @@ namespace TestConsole
             if (serviceType == typeof(IComponentManager))
                 return componentManager;
 
+            return null;
+        }
+
+        public IEnumerable<object> ResolveAll(Type t)
+        {
             return null;
         }
     }

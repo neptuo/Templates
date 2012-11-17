@@ -11,13 +11,13 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
         public TextWriter Output { get; set; }
 
         public ICodeGeneratorService CodeGeneratorService { get; set; }
-        public IServiceProvider ServiceProvider { get; set; }
+        public IDependencyProvider DependencyProvider { get; set; }
 
-        public DefaultCodeGeneratorContext(TextWriter output, ICodeGeneratorService codeGeneratorService, IServiceProvider serviceProvider)
+        public DefaultCodeGeneratorContext(TextWriter output, ICodeGeneratorService codeGeneratorService, IDependencyProvider dependencyProvider)
         {
             Output = output;
             CodeGeneratorService = codeGeneratorService;
-            ServiceProvider = serviceProvider;
+            DependencyProvider = dependencyProvider;
         }
     }
 }

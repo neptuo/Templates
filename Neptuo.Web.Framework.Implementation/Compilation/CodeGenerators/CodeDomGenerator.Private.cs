@@ -19,7 +19,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
             public const string ResponseField = "response";
             public const string ViewPageField = "viewPage";
             public const string ComponentManagerField = "componentManager";
-            public const string ServiceProviderField = "serviceProvider";
+            public const string DependencyProviderField = "dependencyProvider";
 
             public const string CreateViewPageControlsMethod = "CreateViewPageControls";
         }

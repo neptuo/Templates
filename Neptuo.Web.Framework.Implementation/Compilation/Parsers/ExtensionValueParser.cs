@@ -49,7 +49,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                         IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
                         bool result = helper.Context.ParserService.ProcessValue(
                             attribute.Value, 
-                            new DefaultParserServiceContext(helper.Context.ServiceProvider, propertyDescriptor)
+                            new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor)
                         );
 
                         if (!result)
@@ -80,7 +80,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 {
                     bool result = helper.Context.ParserService.ProcessValue(
                         extension.DefaultAttributeValue,
-                        new DefaultParserServiceContext(helper.Context.ServiceProvider, propertyDescriptor)
+                        new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor)
                     );
 
                     if (!result)

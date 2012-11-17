@@ -65,7 +65,8 @@
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />
-    <Compile Include="IExtendedServiceProvider.cs" />
+    <Compile Include="IDependencyContainer.cs" />
+    <Compile Include="IDependencyProvider.cs" />
     <Compile Include="IGeneratedView.cs" />
     <Compile Include="IComponentManager.cs" />
     <Compile Include="IAttributeCollection.cs" />
