@@ -75,7 +75,7 @@ namespace DemoWebUI.Controllers
             parserService.ValueParsers.Add(new ExtensionValueParser());
 
             CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
+            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
             ICodeGeneratorService generatorService = new DefaultCodeGeneratorService();
             generatorService.AddGenerator("CSharp", generator);
@@ -90,7 +90,7 @@ namespace DemoWebUI.Controllers
             }
 
             TextWriter writer = new StringWriter();
-            bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorContext(writer));
+            bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, serviceProvider));
             if (!generatorResult)
                 return null;
             else

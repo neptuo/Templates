@@ -2,11 +2,13 @@
 using Neptuo.Web.Framework.Compilation;
 using Neptuo.Web.Framework.Compilation.CodeGenerators;
 using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions;
+using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
 using Neptuo.Web.Framework.Configuration;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Observers;
+using Neptuo.Web.Framework.Unity;
 using Neptuo.Web.Framework.Utils;
 using System;
 using System.CodeDom.Compiler;
@@ -22,9 +24,8 @@ namespace TestConsole
 {
     static class TestCompilation
     {
-        static IComponentManager componentManager = new ComponentManager();
         static IRegistrator registrator = new Registrator();
-        static IDependencyProvider dependencyProvider = new DependencyProvider(registrator, componentManager);
+        static UnityDependencyContainer container = new UnityDependencyContainer();
 
         static TestCompilation()
         {
@@ -36,6 +37,10 @@ namespace TestConsole
             //registrator.RegisterObserver("cache", null, typeof(CacheObserver));
             //registrator.RegisterObserver("data", null, typeof(DataContextObserver));
             registrator.LoadSection();
+
+            container
+                .RegisterInstance<IComponentManager>(new ComponentManager())
+                .RegisterInstance<IRegistrator>(registrator);
         }
 
         public static void Test()
@@ -66,7 +71,7 @@ namespace TestConsole
             parserService.ValueParsers.Add(new ExtensionValueParser());
 
             CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
+            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
             ICodeGeneratorService generatorService = new DefaultCodeGeneratorService();
             generatorService.AddGenerator("CSharp", generator);
@@ -78,7 +83,7 @@ namespace TestConsole
             stopwatch.Start();
 
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
-            bool parserResult = parserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(dependencyProvider, contentProperty));
+            bool parserResult = parserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(container, contentProperty));
             if (!parserResult)
             {
                 Console.WriteLine("Parsing failed!");
@@ -87,7 +92,7 @@ namespace TestConsole
 
             using (StreamWriter writer = new StreamWriter("GeneratedView.cs"))
             {
-                bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, dependencyProvider));
+                bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, container));
                 if (!generatorResult)
                 {
                     Console.WriteLine("Generating failed!");
@@ -142,7 +147,7 @@ namespace TestConsole
             StringWriter output = new StringWriter();
 
             IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
-            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
+            view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
@@ -161,7 +166,7 @@ namespace TestConsole
             StringWriter output = new StringWriter();
 
             IGeneratedView view = new GeneratedView();
-            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
+            view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
@@ -178,9 +183,9 @@ namespace TestConsole
             XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
             CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
+            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
-            CodeDomViewService viewService = new CodeDomViewService(dependencyProvider);
+            CodeDomViewService viewService = new CodeDomViewService(container);
             viewService.DebugMode = true;
             viewService.BinDirectory = Environment.CurrentDirectory;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
@@ -194,46 +199,13 @@ namespace TestConsole
             stopwatch.Start();
 
             IGeneratedView view = ((IViewService)viewService).Process("Index.html");
-            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
+            view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));
 
             Console.WriteLine(output);
             Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);
-        }
-    }
-
-    class DependencyProvider : IDependencyProvider
-    {
-        private IRegistrator registrator;
-        private IComponentManager componentManager;
-
-        public DependencyProvider(IRegistrator registrator, IComponentManager componentManager)
-        {
-            this.registrator = registrator;
-            this.componentManager = componentManager;
-        }
-
-        public IDependencyContainer CreateChildContainer()
-        {
-            return null;
-        }
-
-        public object Resolve(Type serviceType, string name)
-        {
-            if (serviceType == typeof(IRegistrator))
-                return registrator;
-
-            if (serviceType == typeof(IComponentManager))
-                return componentManager;
-
-            return null;
-        }
-
-        public IEnumerable<object> ResolveAll(Type t)
-        {
-            return null;
         }
     }
 }

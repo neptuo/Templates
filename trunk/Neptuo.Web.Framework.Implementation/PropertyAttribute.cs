@@ -5,7 +5,7 @@ using System.Text;
 using Neptuo.Web.Framework.Utils;
 using System.Reflection;
 
-namespace Neptuo.Web.Framework.Annotations
+namespace Neptuo.Web.Framework
 {
     [AttributeUsage(AttributeTargets.Property, Inherited = true, AllowMultiple = false)]
     public sealed class PropertyAttribute : Attribute
