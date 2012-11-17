@@ -24,6 +24,6 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
         /// <param name="name">Name of generator.</param>
         /// <param name="propertyDescriptor">Root property in AST.</param>
         /// <param name="context">Context.</param>
-        bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context);
+        bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context);
     }
 }

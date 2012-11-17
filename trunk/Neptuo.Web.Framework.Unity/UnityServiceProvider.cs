@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Unity
 {
-    public class UnityServiceProvider : IServiceProvider
+    public class UnityServiceProvider : IExtendedServiceProvider, IServiceProvider
     {
         public IUnityContainer Container { get; private set; }
 
@@ -21,6 +21,11 @@ namespace Neptuo.Web.Framework.Unity
         public object GetService(Type serviceType)
         {
             return Container.Resolve(serviceType);
+        }
+
+        public IExtendedServiceProvider CreateChildProvider()
+        {
+            return new UnityServiceProvider(Container.CreateChildContainer());
         }
     }
 }

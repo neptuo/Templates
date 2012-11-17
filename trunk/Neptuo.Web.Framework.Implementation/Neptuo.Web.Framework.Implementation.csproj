@@ -54,6 +54,7 @@
     <Compile Include="Compilation\CodeDomCompiler.cs" />
     <Compile Include="Compilation\CodeDomViewService.cs" />
     <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.cs" />
+    <Compile Include="Compilation\CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
     <Compile Include="Compilation\CodeGenerators\DefaultCodeGeneratorService.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\BaseCodeDomCodeObjectExtension.cs" />
     <Compile Include="Compilation\CodeGenerators\Extensions\BaseComponentCodeDomCodeObjectExtension.cs" />

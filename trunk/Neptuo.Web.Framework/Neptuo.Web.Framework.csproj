@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Compilation\CodeGenerators\ICodeGeneratorService.cs" />
+    <Compile Include="Compilation\CodeGenerators\ICodeGeneratorServiceContext.cs" />
     <Compile Include="Compilation\CodeObjects\IControlCodeObject.cs" />
     <Compile Include="Compilation\CodeObjects\IDefaultPropertyValue.cs" />
     <Compile Include="Compilation\CodeObjects\IObserverCodeObject.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="IContentControl.cs" />
     <Compile Include="IControl.cs" />
+    <Compile Include="IExtendedServiceProvider.cs" />
     <Compile Include="IGeneratedView.cs" />
     <Compile Include="IComponentManager.cs" />
     <Compile Include="IAttributeCollection.cs" />

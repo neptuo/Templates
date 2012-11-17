@@ -15,10 +15,10 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
             generators[name] = generator;
         }
 
-        public bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context)
+        public bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context)
         {
             if (generators.ContainsKey(name))
-                return generators[name].ProcessTree(propertyDescriptor, context);
+                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, context.ServiceProvider));
 
             return false;
         }

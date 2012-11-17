@@ -6,9 +6,8 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation.CodeGenerators
 {
-    public interface ICodeGeneratorContext
+    public interface ICodeGeneratorServiceContext
     {
-        ICodeGeneratorService CodeGeneratorService { get; }
         IServiceProvider ServiceProvider { get; }
         TextWriter Output { get; }
     }

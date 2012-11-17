@@ -1,19 +1,4 @@
 ﻿<h:panel>
     Hello World!
-
-    <h:grid Repeat="1" ui:visible="false">
-        <header>
-            <h:griditem text="Name" />
-            <h:griditem text="Surname" />
-        </header>
-        <options>
-            <h:gridoptions key="o" value="5" />
-        </options>
-        <content>
-            <h:literal text="John" />
-            <h:literal text="Doe" />
-        </content>
-    </h:grid>
-
-    <h:textbox name="surname" text="{h:Binding Expression={h:Binding Kitty}}" />
+    <h:textbox name="surname" text="{Binding Johny}" />
 </h:panel>
