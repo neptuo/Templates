@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Neptuo.Web.Framework.Compilation;
+using Neptuo.Web.Framework.Utils;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
-using Neptuo.Web.Framework.Compilation;
 
 namespace Neptuo.Web.Framework.Mvc
 {
@@ -14,7 +15,8 @@ namespace Neptuo.Web.Framework.Mvc
     /// </summary>
     public class View : IView
     {
-        private StandartCodeCompiler compiler;
+        private IViewService viewService;
+        private IServiceProvider serviceProvider;
 
         public string ViewName { get; protected set; }
 
@@ -22,9 +24,10 @@ namespace Neptuo.Web.Framework.Mvc
 
         public bool UseCache { get; protected set; }
 
-        public View(StandartCodeCompiler compiler, string viewName, string masterName = null, bool? useCache = null)
+        public View(IViewService viewService, IServiceProvider serviceProvider, string viewName, string masterName = null, bool? useCache = null)
         {
-            this.compiler = compiler;
+            this.viewService = viewService;
+            this.serviceProvider = serviceProvider;
             ViewName = viewName;
             MasterName = masterName;
             UseCache = useCache ?? true;
@@ -32,8 +35,13 @@ namespace Neptuo.Web.Framework.Mvc
 
         public void Render(ViewContext viewContext, TextWriter writer)
         {
-            string result = compiler.ProcessView(HttpContext.Current.Server.MapPath(ViewName));
-            writer.Write(result);
+            IComponentManager componentManager = serviceProvider.GetService<IComponentManager>();
+
+            IGeneratedView view = viewService.Process(HttpContext.Current.Server.MapPath(ViewName));
+            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider);
+            view.CreateControls();
+            view.Init();
+            view.Render(new HtmlTextWriter(writer));
         }
     }
 }
