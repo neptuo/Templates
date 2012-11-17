@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 
-namespace Neptuo.Web.Framework
+namespace Neptuo.Web.Framework.Controls
 {
     /// <summary>
     /// Base interface that each HtmlControl must implement. 

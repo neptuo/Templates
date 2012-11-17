@@ -7,7 +7,7 @@ using Neptuo.Web.Framework.Annotations;
 using System.IO;
 using System.Collections;
 
-namespace Neptuo.Web.Framework
+namespace Neptuo.Web.Framework.Controls
 {
     [DefaultProperty("Content")]
     public abstract class BaseContentControl : BaseControl, IContentControl

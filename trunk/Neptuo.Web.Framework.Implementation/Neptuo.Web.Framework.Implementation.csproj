@@ -47,8 +47,8 @@
     <Compile Include="Annotations\DependencyAttribute.cs" />
     <Compile Include="Annotations\HtmlAttribute.cs" />
     <Compile Include="Annotations\ObserverAttribute.cs" />
-    <Compile Include="BaseContentControl.cs" />
-    <Compile Include="BaseControl.cs" />
+    <Compile Include="Controls\BaseContentControl.cs" />
+    <Compile Include="Controls\BaseControl.cs" />
     <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="BaseViewPage.cs" />
     <Compile Include="Compilation\CodeDomCompiler.cs" />
