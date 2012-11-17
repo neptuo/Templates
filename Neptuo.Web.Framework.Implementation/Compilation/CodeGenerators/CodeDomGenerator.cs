@@ -1,4 +1,5 @@
 ﻿using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions;
+using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using System;
 using System.CodeDom;
@@ -15,24 +16,24 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
     {
         public CodeDomGenerator()
         {
-            CodeObjectExtensions = new Dictionary<Type, ICodeDomCodeObjectExtension>();
-            SetCodeObjectExtension(typeof(ControlCodeObject), new ComponentCodeDomCodeObjectExtension());
-            SetCodeObjectExtension(typeof(PlainValueCodeObject), new PlainValueCodeDomCodeObjectExtension());
-            SetCodeObjectExtension(typeof(LocalFieldCodeObject), new LocalFieldCodeDomCodeObjectExtension());
-            SetCodeObjectExtension(typeof(DependencyCodeObject), new DependencyCodeDomCodeObjectExtension());
+            CodeObjectExtensions = new Dictionary<Type, ICodeObjectExtension>();
+            SetCodeObjectExtension(typeof(ControlCodeObject), new ComponentCodeObjectExtension());
+            SetCodeObjectExtension(typeof(PlainValueCodeObject), new PlainValueCodeObjectExtension());
+            SetCodeObjectExtension(typeof(LocalFieldCodeObject), new LocalFieldCodeObjectExtension());
+            SetCodeObjectExtension(typeof(DependencyCodeObject), new DependencyCodeObjectExtension());
 
-            PropertyDescriptorExtensions = new Dictionary<Type, ICodeDomPropertyDescriptorExtension>();
-            SetPropertyDescriptorExtension(typeof(ListAddPropertyDescriptor), new ListAddCodeDomPropertyDescriptorExtension());
-            SetPropertyDescriptorExtension(typeof(SetPropertyDescriptor), new SetCodeDomPropertyDescriptorExtension());
-            SetPropertyDescriptorExtension(typeof(MethodInvokePropertyDescriptor), new MethodInvokeCodeDomPropertyDescriptorExtension());
+            PropertyDescriptorExtensions = new Dictionary<Type, IPropertyDescriptorExtension>();
+            SetPropertyDescriptorExtension(typeof(ListAddPropertyDescriptor), new ListAddPropertyDescriptorExtension());
+            SetPropertyDescriptorExtension(typeof(SetPropertyDescriptor), new SetPropertyDescriptorExtension());
+            SetPropertyDescriptorExtension(typeof(MethodInvokePropertyDescriptor), new MethodInvokePropertyDescriptorExtension());
         }
 
         #region ICodeDomCodeObjectExtension
 
         //TODO: For multiple per type?
-        protected Dictionary<Type, ICodeDomCodeObjectExtension> CodeObjectExtensions { get; private set; }
+        protected Dictionary<Type, ICodeObjectExtension> CodeObjectExtensions { get; private set; }
 
-        public void SetCodeObjectExtension(Type type, ICodeDomCodeObjectExtension extension)
+        public void SetCodeObjectExtension(Type type, ICodeObjectExtension extension)
         {
             CodeObjectExtensions[type] = extension;
         }
@@ -41,9 +42,9 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
 
         #region ICodeDomPropertyDescriptorExtension
 
-        protected Dictionary<Type, ICodeDomPropertyDescriptorExtension> PropertyDescriptorExtensions { get; private set; }
+        protected Dictionary<Type, IPropertyDescriptorExtension> PropertyDescriptorExtensions { get; private set; }
 
-        public void SetPropertyDescriptorExtension(Type type, ICodeDomPropertyDescriptorExtension extension)
+        public void SetPropertyDescriptorExtension(Type type, IPropertyDescriptorExtension extension)
         {
             PropertyDescriptorExtensions[type] = extension;
         }
@@ -70,10 +71,10 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
 
         public CodeExpression GenerateCodeObject(ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
         {
-            foreach (KeyValuePair<Type, ICodeDomCodeObjectExtension> item in CodeObjectExtensions)
+            foreach (KeyValuePair<Type, ICodeObjectExtension> item in CodeObjectExtensions)
             {
                 if (item.Key == codeObject.GetType())
-                    return item.Value.GenerateCode(new CodeDomCodeObjectExtensionContext(this, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
+                    return item.Value.GenerateCode(new CodeObjectExtensionContext(this, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
             }
 
             throw new NotImplementedException("Not supported code object");
@@ -81,11 +82,11 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
 
         public void GenerateProperty(IPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
         {
-            foreach (KeyValuePair<Type, ICodeDomPropertyDescriptorExtension> item in PropertyDescriptorExtensions)
+            foreach (KeyValuePair<Type, IPropertyDescriptorExtension> item in PropertyDescriptorExtensions)
             {
                 if (item.Key == propertyDescriptor.GetType())
                 {
-                    item.Value.GenerateProperty(new CodeDomPropertyDescriptorExtensionContext(this, fieldName, bindMethod), propertyDescriptor);
+                    item.Value.GenerateProperty(new PropertyDescriptorExtensionContext(this, fieldName, bindMethod), propertyDescriptor);
                     return;
                 }
             }

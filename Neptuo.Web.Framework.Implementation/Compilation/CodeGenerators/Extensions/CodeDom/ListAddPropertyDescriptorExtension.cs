@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
+namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public class ListAddCodeDomPropertyDescriptorExtension : BaseCodeDomPropertyDescriptorExtension<ListAddPropertyDescriptor>
+    public class ListAddPropertyDescriptorExtension : BasePropertyDescriptorExtension<ListAddPropertyDescriptor>
     {
-        protected override void GenerateProperty(CodeDomPropertyDescriptorExtensionContext context, ListAddPropertyDescriptor propertyDescriptor)
+        protected override void GenerateProperty(PropertyDescriptorExtensionContext context, ListAddPropertyDescriptor propertyDescriptor)
         {
             bool generic = propertyDescriptor.Property.PropertyType.IsGenericType;
             bool requiresCasting = false;

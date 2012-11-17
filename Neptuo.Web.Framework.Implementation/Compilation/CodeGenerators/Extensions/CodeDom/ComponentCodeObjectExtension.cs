@@ -9,14 +9,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
+namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public class ComponentCodeDomCodeObjectExtension : BaseComponentCodeDomCodeObjectExtension<IComponentCodeObject>
+    public class ComponentCodeObjectExtension : BaseComponentCodeObjectExtension<IComponentCodeObject>
     {
         private Dictionary<Type, CodeFieldReferenceExpression> perPage = new Dictionary<Type, CodeFieldReferenceExpression>();
         private Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>> perControl = new Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>>();
 
-        protected override CodeExpression GenerateCode(CodeDomCodeObjectExtensionContext context, IComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
         {
             CodeFieldReferenceExpression field = GenerateCompoment(context, component, component);
             context.ParentBindMethod.Statements.Add(
@@ -41,13 +41,13 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
             return field;
         }
 
-        protected void AttachObservers(CodeDomCodeObjectExtensionContext context, IComponentCodeObject component, string componentFieldName)
+        protected void AttachObservers(CodeObjectExtensionContext context, IComponentCodeObject component, string componentFieldName)
         {
             foreach (ObserverCodeObject codeObject in component.Observers)
                 AttachObserver(context, codeObject, component, componentFieldName);
         }
 
-        protected void AttachObserver(CodeDomCodeObjectExtensionContext context, ObserverCodeObject observer, IComponentCodeObject component, string componentFieldName)
+        protected void AttachObserver(CodeObjectExtensionContext context, ObserverCodeObject observer, IComponentCodeObject component, string componentFieldName)
         {
             bool newObserver = false;
             CodeFieldReferenceExpression observerField = null;

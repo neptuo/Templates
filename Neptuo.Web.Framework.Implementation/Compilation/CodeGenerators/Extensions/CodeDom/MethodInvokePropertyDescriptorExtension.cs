@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
+namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public class MethodInvokeCodeDomPropertyDescriptorExtension : BaseCodeDomPropertyDescriptorExtension<MethodInvokePropertyDescriptor>
+    public class MethodInvokePropertyDescriptorExtension : BasePropertyDescriptorExtension<MethodInvokePropertyDescriptor>
     {
-        protected override void GenerateProperty(CodeDomPropertyDescriptorExtensionContext context, MethodInvokePropertyDescriptor propertyDescriptor)
+        protected override void GenerateProperty(PropertyDescriptorExtensionContext context, MethodInvokePropertyDescriptor propertyDescriptor)
         {
             context.BindMethod.Statements.Add(
                 new CodeMethodInvokeExpression(

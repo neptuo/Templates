@@ -5,16 +5,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
+namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public abstract class BaseComponentCodeDomCodeObjectExtension<T> : BaseCodeDomCodeObjectExtension<T>
+    public abstract class BaseComponentCodeObjectExtension<T> : BaseCodeObjectExtension<T>
         where T : ICodeObject
     {
         /// <summary>
         /// Generates base 'stuff' for component (including field, bind method, properties).
         /// Doesn't generate Control/Observer/Extension specific calls.
         /// </summary>
-        protected CodeFieldReferenceExpression GenerateCompoment(CodeDomCodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject)
+        protected CodeFieldReferenceExpression GenerateCompoment(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject)
         {
             string fieldName = context.CodeGenerator.GenerateFieldName();
             CodeMemberField field = new CodeMemberField(typeCodeObject.Type, fieldName);
@@ -49,7 +49,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
         /// <summary>
         /// Generates and fill bind method using <code>IPropertiesCodeObject.Properties</code>.
         /// </summary>
-        protected CodeMemberMethod GenerateBindMethod(CodeDomCodeObjectExtensionContext context, IPropertiesCodeObject codeObject, string fieldName, string bindMethodName = null, bool addDefaultProperties = false)
+        protected CodeMemberMethod GenerateBindMethod(CodeObjectExtensionContext context, IPropertiesCodeObject codeObject, string fieldName, string bindMethodName = null, bool addDefaultProperties = false)
         {
             CodeMemberMethod bindMethod = new CodeMemberMethod
             {

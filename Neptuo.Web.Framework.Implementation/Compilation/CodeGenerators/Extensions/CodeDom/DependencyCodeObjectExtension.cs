@@ -7,11 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions
+namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public class DependencyCodeDomCodeObjectExtension : BaseCodeDomCodeObjectExtension<DependencyCodeObject>
+    public class DependencyCodeObjectExtension : BaseCodeObjectExtension<DependencyCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeDomCodeObjectExtensionContext context, DependencyCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, DependencyCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
             return new CodeCastExpression(
                 new CodeTypeReference(codeObject.TargetType),
