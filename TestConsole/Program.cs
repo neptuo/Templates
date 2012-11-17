@@ -38,8 +38,6 @@ namespace TestConsole
             //TimeSpan timeSpan = (TimeSpan)typeConverter.ConvertFrom("0:0:5.1");
             //Console.WriteLine(timeSpan);
 
-            ComponentsSection controls = (ComponentsSection)ConfigurationManager.GetSection("neptuo.web.framework/components");
-
             Console.ReadKey(true);
         }
     }

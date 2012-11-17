@@ -4,6 +4,7 @@ using Neptuo.Web.Framework.Compilation.CodeGenerators;
 using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
+using Neptuo.Web.Framework.Configuration;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Observers;
 using Neptuo.Web.Framework.Utils;
@@ -27,13 +28,14 @@ namespace TestConsole
 
         static TestCompilation()
         {
-            registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
-            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
-            registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
-            registrator.RegisterObserver("html", null, typeof(HtmlAttributeObserver));
-            registrator.RegisterObserver("val", null, typeof(ValidationObserver));
-            registrator.RegisterObserver("cache", null, typeof(CacheObserver));
-            registrator.RegisterObserver("data", null, typeof(DataContextObserver));
+            //registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
+            //registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
+            //registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
+            //registrator.RegisterObserver("html", null, typeof(HtmlAttributeObserver));
+            //registrator.RegisterObserver("val", null, typeof(ValidationObserver));
+            //registrator.RegisterObserver("cache", null, typeof(CacheObserver));
+            //registrator.RegisterObserver("data", null, typeof(DataContextObserver));
+            registrator.LoadSection();
         }
 
         public static void Test()

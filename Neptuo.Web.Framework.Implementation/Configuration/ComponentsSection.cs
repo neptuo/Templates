@@ -8,18 +8,11 @@ namespace Neptuo.Web.Framework.Configuration
 {
     public class ComponentsSection : ConfigurationSection
     {
-        [ConfigurationProperty("controls", IsDefaultCollection = false)]
+        [ConfigurationProperty("namespaces", IsDefaultCollection = false)]
         [ConfigurationCollection(typeof(ComponentsCollection), AddItemName = "add", ClearItemsName = "clear", RemoveItemName = "remove")]
-        public ComponentsCollection Controls
+        public ComponentsCollection Namespaces
         {
-            get { return (ComponentsCollection)this["controls"]; }
-        }
-
-        [ConfigurationProperty("extensions", IsDefaultCollection = false)]
-        [ConfigurationCollection(typeof(ComponentsCollection), AddItemName = "add", ClearItemsName = "clear", RemoveItemName = "remove")]
-        public ComponentsCollection Extensions
-        {
-            get { return (ComponentsCollection)this["extensions"]; }
+            get { return (ComponentsCollection)this["namespaces"]; }
         }
 
         [ConfigurationProperty("observers", IsDefaultCollection = false)]
