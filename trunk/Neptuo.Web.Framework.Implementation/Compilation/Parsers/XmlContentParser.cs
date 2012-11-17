@@ -101,9 +101,23 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
             text = text.Trim(); //TODO: Trim??
 
-            //TODO: Test for LiteralControl (IsAssignableForm IControl/LiteralControl)
-            helper.Parent.SetValue(new PlainValueCodeObject(text));
-            //helper.Parent.AddProperty(new LiteralCodeObject(literalDescriptor, text));
+            Type propertyType = helper.Parent.Property.PropertyType;
+            if (propertyType.IsGenericType)
+                propertyType = propertyType.GetGenericArguments()[0];
+
+            ICodeObject result = null;
+            if (propertyType.IsAssignableFrom(typeof(string)))
+            {
+                result = new PlainValueCodeObject(text);
+            }
+            else if (propertyType.IsAssignableFrom(literalDescriptor.Type) || propertyType.IsAssignableFrom(typeof(IControl)))
+            {
+                ControlCodeObject codeObject = new ControlCodeObject(literalDescriptor.Type);
+                codeObject.Properties.Add(new SetPropertyDescriptor(literalDescriptor.Type.GetProperty(literalDescriptor.TextProperty), new PlainValueCodeObject(text)));
+                result = codeObject;
+            }
+
+            helper.Parent.SetValue(result);
         }
 
         public void GenerateControl(Helper helper, Type controlType, XmlElement element)
