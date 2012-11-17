@@ -58,7 +58,7 @@ namespace Neptuo.Web.Framework.Compilation
             string sourceCode = GenerateCodeFromView(viewContent);
 
             if (DebugMode)
-                File.WriteAllText("GeneratedView.cs", sourceCode);//TODO: Do it better!
+                File.WriteAllText(Path.Combine(TempDirectory, "GeneratedView.cs"), sourceCode);//TODO: Do it better!
 
             CodeDomCompiler compiler = new CodeDomCompiler();
             compiler.IncludeDebugInformation = DebugMode;
@@ -77,7 +77,7 @@ namespace Neptuo.Web.Framework.Compilation
                 throw new CodeDomViewServiceException("Error parsing view content!");
 
             TextWriter writer = new StringWriter();
-            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorContext(writer));
+            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, ServiceProvider));
             if (!generatorResult)
                 throw new CodeDomViewServiceException("Error generating code from view!");
 

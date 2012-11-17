@@ -14,9 +14,9 @@ namespace Neptuo.Web.Framework.Mvc
     /// </summary>
     public class ViewEngine : VirtualPathProviderViewEngine, IVirtualPathProvider
     {
-        private IServiceProvider serviceProvider;
+        private IExtendedServiceProvider serviceProvider;
 
-        public ViewEngine(IServiceProvider serviceProvider)
+        public ViewEngine(IExtendedServiceProvider serviceProvider)
         {
             base.ViewLocationFormats = new string[] { "~/Views/{1}/{0}.html" };
             base.PartialViewLocationFormats = base.ViewLocationFormats;

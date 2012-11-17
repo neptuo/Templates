@@ -6,17 +6,15 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation.CodeGenerators
 {
-    public class DefaultCodeGeneratorContext : ICodeGeneratorContext
+    public class DefaultCodeGeneratorServiceContext : ICodeGeneratorServiceContext
     {
         public TextWriter Output { get; set; }
 
-        public ICodeGeneratorService CodeGeneratorService { get; set; }
         public IServiceProvider ServiceProvider { get; set; }
 
-        public DefaultCodeGeneratorContext(TextWriter output, ICodeGeneratorService codeGeneratorService, IServiceProvider serviceProvider)
+        public DefaultCodeGeneratorServiceContext(TextWriter output, IServiceProvider serviceProvider)
         {
             Output = output;
-            CodeGeneratorService = codeGeneratorService;
             ServiceProvider = serviceProvider;
         }
     }
