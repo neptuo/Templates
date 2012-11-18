@@ -1,4 +1,5 @@
 ﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Compilation.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,13 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
         public bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context)
         {
             if (generators.ContainsKey(name))
-                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, context.DependencyProvider));
+            {
+                IDependencyContainer provider = context.DependencyProvider.CreateChildContainer();
+                //if (provider.Resolve<StorageProvider>() == null) TODO: Solve if is registered!
+                provider.RegisterInstance<StorageProvider>(new StorageProvider());
+
+                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, provider));
+            }
 
             return false;
         }

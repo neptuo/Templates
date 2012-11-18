@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuilderAttribute.cs" />
+    <Compile Include="Compilation\Data\StorageProvider.cs" />
     <Compile Include="ComponentAttribute.cs" />
     <Compile Include="PropertyAttribute.cs" />
     <Compile Include="HtmlAttribute.cs" />

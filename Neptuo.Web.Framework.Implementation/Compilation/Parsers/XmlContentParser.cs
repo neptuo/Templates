@@ -1,4 +1,5 @@
 ﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Compilation.Data;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Utils;
 using System;
@@ -11,6 +12,8 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 using TypeConverter = Neptuo.Web.Framework.Utils.StringConverter;
+using PerPageDictionary = System.Collections.Generic.Dictionary<System.Type, Neptuo.Web.Framework.Compilation.CodeObjects.ObserverCodeObject>;
+using PerControlDictionary = System.Collections.Generic.Dictionary<System.Type, System.Collections.Generic.Dictionary<Neptuo.Web.Framework.Compilation.CodeObjects.IComponentCodeObject, Neptuo.Web.Framework.Compilation.CodeObjects.ObserverCodeObject>>;
 
 namespace Neptuo.Web.Framework.Compilation.Parsers
 {
@@ -302,8 +305,31 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
         private void RegisterObserver(Helper helper, IComponentCodeObject codeObject, Type observerType, IEnumerable<XmlAttribute> attributes, ObserverLivecycle livecycle)
         {
-            IObserverCodeObject observerObject = new ObserverCodeObject(observerType, livecycle);
+            //StorageProvider storage = helper.Context.DependencyProvider.Resolve<StorageProvider>();
+            //PerPageDictionary perPage = storage.Create<PerPageDictionary>("PerPage");
+            //PerControlDictionary perControl = storage.Create<PerControlDictionary>("PerControl");
+
+            ObserverCodeObject observerObject = new ObserverCodeObject(observerType, livecycle);
             codeObject.Observers.Add(observerObject);
+
+            //if (livecycle == ObserverLivecycle.PerAttribute)
+            //{
+            //    observerObject.IsNew = true;
+            //}
+            //if (livecycle == ObserverLivecycle.PerPage && !perPage.ContainsKey(observerType))
+            //{
+            //    observerObject.IsNew = true;
+            //    perPage.Add(observerType, observerObject);
+            //}
+            //else if (livecycle == ObserverLivecycle.PerControl && (!perControl.ContainsKey(observerType) || !perControl[observerType].ContainsKey(codeObject)))
+            //{
+            //    observerObject.IsNew = true;
+
+            //    if (!perControl.ContainsKey(observerType))
+            //        perControl[observerType] = new Dictionary<IComponentCodeObject, ObserverCodeObject>();
+
+            //    perControl[observerType].Add(codeObject, observerObject);
+            //}
 
             List<XmlAttribute> boundAttributes = new List<XmlAttribute>();
             foreach (KeyValuePair<string, PropertyInfo> property in ControlHelper.GetProperties(observerType))

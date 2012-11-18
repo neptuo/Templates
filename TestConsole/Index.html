@@ -2,7 +2,7 @@
     <head>
         <title>Hello, World!</title>
     </head> 
-    <body ui:visible="true" class="ui-body">
+    <body ui:visible="true" class="ui-body" data:DataContext="Hello, Body!">
         <h:panel html:id="main-panel" html:style="float: left;">
             <h:textbox name="surname" text="{Binding Expression={Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
             <h:textbox name="surname" />
