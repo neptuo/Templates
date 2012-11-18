@@ -69,22 +69,29 @@ namespace Neptuo.Web.Framework.Compilation
 
             CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, assemblyName);
             if (cr.Errors.Count > 0)
-                throw new CodeDomViewServiceException("Error compiling view!");
+            {
+                ICollection<IErrorInfo> errors = new List<IErrorInfo>();
+                foreach (CompilerError error in cr.Errors)
+                    errors.Add(new ErrorInfo(error.Line, error.Column, error.ErrorText));
+
+                throw new CodeDomViewServiceException("Error compiling view!", errors);
+            }
         }
 
         private string GenerateCodeFromView(string viewContent)
         {
+            ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
-            bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(DependencyProvider, contentProperty));
+            bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(DependencyProvider, contentProperty, errors));
             if (!parserResult)
-                throw new CodeDomViewServiceException("Error parsing view content!");
+                throw new CodeDomViewServiceException("Error parsing view content!", errors);
 
             PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(DependencyProvider));
 
             TextWriter writer = new StringWriter();
-            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, DependencyProvider));
+            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, DependencyProvider, errors));
             if (!generatorResult)
-                throw new CodeDomViewServiceException("Error generating code from view!");
+                throw new CodeDomViewServiceException("Error generating code from view!", errors);
 
             return writer.ToString();
         }
@@ -97,27 +104,6 @@ namespace Neptuo.Web.Framework.Compilation
         private string GetAssemblyName(string fileName)
         {
             return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(File.ReadAllText(fileName))));
-        }
-    }
-
-    public class CodeDomViewServiceException : Exception
-    {
-        public CodeDomViewServiceException(string message)
-            : base(message)
-        { }
-    }
-
-    static class HashHelper
-    {
-        public static string Sha1(string text)
-        {
-            SHA1 hasher = SHA1.Create();
-            byte[] hash = hasher.ComputeHash(Encoding.UTF8.GetBytes(text));
-            StringBuilder result = new StringBuilder();
-            foreach (byte hashPart in hash)
-                result.Append(hashPart.ToString("X2"));
-
-            return result.ToString();
         }
     }
 }

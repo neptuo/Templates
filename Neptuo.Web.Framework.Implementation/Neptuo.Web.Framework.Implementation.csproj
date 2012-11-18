@@ -42,7 +42,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuilderAttribute.cs" />
+    <Compile Include="Compilation\CodeDomViewServiceException.cs" />
     <Compile Include="Compilation\Data\StorageProvider.cs" />
+    <Compile Include="Compilation\ErrorInfo.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorContext.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorService.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorServiceContext.cs" />
@@ -131,6 +133,7 @@
     <Compile Include="ComponentManager.ObserverInfo.cs" />
     <Compile Include="Utils\ControlHelper.cs" />
     <Compile Include="Utils\Func.cs" />
+    <Compile Include="Utils\HashHelper.cs" />
     <Compile Include="Utils\ReflectionHelper.cs" />
     <Compile Include="Utils\StringConverter.cs" />
     <Compile Include="Utils\TypeHelper.cs" />

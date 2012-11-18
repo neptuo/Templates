@@ -24,7 +24,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
                 //if (provider.Resolve<StorageProvider>() == null) TODO: Solve if is registered!
                 provider.RegisterInstance<StorageProvider>(new StorageProvider());
 
-                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, provider));
+                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, provider, context.Errors));
             }
 
             return false;

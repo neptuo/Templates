@@ -10,11 +10,13 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
     {
         public IDependencyProvider DependencyProvider { get; private set; }
         public IPropertyDescriptor PropertyDescriptor { get; private set; }
+        public ICollection<IErrorInfo> Errors { get; private set; }
 
-        public DefaultParserServiceContext(IDependencyProvider dependencyProvider, IPropertyDescriptor propertyDescriptor)
+        public DefaultParserServiceContext(IDependencyProvider dependencyProvider, IPropertyDescriptor propertyDescriptor, ICollection<IErrorInfo> errors = null)
         {
             DependencyProvider = dependencyProvider;
             PropertyDescriptor = propertyDescriptor;
+            Errors = errors ?? new List<IErrorInfo>();
         }
     }
 }

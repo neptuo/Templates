@@ -10,6 +10,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
     {
         ICodeGeneratorService CodeGeneratorService { get; }
         IDependencyProvider DependencyProvider { get; }
+        ICollection<IErrorInfo> Errors { get; }
         TextWriter Output { get; }
     }
 }

@@ -158,7 +158,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                         IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
                         bool result = helper.Context.ParserService.ProcessValue(
                             attribute.Value, 
-                            new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor)
+                            new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor, helper.Context.Errors)
                         );
 
                         if (!result)
@@ -340,7 +340,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                     if (property.Key.ToLowerInvariant() == attribute.LocalName.ToLowerInvariant())
                     {
                         IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
-                        bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor));
+                        bool result = helper.Context.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor, helper.Context.Errors));
 
                         if (!result)
                             result = BindPropertyDefaultValue(propertyDescriptor);
@@ -385,7 +385,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
             bool result = helper.Context.ParserService.ProcessValue(
                 value,
-                new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor)
+                new DefaultParserServiceContext(helper.Context.DependencyProvider, propertyDescriptor, helper.Context.Errors)
             );
             if (result)
                 propertiesCodeObject.Properties.Add(propertyDescriptor);

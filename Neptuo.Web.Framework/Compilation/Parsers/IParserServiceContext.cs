@@ -10,5 +10,6 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
     {
         IDependencyProvider DependencyProvider { get; }
         IPropertyDescriptor PropertyDescriptor { get; }
+        ICollection<IErrorInfo> Errors { get; }
     }
 }

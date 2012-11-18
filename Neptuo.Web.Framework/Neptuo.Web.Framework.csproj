@@ -53,6 +53,7 @@
     <Compile Include="Compilation\CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="Compilation\CodeGenerators\ICodeGenerator.cs" />
     <Compile Include="Compilation\CodeGenerators\ICodeGeneratorContext.cs" />
+    <Compile Include="Compilation\IErrorInfo.cs" />
     <Compile Include="Compilation\IViewService.cs" />
     <Compile Include="Compilation\Parsers\IParserService.cs" />
     <Compile Include="Compilation\CodeObjects\ICodeObject.cs" />
