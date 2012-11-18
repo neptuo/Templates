@@ -1,4 +1,5 @@
 ﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Compilation.Data;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Observers;
 using Neptuo.Web.Framework.Utils;
@@ -12,11 +13,15 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
     public class ComponentCodeObjectExtension : BaseComponentCodeObjectExtension<IComponentCodeObject>
     {
-        private Dictionary<Type, CodeFieldReferenceExpression> perPage = new Dictionary<Type, CodeFieldReferenceExpression>();
-        private Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>> perControl = new Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>>();
+        private Dictionary<Type, CodeFieldReferenceExpression> perPage;
+        private Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>> perControl;
 
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
         {
+            StorageProvider storage = context.DependencyProvider.Resolve<StorageProvider>();
+            perPage = storage.Create<Dictionary<Type, CodeFieldReferenceExpression>>("PerPage");
+            perControl = storage.Create<Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>>>("PerControl");
+
             CodeFieldReferenceExpression field = GenerateCompoment(context, component, component);
             context.ParentBindMethod.Statements.Add(
                 new CodeMethodInvokeExpression(
@@ -50,6 +55,31 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
         {
             bool newObserver = false;
             CodeFieldReferenceExpression observerField = null;
+            //if (observer.IsNew)
+            //{
+            //    observerField = GenerateCompoment(context, observer, observer);
+            //    newObserver = true;
+
+            //    if (observer.ObserverLivecycle == ObserverLivecycle.PerControl)
+            //    {
+            //        if (!perControl.ContainsKey(observer.Type))
+            //            perControl.Add(observer.Type, new Dictionary<IComponentCodeObject, string>());
+
+            //        perControl[observer.Type].Add(component, observerField.FieldName);
+            //    }
+            //    else if (observer.ObserverLivecycle == ObserverLivecycle.PerPage)
+            //    {
+            //        perPage.Add(observer.Type, observerField.FieldName);
+            //    }
+            //}
+            //else
+            //{
+            //    if (observer.ObserverLivecycle == ObserverLivecycle.PerControl)
+            //        observerField = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), perControl[observer.Type][component]);
+            //    else if (observer.ObserverLivecycle == ObserverLivecycle.PerPage)
+            //        observerField = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), perPage[observer.Type]);
+            //}
+
             if (observer.ObserverLivecycle == ObserverLivecycle.PerAttribute)
             {
                 observerField = GenerateCompoment(context, observer, observer);
@@ -68,7 +98,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
                 }
                 observerField = perControl[observer.Type][component];
             }
-            else if(observer.ObserverLivecycle == ObserverLivecycle.PerPage)
+            else if (observer.ObserverLivecycle == ObserverLivecycle.PerPage)
             {
                 if (!perPage.ContainsKey(observer.Type))
                 {
@@ -81,6 +111,16 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 
             if (observerField != null)
             {
+                if (!newObserver)
+                {
+                    context.ParentBindMethod.Statements.Add(
+                        new CodeMethodInvokeExpression(
+                            new CodeThisReferenceExpression(),
+                            context.CodeGenerator.FormatCreateMethod(observerField.FieldName)
+                        )
+                    );
+                }
+
                 context.ParentBindMethod.Statements.Add(
                     new CodeMethodInvokeExpression(
                         new CodeFieldReferenceExpression(

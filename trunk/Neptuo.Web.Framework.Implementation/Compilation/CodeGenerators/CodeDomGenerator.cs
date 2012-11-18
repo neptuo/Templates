@@ -65,28 +65,33 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
             return String.Format("{0}_Bind", fieldName);
         }
 
+        public string FormatCreateMethod(string fieldName)
+        {
+            return String.Format("{0}_Create", fieldName);
+        }
+
         #endregion
 
         #region Code generation
 
-        public CodeExpression GenerateCodeObject(ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
+        public CodeExpression GenerateCodeObject(IDependencyProvider dependencyProvider, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
         {
             foreach (KeyValuePair<Type, ICodeObjectExtension> item in CodeObjectExtensions)
             {
                 if (item.Key == codeObject.GetType())
-                    return item.Value.GenerateCode(new CodeObjectExtensionContext(this, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
+                    return item.Value.GenerateCode(new CodeObjectExtensionContext(dependencyProvider, this, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
             }
 
             throw new NotImplementedException("Not supported code object");
         }
 
-        public void GenerateProperty(IPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
+        public void GenerateProperty(IDependencyProvider dependencyProvider, IPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
         {
             foreach (KeyValuePair<Type, IPropertyDescriptorExtension> item in PropertyDescriptorExtensions)
             {
                 if (item.Key == propertyDescriptor.GetType())
                 {
-                    item.Value.GenerateProperty(new PropertyDescriptorExtensionContext(this, fieldName, bindMethod), propertyDescriptor);
+                    item.Value.GenerateProperty(new PropertyDescriptorExtensionContext(dependencyProvider, this, fieldName, bindMethod), propertyDescriptor);
                     return;
                 }
             }
@@ -103,7 +108,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
             CreateCodeMethods();
 
             if (propertyDescriptor is ListAddPropertyDescriptor)
-                GenerateProperty(propertyDescriptor as ListAddPropertyDescriptor, Names.ViewPageField, CreateViewPageControlsMethod);
+                GenerateProperty(context.DependencyProvider, propertyDescriptor as ListAddPropertyDescriptor, Names.ViewPageField, CreateViewPageControlsMethod);
 
             WriteOutput(context.Output);
             return true;

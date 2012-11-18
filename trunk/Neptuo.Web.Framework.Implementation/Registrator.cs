@@ -159,6 +159,9 @@ namespace Neptuo.Web.Framework
             if (String.IsNullOrEmpty(attributePattern))
                 attributePattern = ObserverWildcard;
 
+            prefix = prefix.ToLowerInvariant();
+            attributePattern = attributePattern.ToLowerInvariant();
+
             if (!Observers.ContainsKey(prefix))
                 Observers.Add(prefix, new Dictionary<string, Type>());
 
