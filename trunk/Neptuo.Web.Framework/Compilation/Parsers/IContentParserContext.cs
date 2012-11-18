@@ -11,5 +11,6 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         IDependencyProvider DependencyProvider { get; }
         IParserService ParserService { get; }
         IPropertyDescriptor PropertyDescriptor { get; }
+        ICollection<IErrorInfo> Errors { get; }
     }
 }

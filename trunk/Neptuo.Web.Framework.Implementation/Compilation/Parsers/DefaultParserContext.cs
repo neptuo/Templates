@@ -11,12 +11,22 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
         public IDependencyProvider DependencyProvider { get; private set; }
         public IParserService ParserService { get; private set; }
         public IPropertyDescriptor PropertyDescriptor { get; private set; }
+        public ICollection<IErrorInfo> Errors { get; private set; }
 
-        public DefaultParserContext(IDependencyProvider dependencyProvider, IParserService generatorService, IPropertyDescriptor propertyDescriptor)
+        public DefaultParserContext(IParserServiceContext context, IParserService parserService)
+        {
+            DependencyProvider = context.DependencyProvider;
+            PropertyDescriptor = context.PropertyDescriptor;
+            Errors = context.Errors;
+            ParserService = parserService;
+        }
+
+        public DefaultParserContext(IDependencyProvider dependencyProvider, IParserService parserService, IPropertyDescriptor propertyDescriptor, ICollection<IErrorInfo> errors = null)
         {
             DependencyProvider = dependencyProvider;
-            ParserService = generatorService;
+            ParserService = parserService;
             PropertyDescriptor = propertyDescriptor;
+            Errors = errors ?? new List<IErrorInfo>();
         }
     }
 }
