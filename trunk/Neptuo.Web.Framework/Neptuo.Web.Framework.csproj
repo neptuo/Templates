@@ -62,6 +62,10 @@
     <Compile Include="Compilation\Parsers\IValueParser.cs" />
     <Compile Include="Compilation\Parsers\IValueParserContext.cs" />
     <Compile Include="AttributeCollection.cs" />
+    <Compile Include="Compilation\PreProcessing\IPreProcessorContext.cs" />
+    <Compile Include="Compilation\PreProcessing\IPreProcessor.cs" />
+    <Compile Include="Compilation\PreProcessing\IPreProcessorService.cs" />
+    <Compile Include="Compilation\PreProcessing\IPreProcessorServiceContext.cs" />
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="Controls\IContentControl.cs" />
     <Compile Include="Controls\IControl.cs" />

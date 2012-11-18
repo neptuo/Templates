@@ -43,6 +43,9 @@
   <ItemGroup>
     <Compile Include="BuilderAttribute.cs" />
     <Compile Include="Compilation\Data\StorageProvider.cs" />
+    <Compile Include="Compilation\PreProcessing\DefaultPreProcessorContext.cs" />
+    <Compile Include="Compilation\PreProcessing\DefaultPreProcessorService.cs" />
+    <Compile Include="Compilation\PreProcessing\DefaultPreProcessorServiceContext.cs" />
     <Compile Include="ComponentAttribute.cs" />
     <Compile Include="PropertyAttribute.cs" />
     <Compile Include="HtmlAttribute.cs" />
