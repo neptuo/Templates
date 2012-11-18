@@ -1,6 +1,7 @@
 ﻿using Neptuo.Web.Framework.Compilation.CodeGenerators;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
+using Neptuo.Web.Framework.Compilation.PreProcessing;
 using Neptuo.Web.Framework.Utils;
 using System;
 using System.CodeDom.Compiler;
@@ -16,6 +17,7 @@ namespace Neptuo.Web.Framework.Compilation
     public class CodeDomViewService : IViewService
     {
         public IParserService ParserService { get; private set; }
+        public IPreProcessorService PreProcessorService { get; private set; }
         public ICodeGeneratorService CodeGeneratorService { get; private set; }
         public IDependencyProvider DependencyProvider { get; set; }
 
@@ -26,6 +28,7 @@ namespace Neptuo.Web.Framework.Compilation
         public CodeDomViewService(IDependencyProvider dependencyProvider)
         {
             ParserService = new DefaultParserService();
+            PreProcessorService = new DefaultPreProcessorService();
             CodeGeneratorService = new DefaultCodeGeneratorService();
             DependencyProvider = dependencyProvider;
         }
@@ -75,6 +78,8 @@ namespace Neptuo.Web.Framework.Compilation
             bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(DependencyProvider, contentProperty));
             if (!parserResult)
                 throw new CodeDomViewServiceException("Error parsing view content!");
+
+            PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(DependencyProvider));
 
             TextWriter writer = new StringWriter();
             bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, DependencyProvider));

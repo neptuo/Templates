@@ -45,20 +45,20 @@ namespace TestConsole
 
         public static void Test()
         {
-            if (GenerateCode())
-            {
-                if (CompileCode())
-                {
-                    RunCode();
+            //if (GenerateCode())
+            //{
+            //    if (CompileCode())
+            //    {
+            //        RunCode();
 
-                    //Thread.Sleep(4000);
-                    //RunCode();
+            //        //Thread.Sleep(4000);
+            //        //RunCode();
 
-                    //for (int i = 0; i < 10; i++)
-                    //    RunCode();
-                }
-            }
-            //RunViewService();
+            //        //for (int i = 0; i < 10; i++)
+            //        //    RunCode();
+            //    }
+            //}
+            RunViewService();
         }
 
         static bool GenerateCode()
