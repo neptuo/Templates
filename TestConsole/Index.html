@@ -1,8 +1,6 @@
-﻿<html>
-    <head>
-        <title>Hello, World!</title>
-    </head> 
-    <body ui:visible="true" class="ui-body" data:DataContext="Hello, Body!">
+﻿<ui:template path="Template.html">
+    <ui:content name="body">
+        
         <h:panel html:id="main-panel" html:style="float: left;">
             <h:textbox name="surname" text="{Binding Expression={Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
             <h:textbox name="surname" />
@@ -17,5 +15,6 @@
         <h:panel data:DataContext="Hello, World!">
             <h:textbox text="{Binding}" cache:key="DateTime" cache:duration="0:0:5.1" />
         </h:panel>
-    </body>
-</html>
+
+    </ui:content>
+</ui:template>
