@@ -18,6 +18,9 @@ namespace Neptuo.Web.Framework.Composition
 
         public void OnInit()
         {
+            if (String.IsNullOrEmpty(Name))
+                Name = String.Empty;
+
             storage = DependencyProvider.Resolve<ContentStorage>();
             if (storage.ContainsKey(Name))
             {
