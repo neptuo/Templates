@@ -198,11 +198,27 @@ namespace TestConsole
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
-            view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
-            view.CreateControls();
-            view.Init();
-            view.Render(new HtmlTextWriter(output));
+            try
+            {
+                IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
+                view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
+                view.CreateControls();
+                view.Init();
+                view.Render(new HtmlTextWriter(output));
+            }
+            catch (CodeDomViewServiceException e)
+            {
+                output.WriteLine("Errors occured!");
+                output.WriteLine();
+                foreach (IErrorInfo error in e.Errors)
+                {
+                    output.WriteLine("Line: {0}", error.Line);
+                    output.WriteLine("Position: {0}", error.Column);
+                    output.WriteLine("Message: {0}", error.ErrorText);
+                    output.WriteLine("Error number: {0}", error.ErrorNumber);
+                    output.WriteLine();
+                }
+            }
 
             Console.WriteLine(output);
             Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);
