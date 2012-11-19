@@ -57,7 +57,7 @@ namespace TestWebMvc
             CodeDomGenerator generator = new CodeDomGenerator();
             generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
-            CodeDomViewService viewService = new CodeDomViewService(dependencyContainer);
+            CodeDomViewService viewService = new CodeDomViewService();
             //viewService.DebugMode = true;
             viewService.BinDirectory = Server.MapPath("~/Bin");
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";

@@ -186,7 +186,7 @@ namespace TestConsole
             generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
             CodeDomViewService viewService = new CodeDomViewService();
-            viewService.DebugMode = true;
+            //viewService.DebugMode = true;
             viewService.BinDirectory = Environment.CurrentDirectory;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
@@ -206,6 +206,7 @@ namespace TestConsole
                 view.CreateControls();
                 view.Init();
                 view.Render(new HtmlTextWriter(output));
+                view.Dispose();
             }
             catch (CodeDomViewServiceException e)
             {
