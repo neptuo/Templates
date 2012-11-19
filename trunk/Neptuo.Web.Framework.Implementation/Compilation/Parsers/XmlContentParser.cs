@@ -30,11 +30,23 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
         public bool Parse(string content, IContentParserContext context)
         {
-            Helper helper = new Helper(content, context);
+            try
+            {
+                Helper helper = new Helper(content, context);
 
-            GenerateRecursive(helper, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
+                GenerateRecursive(helper, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
 
-            return true;
+                return true;
+            }
+            catch (XmlException e)
+            {
+                context.Errors.Add(new ErrorInfo(e.LineNumber, e.LinePosition, e.Message));
+            }
+            catch (Exception e)
+            {
+                context.Errors.Add(new ErrorInfo(e.Message));
+            }
+            return false;
         }
 
         private void GenerateRecursive(Helper helper, IEnumerable<XmlNode> childNodes)
