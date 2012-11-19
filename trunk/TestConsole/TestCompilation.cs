@@ -185,7 +185,7 @@ namespace TestConsole
             CodeDomGenerator generator = new CodeDomGenerator();
             generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
-            CodeDomViewService viewService = new CodeDomViewService(container);
+            CodeDomViewService viewService = new CodeDomViewService();
             viewService.DebugMode = true;
             viewService.BinDirectory = Environment.CurrentDirectory;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
@@ -198,7 +198,7 @@ namespace TestConsole
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            IGeneratedView view = ((IViewService)viewService).Process("Index.html");
+            IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
             view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
             view.CreateControls();
             view.Init();
