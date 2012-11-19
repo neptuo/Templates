@@ -193,6 +193,7 @@ namespace TestConsole
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             viewService.CodeGeneratorService.AddGenerator("CSharp", generator);
 
+            container.RegisterInstance<IViewService>(viewService);
 
             StringWriter output = new StringWriter();
             Stopwatch stopwatch = new Stopwatch();

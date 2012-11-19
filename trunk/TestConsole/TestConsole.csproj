@@ -68,6 +68,10 @@
     <Compile Include="TestXml.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Web.Framework.Composition\Neptuo.Web.Framework.Composition.csproj">
+      <Project>{d857156f-2aa1-4185-b019-f2e459b45c15}</Project>
+      <Name>Neptuo.Web.Framework.Composition</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Web.Framework.Implementation\Neptuo.Web.Framework.Implementation.csproj">
       <Project>{b516b554-2ac9-4a6e-b9b0-35504ad425fe}</Project>
       <Name>Neptuo.Web.Framework.Implementation</Name>
@@ -90,6 +94,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="HtmlHead.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Template.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

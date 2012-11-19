@@ -30,7 +30,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
                 )
             );
 
-            GenerateBindMethod(context, propertiesCodeObject, fieldName, null, true);
+            GenerateBindMethod(context, propertiesCodeObject, fieldName, null);
 
             return new CodeFieldReferenceExpression(
                 new CodeThisReferenceExpression(),
@@ -85,7 +85,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
         /// <summary>
         /// Generates and fill bind method using <code>IPropertiesCodeObject.Properties</code>.
         /// </summary>
-        protected CodeMemberMethod GenerateBindMethod(CodeObjectExtensionContext context, IPropertiesCodeObject codeObject, string fieldName, string bindMethodName = null, bool addDefaultProperties = false)
+        protected CodeMemberMethod GenerateBindMethod(CodeObjectExtensionContext context, IPropertiesCodeObject codeObject, string fieldName, string bindMethodName = null)
         {
             CodeMemberMethod bindMethod = new CodeMemberMethod
             {
@@ -96,7 +96,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
             foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
             {
                 IDefaultPropertyValue defaultProperty = propertyDesc as IDefaultPropertyValue;
-                if (defaultProperty == null || addDefaultProperties || !defaultProperty.IsDefaultValue)
+                if (defaultProperty == null || !defaultProperty.IsDefaultValue)
                     context.CodeGenerator.GenerateProperty(context.DependencyProvider, propertyDesc, fieldName, bindMethod);
             }
 
