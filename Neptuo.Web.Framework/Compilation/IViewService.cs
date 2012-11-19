@@ -9,6 +9,6 @@ namespace Neptuo.Web.Framework.Compilation
 {
     public interface IViewService
     {
-        IGeneratedView Process(string fileName);
+        IGeneratedView Process(string fileName, IViewServiceContext context);
     }
 }

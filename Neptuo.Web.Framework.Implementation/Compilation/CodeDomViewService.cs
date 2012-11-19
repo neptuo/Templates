@@ -19,28 +19,26 @@ namespace Neptuo.Web.Framework.Compilation
         public IParserService ParserService { get; private set; }
         public IPreProcessorService PreProcessorService { get; private set; }
         public ICodeGeneratorService CodeGeneratorService { get; private set; }
-        public IDependencyProvider DependencyProvider { get; set; }
 
         public string BinDirectory { get; set; }
         public string TempDirectory { get; set; }
         public bool DebugMode { get; set; }
 
-        public CodeDomViewService(IDependencyProvider dependencyProvider)
+        public CodeDomViewService()
         {
             ParserService = new DefaultParserService();
             PreProcessorService = new DefaultPreProcessorService();
             CodeGeneratorService = new DefaultCodeGeneratorService();
-            DependencyProvider = dependencyProvider;
         }
 
-        public IGeneratedView Process(string fileName)
+        public IGeneratedView Process(string fileName, IViewServiceContext context)
         {
             if (!File.Exists(fileName))
                 throw new CodeDomViewServiceException("View doesn't exist!");
 
             string assemblyName = GetAssemblyName(fileName);
             if (!IsCompiled(assemblyName))
-                CompileView(assemblyName, File.ReadAllText(fileName));
+                CompileView(assemblyName, File.ReadAllText(fileName), context);
 
             return CreateGeneratedView(assemblyName);
         }
@@ -56,9 +54,9 @@ namespace Neptuo.Web.Framework.Compilation
             return view;
         }
 
-        private void CompileView(string assemblyName, string viewContent)
+        private void CompileView(string assemblyName, string viewContent, IViewServiceContext context)
         {
-            string sourceCode = GenerateCodeFromView(viewContent);
+            string sourceCode = GenerateCodeFromView(viewContent, context);
 
             if (DebugMode)
                 File.WriteAllText(Path.Combine(TempDirectory, "GeneratedView.cs"), sourceCode);//TODO: Do it better!
@@ -78,18 +76,18 @@ namespace Neptuo.Web.Framework.Compilation
             }
         }
 
-        private string GenerateCodeFromView(string viewContent)
+        private string GenerateCodeFromView(string viewContent, IViewServiceContext context)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
-            bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(DependencyProvider, contentProperty, errors));
+            bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
             if (!parserResult)
                 throw new CodeDomViewServiceException("Error parsing view content!", errors);
 
-            PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(DependencyProvider));
+            PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(context.DependencyProvider));
 
             TextWriter writer = new StringWriter();
-            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, DependencyProvider, errors));
+            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, context.DependencyProvider, errors));
             if (!generatorResult)
                 throw new CodeDomViewServiceException("Error generating code from view!", errors);
 
