@@ -56,7 +56,7 @@ namespace TestWebMvc
 
             CodeDomViewService viewService = new CodeDomViewService();
             //viewService.DebugMode = true;
-            viewService.BinDirectories = Server.MapPath("~/Bin");
+            viewService.BinDirectories.Add(Server.MapPath("~/Bin"));
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());

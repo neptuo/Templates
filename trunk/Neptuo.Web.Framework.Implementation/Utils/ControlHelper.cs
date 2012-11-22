@@ -41,5 +41,23 @@ namespace Neptuo.Web.Framework.Utils
 
             return null;
         }
+
+        public static T ResolveBuilder<T>(Type controlType, IDependencyProvider depedencyProvider)
+            where T : class
+        {
+            BuilderAttribute attr = ReflectionHelper.GetAttribute<BuilderAttribute>(controlType);
+            if (attr != null)
+            {
+                foreach (Type type in attr.Types)
+                {
+                    if (attr != null && typeof(T).IsAssignableFrom(type))
+                    {
+                        T builder = (T)depedencyProvider.Resolve(type, null);
+                        return builder;
+                    }
+                }
+            }
+            return null;
+        }
     }
 }

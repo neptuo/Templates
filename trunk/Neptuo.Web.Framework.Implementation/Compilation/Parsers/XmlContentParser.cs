@@ -71,16 +71,11 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
                         if (controlType != null)
                         {
-                            BuilderAttribute attr = ReflectionHelper.GetAttribute<BuilderAttribute>(controlType);
-                            if (attr != null && typeof(IXmlControlBuilder).IsAssignableFrom(attr.Type))
-                            {
-                                IXmlControlBuilder builder = (IXmlControlBuilder)Activator.CreateInstance(attr.Type);
+                            IXmlControlBuilder builder = ControlHelper.ResolveBuilder<IXmlControlBuilder>(controlType, helper.Context.DependencyProvider);
+                            if(builder != null)
                                 builder.Parse(helper, controlType, element);
-                            }
                             else
-                            {
                                 GenerateControl(helper, controlType, element);
-                            }
                         }
 
                         helper.Registrator = currentRegistrator;
