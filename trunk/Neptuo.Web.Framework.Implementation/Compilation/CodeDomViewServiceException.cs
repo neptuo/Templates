@@ -12,7 +12,10 @@ namespace Neptuo.Web.Framework.Compilation
         public CodeDomViewServiceException(string message, IEnumerable<IErrorInfo> errors = null)
             : base(message)
         {
-            Errors = errors;
+            Errors = errors ?? new List<IErrorInfo>
+            {
+                new ErrorInfo(message)
+            };
         }
     }
 }

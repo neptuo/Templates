@@ -60,7 +60,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 
             foreach (ICodeObject propertyValue in propertyDescriptor.Values)
             {
-                CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(context.DependencyProvider, propertyValue, propertyDescriptor, context.BindMethod, context.FieldName);
+                CodeExpression codeExpression = context.Context.CodeGenerator.GenerateCodeObject(context.Context, propertyValue, propertyDescriptor, context.BindMethod, context.FieldName);
                 
                 context.BindMethod.Statements.Add(
                     new CodeMethodInvokeExpression(

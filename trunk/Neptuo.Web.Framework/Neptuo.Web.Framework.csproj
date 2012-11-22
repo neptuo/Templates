@@ -54,6 +54,7 @@
     <Compile Include="Compilation\CodeGenerators\ICodeGenerator.cs" />
     <Compile Include="Compilation\CodeGenerators\ICodeGeneratorContext.cs" />
     <Compile Include="Compilation\IErrorInfo.cs" />
+    <Compile Include="Compilation\IFileProvider.cs" />
     <Compile Include="Compilation\IViewService.cs" />
     <Compile Include="Compilation\IViewServiceContext.cs" />
     <Compile Include="Compilation\Parsers\IParserService.cs" />

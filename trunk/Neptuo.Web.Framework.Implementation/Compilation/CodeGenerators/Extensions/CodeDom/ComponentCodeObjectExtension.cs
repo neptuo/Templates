@@ -18,7 +18,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
         {
-            StorageProvider storage = context.DependencyProvider.Resolve<StorageProvider>();
+            StorageProvider storage = context.CodeDomContext.CodeGeneratorContext.DependencyProvider.Resolve<StorageProvider>();
             perPage = storage.Create<Dictionary<Type, CodeFieldReferenceExpression>>("PerPage");
             perControl = storage.Create<Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>>>("PerControl");
 

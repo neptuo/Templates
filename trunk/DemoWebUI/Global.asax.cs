@@ -1,4 +1,9 @@
-﻿using System;
+﻿using DemoWebUI.Models;
+using Microsoft.Practices.Unity;
+using Neptuo.Web.DataAccess;
+using Neptuo.Web.DataAccess.EntityFramework;
+using Neptuo.Web.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,6 +27,12 @@ namespace DemoWebUI
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            Bootstrapper.Initialize()
+                .BuildUnity(c => c
+                    .RegisterType<IRepository<File>, GenericRepository<File, DataContext>>()
+                    .RegisterType<IRepository<Folder>, GenericRepository<Folder, DataContext>>()
+                );
         }
     }
 }

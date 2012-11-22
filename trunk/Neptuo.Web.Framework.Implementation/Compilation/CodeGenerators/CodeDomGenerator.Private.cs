@@ -24,40 +24,35 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
             public const string CreateViewPageControlsMethod = "CreateViewPageControls";
         }
 
-        public CodeCompileUnit Unit { get; private set; }
-        public CodeNamespace CodeNamespace { get; private set; }
-        public CodeTypeDeclaration Class { get; private set; }
-        public CodeMemberMethod CreateViewPageControlsMethod { get; private set; }
-
-        private void CreateCodeUnit()
+        private void CreateCodeUnit(Context context)
         {
-            Unit = new CodeCompileUnit();
-            CodeNamespace = new CodeNamespace(Names.CodeNamespace);
-            CodeNamespace.Imports.Add(new CodeNamespaceImport("System"));
-            CodeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web"));
-            CodeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web.Framework"));
-            Unit.Namespaces.Add(CodeNamespace);
+            context.Unit = new CodeCompileUnit();
+            context.CodeNamespace = new CodeNamespace(Names.CodeNamespace);
+            context.CodeNamespace.Imports.Add(new CodeNamespaceImport("System"));
+            context.CodeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web"));
+            context.CodeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web.Framework"));
+            context.Unit.Namespaces.Add(context.CodeNamespace);
         }
 
-        private void CreateCodeClass()
+        private void CreateCodeClass(Context context)
         {
-            Class = new CodeTypeDeclaration(Names.ClassName);
-            Class.IsClass = true;
-            Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
-            Class.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
-            Class.BaseTypes.Add(new CodeTypeReference(typeof(IGeneratedView)));
-            Class.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
-            CodeNamespace.Types.Add(Class);
+            context.Class = new CodeTypeDeclaration(context.ClassName);
+            context.Class.IsClass = true;
+            context.Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
+            context.Class.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
+            context.Class.BaseTypes.Add(new CodeTypeReference(typeof(IGeneratedView)));
+            context.Class.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
+            context.CodeNamespace.Types.Add(context.Class);
         }
 
-        private void CreateCodeMethods()
+        private void CreateCodeMethods(Context context)
         {
-            CreateViewPageControlsMethod = new CodeMemberMethod
+            context.CreateViewPageControlsMethod = new CodeMemberMethod
             {
                 Name = Names.CreateViewPageControlsMethod,
                 Attributes = MemberAttributes.Override | MemberAttributes.Family
             };
-            Class.Members.Add(CreateViewPageControlsMethod);
+            context.Class.Members.Add(context.CreateViewPageControlsMethod);
         }
     }
 }

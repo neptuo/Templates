@@ -1,11 +1,15 @@
 ﻿using DemoWebUI.Models;
 using Neptuo.Web.Framework;
+using Neptuo.Web.Framework.Compilation;
 using Neptuo.Web.Framework.Compilation.CodeGenerators;
 using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions;
+using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
+using Neptuo.Web.Framework.Configuration;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Observers;
+using Neptuo.Web.Framework.Unity;
 using Neptuo.Web.Framework.Utils;
 using SignalR.Hubs;
 using System;
@@ -21,29 +25,44 @@ namespace DemoWebUI.Hubs
 {
     public class LiveHub : Hub
     {
-        IComponentManager componentManager;
-        IRegistrator registrator;
-        IServiceProvider serviceProvider;
+        private IRegistrator Registrator { get; set; }
+        private IViewService ViewService { get; set; }
 
         public LiveHub()
         {
-            componentManager = new ComponentManager();
-            registrator = new Registrator();
-            serviceProvider = new ServiceProvider(registrator, componentManager);
+            IDependencyContainer dependencyContainer = new UnityDependencyContainer();
+            Registrator registrator = new Registrator();
+            registrator.LoadSection();
 
-            registrator.RegisterNamespace("h", "Neptuo.Web.Framework.Controls");
-            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Controls");
-            registrator.RegisterNamespace(null, "Neptuo.Web.Framework.Extensions");
-            registrator.RegisterObserver("ui", "visible", typeof(VisibleObserver));
-            registrator.RegisterObserver("html", "*", typeof(HtmlAttributeObserver));
-            registrator.RegisterObserver("val", "max-length", typeof(ValidationObserver));
-            registrator.RegisterObserver("val", "min-length", typeof(ValidationObserver));
-            registrator.RegisterObserver("val", "regex", typeof(ValidationObserver));
-            registrator.RegisterObserver("val", "message", typeof(ValidationObserver));
+            XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
+            XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
+
+            CodeDomViewService viewService = new CodeDomViewService();
+            //viewService.DebugMode = true;
+            viewService.BinDirectories = HttpContext.Current.Server.MapPath("~/Bin");
+            viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
+            viewService.DebugMode
+            viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
+            viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
+            viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
+
+            dependencyContainer
+                .RegisterInstance<IDependencyProvider>(dependencyContainer)
+                .RegisterInstance<IRegistrator>(registrator)
+                .RegisterInstance<IViewService>(viewService)
+                //.RegisterInstance<IVirtualPathProvider>()
+                .RegisterType<IComponentManager, ComponentManager>();
+
+            Registrator = registrator;
+            ViewService = viewService;
         }
 
         public bool Compile(string viewContent)
         {
+            //TODO: Save as file in temp
+            //TODO: Compile using ViewService
+
+
             string sourceCode = GenerateCode(viewContent);
             if (sourceCode == null)
             {
@@ -68,79 +87,6 @@ namespace DemoWebUI.Hubs
             Caller.Output(result);
 
             return true;
-        }
-
-        private string GenerateCode(string viewContent)
-        {
-            XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
-            XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
-
-            IParserService parserService = new DefaultParserService();
-            parserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
-            parserService.ValueParsers.Add(new ExtensionValueParser());
-
-            CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeDomCodeObjectExtension());
-
-            ICodeGeneratorService generatorService = new DefaultCodeGeneratorService();
-            generatorService.AddGenerator("CSharp", generator);
-
-
-            IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
-            bool parserResult = parserService.ProcessContent(viewContent, new DefaultParserServiceContext(serviceProvider, contentProperty));
-            if (!parserResult)
-            {
-                Caller.Log("Parsing failed!");
-                return null;
-            }
-
-            TextWriter writer = new StringWriter();
-            bool generatorResult = generatorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorContext(writer));
-            if (!generatorResult)
-                return null;
-            else
-                return writer.ToString();
-        }
-
-        private Assembly CompileCode(string sourceCode)
-        {
-            CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
-            CompilerParameters cp = new CompilerParameters();
-            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/System.dll"));
-            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/System.Web.dll"));
-            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/Neptuo.Web.Framework.dll"));
-            cp.ReferencedAssemblies.Add(HttpContext.Current.Server.MapPath("~/Bin/Neptuo.Web.Framework.Implementation.dll"));
-            cp.GenerateExecutable = false;
-            cp.GenerateInMemory = true;
-            cp.IncludeDebugInformation = true;
-
-            CompilerResults cr = provider.CompileAssemblyFromSource(cp, sourceCode);
-            if (cr.Errors.Count > 0)
-            {
-                StringBuilder log = new StringBuilder();
-                foreach (CompilerError ce in cr.Errors)
-                    log.AppendFormat("  {0}", ce.ToString());
-
-                Caller.Log(log.ToString());
-                return null;
-            }
-
-            return cr.CompiledAssembly;
-        }
-
-        private string RunCode(Assembly views)
-        {
-            Type generatedView = views.GetType("Neptuo.Web.Framework.GeneratedView");
-
-            StringWriter output = new StringWriter();
-
-            IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
-            view.Setup(new BaseViewPage(componentManager), componentManager, serviceProvider, null, null);
-            view.CreateControls();
-            view.Init();
-            view.Render(new HtmlTextWriter(output));
-
-            return output.ToString();
         }
     }
 }

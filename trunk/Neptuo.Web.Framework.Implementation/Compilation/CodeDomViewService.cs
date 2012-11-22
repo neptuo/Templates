@@ -2,10 +2,12 @@
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
 using Neptuo.Web.Framework.Compilation.PreProcessing;
+using Neptuo.Web.Framework.Configuration;
 using Neptuo.Web.Framework.Utils;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -18,9 +20,11 @@ namespace Neptuo.Web.Framework.Compilation
     {
         public IParserService ParserService { get; private set; }
         public IPreProcessorService PreProcessorService { get; private set; }
-        public ICodeGeneratorService CodeGeneratorService { get; private set; }
+        public CodeDomGenerator CodeDomGenerator { get; private set; }
+        protected ICodeGeneratorService CodeGeneratorService { get; private set; }
+        public IFileProvider FileProvider { get; private set; }
 
-        public string BinDirectory { get; set; }
+        public ICollection<string> BinDirectories { get; set; }
         public string TempDirectory { get; set; }
         public bool DebugMode { get; set; }
 
@@ -29,16 +33,23 @@ namespace Neptuo.Web.Framework.Compilation
             ParserService = new DefaultParserService();
             PreProcessorService = new DefaultPreProcessorService();
             CodeGeneratorService = new DefaultCodeGeneratorService();
+            CodeDomGenerator = new CodeDomGenerator();
+            CodeGeneratorService.AddGenerator("CSharp", CodeDomGenerator);
+
+            BinDirectories = new List<string>();
         }
 
         public IGeneratedView Process(string fileName, IViewServiceContext context)
         {
-            if (!File.Exists(fileName))
+            if (FileProvider == null)
+                FileProvider = context.DependencyProvider.Resolve<IFileProvider>();
+
+            if (!FileProvider.Exists(fileName))
                 throw new CodeDomViewServiceException("View doesn't exist!");
 
             string assemblyName = GetAssemblyName(fileName);
             if (!IsCompiled(assemblyName))
-                CompileView(assemblyName, File.ReadAllText(fileName), context);
+                CompileView(assemblyName, FileProvider.GetFileContent(fileName), context);
 
             return CreateGeneratedView(assemblyName);
         }
@@ -63,7 +74,9 @@ namespace Neptuo.Web.Framework.Compilation
 
             CodeDomCompiler compiler = new CodeDomCompiler();
             compiler.IncludeDebugInformation = DebugMode;
-            compiler.AddReferencedFolder(BinDirectory);
+
+            foreach (string directory in BinDirectories)
+                compiler.AddReferencedFolder(directory);
 
             CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, assemblyName);
             if (cr.Errors.Count > 0)
@@ -101,7 +114,7 @@ namespace Neptuo.Web.Framework.Compilation
 
         private string GetAssemblyName(string fileName)
         {
-            return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(File.ReadAllText(fileName))));
+            return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(FileProvider.GetFileContent(fileName))));
         }
     }
 }

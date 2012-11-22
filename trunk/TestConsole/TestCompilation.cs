@@ -40,6 +40,8 @@ namespace TestConsole
 
             container
                 .RegisterInstance<IComponentManager>(new ComponentManager())
+                .RegisterType<IVirtualPathProvider, CurrentDirectoryVirtualPathProvider>()
+                .RegisterType<IFileProvider, FileProvider>()
                 .RegisterInstance<IRegistrator>(registrator);
         }
 
@@ -182,16 +184,11 @@ namespace TestConsole
             XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
             XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
-            CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
-
             CodeDomViewService viewService = new CodeDomViewService();
-            //viewService.DebugMode = true;
-            viewService.BinDirectory = Environment.CurrentDirectory;
-            viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
+            viewService.LoadSection();
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
-            viewService.CodeGeneratorService.AddGenerator("CSharp", generator);
+            viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
             container.RegisterInstance<IViewService>(viewService);
 
@@ -199,28 +196,28 @@ namespace TestConsole
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            try
-            {
+            //try
+            //{
                 IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
                 view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
                 view.CreateControls();
                 view.Init();
                 view.Render(new HtmlTextWriter(output));
                 view.Dispose();
-            }
-            catch (CodeDomViewServiceException e)
-            {
-                output.WriteLine("Errors occured!");
-                output.WriteLine();
-                foreach (IErrorInfo error in e.Errors)
-                {
-                    output.WriteLine("Line: {0}", error.Line);
-                    output.WriteLine("Position: {0}", error.Column);
-                    output.WriteLine("Message: {0}", error.ErrorText);
-                    output.WriteLine("Error number: {0}", error.ErrorNumber);
-                    output.WriteLine();
-                }
-            }
+            //}
+            //catch (CodeDomViewServiceException e)
+            //{
+            //    output.WriteLine("Errors occured!");
+            //    output.WriteLine();
+            //    foreach (IErrorInfo error in e.Errors)
+            //    {
+            //        output.WriteLine("Line: {0}", error.Line);
+            //        output.WriteLine("Position: {0}", error.Column);
+            //        output.WriteLine("Message: {0}", error.ErrorText);
+            //        output.WriteLine("Error number: {0}", error.ErrorNumber);
+            //        output.WriteLine();
+            //    }
+            //}
 
             Console.WriteLine(output);
             Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);

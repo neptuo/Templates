@@ -74,24 +74,24 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
 
         #region Code generation
 
-        public CodeExpression GenerateCodeObject(IDependencyProvider dependencyProvider, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
+        public CodeExpression GenerateCodeObject(Context context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
         {
             foreach (KeyValuePair<Type, ICodeObjectExtension> item in CodeObjectExtensions)
             {
                 if (item.Key == codeObject.GetType())
-                    return item.Value.GenerateCode(new CodeObjectExtensionContext(dependencyProvider, this, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
+                    return item.Value.GenerateCode(new CodeObjectExtensionContext(context, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
             }
 
             throw new NotImplementedException("Not supported code object");
         }
 
-        public void GenerateProperty(IDependencyProvider dependencyProvider, IPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
+        public void GenerateProperty(Context context, IPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
         {
             foreach (KeyValuePair<Type, IPropertyDescriptorExtension> item in PropertyDescriptorExtensions)
             {
                 if (item.Key == propertyDescriptor.GetType())
                 {
-                    item.Value.GenerateProperty(new PropertyDescriptorExtensionContext(dependencyProvider, this, fieldName, bindMethod), propertyDescriptor);
+                    item.Value.GenerateProperty(new PropertyDescriptorExtensionContext(context, fieldName, bindMethod), propertyDescriptor);
                     return;
                 }
             }
@@ -101,20 +101,22 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
 
         #endregion
 
-        public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context)
+        public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext codeContext)
         {
-            CreateCodeUnit();
-            CreateCodeClass();
-            CreateCodeMethods();
+            Context context = new Context(codeContext, Names.ClassName, this);
+
+            CreateCodeUnit(context);
+            CreateCodeClass(context);
+            CreateCodeMethods(context);
 
             if (propertyDescriptor is ListAddPropertyDescriptor)
-                GenerateProperty(context.DependencyProvider, propertyDescriptor as ListAddPropertyDescriptor, Names.ViewPageField, CreateViewPageControlsMethod);
+                GenerateProperty(context, propertyDescriptor as ListAddPropertyDescriptor, Names.ViewPageField, context.CreateViewPageControlsMethod);
 
-            WriteOutput(context.Output);
+            WriteOutput(context.Unit, codeContext.Output);
             return true;
         }
 
-        private void WriteOutput(TextWriter writer)
+        private void WriteOutput(CodeCompileUnit unit, TextWriter writer)
         {
             CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
             CodeGeneratorOptions options = new CodeGeneratorOptions
@@ -124,7 +126,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators
                 VerbatimOrder = false
             };
 
-            provider.GenerateCodeFromCompileUnit(Unit, writer, options);
+            provider.GenerateCodeFromCompileUnit(unit, writer, options);
         }
     }
 }

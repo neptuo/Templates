@@ -43,13 +43,19 @@
   <ItemGroup>
     <Compile Include="BuilderAttribute.cs" />
     <Compile Include="Compilation\CodeDomViewServiceException.cs" />
+    <Compile Include="Compilation\CodeDomViewServiceExtensions.cs" />
+    <Compile Include="Compilation\CodeGenerators\CodeDomGenerator.Context.cs" />
     <Compile Include="Compilation\Data\StorageProvider.cs" />
     <Compile Include="Compilation\ErrorInfo.cs" />
+    <Compile Include="Compilation\FileProvider.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorContext.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorService.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorServiceContext.cs" />
     <Compile Include="Compilation\DefaultViewServiceContext.cs" />
     <Compile Include="ComponentAttribute.cs" />
+    <Compile Include="Configuration\CodeDomSection.cs" />
+    <Compile Include="Configuration\PathCollection.cs" />
+    <Compile Include="Configuration\PathElement.cs" />
     <Compile Include="PropertyAttribute.cs" />
     <Compile Include="HtmlAttribute.cs" />
     <Compile Include="ObserverAttribute.cs" />

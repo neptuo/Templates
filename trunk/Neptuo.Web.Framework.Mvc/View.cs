@@ -37,7 +37,7 @@ namespace Neptuo.Web.Framework.Mvc
         {
             IComponentManager componentManager = dependencyProvider.Resolve<IComponentManager>();
 
-            IGeneratedView view = viewService.Process(HttpContext.Current.Server.MapPath(ViewName), new DefaultViewServiceContext(dependencyProvider));
+            IGeneratedView view = viewService.Process(ViewName, new DefaultViewServiceContext(dependencyProvider));
             view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
             view.CreateControls();
             view.Init();
