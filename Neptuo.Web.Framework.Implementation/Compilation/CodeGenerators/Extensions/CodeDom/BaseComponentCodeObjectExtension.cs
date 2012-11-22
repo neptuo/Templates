@@ -18,7 +18,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
         {
             string fieldName = context.CodeGenerator.GenerateFieldName();
             CodeMemberField field = new CodeMemberField(typeCodeObject.Type, fieldName);
-            context.CodeGenerator.Class.Members.Add(field);
+            context.CodeDomContext.Class.Members.Add(field);
 
 
             CodeMemberMethod createMethod = GenerateCreateMethod(context, typeCodeObject, propertiesCodeObject, fieldName);
@@ -44,7 +44,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
             {
                 Name = context.CodeGenerator.FormatCreateMethod(fieldName)
             };
-            context.CodeGenerator.Class.Members.Add(createMethod);
+            context.CodeDomContext.Class.Members.Add(createMethod);
 
             CodeConditionStatement ifNull = new CodeConditionStatement
             {
@@ -73,7 +73,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
             {
                 IDefaultPropertyValue defaultProperty = propertyDesc as IDefaultPropertyValue;
                 if (defaultProperty != null && defaultProperty.IsDefaultValue)
-                    context.CodeGenerator.GenerateProperty(context.DependencyProvider, propertyDesc, fieldName, fakeMethod);
+                    context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, fieldName, fakeMethod);
             }
 
             foreach (CodeStatement statement in fakeMethod.Statements)
@@ -91,13 +91,13 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
             {
                 Name = bindMethodName ?? context.CodeGenerator.FormatBindMethod(fieldName)
             };
-            context.CodeGenerator.Class.Members.Add(bindMethod);
+            context.CodeDomContext.Class.Members.Add(bindMethod);
 
             foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
             {
                 IDefaultPropertyValue defaultProperty = propertyDesc as IDefaultPropertyValue;
                 if (defaultProperty == null || !defaultProperty.IsDefaultValue)
-                    context.CodeGenerator.GenerateProperty(context.DependencyProvider, propertyDesc, fieldName, bindMethod);
+                    context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, fieldName, bindMethod);
             }
 
             return bindMethod;

@@ -11,7 +11,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
     {
         protected override void GenerateProperty(PropertyDescriptorExtensionContext context, SetPropertyDescriptor propertyDescriptor)
         {
-            CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(context.DependencyProvider, propertyDescriptor.Value, propertyDescriptor, context.BindMethod, context.FieldName);
+            CodeExpression codeExpression = context.Context.CodeGenerator.GenerateCodeObject(context.Context, propertyDescriptor.Value, propertyDescriptor, context.BindMethod, context.FieldName);
             context.BindMethod.Statements.Add(
                 new CodeAssignStatement(
                     new CodePropertyReferenceExpression(

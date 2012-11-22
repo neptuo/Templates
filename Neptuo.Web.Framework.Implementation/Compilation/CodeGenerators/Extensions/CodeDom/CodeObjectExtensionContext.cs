@@ -8,15 +8,15 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
 {
     public class CodeObjectExtensionContext
     {
-        public IDependencyProvider DependencyProvider { get; private set; }
+        public CodeDomGenerator.Context CodeDomContext { get; private set; }
         public CodeDomGenerator CodeGenerator { get; private set; }
         public CodeMemberMethod ParentBindMethod { get; private set; }
         public string ParentFieldName { get; private set; }
 
-        public CodeObjectExtensionContext(IDependencyProvider dependencyProvider, CodeDomGenerator codeGenerator, CodeMemberMethod parentBindMethod, string parentFieldName)
+        public CodeObjectExtensionContext(CodeDomGenerator.Context codeDomContext, CodeMemberMethod parentBindMethod, string parentFieldName)
         {
-            DependencyProvider = dependencyProvider;
-            CodeGenerator = codeGenerator;
+            CodeDomContext = codeDomContext;
+            CodeGenerator = codeDomContext.CodeGenerator;
             ParentBindMethod = parentBindMethod;
             ParentFieldName = parentFieldName;
         }

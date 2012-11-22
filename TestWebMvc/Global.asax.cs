@@ -54,24 +54,25 @@ namespace TestWebMvc
             XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
             XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
-            CodeDomGenerator generator = new CodeDomGenerator();
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
-
             CodeDomViewService viewService = new CodeDomViewService();
             //viewService.DebugMode = true;
-            viewService.BinDirectory = Server.MapPath("~/Bin");
+            viewService.BinDirectories = Server.MapPath("~/Bin");
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
-            viewService.CodeGeneratorService.AddGenerator("CSharp", generator);
+            viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
+
+            ViewEngine viewEngine = new ViewEngine(dependencyContainer);
 
             dependencyContainer
                 .RegisterInstance<IDependencyProvider>(dependencyContainer)
                 .RegisterInstance<IRegistrator>(registrator)
                 .RegisterInstance<IViewService>(viewService)
+                .RegisterInstance<IVirtualPathProvider>(viewEngine)
+                .RegisterType<IFileProvider, FileProvider>()
                 .RegisterType<IComponentManager, ComponentManager>();
 
-            ViewEngines.Engines.Insert(0, new ViewEngine(dependencyContainer));
+            ViewEngines.Engines.Insert(0, viewEngine);
         }
     }
 }
