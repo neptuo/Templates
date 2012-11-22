@@ -9,11 +9,11 @@ namespace Neptuo.Web.Framework
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public class BuilderAttribute : Attribute
     {
-        public Type Type { get; set; }
+        public Type[] Types { get; set; }
 
-        public BuilderAttribute(Type type)
+        public BuilderAttribute(params Type[] types)
         {
-            Type = type;
+            Types = types;
         }
     }
 }

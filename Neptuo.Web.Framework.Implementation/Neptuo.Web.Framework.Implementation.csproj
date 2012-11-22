@@ -48,6 +48,7 @@
     <Compile Include="Compilation\Data\StorageProvider.cs" />
     <Compile Include="Compilation\ErrorInfo.cs" />
     <Compile Include="Compilation\FileProvider.cs" />
+    <Compile Include="Compilation\Parsers\DefaultXmlControlBuilder.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorContext.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorService.cs" />
     <Compile Include="Compilation\PreProcessing\DefaultPreProcessorServiceContext.cs" />
