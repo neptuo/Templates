@@ -8,6 +8,6 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 {
     public interface IXmlControlBuilder
     {
-        void Parse(XmlContentParser.Helper helper, Type controlType, XmlElement element);
+        void Parse(IXmlBuilderContext context, Type controlType, XmlElement element);
     }
 }

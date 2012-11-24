@@ -42,7 +42,7 @@ namespace Neptuo.Web.Framework.Utils
             return null;
         }
 
-        public static T ResolveBuilder<T>(Type controlType, IDependencyProvider depedencyProvider)
+        public static T ResolveBuilder<T>(Type controlType, IDependencyProvider depedencyProvider, Func<T> defaultBuilder)
             where T : class
         {
             BuilderAttribute attr = ReflectionHelper.GetAttribute<BuilderAttribute>(controlType);
@@ -57,7 +57,7 @@ namespace Neptuo.Web.Framework.Utils
                     }
                 }
             }
-            return null;
+            return defaultBuilder();
         }
     }
 }
