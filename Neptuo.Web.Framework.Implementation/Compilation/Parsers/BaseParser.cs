@@ -21,7 +21,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             DefaultValueExtensions.Add(new DefaultAttributeExtension());
         }
 
-        protected bool BindPropertyDefaultValue(IPropertyDescriptor propertyDescriptor)
+        public bool BindPropertyDefaultValue(IPropertyDescriptor propertyDescriptor)
         {
             foreach (IDefaultValueExtension extension in DefaultValueExtensions)
             {
