@@ -167,6 +167,7 @@
     </Compile>
     <Compile Include="Hubs\LiveHub.cs" />
     <Compile Include="Models\DataContext.cs" />
+    <Compile Include="Models\ExtendedCodeDomViewService.cs" />
     <Compile Include="Models\File.cs" />
     <Compile Include="Models\Folder.cs" />
     <Compile Include="Models\LiveModel.cs" />

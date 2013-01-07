@@ -26,7 +26,8 @@ namespace DemoWebUI.Hubs
     public class LiveHub : Hub
     {
         private IRegistrator Registrator { get; set; }
-        private IViewService ViewService { get; set; }
+        private ExtendedCodeDomViewService ViewService { get; set; }
+        private IDependencyContainer DependencyContainer { get; set; }
 
         public LiveHub()
         {
@@ -37,11 +38,11 @@ namespace DemoWebUI.Hubs
             XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
             XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
-            CodeDomViewService viewService = new CodeDomViewService();
+            ExtendedCodeDomViewService viewService = new ExtendedCodeDomViewService();
             //viewService.DebugMode = true;
-            viewService.BinDirectories = HttpContext.Current.Server.MapPath("~/Bin");
+            viewService.BinDirectories.Add(HttpContext.Current.Server.MapPath("~/Bin"));
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
-            viewService.DebugMode
+            viewService.DebugMode = true;
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
@@ -55,36 +56,35 @@ namespace DemoWebUI.Hubs
 
             Registrator = registrator;
             ViewService = viewService;
+            DependencyContainer = dependencyContainer;
         }
 
         public bool Compile(string viewContent)
         {
-            //TODO: Save as file in temp
-            //TODO: Compile using ViewService
-
-
-            string sourceCode = GenerateCode(viewContent);
-            if (sourceCode == null)
+            ViewService.OnSourceCodeGenerated += (sender, e) =>
             {
-                Caller.Alert("Error generating source code!");
-                return false;
-            }
-            Caller.SourceCodeOutput(sourceCode);
+                Caller.SourceCodeOutput(e.SourceCode);
+            };
 
-            Assembly views = CompileCode(sourceCode);
-            if (views == null)
+            try
             {
-                Caller.Alert("Error compiling assembly!");
-                return false;
-            }
+                IGeneratedView view = ViewService.ProcessContent(viewContent, new DefaultViewServiceContext(DependencyContainer));
+                IComponentManager componentManager = DependencyContainer.Resolve<IComponentManager>();
 
-            string result = RunCode(views);
-            if (result == null)
-            {
-                Caller.Alert("Error runing code!");
-                return false;
+                StringWriter output = new StringWriter();
+
+                view.Setup(new BaseViewPage(componentManager), componentManager, DependencyContainer);
+                view.CreateControls();
+                view.Init();
+                view.Render(new HtmlTextWriter(output));
+                view.Dispose();
+
+                Caller.Output(output.ToString());
             }
-            Caller.Output(result);
+            catch (CodeDomViewServiceException e)
+            {
+                Caller.ShowErrors(e.Errors);
+            }
 
             return true;
         }

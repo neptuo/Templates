@@ -49,9 +49,10 @@
             hub.sourceCodeOutput = function (result) {
                 $("#sourceCode").html(result);
             }
+            hub.showErrors = function (errors) {
+                alert("There are " + errors.length + " errors!");
+            }
             $.connection.hub.start();
-
-
 
 
 

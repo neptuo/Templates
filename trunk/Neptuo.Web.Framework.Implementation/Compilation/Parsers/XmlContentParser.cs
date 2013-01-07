@@ -11,9 +11,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using TypeConverter = Neptuo.Web.Framework.Utils.StringConverter;
-using PerPageDictionary = System.Collections.Generic.Dictionary<System.Type, Neptuo.Web.Framework.Compilation.CodeObjects.ObserverCodeObject>;
-using PerControlDictionary = System.Collections.Generic.Dictionary<System.Type, System.Collections.Generic.Dictionary<Neptuo.Web.Framework.Compilation.CodeObjects.IComponentCodeObject, Neptuo.Web.Framework.Compilation.CodeObjects.ObserverCodeObject>>;
 
 namespace Neptuo.Web.Framework.Compilation.Parsers
 {

@@ -16,6 +16,7 @@ namespace Neptuo.Web.Framework.Unity
                 container = new UnityContainer();
 
             Container = container;
+            Container.RegisterInstance<IDependencyProvider>(this);
         }
 
         public IDependencyContainer RegisterInstance(Type t, string name, object instance)

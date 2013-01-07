@@ -7,7 +7,7 @@ namespace Neptuo.Web.Framework.Extensions
 {
     public class DateTimeExtension : IMarkupExtension
     {
-        public object ProvideValue()
+        public object ProvideValue(IMarkupExtensionContext context)
         {
             return DateTime.Now.ToString();
         }

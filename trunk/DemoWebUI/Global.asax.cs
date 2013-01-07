@@ -28,11 +28,11 @@ namespace DemoWebUI
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            Bootstrapper.Initialize()
-                .BuildUnity(c => c
-                    .RegisterType<IRepository<File>, GenericRepository<File, DataContext>>()
-                    .RegisterType<IRepository<Folder>, GenericRepository<Folder, DataContext>>()
-                );
+            Bootstrapper.Initialize();
+                //.BuildUnity(c => c
+                //    .RegisterType<IRepository<File>, GenericRepository<File, DataContext>>()
+                //    .RegisterType<IRepository<Folder>, GenericRepository<Folder, DataContext>>()
+                //);
         }
     }
 }

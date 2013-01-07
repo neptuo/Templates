@@ -115,7 +115,7 @@ namespace Neptuo.Web.Framework
         {
             foreach (Type type in types)
             {
-                if (ReflectionHelper.CanBeUsedInMarkup(type))
+                if (ReflectionHelper.CanBeUsedInMarkup(type, false))
                 {
                     ComponentAttribute controlAttr = ReflectionHelper.GetAttribute<ComponentAttribute>(type);
 
@@ -135,7 +135,7 @@ namespace Neptuo.Web.Framework
         {
             foreach (Type type in types)
             {
-                if (ReflectionHelper.CanBeUsedInMarkup(type))
+                if (ReflectionHelper.CanBeUsedInMarkup(type, false))
                 {
                     ComponentAttribute controlAttr = ReflectionHelper.GetAttribute<ComponentAttribute>(type);
 
