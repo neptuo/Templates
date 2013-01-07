@@ -1,8 +1,10 @@
 ﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Utils;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
@@ -64,7 +66,7 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
                         new CodeThisReferenceExpression(),
                         fieldName
                     ),
-                    new CodeObjectCreateExpression(typeCodeObject.Type)
+                    new CodeObjectCreateExpression(typeCodeObject.Type, ResolveConstructorParameters(typeCodeObject.Type))
                 )
             );
 
@@ -101,6 +103,32 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
             }
 
             return bindMethod;
+        }
+
+        protected CodeExpression[] ResolveConstructorParameters(Type type)
+        {
+            List<CodeExpression> result = new List<CodeExpression>();
+
+            ConstructorInfo ctor = type.GetConstructors().OrderBy(c => c.GetParameters().Count()).FirstOrDefault();
+            if (ctor != null)
+            {
+                foreach (ParameterInfo parameter in ctor.GetParameters())
+                {
+                    result.Add(new CodeCastExpression(
+                        new CodeTypeReference(parameter.ParameterType),
+                        new CodeMethodInvokeExpression(
+                        new CodeFieldReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            CodeDomGenerator.Names.DependencyProviderField
+                        ),
+                        TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
+                        new CodeTypeOfExpression(new CodeTypeReference(parameter.ParameterType)),
+                        new CodePrimitiveExpression(null)
+                    )));
+                }
+            }
+
+            return result.ToArray();
         }
     }
 }

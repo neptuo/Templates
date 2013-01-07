@@ -69,6 +69,7 @@
     <Compile Include="Compilation\PreProcessing\IPreProcessor.cs" />
     <Compile Include="Compilation\PreProcessing\IPreProcessorService.cs" />
     <Compile Include="Compilation\PreProcessing\IPreProcessorServiceContext.cs" />
+    <Compile Include="Extensions\IMarkupExtensionContext.cs" />
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="Controls\IContentControl.cs" />
     <Compile Include="Controls\IControl.cs" />

@@ -83,7 +83,6 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                 }
             }
 
-
             List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
             foreach (XmlAttribute attribute in element.Attributes)
             {
@@ -142,7 +141,21 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
         protected void ResolvePropertyValue(IXmlBuilderContext context, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
         {
-            if (typeof(ICollection).IsAssignableFrom(prop.PropertyType)
+            if (typeof(string) == prop.PropertyType)
+            {
+                //Get string and add as plain value
+                StringBuilder contentValue = new StringBuilder();
+                foreach (XmlNode node in content)
+                    contentValue.Append(node.OuterXml);
+
+                codeObject.Properties.Add(
+                    new SetPropertyDescriptor(
+                        prop,
+                        new PlainValueCodeObject(contentValue.ToString())
+                    )
+                );
+            }
+            else if (typeof(ICollection).IsAssignableFrom(prop.PropertyType)
                 || typeof(IEnumerable).IsAssignableFrom(prop.PropertyType)
                 || typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition())
             )

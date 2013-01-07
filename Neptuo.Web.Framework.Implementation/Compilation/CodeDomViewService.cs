@@ -14,6 +14,16 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
+//
+//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//
+//  TODO: Vytvářet instance přímo přes ctor, nebo volat IDependencyProvider.Resolve?
+//     - ve druhém případě nebude potřeba žádný dependency atribut a bude možné vše resolvovat přes ctor
+//     - nebo se snažit resolvovat všechny public property?
+//
+//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//
+
 namespace Neptuo.Web.Framework.Compilation
 {
     public class CodeDomViewService : IViewService
@@ -47,14 +57,19 @@ namespace Neptuo.Web.Framework.Compilation
             if (!FileProvider.Exists(fileName))
                 throw new CodeDomViewServiceException("View doesn't exist!");
 
-            string assemblyName = GetAssemblyName(fileName);
-            if (!IsCompiled(assemblyName))
-                CompileView(assemblyName, FileProvider.GetFileContent(fileName), context);
+            return ProcessContent(FileProvider.GetFileContent(fileName), context);
+        }
+
+        public IGeneratedView ProcessContent(string viewContent, IViewServiceContext context)
+        {
+            string assemblyName = GetAssemblyPathForContent(viewContent);
+            if (!AssemblyExists(assemblyName))
+                CompileView(assemblyName, viewContent, context);
 
             return CreateGeneratedView(assemblyName);
         }
 
-        private IGeneratedView CreateGeneratedView(string assemblyName)
+        protected virtual IGeneratedView CreateGeneratedView(string assemblyName)
         {
             Assembly views = Assembly.LoadFile(assemblyName);
             Type generatedView = views.GetType(
@@ -65,9 +80,9 @@ namespace Neptuo.Web.Framework.Compilation
             return view;
         }
 
-        private void CompileView(string assemblyName, string viewContent, IViewServiceContext context)
+        protected virtual void CompileView(string assemblyName, string viewContent, IViewServiceContext context)
         {
-            string sourceCode = GenerateCodeFromView(viewContent, context);
+            string sourceCode = GenerateSourceCodeFromView(viewContent, context);
 
             if (DebugMode)
                 File.WriteAllText(Path.Combine(TempDirectory, "GeneratedView.cs"), sourceCode);//TODO: Do it better!
@@ -89,7 +104,17 @@ namespace Neptuo.Web.Framework.Compilation
             }
         }
 
-        private string GenerateCodeFromView(string viewContent, IViewServiceContext context)
+        protected virtual string GenerateSourceCodeFromView(string viewContent, IViewServiceContext context)
+        {
+            ICollection<IErrorInfo> errors = new List<IErrorInfo>();
+            IPropertyDescriptor contentProperty = ParseViewContent(viewContent, context);
+
+            PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(context.DependencyProvider));
+
+            return GenerateSourceCode(contentProperty, context);
+        }
+
+        protected virtual IPropertyDescriptor ParseViewContent(string viewContent, IViewServiceContext context)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
@@ -97,8 +122,12 @@ namespace Neptuo.Web.Framework.Compilation
             if (!parserResult)
                 throw new CodeDomViewServiceException("Error parsing view content!", errors);
 
-            PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(context.DependencyProvider));
+            return contentProperty;
+        }
 
+        protected virtual string GenerateSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context)
+        {
+            ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
             bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, context.DependencyProvider, errors));
             if (!generatorResult)
@@ -107,14 +136,34 @@ namespace Neptuo.Web.Framework.Compilation
             return writer.ToString();
         }
 
-        private bool IsCompiled(string assemblyName)
+        /// <summary>
+        /// Returns whether assembly file exists.
+        /// </summary>
+        /// <param name="assemblyName">Assembly name.</param>
+        /// <returns>True if assembly exists.</returns>
+        protected virtual bool AssemblyExists(string assemblyName)
         {
-            return !DebugMode && File.Exists(assemblyName);
+            return !DebugMode && File.Exists(assemblyName);//TODO: Should use FileProvider!
         }
 
-        private string GetAssemblyName(string fileName)
+        /// <summary>
+        /// Returns full path for assembly.
+        /// </summary>
+        /// <param name="fileName">View filename.</param>
+        /// <returns>Full path for assembly.</returns>
+        protected virtual string GetAssemblyPath(string fileName)
         {
-            return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(FileProvider.GetFileContent(fileName))));
+            return GetAssemblyPathForContent(FileProvider.GetFileContent(fileName));
+        }
+
+        /// <summary>
+        /// Returns full path for assembly.
+        /// </summary>
+        /// <param name="viewContent">Content of view.</param>
+        /// <returns>Full path for assembly.</returns>
+        protected virtual string GetAssemblyPathForContent(string viewContent)
+        {
+            return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(viewContent)));
         }
     }
 }

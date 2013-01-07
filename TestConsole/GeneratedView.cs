@@ -69,7 +69,7 @@ namespace Neptuo.Web.Framework
 
             field4 = new BindingExtension();
             field4_Bind();
-            field3.Text = (string)field4.ProvideValue();
+            field3.Text = (string)field4.ProvideValue(null);
             
             field5 = new ValidationObserver();
             componentManager.AttachObserver(field3, field5, field5_Bind);

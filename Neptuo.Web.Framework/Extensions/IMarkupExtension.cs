@@ -7,6 +7,6 @@ namespace Neptuo.Web.Framework.Extensions
 {
     public interface IMarkupExtension
     {
-        object ProvideValue();
+        object ProvideValue(IMarkupExtensionContext context);
     }
 }

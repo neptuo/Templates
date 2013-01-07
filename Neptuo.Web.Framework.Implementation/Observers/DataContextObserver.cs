@@ -8,15 +8,20 @@ namespace Neptuo.Web.Framework.Observers
     [Observer(ObserverLivecycle.PerPage)]
     public class DataContextObserver : IObserver
     {
-        private Stack<object> storage = new Stack<object>();
+        private IComponentManager componentManager;
 
-        public IComponentManager ComponentManager { get; set; }
+        private Stack<object> storage = new Stack<object>();
 
         public object DataContext { get; set; }
 
+        public DataContextObserver(IComponentManager componentManager)
+        {
+            this.componentManager = componentManager;
+        }
+
         public void OnInit(ObserverEventArgs e)
         {
-            ComponentManager.AttachInitComplete(e.Target, OnInitComplete);
+            componentManager.AttachInitComplete(e.Target, OnInitComplete);
             storage.Push(DataContext);
             Models.CurrentModel.Push(DataContext);//TODO: Delete this line.
         }

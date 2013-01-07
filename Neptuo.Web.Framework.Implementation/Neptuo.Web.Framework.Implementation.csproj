@@ -61,6 +61,11 @@
     <Compile Include="Configuration\CodeDomSection.cs" />
     <Compile Include="Configuration\PathCollection.cs" />
     <Compile Include="Configuration\PathElement.cs" />
+    <Compile Include="Data\IStorage.cs" />
+    <Compile Include="Data\IStorageFactory.cs" />
+    <Compile Include="Data\StorageLifecycle.cs" />
+    <Compile Include="Extensions\DefaultMarkupExtensionContext.cs" />
+    <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="PropertyAttribute.cs" />
     <Compile Include="HtmlAttribute.cs" />
     <Compile Include="ObserverAttribute.cs" />

@@ -74,7 +74,7 @@ namespace Neptuo.Web.Framework.Utils
             return type.GetGenericArguments()[index];
         }
 
-        public static bool CanBeUsedInMarkup(Type type)
+        public static bool CanBeUsedInMarkup(Type type, bool requireDefaultCtor = true)
         {
             if (type.IsInterface)
                 return false;
@@ -82,8 +82,11 @@ namespace Neptuo.Web.Framework.Utils
             if (type.IsAbstract)
                 return false;
 
-            if (type.GetConstructor(new Type[] { }) == null)
-                return false;
+            if (requireDefaultCtor)
+            {
+                if (type.GetConstructor(new Type[] { }) == null)
+                    return false;
+            }
 
             return true;
         }

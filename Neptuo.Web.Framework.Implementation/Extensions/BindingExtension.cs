@@ -12,7 +12,7 @@ namespace Neptuo.Web.Framework.Extensions
         [DefaultValue("Joe")]
         public string Expression { get; set; }
 
-        public object ProvideValue()
+        public object ProvideValue(IMarkupExtensionContext context)
         {
             if (!Models.CurrentModel.Any())
                 return null;

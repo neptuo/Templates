@@ -12,18 +12,25 @@ namespace Neptuo.Web.Framework.Composition
     [DefaultProperty("Content")]
     public class TemplateControl : IControl, IDisposable
     {
-        private IGeneratedView view;
-        private IDependencyContainer childContainer;
-        private ContentStorage storage = new ContentStorage();
+        private IDependencyProvider provider;
+        private IComponentManager componentManager;
 
-        public IComponentManager ComponentManager { get; set; }
-        public IDependencyProvider DependencyProvider { get; set; }
+        private IGeneratedView view;
+
+        public string Template { get; set; }
 
         public string Path { get; set; }
         public ICollection<ContentControl> Content { get; set; }
 
+        public TemplateControl(IDependencyProvider provider, IComponentManager componentManager)
+        {
+            this.provider = provider;
+            this.componentManager = componentManager;
+        }
+
         public void OnInit()
         {
+            ContentStorage storage = new ContentStorage();
             if (Content != null)
             {
                 foreach (ContentControl content in Content)
@@ -31,19 +38,19 @@ namespace Neptuo.Web.Framework.Composition
                     if (String.IsNullOrEmpty(content.Name))
                         content.Name = String.Empty;
 
-                    ComponentManager.Init(content);
+                    componentManager.Init(content);
                     storage.Add(content.Name, content);
                 }
             }
 
-            IViewService viewService = DependencyProvider.Resolve<IViewService>();
-            view = viewService.Process(Path, new DefaultViewServiceContext(DependencyProvider));
+            IViewService viewService = provider.Resolve<IViewService>();
+            view = viewService.Process(Path, new DefaultViewServiceContext(provider));
             if (view != null)
             {
-                childContainer = DependencyProvider.CreateChildContainer();
+                IDependencyContainer childContainer = provider.CreateChildContainer();
                 childContainer.RegisterInstance<ContentStorage>(storage);
 
-                view.Setup(new BaseViewPage(ComponentManager), ComponentManager, childContainer);
+                view.Setup(new BaseViewPage(componentManager), componentManager, childContainer);
                 view.CreateControls();
                 view.Init();
             }
