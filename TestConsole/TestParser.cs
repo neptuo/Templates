@@ -17,13 +17,13 @@ namespace TestConsole
 
         static string basicMarkup3 = @"
             <div>hello</div>
-            <ui:Template Path='~/Templates/Site.html'>
+            <ui:Decorate Path='~/Templates/Site.html'>
                 <asp:Label x:Name=""head"" runat=""server"" ui:visible='false' />
 
-                <ui:Template Path='~/Templates/Site.html'>
+                <ui:Decorate Path='~/Templates/Site.html'>
                     <asp:Label2 x:Name=""head"" runat=""server"" ui:visible='false' />
-                </ui:Template>
-            </ui:Template>
+                </ui:Decorate>
+            </ui:Decorate>
         ";
 
         static string markup = @"

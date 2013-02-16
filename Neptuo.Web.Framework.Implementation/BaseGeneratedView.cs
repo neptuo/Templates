@@ -15,6 +15,11 @@ namespace Neptuo.Web.Framework
         protected IComponentManager componentManager;
         protected IDependencyProvider dependencyProvider;
 
+        public ICollection<object> Content
+        {
+            get { return viewPage.Content; }
+        }
+
         public void Setup(IViewPage viewPage, IComponentManager componentManager, IDependencyProvider dependencyProvider)
         {
             this.viewPage = viewPage;

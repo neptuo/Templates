@@ -8,6 +8,8 @@ namespace Neptuo.Web.Framework
 {
     public interface IGeneratedView : IDisposable
     {
+        ICollection<object> Content { get; }
+
         void CreateControls();
 
         void Setup(IViewPage page, IComponentManager componentManager, IDependencyProvider dependencyProvider);
