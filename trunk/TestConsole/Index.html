@@ -1,14 +1,16 @@
-﻿<ui:template path="Template.html">
+﻿<ui:Decorate path="Template.html">
     <template>
-        <ui:placeholder name="head" />
-        <br />
-        <ui:placeholder name="body" />
+        <ui:Template>
+            <ui:placeholder name="head" />
+            <br />
+            <br />
+            <ui:placeholder name="body" />
+        </ui:Template>
     </template>
     <ui:content name="head">
         <link href="Style.css" type="text/css" rel="stylesheet" />
     </ui:content>
     <ui:content name="body">
-        
         <h:panel html:id="main-panel" html:style="float: left;">
             <h:textbox name="surname" text="{Binding Expression={Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
             <h:textbox name="surname" />
@@ -25,4 +27,4 @@
         </h:panel>
 
     </ui:content>
-</ui:template>
+</ui:Decorate>

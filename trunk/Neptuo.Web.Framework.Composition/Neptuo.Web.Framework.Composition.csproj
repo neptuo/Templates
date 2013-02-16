@@ -43,8 +43,10 @@
     <Compile Include="Data\ContentStorage.cs" />
     <Compile Include="IncludeControl.cs" />
     <Compile Include="PlaceHolderControl.cs" />
-    <Compile Include="TemplateControl.cs" />
+    <Compile Include="DecorateControl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Template.cs" />
+    <Compile Include="TemplateTypeConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Web.Framework.Implementation\Neptuo.Web.Framework.Implementation.csproj">

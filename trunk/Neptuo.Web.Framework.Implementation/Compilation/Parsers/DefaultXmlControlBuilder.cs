@@ -157,7 +157,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
             }
             else if (typeof(ICollection).IsAssignableFrom(prop.PropertyType)
                 || typeof(IEnumerable).IsAssignableFrom(prop.PropertyType)
-                || typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition())
+                || (prop.PropertyType.IsGenericType && typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition()))
             )
             {
                 //Collection item
