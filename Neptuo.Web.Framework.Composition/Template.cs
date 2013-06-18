@@ -20,6 +20,18 @@ namespace Neptuo.Web.Framework.Composition
             set;
         }
 
+        public void Init(IComponentManager componentManager)
+        {
+            foreach (object content in Content)
+                componentManager.Init(content);
+        }
+
+        public void Render(IComponentManager componentManager, HtmlTextWriter writer)
+        {
+            foreach (object content in Content)
+                componentManager.Render(content, writer);
+        }
+
         //public Template(IDependencyProvider provider, IViewService viewService, string content)
         //{
         //    view = viewService.ProcessContent(content, new DefaultViewServiceContext(provider));

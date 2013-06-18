@@ -31,10 +31,7 @@ namespace Neptuo.Web.Framework.Composition
 
         public void OnInit()
         {
-            if (Template != null)
-                componentManager.Init(Template);
-
-            ContentStorage storage = new ContentStorage();
+            ContentStorage storage = ContentStorage.Instance;
             if (Content != null)
             {
                 foreach (ContentControl content in Content)
@@ -47,14 +44,11 @@ namespace Neptuo.Web.Framework.Composition
                 }
             }
 
-
-            //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
-            //TODO: Je potřeba do svých potomků dostat ContentStorage!\\
-            //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
-
-
-
-
+            if (Template != null)
+            {
+                componentManager.Init(Template);
+                Template.Init(componentManager);
+            }
 
 
             //IViewService viewService = provider.Resolve<IViewService>();
@@ -73,14 +67,11 @@ namespace Neptuo.Web.Framework.Composition
 
         public void Render(HtmlTextWriter writer)
         {
-            if (Template != null)
-            {
-                foreach (object item in Template.Content)
-                    componentManager.Render(item, writer);
-            }
-                
             //if (view != null)
             //    view.Render(writer);
+
+            if (Template != null)
+                Template.Render(componentManager, writer);
         }
 
         public void Dispose()

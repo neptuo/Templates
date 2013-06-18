@@ -21,7 +21,7 @@ namespace Neptuo.Web.Framework.Composition
             if (String.IsNullOrEmpty(Name))
                 Name = String.Empty;
 
-            storage = DependencyProvider.Resolve<ContentStorage>();
+            storage = ContentStorage.Instance;
             if (storage.ContainsKey(Name))
             {
                 foreach (object content in storage[Name].Content)
