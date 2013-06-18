@@ -202,6 +202,9 @@ namespace TestConsole
                 view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
                 view.CreateControls();
                 view.Init();
+
+            stopwatch.Stop();
+
                 view.Render(new HtmlTextWriter(output));
                 view.Dispose();
             //}
@@ -220,7 +223,7 @@ namespace TestConsole
             //}
 
             Console.WriteLine(output);
-            Console.WriteLine("Run in {0}ms", stopwatch.ElapsedMilliseconds);
+            Console.WriteLine("Run in {0}ms, size {1}ch", stopwatch.ElapsedMilliseconds, output.ToString().Length);
         }
     }
 }
