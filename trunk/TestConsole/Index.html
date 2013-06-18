@@ -1,10 +1,18 @@
 ﻿<ui:Decorate path="Template.html">
     <template>
         <ui:Template>
-            <ui:placeholder name="head" />
-            <br />
-            <br />
-            <ui:placeholder name="body" />
+            <html>
+                <head>
+                    <title>Hello, World!</title>
+                    <ui:placeholder name="head" />
+                </head>
+                <body>
+                    <ui:placeholder name="body" />
+
+                    <hr />
+                    Subscribe to email list: <h:textbox name="email" />
+                </body>
+            </html>
         </ui:Template>
     </template>
     <ui:content name="head">

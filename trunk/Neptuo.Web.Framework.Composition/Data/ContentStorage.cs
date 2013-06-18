@@ -7,5 +7,6 @@ namespace Neptuo.Web.Framework.Composition.Data
 {
     public class ContentStorage : Dictionary<string, ContentControl>
     {
+        public static ContentStorage Instance = new ContentStorage();
     }
 }
