@@ -5,6 +5,7 @@ using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions;
 using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
+using Neptuo.Web.Framework.Composition.Data;
 using Neptuo.Web.Framework.Configuration;
 using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Observers;
@@ -190,6 +191,7 @@ namespace TestConsole
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
 
+            container.RegisterInstance<ContentStorage>(new ContentStorage());
             container.RegisterInstance<IViewService>(viewService);
 
             StringWriter output = new StringWriter();
@@ -198,10 +200,10 @@ namespace TestConsole
 
             //try
             //{
-                IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
-                view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
-                view.CreateControls();
-                view.Init();
+            IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
+            view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
+            view.CreateControls();
+            view.Init();
 
             stopwatch.Stop();
 

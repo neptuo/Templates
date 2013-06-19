@@ -16,24 +16,31 @@ namespace Neptuo.Web.Framework.Composition
 
         public string Name { get; set; }
 
+        public PlaceHolderControl(ContentStorage storage)
+        {
+            this.storage = storage;
+        }
+
         public void OnInit()
         {
+            ContentStorageItem storageItem = storage.Peek();
+
             if (String.IsNullOrEmpty(Name))
                 Name = String.Empty;
 
-            storage = ContentStorage.Instance;
-            if (storage.ContainsKey(Name))
+            if (storageItem.ContainsKey(Name))
             {
-                foreach (object content in storage[Name].Content)
+                foreach (object content in storageItem.Get(Name).Content)
                     ComponentManager.Init(content);
             }
         }
 
         public void Render(HtmlTextWriter writer)
         {
-            if (storage.ContainsKey(Name))
+            ContentStorageItem storageItem = storage.Peek();
+            if (storageItem.ContainsKey(Name))
             {
-                foreach (object content in storage[Name].Content)
+                foreach (object content in storageItem.Get(Name).Content)
                     ComponentManager.Render(content, writer);
             }
         }

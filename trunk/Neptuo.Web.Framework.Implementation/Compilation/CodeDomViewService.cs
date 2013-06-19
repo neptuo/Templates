@@ -14,16 +14,6 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 
-//
-//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//
-//  TODO: Vytvářet instance přímo přes ctor, nebo volat IDependencyProvider.Resolve?
-//     - ve druhém případě nebude potřeba žádný dependency atribut a bude možné vše resolvovat přes ctor
-//     - nebo se snažit resolvovat všechny public property?
-//
-//  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//
-
 namespace Neptuo.Web.Framework.Compilation
 {
     public class CodeDomViewService : IViewService
