@@ -10,7 +10,14 @@
                     <ui:placeholder name="body" />
 
                     <hr />
-                    Subscribe to email list: <h:textbox name="email" />
+                    <ui:Decorate template="{ui:Template File=~/HtmlFoot.html}">
+                        <ui:content name="left">
+                            Neptuo (c) 2013
+                        </ui:content>
+                        <ui:content name="right">
+                            Welcome to Jamaica
+                        </ui:content>
+                    </ui:Decorate>
                 </body>
             </html>
         </ui:Template>
