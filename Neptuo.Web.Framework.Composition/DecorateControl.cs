@@ -12,13 +12,12 @@ namespace Neptuo.Web.Framework.Composition
     [DefaultProperty("Content")]
     public class DecorateControl : IControl
     {
-        private IDependencyProvider provider;
         private IComponentManager componentManager;
 
         private ContentStorage storage;
         private ContentStorageItem storageItem;
 
-        public Template Template { get; set; }
+        public ITemplate Template { get; set; }
         public ICollection<ContentControl> Content { get; set; }
 
         public DecorateControl(ContentStorage storage, IComponentManager componentManager)

@@ -36,7 +36,7 @@ namespace TestWebMvc
 
             routes.MapRoute(
                 "Default", // Route name
-                "{controller}/{action}/{id}", // URL with parameters
+                "{action}/{id}", // URL with parameters
                 new { controller = "Home", action = "Index", id = UrlParameter.Optional } // Parameter defaults
             );
         }
@@ -73,7 +73,8 @@ namespace TestWebMvc
                 .RegisterInstance<IVirtualPathProvider>(viewEngine)
                 .RegisterInstance<ContentStorage>(new ContentStorage())
                 .RegisterType<IFileProvider, FileProvider>()
-                .RegisterType<IComponentManager, ComponentManager>();
+                .RegisterType<IComponentManager, ComponentManager>()
+                .RegisterType<IRequestHelper, HttpContextRequestHelper>();
 
             ViewEngines.Engines.Insert(0, viewEngine);
         }

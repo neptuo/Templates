@@ -16,5 +16,15 @@ namespace TestWebMvc.Controllers
             return View();
         }
 
+        public ActionResult About()
+        {
+            return View();
+        }
+
+        [ActionName("about-framework")]
+        public ActionResult AboutFramework()
+        {
+            return View();
+        }
     }
 }
