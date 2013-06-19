@@ -74,7 +74,8 @@ namespace TestWebMvc
                 .RegisterInstance<ContentStorage>(new ContentStorage())
                 .RegisterType<IFileProvider, FileProvider>()
                 .RegisterType<IComponentManager, ComponentManager>()
-                .RegisterType<IRequestHelper, HttpContextRequestHelper>();
+                .RegisterType<IRequestHelper, HttpContextHelper>()
+                .RegisterType<IVirtualUrlProvider, HttpContextHelper>();
 
             ViewEngines.Engines.Insert(0, viewEngine);
         }

@@ -28,6 +28,9 @@ namespace Neptuo.Web.Framework.Mvc
 
         public bool UseCache { get; protected set; }
 
+        public static ViewContext ViewContext { get; private set; }
+        public static IViewDataContainer ViewDataContainer { get; private set; }
+
         public View(IViewService viewService, IDependencyProvider dependencyProvider, string viewName, string masterName = null, bool? useCache = null)
         {
             this.viewService = viewService;
@@ -40,6 +43,10 @@ namespace Neptuo.Web.Framework.Mvc
 
         public void Render(ViewContext viewContext, TextWriter writer)
         {
+            View.ViewContext = viewContext;
+            View.ViewDataContainer = new TempViewDataContainer(viewContext);
+
+
             IComponentManager componentManager = dependencyProvider.Resolve<IComponentManager>();
 
             IGeneratedView view = viewService.Process(ViewName, new DefaultViewServiceContext(dependencyProvider));
@@ -50,4 +57,21 @@ namespace Neptuo.Web.Framework.Mvc
             view.Dispose();
         }
     }
+
+    internal class TempViewDataContainer : IViewDataContainer
+    {
+        private ViewContext viewContext;
+
+        public ViewDataDictionary ViewData
+        {
+            get { return viewContext.ViewData; }
+            set { viewContext.ViewData = value; }
+        }
+
+        public TempViewDataContainer(ViewContext viewContext)
+        {
+            this.viewContext = viewContext;
+        }
+    }
+
 }
