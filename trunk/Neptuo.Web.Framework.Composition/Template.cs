@@ -7,38 +7,37 @@ using System.Text;
 
 namespace Neptuo.Web.Framework.Composition
 {
-    [DefaultProperty("Content")]
-    //[TypeConverter(typeof(TemplateTypeConverter))]
-    public class Template
+    public interface ITemplate
     {
-        private IGeneratedView view;
+        void Init(IComponentManager componentManager);
+        void Render(IComponentManager componentManager, HtmlTextWriter writer);
+    }
 
-        public ICollection<object> Content
-        {
-            //get { return view.Content; }
-            get;
-            set;
-        }
+    public abstract class BaseTemplate : ITemplate
+    {
+        public ICollection<object> Content { get; set; }
 
-        public virtual void Init(IComponentManager componentManager)
-        {
-            foreach (object content in Content)
-                componentManager.Init(content);
-        }
+        public abstract void Init(IComponentManager componentManager);
 
-        public virtual void Render(IComponentManager componentManager, HtmlTextWriter writer)
+        public void Render(IComponentManager componentManager, HtmlTextWriter writer)
         {
             foreach (object content in Content)
                 componentManager.Render(content, writer);
         }
-
-        //public Template(IDependencyProvider provider, IViewService viewService, string content)
-        //{
-        //    view = viewService.ProcessContent(content, new DefaultViewServiceContext(provider));
-        //}
     }
 
-    public class FileTemplate : Template
+    [DefaultProperty("Content")]
+    //[TypeConverter(typeof(TemplateTypeConverter))]
+    public class Template : BaseTemplate, ITemplate
+    {
+        public override void Init(IComponentManager componentManager)
+        {
+            foreach (object content in Content)
+                componentManager.Init(content);
+        }
+    }
+
+    public class FileTemplate : BaseTemplate, ITemplate
     {
         private IGeneratedView view;
         private IDependencyProvider dependencyProvider;
