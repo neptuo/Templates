@@ -20,13 +20,13 @@ namespace Neptuo.Web.Framework.Composition
             set;
         }
 
-        public void Init(IComponentManager componentManager)
+        public virtual void Init(IComponentManager componentManager)
         {
             foreach (object content in Content)
                 componentManager.Init(content);
         }
 
-        public void Render(IComponentManager componentManager, HtmlTextWriter writer)
+        public virtual void Render(IComponentManager componentManager, HtmlTextWriter writer)
         {
             foreach (object content in Content)
                 componentManager.Render(content, writer);
@@ -36,5 +36,26 @@ namespace Neptuo.Web.Framework.Composition
         //{
         //    view = viewService.ProcessContent(content, new DefaultViewServiceContext(provider));
         //}
+    }
+
+    public class FileTemplate : Template
+    {
+        private IGeneratedView view;
+        private IDependencyProvider dependencyProvider;
+
+        public FileTemplate(IGeneratedView view, IDependencyProvider dependencyProvider)
+        {
+            this.view = view;
+            this.dependencyProvider = dependencyProvider;
+        }
+
+        public override void Init(IComponentManager componentManager)
+        {
+            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
+            view.CreateControls();
+            view.Init();
+
+            Content = view.Content;
+        }
     }
 }

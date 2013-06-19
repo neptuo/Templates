@@ -73,3 +73,45 @@ textarea
 {
     display: none;
 }
+
+/* Layout
+-----------------------------------------------------------*/
+
+.clear {
+    clear: both;
+}
+
+body {
+    margin: 0;
+}
+
+.all {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.head {
+    font-weight: bold;
+    color: white;
+    padding: 5px 10px;
+    background: #444444;
+    border-bottom: 1px solid black;
+}
+
+.body {
+    padding: 20px 10px;
+}
+
+.foot {
+    padding: 5px 10px;
+    background: #eeeeee;
+    border-top: 1px solid #cccccc;
+}
+
+    .foot .left {
+        float: left;
+    }
+
+    .foot .right {
+        float: right;
+    }

@@ -16,6 +16,7 @@ using Neptuo.Web.Framework.Compilation.CodeGenerators;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation;
 using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
+using Neptuo.Web.Framework.Composition.Data;
 
 namespace TestWebMvc
 {
@@ -51,16 +52,17 @@ namespace TestWebMvc
             Registrator registrator = new Registrator();
             registrator.LoadSection();
 
+
+
             XmlContentParser.LiteralTypeDescriptor literal = XmlContentParser.LiteralTypeDescriptor.Create<LiteralControl>(c => c.Text);
             XmlContentParser.GenericContentTypeDescriptor genericContent = XmlContentParser.GenericContentTypeDescriptor.Create<GenericContentControl>(c => c.TagName);
 
             CodeDomViewService viewService = new CodeDomViewService();
-            //viewService.DebugMode = true;
-            viewService.BinDirectories.Add(Server.MapPath("~/Bin"));
-            viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
+            viewService.LoadSection();
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(literal, genericContent));
             viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
+
 
             ViewEngine viewEngine = new ViewEngine(dependencyContainer);
 
@@ -69,6 +71,7 @@ namespace TestWebMvc
                 .RegisterInstance<IRegistrator>(registrator)
                 .RegisterInstance<IViewService>(viewService)
                 .RegisterInstance<IVirtualPathProvider>(viewEngine)
+                .RegisterInstance<ContentStorage>(new ContentStorage())
                 .RegisterType<IFileProvider, FileProvider>()
                 .RegisterType<IComponentManager, ComponentManager>();
 

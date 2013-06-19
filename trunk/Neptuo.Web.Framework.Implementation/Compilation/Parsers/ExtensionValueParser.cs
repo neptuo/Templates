@@ -64,7 +64,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
                     }
                 }
 
-                if (!bound && item.Value != defaultProperty)
+                if (!bound && item.Value != defaultProperty && defaultProperty != null)
                 {
                     IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(defaultProperty);
                     BindPropertyDefaultValue(propertyDescriptor);

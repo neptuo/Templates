@@ -10,15 +10,14 @@ namespace Neptuo.Web.Framework.Composition
     public class PlaceHolderControl : IControl
     {
         private ContentStorage storage;
-
-        public IComponentManager ComponentManager { get; set; }
-        public IDependencyProvider DependencyProvider { get; set; }
+        private IComponentManager componentManager;
 
         public string Name { get; set; }
 
-        public PlaceHolderControl(ContentStorage storage)
+        public PlaceHolderControl(ContentStorage storage, IComponentManager componentManager)
         {
             this.storage = storage;
+            this.componentManager = componentManager;
         }
 
         public void OnInit()
@@ -31,7 +30,7 @@ namespace Neptuo.Web.Framework.Composition
             if (storageItem.ContainsKey(Name))
             {
                 foreach (object content in storageItem.Get(Name).Content)
-                    ComponentManager.Init(content);
+                    componentManager.Init(content);
             }
         }
 
@@ -41,7 +40,7 @@ namespace Neptuo.Web.Framework.Composition
             if (storageItem.ContainsKey(Name))
             {
                 foreach (object content in storageItem.Get(Name).Content)
-                    ComponentManager.Render(content, writer);
+                    componentManager.Render(content, writer);
             }
         }
     }

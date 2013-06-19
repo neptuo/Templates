@@ -200,6 +200,7 @@ namespace TestConsole
 
             //try
             //{
+            
             IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
             view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
             view.CreateControls();
@@ -207,8 +208,9 @@ namespace TestConsole
 
             stopwatch.Stop();
 
-                view.Render(new HtmlTextWriter(output));
-                view.Dispose();
+            view.Render(new HtmlTextWriter(output));
+            view.Dispose();
+
             //}
             //catch (CodeDomViewServiceException e)
             //{
