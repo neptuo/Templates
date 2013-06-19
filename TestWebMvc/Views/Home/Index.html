@@ -4,6 +4,13 @@
         <h:panel>
             Hello World!
             <h:textbox name="surname" text="{Binding Johny}" />
+            <hr />
+            <ui:form action="about-framework">
+                <ui:LabeledEditor Property="Name" />
+                <ui:LabeledEditor Property="Surname" />
+
+                <button>Send</button>
+            </ui:form>
         </h:panel>
     </ui:content>
 </ui:decorate>

@@ -5,8 +5,8 @@ using System.Text;
 
 namespace Neptuo.Web.Framework
 {
-    public interface IVirtualUrlProvider
+    public interface IVirtualPathProvider
     {
-        string ResolveUrl(string path);
+        string MapPath(string path);
     }
 }

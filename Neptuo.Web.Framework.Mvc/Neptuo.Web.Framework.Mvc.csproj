@@ -43,6 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\ActionControl.cs" />
+    <Compile Include="Controls\EditorControl.cs" />
+    <Compile Include="Controls\FormControl.cs" />
+    <Compile Include="Controls\LabelControl.cs" />
+    <Compile Include="Controls\LabeledEditor.cs" />
     <Compile Include="IRequestHelper.cs" />
     <Compile Include="View.cs" />
     <Compile Include="ViewEngine.cs" />
