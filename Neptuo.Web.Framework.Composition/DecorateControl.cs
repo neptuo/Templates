@@ -10,28 +10,27 @@ using System.Text;
 namespace Neptuo.Web.Framework.Composition
 {
     [DefaultProperty("Content")]
-    public class DecorateControl : IControl, IDisposable
+    public class DecorateControl : IControl
     {
         private IDependencyProvider provider;
         private IComponentManager componentManager;
 
-        private IGeneratedView view;
+        private ContentStorage storage;
+        private ContentStorageItem storageItem;
 
-        //[TypeConverter(typeof(TemplateTypeConverter))]
         public Template Template { get; set; }
-
-        public string Path { get; set; }
         public ICollection<ContentControl> Content { get; set; }
 
-        public DecorateControl(IDependencyProvider provider, IComponentManager componentManager)
+        public DecorateControl(ContentStorage storage, IComponentManager componentManager)
         {
-            this.provider = provider;
+            this.storage = storage;
             this.componentManager = componentManager;
         }
 
         public void OnInit()
         {
-            ContentStorage storage = ContentStorage.Instance;
+            storageItem = storage.CreateItem();
+            storage.Push(storageItem);
             if (Content != null)
             {
                 foreach (ContentControl content in Content)
@@ -40,7 +39,7 @@ namespace Neptuo.Web.Framework.Composition
                         content.Name = String.Empty;
 
                     componentManager.Init(content);
-                    storage.Add(content.Name, content);
+                    storageItem.Add(content.Name, content);
                 }
             }
 
@@ -49,35 +48,17 @@ namespace Neptuo.Web.Framework.Composition
                 componentManager.Init(Template);
                 Template.Init(componentManager);
             }
-
-
-            //IViewService viewService = provider.Resolve<IViewService>();
-            ////view = viewService.ProcessContent(Template, new DefaultViewServiceContext(provider));
-            ////view = viewService.Process(Path, new DefaultViewServiceContext(provider));
-            //if (view != null)
-            //{
-            //    IDependencyContainer childContainer = provider.CreateChildContainer();
-            //    childContainer.RegisterInstance<ContentStorage>(storage);
-
-            //    view.Setup(new BaseViewPage(componentManager), componentManager, childContainer);
-            //    view.CreateControls();
-            //    view.Init();
-            //}
+            storage.Pop();
         }
 
         public void Render(HtmlTextWriter writer)
         {
-            //if (view != null)
-            //    view.Render(writer);
+            storage.Push(storageItem);
 
             if (Template != null)
                 Template.Render(componentManager, writer);
-        }
 
-        public void Dispose()
-        {
-            //if (view != null)
-            //    view.Dispose();
+            storage.Pop();
         }
     }
 }
