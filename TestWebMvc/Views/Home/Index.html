@@ -1,8 +1,9 @@
-﻿<ui:Decorate path="~/Views/Shared/Template.html">
+﻿<ui:decorate Template="{ui:Template File=~/Views/Shared/Template.html}">
+    <ui:content name="title">Index</ui:content>
     <ui:content name="body">
         <h:panel>
             Hello World!
             <h:textbox name="surname" text="{Binding Johny}" />
         </h:panel>
     </ui:content>
-</ui:Decorate>
+</ui:decorate>

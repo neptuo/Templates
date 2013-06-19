@@ -114,17 +114,26 @@ namespace Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom
             {
                 foreach (ParameterInfo parameter in ctor.GetParameters())
                 {
-                    result.Add(new CodeCastExpression(
-                        new CodeTypeReference(parameter.ParameterType),
-                        new CodeMethodInvokeExpression(
-                        new CodeFieldReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            CodeDomGenerator.Names.DependencyProviderField
-                        ),
-                        TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
-                        new CodeTypeOfExpression(new CodeTypeReference(parameter.ParameterType)),
-                        new CodePrimitiveExpression(null)
-                    )));
+                    if (parameter.ParameterType == typeof(IComponentManager))
+                        result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ComponentManagerField));
+                    else if (parameter.ParameterType == typeof(IDependencyProvider))
+                        result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.DependencyProviderField));
+                    else if (parameter.ParameterType == typeof(IViewPage))
+                        result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ViewPageField));
+                    else
+                    {
+                        result.Add(new CodeCastExpression(
+                            new CodeTypeReference(parameter.ParameterType),
+                            new CodeMethodInvokeExpression(
+                            new CodeFieldReferenceExpression(
+                                new CodeThisReferenceExpression(),
+                                CodeDomGenerator.Names.DependencyProviderField
+                            ),
+                            TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
+                            new CodeTypeOfExpression(new CodeTypeReference(parameter.ParameterType)),
+                            new CodePrimitiveExpression(null)
+                        )));
+                    }
                 }
             }
 

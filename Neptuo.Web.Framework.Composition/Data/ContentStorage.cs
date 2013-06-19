@@ -11,6 +11,7 @@ namespace Neptuo.Web.Framework.Composition.Data
 
         public ContentStorage()
         {
+            storage.Push(new ContentStorageItem());
         }
 
         public void Push(ContentStorageItem item)

@@ -11,6 +11,11 @@ namespace Neptuo.Web.Framework
     {
         private Dictionary<object, ComponentEntry> entries = new Dictionary<object, ComponentEntry>();
 
+        public ComponentManager()
+        {
+
+        }
+
         public void AddComponent(object component, Action propertyBinder)
         {
             ComponentEntry entry = new ComponentEntry

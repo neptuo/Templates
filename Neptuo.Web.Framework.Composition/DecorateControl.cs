@@ -35,10 +35,10 @@ namespace Neptuo.Web.Framework.Composition
             {
                 foreach (ContentControl content in Content)
                 {
+                    componentManager.Init(content);
                     if (String.IsNullOrEmpty(content.Name))
                         content.Name = String.Empty;
 
-                    componentManager.Init(content);
                     storageItem.Add(content.Name, content);
                 }
             }

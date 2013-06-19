@@ -1,4 +1,8 @@
 ﻿using Neptuo.Web.Framework.Compilation;
+using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
+using Neptuo.Web.Framework.Compilation.CodeObjects;
+using Neptuo.Web.Framework.Compilation.Parsers;
+using Neptuo.Web.Framework.Controls;
 using Neptuo.Web.Framework.Utils;
 using System;
 using System.Collections.Generic;
@@ -28,6 +32,7 @@ namespace Neptuo.Web.Framework.Mvc
         {
             this.viewService = viewService;
             this.dependencyProvider = dependencyProvider;
+
             ViewName = viewName;
             MasterName = masterName;
             UseCache = useCache ?? true;

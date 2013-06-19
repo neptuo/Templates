@@ -25,11 +25,7 @@ namespace Neptuo.Web.Framework.Composition
             if (File != null)
             {
                 IGeneratedView view = viewService.Process(File, new DefaultViewServiceContext(context.DependencyProvider));
-                view.Setup(new BaseViewPage(componentManager), componentManager, context.DependencyProvider);
-                view.CreateControls();
-                view.Init();
-
-                Template template = new Template { Content = view.Content };
+                Template template = new FileTemplate(view, context.DependencyProvider);
                 componentManager.AddComponent(template, null);
                 return template;
             }
