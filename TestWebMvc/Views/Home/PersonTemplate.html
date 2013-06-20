@@ -1,0 +1,16 @@
+﻿<tr class="person">
+    <td>
+        <h:Literal Text="{ui:Binding ID}" />
+    </td>
+    <td>
+        <h:Literal Text="{ui:Binding Name}" />
+    </td>
+    <td>
+        <ui:action action="detail">
+            <Parameters>
+                <ui:parameter name="ID" value="{ui:Binding ID}" />
+            </Parameters>
+            View detail
+        </ui:action>
+    </td>
+</tr> 

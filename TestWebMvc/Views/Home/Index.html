@@ -1,16 +1,15 @@
 ﻿<ui:decorate Template="{ui:Template File=~/Views/Shared/Template.html}">
-    <ui:content name="title">Index</ui:content>
+    <ui:content name="title">List of persons</ui:content>
     <ui:content name="body">
-        <h:panel>
-            Hello World!
-            <h:textbox name="surname" text="{Binding Johny}" />
-            <hr />
-            <ui:form action="about-framework">
-                <ui:LabeledEditor Property="Name" />
-                <ui:LabeledEditor Property="Surname" />
+        <ui:ListView ItemsSource="{ui:Binding}" ItemTemplate="{ui:Template File=~/Views/Home/PersonTemplate.html}" />
 
-                <button>Send</button>
-            </ui:form>
-        </h:panel>
+        
+        <ui:form action="about-framework">
+            <ui:LabeledEditor Property="Name" />
+            <ui:LabeledEditor Property="Surname" />
+
+            <button>Send</button>
+        </ui:form>
     </ui:content>
 </ui:decorate>
+ 

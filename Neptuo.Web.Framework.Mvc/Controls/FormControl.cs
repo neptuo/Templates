@@ -15,19 +15,20 @@ namespace Neptuo.Web.Framework.Mvc.Controls
     public class FormControl : BaseContentControl
     {
         private IVirtualUrlProvider urlProvider;
+        private UrlHelper urlHelper;
 
-        public string RouteName { get; set; }
         public string Controller { get; set; }
         public string Action { get; set; }
 
-        public FormControl(IVirtualUrlProvider urlProvider)
+        public FormControl(IVirtualUrlProvider urlProvider, UrlHelper urlHelper)
         {
             this.urlProvider = urlProvider;
+            this.urlHelper = urlHelper;
         }
 
         public override void OnInit()
         {
-            string url = "~" + UrlHelper.GenerateUrl(RouteName, Action, Controller, null, RouteTable.Routes, HttpContext.Current.Request.RequestContext, false);
+            string url = "~" + urlHelper.Action(Action, Controller);
             Attributes["action"] = urlProvider.ResolveUrl(url);
 
             base.OnInit();

@@ -24,12 +24,10 @@ namespace Neptuo.Web.Framework.Composition
         {
             if (File != null)
             {
-                IGeneratedView view = viewService.Process(File, new DefaultViewServiceContext(context.DependencyProvider));
-                ITemplate template = new FileTemplate(view, context.DependencyProvider);
+                ITemplate template = new FileTemplate(File, viewService, context.DependencyProvider);
                 componentManager.AddComponent(template, null);
                 return template;
             }
-
             return null;
         }
     }
