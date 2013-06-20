@@ -39,17 +39,20 @@ namespace Neptuo.Web.Framework.Composition
 
     public class FileTemplate : BaseTemplate, ITemplate
     {
-        private IGeneratedView view;
+        private string file;
+        private IViewService viewService;
         private IDependencyProvider dependencyProvider;
 
-        public FileTemplate(IGeneratedView view, IDependencyProvider dependencyProvider)
+        public FileTemplate(string file, IViewService viewService, IDependencyProvider dependencyProvider)
         {
-            this.view = view;
+            this.file = file;
+            this.viewService = viewService;
             this.dependencyProvider = dependencyProvider;
         }
 
         public override void Init(IComponentManager componentManager)
         {
+            IGeneratedView view = viewService.Process(file, new DefaultViewServiceContext(dependencyProvider));
             view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
             view.CreateControls();
             view.Init();

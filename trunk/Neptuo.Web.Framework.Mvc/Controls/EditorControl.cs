@@ -10,15 +10,21 @@ namespace Neptuo.Web.Framework.Mvc.Controls
 {
     public class EditorControl : IControl
     {
+        private HtmlHelper htmlHelper;
+
         public string Property { get; set; }
+
+        public EditorControl(HtmlHelper htmlHelper)
+        {
+            this.htmlHelper = htmlHelper;
+        }
 
         public void OnInit()
         { }
 
         public void Render(HtmlTextWriter writer)
         {
-            HtmlHelper html = new HtmlHelper(View.ViewContext, View.ViewDataContainer);
-            writer.Write(html.Editor(Property));
+            writer.Write(htmlHelper.Editor(Property));
         }
     }
 }

@@ -47,16 +47,23 @@
     <Compile Include="Controls\FormControl.cs" />
     <Compile Include="Controls\LabelControl.cs" />
     <Compile Include="Controls\LabeledEditor.cs" />
+    <Compile Include="Controls\ListViewControl.cs" />
+    <Compile Include="Controls\Parameter.cs" />
+    <Compile Include="Data\DataStorage.cs" />
+    <Compile Include="Extensions\BindingExtension.cs" />
+    <Compile Include="Observers\DataContextObserver.cs" />
     <Compile Include="IRequestHelper.cs" />
     <Compile Include="View.cs" />
     <Compile Include="ViewEngine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\StackStorage.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Web.Framework.Composition\Neptuo.Web.Framework.Composition.csproj">
+      <Project>{d857156f-2aa1-4185-b019-f2e459b45c15}</Project>
+      <Name>Neptuo.Web.Framework.Composition</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Web.Framework.Implementation\Neptuo.Web.Framework.Implementation.csproj">
       <Project>{b516b554-2ac9-4a6e-b9b0-35504ad425fe}</Project>
       <Name>Neptuo.Web.Framework.Implementation</Name>

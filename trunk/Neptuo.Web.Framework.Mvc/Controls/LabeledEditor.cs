@@ -10,16 +10,22 @@ namespace Neptuo.Web.Framework.Mvc.Controls
 {
     public class LabeledEditor : IControl
     {
+        private HtmlHelper htmlHelper;
         private LabelControl label;
         private EditorControl editor;
 
         public string Property { get; set; }
 
+        public LabeledEditor(HtmlHelper htmlHelper)
+        {
+            this.htmlHelper = htmlHelper;
+        }
+
         public void OnInit()
         {
-            label = new LabelControl { Property = Property };
+            label = new LabelControl(htmlHelper) { Property = Property };
             label.OnInit();
-            editor = new EditorControl { Property = Property };
+            editor = new EditorControl(htmlHelper) { Property = Property };
             editor.OnInit();
         }
 

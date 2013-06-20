@@ -3,6 +3,7 @@ using Neptuo.Web.Framework.Compilation.CodeGenerators.Extensions.CodeDom;
 using Neptuo.Web.Framework.Compilation.CodeObjects;
 using Neptuo.Web.Framework.Compilation.Parsers;
 using Neptuo.Web.Framework.Controls;
+using Neptuo.Web.Framework.Mvc.Data;
 using Neptuo.Web.Framework.Utils;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace Neptuo.Web.Framework.Mvc
 {
@@ -28,9 +30,6 @@ namespace Neptuo.Web.Framework.Mvc
 
         public bool UseCache { get; protected set; }
 
-        public static ViewContext ViewContext { get; private set; }
-        public static IViewDataContainer ViewDataContainer { get; private set; }
-
         public View(IViewService viewService, IDependencyProvider dependencyProvider, string viewName, string masterName = null, bool? useCache = null)
         {
             this.viewService = viewService;
@@ -43,14 +42,17 @@ namespace Neptuo.Web.Framework.Mvc
 
         public void Render(ViewContext viewContext, TextWriter writer)
         {
-            View.ViewContext = viewContext;
-            View.ViewDataContainer = new TempViewDataContainer(viewContext);
-
-
+            IViewDataContainer viewDataContainer = new TempViewDataContainer(viewContext);
             IComponentManager componentManager = dependencyProvider.Resolve<IComponentManager>();
+            IDependencyContainer container = dependencyProvider.CreateChildContainer();
+            container.RegisterInstance(viewContext);
+            container.RegisterInstance<IViewDataContainer>(viewDataContainer);
+            container.RegisterInstance(new DataStorage(viewContext.ViewData.Model));
+            container.RegisterInstance(new HtmlHelper(viewContext, viewDataContainer));
+            container.RegisterInstance(new UrlHelper(viewContext.RequestContext, RouteTable.Routes));
 
-            IGeneratedView view = viewService.Process(ViewName, new DefaultViewServiceContext(dependencyProvider));
-            view.Setup(new BaseViewPage(componentManager), componentManager, dependencyProvider);
+            IGeneratedView view = viewService.Process(ViewName, new DefaultViewServiceContext(container));
+            view.Setup(new BaseViewPage(componentManager), componentManager, container);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(writer));

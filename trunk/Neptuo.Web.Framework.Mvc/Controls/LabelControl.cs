@@ -10,15 +10,21 @@ namespace Neptuo.Web.Framework.Mvc.Controls
 {
     public class LabelControl : IControl
     {
+        private HtmlHelper htmlHelper;
+
         public string Property { get; set; }
+
+        public LabelControl(HtmlHelper htmlHelper)
+        {
+            this.htmlHelper = htmlHelper;
+        }
 
         public void OnInit()
         { }
 
         public void Render(HtmlTextWriter writer)
         {
-            HtmlHelper html = new HtmlHelper(View.ViewContext, View.ViewDataContainer);
-            writer.Write(html.Label(Property));
+            writer.Write(htmlHelper.Label(Property));
         }
     }
 }
