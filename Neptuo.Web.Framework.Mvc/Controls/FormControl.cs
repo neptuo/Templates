@@ -19,6 +19,8 @@ namespace Neptuo.Web.Framework.Mvc.Controls
 
         public string Controller { get; set; }
         public string Action { get; set; }
+        public ICollection<Parameter> Parameters { get; set; }
+        public string Method { get; set; }
 
         public FormControl(IVirtualUrlProvider urlProvider, UrlHelper urlHelper)
         {
@@ -28,8 +30,21 @@ namespace Neptuo.Web.Framework.Mvc.Controls
 
         public override void OnInit()
         {
-            string url = "~" + urlHelper.Action(Action, Controller);
+            RouteValueDictionary parameters = new RouteValueDictionary();
+            if (Parameters != null)
+            {
+                foreach (Parameter parameter in Parameters)
+                {
+                    ComponentManager.Init(parameter);
+                    parameters.Add(parameter.Name, parameter.Value);
+                }
+            }
+
+            string url = "~" + urlHelper.Action(Action, Controller, parameters);
             Attributes["action"] = urlProvider.ResolveUrl(url);
+
+            if (!String.IsNullOrEmpty(Method))
+                Attributes["method"] = Method;
 
             base.OnInit();
         }

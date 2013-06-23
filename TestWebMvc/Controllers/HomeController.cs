@@ -13,14 +13,56 @@ namespace TestWebMvc.Controllers
 
         static HomeController()
         {
-            persons.Add(1, new Person { Name = "Eva", Surname = "Long" });
-            persons.Add(2, new Person { Name = "Jon", Surname = "Doe" });
-            persons.Add(3, new Person { Name = "Igo", Surname = "Perrin" });
+            persons.Add(1, new Person { ID = 1, Name = "Eva", Surname = "Long" });
+            persons.Add(2, new Person { ID = 2, Name = "Jon", Surname = "Doe" });
+            persons.Add(3, new Person { ID = 3, Name = "Igo", Surname = "Perrin" });
         }
 
         public ActionResult Index()
         {
-            return View(persons.Values);
+            return View(persons.Values.OrderBy(p => p.Surname).ThenBy(p => p.Name));
+        }
+
+        public ActionResult Edit(int? id)
+        {
+            if (id != null)
+            {
+                Person person = null;
+                if (persons.TryGetValue(id.Value, out person))
+                    return View(person);
+            }
+            return View(new Person());
+        }
+
+        [HttpPost]
+        public ActionResult Edit(Person person)
+        {
+            if (ModelState.IsValid)
+            {
+                Person target = null;
+                if (persons.TryGetValue(person.ID, out target))
+                {
+                    target.Name = person.Name;
+                    target.Surname = person.Surname;
+                }
+                else
+                {
+                    int nextID = persons.Keys.Max() + 1;
+                    person.ID = nextID;
+                    persons.Add(nextID, person);
+                }
+                return RedirectToAction("index");
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            if (persons.ContainsKey(id))
+                persons.Remove(id);
+
+            return RedirectToAction("index");
         }
 
         public ActionResult About()
