@@ -40,8 +40,9 @@ namespace Neptuo.Web.Framework.Mvc.Controls
                 }
             }
 
-            string url = "~" + urlHelper.Action(Action, Controller, parameters);
-            Attributes["href"] = urlProvider.ResolveUrl(url);
+            string origUrl = urlHelper.Action(Action, Controller, parameters);
+            string url = "~" + origUrl;
+            Attributes["href"] = origUrl;
 
             if (requestHelper.AppRelativeCurrentExecutionFilePath == url)
                 Attributes["class"] = "active";
