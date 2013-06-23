@@ -40,8 +40,9 @@ namespace Neptuo.Web.Framework.Mvc.Controls
                 }
             }
 
-            string url = "~" + urlHelper.Action(Action, Controller, parameters);
-            Attributes["action"] = urlProvider.ResolveUrl(url);
+            string origUrl = urlHelper.Action(Action, Controller, parameters);
+            string url = "~" + origUrl;
+            Attributes["action"] = origUrl;
 
             if (!String.IsNullOrEmpty(Method))
                 Attributes["method"] = Method;
