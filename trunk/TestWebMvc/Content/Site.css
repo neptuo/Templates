@@ -144,3 +144,23 @@ body {
     background: #eeeeee;
     border-top: 1px solid #cccccc;
 }
+
+
+/* Table
+-----------------------------------------------------------*/
+
+table {
+    border-collapse: collapse;
+}
+    table th, table td {
+        padding: 2px 4px;
+    }
+
+    table th {
+        background: #eeeeee;
+    }
+
+    table td form {
+        margin: 0; 
+        display: inline;
+    }

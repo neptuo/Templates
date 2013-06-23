@@ -2,13 +2,15 @@
 <head>
     <title> <ui:placeholder name="title" /> - Templates demo</title>
 
-    <link href="content/site.css" rel="stylesheet" />
+    <link href="/content/site.css" rel="stylesheet" />
     <ui:placeholder name="head" />
 </head>
 <body>
     <div class="all">
         <div class="head">
-            Templates demo - <ui:placeholder name="title" />
+            Templates demo - 
+            <h:literal text=" " />
+            <ui:placeholder name="title" />
         </div>
         <div class="main-menu">
             <ui:include path="~/Views/Shared/Menu.html" />

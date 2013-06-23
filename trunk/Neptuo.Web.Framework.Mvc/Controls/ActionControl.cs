@@ -30,8 +30,6 @@ namespace Neptuo.Web.Framework.Mvc.Controls
 
         public override void OnInit()
         {
-            ComponentManager.Init(Parameters);
-
             RouteValueDictionary parameters = new RouteValueDictionary();
             if (Parameters != null)
             {

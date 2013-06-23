@@ -6,11 +6,22 @@
         <h:Literal Text="{ui:Binding Name}" />
     </td>
     <td>
-        <ui:action action="detail">
-            <Parameters>
+        <h:Literal Text="{ui:Binding Surname}" />
+    </td>
+    <td>
+        <ui:action action="edit">
+            <parameters>
                 <ui:parameter name="ID" value="{ui:Binding ID}" />
-            </Parameters>
+            </parameters>
             View detail
         </ui:action>
+
+        <ui:form action="delete" method="post">
+            <parameters>
+                <ui:parameter name="ID" value="{ui:Binding ID}" />
+            </parameters>
+            
+            <button>Delete person</button>
+        </ui:form>
     </td>
 </tr> 
