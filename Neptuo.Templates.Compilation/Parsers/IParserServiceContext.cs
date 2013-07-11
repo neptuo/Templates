@@ -1,10 +1,10 @@
-﻿using Neptuo.Web.Framework.Compilation.CodeObjects;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.Parsers
+namespace Neptuo.Templates.Compilation.Parsers
 {
     public interface IParserServiceContext
     {

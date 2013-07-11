@@ -1,11 +1,11 @@
-﻿using Neptuo.Web.Framework.Compilation.CodeGenerators;
-using Neptuo.Web.Framework.Compilation.Parsers;
+﻿using Neptuo.Templates.Compilation.CodeGenerators;
+using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation
+namespace Neptuo.Templates.Compilation
 {
     public interface IViewService
     {

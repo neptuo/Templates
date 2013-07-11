@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeObjects
+namespace Neptuo.Templates.Compilation.CodeObjects
 {
     public interface IDefaultPropertyValue
     {

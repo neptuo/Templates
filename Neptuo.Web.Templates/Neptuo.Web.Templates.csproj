@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -39,7 +40,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\IContentControl.cs" />
+    <Compile Include="Controls\IControl.cs" />
+    <Compile Include="HtmlTextWriter.cs" />
+    <Compile Include="IComponentManager.cs" />
+    <Compile Include="IViewPage.cs" />
+    <Compile Include="IVirtualPathProvider.cs" />
+    <Compile Include="IVirtualUrlProvider.cs" />
+    <Compile Include="IWebGeneratedView.cs" />
+    <Compile Include="Observers\IObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
+      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
+      <Name>Neptuo.Templates</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

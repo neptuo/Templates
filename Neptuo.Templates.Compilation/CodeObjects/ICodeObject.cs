@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeObjects
+namespace Neptuo.Templates.Compilation.CodeObjects
 {
     public interface ICodeObject
     {

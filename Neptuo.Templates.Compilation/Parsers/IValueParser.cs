@@ -5,7 +5,7 @@ using System.Text;
 using System.CodeDom;
 using System.Reflection;
 
-namespace Neptuo.Web.Framework.Compilation.Parsers
+namespace Neptuo.Templates.Compilation.Parsers
 {
     public interface IValueParser
     {
