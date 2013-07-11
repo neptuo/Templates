@@ -119,13 +119,13 @@ namespace Neptuo.Web.Framework
         private void field7_Bind()
         {
             field7.Name = "ID";
-            field7.Value = "5";
+            //field7.Value = "5";
         }
 
         private void field8_Bind()
         {
             field8.Name = "Detail";
-            field8.Value = "True";
+            //field8.Value = "True";
         }
 
         private void field9_Bind()
