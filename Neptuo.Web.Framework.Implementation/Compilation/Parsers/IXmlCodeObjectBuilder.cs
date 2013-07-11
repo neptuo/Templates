@@ -6,7 +6,7 @@ using System.Xml;
 
 namespace Neptuo.Web.Framework.Compilation.Parsers
 {
-    public interface IXmlControlBuilder
+    public interface IXmlCodeObjectBuilder
     {
         void Parse(IXmlBuilderContext context, Type controlType, XmlElement element);
     }
