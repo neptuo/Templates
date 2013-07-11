@@ -114,7 +114,7 @@
     <Compile Include="Compilation\Parsers\ExtensionValueParser.cs" />
     <Compile Include="Compilation\Parsers\ExtensionValueParser.Helper.cs" />
     <Compile Include="Compilation\Parsers\Extensions\IDefaultValueExtension.cs" />
-    <Compile Include="Compilation\Parsers\IXmlControlBuilder.cs" />
+    <Compile Include="Compilation\Parsers\IXmlCodeObjectBuilder.cs" />
     <Compile Include="Compilation\Parsers\PlainValueParser.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.cs" />
     <Compile Include="Compilation\Parsers\XmlContentParser.GenericContentTypeDescriptor.cs" />

@@ -85,7 +85,7 @@ namespace Neptuo.Web.Framework.Compilation.Parsers
 
                         if (controlType != null)
                         {
-                            IXmlControlBuilder builder = ControlHelper.ResolveBuilder<IXmlControlBuilder>(controlType, helper.Context.DependencyProvider, () => new DefaultXmlControlBuilder());
+                            IXmlCodeObjectBuilder builder = ControlHelper.ResolveBuilder<IXmlCodeObjectBuilder>(controlType, helper.Context.DependencyProvider, () => new DefaultXmlControlBuilder());
                             if (builder != null)
                                 builder.Parse(CreateBuilderContext(helper), controlType, element);
                             else

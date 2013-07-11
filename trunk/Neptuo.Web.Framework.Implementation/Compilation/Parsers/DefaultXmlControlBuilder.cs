@@ -10,7 +10,7 @@ using System.Xml;
 
 namespace Neptuo.Web.Framework.Compilation.Parsers
 {
-    public class DefaultXmlControlBuilder : IXmlControlBuilder
+    public class DefaultXmlControlBuilder : IXmlCodeObjectBuilder
     {
         public void Parse(IXmlBuilderContext context, Type controlType, XmlElement element)
         {
