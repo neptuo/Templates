@@ -8,16 +8,6 @@
                 </head>
                 <body>
                     <ui:placeholder name="body" />
-
-                    <hr />
-                    <ui:Decorate template="{ui:Template File=~/HtmlFoot.html}">
-                        <ui:content name="left">
-                            Neptuo (c) 2013
-                        </ui:content>
-                        <ui:content name="right">
-                            Welcome to Jamaica
-                        </ui:content>
-                    </ui:Decorate>
                 </body>
             </html>
         </ui:Template>
@@ -25,14 +15,15 @@
     <ui:content name="head">
         <link href="Style.css" type="text/css" rel="stylesheet" />
     </ui:content>
-    <ui:content name="body">
-        <h:panel html:id="main-panel" html:style="float: left;">
+    <div ui:content="body">
+        <h:panel html:id="main-panel" html:style="float: left;"> 
             <h:textbox name="surname" text="{Binding Expression={Binding Kitty}}" val:min-length="1" val:max-length="10" val:message="Provide a valid value!" />
             <h:textbox name="surname" />
             <i:anchor url="~/Admin" xmlns:i="clr-namespace:Neptuo.Web.Framework.Controls">
                 <parameters>
-                    <i:parameter name="ID" value="5" />
-                    <i:parameter name="Detail" value="True" />
+                    <i:parameter name="ID">
+                        <i:parametervalue value="5" />
+                    </i:parameter>
                 </parameters>
                 Hello World!
             </i:anchor>
@@ -41,5 +32,5 @@
             <h:textbox text="{Binding}" cache:key="DateTime" cache:duration="0:0:5.1" />
         </h:panel>
 
-    </ui:content>
+    </div>
 </ui:Decorate>

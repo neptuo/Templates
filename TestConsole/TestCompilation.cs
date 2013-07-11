@@ -202,15 +202,16 @@ namespace TestConsole
             //{
             
             IGeneratedView view = ((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
-            view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
-            view.CreateControls();
-            view.Init();
+            DebugUtils.Run("Run", () =>
+            {
+                view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
+                view.CreateControls();
+                view.Init();
+                view.Render(new HtmlTextWriter(output));
+                view.Dispose();
+            });
 
             stopwatch.Stop();
-
-            view.Render(new HtmlTextWriter(output));
-            view.Dispose();
-
             //}
             //catch (CodeDomViewServiceException e)
             //{

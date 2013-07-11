@@ -9,6 +9,11 @@ namespace Neptuo.Web.Framework.Composition
 {
     public interface ITemplate
     {
+        /// <summary>
+        /// Vytvoří instanci kontrolů (zatím se nevolá, ale umožňí vytvořit více instancí jedné šablony).
+        /// </summary>
+        void CreateInstance();
+
         void Init(IComponentManager componentManager);
         void Render(IComponentManager componentManager, HtmlTextWriter writer);
     }
@@ -16,6 +21,11 @@ namespace Neptuo.Web.Framework.Composition
     public abstract class BaseTemplate : ITemplate
     {
         public ICollection<object> Content { get; set; }
+
+        public void CreateInstance()
+        {
+            throw new NotImplementedException();
+        }
 
         public abstract void Init(IComponentManager componentManager);
 

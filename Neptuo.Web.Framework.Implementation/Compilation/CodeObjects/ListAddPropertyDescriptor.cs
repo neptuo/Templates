@@ -18,6 +18,12 @@ namespace Neptuo.Web.Framework.Compilation.CodeObjects
             Values = new List<ICodeObject>();
         }
 
+        public ListAddPropertyDescriptor(PropertyInfo property, params ICodeObject[] values)
+        {
+            Property = property;
+            Values = new List<ICodeObject>(values);
+        }
+
         public void SetValue(ICodeObject value)
         {
             Values.Add(value);

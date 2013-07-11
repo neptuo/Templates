@@ -8,6 +8,7 @@ using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -77,21 +78,24 @@ namespace Neptuo.Web.Framework.Compilation
             if (DebugMode)
                 File.WriteAllText(Path.Combine(TempDirectory, "GeneratedView.cs"), sourceCode);//TODO: Do it better!
 
-            CodeDomCompiler compiler = new CodeDomCompiler();
-            compiler.IncludeDebugInformation = DebugMode;
-
-            foreach (string directory in BinDirectories)
-                compiler.AddReferencedFolder(directory);
-
-            CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, assemblyName);
-            if (cr.Errors.Count > 0)
+            DebugUtils.Run("Compile", () =>
             {
-                ICollection<IErrorInfo> errors = new List<IErrorInfo>();
-                foreach (CompilerError error in cr.Errors)
-                    errors.Add(new ErrorInfo(error.Line, error.Column, error.ErrorText));
+                CodeDomCompiler compiler = new CodeDomCompiler();
+                compiler.IncludeDebugInformation = DebugMode;
 
-                throw new CodeDomViewServiceException("Error compiling view!", errors);
-            }
+                foreach (string directory in BinDirectories)
+                    compiler.AddReferencedFolder(directory);
+
+                CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, assemblyName);
+                if (cr.Errors.Count > 0)
+                {
+                    ICollection<IErrorInfo> errors = new List<IErrorInfo>();
+                    foreach (CompilerError error in cr.Errors)
+                        errors.Add(new ErrorInfo(error.Line, error.Column, error.ErrorText));
+
+                    throw new CodeDomViewServiceException("Error compiling view!", errors);
+                }
+            });
         }
 
         protected virtual string GenerateSourceCodeFromView(string viewContent, IViewServiceContext context)
@@ -108,9 +112,14 @@ namespace Neptuo.Web.Framework.Compilation
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = new ListAddPropertyDescriptor(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
-            bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
-            if (!parserResult)
-                throw new CodeDomViewServiceException("Error parsing view content!", errors);
+
+            DebugUtils.Run("ParseContent", () =>
+            {
+                bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
+
+                if (!parserResult)
+                    throw new CodeDomViewServiceException("Error parsing view content!", errors);
+            });
 
             return contentProperty;
         }
@@ -119,9 +128,13 @@ namespace Neptuo.Web.Framework.Compilation
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
-            bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, context.DependencyProvider, errors));
-            if (!generatorResult)
-                throw new CodeDomViewServiceException("Error generating code from view!", errors);
+
+            DebugUtils.Run("GenerateSourceCode", () =>
+            {
+                bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, context.DependencyProvider, errors));
+                if (!generatorResult)
+                    throw new CodeDomViewServiceException("Error generating code from view!", errors);
+            });
 
             return writer.ToString();
         }

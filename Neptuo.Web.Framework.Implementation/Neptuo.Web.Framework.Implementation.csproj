@@ -64,6 +64,7 @@
     <Compile Include="Data\IStorage.cs" />
     <Compile Include="Data\IStorageFactory.cs" />
     <Compile Include="Data\StorageLifecycle.cs" />
+    <Compile Include="DebugUtils.cs" />
     <Compile Include="Extensions\DefaultMarkupExtensionContext.cs" />
     <Compile Include="Extensions\ViewExtension.cs" />
     <Compile Include="PropertyAttribute.cs" />
