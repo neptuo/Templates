@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation
+namespace Neptuo.Templates.Compilation
 {
     public interface IFileProvider
     {

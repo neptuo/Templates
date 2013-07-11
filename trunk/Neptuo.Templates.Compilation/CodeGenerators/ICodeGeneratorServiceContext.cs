@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Compilation.CodeGenerators
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public interface ICodeGeneratorServiceContext
     {

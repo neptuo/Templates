@@ -44,7 +44,7 @@
     <Compile Include="CodeGenerators\ICodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\ICodeGeneratorServiceContext.cs" />
     <Compile Include="CodeObjects\ICodeObject.cs" />
-    <Compile Include="CodeObjects\IControlCodeObject.cs" />
+    <Compile Include="CodeObjects\IComponentCodeObject.cs" />
     <Compile Include="CodeObjects\IDefaultPropertyValue.cs" />
     <Compile Include="CodeObjects\IObserverCodeObject.cs" />
     <Compile Include="CodeObjects\IObserversCodeObject.cs" />
@@ -67,6 +67,12 @@
     <Compile Include="PreProcessing\IPreProcessorService.cs" />
     <Compile Include="PreProcessing\IPreProcessorServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
+      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
+      <Name>Neptuo.Templates</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
