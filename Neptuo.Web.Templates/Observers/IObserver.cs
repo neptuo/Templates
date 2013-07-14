@@ -1,10 +1,10 @@
-﻿using Neptuo.Web.Templates.Controls;
+﻿using Neptuo.Templates.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Templates.Observers
+namespace Neptuo.Templates.Observers
 {
     public interface IObserver
     {

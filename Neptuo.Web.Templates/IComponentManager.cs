@@ -1,11 +1,11 @@
-﻿using Neptuo.Web.Templates.Controls;
-using Neptuo.Web.Templates.Observers;
+﻿using Neptuo.Templates.Controls;
+using Neptuo.Templates.Observers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Templates
+namespace Neptuo.Templates
 {
     /// <summary>
     /// Component manager.

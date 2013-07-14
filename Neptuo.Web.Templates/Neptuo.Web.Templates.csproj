@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Controls\IContentControl.cs" />
     <Compile Include="Controls\IControl.cs" />
+    <Compile Include="Extensions\IValueExtension.cs" />
+    <Compile Include="Extensions\IValueExtensionContext.cs" />
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="IComponentManager.cs" />
     <Compile Include="IViewPage.cs" />

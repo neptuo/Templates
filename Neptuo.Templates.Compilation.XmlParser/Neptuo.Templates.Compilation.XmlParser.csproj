@@ -7,7 +7,7 @@
     <ProjectGuid>{2D69656A-A3B6-4206-8B1D-EB7027716172}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neptuo.Templates.Compilation.XmlParser</RootNamespace>
+    <RootNamespace>Neptuo.Templates.Compilation</RootNamespace>
     <AssemblyName>Neptuo.Templates.Compilation.XmlParser</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -30,6 +30,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Neptuo">
+      <HintPath>..\References\Neptuo.dll</HintPath>
+    </Reference>
+    <Reference Include="Neptuo.Xml">
+      <HintPath>..\References\Neptuo.Xml.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -39,7 +45,31 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBuilderRegistry.cs" />
+    <Compile Include="NamespaceDeclaration.cs" />
+    <Compile Include="Parsers\BaseParser.cs" />
+    <Compile Include="Parsers\ILiteralBuilder.cs" />
+    <Compile Include="Parsers\XmlBuilderContext.cs" />
+    <Compile Include="Parsers\Extensions\DefaultAttributeExtension.cs" />
+    <Compile Include="Parsers\Extensions\IDefaultValueExtension.cs" />
+    <Compile Include="Parsers\IBuilderContext.cs" />
+    <Compile Include="Parsers\IComponentBuilder.cs" />
+    <Compile Include="Parsers\IObserverBuilder.cs" />
+    <Compile Include="Parsers\XmlContentParser.cs" />
+    <Compile Include="Parsers\XmlContentParser.Helper.cs" />
+    <Compile Include="Parsers\XmlContentParser.ObserverList.cs" />
+    <Compile Include="Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
+      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
+      <Name>Neptuo.Templates</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

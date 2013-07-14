@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Templates.Controls
+namespace Neptuo.Templates.Controls
 {
     public interface IContentControl : IControl
     {

@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuilderAttribute.cs" />
+    <Compile Include="DependencyProviderExtensions.cs" />
     <Compile Include="IDependencyContainer.cs" />
     <Compile Include="IDependencyProvider.cs" />
     <Compile Include="IGeneratedView.cs" />

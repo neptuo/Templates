@@ -3,7 +3,7 @@ using System.Runtime;
 using System.Text;
 using System.Web.UI;
 
-namespace Neptuo.Web.Templates
+namespace Neptuo.Templates
 {
     public class HtmlTextWriter : TextWriter
     {
