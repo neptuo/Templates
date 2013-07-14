@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Templates
+namespace Neptuo.Templates
 {
     public interface IVirtualPathProvider
     {

@@ -39,7 +39,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeDomGenerator.Context.cs" />
+    <Compile Include="CodeDomGenerator.cs" />
+    <Compile Include="CodeDomGenerator.Private.cs" />
+    <Compile Include="Data\StorageProvider.cs" />
+    <Compile Include="DefaultCodeGeneratorContext.cs" />
+    <Compile Include="DefaultCodeGeneratorService.cs" />
+    <Compile Include="DefaultCodeGeneratorServiceContext.cs" />
+    <Compile Include="Extensions\CodeDom\BaseCodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\BaseComponentCodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\BasePropertyDescriptorExtension.cs" />
+    <Compile Include="Extensions\CodeDom\CodeObjectExtensionContext.cs" />
+    <Compile Include="Extensions\CodeDom\ComponentCodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\DependencyCodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\ExtensionCodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\ICodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\IPropertyDescriptorExtension.cs" />
+    <Compile Include="Extensions\CodeDom\ListAddPropertyDescriptorExtension.cs" />
+    <Compile Include="Extensions\CodeDom\LocalFieldCodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\MethodInvokePropertyDescriptorExtension.cs" />
+    <Compile Include="Extensions\CodeDom\PlainValueCodeObjectExtension.cs" />
+    <Compile Include="Extensions\CodeDom\PropertyDescriptorExtensionContext.cs" />
+    <Compile Include="Extensions\CodeDom\SetPropertyDescriptorExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
+      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
+      <Name>Neptuo.Templates</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

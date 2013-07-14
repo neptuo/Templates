@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Web.Templates
+namespace Neptuo.Templates
 {
     public interface IWebGeneratedView : IGeneratedView
     {
