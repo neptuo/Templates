@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             BindProperties(context, codeObject, element);
         }
 
-        protected void BindProperties(IXmlBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
             HashSet<string> boundProperies = new HashSet<string>();
             PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(codeObject.Type);
@@ -109,7 +109,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected void ProcessUnboundAttributes(IXmlBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
+        protected void ProcessUnboundAttributes(IBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
         {
             XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();
             foreach (XmlAttribute attribute in unboundAttributes)
@@ -141,7 +141,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             context.Parser.AttachObservers(context, codeObject, observers);
         }
 
-        protected void ResolvePropertyValue(IXmlBuilderContext context, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
+        protected virtual void ResolvePropertyValue(IBuilderContext context, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
         {
             if (typeof(string) == prop.PropertyType)
             {
