@@ -10,41 +10,39 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public class ObserverList : List<ParsedObserver> 
         {
-            Dictionary<Type, ParsedObserver> byType = new Dictionary<Type, ParsedObserver>();
+            Dictionary<IObserverBuilder, ParsedObserver> byBuilder = new Dictionary<IObserverBuilder, ParsedObserver>();
 
             public new void Add(ParsedObserver parsedObserver)
             {
-                byType[parsedObserver.Type] = parsedObserver;
+                byBuilder[parsedObserver.ObserverBuilder] = parsedObserver;
                 base.Add(parsedObserver);
             }
 
-            public ParsedObserver this[Type type]
+            public ParsedObserver this[IObserverBuilder type]
             {
                 get
                 {
-                    if (byType.ContainsKey(type))
-                        return byType[type];
+                    if (byBuilder.ContainsKey(type))
+                        return byBuilder[type];
 
                     return null;
                 }
             }
 
-            public bool ContainsKey(Type type)
+            public bool ContainsKey(IObserverBuilder type)
             {
-                return byType.ContainsKey(type);
+                return byBuilder.ContainsKey(type);
             }
         }
 
         public class ParsedObserver
         {
-            public Type Type { get; set; }
+            public IObserverBuilder ObserverBuilder { get; set; }
             public List<XmlAttribute> Attributes { get; set; }
-            public ObserverLivecycle Livecycle { get; set; }
 
-            public ParsedObserver(Type type, ObserverLivecycle livecycle, params XmlAttribute[] attributes)
+            public ParsedObserver(IObserverBuilder observerBuilder, params XmlAttribute[] attributes)
             {
-                Type = type;
-                Livecycle = livecycle;
+                ObserverBuilder = observerBuilder;
                 Attributes = new List<XmlAttribute>(attributes);
             }
         }

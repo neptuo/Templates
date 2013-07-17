@@ -1,6 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Data;
-using Neptuo.Templates.Controls;
 using Neptuo.Xml;
 using System;
 using System.Collections;
@@ -63,13 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public void AttachObservers(IBuilderContext context, IComponentCodeObject codeObject, IEnumerable<ParsedObserver> observers)
         {
             foreach (ParsedObserver observer in observers)
-            {
-                IObserverBuilder builder = ControlHelper.ResolveBuilder<IObserverBuilder>(observer.Type, context.ParserContext.DependencyProvider, () => new DefaultXmlObserverBuilder());
-                if (builder != null)
-                    builder.Parse(context, codeObject, observer.Type, observer.Attributes, observer.Livecycle);
-                else
-                    throw new NotImplementedException("No builder for observer!");
-            }
+                observer.ObserverBuilder.Parse(context, codeObject, observer.Attributes);
         }
 
         private void GenerateRecursive(Helper helper, IEnumerable<XmlNode> childNodes)
@@ -119,13 +112,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         private IBuilderContext CreateBuilderContext(Helper helper)
         {
             return XmlBuilderContext.Create()
-                .SetParserContext(helper.Context)
                 .SetParser(this)
                 .SetHelper(helper)
-                .SetParent(helper.Parent)
                 .SetGenericContent(genericContentBuilder)
-                .SetLiteralBuilder(literalBuilder)
-                .SetBuilderRegistry(helper.BuilderRegistry);
+                .SetLiteralBuilder(literalBuilder);
         }
 
         private void AppendPlainText(string text, Helper helper)
