@@ -41,6 +41,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 foreach (XmlAttribute attribute in element.Attributes)
                 {
+                    //TODO: Reimplement! Creating unneeded builders!
                     if(builderRegistry.GetObserverBuilder(attribute.Prefix, attribute.LocalName) != null)
                         return true;
                 }

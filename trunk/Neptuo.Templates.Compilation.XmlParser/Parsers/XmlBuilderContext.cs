@@ -42,6 +42,9 @@ namespace Neptuo.Templates.Compilation.Parsers
         public XmlBuilderContext SetHelper(XmlContentParser.Helper helper)
         {
             Helper = helper;
+            SetParent(helper.Parent);
+            SetParserContext(helper.Context);
+            SetBuilderRegistry(helper.BuilderRegistry);
             return this;
         }
 
