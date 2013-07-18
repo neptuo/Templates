@@ -10,6 +10,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class DefaultObserverBuilder : IObserverBuilder
     {
+        public ObserverBuilderScope Scope { get; private set; }
+
         public void Parse(IBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
         {
             //TODO: Find observer type ...
