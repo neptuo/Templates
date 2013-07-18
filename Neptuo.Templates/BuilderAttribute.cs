@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework
+namespace Neptuo.Templates
 {
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class BuilderAttribute : Attribute
     {
-        public Type Type { get; set; }
+        public Type[] Types { get; set; }
 
-        public BuilderAttribute(Type type)
+        public BuilderAttribute(params Type[] types)
         {
-            Type = type;
+            Types = types;
         }
     }
 }
