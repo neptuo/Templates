@@ -10,39 +10,39 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public class ObserverList : List<ParsedObserver> 
         {
-            Dictionary<IObserverBuilder, ParsedObserver> byBuilder = new Dictionary<IObserverBuilder, ParsedObserver>();
+            Dictionary<IObserverRegistration, ParsedObserver> byBuilder = new Dictionary<IObserverRegistration, ParsedObserver>();
 
             public new void Add(ParsedObserver parsedObserver)
             {
-                byBuilder[parsedObserver.ObserverBuilder] = parsedObserver;
+                byBuilder[parsedObserver.Observer] = parsedObserver;
                 base.Add(parsedObserver);
             }
 
-            public ParsedObserver this[IObserverBuilder type]
+            public ParsedObserver this[IObserverRegistration observer]
             {
                 get
                 {
-                    if (byBuilder.ContainsKey(type))
-                        return byBuilder[type];
+                    if (byBuilder.ContainsKey(observer))
+                        return byBuilder[observer];
 
                     return null;
                 }
             }
 
-            public bool ContainsKey(IObserverBuilder type)
+            public bool ContainsKey(IObserverRegistration observer)
             {
-                return byBuilder.ContainsKey(type);
+                return byBuilder.ContainsKey(observer);
             }
         }
 
         public class ParsedObserver
         {
-            public IObserverBuilder ObserverBuilder { get; set; }
+            public IObserverRegistration Observer { get; set; }
             public List<XmlAttribute> Attributes { get; set; }
 
-            public ParsedObserver(IObserverBuilder observerBuilder, params XmlAttribute[] attributes)
+            public ParsedObserver(IObserverRegistration observer, params XmlAttribute[] attributes)
             {
-                ObserverBuilder = observerBuilder;
+                Observer = observer;
                 Attributes = new List<XmlAttribute>(attributes);
             }
         }

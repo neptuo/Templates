@@ -121,21 +121,32 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 if (!boundAttribute)
                 {
-                    Type observerType = context.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
-                    if (observerType != null)
+                    IObserverRegistration observer = context.BuilderRegistry.GetObserverBuilder(attribute.Prefix, attribute.LocalName);
+                    if (observer != null)
                     {
-                        ObserverLivecycle livecycle = context.Parser.GetObserverLivecycle(observerType);
-                        if (livecycle == ObserverLivecycle.PerControl && observers.ContainsKey(observerType))
-                            observers[observerType].Attributes.Add(attribute);
+                        if (observer.Scope == ObserverBuilderScope.PerElement && observers.ContainsKey(observer))
+                            observers[observer].Attributes.Add(attribute);
                         else
-                            observers.Add(new XmlContentParser.ParsedObserver(observerType, livecycle, attribute));
+                            observers.Add(new XmlContentParser.ParsedObserver(observer, attribute));
 
                         boundAttribute = true;
                     }
+
+                    //Type observerType = context.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
+                    //if (observerType != null)
+                    //{
+                    //    ObserverLivecycle livecycle = context.Parser.GetObserverLivecycle(observerType);
+                    //    if (livecycle == ObserverLivecycle.PerControl && observers.ContainsKey(observerType))
+                    //        observers[observerType].Attributes.Add(attribute);
+                    //    else
+                    //        observers.Add(new XmlContentParser.ParsedObserver(observerType, livecycle, attribute));
+
+                    //    boundAttribute = true;
+                    //}
                 }
 
                 if (!boundAttribute && typeof(IAttributeCollection).IsAssignableFrom(codeObject.Type))
-                    boundAttribute = context.Parser.BindAttributeCollection(context, codeObject, codeObject, attribute.LocalName, attribute.Value);
+                    boundAttribute = BindAttributeCollection(context, codeObject, codeObject, attribute.LocalName, attribute.Value);
             }
 
             context.Parser.AttachObservers(context, codeObject, observers);
@@ -202,5 +213,23 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
             }
         }
+
+        public static bool BindAttributeCollection(IBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
+        {
+            MethodInfo method = typeCodeObject.Type.GetMethod(TypeHelper.MethodName<IAttributeCollection, string, string>(a => a.SetAttribute));
+            MethodInvokePropertyDescriptor propertyDescriptor = new MethodInvokePropertyDescriptor(method);
+            propertyDescriptor.SetValue(new PlainValueCodeObject(name));
+
+            bool result = context.ParserContext.ParserService.ProcessValue(
+                value,
+                new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+            );
+            if (result)
+                propertiesCodeObject.Properties.Add(propertyDescriptor);
+
+            //TODO: Else NOT result?
+            return result;
+        }
+
     }
 }

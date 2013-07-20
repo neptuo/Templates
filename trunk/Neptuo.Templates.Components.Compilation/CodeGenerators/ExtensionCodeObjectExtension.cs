@@ -1,6 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Extensions;
-using Neptuo.Templates.Utils;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -32,7 +31,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                         new CodeThisReferenceExpression(),
                         field.FieldName
                     ),
-                    TypeHelper.MethodName<IMarkupExtension, IMarkupExtensionContext, object>(m => m.ProvideValue),
+                    TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue),
                     new CodeObjectCreateExpression(
                         typeof(DefaultMarkupExtensionContext),
                         new CodeFieldReferenceExpression(

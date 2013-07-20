@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\DefaultMarkupExtensionContext.cs" />
     <Compile Include="HtmlAttribute.cs" />
     <Compile Include="IAttributeCollection.cs" />
     <Compile Include="Controls\IContentControl.cs" />

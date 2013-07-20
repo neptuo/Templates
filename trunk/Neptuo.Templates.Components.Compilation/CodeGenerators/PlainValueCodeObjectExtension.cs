@@ -12,8 +12,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
         {
-            if (Utils.StringConverter.CanConvert(propertyDescriptor.Property.PropertyType))
-                return new CodePrimitiveExpression(Utils.StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.PropertyType));
+            if (StringConverter.CanConvert(propertyDescriptor.Property.PropertyType))
+                return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.PropertyType));
 
             TypeConverter typeConverter = null;
             TypeConverterAttribute attribute = ReflectionHelper.GetAttribute<TypeConverterAttribute>(propertyDescriptor.Property);

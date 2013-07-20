@@ -1,6 +1,4 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Compilation.Parsers.Extensions;
-using Neptuo.Templates.Utils;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;

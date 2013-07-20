@@ -39,7 +39,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             context.Class = new CodeTypeDeclaration(context.ClassName);
             context.Class.IsClass = true;
             context.Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
-            context.Class.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
+            //context.Class.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
             context.Class.BaseTypes.Add(new CodeTypeReference(typeof(IGeneratedView)));
             context.Class.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
             context.CodeNamespace.Types.Add(context.Class);
