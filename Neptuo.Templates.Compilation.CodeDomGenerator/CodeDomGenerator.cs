@@ -17,15 +17,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomGenerator()
         {
             CodeObjectExtensions = new Dictionary<Type, ICodeObjectExtension>();
-            SetCodeObjectExtension(typeof(ControlCodeObject), new ComponentCodeObjectExtension());
-            SetCodeObjectExtension(typeof(PlainValueCodeObject), new PlainValueCodeObjectExtension());
-            SetCodeObjectExtension(typeof(LocalFieldCodeObject), new LocalFieldCodeObjectExtension());
-            SetCodeObjectExtension(typeof(DependencyCodeObject), new DependencyCodeObjectExtension());
-
             PropertyDescriptorExtensions = new Dictionary<Type, IPropertyDescriptorExtension>();
-            SetPropertyDescriptorExtension(typeof(ListAddPropertyDescriptor), new ListAddPropertyDescriptorExtension());
-            SetPropertyDescriptorExtension(typeof(SetPropertyDescriptor), new SetPropertyDescriptorExtension());
-            SetPropertyDescriptorExtension(typeof(MethodInvokePropertyDescriptor), new MethodInvokePropertyDescriptorExtension());
         }
 
         #region ICodeDomCodeObjectExtension

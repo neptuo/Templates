@@ -3,7 +3,6 @@ using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Data;
 using Neptuo.Templates.Controls;
 using Neptuo.Templates.Observers;
-using Neptuo.Templates.Utils;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;

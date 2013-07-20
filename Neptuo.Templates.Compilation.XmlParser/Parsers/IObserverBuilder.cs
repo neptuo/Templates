@@ -9,8 +9,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public interface IObserverBuilder
     {
-        ObserverBuilderScope Scope { get; }
-
         void Parse(IBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes);
     }
 

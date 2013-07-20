@@ -62,7 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public void AttachObservers(IBuilderContext context, IComponentCodeObject codeObject, IEnumerable<ParsedObserver> observers)
         {
             foreach (ParsedObserver observer in observers)
-                observer.ObserverBuilder.Parse(context, codeObject, observer.Attributes);
+                observer.Observer.CreateBuilder().Parse(context, codeObject, observer.Attributes);
         }
 
         private void GenerateRecursive(Helper helper, IEnumerable<XmlNode> childNodes)
