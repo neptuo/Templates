@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IBuilderRegistry.cs" />
-    <Compile Include="IObserverRegistration.cs" />
+    <Compile Include="Parsers\IObserverRegistration.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Parsers\BaseParser.cs" />
     <Compile Include="Parsers\ILiteralBuilder.cs" />
