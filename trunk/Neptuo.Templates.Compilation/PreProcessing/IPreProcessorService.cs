@@ -8,7 +8,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 {
     public interface IPreProcessorService
     {
-        void AddPreProcessor(IPreProcessor preProcessor);
+        void AddVisitor(IVisitor visitor);
         void Process(IPropertyDescriptor propertyDescriptor, IPreProcessorServiceContext context);
     }
 }

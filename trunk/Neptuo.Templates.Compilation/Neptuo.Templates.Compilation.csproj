@@ -68,8 +68,11 @@
     <Compile Include="Parsers\IParserServiceContext.cs" />
     <Compile Include="Parsers\IValueParser.cs" />
     <Compile Include="Parsers\IValueParserContext.cs" />
-    <Compile Include="PreProcessing\IPreProcessor.cs" />
-    <Compile Include="PreProcessing\IPreProcessorContext.cs" />
+    <Compile Include="PreProcessing\VisitorContext.cs" />
+    <Compile Include="PreProcessing\PreProcessorService.cs" />
+    <Compile Include="PreProcessing\PreProcessorServiceContext.cs" />
+    <Compile Include="PreProcessing\IVisitor.cs" />
+    <Compile Include="PreProcessing\IVisitorContext.cs" />
     <Compile Include="PreProcessing\IPreProcessorService.cs" />
     <Compile Include="PreProcessing\IPreProcessorServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

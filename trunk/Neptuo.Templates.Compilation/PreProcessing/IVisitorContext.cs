@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.PreProcessing
 {
-    public interface IPreProcessorContext
+    public interface IVisitorContext
     {
         IDependencyProvider DependencyProvider { get; }
         IPreProcessorService PreProcessorService { get; }
