@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Linq.Expressions;
+using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                 attribute = ReflectionHelper.GetAttribute<TypeConverterAttribute>(propertyDescriptor.Property.PropertyType);
 
             CodeExpression getConverterExpression = null;
+
+            //typeConverter = TypeDescriptor.GetConverter(propertyDescriptor.Property.PropertyType);
 
             if (attribute != null)
             {

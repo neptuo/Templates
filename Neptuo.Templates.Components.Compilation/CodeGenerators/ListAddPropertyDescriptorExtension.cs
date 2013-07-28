@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Linq.Expressions;
+using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.CodeDom;
 using System.Collections;
