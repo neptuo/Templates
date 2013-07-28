@@ -13,13 +13,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
         {
-            if (StringConverter.CanConvert(propertyDescriptor.Property.PropertyType))
-                return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.PropertyType));
+            if (StringConverter.CanConvert(propertyDescriptor.PropertyName.PropertyType))
+                return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.PropertyName.PropertyType));
 
             TypeConverter typeConverter = null;
-            TypeConverterAttribute attribute = ReflectionHelper.GetAttribute<TypeConverterAttribute>(propertyDescriptor.Property);
+            TypeConverterAttribute attribute = ReflectionHelper.GetAttribute<TypeConverterAttribute>(propertyDescriptor.PropertyName);
             if(attribute == null)
-                attribute = ReflectionHelper.GetAttribute<TypeConverterAttribute>(propertyDescriptor.Property.PropertyType);
+                attribute = ReflectionHelper.GetAttribute<TypeConverterAttribute>(propertyDescriptor.PropertyName.PropertyType);
 
             CodeExpression getConverterExpression = null;
 
@@ -42,11 +42,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 
             if (typeConverter == null)
             {
-                typeConverter = TypeDescriptor.GetConverter(propertyDescriptor.Property.PropertyType);
+                typeConverter = TypeDescriptor.GetConverter(propertyDescriptor.PropertyName.PropertyType);
                 getConverterExpression = new CodeMethodInvokeExpression(
                     new CodeTypeReferenceExpression(typeof(TypeDescriptor)),
                     "GetConverter",
-                    new CodeTypeOfExpression(propertyDescriptor.Property.PropertyType)
+                    new CodeTypeOfExpression(propertyDescriptor.PropertyName.PropertyType)
                 );
             }
 
@@ -57,7 +57,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             if (typeConverter != null && typeConverter.CanConvertFrom(typeof(String)))
             {
                 return new CodeCastExpression(
-                    propertyDescriptor.Property.PropertyType,
+                    propertyDescriptor.PropertyName.PropertyType,
                     new CodeMethodInvokeExpression(
                         getConverterExpression,
                         TypeHelper.MethodName<TypeConverter, object, object>(t => t.ConvertFrom),

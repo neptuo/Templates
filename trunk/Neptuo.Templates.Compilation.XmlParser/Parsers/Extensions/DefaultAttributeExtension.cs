@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Extensions
     {
         public bool ProvideValue(IPropertyDescriptor propertyDescriptor)
         {
-            DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(propertyDescriptor.Property);
+            DefaultValueAttribute defaultValue = null;// ReflectionHelper.GetAttribute<DefaultValueAttribute>(propertyDescriptor.PropertyName);
             if (defaultValue != null)
             {
                 propertyDescriptor.SetValue(new PlainValueCodeObject(defaultValue.Value));

@@ -13,9 +13,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
     {
         protected override void GenerateProperty(PropertyDescriptorExtensionContext context, ListAddPropertyDescriptor propertyDescriptor)
         {
-            bool generic = propertyDescriptor.Property.PropertyType.IsGenericType;
+            bool generic = propertyDescriptor.PropertyName.PropertyType.IsGenericType;
             bool requiresCasting = false;
-            bool createInstance = propertyDescriptor.Property.GetSetMethod() != null;
+            bool createInstance = propertyDescriptor.PropertyName.GetSetMethod() != null;
             Type targetType = null;
             string addMethodName = null;
 
@@ -24,18 +24,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                     new CodeThisReferenceExpression(),
                     context.FieldName
                 ),
-                propertyDescriptor.Property.Name
+                propertyDescriptor.PropertyName.Name
             );
 
-            if (typeof(IEnumerable).IsAssignableFrom(propertyDescriptor.Property.PropertyType))
+            if (typeof(IEnumerable).IsAssignableFrom(propertyDescriptor.PropertyName.PropertyType))
             {
                 requiresCasting = true;
                 if (generic)
                 {
-                    targetType = typeof(List<>).MakeGenericType(propertyDescriptor.Property.PropertyType.GetGenericArguments()[0]);
+                    targetType = typeof(List<>).MakeGenericType(propertyDescriptor.PropertyName.PropertyType.GetGenericArguments()[0]);
                     addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
 
-                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.Property.PropertyType.GetGenericTypeDefinition()))
+                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.PropertyName.PropertyType.GetGenericTypeDefinition()))
                         requiresCasting = false;
                 }
                 else

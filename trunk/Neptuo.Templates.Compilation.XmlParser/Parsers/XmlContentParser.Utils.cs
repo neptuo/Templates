@@ -49,16 +49,13 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return false;
             }
 
-            public static IEnumerable<NamespaceDeclaration> GetXmlNsClrNamespace(XmlElement element)
+            public static IEnumerable<NamespaceDeclaration> GetXmlNsNamespace(XmlElement element)
             {
                 List<NamespaceDeclaration> result = new List<NamespaceDeclaration>();
                 foreach (XmlAttribute attribute in element.Attributes)
                 {
                     if (attribute.Prefix.ToLowerInvariant() == "xmlns")
-                    {
-                        if (attribute.Value.StartsWith("clr-namespace:"))
-                            result.Add(new NamespaceDeclaration(attribute.LocalName, attribute.Value.Substring("clr-namespace:".Length)));
-                    }
+                        result.Add(new NamespaceDeclaration(attribute.LocalName, attribute.Value));
                 }
                 return result;
             }

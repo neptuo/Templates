@@ -72,7 +72,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 XmlElement element = node as XmlElement;
                 if (element != null)
                 {
-                    IBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(helper.BuilderRegistry, Utils.GetXmlNsClrNamespace(element));
+                    IBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(helper.BuilderRegistry, Utils.GetXmlNsNamespace(element));
                     if (Utils.NeedsServerProcessing(newBuilderRegistry, element))
                     {
                         AppendPlainText(helper.Content.ToString(), helper);
