@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ControlCodeObject codeObject = new ControlCodeObject(GetControlType(element));
             codeObject.Properties.Add(
                 new SetPropertyDescriptor(
-                    controlType.GetProperty(tagNameProperty),
+                    controlType.GetProperty(tagNameProperty).Name,
                     new PlainValueCodeObject(element.Name)
                 )
             );

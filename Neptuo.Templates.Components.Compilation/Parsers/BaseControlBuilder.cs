@@ -1,4 +1,5 @@
 ﻿using Neptuo.Linq.Expressions;
+using Neptuo.Xml;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections;
@@ -22,19 +23,21 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
+            IComponentDefinition componentDefinition = new TypeComponentDefinition(GetControlType(element));
+
             HashSet<string> boundProperies = new HashSet<string>();
-            PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(codeObject.Type);
+            IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
             List<XmlAttribute> boundAttributes = new List<XmlAttribute>();
 
-            foreach (KeyValuePair<string, PropertyInfo> item in ControlHelper.GetProperties(codeObject.Type))
+            foreach (IPropertyInfo propertyInfo in componentDefinition.GetProperties())
             {
                 bool bound = false;
-                string propertyName = item.Key.ToLowerInvariant();
+                string propertyName = propertyInfo.Name.ToLowerInvariant();
                 foreach (XmlAttribute attribute in element.Attributes)
                 {
                     if (propertyName == attribute.Name.ToLowerInvariant())
                     {
-                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
+                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo.Name);
                         bool result = context.ParserContext.ParserService.ProcessValue(
                             attribute.Value,
                             new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
@@ -56,21 +59,21 @@ namespace Neptuo.Templates.Compilation.Parsers
                 XmlNode child;
                 if (!bound && XmlContentParser.Utils.FindChildNode(element, propertyName, out child))
                 {
-                    ResolvePropertyValue(context, codeObject, item.Value, child.ChildNodes.ToEnumerable());
+                    ResolvePropertyValue(context, codeObject, propertyInfo, child.ChildNodes.ToEnumerable());
                     boundProperies.Add(propertyName);
                     bound = true;
                 }
 
-                if (!bound && item.Value != defaultProperty)
-                {
-                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
-                    if (context.Parser.BindPropertyDefaultValue(propertyDescriptor))
-                    {
-                        codeObject.Properties.Add(propertyDescriptor);
-                        boundProperies.Add(propertyName);
-                        bound = true;
-                    }
-                }
+                //if (!bound && item.Value != defaultProperty)
+                //{
+                //    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
+                //    if (context.Parser.BindPropertyDefaultValue(propertyDescriptor))
+                //    {
+                //        codeObject.Properties.Add(propertyDescriptor);
+                //        boundProperies.Add(propertyName);
+                //        bound = true;
+                //    }
+                //}
             }
 
             List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
@@ -90,7 +93,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
                 else
                 {
-                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(defaultProperty);
+                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(defaultProperty.Name);
                     if (context.Parser.BindPropertyDefaultValue(propertyDescriptor))
                         codeObject.Properties.Add(propertyDescriptor);
                 }
@@ -119,18 +122,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                         boundAttribute = true;
                     }
-
-                    //Type observerType = context.Registrator.GetObserver(attribute.Prefix, attribute.LocalName);
-                    //if (observerType != null)
-                    //{
-                    //    ObserverLivecycle livecycle = context.Parser.GetObserverLivecycle(observerType);
-                    //    if (livecycle == ObserverLivecycle.PerControl && observers.ContainsKey(observerType))
-                    //        observers[observerType].Attributes.Add(attribute);
-                    //    else
-                    //        observers.Add(new XmlContentParser.ParsedObserver(observerType, livecycle, attribute));
-
-                    //    boundAttribute = true;
-                    //}
                 }
 
                 if (!boundAttribute && typeof(IAttributeCollection).IsAssignableFrom(codeObject.Type))
@@ -140,9 +131,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             context.Parser.AttachObservers(context, codeObject, observers);
         }
 
-        protected virtual void ResolvePropertyValue(IBuilderContext context, IPropertiesCodeObject codeObject, PropertyInfo prop, IEnumerable<XmlNode> content)
+        protected virtual void ResolvePropertyValue(
+            IBuilderContext context, 
+            IPropertiesCodeObject codeObject, 
+            IPropertyInfo propertyInfo, 
+            IEnumerable<XmlNode> content)
         {
-            if (typeof(string) == prop.PropertyType)
+            if (typeof(string) == propertyInfo.Type)
             {
                 //Get string and add as plain value
                 StringBuilder contentValue = new StringBuilder();
@@ -151,18 +146,18 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 codeObject.Properties.Add(
                     new SetPropertyDescriptor(
-                        prop,
+                        propertyInfo.Name,
                         new PlainValueCodeObject(contentValue.ToString())
                     )
                 );
             }
-            else if (typeof(ICollection).IsAssignableFrom(prop.PropertyType)
-                || typeof(IEnumerable).IsAssignableFrom(prop.PropertyType)
-                || (prop.PropertyType.IsGenericType && typeof(ICollection<>).IsAssignableFrom(prop.PropertyType.GetGenericTypeDefinition()))
+            else if (typeof(ICollection).IsAssignableFrom(propertyInfo.Type)
+                || typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type)
+                || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()))
             )
             {
                 //Collection item
-                IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(prop);
+                IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(propertyInfo.Name);
                 codeObject.Properties.Add(propertyDescriptor);
                 context.Parser.ProcessContent(context, propertyDescriptor, content);
             }
@@ -175,7 +170,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     // One XmlElement is ok
                     if (elements.Count() == 1)
                     {
-                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(prop);
+                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo.Name);
                         codeObject.Properties.Add(propertyDescriptor);
                         context.Parser.ProcessContent(context, propertyDescriptor, content);
                     }
@@ -194,7 +189,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                     codeObject.Properties.Add(
                         new SetPropertyDescriptor(
-                            prop,
+                            propertyInfo.Name,
                             new PlainValueCodeObject(contentValue.ToString())
                         )
                     );

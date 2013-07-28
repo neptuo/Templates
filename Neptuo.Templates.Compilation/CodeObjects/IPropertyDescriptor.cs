@@ -8,7 +8,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 {
     public interface IPropertyDescriptor
     {
-        PropertyInfo Property { get; set; }
+        string PropertyName { get; set; }
 
         void SetValue(ICodeObject value);
     }

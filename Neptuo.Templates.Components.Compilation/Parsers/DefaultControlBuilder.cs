@@ -11,16 +11,16 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class DefaultControlBuilder : BaseControlBuilder
     {
-        protected IComponentRegistry ComponentRegistry { get; set; }
+        protected Type Type { get; private set; }
 
-        public DefaultControlBuilder(IComponentRegistry componentRegistry)
+        public DefaultControlBuilder(Type type)
         {
-            ComponentRegistry = componentRegistry;
+            Type = type;
         }
 
         protected override Type GetControlType(XmlElement element)
         {
-            return ComponentRegistry.GetComponentType(element.Prefix, element.LocalName);
+            return Type;
         }
     }
 }

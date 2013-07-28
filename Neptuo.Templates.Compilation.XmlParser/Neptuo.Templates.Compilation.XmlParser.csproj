@@ -47,10 +47,12 @@
   <ItemGroup>
     <Compile Include="IBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseComponentBuilder.cs" />
+    <Compile Include="Parsers\IComponentDefinition.cs" />
     <Compile Include="Parsers\IObserverRegistration.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Parsers\BaseParser.cs" />
     <Compile Include="Parsers\ILiteralBuilder.cs" />
+    <Compile Include="Parsers\IPropertyInfo.cs" />
     <Compile Include="Parsers\XmlBuilderContext.cs" />
     <Compile Include="Parsers\Extensions\DefaultAttributeExtension.cs" />
     <Compile Include="Parsers\Extensions\IDefaultValueExtension.cs" />
