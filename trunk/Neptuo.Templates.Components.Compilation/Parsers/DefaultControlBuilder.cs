@@ -9,7 +9,7 @@ using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultControlBuilder : BaseControlBuider
+    public class DefaultControlBuilder : BaseControlBuilder
     {
         protected IComponentRegistry ComponentRegistry { get; set; }
 

@@ -8,7 +8,7 @@ using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class GenericContentControlBuilder : BaseControlBuider
+    public class GenericContentControlBuilder : BaseControlBuilder
     {
         private Type controlType;
         private string tagNameProperty;

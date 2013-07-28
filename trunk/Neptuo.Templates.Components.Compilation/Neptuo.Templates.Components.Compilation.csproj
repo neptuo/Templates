@@ -55,7 +55,7 @@
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="ControlHelper.cs" />
     <Compile Include="Func.cs" />
-    <Compile Include="Parsers\BaseControlBuider.cs" />
+    <Compile Include="Parsers\BaseControlBuilder.cs" />
     <Compile Include="Parsers\BaseObserverBuilder.cs" />
     <Compile Include="Parsers\DefaultControlBuilder.cs" />
     <Compile Include="Parsers\DefaultObserverBuilder.cs" />

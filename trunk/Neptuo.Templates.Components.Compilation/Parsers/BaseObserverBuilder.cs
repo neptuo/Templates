@@ -61,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             foreach (XmlAttribute attribute in unboundAttributes)
             {
                 if (typeof(IAttributeCollection).IsAssignableFrom(observerObject.Type))
-                    BaseControlBuider.BindAttributeCollection(context, observerObject, observerObject, attribute.LocalName, attribute.Value);
+                    BaseControlBuilder.BindAttributeCollection(context, observerObject, observerObject, attribute.LocalName, attribute.Value);
             }
         }
     }

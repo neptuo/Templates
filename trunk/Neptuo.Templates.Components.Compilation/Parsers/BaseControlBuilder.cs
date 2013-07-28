@@ -10,29 +10,16 @@ using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public abstract class BaseControlBuider : IComponentBuilder
+    public abstract class BaseControlBuilder : BaseComponentBuilder
     {
         protected abstract Type GetControlType(XmlElement element);
 
-        public virtual void Parse(IBuilderContext context, XmlElement element)
-        {
-            //TODO: Find component type to xml element...
-            IComponentCodeObject codeObject = CreateCodeObject(context, element);
-            BindProperties(context, codeObject, element);
-            AppendToParent(context, codeObject);
-        }
-
-        protected virtual void AppendToParent(IBuilderContext context, IComponentCodeObject codeObject)
-        {
-            context.Parent.SetValue(codeObject);
-        }
-
-        protected virtual IComponentCodeObject CreateCodeObject(IBuilderContext context, XmlElement element)
+        protected override IComponentCodeObject CreateCodeObject(IBuilderContext context, XmlElement element)
         {
             return new ControlCodeObject(GetControlType(element));
         }
 
-        protected virtual void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected override void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
             HashSet<string> boundProperies = new HashSet<string>();
             PropertyInfo defaultProperty = ControlHelper.GetDefaultProperty(codeObject.Type);
@@ -109,7 +96,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected virtual void ProcessUnboundAttributes(IBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
+        protected override void ProcessUnboundAttributes(IBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
         {
             XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();
             foreach (XmlAttribute attribute in unboundAttributes)
