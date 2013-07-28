@@ -51,8 +51,11 @@
     <Compile Include="CodeGenerators\SetPropertyDescriptorExtension.cs" />
     <Compile Include="CodeObjects\ControlCodeObject.cs" />
     <Compile Include="CodeObjects\DependencyCodeObject.cs" />
+    <Compile Include="CodeObjects\ListAddPropertyDescriptor.cs" />
     <Compile Include="CodeObjects\LocalFieldCodeObject.cs" />
+    <Compile Include="CodeObjects\MethodInvokePropertyDescriptor.cs" />
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
+    <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="ControlHelper.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="Parsers\BaseControlBuilder.cs" />
