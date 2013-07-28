@@ -101,8 +101,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             CreateCodeClass(context);
             CreateCodeMethods(context);
 
-            if (propertyDescriptor is ListAddPropertyDescriptor)
-                GenerateProperty(context, propertyDescriptor as ListAddPropertyDescriptor, Names.ViewPageField, context.CreateViewPageControlsMethod);
+            GenerateProperty(context, propertyDescriptor, Names.ViewPageField, context.CreateViewPageControlsMethod);
 
             WriteOutput(context.Unit, codeContext.Output);
             return true;
