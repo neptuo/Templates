@@ -6,8 +6,8 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.PreProcessing
 {
-    public interface IPreProcessor
+    public interface IVisitor
     {
-        void Process(IPropertyDescriptor propertyDescriptor, IPreProcessorContext context);
+        void Visit(IPropertyDescriptor propertyDescriptor, IVisitorContext context);
     }
 }
