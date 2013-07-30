@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C31795F1-AE2E-4095-A4E3-95FA1952582E}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>TestConsoleNG</RootNamespace>
+    <AssemblyName>TestConsoleNG</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestTemplates.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.CodeDomGenerator\Neptuo.Templates.Compilation.CodeDomGenerator.csproj">
+      <Project>{fe55bf0f-506c-4f9e-abfd-69c4cd0761a3}</Project>
+      <Name>Neptuo.Templates.Compilation.CodeDomGenerator</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.MarkupExtension\Neptuo.Templates.Compilation.MarkupExtension.csproj">
+      <Project>{cd66820c-6034-480a-a70b-fde1f8958b91}</Project>
+      <Name>Neptuo.Templates.Compilation.MarkupExtension</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.XmlParser\Neptuo.Templates.Compilation.XmlParser.csproj">
+      <Project>{2d69656a-a3b6-4206-8b1d-eb7027716172}</Project>
+      <Name>Neptuo.Templates.Compilation.XmlParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Components.Compilation\Neptuo.Templates.Components.Compilation.csproj">
+      <Project>{dc76c1f9-02f2-4d91-a0e3-225a7290cb5f}</Project>
+      <Name>Neptuo.Templates.Components.Compilation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Components\Neptuo.Templates.Components.csproj">
+      <Project>{4c85862f-5d28-4907-ab59-e54375dc9d81}</Project>
+      <Name>Neptuo.Templates.Components</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

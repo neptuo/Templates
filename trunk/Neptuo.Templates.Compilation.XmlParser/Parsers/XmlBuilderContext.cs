@@ -12,8 +12,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         public IPropertyDescriptor Parent { get; set; }
         public XmlContentParser Parser { get; set; }
         public XmlContentParser.Helper Helper { get; set; }
-        public ILiteralBuilder LiteralBuilder { get; set; }
-        public IComponentBuilder GenericContentBuilder { get; set; }
         public IBuilderRegistry BuilderRegistry { get; set; }
 
         public static XmlBuilderContext Create()
@@ -45,18 +43,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             SetParent(helper.Parent);
             SetParserContext(helper.Context);
             SetBuilderRegistry(helper.BuilderRegistry);
-            return this;
-        }
-
-        public XmlBuilderContext SetLiteralBuilder(ILiteralBuilder literalBuilder)
-        {
-            LiteralBuilder = literalBuilder;
-            return this;
-        }
-
-        public XmlBuilderContext SetGenericContent(IComponentBuilder genericContentBuilder)
-        {
-            GenericContentBuilder = genericContentBuilder;
             return this;
         }
 

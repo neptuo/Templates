@@ -12,8 +12,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         IPropertyDescriptor Parent { get; }
         XmlContentParser Parser { get; }
         XmlContentParser.Helper Helper { get; }
-        ILiteralBuilder LiteralBuilder { get; }
-        IComponentBuilder GenericContentBuilder { get; }
         IBuilderRegistry BuilderRegistry { get; }
     }
 }
