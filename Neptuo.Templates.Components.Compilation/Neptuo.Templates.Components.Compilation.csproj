@@ -65,14 +65,13 @@
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="ControlHelper.cs" />
     <Compile Include="Func.cs" />
-    <Compile Include="NamespaceBuilderRegistry.cs" />
+    <Compile Include="TypeBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseControlBuilder.cs" />
     <Compile Include="Parsers\BaseObserverBuilder.cs" />
     <Compile Include="Parsers\DefaultControlBuilder.cs" />
     <Compile Include="Parsers\DefaultObserverBuilder.cs" />
     <Compile Include="Parsers\DescriptorPropertyInfo.cs" />
     <Compile Include="Parsers\GenericContentControlBuilder.cs" />
-    <Compile Include="Parsers\IComponentRegistry.cs" />
     <Compile Include="Parsers\TypeComponentDefinition.cs" />
     <Compile Include="Parsers\TypePropertyInfo.cs" />
     <Compile Include="PreProcessing\BaseVisitor.cs" />

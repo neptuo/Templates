@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation
 {
-    public class NamespaceBuilderRegistry : IBuilderRegistry
+    public class TypeBuilderRegistry : IBuilderRegistry
     {
         public const string ObserverWildcard = "*";
 
         protected NamespaceBuilderRegistryContent Content { get; private set; }
 
-        public NamespaceBuilderRegistry(NamespaceBuilderRegistryContent content = null)
+        public TypeBuilderRegistry(NamespaceBuilderRegistryContent content = null)
         {
             Content = content ?? new NamespaceBuilderRegistryContent();
         }
@@ -41,7 +41,7 @@ namespace Neptuo.Templates.Compilation
 
         public IBuilderRegistry CreateChildRegistry()
         {
-            return new NamespaceBuilderRegistry(new NamespaceBuilderRegistryContent(Content));
+            return new TypeBuilderRegistry(new NamespaceBuilderRegistryContent(Content));
         }
     }
 
