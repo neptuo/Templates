@@ -15,9 +15,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
         protected override void GenerateProperty(PropertyDescriptorExtensionContext context, ListAddPropertyDescriptor propertyDescriptor)
         {
             
-            bool generic = propertyDescriptor.PropertyName.Type.IsGenericType;
+            bool generic = propertyDescriptor.Property.Type.IsGenericType;
             bool requiresCasting = false;
-            bool createInstance = ((TypePropertyInfo)propertyDescriptor.PropertyName).PropertyInfo.GetSetMethod() != null;
+            bool createInstance = ((TypePropertyInfo)propertyDescriptor.Property).PropertyInfo.GetSetMethod() != null;
             Type targetType = null;
             string addMethodName = null;
 
@@ -26,18 +26,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                     new CodeThisReferenceExpression(),
                     context.FieldName
                 ),
-                propertyDescriptor.PropertyName.Name
+                propertyDescriptor.Property.Name
             );
 
-            if (typeof(IEnumerable).IsAssignableFrom(propertyDescriptor.PropertyName.Type))
+            if (typeof(IEnumerable).IsAssignableFrom(propertyDescriptor.Property.Type))
             {
                 requiresCasting = true;
                 if (generic)
                 {
-                    targetType = typeof(List<>).MakeGenericType(propertyDescriptor.PropertyName.Type.GetGenericArguments()[0]);
+                    targetType = typeof(List<>).MakeGenericType(propertyDescriptor.Property.Type.GetGenericArguments()[0]);
                     addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
 
-                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.PropertyName.Type.GetGenericTypeDefinition()))
+                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.Property.Type.GetGenericTypeDefinition()))
                         requiresCasting = false;
                 }
                 else

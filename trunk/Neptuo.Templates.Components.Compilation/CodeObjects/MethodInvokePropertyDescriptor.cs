@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     public class MethodInvokePropertyDescriptor : IPropertyDescriptor
     {
         public MethodInfo Method { get; set; }
-        public IPropertyInfo PropertyName { get; set; }
+        public IPropertyInfo Property { get; set; }
         public List<ICodeObject> Parameters { get; protected set; }
 
         public MethodInvokePropertyDescriptor(MethodInfo method)

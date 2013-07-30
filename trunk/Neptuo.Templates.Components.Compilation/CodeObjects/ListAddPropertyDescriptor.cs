@@ -8,19 +8,19 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 {
     public class ListAddPropertyDescriptor : IPropertyDescriptor, IDefaultPropertyValue
     {
-        public IPropertyInfo PropertyName { get; set; }
+        public IPropertyInfo Property { get; set; }
         public List<ICodeObject> Values { get; set; }
         public bool IsDefaultValue { get; set; }
 
         public ListAddPropertyDescriptor(IPropertyInfo propertyName)
         {
-            PropertyName = propertyName;
+            Property = propertyName;
             Values = new List<ICodeObject>();
         }
 
         public ListAddPropertyDescriptor(IPropertyInfo propertyName, params ICodeObject[] values)
         {
-            PropertyName = propertyName;
+            Property = propertyName;
             Values = new List<ICodeObject>(values);
         }
 

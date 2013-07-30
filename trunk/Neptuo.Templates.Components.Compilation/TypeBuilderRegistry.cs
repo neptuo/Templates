@@ -11,31 +11,71 @@ namespace Neptuo.Templates.Compilation
     {
         public const string ObserverWildcard = "*";
 
+        private ILiteralBuilder literalBuilder;
+        private IComponentBuilder genericContentBuilder;
+
         protected NamespaceBuilderRegistryContent Content { get; private set; }
 
-        public TypeBuilderRegistry(NamespaceBuilderRegistryContent content = null)
+        public TypeBuilderRegistry(ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
+        {
+            this.literalBuilder = literalBuilder;
+            this.genericContentBuilder = genericContentBuilder;
+        }
+
+        internal TypeBuilderRegistry(NamespaceBuilderRegistryContent content = null)
         {
             Content = content ?? new NamespaceBuilderRegistryContent();
         }
 
         public IComponentBuilder GetComponentBuilder(string prefix, string name)
         {
+            if (prefix == null)
+                prefix = String.Empty;
+            else
+                prefix = prefix.ToLowerInvariant();
+
+            name = name.ToLowerInvariant();
+
+            if (Content.ControlsInNamespaces.ContainsKey(prefix)
+                && Content.ControlsInNamespaces[prefix].ContainsKey(name))
+            {
+                Type controlType = Content.ControlsInNamespaces[prefix][name];
+                return new DefaultControlBuilder(controlType);
+            }
+
+            return GetGenericContentBuilder(name);
+        }
+
+        public IObserverRegistration GetObserverBuilder(string prefix, string name)
+        {
+            //if (attributeNamespace == null)
+            //    attributeNamespace = String.Empty;
+            //else
+            //    attributeNamespace = attributeNamespace.ToLowerInvariant();
+
+            //attributeName = attributeName.ToLowerInvariant();
+
+            //if (!Observers.ContainsKey(attributeNamespace))
+            //    return null;
+
+            //if (Observers[attributeNamespace].ContainsKey(attributeName))
+            //    return Observers[attributeNamespace][attributeName];
+
+            //if (Observers[attributeNamespace].ContainsKey(ObserverWildcard))
+            //    return Observers[attributeNamespace][ObserverWildcard];
+
+            //return null;
             throw new NotImplementedException();
         }
 
         public IComponentBuilder GetGenericContentBuilder(string name)
         {
-            throw new NotImplementedException();
+            return genericContentBuilder;
         }
 
         public ILiteralBuilder GetLiteralBuilder()
         {
-            throw new NotImplementedException();
-        }
-
-        public IObserverRegistration GetObserverBuilder(string prefix, string name)
-        {
-            throw new NotImplementedException();
+            return literalBuilder;
         }
 
         public void RegisterNamespace(NamespaceDeclaration namespaceDeclaration)
@@ -47,6 +87,7 @@ namespace Neptuo.Templates.Compilation
         public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
         {
             return Content.Namespaces.Values;
+            //TODO: Add observer ns!
         }
 
         public IBuilderRegistry CreateChildRegistry()

@@ -8,13 +8,13 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 {
     public class SetPropertyDescriptor : IPropertyDescriptor, IDefaultPropertyValue
     {
-        public IPropertyInfo PropertyName { get; set; }
+        public IPropertyInfo Property { get; set; }
         public ICodeObject Value { get; set; }
         public bool IsDefaultValue { get; set; }
 
         public SetPropertyDescriptor(IPropertyInfo propertyName)
         {
-            PropertyName = propertyName;
+            Property = propertyName;
         }
 
         public SetPropertyDescriptor(IPropertyInfo propertyName, ICodeObject value)
