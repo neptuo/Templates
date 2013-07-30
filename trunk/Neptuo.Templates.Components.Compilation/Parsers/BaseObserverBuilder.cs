@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 {
                     if (property.Key.ToLowerInvariant() == attribute.LocalName.ToLowerInvariant())
                     {
-                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
+                        IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(new TypePropertyInfo(property.Value));
                         bool result = context.ParserContext.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors));
 
                         if (!result)
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 if (!boundProperty)
                 {
-                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(property.Value);
+                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(new TypePropertyInfo(property.Value));
                     bool result = context.Parser.BindPropertyDefaultValue(propertyDescriptor);
 
                     if (result)

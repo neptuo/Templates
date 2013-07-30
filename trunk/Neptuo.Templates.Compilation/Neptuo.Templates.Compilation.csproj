@@ -51,6 +51,7 @@
     <Compile Include="CodeObjects\IPlainValueCodeObject.cs" />
     <Compile Include="CodeObjects\IPropertiesCodeObject.cs" />
     <Compile Include="CodeObjects\IPropertyDescriptor.cs" />
+    <Compile Include="CodeObjects\IPropertyInfo.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="Data\StorageProvider.cs" />

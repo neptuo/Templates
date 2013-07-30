@@ -1,5 +1,6 @@
 ﻿using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.CodeDom;
 using System.Collections;
@@ -13,9 +14,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
     {
         protected override void GenerateProperty(PropertyDescriptorExtensionContext context, ListAddPropertyDescriptor propertyDescriptor)
         {
-            bool generic = propertyDescriptor.PropertyName.PropertyType.IsGenericType;
+            
+            bool generic = propertyDescriptor.PropertyName.Type.IsGenericType;
             bool requiresCasting = false;
-            bool createInstance = propertyDescriptor.PropertyName.GetSetMethod() != null;
+            bool createInstance = ((TypePropertyInfo)propertyDescriptor.PropertyName).PropertyInfo.GetSetMethod() != null;
             Type targetType = null;
             string addMethodName = null;
 
@@ -27,15 +29,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                 propertyDescriptor.PropertyName.Name
             );
 
-            if (typeof(IEnumerable).IsAssignableFrom(propertyDescriptor.PropertyName.PropertyType))
+            if (typeof(IEnumerable).IsAssignableFrom(propertyDescriptor.PropertyName.Type))
             {
                 requiresCasting = true;
                 if (generic)
                 {
-                    targetType = typeof(List<>).MakeGenericType(propertyDescriptor.PropertyName.PropertyType.GetGenericArguments()[0]);
+                    targetType = typeof(List<>).MakeGenericType(propertyDescriptor.PropertyName.Type.GetGenericArguments()[0]);
                     addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
 
-                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.PropertyName.PropertyType.GetGenericTypeDefinition()))
+                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.PropertyName.Type.GetGenericTypeDefinition()))
                         requiresCasting = false;
                 }
                 else

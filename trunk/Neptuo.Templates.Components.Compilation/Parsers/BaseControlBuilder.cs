@@ -33,12 +33,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo)
         {
-            return new ListAddPropertyDescriptor(propertyInfo.Name);
+            return new ListAddPropertyDescriptor(propertyInfo);
         }
 
         protected override IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo)
         {
-            return new SetPropertyDescriptor(propertyInfo.Name);
+            return new SetPropertyDescriptor(propertyInfo);
         }
 
         public static bool BindAttributeCollection(IBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
