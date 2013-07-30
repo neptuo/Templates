@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
-        protected override void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected virtual void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
             IComponentDefinition componentDefinition = GetComponentDefinition(context, codeObject, element);
 
@@ -110,7 +110,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected abstract void ProcessUnboundAttributes(IBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
+        protected virtual void ProcessUnboundAttributes(IBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
         {
             List<XmlAttribute> usedAttributes = new List<XmlAttribute>();
             XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();

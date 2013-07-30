@@ -52,7 +52,6 @@
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Parsers\BaseParser.cs" />
     <Compile Include="Parsers\ILiteralBuilder.cs" />
-    <Compile Include="Parsers\IPropertyInfo.cs" />
     <Compile Include="Parsers\XmlBuilderContext.cs" />
     <Compile Include="Parsers\Extensions\DefaultAttributeExtension.cs" />
     <Compile Include="Parsers\Extensions\IDefaultValueExtension.cs" />

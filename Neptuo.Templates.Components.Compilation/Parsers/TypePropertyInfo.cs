@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,21 +10,21 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class TypePropertyInfo : IPropertyInfo
     {
-        private PropertyInfo propertyInfo;
+        public PropertyInfo PropertyInfo { get; private set; }
 
         public string Name
         {
-            get { return propertyInfo.Name; }
+            get { return PropertyInfo.Name; }
         }
 
         public Type Type
         {
-            get { return propertyInfo.PropertyType; }
+            get { return PropertyInfo.PropertyType; }
         }
 
         public TypePropertyInfo(PropertyInfo propertyInfo)
         {
-            this.propertyInfo = propertyInfo;
+            PropertyInfo = propertyInfo;
         }
     }
 }

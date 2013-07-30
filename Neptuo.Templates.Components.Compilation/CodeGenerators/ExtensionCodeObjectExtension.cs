@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             CodeMemberField parentField = FindParentField(context);
 
             return new CodeCastExpression(
-                propertyDescriptor.PropertyName.PropertyType,
+                propertyDescriptor.PropertyName.Type,
                 new CodeMethodInvokeExpression(
                     new CodeFieldReferenceExpression(
                         new CodeThisReferenceExpression(),
