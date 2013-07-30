@@ -23,6 +23,16 @@ namespace Neptuo.Templates.Compilation
             throw new NotImplementedException();
         }
 
+        public IComponentBuilder GetGenericContentBuilder(string name)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ILiteralBuilder GetLiteralBuilder()
+        {
+            throw new NotImplementedException();
+        }
+
         public IObserverRegistration GetObserverBuilder(string prefix, string name)
         {
             throw new NotImplementedException();

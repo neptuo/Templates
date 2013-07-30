@@ -9,6 +9,8 @@ namespace Neptuo.Templates.Compilation
     public interface IBuilderRegistry
     {
         IComponentBuilder GetComponentBuilder(string prefix, string name);
+        IComponentBuilder GetGenericContentBuilder(string name);
+        ILiteralBuilder GetLiteralBuilder();
         IObserverRegistration GetObserverBuilder(string prefix, string name);
 
         void RegisterNamespace(NamespaceDeclaration namespaceDeclaration);

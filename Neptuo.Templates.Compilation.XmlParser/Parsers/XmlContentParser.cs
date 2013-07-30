@@ -15,14 +15,10 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public partial class XmlContentParser : BaseParser, IContentParser
     {
-        private ILiteralBuilder literalBuilder;
-        private IComponentBuilder genericContentBuilder;
         private IBuilderRegistry builderRegistry;
 
-        public XmlContentParser(ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder, IBuilderRegistry builderRegistry)
+        public XmlContentParser(IBuilderRegistry builderRegistry)
         {
-            this.literalBuilder = literalBuilder;
-            this.genericContentBuilder = genericContentBuilder;
             this.builderRegistry = builderRegistry;
         }
 
@@ -113,9 +109,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             return XmlBuilderContext.Create()
                 .SetParser(this)
-                .SetHelper(helper)
-                .SetGenericContent(genericContentBuilder)
-                .SetLiteralBuilder(literalBuilder);
+                .SetHelper(helper);
         }
 
         private void AppendPlainText(string text, Helper helper)
@@ -123,7 +117,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (String.IsNullOrWhiteSpace(text))
                 return;
 
-            literalBuilder.Parse(CreateBuilderContext(helper), text);
+            builderRegistry.GetLiteralBuilder().Parse(CreateBuilderContext(helper), text);
 
             //text = text.Trim(); //TODO: Trim??
 
