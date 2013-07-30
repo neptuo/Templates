@@ -32,6 +32,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Neptuo, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Neptuo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -41,6 +45,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AnchorControl.cs" />
+    <Compile Include="Controls\BaseContentControl.cs" />
+    <Compile Include="Controls\BaseControl.cs" />
+    <Compile Include="Controls\GenericContentControl.cs" />
+    <Compile Include="Controls\GenericContentControlBuilder.cs" />
+    <Compile Include="Controls\GenericControl.cs" />
+    <Compile Include="Controls\LiteralControl.cs" />
+    <Compile Include="Controls\LiteralControlBuilder.cs" />
+    <Compile Include="Controls\PanelControl.cs" />
+    <Compile Include="Controls\TextBoxControl.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestTemplates.cs" />
@@ -74,6 +88,7 @@
       <Name>Neptuo.Templates.Components</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

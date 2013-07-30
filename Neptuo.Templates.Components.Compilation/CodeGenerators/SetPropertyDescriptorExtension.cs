@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                             new CodeThisReferenceExpression(),
                             context.FieldName
                         ),
-                        propertyDescriptor.PropertyName.Name
+                        propertyDescriptor.Property.Name
                     ),
                     codeExpression
                 )
