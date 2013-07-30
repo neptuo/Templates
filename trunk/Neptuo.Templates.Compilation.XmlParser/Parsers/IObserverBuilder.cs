@@ -14,6 +14,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 
     public enum ObserverBuilderScope
     {
-        PerAttribute, PerElement, PerDocument
+        PerAttribute, PerElement//, PerDocument - must implement
     }
 }
