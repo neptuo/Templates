@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates
 {
-    public interface IWebGeneratedView : IGeneratedView
+    public interface IWebGeneratedView : IGeneratedView, IDisposable
     {
         void CreateControls();
 

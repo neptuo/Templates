@@ -10,5 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     {
         string Name { get; }
         Type Type { get; }
+
+        bool CanAssign(Type type);
     }
 }

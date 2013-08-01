@@ -26,5 +26,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             this.propertyDescriptor = propertyDescriptor;
         }
+
+        public bool CanAssign(Type type)
+        {
+            Type target = Type;
+            if (Type.IsGenericType)
+                target = Type.GetGenericArguments()[0];
+
+            return target.IsAssignableFrom(type);
+        }
     }
 }

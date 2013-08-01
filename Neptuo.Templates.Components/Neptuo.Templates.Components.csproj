@@ -41,6 +41,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeCollection.cs" />
+    <Compile Include="BaseViewPage.cs" />
+    <Compile Include="ComponentManager.ComponentEntry.cs" />
+    <Compile Include="ComponentManager.cs" />
+    <Compile Include="ComponentManager.ObserverInfo.cs" />
     <Compile Include="Extensions\DefaultMarkupExtensionContext.cs" />
     <Compile Include="HtmlAttribute.cs" />
     <Compile Include="IAttributeCollection.cs" />
