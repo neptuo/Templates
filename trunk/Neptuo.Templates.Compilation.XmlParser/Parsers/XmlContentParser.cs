@@ -24,28 +24,26 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool Parse(string content, IContentParserContext context)
         {
+#if !DEBUG
             try
             {
+#endif
                 Helper helper = new Helper(content, context, builderRegistry);
                 GenerateRecursive(helper, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
 
                 return true;
+#if !DEBUG
             }
             catch (XmlException e)
             {
                 context.Errors.Add(new ErrorInfo(e.LineNumber, e.LinePosition, e.Message));
-#if DEBUG
                 throw e;
-#endif
             }
             catch (Exception e)
             {
                 context.Errors.Add(new ErrorInfo(e.Message));
-#if DEBUG
                 throw e;
-#endif
             }
-#if !DEBUG
             return false;
 #endif
         }

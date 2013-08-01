@@ -17,6 +17,7 @@ namespace Neptuo.Templates.Compilation
         protected NamespaceBuilderRegistryContent Content { get; private set; }
 
         public TypeBuilderRegistry(ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
+            : this(null)
         {
             this.literalBuilder = literalBuilder;
             this.genericContentBuilder = genericContentBuilder;
@@ -64,8 +65,8 @@ namespace Neptuo.Templates.Compilation
             //if (Observers[attributeNamespace].ContainsKey(ObserverWildcard))
             //    return Observers[attributeNamespace][ObserverWildcard];
 
-            //return null;
-            throw new NotImplementedException();
+            return null;
+            //throw new NotImplementedException();
         }
 
         public IComponentBuilder GetGenericContentBuilder(string name)
@@ -115,9 +116,20 @@ namespace Neptuo.Templates.Compilation
             Dictionary<string, Dictionary<string, Type>> controls, 
             Dictionary<string, Dictionary<string, Type>> observers)
         {
-            Namespaces = new Dictionary<string, NamespaceDeclaration>(namespaces);
-            ControlsInNamespaces = new Dictionary<string, Dictionary<string, Type>>(controls);
-            Observers = new Dictionary<string, Dictionary<string, Type>>(observers);
+            if (namespaces != null)
+                Namespaces = new Dictionary<string, NamespaceDeclaration>(namespaces);
+            else
+                Namespaces = new Dictionary<string, NamespaceDeclaration>();
+
+            if (controls != null)
+                ControlsInNamespaces = new Dictionary<string, Dictionary<string, Type>>(controls);
+            else
+                ControlsInNamespaces = new Dictionary<string, Dictionary<string, Type>>();
+
+            if (observers != null)
+                Observers = new Dictionary<string, Dictionary<string, Type>>(observers);
+            else
+                Observers = new Dictionary<string, Dictionary<string, Type>>();
         }
     }
 }

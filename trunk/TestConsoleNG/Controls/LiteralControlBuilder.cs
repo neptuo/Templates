@@ -25,7 +25,7 @@ namespace TestConsoleNG.Controls
 
         public void Parse(IBuilderContext context, string text)
         {
-            if (context.Parent.Property.Type == typeof(string))
+            if (context.Parent.Property.CanAssign(typeof(string)))
             {
                 context.Parent.SetValue(new PlainValueCodeObject(text));
                 return;

@@ -46,6 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseGeneratedView.cs" />
+    <Compile Include="CodeDomCompiler.cs" />
+    <Compile Include="CodeDomViewService.cs" />
+    <Compile Include="CodeDomViewServiceException.cs" />
+    <Compile Include="CodeDomViewServiceExtensions.cs" />
     <Compile Include="CodeGenerators\BaseComponentCodeObjectExtension.cs" />
     <Compile Include="CodeGenerators\CODEDOMREGISTEREXTENSIONS.cs" />
     <Compile Include="CodeGenerators\ComponentCodeObjectExtension.cs" />
@@ -64,6 +69,9 @@
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="ControlHelper.cs" />
+    <Compile Include="DebugUtils.cs" />
+    <Compile Include="DefaultViewServiceContext.cs" />
+    <Compile Include="FileProvider.cs" />
     <Compile Include="Func.cs" />
     <Compile Include="TypeBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseControlBuilder.cs" />
