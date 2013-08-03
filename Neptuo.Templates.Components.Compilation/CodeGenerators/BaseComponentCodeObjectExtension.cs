@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
         {
             string fieldName = context.CodeGenerator.GenerateFieldName();
             CodeMemberField field = new CodeMemberField(typeCodeObject.Type, fieldName);
-            context.CodeDomContext.Class.Members.Add(field);
+            context.CodeDomContext.BaseStructure.Class.Members.Add(field);
 
 
             CodeMemberMethod createMethod = GenerateCreateMethod(context, typeCodeObject, propertiesCodeObject, fieldName);
@@ -46,7 +46,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             {
                 Name = context.CodeGenerator.FormatCreateMethod(fieldName)
             };
-            context.CodeDomContext.Class.Members.Add(createMethod);
+            context.CodeDomContext.BaseStructure.Class.Members.Add(createMethod);
 
             CodeConditionStatement ifNull = new CodeConditionStatement
             {
@@ -93,7 +93,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             {
                 Name = bindMethodName ?? context.CodeGenerator.FormatBindMethod(fieldName)
             };
-            context.CodeDomContext.Class.Members.Add(bindMethod);
+            context.CodeDomContext.BaseStructure.Class.Members.Add(bindMethod);
 
             foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
             {

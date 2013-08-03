@@ -24,6 +24,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
 
             generator.SetDependencyProviderExtension(typeof(object), new DefaultDependencyProviderExtension());
+
+
+            generator.SetBaseStructureExtension(new BaseStructureExtension());
         }
     }
 }

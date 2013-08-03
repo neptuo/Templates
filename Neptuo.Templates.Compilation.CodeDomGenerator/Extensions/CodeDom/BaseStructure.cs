@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 {
-    public interface IDependencyProviderExtension
+    public class BaseStructure
     {
-        CodeExpression GenerateCode(DependencyProviderExtensionContext context, Type type);
+        public CodeCompileUnit Unit { get; set; }
+        public CodeTypeDeclaration Class { get; set; }
+        public CodeMemberMethod CreateViewPageControlsMethod { get; set; }
     }
 }

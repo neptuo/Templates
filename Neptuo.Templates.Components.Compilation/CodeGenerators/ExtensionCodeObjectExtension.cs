@@ -58,7 +58,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 
         private CodeMemberField FindParentField(CodeObjectExtensionContext context)
         {
-            foreach (CodeTypeMember member in context.CodeDomContext.Class.Members)
+            foreach (CodeTypeMember member in context.CodeDomContext.BaseStructure.Class.Members)
             {
                 if (member is CodeMemberField && member.Name == context.ParentFieldName)
                     return (CodeMemberField)member;

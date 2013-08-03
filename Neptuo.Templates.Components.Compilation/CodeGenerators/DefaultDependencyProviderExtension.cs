@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 {
     public class DefaultDependencyProviderExtension : IDependencyProviderExtension
     {
-        public CodeExpression GenerateCode(CodeDomGenerator.Context context, Type type)
+        public CodeExpression GenerateCode(DependencyProviderExtensionContext context, Type type)
         {
             if (type == typeof(IComponentManager))
                 return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ComponentManagerField);
