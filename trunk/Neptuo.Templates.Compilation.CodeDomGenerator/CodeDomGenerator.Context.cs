@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             public ICodeGeneratorContext CodeGeneratorContext { get; private set; }
             public string ClassName { get; private set; }
             public CodeDomGenerator CodeGenerator { get; private set; }
-
-            public CodeCompileUnit Unit { get; set; }
-            public CodeNamespace CodeNamespace { get; set; }
-            public CodeTypeDeclaration Class { get; set; }
-            public CodeMemberMethod CreateViewPageControlsMethod { get; set; }
+            public BaseStructure BaseStructure { get; set; }
 
             public Context(ICodeGeneratorContext codeGeneratorContext, string className, CodeDomGenerator codeGenerator)
             {

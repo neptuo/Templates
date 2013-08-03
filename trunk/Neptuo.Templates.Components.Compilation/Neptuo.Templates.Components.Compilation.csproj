@@ -54,6 +54,7 @@
     <Compile Include="CodeGenerators\BaseComponentCodeObjectExtension.cs" />
     <Compile Include="CodeGenerators\CODEDOMREGISTEREXTENSIONS.cs" />
     <Compile Include="CodeGenerators\ComponentCodeObjectExtension.cs" />
+    <Compile Include="CodeGenerators\BaseStructureExtension.cs" />
     <Compile Include="CodeGenerators\DefaultDependencyProviderExtension.cs" />
     <Compile Include="CodeGenerators\DependencyCodeObjectExtension.cs" />
     <Compile Include="CodeGenerators\ExtensionCodeObjectExtension.cs" />

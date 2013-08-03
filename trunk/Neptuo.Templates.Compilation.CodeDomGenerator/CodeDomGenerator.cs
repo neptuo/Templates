@@ -55,6 +55,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #endregion
 
+        #region ICodeDomBaseStructureExtension
+
+        public IBaseStructureExtension BaseStructureExtension { get; private set; }
+
+        public void SetBaseStructureExtension(IBaseStructureExtension extension)
+        {
+            BaseStructureExtension = extension;
+        }
+
+        #endregion
+
         #region Name helpers
 
         private int fieldCount = 0;
@@ -100,7 +111,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 }
             }
 
-            throw new NotImplementedException("Not supported property descriptor");
+            throw new NotImplementedException("Not supported property descriptor!");
         }
 
         public CodeExpression GenerateDependency(Context context, Type type)
@@ -109,13 +120,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 if (item.Key.IsAssignableFrom(type))
                 {
-                    CodeExpression expression = item.Value.GenerateCode(context, type);
+                    CodeExpression expression = item.Value.GenerateCode(new DependencyProviderExtensionContext(context), type);
                     if (expression != null)
                         return expression;
                 }
             }
 
-            throw new NotImplementedException("Not supported type for dependency resolution");
+            throw new NotImplementedException("Not supported type for dependency resolution!");
         }
 
         #endregion
@@ -124,13 +135,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             Context context = new Context(codeContext, Names.ClassName, this);
 
-            CreateCodeUnit(context);
-            CreateCodeClass(context);
-            CreateCodeMethods(context);
+            if (BaseStructureExtension == null)
+                throw new ArgumentNullException("BaseStructureExtension", "Base structure extension not provided!");
 
-            GenerateProperty(context, propertyDescriptor, Names.ViewPageField, context.CreateViewPageControlsMethod);
+            context.BaseStructure = BaseStructureExtension.GenerateCode(new BaseStructureExtensionContext(context));
 
-            WriteOutput(context.Unit, codeContext.Output);
+            GenerateProperty(context, propertyDescriptor, Names.ViewPageField, context.BaseStructure.CreateViewPageControlsMethod);
+
+            WriteOutput(context.BaseStructure.Unit, codeContext.Output);
             return true;
         }
 

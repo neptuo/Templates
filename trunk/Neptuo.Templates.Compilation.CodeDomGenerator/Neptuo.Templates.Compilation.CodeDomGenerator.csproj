@@ -50,7 +50,11 @@
     <Compile Include="DefaultCodeGeneratorServiceContext.cs" />
     <Compile Include="Extensions\CodeDom\BaseCodeObjectExtension.cs" />
     <Compile Include="Extensions\CodeDom\BasePropertyDescriptorExtension.cs" />
+    <Compile Include="Extensions\CodeDom\BaseStructure.cs" />
+    <Compile Include="Extensions\CodeDom\BaseStructureExtensionContext.cs" />
     <Compile Include="Extensions\CodeDom\CodeObjectExtensionContext.cs" />
+    <Compile Include="Extensions\CodeDom\DependencyProviderExtensionContext.cs" />
+    <Compile Include="Extensions\CodeDom\IBaseStructureExtension.cs" />
     <Compile Include="Extensions\CodeDom\ICodeObjectExtension.cs" />
     <Compile Include="Extensions\CodeDom\IDependencyProviderExtension.cs" />
     <Compile Include="Extensions\CodeDom\IPropertyDescriptorExtension.cs" />
