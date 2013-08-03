@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="IBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseComponentBuilder.cs" />
+    <Compile Include="Parsers\BindPropertiesContext.cs" />
     <Compile Include="Parsers\IComponentDefinition.cs" />
     <Compile Include="Parsers\IObserverRegistration.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
