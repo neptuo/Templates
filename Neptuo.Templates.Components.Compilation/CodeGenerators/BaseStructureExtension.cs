@@ -11,6 +11,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 {
     public class BaseStructureExtension : IBaseStructureExtension
     {
+        public static partial class Names
+        {
+            public const string CodeNamespace = "Neptuo.Templates";
+            public const string ClassName = "GeneratedView";
+            public const string BaseClassName = "BaseGeneratedView";
+            public const string RequestField = "request";
+            public const string ResponseField = "response";
+            public const string ViewPageField = "viewPage";
+            public const string ComponentManagerField = "componentManager";
+            public const string DependencyProviderField = "dependencyProvider";
+
+            public const string CreateViewPageControlsMethod = "CreateViewPageControls";
+        }
+
         public BaseStructure GenerateCode(BaseStructureExtensionContext context)
         {
             BaseStructure baseStructure = new BaseStructure();
@@ -27,13 +41,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 
         private void CreateCodeClass(BaseStructure context)
         {
-            CodeNamespace codeNamespace = new CodeNamespace(CodeDomGenerator.Names.CodeNamespace);
+            CodeNamespace codeNamespace = new CodeNamespace(Names.CodeNamespace);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web"));
             codeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Templates"));
             context.Unit.Namespaces.Add(codeNamespace);
 
-            context.Class = new CodeTypeDeclaration(CodeDomGenerator.Names.ClassName);
+            context.Class = new CodeTypeDeclaration(Names.ClassName);
             context.Class.IsClass = true;
             context.Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
             context.Class.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
@@ -44,12 +58,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 
         private void CreateCodeMethods(BaseStructure context)
         {
-            context.CreateViewPageControlsMethod = new CodeMemberMethod
+            context.EntryPointMethod = new CodeMemberMethod
             {
-                Name = CodeDomGenerator.Names.CreateViewPageControlsMethod,
+                Name = Names.CreateViewPageControlsMethod,
                 Attributes = MemberAttributes.Override | MemberAttributes.Family
             };
-            context.Class.Members.Add(context.CreateViewPageControlsMethod);
+            context.Class.Members.Add(context.EntryPointMethod);
         }
     }
 

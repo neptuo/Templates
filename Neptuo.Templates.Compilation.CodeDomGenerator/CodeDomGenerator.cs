@@ -133,14 +133,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext codeContext)
         {
-            Context context = new Context(codeContext, Names.ClassName, this);
+            Context context = new Context(codeContext, this);
 
             if (BaseStructureExtension == null)
                 throw new ArgumentNullException("BaseStructureExtension", "Base structure extension not provided!");
 
             context.BaseStructure = BaseStructureExtension.GenerateCode(new BaseStructureExtensionContext(context));
 
-            GenerateProperty(context, propertyDescriptor, Names.ViewPageField, context.BaseStructure.CreateViewPageControlsMethod);
+            GenerateProperty(context, propertyDescriptor, null, context.BaseStructure.EntryPointMethod);
 
             WriteOutput(context.BaseStructure.Unit, codeContext.Output);
             return true;

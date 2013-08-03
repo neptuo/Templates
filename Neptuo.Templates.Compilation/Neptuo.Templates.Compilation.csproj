@@ -39,6 +39,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerators\DefaultCodeGeneratorContext.cs" />
+    <Compile Include="CodeGenerators\DefaultCodeGeneratorService.cs" />
+    <Compile Include="CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
     <Compile Include="CodeGenerators\ICodeGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\ICodeGeneratorService.cs" />

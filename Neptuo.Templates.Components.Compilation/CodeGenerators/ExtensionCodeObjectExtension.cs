@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                         ),
                         new CodeFieldReferenceExpression(
                             new CodeThisReferenceExpression(),
-                            CodeDomGenerator.Names.DependencyProviderField
+                            BaseStructureExtension.Names.DependencyProviderField
                         )
                     )
                 )

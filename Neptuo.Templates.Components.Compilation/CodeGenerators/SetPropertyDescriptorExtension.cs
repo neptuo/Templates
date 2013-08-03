@@ -15,10 +15,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             context.BindMethod.Statements.Add(
                 new CodeAssignStatement(
                     new CodePropertyReferenceExpression(
-                        new CodeFieldReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            context.FieldName
-                        ),
+                        GetPropertyTarget(context),
                         propertyDescriptor.Property.Name
                     ),
                     codeExpression

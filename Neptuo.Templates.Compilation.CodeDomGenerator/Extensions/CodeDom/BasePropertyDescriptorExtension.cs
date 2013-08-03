@@ -16,5 +16,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
         }
 
         protected abstract void GenerateProperty(PropertyDescriptorExtensionContext context, T propertyDescriptor);
+
+        protected CodeExpression GetPropertyTarget(PropertyDescriptorExtensionContext context)
+        {
+            if (context.FieldName != null)
+            {
+                return new CodeFieldReferenceExpression(
+                    new CodeThisReferenceExpression(),
+                    context.FieldName
+                );
+            }
+                
+            return new CodeThisReferenceExpression();
+        }
     }
 }
