@@ -11,6 +11,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
     {
         public CodeCompileUnit Unit { get; set; }
         public CodeTypeDeclaration Class { get; set; }
-        public CodeMemberMethod CreateViewPageControlsMethod { get; set; }
+        public CodeMemberMethod EntryPointMethod { get; set; }
     }
 }

@@ -12,14 +12,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public class Context
         {
             public ICodeGeneratorContext CodeGeneratorContext { get; private set; }
-            public string ClassName { get; private set; }
             public CodeDomGenerator CodeGenerator { get; private set; }
             public BaseStructure BaseStructure { get; set; }
 
-            public Context(ICodeGeneratorContext codeGeneratorContext, string className, CodeDomGenerator codeGenerator)
+            public Context(ICodeGeneratorContext codeGeneratorContext, CodeDomGenerator codeGenerator)
             {
                 CodeGeneratorContext = codeGeneratorContext;
-                ClassName = className;
                 CodeGenerator = codeGenerator;
             }
         }

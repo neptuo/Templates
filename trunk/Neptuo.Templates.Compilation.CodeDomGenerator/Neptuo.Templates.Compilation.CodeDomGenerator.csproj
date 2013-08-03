@@ -44,10 +44,6 @@
   <ItemGroup>
     <Compile Include="CodeDomGenerator.Context.cs" />
     <Compile Include="CodeDomGenerator.cs" />
-    <Compile Include="CodeDomGenerator.Private.cs" />
-    <Compile Include="DefaultCodeGeneratorContext.cs" />
-    <Compile Include="DefaultCodeGeneratorService.cs" />
-    <Compile Include="DefaultCodeGeneratorServiceContext.cs" />
     <Compile Include="Extensions\CodeDom\BaseCodeObjectExtension.cs" />
     <Compile Include="Extensions\CodeDom\BasePropertyDescriptorExtension.cs" />
     <Compile Include="Extensions\CodeDom\BaseStructure.cs" />

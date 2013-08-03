@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                 new CodeMethodInvokeExpression(
                     new CodeFieldReferenceExpression(
                         new CodeThisReferenceExpression(),
-                        CodeDomGenerator.Names.ComponentManagerField
+                        BaseStructureExtension.Names.ComponentManagerField
                     ),
                     TypeHelper.MethodName<IComponentManager, object, Action>(m => m.AddComponent),
                     new CodeFieldReferenceExpression(
@@ -126,7 +126,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                     new CodeMethodInvokeExpression(
                         new CodeFieldReferenceExpression(
                             new CodeThisReferenceExpression(),
-                            CodeDomGenerator.Names.ComponentManagerField
+                            BaseStructureExtension.Names.ComponentManagerField
                         ),
                         TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action>(m => m.AttachObserver),
                         new CodeFieldReferenceExpression(

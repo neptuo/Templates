@@ -116,11 +116,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                 foreach (ParameterInfo parameter in ctor.GetParameters())
                 {
                     //if (parameter.ParameterType == typeof(IComponentManager))
-                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ComponentManagerField));
+                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ComponentManagerField));
                     //else if (parameter.ParameterType == typeof(IDependencyProvider))
-                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.DependencyProviderField));
+                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.DependencyProviderField));
                     //else if (parameter.ParameterType == typeof(IViewPage))
-                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ViewPageField));
+                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ViewPageField));
                     //else
                     //{
                     //    result.Add(new CodeCastExpression(
@@ -128,7 +128,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                     //        new CodeMethodInvokeExpression(
                     //        new CodeFieldReferenceExpression(
                     //            new CodeThisReferenceExpression(),
-                    //            CodeDomGenerator.Names.DependencyProviderField
+                    //            BaseStructureExtension.Names.DependencyProviderField
                     //        ),
                     //        TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
                     //        new CodeTypeOfExpression(new CodeTypeReference(parameter.ParameterType)),

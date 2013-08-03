@@ -13,20 +13,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
         public CodeExpression GenerateCode(DependencyProviderExtensionContext context, Type type)
         {
             if (type == typeof(IComponentManager))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ComponentManagerField);
+                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ComponentManagerField);
             
             if (type == typeof(IDependencyProvider))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.DependencyProviderField);
+                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.DependencyProviderField);
             
             if (type == typeof(IViewPage))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ViewPageField);
+                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ViewPageField);
 
             return new CodeCastExpression(
                 new CodeTypeReference(type),
                 new CodeMethodInvokeExpression(
                 new CodeFieldReferenceExpression(
                     new CodeThisReferenceExpression(),
-                    CodeDomGenerator.Names.DependencyProviderField
+                    BaseStructureExtension.Names.DependencyProviderField
                 ),
                 TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
                 new CodeTypeOfExpression(new CodeTypeReference(type)),

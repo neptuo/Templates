@@ -18,6 +18,7 @@ namespace Neptuo.Templates
         public ICollection<object> Content
         {
             get { return viewPage.Content; }
+            set { viewPage.Content = value; }
         }
 
         public void Setup(IViewPage viewPage, IComponentManager componentManager, IDependencyProvider dependencyProvider)

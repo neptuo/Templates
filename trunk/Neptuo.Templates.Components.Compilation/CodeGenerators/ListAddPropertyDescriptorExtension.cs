@@ -14,18 +14,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
     {
         protected override void GenerateProperty(PropertyDescriptorExtensionContext context, ListAddPropertyDescriptor propertyDescriptor)
         {
-            
             bool generic = propertyDescriptor.Property.Type.IsGenericType;
             bool requiresCasting = false;
             bool createInstance = true;//((TypePropertyInfo)propertyDescriptor.Property).PropertyInfo.GetSetMethod() != null; //???
             Type targetType = null;
             string addMethodName = null;
 
+            CodeExpression targetField = GetPropertyTarget(context);
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
-                new CodeFieldReferenceExpression(
-                    new CodeThisReferenceExpression(),
-                    context.FieldName
-                ),
+                targetField,
                 propertyDescriptor.Property.Name
             );
 
