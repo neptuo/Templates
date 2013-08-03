@@ -26,7 +26,7 @@ namespace TestConsoleNG.Controls
         protected override IComponentCodeObject CreateCodeObject(IBuilderContext context, XmlElement element)
         {
             IComponentCodeObject codeObject = base.CreateCodeObject(context, element);
-            codeObject.Properties.Add(new SetPropertyDescriptor(new TypePropertyInfo(GetType().GetProperty(tagNameProperty)), new PlainValueCodeObject(element.LocalName)));
+            codeObject.Properties.Add(new SetPropertyDescriptor(new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), new PlainValueCodeObject(element.LocalName)));
             return codeObject;
         }
     }

@@ -21,6 +21,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             generator.SetPropertyDescriptorExtension(typeof(ListAddPropertyDescriptor), new ListAddPropertyDescriptorExtension());
             generator.SetPropertyDescriptorExtension(typeof(SetPropertyDescriptor), new SetPropertyDescriptorExtension());
             generator.SetPropertyDescriptorExtension(typeof(MethodInvokePropertyDescriptor), new MethodInvokePropertyDescriptorExtension());
+
+
+            generator.SetDependencyProviderExtension(typeof(object), new DefaultDependencyProviderExtension());
         }
     }
 }

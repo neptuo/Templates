@@ -12,6 +12,10 @@ namespace Neptuo.Templates.Controls
     {
         public string Text { get; set; }
 
+        public LiteralControl(IComponentManager componentManager)
+            : base(componentManager)
+        { }
+
         protected override void RenderBody(HtmlTextWriter writer)
         {
             writer.Write(Text);

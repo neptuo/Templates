@@ -9,6 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         IList<IContentParser> ContentParsers { get; }
         IList<IValueParser> ValueParsers { get; }
+        IValueParser DefaultValueParser { get; set; }
 
         bool ProcessContent(string content, IParserServiceContext context);
         bool ProcessValue(string value, IParserServiceContext context);

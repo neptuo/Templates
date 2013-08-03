@@ -8,7 +8,8 @@ namespace Neptuo.Templates.Controls
     [Html("div")]
     public class PanelControl : BaseContentControl
     {
-        public PanelControl()
+        public PanelControl(IComponentManager componentManager)
+            : base(componentManager)
         {
             Content = new List<object>();
         }

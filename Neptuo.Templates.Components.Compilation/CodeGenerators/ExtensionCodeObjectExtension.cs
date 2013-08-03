@@ -10,6 +10,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
 {
+    /// <summary>
+    /// TODO: Use type conveter!
+    /// </summary>
     public class ExtensionCodeObjectExtension : BaseComponentCodeObjectExtension<ExtensionCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)

@@ -22,6 +22,10 @@ namespace Neptuo.Templates.Controls
             set { Attributes["value"] = value; }
         }
 
+        public TextBoxControl(IComponentManager componentManager)
+            : base(componentManager)
+        { }
+
         public override void OnInit()
         {
             base.OnInit();

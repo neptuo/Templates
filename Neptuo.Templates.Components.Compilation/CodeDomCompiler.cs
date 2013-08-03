@@ -37,6 +37,7 @@ namespace Neptuo.Templates.Compilation
         public void AddReferencedFolder(string path)
         {
             AddReferencedAssemblies(Directory.GetFiles(path, "*.dll"));
+            AddReferencedAssemblies(Directory.GetFiles(path, "*.exe"));
         }
 
         public CompilerResults CompileAssemblyFromFile(string fileName, string output = null)

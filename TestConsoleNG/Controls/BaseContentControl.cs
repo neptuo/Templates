@@ -24,6 +24,10 @@ namespace Neptuo.Templates.Controls
 
         public ICollection<object> Content { get; set; }
 
+        public BaseContentControl(IComponentManager componentManager)
+            : base(componentManager)
+        { }
+
         public override void OnInit()
         {
             base.OnInit();
