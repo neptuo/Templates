@@ -22,7 +22,6 @@ namespace TestConsoleNG
         static TestTemplates()
         {
             container = new UnityDependencyContainer();
-            container.RegisterType<IComponentManager, ComponentManager>();
 
         }
 
@@ -43,6 +42,7 @@ namespace TestConsoleNG
 
             CodeDomViewService viewService = new CodeDomViewService();
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
+            viewService.ParserService.DefaultValueParser = new PlainValueParser();
             //viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             //viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
             viewService.DebugMode = true;
@@ -52,6 +52,7 @@ namespace TestConsoleNG
 
             //container.RegisterInstance<ContentStorage>(new ContentStorage());
             container.RegisterInstance<IViewService>(viewService);
+            container.RegisterInstance<IComponentManager>(new ComponentManager());
 
             StringWriter output = new StringWriter();
             Stopwatch stopwatch = new Stopwatch();

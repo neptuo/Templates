@@ -12,6 +12,10 @@ namespace Neptuo.Templates.Controls
         public ICollection<Parameter> Parameters { get; set; }
         public Security Security { get; set; }
 
+        public AnchorControl(IComponentManager componentManager)
+            : base(componentManager)
+        { }
+
         public override void OnInit()
         {
             base.OnInit();

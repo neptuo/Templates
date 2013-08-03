@@ -69,6 +69,7 @@
     <Compile Include="Parsers\IParserServiceContext.cs" />
     <Compile Include="Parsers\IValueParser.cs" />
     <Compile Include="Parsers\IValueParserContext.cs" />
+    <Compile Include="Parsers\PlainValueParser.cs" />
     <Compile Include="PreProcessing\VisitorContext.cs" />
     <Compile Include="PreProcessing\PreProcessorService.cs" />
     <Compile Include="PreProcessing\PreProcessorServiceContext.cs" />

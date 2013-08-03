@@ -61,7 +61,6 @@
     <Compile Include="Controls\BaseControl.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericContentControlBuilder.cs" />
-    <Compile Include="Controls\GenericControl.cs" />
     <Compile Include="Controls\LiteralControl.cs" />
     <Compile Include="Controls\LiteralControlBuilder.cs" />
     <Compile Include="Controls\PanelControl.cs" />

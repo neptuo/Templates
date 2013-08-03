@@ -16,9 +16,9 @@ namespace Neptuo.Templates.Controls
         private bool? isSelfClosing;
         private string defaultPropertyName;
 
-        public IComponentManager ComponentManager { get; set; }
         public AttributeCollection Attributes { get; protected set; }
 
+        protected IComponentManager ComponentManager { get; private set; }
         protected virtual string TagName
         {
             get
@@ -66,8 +66,9 @@ namespace Neptuo.Templates.Controls
             set { defaultPropertyName = value; }
         }
 
-        public BaseControl()
+        public BaseControl(IComponentManager componentManager)
         {
+            ComponentManager = componentManager;
             Attributes = new AttributeCollection();
         }
 

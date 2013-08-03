@@ -86,7 +86,7 @@ namespace Neptuo.Templates.Compilation
                 compiler.IncludeDebugInformation = DebugMode;
 
                 foreach (string directory in BinDirectories)
-                    compiler.AddReferencedFolder(directory);
+                    compiler.AddReferencedFolder(directory);    
 
                 CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, assemblyName);
                 if (cr.Errors.Count > 0)

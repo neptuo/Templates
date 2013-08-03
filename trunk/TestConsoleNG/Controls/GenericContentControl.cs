@@ -14,12 +14,14 @@ namespace Neptuo.Templates.Controls
             set { base.TagName = value; }
         }
 
-        public GenericContentControl(string tagName)
+        public GenericContentControl(string tagName, IComponentManager componentManager)
+            : this(componentManager)
         {
             TagName = tagName;
         }
 
-        public GenericContentControl()
+        public GenericContentControl(IComponentManager componentManager)
+            : base(componentManager)
         { 
             IsSelfClosing = false;
         }

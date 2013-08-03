@@ -18,6 +18,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeObjectExtensions = new Dictionary<Type, ICodeObjectExtension>();
             PropertyDescriptorExtensions = new Dictionary<Type, IPropertyDescriptorExtension>();
+            DependencyProviderExtensions = new Dictionary<Type, IDependencyProviderExtension>();
         }
 
         #region ICodeDomCodeObjectExtension
@@ -39,6 +40,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public void SetPropertyDescriptorExtension(Type type, IPropertyDescriptorExtension extension)
         {
             PropertyDescriptorExtensions[type] = extension;
+        }
+
+        #endregion
+
+        #region ICodeDomDependencyProviderExtension
+
+        protected Dictionary<Type, IDependencyProviderExtension> DependencyProviderExtensions { get; private set; }
+
+        public void SetDependencyProviderExtension(Type type, IDependencyProviderExtension extension)
+        {
+            DependencyProviderExtensions[type] = extension;
         }
 
         #endregion
@@ -89,6 +101,21 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             }
 
             throw new NotImplementedException("Not supported property descriptor");
+        }
+
+        public CodeExpression GenerateDependency(Context context, Type type)
+        {
+            foreach (KeyValuePair<Type, IDependencyProviderExtension> item in DependencyProviderExtensions)
+            {
+                if (item.Key.IsAssignableFrom(type))
+                {
+                    CodeExpression expression = item.Value.GenerateCode(context, type);
+                    if (expression != null)
+                        return expression;
+                }
+            }
+
+            throw new NotImplementedException("Not supported type for dependency resolution");
         }
 
         #endregion

@@ -66,7 +66,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                         new CodeThisReferenceExpression(),
                         fieldName
                     ),
-                    new CodeObjectCreateExpression(typeCodeObject.Type, ResolveConstructorParameters(typeCodeObject.Type))
+                    new CodeObjectCreateExpression(typeCodeObject.Type, ResolveConstructorParameters(context, typeCodeObject.Type))
                 )
             );
 
@@ -105,8 +105,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             return bindMethod;
         }
 
-        protected CodeExpression[] ResolveConstructorParameters(Type type)
+        protected CodeExpression[] ResolveConstructorParameters(CodeObjectExtensionContext context, Type type)
         {
+            //TODO: This as metadata for extension...
             List<CodeExpression> result = new List<CodeExpression>();
 
             ConstructorInfo ctor = type.GetConstructors().OrderBy(c => c.GetParameters().Count()).FirstOrDefault();
@@ -114,26 +115,31 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             {
                 foreach (ParameterInfo parameter in ctor.GetParameters())
                 {
-                    if (parameter.ParameterType == typeof(IComponentManager))
-                        result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ComponentManagerField));
-                    else if (parameter.ParameterType == typeof(IDependencyProvider))
-                        result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.DependencyProviderField));
-                    else if (parameter.ParameterType == typeof(IViewPage))
-                        result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ViewPageField));
+                    //if (parameter.ParameterType == typeof(IComponentManager))
+                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ComponentManagerField));
+                    //else if (parameter.ParameterType == typeof(IDependencyProvider))
+                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.DependencyProviderField));
+                    //else if (parameter.ParameterType == typeof(IViewPage))
+                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomGenerator.Names.ViewPageField));
+                    //else
+                    //{
+                    //    result.Add(new CodeCastExpression(
+                    //        new CodeTypeReference(parameter.ParameterType),
+                    //        new CodeMethodInvokeExpression(
+                    //        new CodeFieldReferenceExpression(
+                    //            new CodeThisReferenceExpression(),
+                    //            CodeDomGenerator.Names.DependencyProviderField
+                    //        ),
+                    //        TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
+                    //        new CodeTypeOfExpression(new CodeTypeReference(parameter.ParameterType)),
+                    //        new CodePrimitiveExpression(null)
+                    //    )));
+                    //}
+                    CodeExpression parameterExpression = context.CodeGenerator.GenerateDependency(context.CodeDomContext, parameter.ParameterType);
+                    if (parameterExpression != null)
+                        result.Add(parameterExpression);
                     else
-                    {
-                        result.Add(new CodeCastExpression(
-                            new CodeTypeReference(parameter.ParameterType),
-                            new CodeMethodInvokeExpression(
-                            new CodeFieldReferenceExpression(
-                                new CodeThisReferenceExpression(),
-                                CodeDomGenerator.Names.DependencyProviderField
-                            ),
-                            TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
-                            new CodeTypeOfExpression(new CodeTypeReference(parameter.ParameterType)),
-                            new CodePrimitiveExpression(null)
-                        )));
-                    }
+                        throw new NotImplementedException("Not supported parameter type!");
                 }
             }
 

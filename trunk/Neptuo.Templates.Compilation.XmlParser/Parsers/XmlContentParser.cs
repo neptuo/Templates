@@ -30,6 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 #endif
                 Helper helper = new Helper(content, context, builderRegistry);
                 GenerateRecursive(helper, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
+                //FlushContent(helper);
 
                 return true;
 #if !DEBUG
@@ -69,8 +70,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     IBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(helper.BuilderRegistry, Utils.GetXmlNsNamespace(element));
                     if (Utils.NeedsServerProcessing(newBuilderRegistry, element))
                     {
-                        AppendPlainText(helper.Content.ToString(), helper);
-                        helper.Content.Clear();
+                        FlushContent(helper);
 
                         IBuilderRegistry currentBuilderRegistry = helper.BuilderRegistry;
                         helper.BuilderRegistry = newBuilderRegistry;
@@ -100,7 +100,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                     helper.Content.Append(text.InnerText);
                 }
             }
-            AppendPlainText(helper.Content.ToString(), helper);
+            FlushContent(helper);
+        }
+
+        private void FlushContent(Helper helper)
+        {
+            if (helper.Content.Length > 0)
+                AppendPlainText(helper.Content.ToString(), helper);
+
             helper.Content.Clear();
         }
 

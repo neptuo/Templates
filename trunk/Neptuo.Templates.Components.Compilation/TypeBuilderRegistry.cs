@@ -11,16 +11,13 @@ namespace Neptuo.Templates.Compilation
     {
         public const string ObserverWildcard = "*";
 
-        private ILiteralBuilder literalBuilder;
-        private IComponentBuilder genericContentBuilder;
-
         protected NamespaceBuilderRegistryContent Content { get; private set; }
 
         public TypeBuilderRegistry(ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
             : this(null)
         {
-            this.literalBuilder = literalBuilder;
-            this.genericContentBuilder = genericContentBuilder;
+            Content.LiteralBuilder = literalBuilder;
+            Content.GenericContentBuilder = genericContentBuilder;
         }
 
         internal TypeBuilderRegistry(NamespaceBuilderRegistryContent content = null)
@@ -71,12 +68,12 @@ namespace Neptuo.Templates.Compilation
 
         public IComponentBuilder GetGenericContentBuilder(string name)
         {
-            return genericContentBuilder;
+            return Content.GenericContentBuilder;
         }
 
         public ILiteralBuilder GetLiteralBuilder()
         {
-            return literalBuilder;
+            return Content.LiteralBuilder;
         }
 
         public void RegisterNamespace(NamespaceDeclaration namespaceDeclaration)
@@ -99,22 +96,27 @@ namespace Neptuo.Templates.Compilation
 
     public class NamespaceBuilderRegistryContent
     {
+        public ILiteralBuilder LiteralBuilder { get; set; }
+        public IComponentBuilder GenericContentBuilder { get; set; }
+
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
         public Dictionary<string, Dictionary<string, Type>> ControlsInNamespaces { get; protected set; }
         public Dictionary<string, Dictionary<string, Type>> Observers { get; protected set; }
 
         public NamespaceBuilderRegistryContent()
-            : this(null, null, null)
+            : this(null, null, null, null, null)
         { }
 
         public NamespaceBuilderRegistryContent(NamespaceBuilderRegistryContent content)
-            : this(content.Namespaces, content.ControlsInNamespaces, content.Observers)
+            : this(content.Namespaces, content.ControlsInNamespaces, content.Observers, content.LiteralBuilder, content.GenericContentBuilder)
         { }
 
         public NamespaceBuilderRegistryContent(
             Dictionary<string, NamespaceDeclaration> namespaces, 
             Dictionary<string, Dictionary<string, Type>> controls, 
-            Dictionary<string, Dictionary<string, Type>> observers)
+            Dictionary<string, Dictionary<string, Type>> observers,
+            ILiteralBuilder literalBuilder,
+            IComponentBuilder genericContentBuilder)
         {
             if (namespaces != null)
                 Namespaces = new Dictionary<string, NamespaceDeclaration>(namespaces);
@@ -130,6 +132,9 @@ namespace Neptuo.Templates.Compilation
                 Observers = new Dictionary<string, Dictionary<string, Type>>(observers);
             else
                 Observers = new Dictionary<string, Dictionary<string, Type>>();
+
+            LiteralBuilder = literalBuilder;
+            GenericContentBuilder = genericContentBuilder;
         }
     }
 }
