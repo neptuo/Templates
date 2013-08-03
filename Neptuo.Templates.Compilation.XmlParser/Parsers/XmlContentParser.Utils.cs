@@ -25,9 +25,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return false;
             }
 
-            public static IEnumerable<XmlNode> FindNotUsedChildNodes(XmlElement element, HashSet<string> usedNodes)
+            public static IEnumerable<XmlNode> FindNotUsedChildNodes(XmlNodeList childNodes, HashSet<string> usedNodes)
             {
-                foreach (XmlNode node in element.ChildNodes)
+                foreach (XmlNode node in childNodes)
                 {
                     if (!usedNodes.Contains(node.Name.ToLowerInvariant()))
                         yield return node;

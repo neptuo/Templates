@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public partial class BaseParser
     {
-        protected List<IDefaultValueExtension> DefaultValueExtensions {get; private set;}
+        protected List<IDefaultValueExtension> DefaultValueExtensions { get; private set; }
 
         public BaseParser()
         {

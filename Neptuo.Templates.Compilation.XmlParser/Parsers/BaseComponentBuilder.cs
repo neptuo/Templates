@@ -34,79 +34,77 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected virtual void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
             IComponentDefinition componentDefinition = GetComponentDefinition(context, codeObject, element);
-
-            HashSet<string> boundProperies = new HashSet<string>();
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
-            List<XmlAttribute> boundAttributes = new List<XmlAttribute>();
+            BindPropertiesContext bindContext = new BindPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
 
-            foreach (IPropertyInfo propertyInfo in componentDefinition.GetProperties())
+            // Bind attributes
+            BindAttributes(context, bindContext, codeObject, element.Attributes);
+            
+            // Bind inner elements
+            BindInnerElements(context, bindContext, codeObject, element.ChildNodes);
+
+            // Process unbound attributes
+            ProcessUnboundAttributes(context, codeObject, bindContext.UnboundAttributes);
+
+            // Bind content elements
+            BindContentElements(context, bindContext, codeObject, defaultProperty, element.ChildNodes);
+        }
+
+        protected virtual void BindAttributes(IBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlAttributeCollection attributes)
+        {
+            // Bind attributes
+            foreach (XmlAttribute attribute in attributes)
             {
-                bool bound = false;
-                string propertyName = propertyInfo.Name.ToLowerInvariant();
-                foreach (XmlAttribute attribute in element.Attributes)
+                string attributeName = attribute.Name.ToLowerInvariant();
+                IPropertyInfo propertyInfo;
+                if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
                 {
-                    if (propertyName == attribute.Name.ToLowerInvariant())
+                    IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
+                    bool result = context.ParserContext.ParserService.ProcessValue(
+                        attribute.Value,
+                        new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+                    );
+
+                    if (result)
                     {
-                        IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                        bool result = context.ParserContext.ParserService.ProcessValue(
-                            attribute.Value,
-                            new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
-                        );
-
-                        if (!result)
-                            result = context.Parser.BindPropertyDefaultValue(propertyDescriptor);
-
-                        if (result)
-                        {
-                            codeObject.Properties.Add(propertyDescriptor);
-                            boundProperies.Add(propertyName);
-                            boundAttributes.Add(attribute);
-                            bound = true;
-                        }
+                        codeObject.Properties.Add(propertyDescriptor);
+                        bindContext.BoundProperies.Add(attributeName);
                     }
-                }
-
-                XmlNode child;
-                if (!bound && XmlContentParser.Utils.FindChildNode(element, propertyName, out child))
-                {
-                    ResolvePropertyValue(context, codeObject, propertyInfo, child.ChildNodes.ToEnumerable());
-                    boundProperies.Add(propertyName);
-                    bound = true;
-                }
-
-                //if (!bound && item.Value != defaultProperty)
-                //{
-                //    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(item.Value);
-                //    if (context.Parser.BindPropertyDefaultValue(propertyDescriptor))
-                //    {
-                //        codeObject.Properties.Add(propertyDescriptor);
-                //        boundProperies.Add(propertyName);
-                //        bound = true;
-                //    }
-                //}
-            }
-
-            List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
-            foreach (XmlAttribute attribute in element.Attributes)
-            {
-                if (!boundAttributes.Contains(attribute))
-                    unboundAttributes.Add(attribute);
-            }
-            ProcessUnboundAttributes(context, codeObject, unboundAttributes);
-
-            if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
-            {
-                IEnumerable<XmlNode> defaultChildNodes = XmlContentParser.Utils.FindNotUsedChildNodes(element, boundProperies);
-                if (defaultChildNodes.Any())
-                {
-                    ResolvePropertyValue(context, codeObject, defaultProperty, defaultChildNodes);
+                    else
+                    {
+                        bindContext.UnboundAttributes.Add(attribute);
+                    }
                 }
                 else
                 {
-                    IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(defaultProperty);
-                    if (context.Parser.BindPropertyDefaultValue(propertyDescriptor))
-                        codeObject.Properties.Add(propertyDescriptor);
+                    bindContext.UnboundAttributes.Add(attribute);
                 }
+            }
+        }
+
+        protected virtual void BindInnerElements(IBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlNodeList childNodes)
+        {
+            // Bind inner elements
+            foreach (XmlNode childNode in childNodes)
+            {
+                string childName = childNode.Name.ToLowerInvariant();
+                IPropertyInfo propertyInfo;
+                if (!bindContext.BoundProperies.Contains(childName) && bindContext.Properties.TryGetValue(childName, out propertyInfo))
+                {
+                    ResolvePropertyValue(context, codeObject, propertyInfo, childNode.ChildNodes.ToEnumerable());
+                    bindContext.BoundProperies.Add(childName);
+                }
+            }
+        }
+
+        protected virtual void BindContentElements(IBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IPropertyInfo defaultProperty, XmlNodeList childNodes)
+        {
+            // Bind content elements
+            if (defaultProperty != null && !bindContext.BoundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
+            {
+                IEnumerable<XmlNode> defaultChildNodes = XmlContentParser.Utils.FindNotUsedChildNodes(childNodes, bindContext.BoundProperies);
+                if (defaultChildNodes.Any())
+                    ResolvePropertyValue(context, codeObject, defaultProperty, defaultChildNodes);
             }
         }
 

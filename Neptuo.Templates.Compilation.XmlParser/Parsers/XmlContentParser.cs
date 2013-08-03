@@ -13,7 +13,7 @@ using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public partial class XmlContentParser : BaseParser, IContentParser
+    public partial class XmlContentParser : IContentParser
     {
         private IBuilderRegistry builderRegistry;
 

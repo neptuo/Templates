@@ -30,8 +30,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                         IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(new TypePropertyInfo(property.Value));
                         bool result = context.ParserContext.ParserService.ProcessValue(attribute.Value, new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors));
 
-                        if (!result)
-                            result = context.Parser.BindPropertyDefaultValue(propertyDescriptor);
+                        //if (!result)
+                        //    result = context.Parser.BindPropertyDefaultValue(propertyDescriptor);
 
                         if (result)
                             observerObject.Properties.Add(propertyDescriptor);
@@ -41,14 +41,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                     }
                 }
 
-                if (!boundProperty)
-                {
-                    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(new TypePropertyInfo(property.Value));
-                    bool result = context.Parser.BindPropertyDefaultValue(propertyDescriptor);
+                //if (!boundProperty)
+                //{
+                //    IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(new TypePropertyInfo(property.Value));
+                //    bool result = context.Parser.BindPropertyDefaultValue(propertyDescriptor);
 
-                    if (result)
-                        observerObject.Properties.Add(propertyDescriptor);
-                }
+                //    if (result)
+                //        observerObject.Properties.Add(propertyDescriptor);
+                //}
             }
 
             List<XmlAttribute> unboundAttributes = new List<XmlAttribute>();
