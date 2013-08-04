@@ -46,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="CodeDomCompiler.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorContext.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorServiceContext.cs" />

@@ -18,9 +18,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (type == typeof(IDependencyProvider))
                 return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.DependencyProviderField);
             
-            if (type == typeof(IViewPage))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.ViewPageField);
-
             return new CodeCastExpression(
                 new CodeTypeReference(type),
                 new CodeMethodInvokeExpression(

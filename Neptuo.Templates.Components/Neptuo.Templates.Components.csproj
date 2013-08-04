@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AttributeCollection.cs" />
+    <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="BaseViewPage.cs" />
     <Compile Include="ComponentManager.ComponentEntry.cs" />
     <Compile Include="ComponentManager.cs" />

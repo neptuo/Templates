@@ -8,12 +8,12 @@ namespace Neptuo.Templates
     public class BaseViewPage : IViewPage
     {
         public IComponentManager ComponentManager { get; set; }
-
         public ICollection<object> Content { get; set; }
 
         public BaseViewPage(IComponentManager componentManager)
         {
             ComponentManager = componentManager;
+            Content = new List<object>();
         }
 
         public void OnInit()

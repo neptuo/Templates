@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             bool generic = propertyDescriptor.Property.Type.IsGenericType;
             bool requiresCasting = false;
-            bool createInstance = true;//((TypePropertyInfo)propertyDescriptor.Property).PropertyInfo.GetSetMethod() != null; //???
+            bool createInstance = !propertyDescriptor.Property.IsReadOnly;
             Type targetType = null;
             string addMethodName = null;
 

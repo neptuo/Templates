@@ -22,6 +22,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             get { return PropertyInfo.PropertyType; }
         }
 
+        public bool IsReadOnly
+        {
+            get { return PropertyInfo.SetMethod == null || !PropertyInfo.SetMethod.IsPublic; }
+        }
+
         public TypePropertyInfo(PropertyInfo propertyInfo)
         {
             PropertyInfo = propertyInfo;
