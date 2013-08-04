@@ -98,7 +98,7 @@ namespace Neptuo.Templates.Compilation
             string sourceCode = GenerateSourceCodeFromView(viewContent, context, naming);
 
             if (DebugMode)
-                File.WriteAllText(Path.Combine(TempDirectory, "GeneratedView.cs"), sourceCode);//TODO: Do it better!
+                File.WriteAllText(Path.Combine(TempDirectory, naming.AssemblyName.Replace(".dll", ".cs")), sourceCode);//TODO: Do it better!
 
             DebugUtils.Run("Compile", () =>
             {
