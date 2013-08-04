@@ -28,6 +28,7 @@ namespace Neptuo.Templates.Compilation
         protected ICodeGeneratorService CodeGeneratorService { get; private set; }
         public IFileProvider FileProvider { get; private set; }
 
+        public INamingService NamingService { get; set; }
         public ICollection<string> BinDirectories { get; set; }
         public string TempDirectory { get; set; }
         public bool DebugMode { get; set; }
@@ -45,38 +46,56 @@ namespace Neptuo.Templates.Compilation
 
         public IGeneratedView Process(string fileName, IViewServiceContext context)
         {
-            if (FileProvider == null)
-                FileProvider = context.DependencyProvider.Resolve<IFileProvider>();
+            EnsureFileProvider(context);
+            EnsureNamingService(context);
 
             if (!FileProvider.Exists(fileName))
                 throw new CodeDomViewServiceException("View doesn't exist!");
 
-            return ProcessContent(FileProvider.GetFileContent(fileName), context);
+            return ProcessContent(FileProvider.GetFileContent(fileName), context, NamingService.FromFile(fileName));
         }
 
         public IGeneratedView ProcessContent(string viewContent, IViewServiceContext context)
         {
-            string assemblyName = GetAssemblyPathForContent(viewContent);
-            if (!AssemblyExists(assemblyName))
-                CompileView(assemblyName, viewContent, context);
-
-            return CreateGeneratedView(assemblyName);
+            EnsureNamingService(context);
+            return ProcessContent(viewContent, context, NamingService.FromContent(viewContent));
         }
 
-        protected virtual IGeneratedView CreateGeneratedView(string assemblyName)
+        protected virtual IGeneratedView ProcessContent(string viewContent, IViewServiceContext context, INaming naming)
         {
-            Assembly views = Assembly.LoadFile(assemblyName);
+            string assemblyPath = GetAssemblyPath(naming);
+            if (!AssemblyExists(assemblyPath))
+                CompileView(viewContent, context, naming);
+
+            return CreateGeneratedView(naming);
+        }
+
+        protected void EnsureNamingService(IViewServiceContext context)
+        {
+            if (NamingService == null)
+                NamingService = context.DependencyProvider.Resolve<INamingService>();
+        }
+
+        protected void EnsureFileProvider(IViewServiceContext context)
+        {
+            if (FileProvider == null)
+                FileProvider = context.DependencyProvider.Resolve<IFileProvider>();
+        }
+
+        protected virtual IGeneratedView CreateGeneratedView(INaming naming)
+        {
+            Assembly views = Assembly.LoadFile(GetAssemblyPath(naming));
             Type generatedView = views.GetType(
-                String.Format("{0}.{1}", CodeDomStructureGenerator.Names.CodeNamespace, CodeDomStructureGenerator.Names.ClassName)
+                String.Format("{0}.{1}", naming.ClassNamespace, naming.ClassName)
             );
 
             IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
             return view;
         }
 
-        protected virtual void CompileView(string assemblyName, string viewContent, IViewServiceContext context)
+        protected virtual void CompileView(string viewContent, IViewServiceContext context, INaming naming)
         {
-            string sourceCode = GenerateSourceCodeFromView(viewContent, context);
+            string sourceCode = GenerateSourceCodeFromView(viewContent, context, naming);
 
             if (DebugMode)
                 File.WriteAllText(Path.Combine(TempDirectory, "GeneratedView.cs"), sourceCode);//TODO: Do it better!
@@ -89,7 +108,7 @@ namespace Neptuo.Templates.Compilation
                 foreach (string directory in BinDirectories)
                     compiler.AddReferencedFolder(directory);    
 
-                CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, assemblyName);
+                CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, GetAssemblyPath(naming));
                 if (cr.Errors.Count > 0)
                 {
                     ICollection<IErrorInfo> errors = new List<IErrorInfo>();
@@ -101,14 +120,14 @@ namespace Neptuo.Templates.Compilation
             });
         }
 
-        protected virtual string GenerateSourceCodeFromView(string viewContent, IViewServiceContext context)
+        protected virtual string GenerateSourceCodeFromView(string viewContent, IViewServiceContext context, INaming naming)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = ParseViewContent(viewContent, context);
 
             PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(context.DependencyProvider));
 
-            return GenerateSourceCode(contentProperty, context);
+            return GenerateSourceCode(contentProperty, context, naming);
         }
 
         protected virtual IPropertyDescriptor GetRootPropertyDescriptor(IViewServiceContext context)
@@ -133,14 +152,14 @@ namespace Neptuo.Templates.Compilation
             return contentProperty;
         }
 
-        protected virtual string GenerateSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context)
+        protected virtual string GenerateSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
 
             DebugUtils.Run("GenerateSourceCode", () =>
             {
-                bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new DefaultCodeGeneratorServiceContext(writer, context.DependencyProvider, errors));
+                bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors));
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });
@@ -163,9 +182,9 @@ namespace Neptuo.Templates.Compilation
         /// </summary>
         /// <param name="fileName">View filename.</param>
         /// <returns>Full path for assembly.</returns>
-        protected virtual string GetAssemblyPath(string fileName)
+        protected virtual string GetAssemblyPath(INaming naming)
         {
-            return GetAssemblyPathForContent(FileProvider.GetFileContent(fileName));
+            return Path.Combine(TempDirectory, naming.AssemblyName);
         }
 
         /// <summary>
@@ -173,9 +192,9 @@ namespace Neptuo.Templates.Compilation
         /// </summary>
         /// <param name="viewContent">Content of view.</param>
         /// <returns>Full path for assembly.</returns>
-        protected virtual string GetAssemblyPathForContent(string viewContent)
-        {
-            return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(viewContent)));
-        }
+        //protected virtual string GetAssemblyPathForContent(string viewContent)
+        //{
+        //    return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(viewContent)));
+        //}
     }
 }

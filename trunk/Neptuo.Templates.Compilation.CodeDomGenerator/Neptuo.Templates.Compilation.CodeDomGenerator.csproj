@@ -7,7 +7,7 @@
     <ProjectGuid>{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neptuo.Templates.Compilation.CodeGenerators</RootNamespace>
+    <RootNamespace>Neptuo.Templates.Compilation</RootNamespace>
     <AssemblyName>Neptuo.Templates.Compilation.CodeDomGenerator</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -42,19 +42,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeDomGenerator.Context.cs" />
-    <Compile Include="CodeDomGenerator.cs" />
-    <Compile Include="BaseCodeDomObjectGenerator.cs" />
-    <Compile Include="BaseCodeDomPropertyGenerator.cs" />
-    <Compile Include="BaseCodeDomStructure.cs" />
-    <Compile Include="CodeDomStructureContext.cs" />
-    <Compile Include="CodeObjectExtensionContext.cs" />
-    <Compile Include="CodeDomDependencyContext.cs" />
-    <Compile Include="ICodeDomStructureGenerator.cs" />
-    <Compile Include="ICodeDomComponentGenerator.cs" />
-    <Compile Include="ICodeDomDependencyGenerator.cs" />
-    <Compile Include="ICodeDomPropertyGenerator.cs" />
-    <Compile Include="CodeDomPropertyContext.cs" />
+    <Compile Include="CodeGenerators\CodeDomGenerator.Context.cs" />
+    <Compile Include="CodeGenerators\CodeDomGenerator.cs" />
+    <Compile Include="CodeGenerators\BaseCodeDomObjectGenerator.cs" />
+    <Compile Include="CodeGenerators\BaseCodeDomPropertyGenerator.cs" />
+    <Compile Include="CodeGenerators\BaseCodeDomStructure.cs" />
+    <Compile Include="CodeGenerators\CodeDomStructureContext.cs" />
+    <Compile Include="CodeGenerators\CodeObjectExtensionContext.cs" />
+    <Compile Include="CodeGenerators\CodeDomDependencyContext.cs" />
+    <Compile Include="CodeGenerators\ICodeDomStructureGenerator.cs" />
+    <Compile Include="CodeGenerators\ICodeDomComponentGenerator.cs" />
+    <Compile Include="CodeGenerators\ICodeDomDependencyGenerator.cs" />
+    <Compile Include="CodeGenerators\ICodeDomPropertyGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeDomPropertyContext.cs" />
+    <Compile Include="INamingContext.cs" />
+    <Compile Include="INamingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -45,6 +45,7 @@ namespace TestConsoleNG
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             //viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             //viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
+            viewService.NamingService = new StaticNamingService(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
             viewService.DebugMode = true;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.BinDirectories.Add(Environment.CurrentDirectory);

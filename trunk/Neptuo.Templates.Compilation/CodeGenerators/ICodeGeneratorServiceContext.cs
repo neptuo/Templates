@@ -11,5 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         IDependencyProvider DependencyProvider { get; }
         ICollection<IErrorInfo> Errors { get; }
         TextWriter Output { get; }
+
+        ICodeGeneratorContext CreateGeneratorContext(ICodeGeneratorService service);
     }
 }
