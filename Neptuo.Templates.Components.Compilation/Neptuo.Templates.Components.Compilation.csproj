@@ -48,6 +48,8 @@
   <ItemGroup>
     <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="CodeDomCompiler.cs" />
+    <Compile Include="CodeGenerators\CodeDomGeneratorContext.cs" />
+    <Compile Include="CodeGenerators\CodeDomGeneratorServiceContext.cs" />
     <Compile Include="CodeDomViewService.cs" />
     <Compile Include="CodeDomViewServiceException.cs" />
     <Compile Include="CodeDomViewServiceExtensions.cs" />
@@ -75,6 +77,7 @@
     <Compile Include="DefaultViewServiceContext.cs" />
     <Compile Include="FileProvider.cs" />
     <Compile Include="Func.cs" />
+    <Compile Include="StaticNamingService.cs" />
     <Compile Include="TypeBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseControlBuilder.cs" />
     <Compile Include="Parsers\BaseObserverBuilder.cs" />

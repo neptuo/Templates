@@ -19,13 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context)
         {
             if (generators.ContainsKey(name))
-            {
-                IDependencyContainer provider = context.DependencyProvider.CreateChildContainer();
-                //if (provider.Resolve<StorageProvider>() == null) TODO: Solve if is registered!
-                provider.RegisterInstance<StorageProvider>(new StorageProvider());
-
-                return generators[name].ProcessTree(propertyDescriptor, new DefaultCodeGeneratorContext(context.Output, this, provider, context.Errors));
-            }
+                return generators[name].ProcessTree(propertyDescriptor, context.CreateGeneratorContext(this));
 
             return false;
         }
