@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class DependencyCodeObjectExtension : BaseCodeObjectExtension<DependencyCodeObject>
+    public class CodeDomDependencyObjectGenerator : BaseCodeDomObjectGenerator<DependencyCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, DependencyCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                 new CodeMethodInvokeExpression(
                 new CodeFieldReferenceExpression(
                     new CodeThisReferenceExpression(),
-                    BaseStructureExtension.Names.DependencyProviderField
+                    CodeDomStructureGenerator.Names.DependencyProviderField
                 ),
                 TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
                 new CodeTypeOfExpression(new CodeTypeReference(codeObject.TargetType)),

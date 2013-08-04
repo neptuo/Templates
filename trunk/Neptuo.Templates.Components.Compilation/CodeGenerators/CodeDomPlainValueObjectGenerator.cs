@@ -8,9 +8,9 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class PlainValueCodeObjectExtension : BaseCodeObjectExtension<IPlainValueCodeObject>
+    public class CodeDomPlainValueObjectGenerator : BaseCodeDomObjectGenerator<IPlainValueCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
         {

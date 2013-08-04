@@ -7,9 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class BaseStructureExtension : IBaseStructureExtension
+    public class CodeDomStructureGenerator : ICodeDomStructureGenerator
     {
         public static partial class Names
         {
@@ -25,21 +25,21 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             public const string CreateViewPageControlsMethod = "CreateViewPageControls";
         }
 
-        public BaseStructure GenerateCode(BaseStructureExtensionContext context)
+        public BaseCodeDomStructure GenerateCode(CodeDomStructureContext context)
         {
-            BaseStructure baseStructure = new BaseStructure();
+            BaseCodeDomStructure baseStructure = new BaseCodeDomStructure();
             CreateCodeUnit(baseStructure);
             CreateCodeClass(baseStructure);
             CreateCodeMethods(baseStructure);
             return baseStructure;
         }
 
-        private void CreateCodeUnit(BaseStructure context)
+        private void CreateCodeUnit(BaseCodeDomStructure context)
         {
             context.Unit = new CodeCompileUnit();
         }
 
-        private void CreateCodeClass(BaseStructure context)
+        private void CreateCodeClass(BaseCodeDomStructure context)
         {
             CodeNamespace codeNamespace = new CodeNamespace(Names.CodeNamespace);
             codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
@@ -56,7 +56,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
             codeNamespace.Types.Add(context.Class);
         }
 
-        private void CreateCodeMethods(BaseStructure context)
+        private void CreateCodeMethods(BaseCodeDomStructure context)
         {
             context.EntryPointMethod = new CodeMemberMethod
             {

@@ -4,15 +4,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class PropertyDescriptorExtensionContext
+    public class CodeDomPropertyContext
     {
         public CodeDomGenerator.Context Context { get; private set; }
         public string FieldName { get; private set; }
         public CodeMemberMethod BindMethod { get; private set; }
 
-        public PropertyDescriptorExtensionContext(CodeDomGenerator.Context context, string fieldName, CodeMemberMethod bindMethod)
+        public CodeDomPropertyContext(CodeDomGenerator.Context context, string fieldName, CodeMemberMethod bindMethod)
         {
             Context = context;
             FieldName = fieldName;

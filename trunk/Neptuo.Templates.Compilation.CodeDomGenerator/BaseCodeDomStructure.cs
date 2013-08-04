@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class BaseStructure
+    public class BaseCodeDomStructure
     {
         public CodeCompileUnit Unit { get; set; }
         public CodeTypeDeclaration Class { get; set; }

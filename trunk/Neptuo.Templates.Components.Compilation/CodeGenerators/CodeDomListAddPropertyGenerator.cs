@@ -8,11 +8,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class ListAddPropertyDescriptorExtension : BasePropertyDescriptorExtension<ListAddPropertyDescriptor>
+    public class CodeDomListAddPropertyGenerator : BaseCodeDomPropertyGenerator<ListAddPropertyDescriptor>
     {
-        protected override void GenerateProperty(PropertyDescriptorExtensionContext context, ListAddPropertyDescriptor propertyDescriptor)
+        protected override void GenerateProperty(CodeDomPropertyContext context, ListAddPropertyDescriptor propertyDescriptor)
         {
             bool generic = propertyDescriptor.Property.Type.IsGenericType;
             bool requiresCasting = false;

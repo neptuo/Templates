@@ -5,19 +5,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public abstract class BasePropertyDescriptorExtension<T> : IPropertyDescriptorExtension
+    public abstract class BaseCodeDomPropertyGenerator<T> : ICodeDomPropertyGenerator
         where T : IPropertyDescriptor
     {
-        public void GenerateProperty(PropertyDescriptorExtensionContext context, IPropertyDescriptor propertyDescriptor)
+        public void GenerateProperty(CodeDomPropertyContext context, IPropertyDescriptor propertyDescriptor)
         {
             GenerateProperty(context, (T)propertyDescriptor);
         }
 
-        protected abstract void GenerateProperty(PropertyDescriptorExtensionContext context, T propertyDescriptor);
+        protected abstract void GenerateProperty(CodeDomPropertyContext context, T propertyDescriptor);
 
-        protected CodeExpression GetPropertyTarget(PropertyDescriptorExtensionContext context)
+        protected CodeExpression GetPropertyTarget(CodeDomPropertyContext context)
         {
             if (context.FieldName != null)
             {

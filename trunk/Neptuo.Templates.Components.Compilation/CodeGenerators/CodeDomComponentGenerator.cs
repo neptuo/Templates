@@ -10,9 +10,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class ComponentCodeObjectExtension : BaseComponentCodeObjectExtension<IComponentCodeObject>
+    public class CodeDomComponentGenerator : TypeCodeDomObjectGenerator<IComponentCodeObject>
     {
         private Dictionary<Type, CodeFieldReferenceExpression> perPage;
         private Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>> perControl;
@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                 new CodeMethodInvokeExpression(
                     new CodeFieldReferenceExpression(
                         new CodeThisReferenceExpression(),
-                        BaseStructureExtension.Names.ComponentManagerField
+                        CodeDomStructureGenerator.Names.ComponentManagerField
                     ),
                     TypeHelper.MethodName<IComponentManager, object, Action>(m => m.AddComponent),
                     new CodeFieldReferenceExpression(
@@ -126,7 +126,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                     new CodeMethodInvokeExpression(
                         new CodeFieldReferenceExpression(
                             new CodeThisReferenceExpression(),
-                            BaseStructureExtension.Names.ComponentManagerField
+                            CodeDomStructureGenerator.Names.ComponentManagerField
                         ),
                         TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action>(m => m.AttachObserver),
                         new CodeFieldReferenceExpression(

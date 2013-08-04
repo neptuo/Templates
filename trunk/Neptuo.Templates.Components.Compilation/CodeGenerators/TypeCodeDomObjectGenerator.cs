@@ -7,9 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public abstract class BaseComponentCodeObjectExtension<T> : BaseCodeObjectExtension<T>
+    public abstract class TypeCodeDomObjectGenerator<T> : BaseCodeDomObjectGenerator<T>
         where T : ICodeObject
     {
         /// <summary>

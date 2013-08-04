@@ -6,27 +6,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class DefaultDependencyProviderExtension : IDependencyProviderExtension
+    public class CodeDomDependencyGenerator : ICodeDomDependencyGenerator
     {
-        public CodeExpression GenerateCode(DependencyProviderExtensionContext context, Type type)
+        public CodeExpression GenerateCode(CodeDomDependencyContext context, Type type)
         {
             if (type == typeof(IComponentManager))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ComponentManagerField);
+                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.ComponentManagerField);
             
             if (type == typeof(IDependencyProvider))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.DependencyProviderField);
+                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.DependencyProviderField);
             
             if (type == typeof(IViewPage))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ViewPageField);
+                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.ViewPageField);
 
             return new CodeCastExpression(
                 new CodeTypeReference(type),
                 new CodeMethodInvokeExpression(
                 new CodeFieldReferenceExpression(
                     new CodeThisReferenceExpression(),
-                    BaseStructureExtension.Names.DependencyProviderField
+                    CodeDomStructureGenerator.Names.DependencyProviderField
                 ),
                 TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
                 new CodeTypeOfExpression(new CodeTypeReference(type)),

@@ -44,17 +44,17 @@
   <ItemGroup>
     <Compile Include="CodeDomGenerator.Context.cs" />
     <Compile Include="CodeDomGenerator.cs" />
-    <Compile Include="Extensions\CodeDom\BaseCodeObjectExtension.cs" />
-    <Compile Include="Extensions\CodeDom\BasePropertyDescriptorExtension.cs" />
-    <Compile Include="Extensions\CodeDom\BaseStructure.cs" />
-    <Compile Include="Extensions\CodeDom\BaseStructureExtensionContext.cs" />
-    <Compile Include="Extensions\CodeDom\CodeObjectExtensionContext.cs" />
-    <Compile Include="Extensions\CodeDom\DependencyProviderExtensionContext.cs" />
-    <Compile Include="Extensions\CodeDom\IBaseStructureExtension.cs" />
-    <Compile Include="Extensions\CodeDom\ICodeObjectExtension.cs" />
-    <Compile Include="Extensions\CodeDom\IDependencyProviderExtension.cs" />
-    <Compile Include="Extensions\CodeDom\IPropertyDescriptorExtension.cs" />
-    <Compile Include="Extensions\CodeDom\PropertyDescriptorExtensionContext.cs" />
+    <Compile Include="BaseCodeDomObjectGenerator.cs" />
+    <Compile Include="BaseCodeDomPropertyGenerator.cs" />
+    <Compile Include="BaseCodeDomStructure.cs" />
+    <Compile Include="CodeDomStructureContext.cs" />
+    <Compile Include="CodeObjectExtensionContext.cs" />
+    <Compile Include="CodeDomDependencyContext.cs" />
+    <Compile Include="ICodeDomStructureGenerator.cs" />
+    <Compile Include="ICodeDomComponentGenerator.cs" />
+    <Compile Include="ICodeDomDependencyGenerator.cs" />
+    <Compile Include="ICodeDomPropertyGenerator.cs" />
+    <Compile Include="CodeDomPropertyContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
