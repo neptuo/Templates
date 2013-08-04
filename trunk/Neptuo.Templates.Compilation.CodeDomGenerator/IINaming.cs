@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation
 {
-    public interface INamingService
+    public interface INaming
     {
-        INaming FromFile(string fileName);
-        INaming FromContent(string viewContent);
+        string ClassNamespace { get; }
+        string ClassName { get; }
+        string AssemblyName { get; }
     }
 }

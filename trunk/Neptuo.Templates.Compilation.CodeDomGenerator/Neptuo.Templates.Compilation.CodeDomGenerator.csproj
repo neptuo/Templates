@@ -55,6 +55,8 @@
     <Compile Include="CodeGenerators\ICodeDomDependencyGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeDomPropertyGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomPropertyContext.cs" />
+    <Compile Include="DefaultNaming.cs" />
+    <Compile Include="IINaming.cs" />
     <Compile Include="INamingContext.cs" />
     <Compile Include="INamingService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
