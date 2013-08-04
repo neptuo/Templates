@@ -10,6 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     {
         string Name { get; }
         Type Type { get; }
+        bool IsReadOnly { get; }
 
         bool CanAssign(Type type);
     }

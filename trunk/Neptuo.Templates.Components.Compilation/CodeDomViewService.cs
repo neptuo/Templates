@@ -132,7 +132,7 @@ namespace Neptuo.Templates.Compilation
 
         protected virtual IPropertyDescriptor GetRootPropertyDescriptor(IViewServiceContext context)
         {
-            IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseViewPage).GetProperty(TypeHelper.PropertyName<BaseViewPage>(v => v.Content)));
+            IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
             return new ListAddPropertyDescriptor(propertyInfo);
         }
 

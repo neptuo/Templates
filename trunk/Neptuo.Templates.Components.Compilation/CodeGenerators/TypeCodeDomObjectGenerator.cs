@@ -107,34 +107,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected CodeExpression[] ResolveConstructorParameters(CodeObjectExtensionContext context, Type type)
         {
-            //TODO: This as metadata for extension...
             List<CodeExpression> result = new List<CodeExpression>();
-
             ConstructorInfo ctor = type.GetConstructors().OrderBy(c => c.GetParameters().Count()).FirstOrDefault();
             if (ctor != null)
             {
                 foreach (ParameterInfo parameter in ctor.GetParameters())
                 {
-                    //if (parameter.ParameterType == typeof(IComponentManager))
-                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ComponentManagerField));
-                    //else if (parameter.ParameterType == typeof(IDependencyProvider))
-                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.DependencyProviderField));
-                    //else if (parameter.ParameterType == typeof(IViewPage))
-                    //    result.Add(new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), BaseStructureExtension.Names.ViewPageField));
-                    //else
-                    //{
-                    //    result.Add(new CodeCastExpression(
-                    //        new CodeTypeReference(parameter.ParameterType),
-                    //        new CodeMethodInvokeExpression(
-                    //        new CodeFieldReferenceExpression(
-                    //            new CodeThisReferenceExpression(),
-                    //            BaseStructureExtension.Names.DependencyProviderField
-                    //        ),
-                    //        TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
-                    //        new CodeTypeOfExpression(new CodeTypeReference(parameter.ParameterType)),
-                    //        new CodePrimitiveExpression(null)
-                    //    )));
-                    //}
                     CodeExpression parameterExpression = context.CodeGenerator.GenerateDependency(context.CodeDomContext, parameter.ParameterType);
                     if (parameterExpression != null)
                         result.Add(parameterExpression);

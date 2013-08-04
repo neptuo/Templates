@@ -22,6 +22,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             get { return propertyDescriptor.PropertyType; }
         }
 
+        public bool IsReadOnly
+        {
+            get { return propertyDescriptor.IsReadOnly; }
+        }
+
         public DescriptorPropertyInfo(PropertyDescriptor propertyDescriptor)
         {
             this.propertyDescriptor = propertyDescriptor;

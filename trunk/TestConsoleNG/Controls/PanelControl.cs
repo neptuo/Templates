@@ -10,8 +10,6 @@ namespace Neptuo.Templates.Controls
     {
         public PanelControl(IComponentManager componentManager)
             : base(componentManager)
-        {
-            Content = new List<object>();
-        }
+        { }
     }
 }
