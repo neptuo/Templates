@@ -63,7 +63,7 @@
     <Compile Include="CodeGenerators\CodeDomMethodPropertyGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomPlainValueObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomSetPropertyGenerator.cs" />
-    <Compile Include="CodeObjects\ControlCodeObject.cs" />
+    <Compile Include="CodeObjects\ComponentCodeObject.cs" />
     <Compile Include="CodeObjects\DependencyCodeObject.cs" />
     <Compile Include="CodeObjects\ListAddPropertyDescriptor.cs" />
     <Compile Include="CodeObjects\LocalFieldCodeObject.cs" />

@@ -12,12 +12,12 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomComponentGenerator : TypeCodeDomObjectGenerator<IComponentCodeObject>
+    public class CodeDomComponentGenerator : TypeCodeDomObjectGenerator<ComponentCodeObject>
     {
         private Dictionary<Type, CodeFieldReferenceExpression> perPage;
         private Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>> perControl;
 
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
         {
             StorageProvider storage = context.CodeDomContext.CodeGeneratorContext.DependencyProvider.Resolve<StorageProvider>();
             perPage = storage.Create<Dictionary<Type, CodeFieldReferenceExpression>>("PerPage");

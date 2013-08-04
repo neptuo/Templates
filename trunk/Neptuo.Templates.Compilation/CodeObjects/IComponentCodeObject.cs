@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public interface IComponentCodeObject : ITypeCodeObject, IPropertiesCodeObject, IObserversCodeObject
+    public interface IComponentCodeObject : IPropertiesCodeObject, IObserversCodeObject
     {
     }
 }
