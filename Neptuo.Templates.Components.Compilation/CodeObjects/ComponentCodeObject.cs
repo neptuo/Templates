@@ -8,13 +8,13 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Control.
     /// </summary>
-    public class ControlCodeObject : IComponentCodeObject
+    public class ComponentCodeObject : IComponentCodeObject, ITypeCodeObject
     {
         public Type Type { get; set; }
         public List<IPropertyDescriptor> Properties { get; set; }
         public List<IObserverCodeObject> Observers { get; set; }
 
-        public ControlCodeObject(Type type)
+        public ComponentCodeObject(Type type)
         {
             Type = type;
             Properties = new List<IPropertyDescriptor>();

@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IComponentCodeObject CreateCodeObject(IBuilderContext context, XmlElement element)
         {
-            return new ControlCodeObject(GetControlType(element));
+            return new ComponentCodeObject(GetControlType(element));
         }
 
         protected override IComponentDefinition GetComponentDefinition(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
@@ -28,7 +28,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override void ProcessUnboundAttribute(IBuilderContext context, IComponentCodeObject codeObject, XmlAttribute attribute)
         {
-            BindAttributeCollection(context, codeObject, codeObject, attribute.LocalName, attribute.Value);
+            ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
+            if (typeCodeObject != null)
+                BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
+            else
+                throw new NotImplementedException("Can't process unbound attributes!");
         }
 
         protected override IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo)

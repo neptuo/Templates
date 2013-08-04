@@ -31,7 +31,7 @@ namespace TestConsoleNG.Controls
                 return;
             }
 
-            IComponentCodeObject codeObject = new ControlCodeObject(literalControlType);
+            IComponentCodeObject codeObject = new ComponentCodeObject(literalControlType);
             codeObject.Properties.Add(new SetPropertyDescriptor(
                 new TypePropertyInfo(literalControlType.GetProperty(textProperty)), 
                 new PlainValueCodeObject(text)

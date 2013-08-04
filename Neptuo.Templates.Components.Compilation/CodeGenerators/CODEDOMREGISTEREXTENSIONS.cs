@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         public static void Register(CodeDomGenerator generator)
         {
-            generator.SetCodeObjectExtension(typeof(ControlCodeObject), new CodeDomComponentGenerator());
+            generator.SetCodeObjectExtension(typeof(ComponentCodeObject), new CodeDomComponentGenerator());
             generator.SetCodeObjectExtension(typeof(PlainValueCodeObject), new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectExtension(typeof(LocalFieldCodeObject), new CodeDomLocalFieldObjectGenerator());
             generator.SetCodeObjectExtension(typeof(DependencyCodeObject), new CodeDomDependencyObjectGenerator());

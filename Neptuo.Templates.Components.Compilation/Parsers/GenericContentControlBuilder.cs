@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IComponentCodeObject CreateCodeObject(IBuilderContext context, XmlElement element)
         {
-            ControlCodeObject codeObject = new ControlCodeObject(GetControlType(element));
+            ComponentCodeObject codeObject = new ComponentCodeObject(GetControlType(element));
             codeObject.Properties.Add(
                 new SetPropertyDescriptor(
                     new TypePropertyInfo(controlType.GetProperty(tagNameProperty)),
