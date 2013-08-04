@@ -1,7 +1,7 @@
 ﻿using Neptuo.Linq.Expressions;
 using Neptuo.Security.Cryptography;
 using Neptuo.Templates.Compilation.CodeGenerators;
-using Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom;
+using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.PreProcessing;
@@ -67,7 +67,7 @@ namespace Neptuo.Templates.Compilation
         {
             Assembly views = Assembly.LoadFile(assemblyName);
             Type generatedView = views.GetType(
-                String.Format("{0}.{1}", BaseStructureExtension.Names.CodeNamespace, BaseStructureExtension.Names.ClassName)
+                String.Format("{0}.{1}", CodeDomStructureGenerator.Names.CodeNamespace, CodeDomStructureGenerator.Names.ClassName)
             );
 
             IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);

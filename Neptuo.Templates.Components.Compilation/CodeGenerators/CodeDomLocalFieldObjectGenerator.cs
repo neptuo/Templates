@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class LocalFieldCodeObjectExtension : BaseCodeObjectExtension<LocalFieldCodeObject>
+    public class CodeDomLocalFieldObjectGenerator : BaseCodeDomObjectGenerator<LocalFieldCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, LocalFieldCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {

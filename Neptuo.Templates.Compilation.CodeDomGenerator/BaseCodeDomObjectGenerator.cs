@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public abstract class BaseCodeObjectExtension<T> : ICodeObjectExtension
+    public abstract class BaseCodeDomObjectGenerator<T> : ICodeDomComponentGenerator
         where T : ICodeObject
     {
         public CodeExpression GenerateCode(CodeObjectExtensionContext context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor)

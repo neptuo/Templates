@@ -8,12 +8,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     /// <summary>
     /// TODO: Use type conveter!
     /// </summary>
-    public class ExtensionCodeObjectExtension : BaseComponentCodeObjectExtension<ExtensionCodeObject>
+    public class CodeDomExtensionObjectGenerator : TypeCodeDomObjectGenerator<ExtensionCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
                         ),
                         new CodeFieldReferenceExpression(
                             new CodeThisReferenceExpression(),
-                            BaseStructureExtension.Names.DependencyProviderField
+                            CodeDomStructureGenerator.Names.DependencyProviderField
                         )
                     )
                 )

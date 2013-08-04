@@ -4,13 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class DependencyProviderExtensionContext
+    public class CodeDomStructureContext
     {
         public CodeDomGenerator.Context Context { get; private set; }
 
-        public DependencyProviderExtensionContext(CodeDomGenerator.Context context)
+        public CodeDomStructureContext(CodeDomGenerator.Context context)
         {
             Context = context;
         }

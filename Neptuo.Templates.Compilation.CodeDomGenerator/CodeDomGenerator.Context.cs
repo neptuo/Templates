@@ -1,4 +1,4 @@
-﻿using Neptuo.Templates.Compilation.CodeGenerators.Extensions.CodeDom;
+﻿using Neptuo.Templates.Compilation.CodeGenerators;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             public ICodeGeneratorContext CodeGeneratorContext { get; private set; }
             public CodeDomGenerator CodeGenerator { get; private set; }
-            public BaseStructure BaseStructure { get; set; }
+            public BaseCodeDomStructure BaseStructure { get; set; }
 
             public Context(ICodeGeneratorContext codeGeneratorContext, CodeDomGenerator codeGenerator)
             {
