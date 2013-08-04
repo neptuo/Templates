@@ -1,11 +1,10 @@
-﻿using Neptuo.Templates.Compilation.Parsers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation
+namespace Neptuo.Templates.Compilation.Parsers
 {
     public class TypeBuilderRegistry : IBuilderRegistry
     {
@@ -34,11 +33,11 @@ namespace Neptuo.Templates.Compilation
 
             name = name.ToLowerInvariant();
 
-            if (Content.ControlsInNamespaces.ContainsKey(prefix)
-                && Content.ControlsInNamespaces[prefix].ContainsKey(name))
+            if (Content.Components.ContainsKey(prefix)
+                && Content.Components[prefix].ContainsKey(name))
             {
-                Type controlType = Content.ControlsInNamespaces[prefix][name];
-                return new DefaultControlBuilder(controlType);
+                IComponentBuilderFactory factory = Content.Components[prefix][name];
+                return factory.CreateBuilder(prefix, name);
             }
 
             return GetGenericContentBuilder(name);
@@ -76,11 +75,31 @@ namespace Neptuo.Templates.Compilation
             return Content.LiteralBuilder;
         }
 
+        #region Registration
+
         public void RegisterNamespace(NamespaceDeclaration namespaceDeclaration)
         {
             Content.Namespaces.Add(namespaceDeclaration.Prefix, namespaceDeclaration);
             //TODO: Registr clr namespace
         }
+
+        public void RegisterComponentBuilder(string prefix, string tagName, IComponentBuilderFactory factory)
+        {
+            //TODO: Validate type!
+            prefix = prefix.ToLowerInvariant();
+            tagName = tagName.ToLowerInvariant();
+            Content.Components[prefix][tagName] = factory;
+        }
+
+        public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilderFactory factory)
+        {
+            //TODO: Validate type!
+            prefix = prefix.ToLowerInvariant();
+            attributeName = attributeName.ToLowerInvariant();
+            Content.Observers[prefix][attributeName] = factory;
+        }
+
+        #endregion
 
         public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
         {
@@ -100,21 +119,21 @@ namespace Neptuo.Templates.Compilation
         public IComponentBuilder GenericContentBuilder { get; set; }
 
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
-        public Dictionary<string, Dictionary<string, Type>> ControlsInNamespaces { get; protected set; }
-        public Dictionary<string, Dictionary<string, Type>> Observers { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> Components { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
 
         public NamespaceBuilderRegistryContent()
             : this(null, null, null, null, null)
         { }
 
         public NamespaceBuilderRegistryContent(NamespaceBuilderRegistryContent content)
-            : this(content.Namespaces, content.ControlsInNamespaces, content.Observers, content.LiteralBuilder, content.GenericContentBuilder)
+            : this(content.Namespaces, content.Components, content.Observers, content.LiteralBuilder, content.GenericContentBuilder)
         { }
 
         public NamespaceBuilderRegistryContent(
-            Dictionary<string, NamespaceDeclaration> namespaces, 
-            Dictionary<string, Dictionary<string, Type>> controls, 
-            Dictionary<string, Dictionary<string, Type>> observers,
+            Dictionary<string, NamespaceDeclaration> namespaces,
+            SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
+            SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
             ILiteralBuilder literalBuilder,
             IComponentBuilder genericContentBuilder)
         {
@@ -124,17 +143,41 @@ namespace Neptuo.Templates.Compilation
                 Namespaces = new Dictionary<string, NamespaceDeclaration>();
 
             if (controls != null)
-                ControlsInNamespaces = new Dictionary<string, Dictionary<string, Type>>(controls);
+                Components = new SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>>(controls);
             else
-                ControlsInNamespaces = new Dictionary<string, Dictionary<string, Type>>();
+                Components = new SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>>();
 
             if (observers != null)
-                Observers = new Dictionary<string, Dictionary<string, Type>>(observers);
+                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>(observers);
             else
-                Observers = new Dictionary<string, Dictionary<string, Type>>();
+                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>();
 
             LiteralBuilder = literalBuilder;
             GenericContentBuilder = genericContentBuilder;
         }
+
+        public class SpecialDictionary<TKey, TValue> : Dictionary<TKey, TValue>
+            where TValue : new()
+        {
+            public new TValue this[TKey key]
+            {
+                get
+                {
+                    if (!base.ContainsKey(key))
+                        base[key] = new TValue();
+
+                    return base[key];
+                }
+                set { base[key] = value; }
+            }
+
+            public SpecialDictionary()
+            { }
+
+            public SpecialDictionary(IDictionary<TKey, TValue> dictionary)
+                : base(dictionary)
+            { }
+        }
     }
+
 }

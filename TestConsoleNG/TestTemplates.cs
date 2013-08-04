@@ -27,10 +27,12 @@ namespace TestConsoleNG
 
         public static void Test()
         {
-            IBuilderRegistry registry = new TypeBuilderRegistry(
+            TypeBuilderRegistry registry = new TypeBuilderRegistry(
                 new LiteralControlBuilder<LiteralControl>(c => c.Text), 
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
+            registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls"));
+            registry.RegisterComponentBuilder("h", "Panel", new DefaultControlBuilderFactory(typeof(PanelControl)));
 
             //TODO: Create CodeDomViewService...
 
@@ -63,7 +65,7 @@ namespace TestConsoleNG
             //{
 
             //IWebGeneratedView view = (IWebGeneratedView)((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
-            BaseGeneratedView view = (BaseGeneratedView)((IViewService)viewService).ProcessContent("<a href='google'>Hello, World!</a>", new DefaultViewServiceContext(container));
+            BaseGeneratedView view = (BaseGeneratedView)((IViewService)viewService).ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", new DefaultViewServiceContext(container));
             DebugUtils.Run("Run", () =>
             {
                 view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);

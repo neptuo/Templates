@@ -73,7 +73,7 @@ namespace Neptuo.Templates
             throw new ApplicationException("Unsupported type!");
         }
 
-        private static object Convert<T>(string value, Func<string, T, bool> func, T defaultValue)
+        private static object Convert<T>(string value, OutFunc<string, T, bool> func, T defaultValue)
         {
             T converted = defaultValue;
             if (func(value, out converted))
