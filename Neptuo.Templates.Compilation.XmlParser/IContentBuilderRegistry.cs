@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation
 {
-    public interface IBuilderRegistry
+    public interface IContentBuilderRegistry
     {
         IComponentBuilder GetComponentBuilder(string prefix, string name);
         IComponentBuilder GetGenericContentBuilder(string name);
@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation
         void RegisterNamespace(NamespaceDeclaration namespaceDeclaration);
         IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces();
 
-        IBuilderRegistry CreateChildRegistry();
+        IContentBuilderRegistry CreateChildRegistry();
     }
 }

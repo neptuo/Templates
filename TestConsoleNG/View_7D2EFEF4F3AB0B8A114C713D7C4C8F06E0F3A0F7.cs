@@ -12,7 +12,6 @@ using TestConsoleNG;
 namespace Neptuo.Templates
 {
     using System;
-    using Neptuo.Web;
     using Neptuo.Templates;
     using Neptuo.Templates.Controls;
     

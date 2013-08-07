@@ -23,7 +23,7 @@ namespace TestConsoleNG.Controls
             this.textProperty = TypeHelper.PropertyName(textProperty);
         }
 
-        public void Parse(IBuilderContext context, string text)
+        public void Parse(IContentBuilderContext context, string text)
         {
             if (context.Parent.Property.CanAssign(typeof(string)))
             {

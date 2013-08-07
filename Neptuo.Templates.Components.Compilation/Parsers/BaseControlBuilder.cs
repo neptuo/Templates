@@ -16,17 +16,17 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected abstract Type GetControlType(XmlElement element);
 
-        protected override IComponentCodeObject CreateCodeObject(IBuilderContext context, XmlElement element)
+        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, XmlElement element)
         {
             return new ComponentCodeObject(GetControlType(element));
         }
 
-        protected override IComponentDefinition GetComponentDefinition(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected override IComponentDefinition GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
-            return new TypeComponentDefinition(GetControlType(element));
+            return new TypeDefinition(GetControlType(element));
         }
 
-        protected override void ProcessUnboundAttribute(IBuilderContext context, IComponentCodeObject codeObject, XmlAttribute attribute)
+        protected override void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, XmlAttribute attribute)
         {
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject != null)
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new SetPropertyDescriptor(propertyInfo);
         }
 
-        public static bool BindAttributeCollection(IBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
+        public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
         {
             MethodInfo method = typeCodeObject.Type.GetMethod(TypeHelper.MethodName<IAttributeCollection, string, string>(a => a.SetAttribute));
             MethodInvokePropertyDescriptor propertyDescriptor = new MethodInvokePropertyDescriptor(method);

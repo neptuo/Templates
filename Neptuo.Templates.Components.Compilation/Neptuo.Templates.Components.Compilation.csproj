@@ -66,6 +66,7 @@
     <Compile Include="CodeGenerators\CodeDomSetPropertyGenerator.cs" />
     <Compile Include="CodeObjects\ComponentCodeObject.cs" />
     <Compile Include="CodeObjects\DependencyCodeObject.cs" />
+    <Compile Include="CodeObjects\ExtensionCodeObject.cs" />
     <Compile Include="CodeObjects\ListAddPropertyDescriptor.cs" />
     <Compile Include="CodeObjects\LocalFieldCodeObject.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyDescriptor.cs" />
@@ -76,7 +77,10 @@
     <Compile Include="DefaultViewServiceContext.cs" />
     <Compile Include="FileProvider.cs" />
     <Compile Include="Parsers\DefaultControlBuilderFactory.cs" />
+    <Compile Include="Parsers\DefaultMarkupExtensionBuilder.cs" />
+    <Compile Include="Parsers\DefaultMarkupExtensionBuilderFactory.cs" />
     <Compile Include="Parsers\IComponentBuilderFactory.cs" />
+    <Compile Include="Parsers\IMarkupExtensionBuilderFactory.cs" />
     <Compile Include="Parsers\IObserverBuilderFactory.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryConfiguration.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryContent.cs" />

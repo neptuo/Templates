@@ -8,6 +8,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public interface ILiteralBuilder
     {
-        void Parse(IBuilderContext context, string text);
+        void Parse(IContentBuilderContext context, string text);
     }
 }

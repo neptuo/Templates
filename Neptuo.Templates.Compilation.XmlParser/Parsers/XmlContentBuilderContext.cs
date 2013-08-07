@@ -6,38 +6,38 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class XmlBuilderContext : IBuilderContext
+    public class XmlContentBuilderContext : IContentBuilderContext
     {
         public IContentParserContext ParserContext { get; set; }
         public IPropertyDescriptor Parent { get; set; }
         public XmlContentParser Parser { get; set; }
         public XmlContentParser.Helper Helper { get; set; }
-        public IBuilderRegistry BuilderRegistry { get; set; }
+        public IContentBuilderRegistry BuilderRegistry { get; set; }
 
-        public static XmlBuilderContext Create()
+        public static XmlContentBuilderContext Create()
         {
-            return new XmlBuilderContext();
+            return new XmlContentBuilderContext();
         }
 
-        public XmlBuilderContext SetParserContext(IContentParserContext parserContext)
+        public XmlContentBuilderContext SetParserContext(IContentParserContext parserContext)
         {
             ParserContext = parserContext;
             return this;
         }
 
-        public XmlBuilderContext SetParent(IPropertyDescriptor parent)
+        public XmlContentBuilderContext SetParent(IPropertyDescriptor parent)
         {
             Parent = parent;
             return this;
         }
 
-        public XmlBuilderContext SetParser(XmlContentParser parser)
+        public XmlContentBuilderContext SetParser(XmlContentParser parser)
         {
             Parser = parser;
             return this;
         }
 
-        public XmlBuilderContext SetHelper(XmlContentParser.Helper helper)
+        public XmlContentBuilderContext SetHelper(XmlContentParser.Helper helper)
         {
             Helper = helper;
             SetParent(helper.Parent);
@@ -46,7 +46,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return this;
         }
 
-        public XmlBuilderContext SetBuilderRegistry(IBuilderRegistry builderRegistry)
+        public XmlContentBuilderContext SetBuilderRegistry(IContentBuilderRegistry builderRegistry)
         {
             BuilderRegistry = builderRegistry;
             return this;

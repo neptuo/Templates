@@ -15,9 +15,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public partial class XmlContentParser : IContentParser
     {
-        private IBuilderRegistry builderRegistry;
+        private IContentBuilderRegistry builderRegistry;
 
-        public XmlContentParser(IBuilderRegistry builderRegistry)
+        public XmlContentParser(IContentBuilderRegistry builderRegistry)
         {
             this.builderRegistry = builderRegistry;
         }
@@ -49,12 +49,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 #endif
         }
 
-        public void ProcessContent(IBuilderContext context, IPropertyDescriptor propertyDescriptor, IEnumerable<XmlNode> content)
+        public void ProcessContent(IContentBuilderContext context, IPropertyDescriptor propertyDescriptor, IEnumerable<XmlNode> content)
         {
             context.Helper.WithParent(propertyDescriptor, () => GenerateRecursive(context.Helper, content));
         }
 
-        public void AttachObservers(IBuilderContext context, IComponentCodeObject codeObject, IEnumerable<ParsedObserver> observers)
+        public void AttachObservers(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<ParsedObserver> observers)
         {
             foreach (ParsedObserver observer in observers)
                 observer.Observer.CreateBuilder().Parse(context, codeObject, observer.Attributes);
@@ -67,12 +67,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                 XmlElement element = node as XmlElement;
                 if (element != null)
                 {
-                    IBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(helper.BuilderRegistry, Utils.GetXmlNsNamespace(element));
+                    IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(helper.BuilderRegistry, Utils.GetXmlNsNamespace(element));
                     if (Utils.NeedsServerProcessing(newBuilderRegistry, element))
                     {
                         FlushContent(helper);
 
-                        IBuilderRegistry currentBuilderRegistry = helper.BuilderRegistry;
+                        IContentBuilderRegistry currentBuilderRegistry = helper.BuilderRegistry;
                         helper.BuilderRegistry = newBuilderRegistry;
 
                         IComponentBuilder builder = helper.BuilderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
@@ -111,9 +111,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             helper.Content.Clear();
         }
 
-        private IBuilderContext CreateBuilderContext(Helper helper)
+        private IContentBuilderContext CreateBuilderContext(Helper helper)
         {
-            return XmlBuilderContext.Create()
+            return XmlContentBuilderContext.Create()
                 .SetParser(this)
                 .SetHelper(helper);
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class TypeBuilderRegistry : TypeRegistryHelper, IBuilderRegistry
+    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, IMarkupExtensionBuilderRegistry
     {
         #region Type scanner
 
@@ -98,6 +98,22 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
+        #region Get/Markup
+
+        public IMarkupExtensionBuilder GetMarkupExtensionBuilder(string prefix, string name)
+        {
+            prefix = PreparePrefix(prefix);
+            name = PrepareName(name, Configuration.ComponentSuffix);
+
+            IMarkupExtensionBuilderFactory factory = Content.MarkupExtensions[prefix][name];
+            if (factory != null)
+                return factory.CreateBuilder(prefix, name);
+
+            return null;
+        }
+
+        #endregion
+
         #region Registration
 
         protected void RegisterNamespaceInternal(NamespaceDeclaration namespaceDeclaration)
@@ -141,7 +157,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        public IBuilderRegistry CreateChildRegistry()
+        public IContentBuilderRegistry CreateChildRegistry()
         {
             return new TypeBuilderRegistry(Configuration, new TypeBuilderRegistryContent(Content));
         }

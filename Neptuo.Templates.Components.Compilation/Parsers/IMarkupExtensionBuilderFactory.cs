@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
+using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public interface IComponentBuilder
+    public interface IMarkupExtensionBuilderFactory
     {
-        void Parse(IContentBuilderContext context, XmlElement element);
+        IMarkupExtensionBuilder CreateBuilder(string prefix, string name);
     }
 }
