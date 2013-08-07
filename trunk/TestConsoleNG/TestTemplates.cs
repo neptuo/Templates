@@ -22,7 +22,7 @@ namespace TestConsoleNG
         static TestTemplates()
         {
             container = new UnityDependencyContainer();
-
+            container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
         }
 
         public static void Test()
@@ -66,7 +66,10 @@ namespace TestConsoleNG
             //{
 
             //IWebGeneratedView view = (IWebGeneratedView)((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
-            BaseGeneratedView view = (BaseGeneratedView)((IViewService)viewService).ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", new DefaultViewServiceContext(container));
+            IViewServiceContext context = new DefaultViewServiceContext(container);
+
+            //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
+            BaseGeneratedView view = (BaseGeneratedView)viewService.Process("Index.html", context);
             DebugUtils.Run("Run", () =>
             {
                 view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
