@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Parser.ExtensionContent
+namespace Neptuo.Templates.Compilation.Parsers.ExtensionContent
 {
     [Serializable]
     public class StateMachineException : Exception

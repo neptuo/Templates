@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
             }
 
-            public static bool NeedsServerProcessing(IBuilderRegistry builderRegistry, XmlElement element)
+            public static bool NeedsServerProcessing(IContentBuilderRegistry builderRegistry, XmlElement element)
             {
                 if (builderRegistry.ContainsComponent(element.Prefix, element.LocalName))
                     return true;
@@ -60,9 +60,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return result;
             }
 
-            public static IBuilderRegistry CreateChildRegistrator(IBuilderRegistry currentBuilderRegistry, IEnumerable<NamespaceDeclaration> declarations)
+            public static IContentBuilderRegistry CreateChildRegistrator(IContentBuilderRegistry currentBuilderRegistry, IEnumerable<NamespaceDeclaration> declarations)
             {
-                IBuilderRegistry newBuilderRegistry = currentBuilderRegistry.CreateChildRegistry();
+                IContentBuilderRegistry newBuilderRegistry = currentBuilderRegistry.CreateChildRegistry();
                 if (declarations.Any())
                 {
                     foreach (NamespaceDeclaration decl in declarations)

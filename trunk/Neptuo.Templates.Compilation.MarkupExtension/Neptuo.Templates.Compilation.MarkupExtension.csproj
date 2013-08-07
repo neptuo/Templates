@@ -39,8 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeObjects\ExtensionCodeObject.cs" />
     <Compile Include="ExtensionContent\ValueParserEventArgs.cs" />
+    <Compile Include="IMarkupExtensionBuilderRegistry.cs" />
+    <Compile Include="Parsers\BaseMarkupExtensionBuilder.cs" />
+    <Compile Include="Parsers\ExtensionValueParser.cs" />
+    <Compile Include="Parsers\ExtensionValueParser.Helper.cs" />
+    <Compile Include="Parsers\IExtensionDefinition.cs" />
+    <Compile Include="Parsers\IMarkupExtensionBuilder.cs" />
+    <Compile Include="Parsers\IMarkupExtensionBuilderContext.cs" />
+    <Compile Include="Parsers\MarkupExtensionBuilderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExtensionContent\Extension.cs" />
     <Compile Include="ExtensionContent\ExtensionAttribute.cs" />
@@ -55,7 +62,12 @@
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
+      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
+      <Name>Neptuo.Templates</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

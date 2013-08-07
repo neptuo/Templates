@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Web.Framework.Parser
+namespace Neptuo.Templates.Compilation.Parsers.ExtensionContent
 {
     public class ValueParserEventArgs<T> : EventArgs
     {

@@ -12,26 +12,25 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class BaseComponentBuilder : IComponentBuilder
     {
-        public void Parse(IBuilderContext context, XmlElement element)
+        public void Parse(IContentBuilderContext context, XmlElement element)
         {
             IComponentCodeObject codeObject = CreateCodeObject(context, element);
             BindProperties(context, codeObject, element);
             AppendToParent(context, codeObject);
         }
 
-        protected virtual void AppendToParent(IBuilderContext context, IComponentCodeObject codeObject)
+        protected virtual void AppendToParent(IContentBuilderContext context, IComponentCodeObject codeObject)
         {
             context.Parent.SetValue(codeObject);
         }
 
-        protected abstract IComponentCodeObject CreateCodeObject(IBuilderContext context, XmlElement element);
-
-        protected abstract IComponentDefinition GetComponentDefinition(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element);
+        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, XmlElement element);
+        protected abstract IComponentDefinition GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
-        protected virtual void BindProperties(IBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
             IComponentDefinition componentDefinition = GetComponentDefinition(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
@@ -50,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             BindContentElements(context, bindContext, codeObject, defaultProperty, element.ChildNodes);
         }
 
-        protected virtual void BindAttributes(IBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlAttributeCollection attributes)
+        protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlAttributeCollection attributes)
         {
             // Bind attributes
             foreach (XmlAttribute attribute in attributes)
@@ -82,7 +81,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected virtual void BindInnerElements(IBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlNodeList childNodes)
+        protected virtual void BindInnerElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlNodeList childNodes)
         {
             // Bind inner elements
             foreach (XmlNode childNode in childNodes)
@@ -97,7 +96,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected virtual void BindContentElements(IBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IPropertyInfo defaultProperty, XmlNodeList childNodes)
+        protected virtual void BindContentElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IPropertyInfo defaultProperty, XmlNodeList childNodes)
         {
             // Bind content elements
             if (defaultProperty != null && !bindContext.BoundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
@@ -108,7 +107,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected virtual void ProcessUnboundAttributes(IBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
+        protected virtual void ProcessUnboundAttributes(IContentBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
         {
             List<XmlAttribute> usedAttributes = new List<XmlAttribute>();
             XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();
@@ -140,9 +139,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             context.Parser.AttachObservers(context, codeObject, observers);
         }
 
-        protected abstract void ProcessUnboundAttribute(IBuilderContext context, IComponentCodeObject codeObject, XmlAttribute unboundAttribute);
+        protected abstract void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, XmlAttribute unboundAttribute);
 
-        protected virtual void ResolvePropertyValue(IBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<XmlNode> content)
+        protected virtual void ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<XmlNode> content)
         {
             if (typeof(string) == propertyInfo.Type)
             {

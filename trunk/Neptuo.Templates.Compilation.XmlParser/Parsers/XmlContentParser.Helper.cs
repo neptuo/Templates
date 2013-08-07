@@ -14,10 +14,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             public IPropertyDescriptor Parent { get; set; }
             public IContentParserContext Context { get; protected set; }
             public XmlDocument Document { get; protected set; }
-            public IBuilderRegistry BuilderRegistry { get; set; }
+            public IContentBuilderRegistry BuilderRegistry { get; set; }
             public StringBuilder Content { get; protected set; }
 
-            public Helper(string xml, IContentParserContext context, IBuilderRegistry builderRegistry)
+            public Helper(string xml, IContentParserContext context, IContentBuilderRegistry builderRegistry)
             {
                 Context = context;
                 BuilderRegistry = builderRegistry;

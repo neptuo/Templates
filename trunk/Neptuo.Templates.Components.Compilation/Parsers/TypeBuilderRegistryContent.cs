@@ -15,19 +15,21 @@ namespace Neptuo.Templates.Compilation.Parsers
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>> MarkupExtensions { get; protected set; }
 
         public TypeBuilderRegistryContent()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null, null, null)
         { }
 
         public TypeBuilderRegistryContent(TypeBuilderRegistryContent content)
-            : this(content.Namespaces, content.Components, content.Observers, content.LiteralBuilder, content.GenericContentBuilder)
+            : this(content.Namespaces, content.Components, content.Observers, content.MarkupExtensions, content.LiteralBuilder, content.GenericContentBuilder)
         { }
 
         public TypeBuilderRegistryContent(
             Dictionary<string, NamespaceDeclaration> namespaces,
             SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
+            SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>> markupExtensions,
             ILiteralBuilder literalBuilder,
             IComponentBuilder genericContentBuilder)
         {
@@ -45,6 +47,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>(observers);
             else
                 Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>();
+
+            if (markupExtensions != null)
+                MarkupExtensions = new SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>>(markupExtensions);
+            else
+                MarkupExtensions = new SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>>();
 
             LiteralBuilder = literalBuilder;
             GenericContentBuilder = genericContentBuilder;

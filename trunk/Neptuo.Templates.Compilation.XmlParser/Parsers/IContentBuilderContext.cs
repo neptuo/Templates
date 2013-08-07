@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public interface IBuilderContext
+    public interface IContentBuilderContext
     {
         IContentParserContext ParserContext { get; }
         IPropertyDescriptor Parent { get; }
         XmlContentParser Parser { get; }
         XmlContentParser.Helper Helper { get; }
-        IBuilderRegistry BuilderRegistry { get; }
+        IContentBuilderRegistry BuilderRegistry { get; }
     }
 }

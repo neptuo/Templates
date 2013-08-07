@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class ExtensionCodeObject : ITypeCodeObject, IPropertiesCodeObject
+    public class ExtensionCodeObject : ITypeCodeObject, IValueExtensionCodeObject
     {
         public Type Type { get; set; }
         public List<IPropertyDescriptor> Properties { get; set; }

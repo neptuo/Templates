@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected abstract Type GetObserverType(IEnumerable<XmlAttribute> attributes);
 
-        public void Parse(IBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
+        public void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
         {
             Type observerType = GetObserverType(attributes);
             ObserverCodeObject observerObject = new ObserverCodeObject(observerType, ObserverLivecycle.PerControl);
