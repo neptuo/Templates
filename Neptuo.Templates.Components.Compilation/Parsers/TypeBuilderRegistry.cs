@@ -6,30 +6,49 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class TypeBuilderRegistry : IBuilderRegistry
+    public class TypeBuilderRegistry : TypeRegistryHelper, IBuilderRegistry
     {
-        public const string ObserverWildcard = "*";
-        public const string ComponentSuffix = "control";
-        public const string ObserverSuffix = "observer";
+        #region Type scanner
 
-        protected NamespaceBuilderRegistryContent Content { get; private set; }
+        private object scannerLock = new object();
+        private TypeScanner typeScanner;
 
-        public TypeBuilderRegistry(ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
-            : this(null)
+        protected TypeScanner TypeScanner
+        {
+            get
+            {
+                if (typeScanner == null)
+                {
+                    lock (scannerLock)
+                    {
+                        if (typeScanner == null)
+                            typeScanner = CreateTypeScanner();
+                    }
+                }
+
+                return typeScanner;
+            }
+        }
+
+        #endregion
+
+        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
+            : this(configuration, null)
         {
             Content.LiteralBuilder = literalBuilder;
             Content.GenericContentBuilder = genericContentBuilder;
         }
 
-        internal TypeBuilderRegistry(NamespaceBuilderRegistryContent content = null)
-        {
-            Content = content ?? new NamespaceBuilderRegistryContent();
-        }
+        protected TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content = null)
+            : base(configuration, content ?? new TypeBuilderRegistryContent())
+        { }
+
+        #region Get
 
         public IComponentBuilder GetComponentBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
-            name = PrepareName(name, ComponentSuffix);
+            name = PrepareName(name, Configuration.ComponentSuffix);
 
             if (Content.Components.ContainsKey(prefix)
                 && Content.Components[prefix].ContainsKey(name))
@@ -44,7 +63,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public IObserverRegistration GetObserverBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
-            name = PrepareName(name, ComponentSuffix);
+            name = PrepareName(name, Configuration.ComponentSuffix);
 
             if (!Content.Observers.ContainsKey(prefix))
                 return null;
@@ -53,8 +72,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             if (Content.Observers[prefix].ContainsKey(name))
                 factory = Content.Observers[prefix][name];
-            else if (Content.Observers[prefix].ContainsKey(ObserverWildcard))
-                factory = Content.Observers[prefix][ObserverWildcard];
+            else if (Content.Observers[prefix].ContainsKey(Configuration.ObserverWildcard))
+                factory = Content.Observers[prefix][Configuration.ObserverWildcard];
 
             if (factory != null)
                 return factory.CreateBuilder(prefix, name);
@@ -72,6 +91,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             return Content.LiteralBuilder;
         }
 
+        public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
+        {
+            return Content.Namespaces.Values;
+        }
+
+        #endregion
+
         #region Registration
 
         protected void RegisterNamespaceInternal(NamespaceDeclaration namespaceDeclaration)
@@ -81,45 +107,24 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Content.Namespaces[prefix] = namespaceDeclaration;
         }
 
-        protected string PreparePrefix(string prefix)
-        {
-            if (prefix == null)
-                prefix = String.Empty;
-            else
-                prefix = prefix.ToLowerInvariant();
-
-            return prefix;
-        }
-
-        protected string PrepareName(string name, string suffix)
-        {
-            if (name == null)
-                throw new ArgumentNullException("tagName");
-
-            name = name.ToLowerInvariant();
-            if (name.EndsWith(suffix))
-                name = name.Substring(0, name.Length - suffix.Length);
-
-            return name;
-        }
-
         protected void RegisterComponent(string prefix, string tagName, IComponentBuilderFactory factory)
         {
             prefix = PreparePrefix(prefix);
-            tagName = PrepareName(tagName, ComponentSuffix);
+            tagName = PrepareName(tagName, Configuration.ComponentSuffix);
             Content.Components[prefix][tagName] = factory;
         }
 
         protected void RegisterObserver(string prefix, string tagName, IObserverBuilderFactory factory)
         {
             prefix = PreparePrefix(prefix);
-            tagName = PrepareName(tagName, ObserverSuffix);
+            tagName = PrepareName(tagName, Configuration.ObserverSuffix);
             Content.Observers[prefix][tagName] = factory;
         }
 
         public void RegisterNamespace(NamespaceDeclaration namespaceDeclaration)
         {
             RegisterNamespaceInternal(namespaceDeclaration);
+            TypeScanner.Scan(namespaceDeclaration.Prefix, namespaceDeclaration.Namespace);
         }
 
         public void RegisterComponentBuilder(string prefix, string tagName, IComponentBuilderFactory factory)
@@ -136,14 +141,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
-        {
-            return Content.Namespaces.Values;
-        }
-
         public IBuilderRegistry CreateChildRegistry()
         {
-            return new TypeBuilderRegistry(new NamespaceBuilderRegistryContent(Content));
+            return new TypeBuilderRegistry(Configuration, new TypeBuilderRegistryContent(Content));
         }
 
         #region Contains
@@ -151,7 +151,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public bool ContainsComponent(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
-            name = PrepareName(name, ComponentSuffix);
+            name = PrepareName(name, Configuration.ComponentSuffix);
 
             if(!Content.Components.ContainsKey(prefix))
                 return false;
@@ -162,7 +162,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public bool ContainsObserver(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
-            name = PrepareName(name, ObserverSuffix);
+            name = PrepareName(name, Configuration.ObserverSuffix);
 
             if (!Content.Observers.ContainsKey(prefix))
                 return false;
@@ -170,10 +170,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (Content.Components[prefix].ContainsKey(name))
                 return true;
 
-            return Content.Components[prefix].ContainsKey(ObserverWildcard);
+            return Content.Components[prefix].ContainsKey(Configuration.ObserverWildcard);
         }
 
         #endregion
+
+        protected virtual TypeScanner CreateTypeScanner()
+        {
+            return new TypeScanner(Configuration, Content);
+        }
     }
 
 }

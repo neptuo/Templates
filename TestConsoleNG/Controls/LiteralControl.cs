@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Neptuo.Templates;
 
-namespace Neptuo.Templates.Controls
+namespace TestConsoleNG.Controls
 {
     [DefaultProperty("Text")]
     public class LiteralControl : BaseControl

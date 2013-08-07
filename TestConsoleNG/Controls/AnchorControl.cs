@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Neptuo.Templates;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Controls
+namespace TestConsoleNG.Controls
 {
     [Html("a")]
     public class AnchorControl : BaseContentControl

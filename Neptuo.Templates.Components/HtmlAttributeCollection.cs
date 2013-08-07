@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Neptuo.Templates
 {
-    public class AttributeCollection : Dictionary<string, string>
+    public class HtmlAttributeCollection : Dictionary<string, string>
     {
     }
 }
