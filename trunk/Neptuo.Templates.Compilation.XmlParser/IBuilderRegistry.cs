@@ -13,6 +13,9 @@ namespace Neptuo.Templates.Compilation
         ILiteralBuilder GetLiteralBuilder();
         IObserverRegistration GetObserverBuilder(string prefix, string name);
 
+        bool ContainsComponent(string prefix, string name);
+        bool ContainsObserver(string prefix, string name);
+
         void RegisterNamespace(NamespaceDeclaration namespaceDeclaration);
         IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces();
 

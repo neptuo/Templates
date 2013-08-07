@@ -78,6 +78,7 @@
     <Compile Include="Parsers\DefaultControlBuilderFactory.cs" />
     <Compile Include="Parsers\IComponentBuilderFactory.cs" />
     <Compile Include="Parsers\IObserverBuilderFactory.cs" />
+    <Compile Include="Parsers\NamespaceBuilderRegistryContent.cs" />
     <Compile Include="StaticNamingService.cs" />
     <Compile Include="Parsers\TypeBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseControlBuilder.cs" />
