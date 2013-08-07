@@ -9,6 +9,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class TypeBuilderRegistry : IBuilderRegistry
     {
         public const string ObserverWildcard = "*";
+        public const string ComponentSuffix = "control";
+        public const string ObserverSuffix = "observer";
 
         protected NamespaceBuilderRegistryContent Content { get; private set; }
 
@@ -26,12 +28,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IComponentBuilder GetComponentBuilder(string prefix, string name)
         {
-            if (prefix == null)
-                prefix = String.Empty;
-            else
-                prefix = prefix.ToLowerInvariant();
-
-            name = name.ToLowerInvariant();
+            prefix = PreparePrefix(prefix);
+            name = PrepareName(name, ComponentSuffix);
 
             if (Content.Components.ContainsKey(prefix)
                 && Content.Components[prefix].ContainsKey(name))
@@ -45,24 +43,23 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IObserverRegistration GetObserverBuilder(string prefix, string name)
         {
-            //if (attributeNamespace == null)
-            //    attributeNamespace = String.Empty;
-            //else
-            //    attributeNamespace = attributeNamespace.ToLowerInvariant();
+            prefix = PreparePrefix(prefix);
+            name = PrepareName(name, ComponentSuffix);
 
-            //attributeName = attributeName.ToLowerInvariant();
+            if (!Content.Observers.ContainsKey(prefix))
+                return null;
 
-            //if (!Observers.ContainsKey(attributeNamespace))
-            //    return null;
+            IObserverBuilderFactory factory = null;
 
-            //if (Observers[attributeNamespace].ContainsKey(attributeName))
-            //    return Observers[attributeNamespace][attributeName];
+            if (Content.Observers[prefix].ContainsKey(name))
+                factory = Content.Observers[prefix][name];
+            else if (Content.Observers[prefix].ContainsKey(ObserverWildcard))
+                factory = Content.Observers[prefix][ObserverWildcard];
 
-            //if (Observers[attributeNamespace].ContainsKey(ObserverWildcard))
-            //    return Observers[attributeNamespace][ObserverWildcard];
+            if (factory != null)
+                return factory.CreateBuilder(prefix, name);
 
             return null;
-            //throw new NotImplementedException();
         }
 
         public IComponentBuilder GetGenericContentBuilder(string name)
@@ -77,26 +74,64 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region Registration
 
+        protected void RegisterNamespaceInternal(NamespaceDeclaration namespaceDeclaration)
+        {
+            string prefix = PreparePrefix(namespaceDeclaration.Prefix);
+            if (!Content.Namespaces.ContainsKey(prefix))
+                Content.Namespaces[prefix] = namespaceDeclaration;
+        }
+
+        protected string PreparePrefix(string prefix)
+        {
+            if (prefix == null)
+                prefix = String.Empty;
+            else
+                prefix = prefix.ToLowerInvariant();
+
+            return prefix;
+        }
+
+        protected string PrepareName(string name, string suffix)
+        {
+            if (name == null)
+                throw new ArgumentNullException("tagName");
+
+            name = name.ToLowerInvariant();
+            if (name.EndsWith(suffix))
+                name = name.Substring(0, name.Length - suffix.Length);
+
+            return name;
+        }
+
+        protected void RegisterComponent(string prefix, string tagName, IComponentBuilderFactory factory)
+        {
+            prefix = PreparePrefix(prefix);
+            tagName = PrepareName(tagName, ComponentSuffix);
+            Content.Components[prefix][tagName] = factory;
+        }
+
+        protected void RegisterObserver(string prefix, string tagName, IObserverBuilderFactory factory)
+        {
+            prefix = PreparePrefix(prefix);
+            tagName = PrepareName(tagName, ObserverSuffix);
+            Content.Observers[prefix][tagName] = factory;
+        }
+
         public void RegisterNamespace(NamespaceDeclaration namespaceDeclaration)
         {
-            Content.Namespaces.Add(namespaceDeclaration.Prefix, namespaceDeclaration);
-            //TODO: Registr clr namespace
+            RegisterNamespaceInternal(namespaceDeclaration);
         }
 
         public void RegisterComponentBuilder(string prefix, string tagName, IComponentBuilderFactory factory)
         {
-            //TODO: Validate type!
-            prefix = prefix.ToLowerInvariant();
-            tagName = tagName.ToLowerInvariant();
-            Content.Components[prefix][tagName] = factory;
+            RegisterNamespaceInternal(new NamespaceDeclaration(prefix, tagName));
+            RegisterComponent(prefix, tagName, factory);
         }
 
         public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilderFactory factory)
         {
-            //TODO: Validate type!
-            prefix = prefix.ToLowerInvariant();
-            attributeName = attributeName.ToLowerInvariant();
-            Content.Observers[prefix][attributeName] = factory;
+            RegisterNamespaceInternal(new NamespaceDeclaration(prefix, attributeName));
+            RegisterObserver(prefix, attributeName, factory);
         }
 
         #endregion
@@ -104,80 +139,41 @@ namespace Neptuo.Templates.Compilation.Parsers
         public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
         {
             return Content.Namespaces.Values;
-            //TODO: Add observer ns!
         }
 
         public IBuilderRegistry CreateChildRegistry()
         {
             return new TypeBuilderRegistry(new NamespaceBuilderRegistryContent(Content));
         }
-    }
 
-    public class NamespaceBuilderRegistryContent
-    {
-        public ILiteralBuilder LiteralBuilder { get; set; }
-        public IComponentBuilder GenericContentBuilder { get; set; }
+        #region Contains
 
-        public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
-        public SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> Components { get; protected set; }
-        public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
-
-        public NamespaceBuilderRegistryContent()
-            : this(null, null, null, null, null)
-        { }
-
-        public NamespaceBuilderRegistryContent(NamespaceBuilderRegistryContent content)
-            : this(content.Namespaces, content.Components, content.Observers, content.LiteralBuilder, content.GenericContentBuilder)
-        { }
-
-        public NamespaceBuilderRegistryContent(
-            Dictionary<string, NamespaceDeclaration> namespaces,
-            SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
-            SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
-            ILiteralBuilder literalBuilder,
-            IComponentBuilder genericContentBuilder)
+        public bool ContainsComponent(string prefix, string name)
         {
-            if (namespaces != null)
-                Namespaces = new Dictionary<string, NamespaceDeclaration>(namespaces);
-            else
-                Namespaces = new Dictionary<string, NamespaceDeclaration>();
+            prefix = PreparePrefix(prefix);
+            name = PrepareName(name, ComponentSuffix);
 
-            if (controls != null)
-                Components = new SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>>(controls);
-            else
-                Components = new SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>>();
+            if(!Content.Components.ContainsKey(prefix))
+                return false;
 
-            if (observers != null)
-                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>(observers);
-            else
-                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>();
-
-            LiteralBuilder = literalBuilder;
-            GenericContentBuilder = genericContentBuilder;
+            return Content.Components[prefix].ContainsKey(name);
         }
 
-        public class SpecialDictionary<TKey, TValue> : Dictionary<TKey, TValue>
-            where TValue : new()
+        public bool ContainsObserver(string prefix, string name)
         {
-            public new TValue this[TKey key]
-            {
-                get
-                {
-                    if (!base.ContainsKey(key))
-                        base[key] = new TValue();
+            prefix = PreparePrefix(prefix);
+            name = PrepareName(name, ObserverSuffix);
 
-                    return base[key];
-                }
-                set { base[key] = value; }
-            }
+            if (!Content.Observers.ContainsKey(prefix))
+                return false;
 
-            public SpecialDictionary()
-            { }
+            if (Content.Components[prefix].ContainsKey(name))
+                return true;
 
-            public SpecialDictionary(IDictionary<TKey, TValue> dictionary)
-                : base(dictionary)
-            { }
+            return Content.Components[prefix].ContainsKey(ObserverWildcard);
         }
+
+        #endregion
     }
 
 }
