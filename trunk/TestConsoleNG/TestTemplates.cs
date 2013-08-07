@@ -28,11 +28,12 @@ namespace TestConsoleNG
         public static void Test()
         {
             TypeBuilderRegistry registry = new TypeBuilderRegistry(
+                new TypeBuilderRegistryConfiguration(container),
                 new LiteralControlBuilder<LiteralControl>(c => c.Text), 
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
-            registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls"));
-            registry.RegisterComponentBuilder("h", "Panel", new DefaultControlBuilderFactory(typeof(PanelControl)));
+            registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG"));
+            //registry.RegisterComponentBuilder("h", "Panel", new DefaultControlBuilderFactory(typeof(PanelControl)));
 
             //TODO: Create CodeDomViewService...
 

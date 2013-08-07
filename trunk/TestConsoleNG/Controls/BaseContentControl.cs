@@ -5,8 +5,10 @@ using System.Text;
 using System.ComponentModel;
 using System.IO;
 using System.Collections;
+using Neptuo.Templates.Controls;
+using Neptuo.Templates;
 
-namespace Neptuo.Templates.Controls
+namespace TestConsoleNG.Controls
 {
     [DefaultProperty("Content")]
     public abstract class BaseContentControl : BaseControl, IContentControl

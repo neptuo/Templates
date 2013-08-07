@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using Neptuo.Templates;
 
-namespace Neptuo.Templates.Controls
+namespace TestConsoleNG.Controls
 {
     [Html("input", true)]
     [DefaultProperty("Text")]

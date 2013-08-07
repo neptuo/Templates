@@ -36,13 +36,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             public static bool NeedsServerProcessing(IBuilderRegistry builderRegistry, XmlElement element)
             {
-                if (builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName) != null)
+                if (builderRegistry.ContainsComponent(element.Prefix, element.LocalName))
                     return true;
 
                 foreach (XmlAttribute attribute in element.Attributes)
                 {
                     //TODO: Reimplement! Creating unneeded builders!
-                    if(builderRegistry.GetObserverBuilder(attribute.Prefix, attribute.LocalName) != null)
+                    if(builderRegistry.ContainsObserver(attribute.Prefix, attribute.LocalName))
                         return true;
                 }
 

@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.ComponentModel;
+using Neptuo.Templates;
+using Neptuo.Templates.Controls;
 
-namespace Neptuo.Templates.Controls
+namespace TestConsoleNG.Controls
 {
     /// <summary>
     /// Controls extends this class support tag name specified in <see cref="ComponentAttribute"/>.
@@ -16,7 +18,7 @@ namespace Neptuo.Templates.Controls
         private bool? isSelfClosing;
         private string defaultPropertyName;
 
-        public AttributeCollection Attributes { get; protected set; }
+        public HtmlAttributeCollection Attributes { get; protected set; }
 
         protected IComponentManager ComponentManager { get; private set; }
         protected virtual string TagName
@@ -69,7 +71,7 @@ namespace Neptuo.Templates.Controls
         public BaseControl(IComponentManager componentManager)
         {
             ComponentManager = componentManager;
-            Attributes = new AttributeCollection();
+            Attributes = new HtmlAttributeCollection();
         }
 
         public virtual void OnInit() { }

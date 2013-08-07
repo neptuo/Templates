@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
 
-    public class NamespaceBuilderRegistryContent
+    public class TypeBuilderRegistryContent
     {
         public ILiteralBuilder LiteralBuilder { get; set; }
         public IComponentBuilder GenericContentBuilder { get; set; }
@@ -16,15 +16,15 @@ namespace Neptuo.Templates.Compilation.Parsers
         public SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
 
-        public NamespaceBuilderRegistryContent()
+        public TypeBuilderRegistryContent()
             : this(null, null, null, null, null)
         { }
 
-        public NamespaceBuilderRegistryContent(NamespaceBuilderRegistryContent content)
+        public TypeBuilderRegistryContent(TypeBuilderRegistryContent content)
             : this(content.Namespaces, content.Components, content.Observers, content.LiteralBuilder, content.GenericContentBuilder)
         { }
 
-        public NamespaceBuilderRegistryContent(
+        public TypeBuilderRegistryContent(
             Dictionary<string, NamespaceDeclaration> namespaces,
             SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
