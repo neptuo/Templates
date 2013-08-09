@@ -9,11 +9,11 @@ using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultControlBuilder : BaseControlBuilder
+    public class DefaultTypeComponentBuilder : BaseTypeComponentBuilder
     {
         protected Type Type { get; private set; }
 
-        public DefaultControlBuilder(Type type)
+        public DefaultTypeComponentBuilder(Type type)
         {
             Type = type;
         }

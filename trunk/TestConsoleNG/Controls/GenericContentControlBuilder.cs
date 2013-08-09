@@ -12,7 +12,7 @@ using System.Xml;
 
 namespace TestConsoleNG.Controls
 {
-    public class GenericContentControlBuilder<T> : DefaultControlBuilder
+    public class GenericContentControlBuilder<T> : DefaultTypeComponentBuilder
         where T : IControl
     {
         private readonly string tagNameProperty;
