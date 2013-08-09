@@ -14,11 +14,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public static partial class Names
         {
             public const string CodeNamespace = "Neptuo.Templates";
-            public const string ClassName = "GeneratedView";
-            public const string BaseClassName = "BaseGeneratedView";
-            public const string RequestField = "request";
-            public const string ResponseField = "response";
-            public const string ViewPageField = "viewPage";
             public const string ComponentManagerField = "componentManager";
             public const string DependencyProviderField = "dependencyProvider";
 
@@ -42,9 +37,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         private void CreateCodeClass(BaseCodeDomStructure structure, CodeDomStructureContext context)
         {
             CodeNamespace codeNamespace = new CodeNamespace(Names.CodeNamespace);
-            codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Web"));
-            codeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Templates"));
+            //codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
+            //codeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Templates"));
             structure.Unit.Namespaces.Add(codeNamespace);
 
             structure.Class = new CodeTypeDeclaration(context.Naming.ClassName);
