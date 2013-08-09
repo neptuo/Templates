@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// TODO: Automatic registration of extensions + observers (by convention)
+    /// </summary>
     public class TypeScanner : TypeRegistryHelper
     {
         public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content)

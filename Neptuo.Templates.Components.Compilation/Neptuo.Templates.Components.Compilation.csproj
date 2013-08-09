@@ -81,6 +81,7 @@
     <Compile Include="Parsers\DefaultMarkupExtensionBuilder.cs" />
     <Compile Include="Parsers\DefaultMarkupExtensionBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilderFactory.cs" />
+    <Compile Include="Parsers\DefaultTypeObserverRegistration.cs" />
     <Compile Include="Parsers\IComponentBuilderFactory.cs" />
     <Compile Include="Parsers\IMarkupExtensionBuilderFactory.cs" />
     <Compile Include="Parsers\IObserverBuilderFactory.cs" />
