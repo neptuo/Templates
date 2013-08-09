@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if (attribute != null && !String.IsNullOrEmpty(attribute.Name))
                         name = PrepareName(attribute.Name, Configuration.ComponentSuffix);
 
-                    Content.Components[prefix][name] = CreateFactory<IComponentBuilderFactory>(type, t => new DefaultControlBuilderFactory(t));
+                    Content.Components[prefix][name] = CreateFactory<IComponentBuilderFactory>(type, t => new DefaultTypeComponentBuilderFactory(t));
                 }
             }
         }

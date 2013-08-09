@@ -59,6 +59,7 @@
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\BaseContentControl.cs" />
     <Compile Include="Controls\BaseControl.cs" />
+    <Compile Include="Observers\DataContextObserver.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericContentControlBuilder.cs" />
     <Compile Include="Controls\LiteralControl.cs" />

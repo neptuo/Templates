@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class TypeDefinition : IComponentDefinition, IExtensionDefinition
+    public class TypeDefinition : IComponentDefinition, IExtensionDefinition, IObserverDefinition
     {
         private Type type;
 

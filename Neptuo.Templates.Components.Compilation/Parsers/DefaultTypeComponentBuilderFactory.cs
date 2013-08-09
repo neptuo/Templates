@@ -6,18 +6,18 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultControlBuilderFactory : IComponentBuilderFactory
+    public class DefaultTypeComponentBuilderFactory : IComponentBuilderFactory
     {
         protected Type ControlType { get; private set; }
 
-        public DefaultControlBuilderFactory(Type controlType)
+        public DefaultTypeComponentBuilderFactory(Type controlType)
         {
             ControlType = controlType;
         }
 
         public IComponentBuilder CreateBuilder(string prefix, string tagName)
         {
-            return new DefaultControlBuilder(ControlType);
+            return new DefaultTypeComponentBuilder(ControlType);
         }
     }
 }

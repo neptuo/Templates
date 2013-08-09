@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestConsoleNG.Controls;
+using TestConsoleNG.Observers;
 using TestConsoleNG.Unity;
 
 namespace TestConsoleNG
@@ -33,6 +34,7 @@ namespace TestConsoleNG
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
             registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG"));
+            registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver), ObserverBuilderScope.PerElement));
             //registry.RegisterComponentBuilder("h", "Panel", new DefaultControlBuilderFactory(typeof(PanelControl)));
 
             //TODO: Create CodeDomViewService...
