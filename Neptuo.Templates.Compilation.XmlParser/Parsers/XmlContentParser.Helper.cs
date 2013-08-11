@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             public IPropertyDescriptor Parent { get; set; }
             public IContentParserContext Context { get; protected set; }
             public XmlDocument Document { get; protected set; }
-            public IContentBuilderRegistry BuilderRegistry { get; set; }
+            private IContentBuilderRegistry BuilderRegistry { get; set; }
             public StringBuilder Content { get; protected set; }
 
             public Helper(string xml, IContentParserContext context, IContentBuilderRegistry builderRegistry)

@@ -20,6 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Parser = parser;
             Helper = helper;
             ParserContext = helper.Context;
+            Parent = helper.Context.PropertyDescriptor;
             BuilderRegistry = helper.BuilderRegistry;
         }
     }

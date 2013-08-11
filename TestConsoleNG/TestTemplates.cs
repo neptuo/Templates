@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestConsoleNG.Controls;
+using TestConsoleNG.Data;
 using TestConsoleNG.Observers;
 using TestConsoleNG.Unity;
 
@@ -24,6 +25,7 @@ namespace TestConsoleNG
         {
             container = new UnityDependencyContainer();
             container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
+            container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe")));
         }
 
         public static void Test()
@@ -34,6 +36,7 @@ namespace TestConsoleNG
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
             registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG"));
+            registry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG"));
             registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver), ObserverBuilderScope.PerDocument));
             registry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver), ObserverBuilderScope.PerAttribute));
             //registry.RegisterComponentBuilder("h", "Panel", new DefaultControlBuilderFactory(typeof(PanelControl)));
@@ -49,6 +52,7 @@ namespace TestConsoleNG
             CodeDomViewService viewService = new CodeDomViewService();
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
+            viewService.ParserService.ValueParsers.Add(new ExtensionValueParser(registry));
             //viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             //viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
             viewService.NamingService = new StaticNamingService(new FileProvider(new CurrentDirectoryVirtualPathProvider()));

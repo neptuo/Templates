@@ -11,6 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public const string DefaultObserverWildcard = "*";
         public const string DefaultComponentSuffix = "control";
         public const string DefaultObserverSuffix = "observer";
+        public const string DefaultExtensionSuffix = "extension";
 
         public bool CaseSensitive { get; private set; }
         public string ComponentSuffix { get; private set; }
@@ -26,6 +27,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ComponentSuffix = DefaultComponentSuffix;
             ObserverSuffix = DefaultObserverSuffix;
             ObserverWildcard = DefaultObserverWildcard;
+            ExtensionSuffix = DefaultExtensionSuffix;
         }
     }
 }
