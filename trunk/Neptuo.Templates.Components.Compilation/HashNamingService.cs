@@ -8,13 +8,13 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation
 {
-    public class StaticNamingService : INamingService
+    public class HashNamingService : INamingService
     {
         public const string ViewNameFormat = "View_{0}";
 
         protected IFileProvider FileProvider { get; private set; }
 
-        public StaticNamingService(IFileProvider fileProvider)
+        public HashNamingService(IFileProvider fileProvider)
         {
             FileProvider = fileProvider;
         }

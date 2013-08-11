@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Controls;
+﻿using Neptuo.Reflection;
+using Neptuo.Templates.Controls;
 using Neptuo.Templates.Extensions;
 using Neptuo.Templates.Observers;
 using System;
