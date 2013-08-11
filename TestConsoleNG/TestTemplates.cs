@@ -34,7 +34,8 @@ namespace TestConsoleNG
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
             registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG"));
-            registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver), ObserverBuilderScope.PerElement));
+            registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver), ObserverBuilderScope.PerDocument));
+            registry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver), ObserverBuilderScope.PerAttribute));
             //registry.RegisterComponentBuilder("h", "Panel", new DefaultControlBuilderFactory(typeof(PanelControl)));
 
             //TODO: Create CodeDomViewService...
