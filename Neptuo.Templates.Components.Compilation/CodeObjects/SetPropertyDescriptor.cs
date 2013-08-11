@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class SetPropertyDescriptor : IPropertyDescriptor, IDefaultPropertyValue
+    public class SetPropertyDescriptor : IPropertyDescriptor
     {
         public IPropertyInfo Property { get; set; }
         public ICodeObject Value { get; set; }
