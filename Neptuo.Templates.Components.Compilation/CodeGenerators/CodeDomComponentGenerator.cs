@@ -17,6 +17,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         private Dictionary<Type, CodeFieldReferenceExpression> perPage;
         private Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>> perControl;
 
+        public CodeDomComponentGenerator(IFieldNameProvider fieldNameProvider)
+            : base(fieldNameProvider)
+        { }
+
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
         {
             StorageProvider storage = context.CodeDomContext.CodeGeneratorContext.DependencyProvider.Resolve<StorageProvider>();
@@ -37,7 +41,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     ),
                     new CodeMethodReferenceExpression(
                         new CodeThisReferenceExpression(),
-                        context.CodeGenerator.FormatBindMethod(field.FieldName)
+                        FormatBindMethod(field.FieldName)
                     )
                 )
             );
@@ -117,7 +121,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     context.ParentBindMethod.Statements.Add(
                         new CodeMethodInvokeExpression(
                             new CodeThisReferenceExpression(),
-                            context.CodeGenerator.FormatCreateMethod(observerField.FieldName)
+                            FormatCreateMethod(observerField.FieldName)
                         )
                     );
                 }
@@ -139,11 +143,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         ),
                         new CodeMethodReferenceExpression(
                             new CodeThisReferenceExpression(),
-                            newObserver ? context.CodeGenerator.FormatBindMethod(observerField.FieldName) : GenerateBindMethod(
+                            newObserver ? FormatBindMethod(observerField.FieldName) : GenerateBindMethod(
                                 context, 
                                 observer, 
                                 observerField.FieldName, 
-                                context.CodeGenerator.FormatBindMethod(context.CodeGenerator.GenerateFieldName())
+                                FormatBindMethod(GenerateFieldName())
                             ).Name
                         )
                     )
