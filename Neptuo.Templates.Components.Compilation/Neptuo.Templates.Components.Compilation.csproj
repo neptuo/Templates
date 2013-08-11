@@ -62,7 +62,6 @@
     <Compile Include="CodeGenerators\CodeDomDependencyObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomExtensionObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomListAddPropertyGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeDomLocalFieldObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomMethodPropertyGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomPlainValueObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomSetPropertyGenerator.cs" />
@@ -70,7 +69,6 @@
     <Compile Include="CodeObjects\DependencyCodeObject.cs" />
     <Compile Include="CodeObjects\ExtensionCodeObject.cs" />
     <Compile Include="CodeObjects\ListAddPropertyDescriptor.cs" />
-    <Compile Include="CodeObjects\LocalFieldCodeObject.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyDescriptor.cs" />
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />

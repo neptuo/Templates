@@ -15,52 +15,52 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         public CodeDomGenerator()
         {
-            CodeObjectExtensions = new Dictionary<Type, ICodeDomComponentGenerator>();
-            PropertyDescriptorExtensions = new Dictionary<Type, ICodeDomPropertyGenerator>();
-            DependencyProviderExtensions = new Dictionary<Type, ICodeDomDependencyGenerator>();
+            CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
+            PropertyDescriptorGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
+            DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
         }
 
-        #region ICodeDomCodeObjectExtension
+        #region ICodeDomComponentGenerator
 
         //TODO: For multiple per type?
-        protected Dictionary<Type, ICodeDomComponentGenerator> CodeObjectExtensions { get; private set; }
+        protected Dictionary<Type, ICodeDomComponentGenerator> CodeObjectGenerators { get; private set; }
 
-        public void SetCodeObjectExtension(Type type, ICodeDomComponentGenerator extension)
+        public void SetCodeObjectGenerator(Type type, ICodeDomComponentGenerator generator)
         {
-            CodeObjectExtensions[type] = extension;
+            CodeObjectGenerators[type] = generator;
         }
 
         #endregion
 
-        #region ICodeDomPropertyDescriptorExtension
+        #region ICodeDomPropertyGenerator
 
-        protected Dictionary<Type, ICodeDomPropertyGenerator> PropertyDescriptorExtensions { get; private set; }
+        protected Dictionary<Type, ICodeDomPropertyGenerator> PropertyDescriptorGenerators { get; private set; }
 
-        public void SetPropertyDescriptorExtension(Type type, ICodeDomPropertyGenerator extension)
+        public void SetPropertyDescriptorGenerator(Type type, ICodeDomPropertyGenerator generator)
         {
-            PropertyDescriptorExtensions[type] = extension;
+            PropertyDescriptorGenerators[type] = generator;
         }
 
         #endregion
 
-        #region ICodeDomDependencyProviderExtension
+        #region ICodeDomDependencyGenerator
 
-        protected Dictionary<Type, ICodeDomDependencyGenerator> DependencyProviderExtensions { get; private set; }
+        protected Dictionary<Type, ICodeDomDependencyGenerator> DependencyProviderGenerators { get; private set; }
 
-        public void SetDependencyProviderExtension(Type type, ICodeDomDependencyGenerator extension)
+        public void SetDependencyProviderGenerator(Type type, ICodeDomDependencyGenerator generator)
         {
-            DependencyProviderExtensions[type] = extension;
+            DependencyProviderGenerators[type] = generator;
         }
 
         #endregion
 
         #region ICodeDomBaseStructureExtension
 
-        public ICodeDomStructureGenerator BaseStructureExtension { get; private set; }
+        public ICodeDomStructureGenerator BaseStructureGenerator { get; private set; }
 
-        public void SetBaseStructureExtension(ICodeDomStructureGenerator extension)
+        public void SetBaseStructureGenerator(ICodeDomStructureGenerator generator)
         {
-            BaseStructureExtension = extension;
+            BaseStructureGenerator = generator;
         }
 
         #endregion
@@ -69,7 +69,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeExpression GenerateCodeObject(Context context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
         {
-            foreach (KeyValuePair<Type, ICodeDomComponentGenerator> item in CodeObjectExtensions)
+            foreach (KeyValuePair<Type, ICodeDomComponentGenerator> item in CodeObjectGenerators)
             {
                 if (item.Key == codeObject.GetType())
                     return item.Value.GenerateCode(new CodeObjectExtensionContext(context, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
@@ -80,7 +80,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public void GenerateProperty(Context context, IPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
         {
-            foreach (KeyValuePair<Type, ICodeDomPropertyGenerator> item in PropertyDescriptorExtensions)
+            foreach (KeyValuePair<Type, ICodeDomPropertyGenerator> item in PropertyDescriptorGenerators)
             {
                 if (item.Key == propertyDescriptor.GetType())
                 {
@@ -94,7 +94,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeExpression GenerateDependency(Context context, Type type)
         {
-            foreach (KeyValuePair<Type, ICodeDomDependencyGenerator> item in DependencyProviderExtensions)
+            foreach (KeyValuePair<Type, ICodeDomDependencyGenerator> item in DependencyProviderGenerators)
             {
                 if (item.Key.IsAssignableFrom(type))
                 {
@@ -113,14 +113,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             Context context = new Context(codeContext, this);
 
-            if (BaseStructureExtension == null)
+            if (BaseStructureGenerator == null)
                 throw new ArgumentNullException("BaseStructureExtension", "Base structure extension not provided!");
 
             INamingContext namingContext = codeContext as INamingContext;
             if(namingContext == null)
                 throw new ArgumentNullException("codeContext", "CodeDomGenerator requires INamingContext!");
 
-            context.BaseStructure = BaseStructureExtension.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
+            context.BaseStructure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
 
             GenerateProperty(context, propertyDescriptor, null, context.BaseStructure.EntryPointMethod);
 

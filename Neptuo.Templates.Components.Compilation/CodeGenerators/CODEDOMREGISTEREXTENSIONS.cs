@@ -14,21 +14,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
 
-            generator.SetCodeObjectExtension(typeof(ComponentCodeObject), new CodeDomComponentGenerator(fieldNameProvider));
-            generator.SetCodeObjectExtension(typeof(PlainValueCodeObject), new CodeDomPlainValueObjectGenerator());
-            generator.SetCodeObjectExtension(typeof(LocalFieldCodeObject), new CodeDomLocalFieldObjectGenerator());
-            generator.SetCodeObjectExtension(typeof(DependencyCodeObject), new CodeDomDependencyObjectGenerator());
-            generator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new CodeDomExtensionObjectGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator(typeof(ComponentCodeObject), new CodeDomComponentGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator(typeof(PlainValueCodeObject), new CodeDomPlainValueObjectGenerator());
+            generator.SetCodeObjectGenerator(typeof(DependencyCodeObject), new CodeDomDependencyObjectGenerator());
+            generator.SetCodeObjectGenerator(typeof(ExtensionCodeObject), new CodeDomExtensionObjectGenerator(fieldNameProvider));
 
-            generator.SetPropertyDescriptorExtension(typeof(ListAddPropertyDescriptor), new CodeDomListAddPropertyGenerator());
-            generator.SetPropertyDescriptorExtension(typeof(SetPropertyDescriptor), new CodeDomSetPropertyGenerator());
-            generator.SetPropertyDescriptorExtension(typeof(MethodInvokePropertyDescriptor), new CodeDomMethodPropertyGenerator());
-
-
-            generator.SetDependencyProviderExtension(typeof(object), new CodeDomDependencyGenerator());
+            generator.SetPropertyDescriptorGenerator(typeof(ListAddPropertyDescriptor), new CodeDomListAddPropertyGenerator());
+            generator.SetPropertyDescriptorGenerator(typeof(SetPropertyDescriptor), new CodeDomSetPropertyGenerator());
+            generator.SetPropertyDescriptorGenerator(typeof(MethodInvokePropertyDescriptor), new CodeDomMethodPropertyGenerator());
 
 
-            generator.SetBaseStructureExtension(new CodeDomStructureGenerator());
+            generator.SetDependencyProviderGenerator(typeof(object), new CodeDomDependencyGenerator());
+
+
+            generator.SetBaseStructureGenerator(new CodeDomStructureGenerator());
         }
     }
 }
