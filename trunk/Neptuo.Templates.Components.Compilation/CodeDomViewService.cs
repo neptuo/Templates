@@ -174,7 +174,7 @@ namespace Neptuo.Templates.Compilation
         /// <returns>True if assembly exists.</returns>
         protected virtual bool AssemblyExists(string assemblyName)
         {
-            return !DebugMode && File.Exists(assemblyName);//TODO: Should use FileProvider!
+            return !DebugMode && FileProvider.Exists(assemblyName);
         }
 
         /// <summary>

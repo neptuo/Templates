@@ -39,29 +39,17 @@ namespace TestConsoleNG
             registry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG"));
             registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver), ObserverBuilderScope.PerDocument));
             registry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver), ObserverBuilderScope.PerAttribute));
-            //registry.RegisterComponentBuilder("h", "Panel", new DefaultControlBuilderFactory(typeof(PanelControl)));
-
-            //TODO: Create CodeDomViewService...
-
-            //IParserService parserService = new DefaultParserService();
-            //XmlContentParser parser = new XmlContentParser(registry);
-            //parserService.ContentParsers.Add(parser);
-            //parserService.ProcessContent("<a href='google'>Hello!</a>", new DefaultParserServiceContext(null, null));
-
 
             CodeDomViewService viewService = new CodeDomViewService();
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
-            //viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
-            //viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
             viewService.NamingService = new StaticNamingService(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
             viewService.DebugMode = true;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.BinDirectories.Add(Environment.CurrentDirectory);
             CODEDOMREGISTEREXTENSIONS.Register(viewService.CodeDomGenerator);
 
-            //container.RegisterInstance<ContentStorage>(new ContentStorage());
             container.RegisterInstance<IViewService>(viewService);
             container.RegisterInstance<IComponentManager>(new ComponentManager());
 
@@ -72,7 +60,6 @@ namespace TestConsoleNG
             //try
             //{
 
-            //IWebGeneratedView view = (IWebGeneratedView)((IViewService)viewService).Process("Index.html", new DefaultViewServiceContext(container));
             IViewServiceContext context = new DefaultViewServiceContext(container);
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
