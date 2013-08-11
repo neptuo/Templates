@@ -147,11 +147,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             context.BaseStructure.Class.Members.Add(bindMethod);
 
             foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
-            {
-                IDefaultPropertyValue defaultProperty = propertyDesc as IDefaultPropertyValue;
-                if (defaultProperty == null || !defaultProperty.IsDefaultValue)
-                    context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, fieldName, bindMethod);
-            }
+                context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, fieldName, bindMethod);
 
             return bindMethod;
         }

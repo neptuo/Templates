@@ -48,7 +48,6 @@
     <Compile Include="CodeGenerators\ICodeGeneratorServiceContext.cs" />
     <Compile Include="CodeObjects\ICodeObject.cs" />
     <Compile Include="CodeObjects\IComponentCodeObject.cs" />
-    <Compile Include="CodeObjects\IDefaultPropertyValue.cs" />
     <Compile Include="CodeObjects\IObserverCodeObject.cs" />
     <Compile Include="CodeObjects\IObserversCodeObject.cs" />
     <Compile Include="CodeObjects\IPlainValueCodeObject.cs" />
