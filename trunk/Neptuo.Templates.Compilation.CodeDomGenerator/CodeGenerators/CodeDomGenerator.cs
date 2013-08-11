@@ -1,5 +1,6 @@
 ﻿using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.PostProcessing;
 using System;
 using System.CodeDom;
 using System.CodeDom.Compiler;
@@ -18,6 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
             PropertyDescriptorGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
             DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
+            CodeDomVisitors = new HashSet<ICodeDomVisitor>();
         }
 
         #region ICodeDomComponentGenerator
@@ -61,6 +63,27 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public void SetBaseStructureGenerator(ICodeDomStructureGenerator generator)
         {
             BaseStructureGenerator = generator;
+        }
+
+        #endregion
+
+        #region ICodeDomVisitor
+
+        protected HashSet<ICodeDomVisitor> CodeDomVisitors { get; private set; }
+
+        public void AddCodeDomVisitor(ICodeDomVisitor visitor)
+        {
+            CodeDomVisitors.Add(visitor);
+        }
+
+        protected void RunCodeDomVisitors(Context context)
+        {
+            if (CodeDomVisitors.Any())
+            {
+                ICodeDomVisitorContext visitorContext = new CodeDomVisitorContext(context);
+                foreach (ICodeDomVisitor visitor in CodeDomVisitors)
+                    visitor.Visit(visitorContext);
+            }
         }
 
         #endregion
