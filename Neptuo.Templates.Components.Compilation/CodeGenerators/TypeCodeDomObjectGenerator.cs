@@ -13,10 +13,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public abstract class TypeCodeDomObjectGenerator<T> : BaseCodeDomObjectGenerator<T> 
         where T : ICodeObject
     {
-        protected IFieldNameProvider FieldNameProvider { get; private set; }
-
         #region Name helpers
 
+        protected IFieldNameProvider FieldNameProvider { get; private set; }
 
         public string GenerateFieldName()
         {
