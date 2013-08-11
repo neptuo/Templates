@@ -21,9 +21,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ComponentCodeObject(GetControlType(element));
         }
 
-        protected override IComponentDefinition GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected override IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
-            return new TypeDefinition(GetControlType(element));
+            return new TypeInfo(GetControlType(element));
         }
 
         protected override void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, XmlAttribute attribute)

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public interface IExtensionDefinition
+    public interface IMarkupExtensionInfo
     {
         IEnumerable<IPropertyInfo> GetProperties();
         IPropertyInfo GetDefaultProperty();

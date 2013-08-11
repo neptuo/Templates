@@ -22,9 +22,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ExtensionCodeObject(Type);
         }
 
-        protected override IExtensionDefinition GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Extension extension)
+        protected override IMarkupExtensionInfo GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Extension extension)
         {
-            return new TypeDefinition(Type);
+            return new TypeInfo(Type);
         }
 
         protected override IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo)

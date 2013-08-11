@@ -10,26 +10,38 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class TypePropertyInfo : IPropertyInfo
     {
-        public PropertyInfo PropertyInfo { get; private set; }
+        private string name;
+        private PropertyInfo propertyInfo;
 
         public string Name
         {
-            get { return PropertyInfo.Name; }
+            get
+            {
+                if (name == null)
+                {
+                    PropertyAttribute attribute = ReflectionHelper.GetAttribute<PropertyAttribute>(propertyInfo);
+                    if (attribute != null && !String.IsNullOrEmpty(attribute.Name))
+                        name = attribute.Name;
+                    else
+                        name = propertyInfo.Name;
+                }
+                return name;
+            }
         }
 
         public Type Type
         {
-            get { return PropertyInfo.PropertyType; }
+            get { return propertyInfo.PropertyType; }
         }
 
         public bool IsReadOnly
         {
-            get { return PropertyInfo.SetMethod == null || !PropertyInfo.SetMethod.IsPublic; }
+            get { return propertyInfo.SetMethod == null || !propertyInfo.SetMethod.IsPublic; }
         }
 
         public TypePropertyInfo(PropertyInfo propertyInfo)
         {
-            PropertyInfo = propertyInfo;
+            this.propertyInfo = propertyInfo;
         }
 
         public bool CanAssign(Type type)

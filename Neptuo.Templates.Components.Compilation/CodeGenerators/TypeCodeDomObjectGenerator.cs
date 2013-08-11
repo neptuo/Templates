@@ -67,6 +67,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             );
         }
 
+        /// <summary>
+        /// Generates metod for creating field instance and setting default property values.
+        /// </summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="typeCodeObject">Type code object.</param>
+        /// <param name="propertiesCodeObject">Properties code object.</param>
+        /// <param name="fieldName">Current field name.</param>
+        /// <returns>Code method for creating instance.</returns>
         protected CodeMemberMethod GenerateCreateMethod(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string fieldName)
         {
             CodeMemberMethod createMethod = new CodeMemberMethod
@@ -101,6 +109,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return createMethod;
         }
 
+        /// <summary>
+        /// Appends to <paramref name="target"/> statements for setting default (not in markup set) property values.
+        /// </summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="typeCodeObject">Type code object.</param>
+        /// <param name="propertiesCodeObject">Properties code object.</param>
+        /// <param name="fieldName">Current field name.</param>
+        /// <param name="target">Target collection of statements.</param>
         protected virtual void GenerateDefaultPropertyValues(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string fieldName, CodeStatementCollection target)
         {
             HashSet<string> boundProperties = new HashSet<string>(propertiesCodeObject.Properties.Select(p => p.Property.Name));
@@ -110,13 +126,23 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 {
                     CodeExpression targetValue = null;
 
-                    DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(propertyInfo);
-                    if (defaultValue != null)
-                        targetValue = new CodePrimitiveExpression(defaultValue.Value);
+                    // DefaultValueAttribute
+                    if (targetValue == null)
+                    {
+                        DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(propertyInfo);
+                        if (defaultValue != null)
+                            targetValue = new CodePrimitiveExpression(defaultValue.Value);
+                    }
 
-                    //if (targetValue == null)
-                    //    targetValue = context.CodeGenerator.GenerateDependency(context.CodeDomContext, propertyInfo.PropertyType);
+                    // DependencyAttribute
+                    if (targetValue == null)
+                    {
+                        DependencyAttribute dependency = ReflectionHelper.GetAttribute<DependencyAttribute>(propertyInfo);
+                        if (dependency != null)
+                            targetValue = context.CodeGenerator.GenerateDependency(context.CodeDomContext, propertyInfo.PropertyType);
+                    }
 
+                    // If we found value for property, generate appropriate set
                     if (targetValue != null)
                     {
                         target.Add(new CodeAssignStatement(
@@ -151,6 +177,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return bindMethod;
         }
 
+        /// <summary>
+        /// Resolves all constructor parameters (using <code>CodeGenerator.GenerateDependency</code>).
+        /// </summary>
+        /// <param name="context">Current context.</param>
+        /// <param name="type">Target control type to resolve.</param>
+        /// <returns>Generated code expressions.</returns>
         protected CodeExpression[] ResolveConstructorParameters(CodeObjectExtensionContext context, Type type)
         {
             List<CodeExpression> result = new List<CodeExpression>();

@@ -1,9 +1,8 @@
 ﻿<div data:DataContext="{Binding}">
     <h:panel data:DataContext="{Binding}"> 
-        <h:textbox name="surname" text="{Binding Expression={Binding Kitty}}" />
-        <h:textbox name="surname" />
+        <h:textbox name="firstname" text="{Binding Firstname}" />
     </h:panel>
-    <h:panel ui:visible="false">
-        <h:textbox text="{Binding}" />
+    <h:panel>
+        <h:textbox name="lastname" text="{Binding Lastname}" />
     </h:panel>
 </div>

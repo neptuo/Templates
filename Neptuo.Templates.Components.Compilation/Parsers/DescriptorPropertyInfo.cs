@@ -10,11 +10,23 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class DescriptorPropertyInfo : IPropertyInfo
     {
+        private string name;
         private PropertyDescriptor propertyDescriptor;
 
         public string Name
         {
-            get { return propertyDescriptor.Name; }
+            get
+            {
+                if (name == null)
+                {
+                    PropertyAttribute attribute = propertyDescriptor.Attributes.OfType<PropertyAttribute>().FirstOrDefault();
+                    if (attribute != null && !String.IsNullOrEmpty(attribute.Name))
+                        name = attribute.Name;
+                    else
+                        name = propertyDescriptor.Name;
+                }
+                return name;
+            }
         }
 
         public Type Type

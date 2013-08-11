@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class TypeDefinition : IComponentDefinition, IExtensionDefinition, IObserverDefinition
+    public class TypeInfo : IComponentInfo, IMarkupExtensionInfo, IObserverInfo
     {
         private Type type;
 
-        public TypeDefinition(Type type)
+        public TypeInfo(Type type)
         {
             this.type = type;
         }
