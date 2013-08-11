@@ -63,6 +63,7 @@
     <Compile Include="Parsers\XmlContentParser.ObserverList.cs" />
     <Compile Include="Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="XmlContentParserException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
