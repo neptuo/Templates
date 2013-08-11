@@ -39,6 +39,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseSourceCodeException.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="ErrorInfo.cs" />
     <Compile Include="IErrorInfo.cs" />
     <Compile Include="IFileProvider.cs" />
+    <Compile Include="ISourceCodeException.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="IViewServiceContext.cs" />
     <Compile Include="Parsers\DefaultParserContext.cs" />

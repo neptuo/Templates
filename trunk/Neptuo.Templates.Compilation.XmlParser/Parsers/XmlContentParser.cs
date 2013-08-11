@@ -37,13 +37,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
             catch (XmlException e)
             {
-                context.Errors.Add(new ErrorInfo(e.LineNumber, e.LinePosition, e.Message));
-                throw e;
+                context.Errors.Add(new ErrorInfo(e.LineNumber - 1, e.LinePosition, e.Message));
             }
             catch (Exception e)
             {
-                context.Errors.Add(new ErrorInfo(e.Message));
-                throw e;
+                ISourceCodeException sourceException = e as ISourceCodeException;
+                if (sourceException != null)
+                    context.Errors.Add(new ErrorInfo(sourceException.LineNumber, sourceException.LinePosition, sourceException.Message));
+                else
+                    context.Errors.Add(new ErrorInfo(e.Message));
             }
             return false;
 #endif
