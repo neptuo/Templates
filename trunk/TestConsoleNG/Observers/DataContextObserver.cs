@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TestConsoleNG.Data;
 
 namespace TestConsoleNG.Observers
 {
@@ -11,25 +12,25 @@ namespace TestConsoleNG.Observers
     public class DataContextObserver : IObserver
     {
         private IComponentManager componentManager;
-
-        private Stack<object> storage = new Stack<object>();
+        private DataStorage dataStorage;
 
         public object DataContext { get; set; }
 
-        public DataContextObserver(IComponentManager componentManager)
+        public DataContextObserver(IComponentManager componentManager, DataStorage dataStorage)
         {
             this.componentManager = componentManager;
+            this.dataStorage = dataStorage;
         }
 
         public void OnInit(ObserverEventArgs e)
         {
             componentManager.AttachInitComplete(e.Target, OnInitComplete);
-            storage.Push(DataContext);
+            dataStorage.Push(DataContext);
         }
 
         protected void OnInitComplete(ControlInitCompleteEventArgs e)
         {
-            storage.Pop();
+            dataStorage.Pop();
         }
 
         public void Render(ObserverEventArgs e, HtmlTextWriter writer)

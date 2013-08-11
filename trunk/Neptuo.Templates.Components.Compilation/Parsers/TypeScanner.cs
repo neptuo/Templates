@@ -1,4 +1,6 @@
 ﻿using Neptuo.Templates.Controls;
+using Neptuo.Templates.Extensions;
+using Neptuo.Templates.Observers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +10,6 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    /// <summary>
-    /// TODO: Automatic registration of extensions + observers (by convention)
-    /// </summary>
     public class TypeScanner : TypeRegistryHelper
     {
         public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content)
@@ -23,6 +22,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             List<Type> types = GetTypesInNamespace(namespaceName);
             RegisterControls(types, prefix);
+            RegisterMarkupExtensions(types, prefix);
         }
 
         protected void RegisterControls(List<Type> types, string prefix)
@@ -31,15 +31,33 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 if (CanBeUsedInMarkup(type, false))
                 {
-                    ComponentAttribute attribute = ReflectionHelper.GetAttribute<ComponentAttribute>(type);
-                    string name = PrepareName(type.Name, Configuration.ComponentSuffix);
-                    
-                    if (attribute != null && !String.IsNullOrEmpty(attribute.Name))
-                        name = PrepareName(attribute.Name, Configuration.ComponentSuffix);
-
+                    string name = GetComponentName(type, Configuration.ComponentSuffix);
                     Content.Components[prefix][name] = CreateFactory<IComponentBuilderFactory>(type, t => new DefaultTypeComponentBuilderFactory(t));
                 }
             }
+        }
+
+        protected void RegisterMarkupExtensions(List<Type> types, string prefix)
+        {
+            foreach (Type type in types)
+            {
+                if (CanBeUsedInMarkup(type, false) && ImplementsInterface<IValueExtension>(type))
+                {
+                    string name = GetComponentName(type, Configuration.ExtensionSuffix);
+                    Content.MarkupExtensions[prefix][name] = CreateFactory<IMarkupExtensionBuilderFactory>(type, t => new DefaultMarkupExtensionBuilderFactory(t));
+                }
+            }
+        }
+
+        protected virtual string GetComponentName(Type type, string suffix)
+        {
+            ComponentAttribute attribute = ReflectionHelper.GetAttribute<ComponentAttribute>(type);
+            string name = PrepareName(type.Name, suffix);
+
+            if (attribute != null && !String.IsNullOrEmpty(attribute.Name))
+                name = PrepareName(attribute.Name, suffix);
+
+            return name;
         }
 
         protected virtual T CreateFactory<T>(Type type, Func<Type, T> defaultFactory)
@@ -87,5 +105,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return true;
         }
 
+        protected bool ImplementsInterface<T>(Type type)
+        {
+            return typeof(T).IsAssignableFrom(type);
+        }
     }
 }

@@ -50,8 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ComponentSuffix);
 
-            if (Content.Components.ContainsKey(prefix)
-                && Content.Components[prefix].ContainsKey(name))
+            if (Content.Components[prefix].ContainsKey(name))
             {
                 IComponentBuilderFactory factory = Content.Components[prefix][name];
                 return factory.CreateBuilder(prefix, name);
@@ -105,10 +104,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ComponentSuffix);
 
-            IMarkupExtensionBuilderFactory factory = Content.MarkupExtensions[prefix][name];
-            if (factory != null)
-                return factory.CreateBuilder(prefix, name);
-
+            if (Content.MarkupExtensions[prefix].ContainsKey(name))
+            {
+                IMarkupExtensionBuilderFactory factory = Content.MarkupExtensions[prefix][name];
+                if (factory != null)
+                    return factory.CreateBuilder(prefix, name);
+            }
             return null;
         }
 
@@ -183,10 +184,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (!Content.Observers.ContainsKey(prefix))
                 return false;
 
-            if (Content.Components[prefix].ContainsKey(name))
+            if (Content.Observers[prefix].ContainsKey(name))
                 return true;
 
-            return Content.Components[prefix].ContainsKey(Configuration.ObserverWildcard);
+            return Content.Observers[prefix].ContainsKey(Configuration.ObserverWildcard);
         }
 
         #endregion

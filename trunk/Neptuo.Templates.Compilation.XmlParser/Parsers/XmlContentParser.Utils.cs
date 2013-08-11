@@ -60,15 +60,23 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return result;
             }
 
+            /// <summary>
+            /// Creates child builder registry if needed (has any <paramref name="declarations"/>).
+            /// </summary>
+            /// <param name="currentBuilderRegistry">Current builder registry.</param>
+            /// <param name="declarations">New namespace declaration.</param>
+            /// <returns>Child builder registry or current one.</returns>
             public static IContentBuilderRegistry CreateChildRegistrator(IContentBuilderRegistry currentBuilderRegistry, IEnumerable<NamespaceDeclaration> declarations)
             {
-                IContentBuilderRegistry newBuilderRegistry = currentBuilderRegistry.CreateChildRegistry();
                 if (declarations.Any())
                 {
+                    IContentBuilderRegistry newBuilderRegistry = currentBuilderRegistry.CreateChildRegistry();
                     foreach (NamespaceDeclaration decl in declarations)
                         newBuilderRegistry.RegisterNamespace(decl);
+
+                    return newBuilderRegistry;
                 }
-                return newBuilderRegistry;
+                return currentBuilderRegistry;
             }
         }
     }

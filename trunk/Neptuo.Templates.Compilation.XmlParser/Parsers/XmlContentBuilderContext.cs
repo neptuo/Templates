@@ -8,48 +8,17 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class XmlContentBuilderContext : IContentBuilderContext
     {
-        public IContentParserContext ParserContext { get; set; }
-        public IPropertyDescriptor Parent { get; set; }
+        public IContentParserContext ParserContext { get { return Helper.Context; } }
+        public IPropertyDescriptor Parent { get { return Helper.Parent; } }
         public XmlContentParser Parser { get; set; }
         public XmlContentParser.Helper Helper { get; set; }
         public IContentBuilderRegistry BuilderRegistry { get; set; }
 
-        public static XmlContentBuilderContext Create()
-        {
-            return new XmlContentBuilderContext();
-        }
-
-        public XmlContentBuilderContext SetParserContext(IContentParserContext parserContext)
-        {
-            ParserContext = parserContext;
-            return this;
-        }
-
-        public XmlContentBuilderContext SetParent(IPropertyDescriptor parent)
-        {
-            Parent = parent;
-            return this;
-        }
-
-        public XmlContentBuilderContext SetParser(XmlContentParser parser)
+        public XmlContentBuilderContext(XmlContentParser parser, XmlContentParser.Helper helper, IContentBuilderRegistry builderRegistry)
         {
             Parser = parser;
-            return this;
-        }
-
-        public XmlContentBuilderContext SetHelper(XmlContentParser.Helper helper)
-        {
             Helper = helper;
-            SetParent(helper.Parent);
-            SetParserContext(helper.Context);
-            SetBuilderRegistry(helper.BuilderRegistry);
-            return this;
-        }
-
-        public XmlContentBuilderContext SetBuilderRegistry(IContentBuilderRegistry builderRegistry)
-        {
             BuilderRegistry = builderRegistry;
-            return this;
         }
     }
 }

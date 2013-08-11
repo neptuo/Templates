@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
 #endif
                 Helper helper = new Helper(content, context, builderRegistry);
-                GenerateRecursive(helper, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
+                GenerateRecursive(helper, builderRegistry, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
                 //FlushContent(helper);
 
                 return true;
@@ -51,7 +51,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public void ProcessContent(IContentBuilderContext context, IPropertyDescriptor propertyDescriptor, IEnumerable<XmlNode> content)
         {
-            context.Helper.WithParent(propertyDescriptor, () => GenerateRecursive(context.Helper, content));
+            context.Helper.WithParent(propertyDescriptor, () => GenerateRecursive(context.Helper, context.BuilderRegistry, content));
         }
 
         public void AttachObservers(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<ParsedObserver> observers)
@@ -60,28 +60,24 @@ namespace Neptuo.Templates.Compilation.Parsers
                 observer.Observer.CreateBuilder().Parse(context, codeObject, observer.Attributes);
         }
 
-        private void GenerateRecursive(Helper helper, IEnumerable<XmlNode> childNodes)
+        private void GenerateRecursive(Helper helper, IContentBuilderRegistry buildeRegistry, IEnumerable<XmlNode> childNodes)
         {
             foreach (XmlNode node in childNodes)
             {
                 XmlElement element = node as XmlElement;
                 if (element != null)
                 {
-                    IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(helper.BuilderRegistry, Utils.GetXmlNsNamespace(element));
+                    IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(builderRegistry, Utils.GetXmlNsNamespace(element));
                     if (Utils.NeedsServerProcessing(newBuilderRegistry, element))
                     {
                         FlushContent(helper);
 
-                        IContentBuilderRegistry currentBuilderRegistry = helper.BuilderRegistry;
-                        helper.BuilderRegistry = newBuilderRegistry;
-
-                        IComponentBuilder builder = helper.BuilderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
+                        IComponentBuilder builder = builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
 
                         if (builder == null)
                             throw new ArgumentOutOfRangeException(element.Name, "This element doesn't has builder!"); //TODO: Add as error!
                             
-                        builder.Parse(CreateBuilderContext(helper), element);
-                        helper.BuilderRegistry = currentBuilderRegistry;
+                        builder.Parse(new XmlContentBuilderContext(this, helper, newBuilderRegistry), element);
                     }
                     else if (element.IsEmpty)
                     {
@@ -90,7 +86,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     else
                     {
                         helper.FormatStartElement(element);
-                        GenerateRecursive(helper, element.ChildNodes.ToEnumerable());
+                        GenerateRecursive(helper, buildeRegistry, element.ChildNodes.ToEnumerable());
                         helper.FormatEndElement(element);
                     }
                 }
@@ -111,39 +107,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             helper.Content.Clear();
         }
 
-        private IContentBuilderContext CreateBuilderContext(Helper helper)
-        {
-            return XmlContentBuilderContext.Create()
-                .SetParser(this)
-                .SetHelper(helper);
-        }
-
         private void AppendPlainText(string text, Helper helper)
         {
             if (String.IsNullOrWhiteSpace(text))
                 return;
 
-            builderRegistry.GetLiteralBuilder().Parse(CreateBuilderContext(helper), text);
-
-            //text = text.Trim(); //TODO: Trim??
-
-            //Type propertyType = helper.Parent.Property.PropertyType;
-            //if (propertyType.IsGenericType)
-            //    propertyType = propertyType.GetGenericArguments()[0];
-
-            //ICodeObject result = null;
-            //if (propertyType.IsAssignableFrom(typeof(string)))
-            //{
-            //    result = new PlainValueCodeObject(text);
-            //}
-            //else if (propertyType.IsAssignableFrom(literalDescriptor.Type) || propertyType.IsAssignableFrom(typeof(IControl)))
-            //{
-            //    ControlCodeObject codeObject = new ControlCodeObject(literalDescriptor.Type);
-            //    codeObject.Properties.Add(new SetPropertyDescriptor(literalDescriptor.Type.GetProperty(literalDescriptor.TextProperty), new PlainValueCodeObject(text)));
-            //    result = codeObject;
-            //}
-
-            //helper.Parent.SetValue(result);
+            builderRegistry.GetLiteralBuilder().Parse(new XmlContentBuilderContext(this, helper, builderRegistry), text);
         }
     }
 }
