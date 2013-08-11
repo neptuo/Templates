@@ -72,7 +72,6 @@
     <Compile Include="CodeObjects\MethodInvokePropertyDescriptor.cs" />
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
-    <Compile Include="ControlHelper.cs" />
     <Compile Include="DebugUtils.cs" />
     <Compile Include="DefaultViewServiceContext.cs" />
     <Compile Include="FileProvider.cs" />
@@ -88,7 +87,7 @@
     <Compile Include="Parsers\TypeBuilderRegistryConfiguration.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryContent.cs" />
     <Compile Include="Parsers\TypeScanner.cs" />
-    <Compile Include="StaticNamingService.cs" />
+    <Compile Include="HashNamingService.cs" />
     <Compile Include="Parsers\TypeBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseTypeComponentBuilder.cs" />
     <Compile Include="Parsers\BaseTypeObserverBuilder.cs" />
@@ -99,7 +98,6 @@
     <Compile Include="Parsers\TypePropertyInfo.cs" />
     <Compile Include="PreProcessing\BaseVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="StringConverter.cs" />
     <Compile Include="Parsers\TypeRegistryHelper.cs" />
   </ItemGroup>
