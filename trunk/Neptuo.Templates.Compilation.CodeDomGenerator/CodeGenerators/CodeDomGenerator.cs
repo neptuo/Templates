@@ -146,6 +146,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             context.BaseStructure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
 
             GenerateProperty(context, propertyDescriptor, null, context.BaseStructure.EntryPointMethod);
+            RunCodeDomVisitors(context);
 
             WriteOutput(context.BaseStructure.Unit, codeContext.Output);
             return true;
