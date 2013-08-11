@@ -59,6 +59,9 @@
     <Compile Include="IINaming.cs" />
     <Compile Include="INamingContext.cs" />
     <Compile Include="INamingService.cs" />
+    <Compile Include="PostProcessing\CodeDomVisitorContext.cs" />
+    <Compile Include="PostProcessing\ICodeDomVisitor.cs" />
+    <Compile Include="PostProcessing\ICodeDomVisitorContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
