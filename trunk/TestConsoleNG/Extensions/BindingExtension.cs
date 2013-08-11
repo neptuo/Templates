@@ -26,6 +26,7 @@ namespace TestConsoleNG.Extensions
             if (data == null)
                 return null;
 
+            data = BindingManager.GetValue(Expression, data);
             if (context.TargetProperty.PropertyType.IsAssignableFrom(data.GetType()))
                 return data;
 

@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     public abstract class BaseMarkupExtensionBuilder : IMarkupExtensionBuilder
     {
         protected abstract IValueExtensionCodeObject CreateCodeObject(IMarkupExtensionBuilderContext context, Extension extension);
-        protected abstract IExtensionDefinition GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Extension extension);
+        protected abstract IMarkupExtensionInfo GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Extension extension);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
@@ -29,12 +29,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected virtual bool BindProperties(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Extension extension)
         {
             HashSet<string> boundProperies = new HashSet<string>();
-            IExtensionDefinition extensionDefinition = GetExtensionDefinition(context, codeObject, extension);
+            IMarkupExtensionInfo extensionDefinition = GetExtensionDefinition(context, codeObject, extension);
             IPropertyInfo defaultProperty = extensionDefinition.GetDefaultProperty();
 
             foreach (IPropertyInfo propertyInfo in extensionDefinition.GetProperties())
             {
-                bool bound = false;
                 string propertyName = propertyInfo.Name.ToLowerInvariant();
                 foreach (ExtensionAttribute attribute in extension.Attributes)
                 {
@@ -50,7 +49,6 @@ namespace Neptuo.Templates.Compilation.Parsers
                         {
                             codeObject.Properties.Add(propertyDescriptor);
                             boundProperies.Add(propertyName);
-                            bound = true;
                         }
                     }
                 }

@@ -13,14 +13,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         public void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
         {
             IObserverCodeObject observerObject = CreateCodeObject(context, attributes);
-            IObserverDefinition observerDefinition = GetObserverDefinition(context, codeObject, attributes);
+            IObserverInfo observerDefinition = GetObserverDefinition(context, codeObject, attributes);
             codeObject.Observers.Add(observerObject);
 
             BindProperties(context, new BindPropertiesContext(observerDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant())), observerObject, attributes);
         }
 
         protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<XmlAttribute> attributes);
-        protected abstract IObserverDefinition GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes);
+        protected abstract IObserverInfo GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);

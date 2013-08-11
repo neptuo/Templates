@@ -44,7 +44,7 @@
     <Compile Include="Parsers\BaseMarkupExtensionBuilder.cs" />
     <Compile Include="Parsers\MarkupExtensionValueParser.cs" />
     <Compile Include="Parsers\MarkupExtensionValueParser.Helper.cs" />
-    <Compile Include="Parsers\IExtensionDefinition.cs" />
+    <Compile Include="Parsers\IMarkupExtensionInfo.cs" />
     <Compile Include="Parsers\IMarkupExtensionBuilder.cs" />
     <Compile Include="Parsers\IMarkupExtensionBuilderContext.cs" />
     <Compile Include="Parsers\MarkupExtensionBuilderContext.cs" />

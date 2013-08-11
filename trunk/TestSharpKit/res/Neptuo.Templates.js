@@ -27,6 +27,37 @@ var Neptuo$Templates$BuilderAttribute =
     }
 };
 JsTypes.push(Neptuo$Templates$BuilderAttribute);
+var Neptuo$Templates$DependencyAttribute =
+{
+    fullname: "Neptuo.Templates.DependencyAttribute",
+    baseTypeName: "System.Attribute",
+    assemblyName: "Neptuo.Templates",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            this._Name = null;
+            System.Attribute.ctor.call(this);
+        },
+        Name$$: "System.String",
+        get_Name: function ()
+        {
+            return this._Name;
+        },
+        set_Name: function (value)
+        {
+            this._Name = value;
+        },
+        ctor$$String: function (name)
+        {
+            this._Name = null;
+            System.Attribute.ctor.call(this);
+            this.set_Name(name);
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$DependencyAttribute);
 var Neptuo$Templates$DependencyProviderExtensions =
 {
     fullname: "Neptuo.Templates.DependencyProviderExtensions",

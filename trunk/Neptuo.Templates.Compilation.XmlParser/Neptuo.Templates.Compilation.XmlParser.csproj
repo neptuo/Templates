@@ -49,8 +49,8 @@
     <Compile Include="Parsers\BaseComponentBuilder.cs" />
     <Compile Include="Parsers\BaseObserverBuilder.cs" />
     <Compile Include="Parsers\BindPropertiesContext.cs" />
-    <Compile Include="Parsers\IComponentDefinition.cs" />
-    <Compile Include="Parsers\IObserverDefinition.cs" />
+    <Compile Include="Parsers\IComponentInfo.cs" />
+    <Compile Include="Parsers\IObserverInfo.cs" />
     <Compile Include="Parsers\IObserverRegistration.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Parsers\ILiteralBuilder.cs" />

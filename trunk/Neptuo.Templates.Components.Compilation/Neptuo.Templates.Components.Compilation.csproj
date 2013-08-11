@@ -95,7 +95,7 @@
     <Compile Include="Parsers\DefaultTypeComponentBuilder.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilder.cs" />
     <Compile Include="Parsers\DescriptorPropertyInfo.cs" />
-    <Compile Include="Parsers\TypeDefinition.cs" />
+    <Compile Include="Parsers\TypeInfo.cs" />
     <Compile Include="Parsers\TypePropertyInfo.cs" />
     <Compile Include="PreProcessing\BaseVisitor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

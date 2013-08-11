@@ -61,6 +61,7 @@
     <Compile Include="Controls\BaseControl.cs" />
     <Compile Include="Data\DataStorage.cs" />
     <Compile Include="Extensions\BindingExtension.cs" />
+    <Compile Include="Extensions\BindingManager.cs" />
     <Compile Include="Observers\DataContextObserver.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
     <Compile Include="Controls\GenericContentControlBuilder.cs" />

@@ -25,14 +25,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, XmlElement element);
-        protected abstract IComponentDefinition GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element);
+        protected abstract IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
         protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
         {
-            IComponentDefinition componentDefinition = GetComponentDefinition(context, codeObject, element);
+            IComponentInfo componentDefinition = GetComponentDefinition(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
             BindPropertiesContext bindContext = new BindPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
 
