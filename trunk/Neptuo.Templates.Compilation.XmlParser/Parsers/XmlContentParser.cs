@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 #endif
                 Helper helper = new Helper(content, context, builderRegistry);
                 GenerateRecursive(helper, builderRegistry, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
-                //FlushContent(helper);
+                //FlushContent(helper); - doesn't respect current parent
 
                 return true;
 #if !DEBUG

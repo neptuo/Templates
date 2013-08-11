@@ -11,11 +11,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public IValueParserContext ParserContext { get; private set; }
         public IPropertyDescriptor Parent { get; private set; }
-        public ExtensionValueParser Parser { get; private set; }
-        public ExtensionValueParser.Helper Helper { get; private set; }
+        public MarkupExtensionValueParser Parser { get; private set; }
+        public MarkupExtensionValueParser.Helper Helper { get; private set; }
         public IMarkupExtensionBuilderRegistry BuilderRegistry { get; private set; }
 
-        public MarkupExtensionBuilderContext(ExtensionValueParser parser, ExtensionValueParser.Helper helper)
+        public MarkupExtensionBuilderContext(MarkupExtensionValueParser parser, MarkupExtensionValueParser.Helper helper)
         {
             Parser = parser;
             Helper = helper;

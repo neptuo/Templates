@@ -52,7 +52,7 @@ namespace TestConsoleNG
             CodeDomViewService viewService = new CodeDomViewService();
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
-            viewService.ParserService.ValueParsers.Add(new ExtensionValueParser(registry));
+            viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
             //viewService.ParserService.ValueParsers.Add(new ExtensionValueParser());
             //viewService.CodeDomGenerator.SetCodeObjectExtension(typeof(ExtensionCodeObject), new ExtensionCodeObjectExtension());
             viewService.NamingService = new StaticNamingService(new FileProvider(new CurrentDirectoryVirtualPathProvider()));

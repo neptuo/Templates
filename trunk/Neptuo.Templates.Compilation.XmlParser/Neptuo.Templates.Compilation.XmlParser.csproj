@@ -53,11 +53,8 @@
     <Compile Include="Parsers\IObserverDefinition.cs" />
     <Compile Include="Parsers\IObserverRegistration.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
-    <Compile Include="Parsers\BaseParser.cs" />
     <Compile Include="Parsers\ILiteralBuilder.cs" />
     <Compile Include="Parsers\XmlContentBuilderContext.cs" />
-    <Compile Include="Parsers\Extensions\DefaultAttributeExtension.cs" />
-    <Compile Include="Parsers\Extensions\IDefaultValueExtension.cs" />
     <Compile Include="Parsers\IContentBuilderContext.cs" />
     <Compile Include="Parsers\IComponentBuilder.cs" />
     <Compile Include="Parsers\IObserverBuilder.cs" />

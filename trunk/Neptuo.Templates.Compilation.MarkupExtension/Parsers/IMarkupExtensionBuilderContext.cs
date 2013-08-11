@@ -11,8 +11,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         IValueParserContext ParserContext { get; }
         IPropertyDescriptor Parent { get; }
-        ExtensionValueParser Parser { get; }
-        ExtensionValueParser.Helper Helper { get; }
+        MarkupExtensionValueParser Parser { get; }
+        MarkupExtensionValueParser.Helper Helper { get; }
         IMarkupExtensionBuilderRegistry BuilderRegistry { get; }
     }
 }
