@@ -3,6 +3,7 @@ using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -47,7 +48,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             string fieldName = GenerateFieldName();
             CodeMemberField field = new CodeMemberField(typeCodeObject.Type, fieldName);
-            context.CodeDomContext.BaseStructure.Class.Members.Add(field);
+            context.BaseStructure.Class.Members.Add(field);
 
 
             CodeMemberMethod createMethod = GenerateCreateMethod(context, typeCodeObject, propertiesCodeObject, fieldName);
@@ -73,7 +74,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 Name = FormatCreateMethod(fieldName)
             };
-            context.CodeDomContext.BaseStructure.Class.Members.Add(createMethod);
+            context.BaseStructure.Class.Members.Add(createMethod);
 
             CodeConditionStatement ifNull = new CodeConditionStatement
             {
@@ -97,18 +98,41 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 )
             );
 
-            CodeMemberMethod fakeMethod = new CodeMemberMethod();
-            foreach (IPropertyDescriptor propertyDesc in propertiesCodeObject.Properties)
-            {
-                IDefaultPropertyValue defaultProperty = propertyDesc as IDefaultPropertyValue;
-                if (defaultProperty != null && defaultProperty.IsDefaultValue)
-                    context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, fieldName, fakeMethod);
-            }
-
-            foreach (CodeStatement statement in fakeMethod.Statements)
-                ifNull.TrueStatements.Add(statement);
-
+            GenerateDefaultPropertyValues(context, typeCodeObject, propertiesCodeObject, fieldName, ifNull.TrueStatements);
             return createMethod;
+        }
+
+        protected virtual void GenerateDefaultPropertyValues(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string fieldName, CodeStatementCollection target)
+        {
+            HashSet<string> boundProperties = new HashSet<string>(propertiesCodeObject.Properties.Select(p => p.Property.Name));
+            foreach (PropertyInfo propertyInfo in typeCodeObject.Type.GetProperties())
+            {
+                if (propertyInfo.CanWrite && boundProperties.Add(propertyInfo.Name))
+                {
+                    CodeExpression targetValue = null;
+
+                    DefaultValueAttribute defaultValue = ReflectionHelper.GetAttribute<DefaultValueAttribute>(propertyInfo);
+                    if (defaultValue != null)
+                        targetValue = new CodePrimitiveExpression(defaultValue.Value);
+
+                    //if (targetValue == null)
+                    //    targetValue = context.CodeGenerator.GenerateDependency(context.CodeDomContext, propertyInfo.PropertyType);
+
+                    if (targetValue != null)
+                    {
+                        target.Add(new CodeAssignStatement(
+                            new CodePropertyReferenceExpression(
+                                new CodeFieldReferenceExpression(
+                                    new CodeThisReferenceExpression(),
+                                    fieldName
+                                ),
+                                propertyInfo.Name
+                            ),
+                            targetValue
+                        ));
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -120,7 +144,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 Name = bindMethodName ?? FormatBindMethod(fieldName)
             };
-            context.CodeDomContext.BaseStructure.Class.Members.Add(bindMethod);
+            context.BaseStructure.Class.Members.Add(bindMethod);
 
             foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
             {
