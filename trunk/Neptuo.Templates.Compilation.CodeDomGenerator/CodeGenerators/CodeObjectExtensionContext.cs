@@ -11,6 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomGenerator.Context CodeDomContext { get; private set; }
         public CodeDomGenerator CodeGenerator { get; private set; }
         public CodeMemberMethod ParentBindMethod { get; private set; }
+        public BaseCodeDomStructure BaseStructure { get { return CodeDomContext.BaseStructure; } }
         public string ParentFieldName { get; private set; }
 
         public CodeObjectExtensionContext(CodeDomGenerator.Context codeDomContext, CodeMemberMethod parentBindMethod, string parentFieldName)

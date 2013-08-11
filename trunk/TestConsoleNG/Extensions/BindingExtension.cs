@@ -15,6 +15,9 @@ namespace TestConsoleNG.Extensions
 
         public string Expression { get; set; }
 
+        [DefaultValue(true)]
+        public bool Ex { get; set; }
+
         public BindingExtension(DataStorage dataStorage)
         {
             this.dataStorage = dataStorage;
