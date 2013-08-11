@@ -7,11 +7,11 @@ using System.Reflection;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public partial class ExtensionValueParser : IValueParser
+    public partial class MarkupExtensionValueParser : IValueParser
     {
         private IMarkupExtensionBuilderRegistry builderRegistry;
 
-        public ExtensionValueParser(IMarkupExtensionBuilderRegistry builderRegistry)
+        public MarkupExtensionValueParser(IMarkupExtensionBuilderRegistry builderRegistry)
         {
             this.builderRegistry = builderRegistry;
         }
