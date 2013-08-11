@@ -52,6 +52,8 @@
     <Compile Include="CodeDomViewService.cs" />
     <Compile Include="CodeDomViewServiceException.cs" />
     <Compile Include="CodeDomViewServiceExtensions.cs" />
+    <Compile Include="CodeGenerators\IFieldNameProvider.cs" />
+    <Compile Include="CodeGenerators\SequenceFieldNameProvider.cs" />
     <Compile Include="CodeGenerators\TypeCodeDomObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CODEDOMREGISTEREXTENSIONS.cs" />
     <Compile Include="CodeGenerators\CodeDomComponentGenerator.cs" />

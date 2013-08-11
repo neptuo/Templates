@@ -15,6 +15,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     public class CodeDomExtensionObjectGenerator : TypeCodeDomObjectGenerator<ExtensionCodeObject>
     {
+        public CodeDomExtensionObjectGenerator(IFieldNameProvider fieldNameProvider)
+            : base(fieldNameProvider)
+        { }
+
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
             CodeFieldReferenceExpression field = GenerateCompoment(context, codeObject, codeObject);
@@ -22,7 +26,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             context.ParentBindMethod.Statements.Add(
                 new CodeMethodInvokeExpression(
                     new CodeThisReferenceExpression(),
-                    context.CodeGenerator.FormatBindMethod(field.FieldName)
+                    FormatBindMethod(field.FieldName)
                 )
             );
             

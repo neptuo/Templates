@@ -65,27 +65,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #endregion
 
-        #region Name helpers
-
-        private int fieldCount = 0;
-
-        public string GenerateFieldName()
-        {
-            return String.Format("field{0}", ++fieldCount);
-        }
-
-        public string FormatBindMethod(string fieldName)
-        {
-            return String.Format("{0}_Bind", fieldName);
-        }
-
-        public string FormatCreateMethod(string fieldName)
-        {
-            return String.Format("{0}_Create", fieldName);
-        }
-
-        #endregion
-
         #region Code generation
 
         public CodeExpression GenerateCodeObject(Context context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)

@@ -9,16 +9,43 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public abstract class TypeCodeDomObjectGenerator<T> : BaseCodeDomObjectGenerator<T>
+    public abstract class TypeCodeDomObjectGenerator<T> : BaseCodeDomObjectGenerator<T> 
         where T : ICodeObject
     {
+        protected IFieldNameProvider FieldNameProvider { get; private set; }
+
+        #region Name helpers
+
+
+        public string GenerateFieldName()
+        {
+            return FieldNameProvider.GetName();
+        }
+
+        public string FormatBindMethod(string fieldName)
+        {
+            return String.Format("{0}_Bind", fieldName);
+        }
+
+        public string FormatCreateMethod(string fieldName)
+        {
+            return String.Format("{0}_Create", fieldName);
+        }
+
+        #endregion
+
+        public TypeCodeDomObjectGenerator(IFieldNameProvider fieldNameProvider)
+        {
+            FieldNameProvider = fieldNameProvider;
+        }
+
         /// <summary>
         /// Generates base 'stuff' for component (including field, bind method, properties).
         /// Doesn't generate Control/Observer/Extension specific calls.
         /// </summary>
         protected CodeFieldReferenceExpression GenerateCompoment(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject)
         {
-            string fieldName = context.CodeGenerator.GenerateFieldName();
+            string fieldName = GenerateFieldName();
             CodeMemberField field = new CodeMemberField(typeCodeObject.Type, fieldName);
             context.CodeDomContext.BaseStructure.Class.Members.Add(field);
 
@@ -44,7 +71,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeMemberMethod createMethod = new CodeMemberMethod
             {
-                Name = context.CodeGenerator.FormatCreateMethod(fieldName)
+                Name = FormatCreateMethod(fieldName)
             };
             context.CodeDomContext.BaseStructure.Class.Members.Add(createMethod);
 
@@ -91,7 +118,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeMemberMethod bindMethod = new CodeMemberMethod
             {
-                Name = bindMethodName ?? context.CodeGenerator.FormatBindMethod(fieldName)
+                Name = bindMethodName ?? FormatBindMethod(fieldName)
             };
             context.CodeDomContext.BaseStructure.Class.Members.Add(bindMethod);
 
