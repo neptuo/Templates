@@ -36,4 +36,5 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
-[assembly: JsType(JsMode.Clr, Filename = "../TestSharpKit/res/Neptuo.Templates.js")]
+[assembly: JsExport(FilenameFormat = "../TestSharpKit/res/{0}.js")]
+[assembly: JsType(JsMode.Clr, Filename = "~/Neptuo.Templates")]

@@ -430,6 +430,86 @@ var Neptuo$Templates$ComponentManager$ObserverInfo =
     }
 };
 JsTypes.push(Neptuo$Templates$ComponentManager$ObserverInfo);
+var Neptuo$Templates$Controls$ComponentAttribute =
+{
+    fullname: "Neptuo.Templates.Controls.ComponentAttribute",
+    baseTypeName: "System.Attribute",
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            this._Name = null;
+            System.Attribute.ctor.call(this);
+        },
+        Name$$: "System.String",
+        get_Name: function ()
+        {
+            return this._Name;
+        },
+        set_Name: function (value)
+        {
+            this._Name = value;
+        },
+        ctor$$String: function (name)
+        {
+            this._Name = null;
+            System.Attribute.ctor.call(this);
+            this.set_Name(name);
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$Controls$ComponentAttribute);
+var Neptuo$Templates$Extensions$DefaultMarkupExtensionContext =
+{
+    fullname: "Neptuo.Templates.Extensions.DefaultMarkupExtensionContext",
+    baseTypeName: "System.Object",
+    assemblyName: "Neptuo.Templates.Components",
+    interfaceNames: ["Neptuo.Templates.Extensions.IValueExtensionContext"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (targetObject, targetProperty, dependencyProvider)
+        {
+            this._TargetObject = null;
+            this._TargetProperty = null;
+            this._DependencyProvider = null;
+            System.Object.ctor.call(this);
+            this.set_TargetObject(targetObject);
+            this.set_TargetProperty(targetProperty);
+            this.set_DependencyProvider(dependencyProvider);
+        },
+        TargetObject$$: "System.Object",
+        get_TargetObject: function ()
+        {
+            return this._TargetObject;
+        },
+        set_TargetObject: function (value)
+        {
+            this._TargetObject = value;
+        },
+        TargetProperty$$: "System.Reflection.PropertyInfo",
+        get_TargetProperty: function ()
+        {
+            return this._TargetProperty;
+        },
+        set_TargetProperty: function (value)
+        {
+            this._TargetProperty = value;
+        },
+        DependencyProvider$$: "Neptuo.Templates.IDependencyProvider",
+        get_DependencyProvider: function ()
+        {
+            return this._DependencyProvider;
+        },
+        set_DependencyProvider: function (value)
+        {
+            this._DependencyProvider = value;
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$Extensions$DefaultMarkupExtensionContext);
 var Neptuo$Templates$HtmlAttribute =
 {
     fullname: "Neptuo.Templates.HtmlAttribute",
@@ -475,6 +555,14 @@ var Neptuo$Templates$HtmlAttribute =
 JsTypes.push(Neptuo$Templates$HtmlAttribute);
 var Neptuo$Templates$IAttributeCollection = {fullname: "Neptuo.Templates.IAttributeCollection", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IAttributeCollection);
+var Neptuo$Templates$Controls$IContentControl = {fullname: "Neptuo.Templates.Controls.IContentControl", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", interfaceNames: ["Neptuo.Templates.Controls.IControl"], Kind: "Interface"};
+JsTypes.push(Neptuo$Templates$Controls$IContentControl);
+var Neptuo$Templates$Controls$IControl = {fullname: "Neptuo.Templates.Controls.IControl", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
+JsTypes.push(Neptuo$Templates$Controls$IControl);
+var Neptuo$Templates$Extensions$IValueExtension = {fullname: "Neptuo.Templates.Extensions.IValueExtension", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
+JsTypes.push(Neptuo$Templates$Extensions$IValueExtension);
+var Neptuo$Templates$Extensions$IValueExtensionContext = {fullname: "Neptuo.Templates.Extensions.IValueExtensionContext", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
+JsTypes.push(Neptuo$Templates$Extensions$IValueExtensionContext);
 var Neptuo$Templates$HtmlTextWriter =
 {
     fullname: "Neptuo.Templates.HtmlTextWriter",
@@ -843,6 +931,50 @@ var Neptuo$Templates$ObserverLivecycle =
     Kind: "Enum"
 };
 JsTypes.push(Neptuo$Templates$ObserverLivecycle);
+var Neptuo$Templates$Observers$IObserver = {fullname: "Neptuo.Templates.Observers.IObserver", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
+JsTypes.push(Neptuo$Templates$Observers$IObserver);
+var Neptuo$Templates$Observers$ObserverEventArgs =
+{
+    fullname: "Neptuo.Templates.Observers.ObserverEventArgs",
+    baseTypeName: "System.EventArgs",
+    staticDefinition:
+    {
+        cctor: function ()
+        {
+        }
+    },
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (target)
+        {
+            this._Target = null;
+            this._Cancel = false;
+            System.EventArgs.ctor.call(this);
+            this.set_Target(target);
+        },
+        Target$$: "Neptuo.Templates.Controls.IControl",
+        get_Target: function ()
+        {
+            return this._Target;
+        },
+        set_Target: function (value)
+        {
+            this._Target = value;
+        },
+        Cancel$$: "System.Boolean",
+        get_Cancel: function ()
+        {
+            return this._Cancel;
+        },
+        set_Cancel: function (value)
+        {
+            this._Cancel = value;
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$Observers$ObserverEventArgs);
 var Neptuo$Templates$PropertyAttribute =
 {
     fullname: "Neptuo.Templates.PropertyAttribute",
