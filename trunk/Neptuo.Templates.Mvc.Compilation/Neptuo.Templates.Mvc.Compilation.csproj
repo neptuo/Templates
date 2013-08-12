@@ -46,6 +46,8 @@
   <ItemGroup>
     <Compile Include="CodeGenerators\MvcStructureGenerator.cs" />
     <Compile Include="MvcViewService.cs" />
+    <Compile Include="Parsers\MvcBuilderRegistry.cs" />
+    <Compile Include="Parsers\MvcComponentBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -68,7 +70,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CodeObjects\" />
-    <Folder Include="Parsers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
