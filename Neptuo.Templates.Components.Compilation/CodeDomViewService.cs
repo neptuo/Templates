@@ -44,7 +44,7 @@ namespace Neptuo.Templates.Compilation
             BinDirectories = new List<string>();
         }
 
-        public IGeneratedView Process(string fileName, IViewServiceContext context)
+        public object Process(string fileName, IViewServiceContext context)
         {
             EnsureFileProvider(context);
             EnsureNamingService(context);
@@ -55,13 +55,13 @@ namespace Neptuo.Templates.Compilation
             return ProcessContent(FileProvider.GetFileContent(fileName), context, NamingService.FromFile(fileName));
         }
 
-        public IGeneratedView ProcessContent(string viewContent, IViewServiceContext context)
+        public object ProcessContent(string viewContent, IViewServiceContext context)
         {
             EnsureNamingService(context);
             return ProcessContent(viewContent, context, NamingService.FromContent(viewContent));
         }
 
-        protected virtual IGeneratedView ProcessContent(string viewContent, IViewServiceContext context, INaming naming)
+        protected virtual object ProcessContent(string viewContent, IViewServiceContext context, INaming naming)
         {
             string assemblyPath = GetAssemblyPath(naming);
             if (!AssemblyExists(assemblyPath))
@@ -82,14 +82,14 @@ namespace Neptuo.Templates.Compilation
                 FileProvider = context.DependencyProvider.Resolve<IFileProvider>();
         }
 
-        protected virtual IGeneratedView CreateGeneratedView(INaming naming)
+        protected virtual object CreateGeneratedView(INaming naming)
         {
             Assembly views = Assembly.LoadFile(GetAssemblyPath(naming));
             Type generatedView = views.GetType(
                 String.Format("{0}.{1}", naming.ClassNamespace, naming.ClassName)
             );
 
-            IGeneratedView view = (IGeneratedView)Activator.CreateInstance(generatedView);
+            object view = Activator.CreateInstance(generatedView);
             return view;
         }
 
@@ -186,15 +186,5 @@ namespace Neptuo.Templates.Compilation
         {
             return Path.Combine(TempDirectory, naming.AssemblyName);
         }
-
-        /// <summary>
-        /// Returns full path for assembly.
-        /// </summary>
-        /// <param name="viewContent">Content of view.</param>
-        /// <returns>Full path for assembly.</returns>
-        //protected virtual string GetAssemblyPathForContent(string viewContent)
-        //{
-        //    return Path.Combine(TempDirectory, String.Format("View_{0}.dll", HashHelper.Sha1(viewContent)));
-        //}
     }
 }

@@ -5,11 +5,11 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation
 {
-    public class DefaultViewServiceContext : IViewServiceContext
+    public class ViewServiceContext : IViewServiceContext
     {
         public IDependencyProvider DependencyProvider { get; set; }
 
-        public DefaultViewServiceContext(IDependencyProvider dependencyProvider)
+        public ViewServiceContext(IDependencyProvider dependencyProvider)
         {
             DependencyProvider = dependencyProvider;
         }

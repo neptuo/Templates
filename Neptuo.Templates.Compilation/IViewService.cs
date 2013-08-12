@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation
 {
     public interface IViewService
     {
-        IGeneratedView Process(string fileName, IViewServiceContext context);
-        IGeneratedView ProcessContent(string viewContent, IViewServiceContext context);
+        object Process(string fileName, IViewServiceContext context);
+        object ProcessContent(string viewContent, IViewServiceContext context);
     }
 }

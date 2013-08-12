@@ -61,6 +61,7 @@
     <Compile Include="Data\ICacheItem.cs" />
     <Compile Include="Data\ICacheManager.cs" />
     <Compile Include="Data\StorageProvider.cs" />
+    <Compile Include="ViewServiceContext.cs" />
     <Compile Include="ErrorInfo.cs" />
     <Compile Include="IErrorInfo.cs" />
     <Compile Include="IFileProvider.cs" />

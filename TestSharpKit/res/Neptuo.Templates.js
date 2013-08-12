@@ -110,5 +110,3 @@ var Neptuo$Templates$IDependencyContainer = {fullname: "Neptuo.Templates.IDepend
 JsTypes.push(Neptuo$Templates$IDependencyContainer);
 var Neptuo$Templates$IDependencyProvider = {fullname: "Neptuo.Templates.IDependencyProvider", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IDependencyProvider);
-var Neptuo$Templates$IGeneratedView = {fullname: "Neptuo.Templates.IGeneratedView", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates", interfaceNames: ["System.IDisposable"], Kind: "Interface"};
-JsTypes.push(Neptuo$Templates$IGeneratedView);

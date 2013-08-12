@@ -12,7 +12,7 @@ using SharpKit.JavaScript;
 namespace Neptuo.Templates
 {
     [JsType(JsMode.Clr, Filename = "res/View.js")]
-    public sealed class View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11 : Neptuo.Templates.BaseGeneratedView, Neptuo.Templates.IGeneratedView, System.IDisposable
+    public sealed class View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11 : Neptuo.Templates.BaseGeneratedView, System.IDisposable
     {
         private TestConsoleNG.Controls.GenericContentControl field1;
         private TestConsoleNG.Controls.PanelControl field2;

@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleNG", "TestConsol
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestSharpKit", "TestSharpKit\TestSharpKit.csproj", "{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Mvc.Compilation", "Neptuo.Templates.Mvc.Compilation\Neptuo.Templates.Mvc.Compilation.csproj", "{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -240,6 +242,16 @@ Global
 		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2}.Release|x86.ActiveCfg = Release|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1A5C88A6-FCC9-4D2B-A82F-8C3883E50CF2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
