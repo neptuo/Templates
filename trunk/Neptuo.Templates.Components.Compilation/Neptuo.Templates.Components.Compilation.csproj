@@ -46,8 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeDomCompiler.cs" />
-    <Compile Include="CodeGenerators\CodeDomGeneratorContext.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorServiceContext.cs" />
     <Compile Include="CodeDomViewService.cs" />
     <Compile Include="CodeDomViewServiceException.cs" />
@@ -73,7 +71,6 @@
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="DebugUtils.cs" />
-    <Compile Include="DefaultViewServiceContext.cs" />
     <Compile Include="FileProvider.cs" />
     <Compile Include="Parsers\BaseBuilder.cs" />
     <Compile Include="Parsers\DefaultTypeComponentBuilderFactory.cs" />

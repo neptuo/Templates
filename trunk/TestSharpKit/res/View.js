@@ -34,7 +34,7 @@ var Neptuo$Templates$View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11 =
     fullname: "Neptuo.Templates.View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11",
     baseTypeName: "Neptuo.Templates.BaseGeneratedView",
     assemblyName: "TestSharpKit",
-    interfaceNames: ["Neptuo.Templates.IGeneratedView", "System.IDisposable"],
+    interfaceNames: ["System.IDisposable"],
     Kind: "Class",
     definition:
     {

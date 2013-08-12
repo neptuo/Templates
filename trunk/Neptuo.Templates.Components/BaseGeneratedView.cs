@@ -9,7 +9,7 @@ namespace Neptuo.Templates
     /// <summary>
     /// Base class for generated views.
     /// </summary>
-    public abstract class BaseGeneratedView : IGeneratedView
+    public abstract class BaseGeneratedView
     {
         protected IViewPage viewPage;
         protected IComponentManager componentManager;

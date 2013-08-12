@@ -49,7 +49,6 @@ var Neptuo$Templates$BaseGeneratedView =
     fullname: "Neptuo.Templates.BaseGeneratedView",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
-    interfaceNames: ["Neptuo.Templates.IGeneratedView"],
     Kind: "Class",
     definition:
     {
@@ -806,8 +805,6 @@ var Neptuo$Templates$IVirtualUrlProvider = {fullname: "Neptuo.Templates.IVirtual
 JsTypes.push(Neptuo$Templates$IVirtualUrlProvider);
 var Neptuo$Templates$IVirtualPathProvider = {fullname: "Neptuo.Templates.IVirtualPathProvider", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IVirtualPathProvider);
-var Neptuo$Templates$IWebGeneratedView = {fullname: "Neptuo.Templates.IWebGeneratedView", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", interfaceNames: ["Neptuo.Templates.IGeneratedView", "System.IDisposable"], Kind: "Interface"};
-JsTypes.push(Neptuo$Templates$IWebGeneratedView);
 var Neptuo$Templates$ObserverAttribute =
 {
     fullname: "Neptuo.Templates.ObserverAttribute",

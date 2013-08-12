@@ -60,7 +60,7 @@ namespace TestConsoleNG
             //try
             //{
 
-            IViewServiceContext context = new DefaultViewServiceContext(container);
+            IViewServiceContext context = new ViewServiceContext(container);
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
             BaseGeneratedView view = (BaseGeneratedView)viewService.Process("Index.html", context);
