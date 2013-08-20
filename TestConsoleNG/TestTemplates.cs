@@ -25,7 +25,7 @@ namespace TestConsoleNG
         {
             container = new UnityDependencyContainer();
             container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
-            container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe")));
+            container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
         }
 
         public static void Test()

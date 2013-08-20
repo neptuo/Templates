@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (context.FieldName != null)
             {
                 return new CodeFieldReferenceExpression(
-                    new CodeThisReferenceExpression(),
+                    null,
                     context.FieldName
                 );
             }

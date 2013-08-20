@@ -44,84 +44,136 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// Generates base 'stuff' for component (including field, bind method, properties).
         /// Doesn't generate Control/Observer/Extension specific calls.
         /// </summary>
-        protected CodeFieldReferenceExpression GenerateCompoment(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject)
+        protected virtual CodeExpression GenerateCompoment<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
             string fieldName = GenerateFieldName();
-            CodeMemberField field = new CodeMemberField(typeCodeObject.Type, fieldName);
-            context.BaseStructure.Class.Members.Add(field);
+            ComponentMethodInfo createMethod = GenerateCreateMethod(context, codeObject, fieldName);
 
+            GenerateBindMethod(context, codeObject, fieldName, null);
+            return GenerateComponentReturnExpression(context, codeObject, createMethod);
+        }
 
-            CodeMemberMethod createMethod = GenerateCreateMethod(context, typeCodeObject, propertiesCodeObject, fieldName);
-
-            context.ParentBindMethod.Statements.Add(    
-                new CodeMethodInvokeExpression(
-                    new CodeThisReferenceExpression(),
-                    createMethod.Name
-                )
-            );
-
-            GenerateBindMethod(context, propertiesCodeObject, fieldName, null);
-
-            return new CodeFieldReferenceExpression(
+        protected virtual CodeExpression GenerateComponentReturnExpression<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        {
+            return new CodeMethodInvokeExpression(
                 new CodeThisReferenceExpression(),
-                fieldName
+                createMethod.Method.Name
             );
+        }
+
+        protected virtual bool RequiresGlobalField<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        {
+            return false;
         }
 
         /// <summary>
         /// Generates metod for creating field instance and setting default property values.
         /// </summary>
         /// <param name="context">Current context.</param>
-        /// <param name="typeCodeObject">Type code object.</param>
-        /// <param name="propertiesCodeObject">Properties code object.</param>
+        /// <param name="codeObject">Code object.</param>
         /// <param name="fieldName">Current field name.</param>
         /// <returns>Code method for creating instance.</returns>
-        protected CodeMemberMethod GenerateCreateMethod(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string fieldName)
+        protected virtual ComponentMethodInfo GenerateCreateMethod<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, string fieldName)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
             CodeMemberMethod createMethod = new CodeMemberMethod
             {
-                Name = FormatCreateMethod(fieldName)
+                Name = FormatCreateMethod(fieldName),
+                ReturnType = new CodeTypeReference(codeObject.Type)
             };
             context.BaseStructure.Class.Members.Add(createMethod);
 
-            CodeConditionStatement ifNull = new CodeConditionStatement
+            bool requiresGlobalField = RequiresGlobalField(context, codeObject);
+            if (requiresGlobalField)
             {
-                Condition = new CodeBinaryOperatorExpression(
-                    new CodeFieldReferenceExpression(
-                        new CodeThisReferenceExpression(),
+                context.BaseStructure.Class.Members.Add(
+                    new CodeMemberField(
+                        new CodeTypeReference(codeObject.Type), 
                         fieldName
-                    ),
-                    CodeBinaryOperatorType.ValueEquality,
-                    new CodePrimitiveExpression(null)
-                )
-            };
-            createMethod.Statements.Add(ifNull);
-            ifNull.TrueStatements.Add(
-                new CodeAssignStatement(
-                    new CodeFieldReferenceExpression(
-                        new CodeThisReferenceExpression(),
-                        fieldName
-                    ),
-                    new CodeObjectCreateExpression(typeCodeObject.Type, ResolveConstructorParameters(context, typeCodeObject.Type))
+                    )
+                );
+                createMethod.Statements.Add(
+                    new CodeAssignStatement(
+                        new CodeFieldReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            fieldName
+                        ),
+                        new CodeObjectCreateExpression(
+                            codeObject.Type,
+                            ResolveConstructorParameters(context, codeObject.Type)
+                        )
+                    )
+                );
+            }
+            else
+            {
+                createMethod.Statements.Add(
+                    new CodeVariableDeclarationStatement(
+                        codeObject.Type,
+                        fieldName,
+                        new CodeObjectCreateExpression(
+                            codeObject.Type,
+                            ResolveConstructorParameters(context, codeObject.Type)
+                        )
+                    )
+                );
+            }
+
+            GenerateDefaultPropertyValues(context, codeObject, fieldName, createMethod.Statements);
+
+            ComponentMethodInfo createMethodInfo = new ComponentMethodInfo(createMethod, fieldName);
+            AppendToComponentManager(context, codeObject, createMethodInfo);
+            AppendToCreateMethod(context, codeObject, createMethodInfo);
+
+            createMethod.Statements.Add(
+                new CodeMethodReturnStatement(
+                    new CodeFieldReferenceExpression(requiresGlobalField ? new CodeThisReferenceExpression() : null, fieldName)
                 )
             );
-
-            GenerateDefaultPropertyValues(context, typeCodeObject, propertiesCodeObject, fieldName, ifNull.TrueStatements);
-            return createMethod;
+            return createMethodInfo;
         }
+
+        protected virtual void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        {
+            createMethod.Method.Statements.Add(
+                new CodeMethodInvokeExpression(
+                    new CodeFieldReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        CodeDomStructureGenerator.Names.ComponentManagerField
+                    ),
+                    TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
+                    new CodeFieldReferenceExpression(
+                        null,
+                        createMethod.FieldName
+                    ),
+                    new CodeMethodReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        FormatBindMethod(createMethod.FieldName)
+                    )
+                )
+            );
+        }
+
+        protected virtual void AppendToCreateMethod<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        { }
 
         /// <summary>
         /// Appends to <paramref name="target"/> statements for setting default (not in markup set) property values.
         /// </summary>
         /// <param name="context">Current context.</param>
-        /// <param name="typeCodeObject">Type code object.</param>
-        /// <param name="propertiesCodeObject">Properties code object.</param>
+        /// <param name="codeObject">Code object.</param>
         /// <param name="fieldName">Current field name.</param>
         /// <param name="target">Target collection of statements.</param>
-        protected virtual void GenerateDefaultPropertyValues(CodeObjectExtensionContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string fieldName, CodeStatementCollection target)
+        protected virtual void GenerateDefaultPropertyValues<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, string fieldName, CodeStatementCollection target)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
-            HashSet<string> boundProperties = new HashSet<string>(propertiesCodeObject.Properties.Select(p => p.Property.Name));
-            foreach (PropertyInfo propertyInfo in typeCodeObject.Type.GetProperties())
+            HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Select(p => p.Property.Name));
+            foreach (PropertyInfo propertyInfo in codeObject.Type.GetProperties())
             {
                 if (propertyInfo.CanWrite && boundProperties.Add(propertyInfo.Name))
                 {
@@ -164,18 +216,31 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <summary>
         /// Generates and fill bind method using <code>IPropertiesCodeObject.Properties</code>.
         /// </summary>
-        protected CodeMemberMethod GenerateBindMethod(CodeObjectExtensionContext context, IPropertiesCodeObject codeObject, string fieldName, string bindMethodName = null)
+        protected CodeMemberMethod GenerateBindMethod<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, string fieldName, string bindMethodName = null)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
             CodeMemberMethod bindMethod = new CodeMemberMethod
             {
                 Name = bindMethodName ?? FormatBindMethod(fieldName)
             };
+            bindMethod.Parameters.Add(new CodeParameterDeclarationExpression(codeObject.Type, fieldName));
             context.BaseStructure.Class.Members.Add(bindMethod);
 
-            foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
-                context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, fieldName, bindMethod);
-
+            GenerateBindMethodStatements(context, codeObject, new ComponentMethodInfo(bindMethod, fieldName));
             return bindMethod;
+        }
+        
+        /// <summary>
+        /// Generates statements for bind method.
+        /// </summary>
+        /// <param name="context">Generator context.</param>
+        /// <param name="codeObject">Code object.</param>
+        /// <param name="bindMethod">Bind method info.</param>
+        protected void GenerateBindMethodStatements<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo bindMethod)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        {
+            foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
+                context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, bindMethod.FieldName, bindMethod.Method);
         }
 
         /// <summary>
@@ -201,6 +266,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             }
 
             return result.ToArray();
+        }
+
+        public class ComponentMethodInfo
+        {
+            public CodeMemberMethod Method { get; private set; }
+            public string FieldName { get; private set; }
+
+            public ComponentMethodInfo(CodeMemberMethod method, string fieldName)
+            {
+                Method = method;
+                FieldName = fieldName;
+            }
         }
     }
 }

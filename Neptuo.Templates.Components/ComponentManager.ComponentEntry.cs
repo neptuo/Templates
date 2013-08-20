@@ -7,10 +7,10 @@ namespace Neptuo.Templates
 {
     partial class ComponentManager
     {
-        internal class ComponentEntry
+        internal abstract class BaseComponentEntry
         {
-            public object Control { get; set; }
-            public Action PropertyBinder { get; set; }
+            public virtual object Control { get; set; }
+            public virtual Delegate PropertyBinder { get; set; }
 
             public List<ObserverInfo> Observers { get; private set; }
             public List<OnInitComplete> InitComplete { get; private set; }
@@ -19,10 +19,44 @@ namespace Neptuo.Templates
             public bool IsInited { get; set; }
             public bool IsDisposed { get; set; }
 
-            public ComponentEntry()
+            public BaseComponentEntry()
             {
                 Observers = new List<ObserverInfo>();
                 InitComplete = new List<OnInitComplete>();
+            }
+
+            public abstract void BindProperties();
+        }
+
+        internal class ComponentEntry<T> : BaseComponentEntry
+        {
+            private T control;
+            private Action<T> propertyBinder;
+
+            public override object Control
+            {
+                get { return control; }
+                set { control = (T)value; }
+            }
+
+            public override Delegate PropertyBinder
+            {
+                get { return propertyBinder; }
+                set { propertyBinder = (Action<T>)value; }
+            }
+
+            public ComponentEntry()
+            {
+
+            }
+
+            public override void BindProperties()
+            {
+                if (propertyBinder != null)
+                {
+                    propertyBinder(control);
+                    ArePropertiesBound = true;
+                }
             }
         }
     }

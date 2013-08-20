@@ -6,10 +6,4 @@ function DefaultClient_Load()
 function btnTest_click(e)
 {
     var componentManager = new Neptuo.Templates.ComponentManager.ctor();
-    var view = new Neptuo.Templates.View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11.ctor();
-    view.Setup(new Neptuo.Templates.BaseViewPage.ctor(componentManager), componentManager, null);
-    view.CreateControls();
-    view.Init();
-    view.Render(new Neptuo.Templates.HtmlTextWriter.ctor$$TextWriter(null));
-    view.Dispose();
 };
