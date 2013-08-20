@@ -1,5 +1,4 @@
-﻿using Neptuo.Templates;
-using SharpKit.JavaScript;
+﻿using SharpKit.JavaScript;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
@@ -7,11 +6,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Neptuo.Templates.Components")]
+[assembly: AssemblyTitle("TestConsoleNG.Components")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Neptuo.Templates.Components")]
+[assembly: AssemblyProduct("TestConsoleNG.Components")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +21,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("36cdf0fa-054e-4e90-bcb3-ba15b1322c9e")]
+[assembly: Guid("89c6342c-26a6-4430-9a81-5dfc4b6aa28d")]
 
 // Version information for an assembly consists of the following four values:
 //
@@ -38,5 +37,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyFileVersion("1.0.0.0")]
 
 [assembly: JsExport(FilenameFormat = "../TestSharpKit/res/{0}.js")]
-[assembly: JsType(JsMode.Clr, Filename = "~/Neptuo.Templates.Components")]
-[assembly: JsType(TargetType = typeof(ObserverAttribute), Export = false)]
+[assembly: JsType(JsMode.Clr, Filename = "~/TestConsoleNG")]

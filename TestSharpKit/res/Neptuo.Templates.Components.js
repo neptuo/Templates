@@ -978,37 +978,6 @@ var Neptuo$Templates$IVirtualUrlProvider = {fullname: "Neptuo.Templates.IVirtual
 JsTypes.push(Neptuo$Templates$IVirtualUrlProvider);
 var Neptuo$Templates$IVirtualPathProvider = {fullname: "Neptuo.Templates.IVirtualPathProvider", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IVirtualPathProvider);
-var Neptuo$Templates$ObserverAttribute =
-{
-    fullname: "Neptuo.Templates.ObserverAttribute",
-    baseTypeName: "System.Attribute",
-    assemblyName: "Neptuo.Templates.Components",
-    Kind: "Class",
-    definition:
-    {
-        ctor: function ()
-        {
-            this._Livecycle = Neptuo.Templates.ObserverLivecycle.PerAttribute;
-            Neptuo.Templates.ObserverAttribute.ctor$$ObserverLivecycle.call(this, Neptuo.Templates.ObserverLivecycle.PerControl);
-        },
-        Livecycle$$: "Neptuo.Templates.ObserverLivecycle",
-        get_Livecycle: function ()
-        {
-            return this._Livecycle;
-        },
-        set_Livecycle: function (value)
-        {
-            this._Livecycle = value;
-        },
-        ctor$$ObserverLivecycle: function (livecycle)
-        {
-            this._Livecycle = Neptuo.Templates.ObserverLivecycle.PerAttribute;
-            System.Attribute.ctor.call(this);
-            this.set_Livecycle(livecycle);
-        }
-    }
-};
-JsTypes.push(Neptuo$Templates$ObserverAttribute);
 var Neptuo$Templates$ObserverLivecycle =
 {
     fullname: "Neptuo.Templates.ObserverLivecycle",

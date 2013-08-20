@@ -22,11 +22,10 @@ namespace TestConsoleNG.Extensions
 
         public object ProvideValue(IValueExtensionContext context)
         {
-            object data = dataStorage.Peek();
+            object data = BindingManager.GetValue(Expression, dataStorage.Peek());
             if (data == null)
                 return null;
 
-            data = BindingManager.GetValue(Expression, data);
             if (context.TargetProperty.PropertyType.IsAssignableFrom(data.GetType()))
                 return data;
 

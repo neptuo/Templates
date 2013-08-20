@@ -2,6 +2,9 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using SharpKit.JavaScript;
+using TestConsoleNG.Controls;
+using TestConsoleNG.Extensions;
+using TestConsoleNG.Observers;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -34,3 +37,17 @@ using SharpKit.JavaScript;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("1.0.0.0")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
+
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(BaseControl))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(BaseContentControl))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(AnchorControl))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(GenericContentControl))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(LiteralControl))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(PanelControl))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(TextBoxControl))]
+
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(BindingExtension))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(BindingManager))]
+
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(DataContextObserver))]
+//[assembly: JsType(JsMode.Clr, Filename = "res/TestConsoleNG.js", TargetType = typeof(VisibleObserver))]

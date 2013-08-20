@@ -24,7 +24,7 @@ namespace TestConsoleNG.Controls
         public GenericContentControl(IComponentManager componentManager)
             : base(componentManager)
         { 
-            IsSelfClosing = false;
+            //IsSelfClosing = false;
         }
 
         public override void Render(HtmlTextWriter writer)

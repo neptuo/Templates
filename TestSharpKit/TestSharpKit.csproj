@@ -71,6 +71,7 @@
     <Content Include="res\jsclr-4.1.0.js" />
     <Content Include="res\Neptuo.Templates.Components.js" />
     <Content Include="res\Neptuo.Templates.js" />
+    <Content Include="res\TestConsoleNG.js" />
     <Content Include="res\View.js" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -83,7 +84,8 @@
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11.cs" />
+    <Compile Include="View_9741084CDDEB89E6278CC0A58C5F284F84983F2D.cs" />
+    <Compile Include="View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultClient.cs" />
@@ -104,6 +106,10 @@
     <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
       <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
       <Name>Neptuo.Templates</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestConsoleNG.Components\TestConsoleNG.Components.csproj">
+      <Project>{b63a8530-0b2e-4253-95e6-a55ddd3ea7af}</Project>
+      <Name>TestConsoleNG.Components</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestConsoleNG\TestConsoleNG.csproj">
       <Project>{c31795f1-ae2e-4095-a4e3-95fa1952582e}</Project>
