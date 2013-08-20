@@ -2,6 +2,7 @@
 using Neptuo.Templates.Observers;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using TestConsoleNG.Data;
@@ -14,6 +15,9 @@ namespace TestConsoleNG.Observers
         private IComponentManager componentManager;
         private DataStorage dataStorage;
 
+        [DefaultValue(5)]
+        public int Index { get; set; }
+        
         public object DataContext { get; set; }
 
         public DataContextObserver(IComponentManager componentManager, DataStorage dataStorage)

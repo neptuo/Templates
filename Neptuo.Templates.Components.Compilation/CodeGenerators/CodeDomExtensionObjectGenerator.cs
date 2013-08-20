@@ -23,13 +23,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeExpression field = GenerateCompoment(context, codeObject);
             
-            //context.ParentBindMethod.Statements.Add(
-            //    new CodeMethodInvokeExpression(
-            //        new CodeThisReferenceExpression(),
-            //        FormatBindMethod(field.FieldName)
-            //    )
-            //);
-            
             return new CodeCastExpression(
                 propertyDescriptor.Property.Type,
                 new CodeMethodInvokeExpression(
@@ -42,7 +35,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                             context.ParentFieldName
                         ),
                         new CodeMethodInvokeExpression(
-                            new CodeTypeOfExpression(context.ParentBindMethod.Parameters[0].Type),
+                            new CodeMethodInvokeExpression(
+                                new CodeFieldReferenceExpression(
+                                    null,
+                                    context.ParentFieldName
+                                ),
+                                TypeHelper.MethodName<object, Type>(t => t.GetType)
+                            ),
                             TypeHelper.MethodName<Type, string, PropertyInfo>(t => t.GetProperty),
                             new CodePrimitiveExpression(propertyDescriptor.Property.Name)
                         ),

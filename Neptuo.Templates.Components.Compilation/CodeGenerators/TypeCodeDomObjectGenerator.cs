@@ -59,7 +59,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             return new CodeMethodInvokeExpression(
                 new CodeThisReferenceExpression(),
-                createMethod.Method.Name
+                createMethod.MethodName
             );
         }
 
@@ -86,6 +86,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             };
             context.BaseStructure.Class.Members.Add(createMethod);
 
+            ComponentMethodInfo createMethodInfo = null;
             bool requiresGlobalField = RequiresGlobalField(context, codeObject);
             if (requiresGlobalField)
             {
@@ -95,7 +96,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         fieldName
                     )
                 );
-                createMethod.Statements.Add(
+
+                CodeConditionStatement ifNull = new CodeConditionStatement
+                {
+                    Condition = new CodeBinaryOperatorExpression(
+                        new CodeFieldReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            fieldName
+                        ),
+                        CodeBinaryOperatorType.ValueEquality,
+                        new CodePrimitiveExpression(null)
+                    )
+                };
+                createMethod.Statements.Add(ifNull);
+                ifNull.TrueStatements.Add(
                     new CodeAssignStatement(
                         new CodeFieldReferenceExpression(
                             new CodeThisReferenceExpression(),
@@ -107,6 +121,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         )
                     )
                 );
+                createMethodInfo = new ComponentMethodInfo(ifNull.TrueStatements, createMethod.Name, fieldName);
             }
             else
             {
@@ -120,12 +135,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         )
                     )
                 );
+                createMethodInfo = new ComponentMethodInfo(createMethod, fieldName);
             }
 
-            GenerateDefaultPropertyValues(context, codeObject, fieldName, createMethod.Statements);
-
-            ComponentMethodInfo createMethodInfo = new ComponentMethodInfo(createMethod, fieldName);
             AppendToComponentManager(context, codeObject, createMethodInfo);
+            GenerateDefaultPropertyValues(context, codeObject, createMethodInfo);
             AppendToCreateMethod(context, codeObject, createMethodInfo);
 
             createMethod.Statements.Add(
@@ -139,7 +153,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected virtual void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
             where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
-            createMethod.Method.Statements.Add(
+            createMethod.Statements.Add(
                 new CodeMethodInvokeExpression(
                     new CodeFieldReferenceExpression(
                         new CodeThisReferenceExpression(),
@@ -169,7 +183,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object.</param>
         /// <param name="fieldName">Current field name.</param>
         /// <param name="target">Target collection of statements.</param>
-        protected virtual void GenerateDefaultPropertyValues<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, string fieldName, CodeStatementCollection target)
+        protected virtual void GenerateDefaultPropertyValues<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
             where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
             HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Select(p => p.Property.Name));
@@ -198,11 +212,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     // If we found value for property, generate appropriate set
                     if (targetValue != null)
                     {
-                        target.Add(new CodeAssignStatement(
+                        createMethod.Statements.Add(new CodeAssignStatement(
                             new CodePropertyReferenceExpression(
                                 new CodeFieldReferenceExpression(
-                                    new CodeThisReferenceExpression(),
-                                    fieldName
+                                    null,
+                                    createMethod.FieldName
                                 ),
                                 propertyInfo.Name
                             ),
@@ -240,7 +254,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
             foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
-                context.CodeGenerator.GenerateProperty(context.CodeDomContext, propertyDesc, bindMethod.FieldName, bindMethod.Method);
+            {
+                context.CodeGenerator.GenerateProperty(
+                    new CodeDomPropertyContext(context.CodeDomContext, bindMethod.FieldName, bindMethod.Statements),
+                    propertyDesc
+                );
+            }
         }
 
         /// <summary>
@@ -270,12 +289,21 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public class ComponentMethodInfo
         {
-            public CodeMemberMethod Method { get; private set; }
+            public CodeStatementCollection Statements { get; private set; }
+            public string MethodName { get; private set; }
             public string FieldName { get; private set; }
 
             public ComponentMethodInfo(CodeMemberMethod method, string fieldName)
             {
-                Method = method;
+                Statements = method.Statements;
+                MethodName = method.Name;
+                FieldName = fieldName;
+            }
+
+            public ComponentMethodInfo(CodeStatementCollection statements, string methodName, string fieldName)
+            {
+                Statements = statements;
+                MethodName = methodName;
                 FieldName = fieldName;
             }
         }

@@ -46,7 +46,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             if (createInstance)
             {
-                context.BindMethod.Statements.Add(
+                context.Statements.Add(
                     new CodeAssignStatement(
                         codePropertyReference,
                         new CodeObjectCreateExpression(targetType)
@@ -59,9 +59,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             foreach (ICodeObject propertyValue in propertyDescriptor.Values)
             {
-                CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(context.Context, propertyValue, propertyDescriptor, context.BindMethod, context.FieldName);
-                
-                context.BindMethod.Statements.Add(
+                CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(
+                    new CodeObjectExtensionContext(context.Context, context.Statements, context.FieldName), 
+                    propertyValue, 
+                    propertyDescriptor
+                );
+                context.Statements.Add(
                     new CodeMethodInvokeExpression(
                         codePropertyReference,
                         addMethodName,

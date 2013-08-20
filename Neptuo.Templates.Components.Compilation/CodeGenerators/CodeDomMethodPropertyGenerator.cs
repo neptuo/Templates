@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         protected override void GenerateProperty(CodeDomPropertyContext context, MethodInvokePropertyDescriptor propertyDescriptor)
         {
-            context.BindMethod.Statements.Add(
+            context.Statements.Add(
                 new CodeMethodInvokeExpression(
                     new CodeFieldReferenceExpression(
                         new CodeThisReferenceExpression(),

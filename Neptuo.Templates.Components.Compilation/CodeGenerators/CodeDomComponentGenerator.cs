@@ -91,7 +91,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             if (observerMethodInfo != null)
             {
-                createMethod.Method.Statements.Add(
+                createMethod.Statements.Add(
                     new CodeMethodInvokeExpression(
                         new CodeFieldReferenceExpression(
                             new CodeThisReferenceExpression(),
