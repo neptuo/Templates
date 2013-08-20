@@ -29,9 +29,9 @@ if (typeof($CreateDelegate)=='undefined'){
 }
 if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
-var Neptuo$Templates$View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11 =
+var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
 {
-    fullname: "Neptuo.Templates.View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11",
+    fullname: "Neptuo.Templates.View_9741084CDDEB89E6278CC0A58C5F284F84983F2D",
     baseTypeName: "Neptuo.Templates.BaseGeneratedView",
     assemblyName: "TestSharpKit",
     interfaceNames: ["System.IDisposable"],
@@ -40,212 +40,155 @@ var Neptuo$Templates$View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11 =
     {
         ctor: function ()
         {
-            this.field1 = null;
-            this.field2 = null;
-            this.field3 = null;
-            this.field4 = null;
-            this.field5 = null;
-            this.field6 = null;
-            this.field7 = null;
-            this.field8 = null;
-            this.field9 = null;
-            this.field10 = null;
-            this.field11 = null;
-            this.field12 = null;
-            this.field13 = null;
-            this.field14 = null;
             Neptuo.Templates.BaseGeneratedView.ctor.call(this);
         },
-        CreateViewPageControls: function ()
+        CreateViewPageControls: function (viewPage)
         {
-            this.field1_Create();
-            this.componentManager.AddComponent(this.field1, $CreateDelegate(this, this.field1_Bind));
-            this.field13_Create();
-            this.componentManager.AttachObserver(this.field1, this.field13, $CreateDelegate(this, this.field13_Bind));
-            this.get_Content().Add(this.field1);
+            this.get_Content().Add("<div>");
+            this.get_Content().Add(this.field1_Create());
+            this.get_Content().Add(this.field4_Create());
+            this.get_Content().Add(this.field7_Create());
+            this.get_Content().Add(this.field10_Create());
+            this.get_Content().Add("</div>");
         },
         field1_Create: function ()
         {
-            if ((this.field1 == null))
-            {
-                this.field1 = new TestConsoleNG.Controls.GenericContentControl.ctor$$IComponentManager(this.componentManager);
-            }
+            var field1 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field1, $CreateDelegate(this, this.field1_Bind));
+            return field1;
         },
-        field1_Bind: function ()
+        field1_Bind: function (field1)
         {
-            this.field1.set_TagName("div");
-            this.field1.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
-            this.field2_Create();
-            this.componentManager.AddComponent(this.field2, $CreateDelegate(this, this.field2_Bind));
-            this.field7_Create();
-            this.componentManager.AttachObserver(this.field2, this.field7, $CreateDelegate(this, this.field7_Bind));
-            this.field1.get_Content().Add(this.field2);
-            this.field9_Create();
-            this.componentManager.AddComponent(this.field9, $CreateDelegate(this, this.field9_Bind));
-            this.field12_Create();
-            this.componentManager.AttachObserver(this.field9, this.field12, $CreateDelegate(this, this.field12_Bind));
-            this.field1.get_Content().Add(this.field9);
+            field1.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field1.get_Content().Add(" \r\n        Street: \r\n        ");
+            field1.get_Content().Add(this.field2_Create());
         },
         field2_Create: function ()
         {
-            if ((this.field2 == null))
-            {
-                this.field2 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
-            }
+            var field2 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field2, $CreateDelegate(this, this.field2_Bind));
+            return field2;
         },
-        field2_Bind: function ()
+        field2_Bind: function (field2)
         {
-            this.field2.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
-            this.field3_Create();
-            this.componentManager.AddComponent(this.field3, $CreateDelegate(this, this.field3_Bind));
-            this.field2.get_Content().Add(this.field3);
-            this.field6_Create();
-            this.componentManager.AddComponent(this.field6, $CreateDelegate(this, this.field6_Bind));
-            this.field2.get_Content().Add(this.field6);
+            field2.set_Name("street");
+            field2.set_Text((Cast((this.field3_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field2, field2.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field3_Create: function ()
         {
-            if ((this.field3 == null))
-            {
-                this.field3 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            }
-        },
-        field3_Bind: function ()
-        {
-            this.field3.set_Name("surname");
-            this.field4_Create();
-            this.field4_Bind();
-            this.field3.set_Text((Cast((this.field4.ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(this.field3, Typeof(TestConsoleNG.Controls.TextBoxControl.ctor).GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
+            var field3 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            field3.set_Expression("Street");
+            return field3;
         },
         field4_Create: function ()
         {
-            if ((this.field4 == null))
-            {
-                this.field4 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
-            }
+            var field4 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field4, $CreateDelegate(this, this.field4_Bind));
+            return field4;
         },
-        field4_Bind: function ()
+        field4_Bind: function (field4)
         {
-            this.field5_Create();
-            this.field5_Bind();
-            this.field4.set_Expression((Cast((this.field5.ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(this.field4, Typeof(TestConsoleNG.Extensions.BindingExtension.ctor).GetProperty$$String("Expression"), this.dependencyProvider))), System.String.ctor)));
+            field4.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field4.get_Content().Add("\r\n        House Number:\r\n        ");
+            field4.get_Content().Add(this.field5_Create());
         },
         field5_Create: function ()
         {
-            if ((this.field5 == null))
-            {
-                this.field5 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
-            }
+            var field5 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field5, $CreateDelegate(this, this.field5_Bind));
+            return field5;
         },
-        field5_Bind: function ()
+        field5_Bind: function (field5)
         {
-            this.field5.set_Expression("Kitty");
+            field5.set_Name("housenumber");
+            field5.set_Text((Cast((this.field6_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field5, field5.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field6_Create: function ()
         {
-            if ((this.field6 == null))
-            {
-                this.field6 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            }
-        },
-        field6_Bind: function ()
-        {
-            this.field6.set_Name("surname");
+            var field6 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            field6.set_Expression("HouseNumber");
+            return field6;
         },
         field7_Create: function ()
         {
-            if ((this.field7 == null))
-            {
-                this.field7 = new TestConsoleNG.Observers.DataContextObserver.ctor(this.componentManager, (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
-            }
+            var field7 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field7, $CreateDelegate(this, this.field7_Bind));
+            return field7;
         },
-        field7_Bind: function ()
+        field7_Bind: function (field7)
         {
-            this.field8_Create();
-            this.field8_Bind();
-            this.field7.set_DataContext((this.field8.ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(this.field7, Typeof(TestConsoleNG.Observers.DataContextObserver.ctor).GetProperty$$String("DataContext"), this.dependencyProvider))));
+            field7.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field7.get_Content().Add(" \r\n        City: \r\n        ");
+            field7.get_Content().Add(this.field8_Create());
         },
         field8_Create: function ()
         {
-            if ((this.field8 == null))
-            {
-                this.field8 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
-            }
+            var field8 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field8, $CreateDelegate(this, this.field8_Bind));
+            return field8;
         },
-        field8_Bind: function ()
+        field8_Bind: function (field8)
         {
+            field8.set_Name("city");
+            field8.set_Text((Cast((this.field9_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field8, field8.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field9_Create: function ()
         {
-            if ((this.field9 == null))
-            {
-                this.field9 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
-            }
-        },
-        field9_Bind: function ()
-        {
-            this.field9.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
-            this.field10_Create();
-            this.componentManager.AddComponent(this.field10, $CreateDelegate(this, this.field10_Bind));
-            this.field9.get_Content().Add(this.field10);
+            var field9 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            field9.set_Expression("City");
+            return field9;
         },
         field10_Create: function ()
         {
-            if ((this.field10 == null))
-            {
-                this.field10 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            }
+            var field10 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field10, $CreateDelegate(this, this.field10_Bind));
+            return field10;
         },
-        field10_Bind: function ()
+        field10_Bind: function (field10)
         {
-            this.field11_Create();
-            this.field11_Bind();
-            this.field10.set_Text((Cast((this.field11.ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(this.field10, Typeof(TestConsoleNG.Controls.TextBoxControl.ctor).GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
+            field10.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field10.get_Content().Add("\r\n        Postal code:\r\n        ");
+            field10.get_Content().Add(this.field11_Create());
         },
         field11_Create: function ()
         {
-            if ((this.field11 == null))
-            {
-                this.field11 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
-            }
+            var field11 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field11, $CreateDelegate(this, this.field11_Bind));
+            return field11;
         },
-        field11_Bind: function ()
+        field11_Bind: function (field11)
         {
+            field11.set_Name("postalcode");
+            field11.set_Text((Cast((this.field12_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field11, field11.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field12_Create: function ()
         {
-            if ((this.field12 == null))
-            {
-                this.field12 = new TestConsoleNG.Observers.VisibleObserver.ctor();
-            }
-        },
-        field12_Bind: function ()
-        {
-            this.field12.set_Visible(false);
-        },
-        field13_Create: function ()
-        {
-            if ((this.field13 == null))
-            {
-                this.field13 = new TestConsoleNG.Observers.DataContextObserver.ctor(this.componentManager, (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
-            }
-        },
-        field13_Bind: function ()
-        {
-            this.field14_Create();
-            this.field14_Bind();
-            this.field13.set_DataContext((this.field14.ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(this.field13, Typeof(TestConsoleNG.Observers.DataContextObserver.ctor).GetProperty$$String("DataContext"), this.dependencyProvider))));
-        },
-        field14_Create: function ()
-        {
-            if ((this.field14 == null))
-            {
-                this.field14 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
-            }
-        },
-        field14_Bind: function ()
-        {
+            var field12 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            field12.set_Expression("PostalCode");
+            return field12;
         }
     }
 };
-JsTypes.push(Neptuo$Templates$View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11);
+JsTypes.push(Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D);
+var Neptuo$Templates$View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55 =
+{
+    fullname: "Neptuo.Templates.View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55",
+    baseTypeName: "Neptuo.Templates.BaseGeneratedView",
+    assemblyName: "TestSharpKit",
+    interfaceNames: ["System.IDisposable"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            Neptuo.Templates.BaseGeneratedView.ctor.call(this);
+        },
+        CreateViewPageControls: function (viewPage)
+        {
+            this.get_Content().Add("<div><h:panel> \r\n        Street: \r\n        <h:textbox name=\"street\" />");
+            this.get_Content().Add("</h:panel>");
+            this.get_Content().Add("</div>");
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55);

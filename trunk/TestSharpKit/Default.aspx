@@ -7,6 +7,7 @@
     <script src="res/jsclr-4.1.0.js"></script>
     <script src="res/Neptuo.Templates.js"></script>
     <script src="res/Neptuo.Templates.Components.js"></script>
+    <script src="res/TestConsoleNG.js"></script>
     <script src="res/View.js"></script>
     <script src="res/Default.js"></script>
     <script>

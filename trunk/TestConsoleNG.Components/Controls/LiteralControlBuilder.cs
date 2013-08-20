@@ -2,6 +2,7 @@
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Controls;
+using SharpKit.JavaScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace TestConsoleNG.Controls
 {
+    [JsType(Export = false)]
     public class LiteralControlBuilder<T> : ILiteralBuilder
         where T : IControl
     {

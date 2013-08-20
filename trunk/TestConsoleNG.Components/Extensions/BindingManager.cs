@@ -33,6 +33,9 @@ namespace TestConsoleNG.Extensions
             if (String.IsNullOrEmpty(expression))
                 return value;
 
+            if (value == null)
+                return null;
+
             PropertyInfo info = null;
             Type type = value.GetType();
             string[] exprs = expression.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries);
@@ -40,6 +43,9 @@ namespace TestConsoleNG.Extensions
             for (int i = 0; i < exprs.Length; i++)
             {
                 info = type.GetProperty(exprs[i]);
+                if (info == null)
+                    return null;
+
                 type = info.PropertyType;
 
                 if (value != null)

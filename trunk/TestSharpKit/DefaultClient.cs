@@ -16,12 +16,12 @@ namespace TestSharpKit
         {
             var componentManager = new ComponentManager();
 
-            //var view = new View_B7C1FA09BECBCD1D79251994E26F3C4BB8C31E11();
-            //view.Setup(new BaseViewPage(componentManager), componentManager, null);
-            //view.CreateControls();
-            //view.Init();
-            //view.Render(new HtmlTextWriter(null));
-            //view.Dispose();
+            var view = new View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55();
+            view.Setup(new BaseViewPage(componentManager), componentManager, null);
+            view.CreateControls();
+            view.Init();
+            view.Render(new HtmlTextWriter(null));
+            view.Dispose();
         }
     }
 }
