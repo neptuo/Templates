@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace TestConsoleNG.Observers
 {
+    [Observer(ObserverLivecycle.PerControl)]
     public class VisibleObserver : IObserver
     {
         public bool Visible { get; set; }
