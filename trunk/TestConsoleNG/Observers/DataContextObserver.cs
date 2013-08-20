@@ -14,9 +14,6 @@ namespace TestConsoleNG.Observers
     {
         private IComponentManager componentManager;
         private DataStorage dataStorage;
-
-        [DefaultValue(5)]
-        public int Index { get; set; }
         
         public object DataContext { get; set; }
 
