@@ -90,24 +90,24 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region Code generation
 
-        public CodeExpression GenerateCodeObject(Context context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor, CodeMemberMethod parentBindMethod, string parentFieldName)
+        public CodeExpression GenerateCodeObject(CodeObjectExtensionContext context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
             foreach (KeyValuePair<Type, ICodeDomComponentGenerator> item in CodeObjectGenerators)
             {
                 if (item.Key == codeObject.GetType())
-                    return item.Value.GenerateCode(new CodeObjectExtensionContext(context, parentBindMethod, parentFieldName), codeObject, propertyDescriptor);
+                    return item.Value.GenerateCode(context, codeObject, propertyDescriptor);
             }
 
             throw new NotImplementedException("Not supported code object");
         }
 
-        public void GenerateProperty(Context context, IPropertyDescriptor propertyDescriptor, string fieldName, CodeMemberMethod bindMethod)
+        public void GenerateProperty(CodeDomPropertyContext context, IPropertyDescriptor propertyDescriptor)
         {
             foreach (KeyValuePair<Type, ICodeDomPropertyGenerator> item in PropertyDescriptorGenerators)
             {
                 if (item.Key == propertyDescriptor.GetType())
                 {
-                    item.Value.GenerateProperty(new CodeDomPropertyContext(context, fieldName, bindMethod), propertyDescriptor);
+                    item.Value.GenerateProperty(context, propertyDescriptor);
                     return;
                 }
             }
@@ -145,7 +145,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             context.BaseStructure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
 
-            GenerateProperty(context, propertyDescriptor, null, context.BaseStructure.EntryPointMethod);
+            GenerateProperty(
+                new CodeDomPropertyContext(context, null, context.BaseStructure.EntryPointMethod.Statements), 
+                propertyDescriptor
+            );
             RunCodeDomVisitors(context);
 
             WriteOutput(context.BaseStructure.Unit, codeContext.Output);

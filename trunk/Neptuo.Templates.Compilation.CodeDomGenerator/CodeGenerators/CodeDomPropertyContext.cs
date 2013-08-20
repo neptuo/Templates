@@ -11,14 +11,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomGenerator CodeGenerator { get; private set; }
         public CodeDomGenerator.Context Context { get; private set; }
         public string FieldName { get; private set; }
-        public CodeMemberMethod BindMethod { get; private set; }
+        public CodeStatementCollection Statements { get; private set; }
 
-        public CodeDomPropertyContext(CodeDomGenerator.Context context, string fieldName, CodeMemberMethod bindMethod)
+        public CodeDomPropertyContext(CodeDomGenerator.Context context, string fieldName, CodeStatementCollection bindMethod)
         {
             CodeGenerator = context.CodeGenerator;
             Context = context;
             FieldName = fieldName;
-            BindMethod = bindMethod;
+            Statements = bindMethod;
         }
     }
 }
