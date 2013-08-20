@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public interface IComponentBuilder
+    public interface IXmlText : IXmlNode
     {
-        void Parse(IContentBuilderContext context, IXmlElement element);
+        string Text { get; }
     }
 }

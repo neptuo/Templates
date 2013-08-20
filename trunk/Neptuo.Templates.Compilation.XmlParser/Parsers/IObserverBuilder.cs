@@ -3,17 +3,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
     public interface IObserverBuilder
     {
-        void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes);
+        void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
     }
 
     public enum ObserverBuilderScope
     {
-        PerAttribute, PerElement, PerDocument //- must implement
+        PerAttribute, PerElement, PerDocument
     }
 }

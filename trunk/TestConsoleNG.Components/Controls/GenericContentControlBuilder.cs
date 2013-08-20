@@ -9,7 +9,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace TestConsoleNG.Controls
 {
@@ -25,7 +24,7 @@ namespace TestConsoleNG.Controls
             this.tagNameProperty = TypeHelper.PropertyName(tagNameProperty);
         }
 
-        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, XmlElement element)
+        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             IComponentCodeObject codeObject = base.CreateCodeObject(context, element);
             codeObject.Properties.Add(new SetPropertyDescriptor(new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), new PlainValueCodeObject(element.LocalName)));

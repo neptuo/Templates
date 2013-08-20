@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class BaseObserverBuilder : IObserverBuilder
     {
-        public void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
+        public void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             IObserverCodeObject observerObject = CreateCodeObject(context, attributes);
             IObserverInfo observerDefinition = GetObserverDefinition(context, codeObject, attributes);
@@ -19,13 +18,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             BindProperties(context, new BindPropertiesContext(observerDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant())), observerObject, attributes);
         }
 
-        protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<XmlAttribute> attributes);
-        protected abstract IObserverInfo GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes);
+        protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes);
+        protected abstract IObserverInfo GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
-        protected virtual void BindProperties(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
+        protected virtual void BindProperties(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             // Bind attributes
             BindAttributes(context, bindContext, codeObject, attributes);
@@ -34,10 +33,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             ProcessUnboundAttributes(context, codeObject, bindContext.UnboundAttributes);
         }
 
-        protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
+        protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             // Bind attributes
-            foreach (XmlAttribute attribute in attributes)
+            foreach (IXmlAttribute attribute in attributes)
             {
                 string attributeName = attribute.LocalName.ToLowerInvariant();
                 IPropertyInfo propertyInfo;
@@ -66,6 +65,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected abstract void ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<XmlAttribute> unboundAttributes);
+        protected abstract void ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<IXmlAttribute> unboundAttributes);
     }
 }

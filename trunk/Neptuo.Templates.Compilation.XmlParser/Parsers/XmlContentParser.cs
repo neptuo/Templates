@@ -9,7 +9,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -29,7 +28,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
 #endif
                 Helper helper = new Helper(content, context, builderRegistry);
-                GenerateRecursive(helper, builderRegistry, helper.Document.DocumentElement.ChildNodes.ToEnumerable());
+                GenerateRecursive(helper, builderRegistry, helper.DocumentElement.ChildNodes);
                 //FlushContent(helper); - doesn't respect current parent
 
                 return true;
@@ -51,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 #endif
         }
 
-        public void ProcessContent(IContentBuilderContext context, IPropertyDescriptor propertyDescriptor, IEnumerable<XmlNode> content)
+        public void ProcessContent(IContentBuilderContext context, IPropertyDescriptor propertyDescriptor, IEnumerable<IXmlNode> content)
         {
             context.Helper.WithParent(propertyDescriptor, () => GenerateRecursive(context.Helper, context.BuilderRegistry, content));
         }
@@ -62,13 +61,13 @@ namespace Neptuo.Templates.Compilation.Parsers
                 observer.Observer.CreateBuilder().Parse(context, codeObject, observer.Attributes);
         }
 
-        private void GenerateRecursive(Helper helper, IContentBuilderRegistry buildeRegistry, IEnumerable<XmlNode> childNodes)
+        private void GenerateRecursive(Helper helper, IContentBuilderRegistry buildeRegistry, IEnumerable<IXmlNode> childNodes)
         {
-            foreach (XmlNode node in childNodes)
+            foreach (IXmlNode node in childNodes)
             {
-                XmlElement element = node as XmlElement;
-                if (element != null)
+                if (node.NodeType == XmlNodeType.Element)
                 {
+                    IXmlElement element = (IXmlElement)node;
                     IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(builderRegistry, Utils.GetXmlNsNamespace(element));
                     if (Utils.NeedsServerProcessing(newBuilderRegistry, element))
                     {
@@ -88,14 +87,19 @@ namespace Neptuo.Templates.Compilation.Parsers
                     else
                     {
                         helper.FormatStartElement(element);
-                        GenerateRecursive(helper, buildeRegistry, element.ChildNodes.ToEnumerable());
+                        GenerateRecursive(helper, buildeRegistry, element.ChildNodes);
                         helper.FormatEndElement(element);
                     }
                 }
-                else if (node.GetType() == typeof(XmlText))
+                else if (node.NodeType == XmlNodeType.Text)
                 {
-                    XmlText text = node as XmlText;
-                    helper.Content.Append(text.InnerText);
+                    IXmlText text = (IXmlText)node;
+                    helper.Content.Append(text.Text);
+                }
+                else if (node.NodeType == XmlNodeType.Comment)
+                {
+                    IXmlText text = (IXmlText)node;
+                    helper.Content.Append("<!--" + text.Text + "-->");
                 }
             }
             FlushContent(helper);
@@ -111,9 +115,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         private void AppendPlainText(string text, Helper helper)
         {
-            if (String.IsNullOrWhiteSpace(text))
-                return;
-
+            //if (String.IsNullOrWhiteSpace(text))
+            //    return;
             builderRegistry.GetLiteralBuilder().Parse(new XmlContentBuilderContext(this, helper, builderRegistry), text);
         }
     }

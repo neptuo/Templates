@@ -5,21 +5,20 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class BaseTypeObserverBuilder : BaseObserverBuilder
     {
-        protected abstract Type GetObserverType(IEnumerable<XmlAttribute> attributes);
-        protected abstract ObserverLivecycle GetObserverScope(IContentBuilderContext context, IEnumerable<XmlAttribute> attributes);
+        protected abstract Type GetObserverType(IEnumerable<IXmlAttribute> attributes);
+        protected abstract ObserverLivecycle GetObserverScope(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes);
 
-        protected override IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<XmlAttribute> attributes)
+        protected override IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes)
         {
             return new ObserverCodeObject(GetObserverType(attributes), GetObserverScope(context, attributes));
         }
 
-        protected override IObserverInfo GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<XmlAttribute> attributes)
+        protected override IObserverInfo GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             return new TypeInfo(GetObserverType(attributes));
         }
@@ -34,12 +33,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ListAddPropertyDescriptor(propertyInfo);
         }
 
-        protected override void ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<XmlAttribute> unboundAttributes)
+        protected override void ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<IXmlAttribute> unboundAttributes)
         {
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject != null)
             {
-                foreach (XmlAttribute attribute in unboundAttributes)
+                foreach (IXmlAttribute attribute in unboundAttributes)
                     BaseBuilder.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
             }
             else

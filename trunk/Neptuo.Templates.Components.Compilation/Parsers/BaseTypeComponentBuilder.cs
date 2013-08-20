@@ -8,25 +8,24 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class BaseTypeComponentBuilder : BaseComponentBuilder
     {
-        protected abstract Type GetControlType(XmlElement element);
+        protected abstract Type GetControlType(IXmlElement element);
 
-        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, XmlElement element)
+        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             return new ComponentCodeObject(GetControlType(element));
         }
 
-        protected override IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected override IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
             return new TypeInfo(GetControlType(element));
         }
 
-        protected override void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, XmlAttribute attribute)
+        protected override void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject != null)

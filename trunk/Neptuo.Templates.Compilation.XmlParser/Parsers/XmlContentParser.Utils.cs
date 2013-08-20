@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -10,14 +9,18 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public static class Utils
         {
-            public static bool FindChildNode(XmlElement element, string name, out XmlNode result)
+            public static bool FindChildNode(IXmlElement sourceElement, string name, out IXmlNode result)
             {
-                foreach (XmlNode node in element.ChildNodes)
+                foreach (IXmlNode node in sourceElement.ChildNodes)
                 {
-                    if (node.Name.ToLowerInvariant() == name)
+                    if (node.NodeType == XmlNodeType.Element)
                     {
-                        result = node;
-                        return true;
+                        IXmlElement element = (IXmlElement)node;
+                        if (element.Name.ToLowerInvariant() == name)
+                        {
+                            result = node;
+                            return true;
+                        }
                     }
                 }
 
@@ -25,21 +28,29 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return false;
             }
 
-            public static IEnumerable<XmlNode> FindNotUsedChildNodes(XmlNodeList childNodes, HashSet<string> usedNodes)
+            public static IEnumerable<IXmlNode> FindNotUsedChildNodes(IEnumerable<IXmlNode> childNodes, HashSet<string> usedNodes)
             {
-                foreach (XmlNode node in childNodes)
+                foreach (IXmlNode node in childNodes)
                 {
-                    if (!usedNodes.Contains(node.Name.ToLowerInvariant()))
+                    if (node.NodeType == XmlNodeType.Element)
+                    {
+                        IXmlElement element = (IXmlElement)node;
+                        if (!usedNodes.Contains(element.Name.ToLowerInvariant()))
+                            yield return node;
+                    }
+                    else
+                    {
                         yield return node;
+                    }
                 }
             }
 
-            public static bool NeedsServerProcessing(IContentBuilderRegistry builderRegistry, XmlElement element)
+            public static bool NeedsServerProcessing(IContentBuilderRegistry builderRegistry, IXmlElement element)
             {
                 if (builderRegistry.ContainsComponent(element.Prefix, element.LocalName))
                     return true;
 
-                foreach (XmlAttribute attribute in element.Attributes)
+                foreach (IXmlAttribute attribute in element.Attributes)
                 {
                     if(builderRegistry.ContainsObserver(attribute.Prefix, attribute.LocalName))
                         return true;
@@ -48,10 +59,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return false;
             }
 
-            public static IEnumerable<NamespaceDeclaration> GetXmlNsNamespace(XmlElement element)
+            public static IEnumerable<NamespaceDeclaration> GetXmlNsNamespace(IXmlElement element)
             {
                 List<NamespaceDeclaration> result = new List<NamespaceDeclaration>();
-                foreach (XmlAttribute attribute in element.Attributes)
+                foreach (IXmlAttribute attribute in element.Attributes)
                 {
                     if (attribute.Prefix.ToLowerInvariant() == "xmlns")
                         result.Add(new NamespaceDeclaration(attribute.LocalName, attribute.Value));
