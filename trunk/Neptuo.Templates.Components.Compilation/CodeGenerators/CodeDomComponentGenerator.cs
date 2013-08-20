@@ -14,8 +14,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomComponentGenerator : TypeCodeDomObjectGenerator<ComponentCodeObject>
     {
-        private Dictionary<Type, CodeFieldReferenceExpression> perPage;
-        private Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>> perControl;
+        private Dictionary<Type, ComponentMethodInfo> perPage;
+        private Dictionary<Type, Dictionary<IComponentCodeObject, ComponentMethodInfo>> perControl;
 
         public CodeDomComponentGenerator(IFieldNameProvider fieldNameProvider)
             : base(fieldNameProvider)
@@ -24,129 +24,91 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
         {
             StorageProvider storage = context.CodeDomContext.CodeGeneratorContext.DependencyProvider.Resolve<StorageProvider>();
-            perPage = storage.Create<Dictionary<Type, CodeFieldReferenceExpression>>("PerPage");
-            perControl = storage.Create<Dictionary<Type, Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>>>("PerControl");
+            perPage = storage.Create<Dictionary<Type, ComponentMethodInfo>>("PerPage");
+            perControl = storage.Create<Dictionary<Type, Dictionary<IComponentCodeObject, ComponentMethodInfo>>>("PerControl");
 
-            CodeFieldReferenceExpression field = GenerateCompoment(context, component, component);
-            context.ParentBindMethod.Statements.Add(
-                new CodeMethodInvokeExpression(
-                    new CodeFieldReferenceExpression(
-                        new CodeThisReferenceExpression(),
-                        CodeDomStructureGenerator.Names.ComponentManagerField
-                    ),
-                    TypeHelper.MethodName<IComponentManager, object, Action>(m => m.AddComponent),
-                    new CodeFieldReferenceExpression(
-                        new CodeThisReferenceExpression(),
-                        field.FieldName
-                    ),
-                    new CodeMethodReferenceExpression(
-                        new CodeThisReferenceExpression(),
-                        FormatBindMethod(field.FieldName)
-                    )
-                )
-            );
-
-            AttachObservers(context, component, field.FieldName);
+            CodeExpression field = GenerateCompoment(context, component);
             return field;
         }
 
-        protected void AttachObservers(CodeObjectExtensionContext context, IComponentCodeObject component, string componentFieldName)
+        protected override bool RequiresGlobalField<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
         {
-            foreach (ObserverCodeObject codeObject in component.Observers)
-                AttachObserver(context, codeObject, component, componentFieldName);
+            ObserverCodeObject observerCodeObject = codeObject as ObserverCodeObject;
+            if (observerCodeObject != null && observerCodeObject.ObserverLivecycle == ObserverLivecycle.PerPage)
+                return true;
+
+            return base.RequiresGlobalField(context, codeObject);
         }
 
-        protected void AttachObserver(CodeObjectExtensionContext context, ObserverCodeObject observer, IComponentCodeObject component, string componentFieldName)
+        protected override void AppendToCreateMethod<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
+        {
+            base.AppendToCreateMethod<TCodeObject>(context, codeObject, createMethod);
+
+            ComponentCodeObject componentCodeObject = codeObject as ComponentCodeObject;
+            if (componentCodeObject != null && componentCodeObject.Observers.Any())
+                AttachObservers(context, componentCodeObject, createMethod);
+        }
+
+        protected virtual void AttachObservers(CodeObjectExtensionContext context, IComponentCodeObject component, ComponentMethodInfo createMethod)
+        {
+            foreach (ObserverCodeObject codeObject in component.Observers)
+                AttachObserver(context, codeObject, component, createMethod);
+        }
+
+        protected virtual void AttachObserver(CodeObjectExtensionContext context, ObserverCodeObject observer, IComponentCodeObject component, ComponentMethodInfo createMethod)
         {
             bool newObserver = false;
-            CodeFieldReferenceExpression observerField = null;
-            //if (observer.IsNew)
-            //{
-            //    observerField = GenerateCompoment(context, observer, observer);
-            //    newObserver = true;
-
-            //    if (observer.ObserverLivecycle == ObserverLivecycle.PerControl)
-            //    {
-            //        if (!perControl.ContainsKey(observer.Type))
-            //            perControl.Add(observer.Type, new Dictionary<IComponentCodeObject, string>());
-
-            //        perControl[observer.Type].Add(component, observerField.FieldName);
-            //    }
-            //    else if (observer.ObserverLivecycle == ObserverLivecycle.PerPage)
-            //    {
-            //        perPage.Add(observer.Type, observerField.FieldName);
-            //    }
-            //}
-            //else
-            //{
-            //    if (observer.ObserverLivecycle == ObserverLivecycle.PerControl)
-            //        observerField = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), perControl[observer.Type][component]);
-            //    else if (observer.ObserverLivecycle == ObserverLivecycle.PerPage)
-            //        observerField = new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), perPage[observer.Type]);
-            //}
-
+            ComponentMethodInfo observerMethodInfo = null;
+            
             if (observer.ObserverLivecycle == ObserverLivecycle.PerAttribute)
             {
-                observerField = GenerateCompoment(context, observer, observer);
+                observerMethodInfo = GenerateObserver(context, observer);
                 newObserver = true;
             }
             else if (observer.ObserverLivecycle == ObserverLivecycle.PerControl)
             {
                 if (!perControl.ContainsKey(observer.Type))
-                    perControl.Add(observer.Type, new Dictionary<IComponentCodeObject, CodeFieldReferenceExpression>());
+                    perControl.Add(observer.Type, new Dictionary<IComponentCodeObject, ComponentMethodInfo>());
 
                 if (!perControl[observer.Type].ContainsKey(component))
                 {
-                    observerField = GenerateCompoment(context, observer, observer);
-                    perControl[observer.Type].Add(component, observerField);
+                    observerMethodInfo = GenerateObserver(context, observer);
+                    perControl[observer.Type].Add(component, observerMethodInfo);
                     newObserver = true;
                 }
-                observerField = perControl[observer.Type][component];
+                observerMethodInfo = perControl[observer.Type][component];
             }
             else if (observer.ObserverLivecycle == ObserverLivecycle.PerPage)
             {
                 if (!perPage.ContainsKey(observer.Type))
                 {
-                    observerField = GenerateCompoment(context, observer, observer);
-                    perPage.Add(observer.Type, observerField);
+                    observerMethodInfo = GenerateObserver(context, observer);
+                    perPage.Add(observer.Type, observerMethodInfo);
                     newObserver = true;
                 }
-                observerField = perPage[observer.Type];
+                observerMethodInfo = perPage[observer.Type];
             }
 
-            if (observerField != null)
+            if (observerMethodInfo != null)
             {
-                if (!newObserver)
-                {
-                    context.ParentBindMethod.Statements.Add(
-                        new CodeMethodInvokeExpression(
-                            new CodeThisReferenceExpression(),
-                            FormatCreateMethod(observerField.FieldName)
-                        )
-                    );
-                }
-
-                context.ParentBindMethod.Statements.Add(
+                createMethod.Method.Statements.Add(
                     new CodeMethodInvokeExpression(
                         new CodeFieldReferenceExpression(
                             new CodeThisReferenceExpression(),
                             CodeDomStructureGenerator.Names.ComponentManagerField
                         ),
-                        TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action>(m => m.AttachObserver),
+                        TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action<IObserver>>(m => m.AttachObserver),
                         new CodeFieldReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            componentFieldName
+                            null,
+                            createMethod.FieldName
                         ),
-                        new CodeFieldReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            observerField.FieldName
-                        ),
+                        GenerateComponentReturnExpression(context, observer, observerMethodInfo),
                         new CodeMethodReferenceExpression(
                             new CodeThisReferenceExpression(),
-                            newObserver ? FormatBindMethod(observerField.FieldName) : GenerateBindMethod(
-                                context, 
-                                observer, 
-                                observerField.FieldName, 
+                            newObserver ? FormatBindMethod(observerMethodInfo.FieldName) : GenerateBindMethod(
+                                context,
+                                observer,
+                                observerMethodInfo.FieldName,
                                 FormatBindMethod(GenerateFieldName())
                             ).Name
                         )
@@ -157,6 +119,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 throw new NotImplementedException(String.Format("This '{0}' observer live cycle is not supported!", observer.ObserverLivecycle));
             }
+        }
+
+        protected virtual ComponentMethodInfo GenerateObserver<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        {
+            string fieldName = GenerateFieldName();
+            ComponentMethodInfo createMethod = GenerateCreateMethod(context, codeObject, fieldName);
+
+            GenerateBindMethod(context, codeObject, fieldName, null);
+            return createMethod;
         }
     }
 }

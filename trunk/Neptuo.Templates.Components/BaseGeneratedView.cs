@@ -32,7 +32,7 @@ namespace Neptuo.Templates
             componentManager.AddComponent(viewPage, CreateViewPageControls);
         }
 
-        protected abstract void CreateViewPageControls();
+        protected abstract void CreateViewPageControls(IViewPage viewPage);
 
         public void Init()
         {

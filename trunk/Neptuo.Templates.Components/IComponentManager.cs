@@ -12,9 +12,10 @@ namespace Neptuo.Templates
     /// </summary>
     public interface IComponentManager
     {
-        void AddComponent(object component, Action propertyBinder);
+        void AddComponent<T>(T component, Action<T> propertyBinder);
 
-        void AttachObserver(IControl control, IObserver observer, Action propertyBinder);
+        void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
+            where T : IObserver;
 
         void AttachInitComplete(IControl control, OnInitComplete handler);
 

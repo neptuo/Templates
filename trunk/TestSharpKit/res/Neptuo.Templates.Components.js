@@ -72,7 +72,7 @@ var Neptuo$Templates$BaseGeneratedView =
         },
         CreateControls: function ()
         {
-            this.componentManager.AddComponent(this.viewPage, $CreateDelegate(this, this.CreateViewPageControls));
+            this.componentManager.AddComponent$1(Neptuo.Templates.IViewPage.ctor, this.viewPage, $CreateDelegate(this, this.CreateViewPageControls));
         },
         Init: function ()
         {
@@ -165,14 +165,14 @@ var Neptuo$Templates$ComponentManager =
     {
         ctor: function ()
         {
-            this.entries = new System.Collections.Generic.Dictionary$2.ctor(System.Object.ctor, Neptuo.Templates.ComponentManager.ComponentEntry.ctor);
+            this.entries = new System.Collections.Generic.Dictionary$2.ctor(System.Object.ctor, Neptuo.Templates.ComponentManager.BaseComponentEntry.ctor);
             System.Object.ctor.call(this);
         },
-        AddComponent: function (component, propertyBinder)
+        AddComponent$1: function (T, component, propertyBinder)
         {
             var entry = (function ()
             {
-                var $v1 = new Neptuo.Templates.ComponentManager.ComponentEntry.ctor();
+                var $v1 = new Neptuo.Templates.ComponentManager.ComponentEntry$1.ctor(T);
                 $v1.set_Control(component);
                 $v1.set_ArePropertiesBound(propertyBinder == null);
                 $v1.set_PropertyBinder(propertyBinder);
@@ -180,11 +180,11 @@ var Neptuo$Templates$ComponentManager =
             }).call(this);
             this.entries.Add(component, entry);
         },
-        AttachObserver: function (control, observer, propertyBinder)
+        AttachObserver$1: function (T, control, observer, propertyBinder)
         {
             if (!this.entries.ContainsKey(control))
                 return;
-            this.entries.get_Item$$TKey(control).get_Observers().Add(new Neptuo.Templates.ComponentManager.ObserverInfo.ctor(observer, propertyBinder));
+            this.entries.get_Item$$TKey(control).get_Observers().Add(new Neptuo.Templates.ComponentManager.ObserverInfo$1.ctor(T, observer, propertyBinder));
         },
         AttachInitComplete: function (control, handler)
         {
@@ -201,10 +201,7 @@ var Neptuo$Templates$ComponentManager =
             if (entry.get_IsDisposed())
                 return;
             if (!entry.get_ArePropertiesBound())
-            {
-                entry.get_PropertyBinder()();
-                entry.set_ArePropertiesBound(true);
-            }
+                entry.BindProperties();
             entry.set_IsInited(true);
             var target = As(entry.get_Control(), Neptuo.Templates.Controls.IControl.ctor);
             if (target == null)
@@ -219,7 +216,7 @@ var Neptuo$Templates$ComponentManager =
                     var info = $it4.get_Current();
                     if (!info.get_ArePropertiesBound())
                     {
-                        info.get_PropertyBinder()();
+                        info.BindProperties();
                         info.set_ArePropertiesBound(true);
                     }
                     info.get_Observer().OnInit(args);
@@ -266,7 +263,7 @@ var Neptuo$Templates$ComponentManager =
                     var info = $it6.get_Current();
                     if (!info.get_ArePropertiesBound())
                     {
-                        info.get_PropertyBinder()();
+                        info.BindProperties();
                         info.set_ArePropertiesBound(true);
                     }
                     info.get_Observer().Render(args, writer);
@@ -296,9 +293,9 @@ var Neptuo$Templates$ComponentManager =
     }
 };
 JsTypes.push(Neptuo$Templates$ComponentManager);
-var Neptuo$Templates$ComponentManager$ComponentEntry =
+var Neptuo$Templates$ComponentManager$BaseComponentEntry =
 {
-    fullname: "Neptuo.Templates.ComponentManager.ComponentEntry",
+    fullname: "Neptuo.Templates.ComponentManager.BaseComponentEntry",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Class",
@@ -326,7 +323,7 @@ var Neptuo$Templates$ComponentManager$ComponentEntry =
         {
             this._Control = value;
         },
-        PropertyBinder$$: "System.Action",
+        PropertyBinder$$: "System.Delegate",
         get_PropertyBinder: function ()
         {
             return this._PropertyBinder;
@@ -382,7 +379,51 @@ var Neptuo$Templates$ComponentManager$ComponentEntry =
         }
     }
 };
-JsTypes.push(Neptuo$Templates$ComponentManager$ComponentEntry);
+JsTypes.push(Neptuo$Templates$ComponentManager$BaseComponentEntry);
+var Neptuo$Templates$ComponentManager$ComponentEntry$1 =
+{
+    fullname: "Neptuo.Templates.ComponentManager.ComponentEntry$1",
+    baseTypeName: "Neptuo.Templates.ComponentManager.BaseComponentEntry",
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (T)
+        {
+            this.T = T;
+            this.control = null;
+            this.propertyBinder = null;
+            Neptuo.Templates.ComponentManager.BaseComponentEntry.ctor.call(this);
+        },
+        Control$$: "System.Object",
+        get_Control: function ()
+        {
+            return this.control;
+        },
+        set_Control: function (value)
+        {
+            this.control = Cast(value, this.T);
+        },
+        PropertyBinder$$: "System.Delegate",
+        get_PropertyBinder: function ()
+        {
+            return this.propertyBinder;
+        },
+        set_PropertyBinder: function (value)
+        {
+            this.propertyBinder = Cast(value, System.Action$1.ctor);
+        },
+        BindProperties: function ()
+        {
+            if (this.propertyBinder != null)
+            {
+                this.propertyBinder(this.control);
+                this.set_ArePropertiesBound(true);
+            }
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$ComponentManager$ComponentEntry$1);
 var Neptuo$Templates$ComponentManager$ObserverInfo =
 {
     fullname: "Neptuo.Templates.ComponentManager.ObserverInfo",
@@ -409,7 +450,7 @@ var Neptuo$Templates$ComponentManager$ObserverInfo =
         {
             this._Observer = value;
         },
-        PropertyBinder$$: "System.Action",
+        PropertyBinder$$: "System.Delegate",
         get_PropertyBinder: function ()
         {
             return this._PropertyBinder;
@@ -430,6 +471,50 @@ var Neptuo$Templates$ComponentManager$ObserverInfo =
     }
 };
 JsTypes.push(Neptuo$Templates$ComponentManager$ObserverInfo);
+var Neptuo$Templates$ComponentManager$ObserverInfo$1 =
+{
+    fullname: "Neptuo.Templates.ComponentManager.ObserverInfo$1",
+    baseTypeName: "Neptuo.Templates.ComponentManager.ObserverInfo",
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (T, observer, propertyBinder)
+        {
+            this.T = T;
+            this.observer = null;
+            this.propertyBinder = null;
+            Neptuo.Templates.ComponentManager.ObserverInfo.ctor.call(this, observer, propertyBinder);
+        },
+        Observer$$: "Neptuo.Templates.Observers.IObserver",
+        get_Observer: function ()
+        {
+            return this.observer;
+        },
+        set_Observer: function (value)
+        {
+            this.observer = Cast(value, this.T);
+        },
+        PropertyBinder$$: "System.Delegate",
+        get_PropertyBinder: function ()
+        {
+            return this.propertyBinder;
+        },
+        set_PropertyBinder: function (value)
+        {
+            this.propertyBinder = Cast(value, System.Action$1.ctor);
+        },
+        BindProperties: function ()
+        {
+            if (this.propertyBinder != null)
+            {
+                this.propertyBinder(this.observer);
+                this.set_ArePropertiesBound(true);
+            }
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$ComponentManager$ObserverInfo$1);
 var Neptuo$Templates$Controls$ComponentAttribute =
 {
     fullname: "Neptuo.Templates.Controls.ComponentAttribute",

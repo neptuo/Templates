@@ -9,16 +9,16 @@ namespace Neptuo.Templates
 {
     public partial class ComponentManager : IComponentManager
     {
-        private Dictionary<object, ComponentEntry> entries = new Dictionary<object, ComponentEntry>();
+        private Dictionary<object, BaseComponentEntry> entries = new Dictionary<object, BaseComponentEntry>();
 
         public ComponentManager()
         {
 
         }
 
-        public void AddComponent(object component, Action propertyBinder)
+        public void AddComponent<T>(T component, Action<T> propertyBinder)
         {
-            ComponentEntry entry = new ComponentEntry
+            BaseComponentEntry entry = new ComponentEntry<T>
             {
                 Control = component,
                 ArePropertiesBound = propertyBinder == null,
@@ -27,13 +27,14 @@ namespace Neptuo.Templates
             entries.Add(component, entry);
         }
 
-        public void AttachObserver(IControl control, IObserver observer, Action propertyBinder)
+        public void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
+            where T : IObserver
         {
             //throw new LivecycleException("Control is not registered, unnable to register observer");
             if (!entries.ContainsKey(control))
                 return;
 
-            entries[control].Observers.Add(new ObserverInfo(observer, propertyBinder));
+            entries[control].Observers.Add(new ObserverInfo<T>(observer, propertyBinder));
         }
 
         public void AttachInitComplete(IControl control, OnInitComplete handler)
@@ -49,7 +50,7 @@ namespace Neptuo.Templates
                 return;
 
             //throw new LivecycleException("Control is already inited!");
-            ComponentEntry entry = entries[control];
+            BaseComponentEntry entry = entries[control];
             if (entry.IsInited)
                 return;
 
@@ -58,10 +59,7 @@ namespace Neptuo.Templates
                 return;
 
             if (!entry.ArePropertiesBound)
-            {
-                entry.PropertyBinder();
-                entry.ArePropertiesBound = true;
-            }
+                entry.BindProperties();
 
             entry.IsInited = true;
 
@@ -77,7 +75,7 @@ namespace Neptuo.Templates
                 {
                     if (!info.ArePropertiesBound)
                     {
-                        info.PropertyBinder();
+                        info.BindProperties();
                         info.ArePropertiesBound = true;
                     }
                     info.Observer.OnInit(args);
@@ -110,7 +108,7 @@ namespace Neptuo.Templates
             if (!entries.ContainsKey(control))
                 return;
 
-            ComponentEntry entry = entries[control];
+            BaseComponentEntry entry = entries[control];
 
             if (!entry.IsInited)
                 Init(control);
@@ -131,7 +129,7 @@ namespace Neptuo.Templates
                 {
                     if (!info.ArePropertiesBound)
                     {
-                        info.PropertyBinder();
+                        info.BindProperties();
                         info.ArePropertiesBound = true;
                     }
                     info.Observer.Render(args, writer);
@@ -151,7 +149,7 @@ namespace Neptuo.Templates
             if (!entries.ContainsKey(component))
                 return;
 
-            ComponentEntry entry = entries[component];
+            BaseComponentEntry entry = entries[component];
 
             if (!entry.IsInited)
                 Init(component);

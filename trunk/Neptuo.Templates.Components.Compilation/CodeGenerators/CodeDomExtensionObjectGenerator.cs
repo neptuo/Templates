@@ -21,33 +21,28 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
-            CodeFieldReferenceExpression field = GenerateCompoment(context, codeObject, codeObject);
+            CodeExpression field = GenerateCompoment(context, codeObject);
             
-            context.ParentBindMethod.Statements.Add(
-                new CodeMethodInvokeExpression(
-                    new CodeThisReferenceExpression(),
-                    FormatBindMethod(field.FieldName)
-                )
-            );
+            //context.ParentBindMethod.Statements.Add(
+            //    new CodeMethodInvokeExpression(
+            //        new CodeThisReferenceExpression(),
+            //        FormatBindMethod(field.FieldName)
+            //    )
+            //);
             
-            CodeMemberField parentField = FindParentField(context);
-
             return new CodeCastExpression(
                 propertyDescriptor.Property.Type,
                 new CodeMethodInvokeExpression(
-                    new CodeFieldReferenceExpression(
-                        new CodeThisReferenceExpression(),
-                        field.FieldName
-                    ),
+                    field,
                     TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue),
                     new CodeObjectCreateExpression(
                         typeof(DefaultMarkupExtensionContext),
                         new CodeFieldReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            parentField.Name
+                            null,
+                            context.ParentFieldName
                         ),
                         new CodeMethodInvokeExpression(
-                            new CodeTypeOfExpression(parentField.Type),
+                            new CodeTypeOfExpression(context.ParentBindMethod.Parameters[0].Type),
                             TypeHelper.MethodName<Type, string, PropertyInfo>(t => t.GetProperty),
                             new CodePrimitiveExpression(propertyDescriptor.Property.Name)
                         ),
@@ -60,14 +55,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             );
         }
 
-        private CodeMemberField FindParentField(CodeObjectExtensionContext context)
+        protected override CodeExpression GenerateCompoment<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
         {
-            foreach (CodeTypeMember member in context.BaseStructure.Class.Members)
-            {
-                if (member is CodeMemberField && member.Name == context.ParentFieldName)
-                    return (CodeMemberField)member;
-            }
-            return null;
+            string fieldName = GenerateFieldName();
+            ComponentMethodInfo createMethod = GenerateCreateMethod(context, codeObject, fieldName);
+            return GenerateComponentReturnExpression(context, codeObject, createMethod);
         }
+
+        protected override void AppendToCreateMethod<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
+        {
+            base.AppendToCreateMethod<TCodeObject>(context, codeObject, createMethod);
+            GenerateBindMethodStatements(context, codeObject, createMethod);
+        }
+
+        protected override void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
+        { }
     }
 }
