@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (typeCodeObject != null)
                 BaseBuilder.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
             else
-                throw new NotImplementedException("Can't process unbound attributes!");
+                throw new NotImplementedException(String.Format("Can't process unbound attributes! Attribute {0} on {1}.", attribute.Name, attribute.OwnerElement.Name));
         }
 
         protected override IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo)
