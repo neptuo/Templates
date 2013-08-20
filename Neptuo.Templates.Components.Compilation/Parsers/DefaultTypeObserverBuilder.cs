@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -19,12 +18,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             Scope = scope;
         }
 
-        protected override Type GetObserverType(IEnumerable<XmlAttribute> attributes)
+        protected override Type GetObserverType(IEnumerable<IXmlAttribute> attributes)
         {
             return Type;
         }
 
-        protected override ObserverLivecycle GetObserverScope(IContentBuilderContext context, IEnumerable<XmlAttribute> attributes)
+        protected override ObserverLivecycle GetObserverScope(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes)
         {
             return Scope;
         }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -38,12 +37,12 @@ namespace Neptuo.Templates.Compilation.Parsers
         public class ParsedObserver
         {
             public IObserverRegistration Observer { get; set; }
-            public List<XmlAttribute> Attributes { get; set; }
+            public List<IXmlAttribute> Attributes { get; set; }
 
-            public ParsedObserver(IObserverRegistration observer, params XmlAttribute[] attributes)
+            public ParsedObserver(IObserverRegistration observer, params IXmlAttribute[] attributes)
             {
                 Observer = observer;
-                Attributes = new List<XmlAttribute>(attributes);
+                Attributes = new List<IXmlAttribute>(attributes);
             }
         }
     }

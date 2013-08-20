@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             public IPropertyDescriptor Parent { get; set; }
             public IContentParserContext Context { get; protected set; }
-            public XmlDocument Document { get; protected set; }
+            public IXmlElement DocumentElement { get; protected set; }
             private IContentBuilderRegistry BuilderRegistry { get; set; }
             public StringBuilder Content { get; protected set; }
 
@@ -25,10 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Parent = context.PropertyDescriptor;
 
                 if (xml != null)
-                {
-                    Document = new XmlDocument();
-                    Document.LoadXml(CreateRootElement(xml));
-                }
+                    DocumentElement = XmlDocumentSupport.LoadXml(CreateRootElement(xml));
             }
 
             public void WithParent(IPropertyDescriptor parent, Action execute)
@@ -39,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Parent = current;
             }
 
-            public void FormatEmptyElement(XmlElement element)
+            public void FormatEmptyElement(IXmlElement element)
             {
                 Content.AppendFormat("<{0}", element.Name);
                 foreach (XmlAttribute attribute in element.Attributes)
@@ -48,7 +45,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Content.Append(" />");
             }
 
-            public void FormatStartElement(XmlElement element)
+            public void FormatStartElement(IXmlElement element)
             {
                 Content.AppendFormat("<{0}", element.Name);
                 foreach (XmlAttribute attribute in element.Attributes)
@@ -57,7 +54,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Content.Append(">");
             }
 
-            public void FormatEndElement(XmlElement element)
+            public void FormatEndElement(IXmlElement element)
             {
                 Content.AppendFormat("</{0}>", element.Name);
             }

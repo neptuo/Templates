@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class BaseComponentBuilder : IComponentBuilder
     {
-        public void Parse(IContentBuilderContext context, XmlElement element)
+        public void Parse(IContentBuilderContext context, IXmlElement element)
         {
             IComponentCodeObject codeObject = CreateCodeObject(context, element);
             BindProperties(context, codeObject, element);
@@ -24,13 +23,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             context.Parent.SetValue(codeObject);
         }
 
-        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, XmlElement element);
-        protected abstract IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element);
+        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
+        protected abstract IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
-        protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, XmlElement element)
+        protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
             IComponentInfo componentDefinition = GetComponentDefinition(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
@@ -49,10 +48,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             BindContentElements(context, bindContext, codeObject, defaultProperty, element.ChildNodes);
         }
 
-        protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlAttributeCollection attributes)
+        protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             // Bind attributes
-            foreach (XmlAttribute attribute in attributes)
+            foreach (IXmlAttribute attribute in attributes)
             {
                 string attributeName = attribute.Name.ToLowerInvariant();
                 IPropertyInfo propertyInfo;
@@ -81,37 +80,41 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected virtual void BindInnerElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, XmlNodeList childNodes)
+        protected virtual void BindInnerElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IEnumerable<IXmlNode> childNodes)
         {
             // Bind inner elements
-            foreach (XmlNode childNode in childNodes)
+            foreach (IXmlNode childNode in childNodes)
             {
-                string childName = childNode.Name.ToLowerInvariant();
-                IPropertyInfo propertyInfo;
-                if (!bindContext.BoundProperies.Contains(childName) && bindContext.Properties.TryGetValue(childName, out propertyInfo))
+                if (childNode.NodeType == XmlNodeType.Element)
                 {
-                    ResolvePropertyValue(context, codeObject, propertyInfo, childNode.ChildNodes.ToEnumerable());
-                    bindContext.BoundProperies.Add(childName);
+                    IXmlElement element = (IXmlElement)childNode;
+                    string childName = element.Name.ToLowerInvariant();
+                    IPropertyInfo propertyInfo;
+                    if (!bindContext.BoundProperies.Contains(childName) && bindContext.Properties.TryGetValue(childName, out propertyInfo))
+                    {
+                        ResolvePropertyValue(context, codeObject, propertyInfo, element.ChildNodes);
+                        bindContext.BoundProperies.Add(childName);
+                    }
                 }
             }
         }
 
-        protected virtual void BindContentElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IPropertyInfo defaultProperty, XmlNodeList childNodes)
+        protected virtual void BindContentElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IPropertyInfo defaultProperty, IEnumerable<IXmlNode> childNodes)
         {
             // Bind content elements
             if (defaultProperty != null && !bindContext.BoundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
             {
-                IEnumerable<XmlNode> defaultChildNodes = XmlContentParser.Utils.FindNotUsedChildNodes(childNodes, bindContext.BoundProperies);
+                IEnumerable<IXmlNode> defaultChildNodes = XmlContentParser.Utils.FindNotUsedChildNodes(childNodes, bindContext.BoundProperies);
                 if (defaultChildNodes.Any())
                     ResolvePropertyValue(context, codeObject, defaultProperty, defaultChildNodes);
             }
         }
 
-        protected virtual void ProcessUnboundAttributes(IContentBuilderContext context, IComponentCodeObject codeObject, List<XmlAttribute> unboundAttributes)
+        protected virtual void ProcessUnboundAttributes(IContentBuilderContext context, IComponentCodeObject codeObject, List<IXmlAttribute> unboundAttributes)
         {
-            List<XmlAttribute> usedAttributes = new List<XmlAttribute>();
+            List<IXmlAttribute> usedAttributes = new List<IXmlAttribute>();
             XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();
-            foreach (XmlAttribute attribute in unboundAttributes)
+            foreach (IXmlAttribute attribute in unboundAttributes)
             {
                 bool boundAttribute = false;
 
@@ -139,15 +142,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             context.Parser.AttachObservers(context, codeObject, observers);
         }
 
-        protected abstract void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, XmlAttribute unboundAttribute);
+        protected abstract void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute unboundAttribute);
 
-        protected virtual void ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<XmlNode> content)
+        protected virtual void ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             if (typeof(string) == propertyInfo.Type)
             {
                 //Get string and add as plain value
                 StringBuilder contentValue = new StringBuilder();
-                foreach (XmlNode node in content)
+                foreach (IXmlNode node in content)
                     contentValue.Append(node.OuterXml);
 
                 IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
@@ -167,10 +170,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             else
             {
                 // Count elements
-                IEnumerable<XmlElement> elements = content.OfType<XmlElement>();
+                IEnumerable<IXmlElement> elements = content.OfType<IXmlElement>();
                 if (elements.Any())
                 {
-                    // One XmlElement is ok
+                    // One IXmlElement is ok
                     if (elements.Count() == 1)
                     {
                         IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
@@ -187,7 +190,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 {
                     //Get string and add as plain value
                     StringBuilder contentValue = new StringBuilder();
-                    foreach (XmlNode node in content)
+                    foreach (IXmlNode node in content)
                         contentValue.Append(node.OuterXml);
 
                     IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);

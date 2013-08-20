@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Xml;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -18,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Type = type;
         }
 
-        protected override Type GetControlType(XmlElement element)
+        protected override Type GetControlType(IXmlElement element)
         {
             return Type;
         }
