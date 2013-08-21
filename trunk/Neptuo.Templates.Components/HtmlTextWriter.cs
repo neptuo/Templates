@@ -104,6 +104,7 @@ namespace Neptuo.Templates
             }
             else
             {
+                IsOpenTag = false;
                 InnerWriter.Write(Html.Space);
                 InnerWriter.Write(Html.Slash);
                 InnerWriter.Write(Html.CloseTag);

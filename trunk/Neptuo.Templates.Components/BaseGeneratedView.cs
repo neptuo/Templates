@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Neptuo.Templates.Extensions;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -47,6 +49,27 @@ namespace Neptuo.Templates
         public void Dispose()
         {
             viewPage.Dispose();
+        }
+
+        protected IValueExtensionContext CreateValueExtensionContext(object targetObject, string targetProperty)
+        {
+            return new DefaultMarkupExtensionContext(
+                targetObject, 
+                targetObject.GetType().GetProperty(targetProperty), 
+                dependencyProvider
+            );
+        }
+
+        protected T CastValueTo<T>(object value)
+        {
+            if (value == null)
+                return default(T);
+
+            TypeConverter converter = TypeDescriptor.GetConverter(value);
+            if (converter.CanConvertTo(typeof(T)))
+                return (T)converter.ConvertTo(value, typeof(T));
+
+            throw new InvalidOperationException(String.Format("Unnable to convert to target type! Source type: {0}, target type: {1}", value.GetType(), typeof(T)));
         }
     }
 }
