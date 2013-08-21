@@ -27,6 +27,20 @@ if (typeof($CreateDelegate)=='undefined'){
         return delegate;
     }
 }
+if (typeof($CreateException)=='undefined') 
+{
+    var $CreateException = function(ex, error) 
+    {
+        if(error==null)
+            error = new Error();
+        if(ex==null)
+            ex = new System.Exception.ctor();       
+        error.message = ex.message;
+        for (var p in ex)
+           error[p] = ex[p];
+        return error;
+    }
+}
 if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
 var Neptuo$Templates$HtmlAttributeCollection =
@@ -242,7 +256,7 @@ var Neptuo$Templates$ComponentManager =
             if (control == null)
                 return;
             if (control.GetType() == Typeof(System.String.ctor))
-                writer.Write$$Object(control);
+                writer.Content$$Object(control);
             if (!this.entries.ContainsKey(control))
                 return;
             var entry = this.entries.get_Item$$TKey(control);
@@ -638,6 +652,191 @@ var Neptuo$Templates$HtmlAttribute =
     }
 };
 JsTypes.push(Neptuo$Templates$HtmlAttribute);
+var Neptuo$Templates$HtmlTextWriter =
+{
+    fullname: "Neptuo.Templates.HtmlTextWriter",
+    baseTypeName: "System.Object",
+    assemblyName: "Neptuo.Templates.Components",
+    interfaceNames: ["Neptuo.Templates.IHtmlWriter"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (innerWriter)
+        {
+            this._InnerWriter = null;
+            this._OpenTags = null;
+            this._IsOpenTag = false;
+            this._HasContent = false;
+            this._CanWriteAttribute = false;
+            System.Object.ctor.call(this);
+            this.set_InnerWriter(innerWriter);
+            this.set_OpenTags(new System.Collections.Generic.Stack$1.ctor(System.String.ctor));
+        },
+        InnerWriter$$: "System.IO.TextWriter",
+        get_InnerWriter: function ()
+        {
+            return this._InnerWriter;
+        },
+        set_InnerWriter: function (value)
+        {
+            this._InnerWriter = value;
+        },
+        OpenTags$$: "System.Collections.Generic.Stack`1[[System.String]]",
+        get_OpenTags: function ()
+        {
+            return this._OpenTags;
+        },
+        set_OpenTags: function (value)
+        {
+            this._OpenTags = value;
+        },
+        IsOpenTag$$: "System.Boolean",
+        get_IsOpenTag: function ()
+        {
+            return this._IsOpenTag;
+        },
+        set_IsOpenTag: function (value)
+        {
+            this._IsOpenTag = value;
+        },
+        HasContent$$: "System.Boolean",
+        get_HasContent: function ()
+        {
+            return this._HasContent;
+        },
+        set_HasContent: function (value)
+        {
+            this._HasContent = value;
+        },
+        CanWriteAttribute$$: "System.Boolean",
+        get_CanWriteAttribute: function ()
+        {
+            return this._CanWriteAttribute;
+        },
+        set_CanWriteAttribute: function (value)
+        {
+            this._CanWriteAttribute = value;
+        },
+        Content$$Object: function (content)
+        {
+            this.EnsureCloseOpeningTag();
+            this.get_InnerWriter().Write$$Object(content);
+            return this;
+        },
+        Content$$String: function (content)
+        {
+            this.EnsureCloseOpeningTag();
+            this.get_InnerWriter().Write$$String(content);
+            return this;
+        },
+        Tag: function (name)
+        {
+            this.EnsureCloseOpeningTag();
+            this.set_CanWriteAttribute(true);
+            this.set_HasContent(false);
+            this.set_IsOpenTag(true);
+            this.get_OpenTags().Push(name);
+            this.get_InnerWriter().Write$$Char("<");
+            this.get_InnerWriter().Write$$String(name);
+            return this;
+        },
+        CloseTag: function ()
+        {
+            this.WriteCloseTag(this.get_HasContent());
+            return this;
+        },
+        CloseFullTag: function ()
+        {
+            this.WriteCloseTag(true);
+            return this;
+        },
+        Attribute: function (name, value)
+        {
+            if (!this.get_CanWriteAttribute())
+                throw $CreateException(new Neptuo.Templates.HtmlTextWriterException.ctor("Unnable to write attribute in current state!"), new Error());
+            this.get_InnerWriter().Write$$Char(" ");
+            this.get_InnerWriter().Write$$String(name);
+            this.get_InnerWriter().Write$$Char("=");
+            this.get_InnerWriter().Write$$Char("\"");
+            this.get_InnerWriter().Write$$String(value);
+            this.get_InnerWriter().Write$$Char("\"");
+            return this;
+        },
+        WriteCloseTag: function (hasContent)
+        {
+            if (this.get_OpenTags().get_Count() == 0)
+                throw $CreateException(new Neptuo.Templates.HtmlTextWriterException.ctor("Unnable to close tag! All tags has been closed."), new Error());
+            var name = this.get_OpenTags().Pop();
+            if (hasContent)
+            {
+                this.EnsureCloseOpeningTag();
+                this.get_InnerWriter().Write$$Char("<");
+                this.get_InnerWriter().Write$$Char("/");
+                this.get_InnerWriter().Write$$String(name);
+                this.get_InnerWriter().Write$$Char(">");
+            }
+            else
+            {
+                this.get_InnerWriter().Write$$Char(" ");
+                this.get_InnerWriter().Write$$Char("/");
+                this.get_InnerWriter().Write$$Char(">");
+            }
+            this.set_HasContent(true);
+        },
+        EnsureCloseOpeningTag: function ()
+        {
+            if (this.get_IsOpenTag())
+                this.get_InnerWriter().Write$$Char(">");
+            this.set_IsOpenTag(false);
+            this.set_CanWriteAttribute(false);
+            this.set_HasContent(true);
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$HtmlTextWriter);
+var Neptuo$Templates$HtmlTextWriter$Html =
+{
+    fullname: "Neptuo.Templates.HtmlTextWriter.Html",
+    baseTypeName: "System.Object",
+    staticDefinition:
+    {
+        cctor: function ()
+        {
+            Neptuo.Templates.HtmlTextWriter.Html.StartTag = "<";
+            Neptuo.Templates.HtmlTextWriter.Html.CloseTag = ">";
+            Neptuo.Templates.HtmlTextWriter.Html.Slash = "/";
+            Neptuo.Templates.HtmlTextWriter.Html.Space = " ";
+            Neptuo.Templates.HtmlTextWriter.Html.Equal = "=";
+            Neptuo.Templates.HtmlTextWriter.Html.DoubleQuote = "\"";
+            Neptuo.Templates.HtmlTextWriter.Html.Quote = "\'";
+        }
+    },
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            System.Object.ctor.call(this);
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$HtmlTextWriter$Html);
+var Neptuo$Templates$HtmlTextWriterException =
+{
+    fullname: "Neptuo.Templates.HtmlTextWriterException",
+    baseTypeName: "System.Exception",
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (message)
+        {
+            System.Exception.ctor$$String.call(this, message);
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$HtmlTextWriterException);
 var Neptuo$Templates$IAttributeCollection = {fullname: "Neptuo.Templates.IAttributeCollection", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IAttributeCollection);
 var Neptuo$Templates$Controls$IContentControl = {fullname: "Neptuo.Templates.Controls.IContentControl", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", interfaceNames: ["Neptuo.Templates.Controls.IControl"], Kind: "Interface"};
@@ -648,283 +847,8 @@ var Neptuo$Templates$Extensions$IValueExtension = {fullname: "Neptuo.Templates.E
 JsTypes.push(Neptuo$Templates$Extensions$IValueExtension);
 var Neptuo$Templates$Extensions$IValueExtensionContext = {fullname: "Neptuo.Templates.Extensions.IValueExtensionContext", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$Extensions$IValueExtensionContext);
-var Neptuo$Templates$HtmlTextWriter =
-{
-    fullname: "Neptuo.Templates.HtmlTextWriter",
-    baseTypeName: "System.IO.TextWriter",
-    staticDefinition:
-    {
-        cctor: function ()
-        {
-        }
-    },
-    assemblyName: "Neptuo.Templates.Components",
-    Kind: "Class",
-    definition:
-    {
-        ctor$$TextWriter: function (writer)
-        {
-            this._InnerWriter = null;
-            System.IO.TextWriter.ctor.call(this);
-            this.set_InnerWriter(new System.Web.UI.HtmlTextWriter.ctor$$TextWriter(writer));
-        },
-        InnerWriter$$: "System.Web.UI.HtmlTextWriter",
-        get_InnerWriter: function ()
-        {
-            return this._InnerWriter;
-        },
-        set_InnerWriter: function (value)
-        {
-            this._InnerWriter = value;
-        },
-        ctor$$TextWriter$$String: function (writer, tabString)
-        {
-            this._InnerWriter = null;
-            System.IO.TextWriter.ctor.call(this);
-            this.set_InnerWriter(new System.Web.UI.HtmlTextWriter.ctor$$TextWriter$$String(writer, tabString));
-        },
-        Encoding$$: "System.Text.Encoding",
-        get_Encoding: function ()
-        {
-            return this.get_InnerWriter().get_Encoding();
-        },
-        Indent$$: "System.Int32",
-        get_Indent: function ()
-        {
-            return this.get_InnerWriter().get_Indent();
-        },
-        set_Indent: function (value)
-        {
-            this.get_InnerWriter().set_Indent(value);
-        },
-        NewLine$$: "System.String",
-        get_NewLine: function ()
-        {
-            return this.get_InnerWriter().get_NewLine();
-        },
-        set_NewLine: function (value)
-        {
-            this.get_InnerWriter().set_NewLine(value);
-        },
-        AddAttribute$$HtmlTextWriterAttribute$$String: function (key, value)
-        {
-            this.get_InnerWriter().AddAttribute$$HtmlTextWriterAttribute$$String(key, value);
-        },
-        AddAttribute$$String$$String: function (name, value)
-        {
-            this.get_InnerWriter().AddAttribute$$String$$String(name, value);
-        },
-        AddAttribute$$HtmlTextWriterAttribute$$String$$Boolean: function (key, value, fEncode)
-        {
-            this.get_InnerWriter().AddAttribute$$HtmlTextWriterAttribute$$String$$Boolean(key, value, fEncode);
-        },
-        AddAttribute$$String$$String$$Boolean: function (name, value, fEncode)
-        {
-            this.get_InnerWriter().AddAttribute$$String$$String$$Boolean(name, value, fEncode);
-        },
-        AddStyleAttribute$$HtmlTextWriterStyle$$String: function (key, value)
-        {
-            this.get_InnerWriter().AddStyleAttribute$$HtmlTextWriterStyle$$String(key, value);
-        },
-        AddStyleAttribute$$String$$String: function (name, value)
-        {
-            this.get_InnerWriter().AddStyleAttribute$$String$$String(name, value);
-        },
-        BeginRender: function ()
-        {
-            this.get_InnerWriter().BeginRender();
-        },
-        Close: function ()
-        {
-            this.get_InnerWriter().Close();
-        },
-        EndRender: function ()
-        {
-            this.get_InnerWriter().EndRender();
-        },
-        Flush: function ()
-        {
-            this.get_InnerWriter().Flush();
-        },
-        IsValidFormAttribute: function (attribute)
-        {
-            return this.get_InnerWriter().IsValidFormAttribute(attribute);
-        },
-        RenderBeginTag$$HtmlTextWriterTag: function (tagKey)
-        {
-            this.get_InnerWriter().RenderBeginTag$$HtmlTextWriterTag(tagKey);
-        },
-        RenderBeginTag$$String: function (tagName)
-        {
-            this.get_InnerWriter().RenderBeginTag$$String(tagName);
-        },
-        RenderEndTag: function ()
-        {
-            this.get_InnerWriter().RenderEndTag();
-        },
-        Write$$Boolean: function (value)
-        {
-            this.get_InnerWriter().Write$$Boolean(value);
-        },
-        Write$$Char: function (value)
-        {
-            this.get_InnerWriter().Write$$Char(value);
-        },
-        Write$$Char$Array: function (buffer)
-        {
-            this.get_InnerWriter().Write$$Char$Array(buffer);
-        },
-        Write$$Double: function (value)
-        {
-            this.get_InnerWriter().Write$$Double(value);
-        },
-        Write$$Single: function (value)
-        {
-            this.get_InnerWriter().Write$$Single(value);
-        },
-        Write$$Int32: function (value)
-        {
-            this.get_InnerWriter().Write$$Int32(value);
-        },
-        Write$$Int64: function (value)
-        {
-            this.get_InnerWriter().Write$$Int64(value);
-        },
-        Write$$Object: function (value)
-        {
-            this.get_InnerWriter().Write$$Object(value);
-        },
-        Write$$String: function (s)
-        {
-            this.get_InnerWriter().Write$$String(s);
-        },
-        Write$$String$$Object: function (format, arg0)
-        {
-            this.get_InnerWriter().Write$$String$$Object(format, arg0);
-        },
-        Write$$String$$Object$Array: function (format, arg)
-        {
-            this.get_InnerWriter().Write$$String$$Object$Array(format, arg);
-        },
-        Write$$Char$Array$$Int32$$Int32: function (buffer, index, count)
-        {
-            this.get_InnerWriter().Write$$Char$Array$$Int32$$Int32(buffer, index, count);
-        },
-        Write$$String$$Object$$Object: function (format, arg0, arg1)
-        {
-            this.get_InnerWriter().Write$$String$$Object$$Object(format, arg0, arg1);
-        },
-        WriteAttribute$$String$$String: function (name, value)
-        {
-            this.get_InnerWriter().WriteAttribute$$String$$String(name, value);
-        },
-        WriteAttribute$$String$$String$$Boolean: function (name, value, fEncode)
-        {
-            this.get_InnerWriter().WriteAttribute$$String$$String$$Boolean(name, value, fEncode);
-        },
-        WriteBeginTag: function (tagName)
-        {
-            this.get_InnerWriter().WriteBeginTag(tagName);
-        },
-        WriteBreak: function ()
-        {
-            this.get_InnerWriter().WriteBreak();
-        },
-        WriteEncodedText: function (text)
-        {
-            this.get_InnerWriter().WriteEncodedText(text);
-        },
-        WriteEncodedUrl: function (url)
-        {
-            this.get_InnerWriter().WriteEncodedUrl(url);
-        },
-        WriteEncodedUrlParameter: function (urlText)
-        {
-            this.get_InnerWriter().WriteEncodedUrlParameter(urlText);
-        },
-        WriteEndTag: function (tagName)
-        {
-            this.get_InnerWriter().WriteEndTag(tagName);
-        },
-        WriteFullBeginTag: function (tagName)
-        {
-            this.get_InnerWriter().WriteFullBeginTag(tagName);
-        },
-        WriteLine: function ()
-        {
-            this.get_InnerWriter().WriteLine();
-        },
-        WriteLine$$Boolean: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$Boolean(value);
-        },
-        WriteLine$$Char: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$Char(value);
-        },
-        WriteLine$$Char$Array: function (buffer)
-        {
-            this.get_InnerWriter().WriteLine$$Char$Array(buffer);
-        },
-        WriteLine$$Double: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$Double(value);
-        },
-        WriteLine$$Single: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$Single(value);
-        },
-        WriteLine$$Int32: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$Int32(value);
-        },
-        WriteLine$$Int64: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$Int64(value);
-        },
-        WriteLine$$Object: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$Object(value);
-        },
-        WriteLine$$String: function (s)
-        {
-            this.get_InnerWriter().WriteLine$$String(s);
-        },
-        WriteLine$$UInt32: function (value)
-        {
-            this.get_InnerWriter().WriteLine$$UInt32(value);
-        },
-        WriteLine$$String$$Object: function (format, arg0)
-        {
-            this.get_InnerWriter().WriteLine$$String$$Object(format, arg0);
-        },
-        WriteLine$$String$$Object$Array: function (format, arg)
-        {
-            this.get_InnerWriter().WriteLine$$String$$Object$Array(format, arg);
-        },
-        WriteLine$$Char$Array$$Int32$$Int32: function (buffer, index, count)
-        {
-            this.get_InnerWriter().WriteLine$$Char$Array$$Int32$$Int32(buffer, index, count);
-        },
-        WriteLine$$String$$Object$$Object: function (format, arg0, arg1)
-        {
-            this.get_InnerWriter().WriteLine$$String$$Object$$Object(format, arg0, arg1);
-        },
-        WriteLineNoTabs: function (s)
-        {
-            this.get_InnerWriter().WriteLineNoTabs(s);
-        },
-        WriteStyleAttribute$$String$$String: function (name, value)
-        {
-            this.get_InnerWriter().WriteStyleAttribute$$String$$String(name, value);
-        },
-        WriteStyleAttribute$$String$$String$$Boolean: function (name, value, fEncode)
-        {
-            this.get_InnerWriter().WriteStyleAttribute$$String$$String$$Boolean(name, value, fEncode);
-        }
-    }
-};
-JsTypes.push(Neptuo$Templates$HtmlTextWriter);
+var Neptuo$Templates$IHtmlWriter = {fullname: "Neptuo.Templates.IHtmlWriter", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
+JsTypes.push(Neptuo$Templates$IHtmlWriter);
 var Neptuo$Templates$IComponentManager = {fullname: "Neptuo.Templates.IComponentManager", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IComponentManager);
 var Neptuo$Templates$OnInitComplete =

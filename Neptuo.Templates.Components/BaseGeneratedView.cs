@@ -39,7 +39,7 @@ namespace Neptuo.Templates
             componentManager.Init(viewPage);
         }
 
-        public void Render(HtmlTextWriter writer)
+        public void Render(IHtmlWriter writer)
         {
             viewPage.Render(writer);
         }

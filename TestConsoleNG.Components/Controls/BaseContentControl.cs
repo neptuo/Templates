@@ -41,7 +41,7 @@ namespace TestConsoleNG.Controls
             }
         }
 
-        protected override void RenderBody(HtmlTextWriter writer)
+        protected override void RenderBody(IHtmlWriter writer)
         {
             if (Content != null)
             {

@@ -77,33 +77,24 @@ namespace TestConsoleNG.Controls
 
         public virtual void OnInit() { }
 
-        public virtual void Render(HtmlTextWriter writer)
+        public virtual void Render(IHtmlWriter writer)
         {
             if (!String.IsNullOrEmpty(TagName))
             {
-                StringBuilder result = new StringBuilder();
-                result.AppendFormat("<{0}", TagName);
+                writer.Tag(TagName);
 
                 foreach (KeyValuePair<string, string> attribute in Attributes)
-                {
-                    result.AppendFormat(" {0}=\"{1}\"", attribute.Key, attribute.Value);
-                }
+                    writer.Attribute(attribute.Key, attribute.Value);
 
+                
                 if (IsSelfClosing)
                 {
-                    result.Append(" />");
-                    writer.Write(result);
+                    writer.CloseTag();
                 }
                 else
                 {
-                    result.Append(">");
-                    writer.Write(result);
-
                     RenderBody(writer);
-
-                    result = new StringBuilder();
-                    result.AppendFormat("</{0}>", TagName);
-                    writer.Write(result);
+                    writer.CloseFullTag();
                 }
             }
             else
@@ -112,7 +103,7 @@ namespace TestConsoleNG.Controls
             }
         }
 
-        protected virtual void RenderBody(HtmlTextWriter writer) { }
+        protected virtual void RenderBody(IHtmlWriter writer) { }
 
         protected void Init(object component)
         {

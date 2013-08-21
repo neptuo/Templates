@@ -96,13 +96,13 @@ namespace Neptuo.Templates
             }
         }
 
-        public void Render(object control, HtmlTextWriter writer)
+        public void Render(object control, IHtmlWriter writer)
         {
             if(control == null)
                 return;
 
             if (control.GetType() == typeof(String))
-                writer.Write(control);
+                writer.Content(control);
 
             //throw new LivecycleException("Not registered control!");
             if (!entries.ContainsKey(control))

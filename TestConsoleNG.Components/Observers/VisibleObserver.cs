@@ -19,7 +19,7 @@ namespace TestConsoleNG.Observers
                 e.Cancel = true;
         }
 
-        public void Render(ObserverEventArgs e, HtmlTextWriter writer)
+        public void Render(ObserverEventArgs e, IHtmlWriter writer)
         {
             if (!Visible)
                 e.Cancel = true;

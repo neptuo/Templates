@@ -2,6 +2,7 @@
 using SharpKit.Html;
 using SharpKit.jQuery;
 using Neptuo.Templates;
+using System.IO;
 
 namespace TestSharpKit
 {
@@ -20,7 +21,7 @@ namespace TestSharpKit
             view.Setup(new BaseViewPage(componentManager), componentManager, null);
             view.CreateControls();
             view.Init();
-            view.Render(new HtmlTextWriter(null));
+            view.Render(new HtmlTextWriter(new StringWriter()));
             view.Dispose();
         }
     }

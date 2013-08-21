@@ -1,310 +1,125 @@
-﻿using System.IO;
-using System.Runtime;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Text;
-using System.Web.UI;
+using System.Threading.Tasks;
 
 namespace Neptuo.Templates
 {
-    public class HtmlTextWriter : TextWriter
+    public class HtmlTextWriter : IHtmlWriter
     {
-        protected System.Web.UI.HtmlTextWriter InnerWriter { get; private set; }
-
-        public HtmlTextWriter(TextWriter writer) {
-            InnerWriter = new System.Web.UI.HtmlTextWriter(writer);
-        }
-        
-        public HtmlTextWriter(TextWriter writer, string tabString) {
-            InnerWriter = new System.Web.UI.HtmlTextWriter(writer, tabString);
-        }
-
-        public override Encoding Encoding
+        public static class Html
         {
-            get { return InnerWriter.Encoding; }
+            public const char StartTag = '<';
+            public const char CloseTag = '>';
+            public const char Slash = '/';
+            public const char Space = ' ';
+
+            public const char Equal = '=';
+            public const char DoubleQuote = '"';
+            public const char Quote = '\'';
         }
 
-        public int Indent
+        protected TextWriter InnerWriter { get; private set; }
+        protected Stack<string> OpenTags { get; private set; }
+        protected bool IsOpenTag { get; set; }
+        protected bool HasContent { get; set; }
+        protected bool CanWriteAttribute { get; set; }
+
+        public HtmlTextWriter(TextWriter innerWriter)
         {
-            get { return InnerWriter.Indent; }
-            set { InnerWriter.Indent = value; }
-        }
-        
-        public override string NewLine
-        {
-            get { return InnerWriter.NewLine; }
-            set { InnerWriter.NewLine = value; }
+            InnerWriter = innerWriter;
+            OpenTags = new Stack<string>();
         }
 
-        public virtual void AddAttribute(HtmlTextWriterAttribute key, string value)
+        public IHtmlWriter Content(object content)
         {
-            InnerWriter.AddAttribute(key, value);
+            EnsureCloseOpeningTag();
+            InnerWriter.Write(content);
+            return this;
         }
 
-        public virtual void AddAttribute(string name, string value)
+        public IHtmlWriter Content(string content)
         {
-            InnerWriter.AddAttribute(name, value);
+            EnsureCloseOpeningTag();
+            InnerWriter.Write(content);
+            return this;
         }
 
-        public virtual void AddAttribute(HtmlTextWriterAttribute key, string value, bool fEncode)
+        public IHtmlWriter Tag(string name)
         {
-            InnerWriter.AddAttribute(key, value, fEncode);
+            EnsureCloseOpeningTag();
+
+            CanWriteAttribute = true;
+            HasContent = false;
+            IsOpenTag = true;
+
+            OpenTags.Push(name);
+            InnerWriter.Write(Html.StartTag);
+            InnerWriter.Write(name);
+            return this;
         }
 
-        public virtual void AddAttribute(string name, string value, bool fEncode)
+        public IHtmlWriter CloseTag()
         {
-            InnerWriter.AddAttribute(name, value, fEncode);
+            WriteCloseTag(HasContent);
+            return this;
         }
 
-        public virtual void AddStyleAttribute(HtmlTextWriterStyle key, string value)
+        public IHtmlWriter CloseFullTag()
         {
-            InnerWriter.AddStyleAttribute(key, value);
+            WriteCloseTag(true);
+            return this;
         }
 
-        public virtual void AddStyleAttribute(string name, string value)
+        public IHtmlWriter Attribute(string name, string value)
         {
-            InnerWriter.AddStyleAttribute(name, value);
-        }
+            if (!CanWriteAttribute)
+                throw new HtmlTextWriterException("Unnable to write attribute in current state!");
 
-        public virtual void BeginRender()
-        {
-            InnerWriter.BeginRender();
-        }
-        public override void Close()
-        {
-            InnerWriter.Close();
-        }
-        public virtual void EndRender()
-        {
-            InnerWriter.EndRender();
-        }
-
-        public override void Flush()
-        {
-            InnerWriter.Flush();
-        }
-
-        public virtual bool IsValidFormAttribute(string attribute)
-        {
-            return InnerWriter.IsValidFormAttribute(attribute);
-        }
-
-        public virtual void RenderBeginTag(HtmlTextWriterTag tagKey)
-        {
-            InnerWriter.RenderBeginTag(tagKey);
-        }
-
-        public virtual void RenderBeginTag(string tagName)
-        {
-            InnerWriter.RenderBeginTag(tagName);
-        }
-
-        public virtual void RenderEndTag()
-        {
-            InnerWriter.RenderEndTag();
-        }
-
-        public override void Write(bool value)
-        {
+            InnerWriter.Write(Html.Space);
+            InnerWriter.Write(name);
+            InnerWriter.Write(Html.Equal);
+            InnerWriter.Write(Html.DoubleQuote);
             InnerWriter.Write(value);
+            InnerWriter.Write(Html.DoubleQuote);
+
+            return this;
         }
 
-        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public override void Write(char value)
+        protected void WriteCloseTag(bool hasContent)
         {
-            InnerWriter.Write(value);
+            if (OpenTags.Count == 0)
+                throw new HtmlTextWriterException("Unnable to close tag! All tags has been closed.");
+
+            string name = OpenTags.Pop();
+            if (hasContent)
+            {
+                EnsureCloseOpeningTag();
+                InnerWriter.Write(Html.StartTag);
+                InnerWriter.Write(Html.Slash);
+                InnerWriter.Write(name);
+                InnerWriter.Write(Html.CloseTag);
+            }
+            else
+            {
+                InnerWriter.Write(Html.Space);
+                InnerWriter.Write(Html.Slash);
+                InnerWriter.Write(Html.CloseTag);
+            }
+
+            HasContent = true;
         }
 
-        public override void Write(char[] buffer)
+        protected void EnsureCloseOpeningTag()
         {
-            InnerWriter.Write(buffer);
-        }
+            if (IsOpenTag)
+                InnerWriter.Write(Html.CloseTag);
 
-        public override void Write(double value)
-        {
-            InnerWriter.Write(value);
-        }
-
-        public override void Write(float value)
-        {
-            InnerWriter.Write(value);
-        }
-
-        public override void Write(int value)
-        {
-            InnerWriter.Write(value);
-        }
-
-        public override void Write(long value)
-        {
-            InnerWriter.Write(value);
-        }
-
-        public override void Write(object value)
-        {
-            InnerWriter.Write(value);
-        }
-
-        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
-        public override void Write(string s)
-        {
-            InnerWriter.Write(s);
-        }
-
-        public override void Write(string format, object arg0)
-        {
-            InnerWriter.Write(format, arg0);
-        }
-
-        public override void Write(string format, params object[] arg)
-        {
-            InnerWriter.Write(format, arg);
-        }
-
-        public override void Write(char[] buffer, int index, int count)
-        {
-            InnerWriter.Write(buffer, index, count);
-        }
-
-        public override void Write(string format, object arg0, object arg1)
-        {
-            InnerWriter.Write(format, arg0, arg1);
-        }
-
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public virtual void WriteAttribute(string name, string value)
-        {
-            InnerWriter.WriteAttribute(name, value);
-        }
-
-        public virtual void WriteAttribute(string name, string value, bool fEncode)
-        {
-            InnerWriter.WriteAttribute(name, value, fEncode);
-        }
-
-        public virtual void WriteBeginTag(string tagName)
-        {
-            InnerWriter.WriteBeginTag(tagName);
-        }
-
-        public virtual void WriteBreak()
-        {
-            InnerWriter.WriteBreak();
-        }
-
-        public virtual void WriteEncodedText(string text)
-        {
-            InnerWriter.WriteEncodedText(text);
-        }
-
-        public virtual void WriteEncodedUrl(string url)
-        {
-            InnerWriter.WriteEncodedUrl(url);
-        }
-
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public virtual void WriteEncodedUrlParameter(string urlText)
-        {
-            InnerWriter.WriteEncodedUrlParameter(urlText);
-        }
-
-        public virtual void WriteEndTag(string tagName)
-        {
-            InnerWriter.WriteEndTag(tagName);
-        }
-
-        public virtual void WriteFullBeginTag(string tagName)
-        {
-            InnerWriter.WriteFullBeginTag(tagName);
-        }
-
-        public override void WriteLine()
-        {
-            InnerWriter.WriteLine();
-        }
-
-        public override void WriteLine(bool value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(char value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(char[] buffer)
-        {
-            InnerWriter.WriteLine(buffer);
-        }
-
-        public override void WriteLine(double value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(float value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(int value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(long value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(object value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(string s)
-        {
-            InnerWriter.WriteLine(s);
-        }
-
-        public override void WriteLine(uint value)
-        {
-            InnerWriter.WriteLine(value);
-        }
-
-        public override void WriteLine(string format, object arg0)
-        {
-            InnerWriter.WriteLine(format, arg0);
-        }
-
-        public override void WriteLine(string format, params object[] arg)
-        {
-            InnerWriter.WriteLine(format, arg);
-        }
-
-        public override void WriteLine(char[] buffer, int index, int count)
-        {
-            InnerWriter.WriteLine(buffer, index, count);
-        }
-
-        public override void WriteLine(string format, object arg0, object arg1)
-        {
-            InnerWriter.WriteLine(format, arg0, arg1);
-        }
-
-        public void WriteLineNoTabs(string s)
-        {
-            InnerWriter.WriteLineNoTabs(s);
-        }
-
-        [TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")]
-        public virtual void WriteStyleAttribute(string name, string value)
-        {
-            InnerWriter.WriteStyleAttribute(name, value);
-        }
-
-        public virtual void WriteStyleAttribute(string name, string value, bool fEncode)
-        {
-            InnerWriter.WriteStyleAttribute(name, value, fEncode);
+            IsOpenTag = false;
+            CanWriteAttribute = false;
+            HasContent = true;
         }
     }
 }
