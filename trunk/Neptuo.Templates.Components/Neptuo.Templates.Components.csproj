@@ -50,12 +50,14 @@
     <Compile Include="Controls\ComponentAttribute.cs" />
     <Compile Include="Extensions\DefaultMarkupExtensionContext.cs" />
     <Compile Include="HtmlAttribute.cs" />
+    <Compile Include="HtmlTextWriter.cs" />
+    <Compile Include="HtmlTextWriterException.cs" />
     <Compile Include="IAttributeCollection.cs" />
     <Compile Include="Controls\IContentControl.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Extensions\IValueExtension.cs" />
     <Compile Include="Extensions\IValueExtensionContext.cs" />
-    <Compile Include="HtmlTextWriter.cs" />
+    <Compile Include="IHtmlWriter.cs" />
     <Compile Include="IComponentManager.cs" />
     <Compile Include="IViewPage.cs" />
     <Compile Include="IVirtualPathProvider.cs" />

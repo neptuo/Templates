@@ -10,6 +10,6 @@ function btnTest_click(e)
     view.Setup(new Neptuo.Templates.BaseViewPage.ctor(componentManager), componentManager, null);
     view.CreateControls();
     view.Init();
-    view.Render(new Neptuo.Templates.HtmlTextWriter.ctor$$TextWriter(null));
+    view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(new System.IO.StringWriter.ctor()));
     view.Dispose();
 };

@@ -76,7 +76,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                         IComponentBuilder builder = builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
 
                         if (builder == null)
-                            throw new ArgumentOutOfRangeException(element.Name, "This element doesn't has builder!"); //TODO: Add as error!
+                            throw new ArgumentOutOfRangeException(element.Name, "This element doesn't have builder!"); //TODO: Add as error!
                             
                         builder.Parse(new XmlContentBuilderContext(this, helper, newBuilderRegistry), element);
                     }

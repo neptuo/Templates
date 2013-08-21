@@ -17,9 +17,9 @@ namespace TestConsoleNG.Controls
             : base(componentManager)
         { }
 
-        protected override void RenderBody(HtmlTextWriter writer)
+        protected override void RenderBody(IHtmlWriter writer)
         {
-            writer.Write(Text);
+            writer.Content(Text);
         }
     }
 }

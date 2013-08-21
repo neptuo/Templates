@@ -16,6 +16,6 @@ namespace Neptuo.Templates.Controls
     {
         void OnInit();
 
-        void Render(HtmlTextWriter writer);
+        void Render(IHtmlWriter writer);
     }
 }

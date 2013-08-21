@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Observers
     {
         void OnInit(ObserverEventArgs e);
 
-        void Render(ObserverEventArgs e, HtmlTextWriter writer);
+        void Render(ObserverEventArgs e, IHtmlWriter writer);
     }
 
     public class ObserverEventArgs : EventArgs

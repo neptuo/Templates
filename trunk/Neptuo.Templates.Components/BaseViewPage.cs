@@ -22,7 +22,7 @@ namespace Neptuo.Templates
                 ComponentManager.Init(item);
         }
 
-        public void Render(HtmlTextWriter writer)
+        public void Render(IHtmlWriter writer)
         {
             foreach (object item in Content)
                 ComponentManager.Render(item, writer);

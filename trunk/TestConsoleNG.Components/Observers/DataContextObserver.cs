@@ -34,7 +34,7 @@ namespace TestConsoleNG.Observers
             dataStorage.Pop();
         }
 
-        public void Render(ObserverEventArgs e, HtmlTextWriter writer)
+        public void Render(ObserverEventArgs e, IHtmlWriter writer)
         { }
     }
 }

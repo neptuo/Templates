@@ -27,7 +27,7 @@ namespace TestConsoleNG.Controls
             //IsSelfClosing = false;
         }
 
-        public override void Render(HtmlTextWriter writer)
+        public override void Render(IHtmlWriter writer)
         {
             if (!String.IsNullOrEmpty(TagName))
                 base.Render(writer);

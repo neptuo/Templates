@@ -34,7 +34,7 @@ namespace TestConsoleNG.Controls
             Attributes["type"] = "text";
         }
 
-        public override void Render(HtmlTextWriter writer)
+        public override void Render(IHtmlWriter writer)
         {
             base.Render(writer);
         }

@@ -324,27 +324,21 @@ var TestConsoleNG$Controls$BaseControl =
         {
             if (!System.String.IsNullOrEmpty(this.get_TagName()))
             {
-                var result = new System.Text.StringBuilder.ctor();
-                result.AppendFormat$$String$$Object("<{0}", this.get_TagName());
+                writer.Tag(this.get_TagName());
                 var $it4 = this.get_Attributes().GetEnumerator();
                 while ($it4.MoveNext())
                 {
                     var attribute = $it4.get_Current();
-                    result.AppendFormat$$String$$Object$$Object(" {0}=\"{1}\"", attribute.get_Key(), attribute.get_Value());
+                    writer.Attribute(attribute.get_Key(), attribute.get_Value());
                 }
                 if (this.get_IsSelfClosing())
                 {
-                    result.Append$$String(" />");
-                    writer.Write$$Object(result);
+                    writer.CloseTag();
                 }
                 else
                 {
-                    result.Append$$String(">");
-                    writer.Write$$Object(result);
                     this.RenderBody(writer);
-                    result = new System.Text.StringBuilder.ctor();
-                    result.AppendFormat$$String$$Object("</{0}>", this.get_TagName());
-                    writer.Write$$Object(result);
+                    writer.CloseFullTag();
                 }
             }
             else
@@ -436,7 +430,7 @@ var TestConsoleNG$Controls$LiteralControl =
         },
         RenderBody: function (writer)
         {
-            writer.Write$$String(this.get_Text());
+            writer.Content$$String(this.get_Text());
         }
     }
 };
@@ -452,7 +446,25 @@ var TestConsoleNG$Controls$PanelControl =
     {
         ctor: function (componentManager)
         {
+            this._Header = null;
             TestConsoleNG.Controls.BaseContentControl.ctor.call(this, componentManager);
+        },
+        Header$$: "System.String",
+        get_Header: function ()
+        {
+            return this._Header;
+        },
+        set_Header: function (value)
+        {
+            this._Header = value;
+        },
+        RenderBody: function (writer)
+        {
+            if (!System.String.IsNullOrEmpty(this.get_Header()))
+            {
+                writer.Tag("div").Attribute("class", "panel-header").Content$$String(this.get_Header()).CloseTag();
+            }
+            TestConsoleNG.Controls.BaseContentControl.commonPrototype.RenderBody.call(this, writer);
         }
     }
 };

@@ -21,7 +21,7 @@ namespace Neptuo.Templates
 
         void Init(object control);
 
-        void Render(object control, HtmlTextWriter writer);
+        void Render(object control, IHtmlWriter writer);
 
         void Dispose(object component);
     }
