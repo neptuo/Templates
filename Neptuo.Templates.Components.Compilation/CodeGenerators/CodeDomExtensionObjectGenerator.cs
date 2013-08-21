@@ -1,4 +1,6 @@
-﻿using Neptuo.Linq.Expressions;
+﻿using Neptuo.ComponentModel;
+using Neptuo.Linq.Expressions;
+using Neptuo.Reflection;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Extensions;
 using System;
@@ -10,9 +12,6 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    /// <summary>
-    /// TODO: Use type conveter!
-    /// </summary>
     public class CodeDomExtensionObjectGenerator : TypeCodeDomObjectGenerator<ExtensionCodeObject>
     {
         public CodeDomExtensionObjectGenerator(IFieldNameProvider fieldNameProvider)
@@ -23,35 +22,29 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeExpression field = GenerateCompoment(context, codeObject);
             
-            return new CodeCastExpression(
-                propertyDescriptor.Property.Type,
-                new CodeMethodInvokeExpression(
-                    field,
-                    TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue),
-                    new CodeObjectCreateExpression(
-                        typeof(DefaultMarkupExtensionContext),
-                        new CodeFieldReferenceExpression(
-                            null,
-                            context.ParentFieldName
-                        ),
-                        new CodeMethodInvokeExpression(
-                            new CodeMethodInvokeExpression(
-                                new CodeFieldReferenceExpression(
-                                    null,
-                                    context.ParentFieldName
-                                ),
-                                TypeHelper.MethodName<object, Type>(t => t.GetType)
-                            ),
-                            TypeHelper.MethodName<Type, string, PropertyInfo>(t => t.GetProperty),
-                            new CodePrimitiveExpression(propertyDescriptor.Property.Name)
-                        ),
-                        new CodeFieldReferenceExpression(
-                            new CodeThisReferenceExpression(),
-                            CodeDomStructureGenerator.Names.DependencyProviderField
-                        )
-                    )
-                )
+            CodeExpression result = new CodeMethodInvokeExpression(
+                field,
+                TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue),
+                CreateMarkupExtensionContext(context, codeObject, propertyDescriptor)
             );
+
+            if (RequiredConverter(codeObject, propertyDescriptor))
+            {
+                result = new CodeMethodInvokeExpression(
+                    new CodeMethodReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        CodeDomStructureGenerator.Names.CastValueToMethod,
+                        new CodeTypeReference(propertyDescriptor.Property.Type)
+                    ),
+                    result
+                );
+            }
+            else
+            {
+                result = new CodeCastExpression(propertyDescriptor.Property.Type, result);
+            }
+
+            return result;
         }
 
         protected override CodeExpression GenerateCompoment<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
@@ -69,5 +62,49 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected override void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
         { }
+        
+        protected bool RequiredConverter(ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        {
+            if (propertyDescriptor.Property.Type.IsAssignableFrom(typeof(object)))
+                return false;
+
+            ReturnTypeAttribute attribute = ReflectionHelper.GetAttribute<ReturnTypeAttribute>(codeObject.Type);
+            if (attribute != null)
+                return !propertyDescriptor.Property.Type.IsAssignableFrom(attribute.Type);
+
+            return true;
+        }
+
+        protected CodeExpression CreateMarkupExtensionContext(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        {
+            return new CodeMethodInvokeExpression(
+                new CodeThisReferenceExpression(),
+                CodeDomStructureGenerator.Names.CreateValueExtensionContextMethod,
+                new CodeFieldReferenceExpression(null, context.ParentFieldName),
+                new CodePrimitiveExpression(propertyDescriptor.Property.Name)
+            );
+            //return new CodeObjectCreateExpression(
+            //    typeof(DefaultMarkupExtensionContext),
+            //    new CodeFieldReferenceExpression(
+            //        null,
+            //        context.ParentFieldName
+            //    ),
+            //    new CodeMethodInvokeExpression(
+            //        new CodeMethodInvokeExpression(
+            //            new CodeFieldReferenceExpression(
+            //                null,
+            //                context.ParentFieldName
+            //            ),
+            //            TypeHelper.MethodName<object, Type>(t => t.GetType)
+            //        ),
+            //        TypeHelper.MethodName<Type, string, PropertyInfo>(t => t.GetProperty),
+            //        new CodePrimitiveExpression(propertyDescriptor.Property.Name)
+            //    ),
+            //    new CodeFieldReferenceExpression(
+            //        new CodeThisReferenceExpression(),
+            //        CodeDomStructureGenerator.Names.DependencyProviderField
+            //    )
+            //);
+        }
     }
 }

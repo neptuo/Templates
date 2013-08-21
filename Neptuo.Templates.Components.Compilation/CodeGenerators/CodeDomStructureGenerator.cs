@@ -18,6 +18,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             public const string DependencyProviderField = "dependencyProvider";
 
             public const string CreateViewPageControlsMethod = "CreateViewPageControls";
+            public const string CreateValueExtensionContextMethod = "CreateValueExtensionContext";
+            public const string CastValueToMethod = "CastValueTo";
         }
 
         public BaseCodeDomStructure GenerateCode(CodeDomStructureContext context)

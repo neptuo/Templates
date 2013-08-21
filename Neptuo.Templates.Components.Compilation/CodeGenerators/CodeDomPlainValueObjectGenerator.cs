@@ -21,7 +21,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.Type));
 
             //TODO: Inconvertable value!!
+            //Be aware of ListAddPropertyDescriptor - type of it is Collection<TARGET REAL TYPE>
             return new CodePrimitiveExpression(plainValue.Value);
+            //throw new InvalidOperationException(
+            //    String.Format(
+            //        "Unnable to convert to target type! Source type: {0}, target type: {1}",
+            //        plainValue.Value.GetType(),
+            //        propertyDescriptor.Property.Type
+            //    )
+            //);
         }
 
         protected TypeConverter GetTypeConverter(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)

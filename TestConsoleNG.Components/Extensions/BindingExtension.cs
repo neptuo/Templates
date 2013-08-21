@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,20 +24,21 @@ namespace TestConsoleNG.Extensions
         public object ProvideValue(IValueExtensionContext context)
         {
             object data = BindingManager.GetValue(Expression, dataStorage.Peek());
-            if (data == null)
-                return null;
+            //if (data == null)
+            //    return null;
 
-            if (context.TargetProperty.PropertyType.IsAssignableFrom(data.GetType()))
-                return data;
+            //if (context.TargetProperty.PropertyType.IsAssignableFrom(data.GetType()))
+            //    return data;
 
-            if (context.TargetProperty.PropertyType.IsAssignableFrom(typeof(string)))
-                return data.ToString();
+            //if (context.TargetProperty.PropertyType.IsAssignableFrom(typeof(string)))
+            //    return data.ToString();
 
-            TypeConverter converter = TypeDescriptor.GetConverter(data);
-            if (converter.CanConvertTo(context.TargetProperty.PropertyType))
-                return converter.ConvertTo(data, context.TargetProperty.PropertyType);
+            //TypeConverter converter = TypeDescriptor.GetConverter(data);
+            //if (converter.CanConvertTo(context.TargetProperty.PropertyType))
+            //    return converter.ConvertTo(data, context.TargetProperty.PropertyType);
 
-            throw new InvalidOperationException("Unnable to convert to target type!");
+            //throw new InvalidOperationException("Unnable to convert to target type!");
+            return data;
         }
     }
 }
