@@ -88,7 +88,7 @@ namespace Neptuo.Templates
             if (canInit)
                 target.OnInit();
 
-            if (entry.InitComplete.Any())
+            if (entry.InitComplete.Count > 0)
             {
                 ControlInitCompleteEventArgs args = new ControlInitCompleteEventArgs(target);
                 foreach (OnInitComplete handler in entry.InitComplete)
@@ -101,7 +101,7 @@ namespace Neptuo.Templates
             if(control == null)
                 return;
 
-            if (control.GetType() == typeof(String))
+            if (control.GetType().FullName == typeof(String).FullName)
                 writer.Content(control);
 
             //throw new LivecycleException("Not registered control!");

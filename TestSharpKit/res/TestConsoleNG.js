@@ -380,10 +380,9 @@ var TestConsoleNG$Controls$GenericContentControl =
     Kind: "Class",
     definition:
     {
-        ctor$$String$$IComponentManager: function (tagName, componentManager)
+        ctor: function (componentManager)
         {
-            TestConsoleNG.Controls.GenericContentControl.ctor$$IComponentManager.call(this, componentManager);
-            this.set_TagName(tagName);
+            TestConsoleNG.Controls.BaseContentControl.ctor.call(this, componentManager);
         },
         TagName$$: "System.String",
         get_TagName: function ()
@@ -393,10 +392,6 @@ var TestConsoleNG$Controls$GenericContentControl =
         set_TagName: function (value)
         {
             TestConsoleNG.Controls.BaseControl.commonPrototype.set_TagName.call(this, value);
-        },
-        ctor$$IComponentManager: function (componentManager)
-        {
-            TestConsoleNG.Controls.BaseContentControl.ctor.call(this, componentManager);
         },
         Render: function (writer)
         {

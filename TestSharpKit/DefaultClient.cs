@@ -15,14 +15,17 @@ namespace TestSharpKit
         }
         static void btnTest_click(DOMEvent e)
         {
-            var componentManager = new ComponentManager();
+            StringWriter writer = new StringWriter();
 
-            var view = new View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55();
+            var componentManager = new ComponentManager();
+            var view = new View_38422005C8911AD1E3131BF96B087D39DBA789AA();
             view.Setup(new BaseViewPage(componentManager), componentManager, null);
             view.CreateControls();
             view.Init();
-            view.Render(new HtmlTextWriter(new StringWriter()));
+            view.Render(new HtmlTextWriter(writer));
             view.Dispose();
+
+            HtmlContext.alert(writer.ToString());
         }
     }
 }
