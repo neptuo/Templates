@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestConsoleNG.Controls;
 using TestConsoleNG.Data;
+using TestConsoleNG.Extensions;
 using TestConsoleNG.Observers;
 using TestConsoleNG.Unity;
 
@@ -26,6 +27,7 @@ namespace TestConsoleNG
             container = new UnityDependencyContainer();
             container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
+            container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
         }
 
         public static void Test()

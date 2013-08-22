@@ -65,11 +65,17 @@ namespace Neptuo.Templates
             if (value == null)
                 return default(T);
 
-            TypeConverter converter = TypeDescriptor.GetConverter(value);
-            if (converter.CanConvertTo(typeof(T)))
-                return (T)converter.ConvertTo(value, typeof(T));
+            Type sourceType = value.GetType();
+            Type targetType = typeof(T);
 
-            throw new InvalidOperationException(String.Format("Unnable to convert to target type! Source type: {0}, target type: {1}", value.GetType(), typeof(T)));
+            if (sourceType == targetType)
+                return (T)value;
+
+            TypeConverter converter = TypeDescriptor.GetConverter(value);
+            if (converter.CanConvertTo(targetType))
+                return (T)converter.ConvertTo(value, targetType);
+
+            throw new InvalidOperationException(String.Format("Unnable to convert to target type! Source type: {0}, target type: {1}", sourceType, targetType));
         }
     }
 }

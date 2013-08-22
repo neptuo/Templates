@@ -7,7 +7,7 @@
     <ProjectGuid>{B63A8530-0B2E-4253-95E6-A55DDD3EA7AF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TestConsoleNG.Components</RootNamespace>
+    <RootNamespace>TestConsoleNG</RootNamespace>
     <AssemblyName>TestConsoleNG.Components</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -59,6 +59,10 @@
     <Compile Include="Data\DataStorage.cs" />
     <Compile Include="Extensions\BindingExtension.cs" />
     <Compile Include="Extensions\BindingManager.cs" />
+    <Compile Include="Extensions\IValueConverter.cs" />
+    <Compile Include="Extensions\IValueConverterService.cs" />
+    <Compile Include="Extensions\NullToBoolValueConverter.cs" />
+    <Compile Include="Extensions\ValueConverterService.cs" />
     <Compile Include="Observers\DataContextObserver.cs" />
     <Compile Include="Observers\VisibleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
