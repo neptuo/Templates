@@ -29,6 +29,210 @@ if (typeof($CreateDelegate)=='undefined'){
 }
 if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
+var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA =
+{
+    fullname: "Neptuo.Templates.View_38422005C8911AD1E3131BF96B087D39DBA789AA",
+    baseTypeName: "Neptuo.Templates.BaseGeneratedView",
+    assemblyName: "TestSharpKit",
+    interfaceNames: ["System.IDisposable"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            this.field2 = null;
+            Neptuo.Templates.BaseGeneratedView.ctor.call(this);
+        },
+        CreateViewPageControls: function (viewPage)
+        {
+            this.get_Content().Add("<!-- This is a html comment -->\r\n");
+            this.get_Content().Add(this.field1_Create());
+        },
+        field1_Create: function ()
+        {
+            var field1 = new TestConsoleNG.Controls.GenericContentControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.GenericContentControl.ctor, field1, $CreateDelegate(this, this.field1_Bind));
+            this.componentManager.AttachObserver$1(TestConsoleNG.Observers.DataContextObserver.ctor, field1, this.field2_Create(), $CreateDelegate(this, this.field2_Bind));
+            return field1;
+        },
+        field2_Create: function ()
+        {
+            if ((this.field2 == null))
+            {
+                this.field2 = new TestConsoleNG.Observers.DataContextObserver.ctor(this.componentManager, (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+                this.componentManager.AddComponent$1(TestConsoleNG.Observers.DataContextObserver.ctor, this.field2, $CreateDelegate(this, this.field2_Bind));
+            }
+            return this.field2;
+        },
+        field2_Bind: function (field2)
+        {
+            field2.set_DataContext((this.field3_Create().ProvideValue(this.CreateValueExtensionContext(field2, "DataContext"))));
+        },
+        field3_Create: function ()
+        {
+            var field3 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Extensions.IValueConverterService.ctor), null)), TestConsoleNG.Extensions.IValueConverterService.ctor)));
+            field3.set_Expression("Address");
+            return field3;
+        },
+        field1_Bind: function (field1)
+        {
+            field1.set_TagName("div");
+            field1.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field1.get_Content().Add("\r\n    ");
+            field1.get_Content().Add(this.field4_Create());
+            field1.get_Content().Add("\r\n    ");
+            field1.get_Content().Add(this.field9_Create());
+            field1.get_Content().Add("\r\n    ");
+            field1.get_Content().Add(this.field12_Create());
+            field1.get_Content().Add("\r\n    ");
+            field1.get_Content().Add(this.field15_Create());
+            field1.get_Content().Add("\r\n");
+        },
+        field4_Create: function ()
+        {
+            var field4 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field4, $CreateDelegate(this, this.field4_Bind));
+            this.componentManager.AttachObserver$1(TestConsoleNG.Observers.VisibleObserver.ctor, field4, this.field5_Create(), $CreateDelegate(this, this.field5_Bind));
+            return field4;
+        },
+        field5_Create: function ()
+        {
+            var field5 = new TestConsoleNG.Observers.VisibleObserver.ctor();
+            this.componentManager.AddComponent$1(TestConsoleNG.Observers.VisibleObserver.ctor, field5, $CreateDelegate(this, this.field5_Bind));
+            return field5;
+        },
+        field5_Bind: function (field5)
+        {
+            field5.set_Visible(this.CastValueTo$1(System.Boolean.ctor, this.field6_Create().ProvideValue(this.CreateValueExtensionContext(field5, "Visible"))));
+        },
+        field6_Create: function ()
+        {
+            var field6 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Extensions.IValueConverterService.ctor), null)), TestConsoleNG.Extensions.IValueConverterService.ctor)));
+            field6.set_ConverterKey("NullToBool");
+            field6.set_Expression("Street");
+            return field6;
+        },
+        field4_Bind: function (field4)
+        {
+            field4.set_Header("Street:");
+            field4.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field4.get_Content().Add("\r\n        ");
+            field4.get_Content().Add(this.field7_Create());
+            field4.get_Content().Add("\r\n    ");
+        },
+        field7_Create: function ()
+        {
+            var field7 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field7, $CreateDelegate(this, this.field7_Bind));
+            return field7;
+        },
+        field7_Bind: function (field7)
+        {
+            field7.set_Name("street");
+            field7.set_Text(this.CastValueTo$1(System.String.ctor, this.field8_Create().ProvideValue(this.CreateValueExtensionContext(field7, "Text"))));
+        },
+        field8_Create: function ()
+        {
+            var field8 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Extensions.IValueConverterService.ctor), null)), TestConsoleNG.Extensions.IValueConverterService.ctor)));
+            field8.set_Expression("Street");
+            return field8;
+        },
+        field9_Create: function ()
+        {
+            var field9 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field9, $CreateDelegate(this, this.field9_Bind));
+            return field9;
+        },
+        field9_Bind: function (field9)
+        {
+            field9.set_Header("House Number:");
+            field9.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field9.get_Content().Add("\r\n        ");
+            field9.get_Content().Add(this.field10_Create());
+            field9.get_Content().Add("\r\n    ");
+        },
+        field10_Create: function ()
+        {
+            var field10 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field10, $CreateDelegate(this, this.field10_Bind));
+            return field10;
+        },
+        field10_Bind: function (field10)
+        {
+            field10.set_Name("housenumber");
+            field10.set_Text(this.CastValueTo$1(System.String.ctor, this.field11_Create().ProvideValue(this.CreateValueExtensionContext(field10, "Text"))));
+        },
+        field11_Create: function ()
+        {
+            var field11 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Extensions.IValueConverterService.ctor), null)), TestConsoleNG.Extensions.IValueConverterService.ctor)));
+            field11.set_Expression("HouseNumber");
+            return field11;
+        },
+        field12_Create: function ()
+        {
+            var field12 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field12, $CreateDelegate(this, this.field12_Bind));
+            return field12;
+        },
+        field12_Bind: function (field12)
+        {
+            field12.set_Header("City:");
+            field12.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field12.get_Content().Add("\r\n        ");
+            field12.get_Content().Add(this.field13_Create());
+            field12.get_Content().Add("\r\n    ");
+        },
+        field13_Create: function ()
+        {
+            var field13 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field13, $CreateDelegate(this, this.field13_Bind));
+            return field13;
+        },
+        field13_Bind: function (field13)
+        {
+            field13.set_Name("city");
+            field13.set_Text(this.CastValueTo$1(System.String.ctor, this.field14_Create().ProvideValue(this.CreateValueExtensionContext(field13, "Text"))));
+        },
+        field14_Create: function ()
+        {
+            var field14 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Extensions.IValueConverterService.ctor), null)), TestConsoleNG.Extensions.IValueConverterService.ctor)));
+            field14.set_Expression("City");
+            return field14;
+        },
+        field15_Create: function ()
+        {
+            var field15 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field15, $CreateDelegate(this, this.field15_Bind));
+            return field15;
+        },
+        field15_Bind: function (field15)
+        {
+            field15.set_Header("Postal code:");
+            field15.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
+            field15.get_Content().Add("\r\n        ");
+            field15.get_Content().Add(this.field16_Create());
+            field15.get_Content().Add("\r\n    ");
+        },
+        field16_Create: function ()
+        {
+            var field16 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field16, $CreateDelegate(this, this.field16_Bind));
+            return field16;
+        },
+        field16_Bind: function (field16)
+        {
+            field16.set_Name("postalcode");
+            field16.set_Text(this.CastValueTo$1(System.String.ctor, this.field17_Create().ProvideValue(this.CreateValueExtensionContext(field16, "Text"))));
+        },
+        field17_Create: function ()
+        {
+            var field17 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), (Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Extensions.IValueConverterService.ctor), null)), TestConsoleNG.Extensions.IValueConverterService.ctor)));
+            field17.set_Expression("PostalCode");
+            return field17;
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA);
 var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
 {
     fullname: "Neptuo.Templates.View_9741084CDDEB89E6278CC0A58C5F284F84983F2D",
@@ -76,7 +280,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field3_Create: function ()
         {
-            var field3 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            var field3 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
             field3.set_Expression("Street");
             return field3;
         },
@@ -105,7 +309,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field6_Create: function ()
         {
-            var field6 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            var field6 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
             field6.set_Expression("HouseNumber");
             return field6;
         },
@@ -134,7 +338,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field9_Create: function ()
         {
-            var field9 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            var field9 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
             field9.set_Expression("City");
             return field9;
         },
@@ -163,7 +367,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field12_Create: function ()
         {
-            var field12 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)));
+            var field12 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
             field12.set_Expression("PostalCode");
             return field12;
         }

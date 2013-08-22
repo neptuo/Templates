@@ -257,7 +257,7 @@ var Neptuo$Templates$ComponentManager =
             }
             if (canInit)
                 target.OnInit();
-            if (System.Linq.Enumerable.Any$1$$IEnumerable$1(Neptuo.Templates.OnInitComplete.ctor, entry.get_InitComplete()))
+            if (entry.get_InitComplete().get_Count() > 0)
             {
                 var args = new Neptuo.Templates.ControlInitCompleteEventArgs.ctor(target);
                 var $it5 = entry.get_InitComplete().GetEnumerator();
@@ -272,7 +272,7 @@ var Neptuo$Templates$ComponentManager =
         {
             if (control == null)
                 return;
-            if (control.GetType() == Typeof(System.String.ctor))
+            if (control.GetType().get_FullName() == Typeof(System.String.ctor).get_FullName())
                 writer.Content$$Object(control);
             if (!this.entries.ContainsKey(control))
                 return;

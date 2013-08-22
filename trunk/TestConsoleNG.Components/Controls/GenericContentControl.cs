@@ -15,11 +15,11 @@ namespace TestConsoleNG.Controls
             set { base.TagName = value; }
         }
 
-        public GenericContentControl(string tagName, IComponentManager componentManager)
-            : this(componentManager)
-        {
-            TagName = tagName;
-        }
+        //public GenericContentControl(string tagName, IComponentManager componentManager)
+        //    : this(componentManager)
+        //{
+        //    TagName = tagName;
+        //}
 
         public GenericContentControl(IComponentManager componentManager)
             : base(componentManager)

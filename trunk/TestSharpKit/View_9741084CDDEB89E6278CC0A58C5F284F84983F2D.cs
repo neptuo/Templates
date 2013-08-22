@@ -48,7 +48,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Extensions.BindingExtension field3_Create()
         {
-            TestConsoleNG.Extensions.BindingExtension field3 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))));
+            TestConsoleNG.Extensions.BindingExtension field3 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))), null);
             field3.Expression = "Street";
             return field3;
         }
@@ -77,7 +77,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Extensions.BindingExtension field6_Create()
         {
-            TestConsoleNG.Extensions.BindingExtension field6 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))));
+            TestConsoleNG.Extensions.BindingExtension field6 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))), null);
             field6.Expression = "HouseNumber";
             return field6;
         }
@@ -106,7 +106,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Extensions.BindingExtension field9_Create()
         {
-            TestConsoleNG.Extensions.BindingExtension field9 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))));
+            TestConsoleNG.Extensions.BindingExtension field9 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))), null);
             field9.Expression = "City";
             return field9;
         }
@@ -135,7 +135,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Extensions.BindingExtension field12_Create()
         {
-            TestConsoleNG.Extensions.BindingExtension field12 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))));
+            TestConsoleNG.Extensions.BindingExtension field12 = new TestConsoleNG.Extensions.BindingExtension(((TestConsoleNG.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(TestConsoleNG.Data.DataStorage), null))), null);
             field12.Expression = "PostalCode";
             return field12;
         }

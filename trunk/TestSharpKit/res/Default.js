@@ -5,11 +5,13 @@ function DefaultClient_Load()
 };
 function btnTest_click(e)
 {
+    var writer = new System.IO.StringWriter.ctor();
     var componentManager = new Neptuo.Templates.ComponentManager.ctor();
-    var view = new Neptuo.Templates.View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55.ctor();
+    var view = new Neptuo.Templates.View_38422005C8911AD1E3131BF96B087D39DBA789AA.ctor();
     view.Setup(new Neptuo.Templates.BaseViewPage.ctor(componentManager), componentManager, null);
     view.CreateControls();
     view.Init();
-    view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(new System.IO.StringWriter.ctor()));
+    view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(writer));
     view.Dispose();
+    alert(writer.toString());
 };
