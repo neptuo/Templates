@@ -1,6 +1,6 @@
 ﻿<!-- This is a html comment -->
 <div data:DataContext="{Binding Address}">
-    <h:panel header="Street:">
+    <h:panel header="Street:"  ui:visible="{Binding Street, ConverterKey=NullToBool}">
         <h:textbox name="street" text="{Binding Street}" />
     </h:panel>
     <h:panel header="House Number:">

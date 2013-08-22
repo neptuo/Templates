@@ -108,10 +108,14 @@ var Neptuo$Templates$BaseGeneratedView =
         {
             if (value == null)
                 return Default(T);
+            var sourceType = value.GetType();
+            var targetType = Typeof(T);
+            if (sourceType == targetType)
+                return Cast(value, T);
             var converter = System.ComponentModel.TypeDescriptor.GetConverter$$Object(value);
-            if (converter.CanConvertTo$$Type(Typeof(T)))
-                return Cast(converter.ConvertTo$$Object$$Type(value, Typeof(T)), T);
-            throw $CreateException(new System.InvalidOperationException.ctor$$String(System.String.Format$$String$$Object$$Object("Unnable to convert to target type! Source type: {0}, target type: {1}", value.GetType(), Typeof(T))), new Error());
+            if (converter.CanConvertTo$$Type(targetType))
+                return Cast(converter.ConvertTo$$Object$$Type(value, targetType), T);
+            throw $CreateException(new System.InvalidOperationException.ctor$$String(System.String.Format$$String$$Object$$Object("Unnable to convert to target type! Source type: {0}, target type: {1}", sourceType, targetType)), new Error());
         }
     }
 };

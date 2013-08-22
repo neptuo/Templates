@@ -13,17 +13,24 @@ namespace TestConsoleNG.Extensions
     public class BindingExtension : IValueExtension
     {
         private DataStorage dataStorage;
+        private IValueConverterService valueConverterService;
 
         public string Expression { get; set; }
+        public string ConverterKey { get; set; }
 
-        public BindingExtension(DataStorage dataStorage)
+        public BindingExtension(DataStorage dataStorage, IValueConverterService valueConverterService)
         {
             this.dataStorage = dataStorage;
+            this.valueConverterService = valueConverterService;
         }
 
         public object ProvideValue(IValueExtensionContext context)
         {
             object data = BindingManager.GetValue(Expression, dataStorage.Peek());
+
+            if (!String.IsNullOrEmpty(ConverterKey))
+                data = valueConverterService.GetConverter(ConverterKey).ConvertTo(data);
+
             //if (data == null)
             //    return null;
 
