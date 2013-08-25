@@ -4,7 +4,10 @@
 <head>
     <title>TestSharpKit</title>
     <script src="res/jquery-1.8.2.min.js"></script>
-    <script src="res/jsclr-4.1.0.js"></script>
+    <%--<script src="res/jsclr-4.1.0.js"></script>--%>
+    <script src="res/MagicWare.Client.Clr.js"></script>
+    <script src="res/StringWriter.js"></script>
+    <script src="res/MagicWare.Client.ObjectBuilder.js"></script>
     <script src="res/Neptuo.Templates.js"></script>
     <script src="res/Neptuo.Templates.Components.js"></script>
     <script src="res/TestConsoleNG.js"></script>

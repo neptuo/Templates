@@ -65,6 +65,7 @@
     <Compile Include="Extensions\ValueConverterService.cs" />
     <Compile Include="Observers\DataContextObserver.cs" />
     <Compile Include="Observers\VisibleObserver.cs" />
+    <Compile Include="PersonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
