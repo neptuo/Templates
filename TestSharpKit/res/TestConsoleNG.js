@@ -768,3 +768,110 @@ var TestConsoleNG$Observers$VisibleObserver =
     }
 };
 JsTypes.push(TestConsoleNG$Observers$VisibleObserver);
+var TestConsoleNG$PersonModel =
+{
+    fullname: "TestConsoleNG.PersonModel",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (firstname, lastname, address)
+        {
+            this._Firstname = null;
+            this._Lastname = null;
+            this._Address = null;
+            System.Object.ctor.call(this);
+            this.set_Firstname(firstname);
+            this.set_Lastname(lastname);
+            this.set_Address(address);
+        },
+        Firstname$$: "System.String",
+        get_Firstname: function ()
+        {
+            return this._Firstname;
+        },
+        set_Firstname: function (value)
+        {
+            this._Firstname = value;
+        },
+        Lastname$$: "System.String",
+        get_Lastname: function ()
+        {
+            return this._Lastname;
+        },
+        set_Lastname: function (value)
+        {
+            this._Lastname = value;
+        },
+        Address$$: "TestConsoleNG.AddressModel",
+        get_Address: function ()
+        {
+            return this._Address;
+        },
+        set_Address: function (value)
+        {
+            this._Address = value;
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$PersonModel);
+var TestConsoleNG$AddressModel =
+{
+    fullname: "TestConsoleNG.AddressModel",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (street, houseNumber, city, postalCode)
+        {
+            this._Street = null;
+            this._HouseNumber = 0;
+            this._City = null;
+            this._PostalCode = 0;
+            System.Object.ctor.call(this);
+            this.set_Street(street);
+            this.set_HouseNumber(houseNumber);
+            this.set_City(city);
+            this.set_PostalCode(postalCode);
+        },
+        Street$$: "System.String",
+        get_Street: function ()
+        {
+            return this._Street;
+        },
+        set_Street: function (value)
+        {
+            this._Street = value;
+        },
+        HouseNumber$$: "System.Int32",
+        get_HouseNumber: function ()
+        {
+            return this._HouseNumber;
+        },
+        set_HouseNumber: function (value)
+        {
+            this._HouseNumber = value;
+        },
+        City$$: "System.String",
+        get_City: function ()
+        {
+            return this._City;
+        },
+        set_City: function (value)
+        {
+            this._City = value;
+        },
+        PostalCode$$: "System.Int32",
+        get_PostalCode: function ()
+        {
+            return this._PostalCode;
+        },
+        set_PostalCode: function (value)
+        {
+            this._PostalCode = value;
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$AddressModel);
