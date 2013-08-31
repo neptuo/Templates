@@ -14,17 +14,18 @@ using TestConsoleNG.Controls;
 using TestConsoleNG.Data;
 using TestConsoleNG.Extensions;
 using TestConsoleNG.Observers;
+using TestConsoleNG.SimpleContainer;
 using TestConsoleNG.Unity;
 
 namespace TestConsoleNG
 {
     public static class TestTemplates
     {
-        private static UnityDependencyContainer container;
+        private static IDependencyContainer container;
 
         static TestTemplates()
         {
-            container = new UnityDependencyContainer();
+            container = new SimpleObjectBuilder();
             container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));

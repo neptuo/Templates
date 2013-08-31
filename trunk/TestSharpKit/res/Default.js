@@ -5,7 +5,7 @@ function DefaultClient_Load()
 };
 function btnTest_click(e)
 {
-    var container = new MagicWare.ObjectBuilder.JavascriptFactory.ctor();
+    var container = new TestConsoleNG.SimpleContainer.SimpleObjectBuilder.ctor();
     Neptuo.Templates.DependencyContainerExtensions.RegisterInstance$1(TestConsoleNG.Data.DataStorage.ctor, container, new TestConsoleNG.Data.DataStorage.ctor(new TestConsoleNG.PersonModel.ctor("Jon", "Doe", new TestConsoleNG.AddressModel.ctor("Dlouhá street", 23, "Prague", 10001))));
     Neptuo.Templates.DependencyContainerExtensions.RegisterInstance$1(TestConsoleNG.Extensions.IValueConverterService.ctor, container, new TestConsoleNG.Extensions.ValueConverterService.ctor().SetConverter("NullToBool", new TestConsoleNG.Extensions.NullToBoolValueConverter.ctor()));
     Neptuo.Templates.DependencyContainerExtensions.RegisterInstance$1(Neptuo.Templates.IComponentManager.ctor, container, new Neptuo.Templates.ComponentManager.ctor());
@@ -16,5 +16,5 @@ function btnTest_click(e)
     view.Init();
     view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(writer));
     view.Dispose();
-    alert(writer.toString());
+    $("#viewContent").html(writer.toString());
 };

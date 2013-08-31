@@ -4,8 +4,7 @@
 <head>
     <title>TestSharpKit</title>
     <script src="res/jquery-1.8.2.min.js"></script>
-    <%--<script src="res/jsclr-4.1.0.js"></script>--%>
-    <script src="res/MagicWare.Client.Clr.js"></script>
+    <script src="res/jsclr-4.1.0.js"></script>
     <script src="res/StringWriter.js"></script>
     <script src="res/MagicWare.Client.ObjectBuilder.js"></script>
     <script src="res/Neptuo.Templates.js"></script>
@@ -20,6 +19,8 @@
     </script>
 </head>
 <body>
-    <button onclick="btnTest_click(event);">Click me</button>
+    <button onclick="btnTest_click(event);">Create edit address form</button>
+
+    <div id="viewContent"></div>
 </body>
 </html>

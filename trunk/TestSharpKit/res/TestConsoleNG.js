@@ -41,6 +41,19 @@ if (typeof($CreateDelegate)=='undefined'){
         return delegate;
     }
 }
+if (typeof ($CreateAnonymousDelegate) == 'undefined') {
+    var $CreateAnonymousDelegate = function (target, func) {
+        if (target == null || func == null)
+            return func;
+        var delegate = function () {
+            return func.apply(target, arguments);
+        };
+        delegate.func = func;
+        delegate.target = target;
+        delegate.isDelegate = true;
+        return delegate;
+    }
+}
 if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
 var TestConsoleNG$Controls$AnchorControl =
@@ -875,3 +888,56 @@ var TestConsoleNG$AddressModel =
     }
 };
 JsTypes.push(TestConsoleNG$AddressModel);
+var TestConsoleNG$SimpleContainer$SimpleObjectBuilder =
+{
+    fullname: "TestConsoleNG.SimpleContainer.SimpleObjectBuilder",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["Neptuo.Templates.IDependencyContainer"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            this.registry = null;
+            TestConsoleNG.SimpleContainer.SimpleObjectBuilder.ctor$$Dictionary$2.call(this, new System.Collections.Generic.Dictionary$2.ctor(System.Type.ctor, System.Func$1.ctor));
+        },
+        ctor$$Dictionary$2: function (registry)
+        {
+            this.registry = null;
+            System.Object.ctor.call(this);
+            this.registry = registry;
+        },
+        RegisterInstance: function (t, name, instance)
+        {
+            this.registry.set_Item$$TKey(t, $CreateAnonymousDelegate(this, function ()
+            {
+                return instance;
+            }));
+            return this;
+        },
+        RegisterType: function (from, to, name)
+        {
+            this.registry.set_Item$$TKey(from, $CreateAnonymousDelegate(this, function ()
+            {
+                return System.Activator.CreateInstance$$Type(to);
+            }));
+            return this;
+        },
+        CreateChildContainer: function ()
+        {
+            return new TestConsoleNG.SimpleContainer.SimpleObjectBuilder.ctor$$Dictionary$2(new System.Collections.Generic.Dictionary$2.ctor$$IDictionary$2(System.Type.ctor, System.Func$1.ctor, this.registry));
+        },
+        Resolve: function (t, name)
+        {
+            if (this.registry.ContainsKey(t))
+                return this.registry.get_Item$$TKey(t)();
+            return System.Activator.CreateInstance$$Type(t);
+        },
+        ResolveAll: function (t)
+        {
+            throw $CreateException(new System.NotImplementedException.ctor(), new Error());
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$SimpleContainer$SimpleObjectBuilder);

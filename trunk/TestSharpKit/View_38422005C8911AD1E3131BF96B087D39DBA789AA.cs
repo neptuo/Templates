@@ -14,6 +14,11 @@ namespace Neptuo.Templates
     [JsType(JsMode.Clr, Filename = "res/View.js")]
     public sealed class View_38422005C8911AD1E3131BF96B087D39DBA789AA : Neptuo.Templates.BaseGeneratedView, System.IDisposable
     {
+        protected override T CastValueTo<T>(object value)
+        {
+            return value.ToString().As<T>();
+        }
+
         private TestConsoleNG.Observers.DataContextObserver field2;
         protected override void CreateViewPageControls(Neptuo.Templates.IViewPage viewPage)
         {

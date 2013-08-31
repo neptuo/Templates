@@ -67,6 +67,7 @@
     <Compile Include="Observers\VisibleObserver.cs" />
     <Compile Include="PersonModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimpleContainer\SimpleObjectBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.XmlParser\Neptuo.Templates.Compilation.XmlParser.csproj">

@@ -69,8 +69,6 @@
     <Content Include="res\Default.js" />
     <Content Include="res\jquery-1.8.2.min.js" />
     <Content Include="res\jsclr-4.1.0.js" />
-    <Content Include="res\MagicWare.Client.Clr.js" />
-    <Content Include="res\MagicWare.Client.ObjectBuilder.js" />
     <Content Include="res\Neptuo.Templates.Components.js" />
     <Content Include="res\Neptuo.Templates.js" />
     <Content Include="res\StringWriter.js" />
@@ -86,8 +84,8 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="JavascriptFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ReflectionHelper.cs" />
     <Compile Include="View_38422005C8911AD1E3131BF96B087D39DBA789AA.cs" />
     <Compile Include="View_9741084CDDEB89E6278CC0A58C5F284F84983F2D.cs" />
     <Compile Include="View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55.cs" />
@@ -96,6 +94,7 @@
     <Compile Include="DefaultClient.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Properties\PublishProfiles\s1.azure.neptuo.com.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
