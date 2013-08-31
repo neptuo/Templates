@@ -1,0 +1,43 @@
+﻿h2 {
+    margin: 0;
+}
+
+a img {
+    border: none;
+}
+
+p {
+    text-align: justify;
+}
+
+p.first {
+    margin-top: 0;
+}
+
+p.last {
+    margin-bottom: 0;
+}
+
+.clear {
+    clear: both;
+}
+
+.left {
+    float: left
+}
+
+.right {
+    float: right;
+}
+
+.inline-form {
+    display: inline;
+}
+
+.space {
+    margin: 20px;
+}
+
+.strong {
+    font-weight: bold;
+}
