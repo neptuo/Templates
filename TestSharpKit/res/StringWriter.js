@@ -57,7 +57,7 @@ JsTypes.push({
             }
         }
         ,
-        ToString: function () {
+        toString: function () {
             return this.array.join("");
         }
     }

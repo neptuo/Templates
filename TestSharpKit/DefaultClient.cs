@@ -3,10 +3,10 @@ using SharpKit.Html;
 using SharpKit.jQuery;
 using Neptuo.Templates;
 using System.IO;
-using MagicWare.ObjectBuilder;
 using TestConsoleNG.Data;
 using TestConsoleNG;
 using TestConsoleNG.Extensions;
+using TestConsoleNG.SimpleContainer;
 
 namespace TestSharpKit
 {
@@ -19,11 +19,10 @@ namespace TestSharpKit
         }
         static void btnTest_click(DOMEvent e)
         {
-            JavascriptFactory container = new JavascriptFactory();
+            IDependencyContainer container = new SimpleObjectBuilder();
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
             container.RegisterInstance<IComponentManager>(new ComponentManager());
-
 
             StringWriter writer = new StringWriter();
 
@@ -34,7 +33,7 @@ namespace TestSharpKit
             view.Render(new HtmlTextWriter(writer));
             view.Dispose();
 
-            HtmlContext.alert(writer.ToString());
+            new jQuery("#viewContent").html(writer.ToString());
         }
     }
 }

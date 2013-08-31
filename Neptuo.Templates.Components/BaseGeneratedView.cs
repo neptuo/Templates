@@ -60,7 +60,7 @@ namespace Neptuo.Templates
             );
         }
 
-        protected T CastValueTo<T>(object value)
+        protected virtual T CastValueTo<T>(object value)
         {
             if (value == null)
                 return default(T);
