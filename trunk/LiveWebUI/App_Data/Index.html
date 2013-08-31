@@ -1,0 +1,15 @@
+﻿<!-- This is a html comment -->
+<div data:DataContext="{Binding Address}">
+    <h:panel header="Street:"  ui:visible="{Binding Street, ConverterKey=NullToBool}">
+        <h:textbox name="street" text="{Binding Street}" />
+    </h:panel>
+    <h:panel header="House Number:">
+        <h:textbox name="housenumber" text="{Binding HouseNumber}" />
+    </h:panel>
+    <h:panel header="City:">
+        <h:textbox name="city" text="{Binding City}" />
+    </h:panel>
+    <h:panel header="Postal code:">
+        <h:textbox name="postalcode" text="{Binding PostalCode}" />
+    </h:panel>
+</div>
