@@ -14,6 +14,8 @@ namespace LiveWebUI
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{resource}.ico/{*pathInfo}");
 
+            routes.MapHubs();
+
             routes.MapRoute(
                 name: "RunServer",
                 url: "server/{*identifier}",
@@ -25,8 +27,6 @@ namespace LiveWebUI
                 url: "{*identifier}",
                 defaults: new { controller = "Home", action = "Index", identifier = UrlParameter.Optional }
             );
-
-            //routes.MapHubs();
         }
     }
 }

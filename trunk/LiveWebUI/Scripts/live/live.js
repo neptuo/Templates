@@ -1,8 +1,6 @@
 /// <reference path="../jquery-2.0.3.intellisense.js" />
 
 function formatUrl(url) {
-    var appRelative = '';
-
     if (appRelative == null) {
         return "/" + url;
     }
@@ -78,6 +76,7 @@ $(function () {
                     iframe.src = url;
                     var modal = $('#mdl-server').modal('show');
                     modal.find('.modal-url').html(iframe.src).attr('href', iframe.src);
+                    $('#errors tbody').html("");
                 }
             });
         e.preventDefault();
