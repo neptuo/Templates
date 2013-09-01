@@ -12,7 +12,8 @@
 var options = {
     height: "400px",
     lineNumbers: true,
-    autofocus: true
+    autofocus: true,
+    //viewportMargin: 'Infinity'
 };
 options.mode = 'xml';
 var editor = CodeMirror.fromTextArea(document.querySelector('#taa-content'), options);
