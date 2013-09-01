@@ -1,4 +1,4 @@
-﻿using LiveWebUI.Hubs;
+﻿using LiveWebUI.Models;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
 using System;
@@ -34,5 +34,16 @@ namespace LiveWebUI.Controllers
             return output.ToString();
         }
 
+        public ActionResult RunClient(string identifier)
+        {
+            string viewContent = TemplateHelper.ViewRepository.GetContent(identifier);
+            if (String.IsNullOrEmpty(viewContent))
+                return Content("Missing view content!");
+
+            INaming naming = TemplateHelper.ViewService.NamingService.FromContent(viewContent);
+            string javascript = TemplateHelper.ViewService.GenerateJavascript(viewContent, new ViewServiceContext(TemplateHelper.Container), naming);
+            
+            return View(new JavascriptModel(javascript, String.Join(".", naming.ClassNamespace, naming.ClassName)));
+        }
     }
 }

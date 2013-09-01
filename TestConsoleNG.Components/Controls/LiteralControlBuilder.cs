@@ -33,12 +33,15 @@ namespace TestConsoleNG.Controls
                 return;
             }
 
-            IComponentCodeObject codeObject = new ComponentCodeObject(literalControlType);
-            codeObject.Properties.Add(new SetPropertyDescriptor(
-                new TypePropertyInfo(literalControlType.GetProperty(textProperty)), 
-                new PlainValueCodeObject(text)
-            ));
-            context.Parent.SetValue(codeObject);
+            if (context.Parent.Property.CanAssign(literalControlType))
+            {
+                IComponentCodeObject codeObject = new ComponentCodeObject(literalControlType);
+                codeObject.Properties.Add(new SetPropertyDescriptor(
+                    new TypePropertyInfo(literalControlType.GetProperty(textProperty)),
+                    new PlainValueCodeObject(text)
+                ));
+                context.Parent.SetValue(codeObject);
+            }
         }
     }
 }

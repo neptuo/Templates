@@ -1,0 +1,46 @@
+﻿@model LiveWebUI.Models.JavascriptModel
+
+<!doctype html>
+<html>
+<head>
+    <title>TestSharpKit</title>
+    <script src="~/Scripts/jquery-2.0.3.min.js"></script>
+    <script src="~/Scripts/sk/jsclr-4.1.0.js"></script>
+    <script src="~/Scripts/sk/StringWriter.js"></script>
+    <script src="~/Scripts/sk/ReflectionHelper.js"></script>
+    <script src="~/Scripts/sk/Neptuo.Templates.js"></script>
+    <script src="~/Scripts/sk/Neptuo.Templates.Components.js"></script>
+    <script src="~/Scripts/sk/TestConsoleNG.js"></script>
+    <script>
+
+@Model.ViewSource
+
+        JsRuntime.Start();
+
+    </script>
+</head>
+<body>
+    <div id="viewContent"></div>
+
+    <script>
+
+$(function () {
+
+    var container = new TestConsoleNG.SimpleContainer.SimpleObjectBuilder.ctor();
+    Neptuo.Templates.DependencyContainerExtensions.RegisterInstance$1(TestConsoleNG.Data.DataStorage.ctor, container, new TestConsoleNG.Data.DataStorage.ctor(new TestConsoleNG.PersonModel.ctor("Jon", "Doe", new TestConsoleNG.AddressModel.ctor("Dlouhá street", 23, "Prague", 10001))));
+    Neptuo.Templates.DependencyContainerExtensions.RegisterInstance$1(TestConsoleNG.Extensions.IValueConverterService.ctor, container, new TestConsoleNG.Extensions.ValueConverterService.ctor().SetConverter("NullToBool", new TestConsoleNG.Extensions.NullToBoolValueConverter.ctor()));
+    Neptuo.Templates.DependencyContainerExtensions.RegisterInstance$1(Neptuo.Templates.IComponentManager.ctor, container, new Neptuo.Templates.ComponentManager.ctor());
+    var writer = new System.IO.StringWriter.ctor();
+    var view = @String.Format("new {0}.ctor();", Model.ClassFullName)
+    view.Setup(new Neptuo.Templates.BaseViewPage.ctor(Neptuo.Templates.DependencyProviderExtensions.Resolve$1(Neptuo.Templates.IComponentManager.ctor, container)), Neptuo.Templates.DependencyProviderExtensions.Resolve$1(Neptuo.Templates.IComponentManager.ctor, container), container);
+    view.CreateControls();
+    view.Init();
+    view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(writer));
+    view.Dispose();
+    $("#viewContent").html(writer.toString());
+
+});
+
+    </script>
+</body>
+</html>

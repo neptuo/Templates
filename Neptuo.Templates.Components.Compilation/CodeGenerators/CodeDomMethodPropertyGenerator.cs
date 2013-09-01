@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             context.Statements.Add(
                 new CodeMethodInvokeExpression(
                     new CodeFieldReferenceExpression(
-                        new CodeThisReferenceExpression(),
+                        null,
                         context.FieldName
                     ),
                     propertyDescriptor.Method.Name,

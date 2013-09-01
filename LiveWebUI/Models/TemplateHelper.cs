@@ -15,7 +15,7 @@ using TestConsoleNG.Extensions;
 using TestConsoleNG.Observers;
 using TestConsoleNG.SimpleContainer;
 
-namespace LiveWebUI.Hubs
+namespace LiveWebUI.Models
 {
     public static class TemplateHelper
     {
