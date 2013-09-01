@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BaseNamingService.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorServiceContext.cs" />
     <Compile Include="CodeDomViewService.cs" />
     <Compile Include="CodeDomViewServiceException.cs" />

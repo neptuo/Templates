@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
+
 using Neptuo.Templates.Compilation.CodeObjects;
 
 namespace Neptuo.Templates.Compilation.Parsers
@@ -39,7 +39,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             public void FormatEmptyElement(IXmlElement element)
             {
                 Content.AppendFormat("<{0}", element.Name);
-                foreach (XmlAttribute attribute in element.Attributes)
+                foreach (IXmlAttribute attribute in element.Attributes)
                     Content.AppendFormat(" {0}=\"{1}\"", attribute.Name, attribute.Value);
 
                 Content.Append(" />");
@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             public void FormatStartElement(IXmlElement element)
             {
                 Content.AppendFormat("<{0}", element.Name);
-                foreach (XmlAttribute attribute in element.Attributes)
+                foreach (IXmlAttribute attribute in element.Attributes)
                     Content.AppendFormat(" {0}=\"{1}\"", attribute.Name, attribute.Value);
 
                 Content.Append(">");

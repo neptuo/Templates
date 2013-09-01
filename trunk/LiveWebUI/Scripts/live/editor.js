@@ -14,6 +14,7 @@ var options = {
     lineNumbers: true,
     autofocus: true
 };
+options.mode = 'xml';
 var editor = CodeMirror.fromTextArea(document.querySelector('#taa-content'), options);
 editor.setSize("100%", "400px");
 
@@ -22,6 +23,7 @@ var sourcePrepared = false;
 var source = null;
 function PrepareSource() {
     if (!sourcePrepared) {
+        options.mode = 'clike';
         source = CodeMirror.fromTextArea(document.querySelector('#taa-source'), options);
         source.setSize("100%", "600px");
         sourcePrepared = true;

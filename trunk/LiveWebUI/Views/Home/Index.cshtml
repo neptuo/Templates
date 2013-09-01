@@ -1,4 +1,6 @@
-﻿<!doctype html>
+﻿@model MvcHtmlString
+
+<!doctype html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -9,12 +11,13 @@
     <link href="~/Content/common.css" rel="stylesheet" />
     <link href="~/Content/ui.css" rel="stylesheet" />
 
-    <script src="~/Scripts/jquery-1.9.1.min.js"></script>
+    <script src="~/Scripts/jquery-2.0.3.min.js"></script>
     <script src="~/Scripts/jquery.signalR-1.1.3.min.js"></script>
     <script src="~/signalr/hubs" type="text/javascript"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <script src="~/Scripts/codemirror-3.16/lib/codemirror.js"></script>
     <script src="~/Scripts/codemirror-3.16/mode/xml/xml.js"></script>
+    <script src="~/Scripts/codemirror-3.16/mode/clike/clike.js"></script>
 </head>
 <body>
 
@@ -35,10 +38,9 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse right">
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
-                        <button id="btn-compile" class="btn btn-default">Compile</button>
                         <button id="btn-source" class="btn btn-default">View generated code</button>
                         <button id="btn-server" class="btn btn-default">Run server version</button>
-                        <button id="btn-client" class="btn btn-default">Run javascript version</button>
+                        <button id="btn-client" class="btn btn-default" disabled="disabled">Run javascript version</button>
                         <button id="btn-save" class="btn btn-default">Save</button>
                     </div>
                 </form>
@@ -53,8 +55,20 @@
                 </form>
 
                 <div class="border border-content vertical-space">
-                    <h2>Log</h2>
-                    <ul id="ul-errors"></ul>
+                    <h2>Error list</h2>
+                    <table id="errors" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <td style="width: 30px;"></td>
+                                <td>Description</td>
+                                <td style="width: 70px;">Line</td>
+                                <td style="width: 70px;">Column</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                    </table>
 
                 </div>
             </div>
@@ -143,7 +157,7 @@
         </div>
 
 
-
+        
         <div class="modal fade" id="mdl-source" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog modal-source">
                 <div class="modal-content">
@@ -157,9 +171,28 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="mdl-server" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-source">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Html from server: (<a class="modal-url" target="_blank" href="#"></a>)</h4>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="ifr-server" style="width: 100%; height: 500px;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 
+    <script>
+
+        var identifier = @Model;
+        var appRelative = '@Url.Content("~/")';
+
+    </script>
     <script src="~/Scripts/live/editor.js"></script>
     <script src="~/Scripts/live/live.js"></script>
 </body>
