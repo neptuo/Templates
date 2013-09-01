@@ -40,9 +40,9 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse right">
                 <form class="navbar-form navbar-left">
                     <div class="form-group">
-                        <button id="btn-source" class="btn btn-default">View generated code</button>
+                        <button id="btn-source" class="btn btn-default">View generated C# code</button>
                         <button id="btn-server" class="btn btn-default">Run server version</button>
-                        <button id="btn-client" class="btn btn-default" disabled="disabled">Run javascript version</button>
+                        <button id="btn-client" class="btn btn-default">Run javascript version</button>
                         <button id="btn-save" class="btn btn-default">Save</button>
                     </div>
                 </form>
@@ -77,71 +77,119 @@
             <div class="col-md-4 border">
                 <h2>Hint</h2>
                 <p>
-                    This page enables you to try live processing of Neptuo Templates.
+                    This page enables you to try live processing of Neptuo Templates. 
                 </p>
-                <p>
-                    View gets person model with following structure:
-                </p>
-                <ul>
-                    <li>Firstname</li>
-                    <li>Lastname</li>
-                    <li>Address
-                        <ul>
-                            <li>Street</li>
-                            <li>HouseNumber</li>
-                            <li>City</li>
-                            <li>PostalCode</li>
-                        </ul>
-                    </li>
-                </ul>
 
-                <h2>Available controls (xml tags)</h2>
-                <p>
-                    Here is a list of available controls, aka xml tags. These have some rendering functionality...
-                </p>
-                <ul>
-                    <li>
-                        <strong>h:panel</strong> is rendered as standart html div.
-                    </li>
-                    <li>
-                        <strong>h:textbox</strong> is rendered as html input type=text.
-                    </li>
-                </ul>
-
-                <h2>Available markup extensions ({...})</h2>
-                <p>
-                    Here is a list of markup extensions. 
-                    Markup extensions are those curly brackets inside xml attributes 
-                    and enables to setup value of attribute dynamically.
-                </p>
-                <ul>
-                    <li>
-                        <strong>{Binding}</strong> is rendered as standart html div
-                        <ul>
-                            <li>
-                                <strong>Expression</strong> (default property) is property path for object in data context.
-                            </li>
-                            <li>
-                                <strong>ConverterKey</strong> is key to value converter service for transforming bound data 
-                                (the only registered converter is Null to Bool converter under the 'NullToBool' key).
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <h2>Available observers (xml attributes)</h2>
-                <p>
-                    Here is a list of observers. These enable to make some observation over controls...
-                </p>
-                <ul>
-                    <li>
-                        <strong>data:DataContext</strong> changes current data context.
-                    </li>
-                    <li>
-                        <strong>ui:Visible</strong> enables to show/hide control.
-                    </li>
-                </ul>
-
+                <div class="accordion" id="accordion2">
+                    <div class="accordion-group">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#p1">Model definition</a>
+                        <div id="p1" class="accordion-body collapse in">
+                            <p>
+                                View gets prepared person model (in MVC style) with following structure:
+                            </p>
+                            <ul>
+                                <li>Firstname</li>
+                                <li>Lastname</li>
+                                <li>Address
+                                    <ul>
+                                        <li>Street</li>
+                                        <li>HouseNumber</li>
+                                        <li>City</li>
+                                        <li>PostalCode</li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-group">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#p2">Available controls (xml tags)</a>
+                        <div id="p2" class="accordion-body collapse in">
+                            <p>
+                                Here is a list of available controls, aka xml tags. These have some rendering functionality...
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>h:panel</strong> is rendered as standart html div.
+                                    <ul>
+                                        <li>Name</li>
+                                        <li>Text</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>h:textbox</strong> is rendered as html input type=text.
+                                </li>
+                                <li>
+                                    <strong>h:literal</strong> is for rendering text (static or dynamic).
+                                    <ul>
+                                        <li>Text</li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>h:anchor</strong> is for rendering links (link text in the body of tag).
+                                    <ul>
+                                        <li>
+                                            <strong>Url</strong> is base url.
+                                        </li>
+                                        <li>
+                                            <strong>Parameters</strong> can be used to append query string parameters to url. Consists of h:parameter
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <strong>h:parameter</strong> is single query string parameter.
+                                    <ul>
+                                        <li>
+                                            <strong>Name</strong> is parameter name.
+                                        </li>
+                                        <li>
+                                            <strong>Value</strong> is parameter value.
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-group">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#p3">Available markup extensions ({...})</a>
+                        <div id="p3" class="accordion-body collapse in">
+                            <p>
+                                Here is a list of markup extensions. 
+                                Markup extensions are those curly brackets inside xml attributes 
+                                and enables to setup value of attribute dynamically.
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>{Binding}</strong> is rendered as standart html div
+                                    <ul>
+                                        <li>
+                                            <strong>Expression</strong> (default property) is property path for object in data context.
+                                        </li>
+                                        <li>
+                                            <strong>ConverterKey</strong> is key to value converter service for transforming bound data 
+                                            (the only registered converter is Null to Bool converter under the 'NullToBool' key).
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-group">
+                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#p4">Available observers (xml attributes)</a>
+                        <div id="p4" class="accordion-body collapse in">
+                            <p>
+                                Here is a list of observers. These enable to make some observation over controls...
+                            </p>
+                            <ul>
+                                <li>
+                                    <strong>data:DataContext</strong> changes current data context.
+                                </li>
+                                <li>
+                                    <strong>ui:Visible</strong> enables to show/hide control.
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="clear"></div>
         </div>
@@ -181,7 +229,20 @@
                         <h4 class="modal-title">Html from server: (<a class="modal-url" target="_blank" href="#"></a>)</h4>
                     </div>
                     <div class="modal-body">
-                        <iframe id="ifr-server" style="width: 100%; height: 500px;"></iframe>
+                        <iframe id="ifr-server"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="mdl-client" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-source">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Html by javascript: (<a class="modal-url" target="_blank" href="#"></a>)</h4>
+                    </div>
+                    <div class="modal-body">
+                        <iframe id="ifr-client"></iframe>
                     </div>
                 </div>
             </div>

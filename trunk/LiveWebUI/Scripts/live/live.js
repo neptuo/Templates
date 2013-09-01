@@ -65,6 +65,8 @@ $(function () {
     });
 
     $('#btn-server').click(function (e) {
+        var iframe = $('#ifr-server')[0];
+        iframe.url = 'about:blank';
         hub.server
             .runServer(identifier, editor.getValue())
             .done(function (newId) {
@@ -72,10 +74,8 @@ $(function () {
                     var url = formatUrl("server/" + newId);
                     //window.location.href = url;
 
-                    var iframe = $('#ifr-server')[0];
                     iframe.src = url;
-                    var modal = $('#mdl-server').modal('show');
-                    modal.find('.modal-url').html(iframe.src).attr('href', iframe.src);
+                    $('#mdl-server').modal('show').find('.modal-url').html(iframe.src).attr('href', iframe.src);
                     $('#errors tbody').html("");
                 }
             });
@@ -83,7 +83,21 @@ $(function () {
     });
 
     $('#btn-client').click(function (e) {
+        var iframe = $('#ifr-client')[0];
+        iframe.url = 'about:blank';
+        hub.server
+            .runServer(identifier, editor.getValue())
+            .done(function (newId) {
+                if (typeof (newId) != 'undefined') {
+                    var url = formatUrl("client/" + newId);
+                    //window.location.href = url;
 
+                    iframe.src = url;
+                    $('#mdl-client').modal('show').find('.modal-url').html(iframe.src).attr('href', iframe.src);
+                    $('#errors tbody').html("");
+                }
+            });
+        e.preventDefault();
     });
 
     $('#btn-save').click(function (e) {

@@ -11,6 +11,7 @@ namespace TestConsoleNG
         static void Main(string[] args)
         {
             TestTemplates.Test();
+            //TestOnlineSharpkitCompile.Test();
 
             Console.ReadKey(true);
         }

@@ -186,7 +186,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected virtual void GenerateDefaultPropertyValues<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
             where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
-            HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Select(p => p.Property.Name));
+            HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Where(p => p.Property != null).Select(p => p.Property.Name));
             foreach (PropertyInfo propertyInfo in codeObject.Type.GetProperties())
             {
                 if (propertyInfo.CanWrite && boundProperties.Add(propertyInfo.Name))

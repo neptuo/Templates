@@ -23,6 +23,12 @@ namespace LiveWebUI
             );
 
             routes.MapRoute(
+                name: "RunClient",
+                url: "client/{*identifier}",
+                defaults: new { controller = "Home", action = "RunClient", identifier = UrlParameter.Optional }
+            );
+
+            routes.MapRoute(
                 name: "Default",
                 url: "{*identifier}",
                 defaults: new { controller = "Home", action = "Index", identifier = UrlParameter.Optional }

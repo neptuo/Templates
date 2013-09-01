@@ -13,3 +13,9 @@
         <h:textbox name="postalcode" text="{Binding PostalCode}" />
     </h:panel>
 </div>
+
+<h:anchor url="http://www.google.com" target="_blank">
+  <parameters>
+    <h:parameter name="q" value="{Binding Firstname}" />
+  </parameters>
+</h:anchor>
