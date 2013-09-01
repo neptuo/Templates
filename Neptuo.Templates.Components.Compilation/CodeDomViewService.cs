@@ -63,6 +63,7 @@ namespace Neptuo.Templates.Compilation
 
         protected virtual object ProcessContent(string viewContent, IViewServiceContext context, INaming naming)
         {
+            EnsureFileProvider(context);
             string assemblyPath = GetAssemblyPath(naming);
             if (!AssemblyExists(assemblyPath))
                 CompileView(viewContent, context, naming);

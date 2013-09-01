@@ -12,11 +12,18 @@ namespace LiveWebUI
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{resource}.ico/{*pathInfo}");
+
+            routes.MapRoute(
+                name: "RunServer",
+                url: "server/{*identifier}",
+                defaults: new { controller = "Home", action = "RunServer", identifier = UrlParameter.Optional }
+            );
 
             routes.MapRoute(
                 name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+                url: "{*identifier}",
+                defaults: new { controller = "Home", action = "Index", identifier = UrlParameter.Optional }
             );
 
             //routes.MapHubs();
