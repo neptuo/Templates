@@ -1,5 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Compilation.Parsers.ExtensionContent;
+using Neptuo.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,12 +17,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             Type = type;
         }
 
-        protected override IValueExtensionCodeObject CreateCodeObject(IMarkupExtensionBuilderContext context, Extension extension)
+        protected override IValueExtensionCodeObject CreateCodeObject(IMarkupExtensionBuilderContext context, Token extension)
         {
             return new ExtensionCodeObject(Type);
         }
 
-        protected override IMarkupExtensionInfo GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Extension extension)
+        protected override IMarkupExtensionInfo GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
         {
             return new TypeInfo(Type);
         }

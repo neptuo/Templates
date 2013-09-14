@@ -665,9 +665,9 @@
       <Project>{fe55bf0f-506c-4f9e-abfd-69c4cd0761a3}</Project>
       <Name>Neptuo.Templates.Compilation.CodeDomGenerator</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation.MarkupExtension\Neptuo.Templates.Compilation.MarkupExtension.csproj">
-      <Project>{cd66820c-6034-480a-a70b-fde1f8958b91}</Project>
-      <Name>Neptuo.Templates.Compilation.MarkupExtension</Name>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Tokens\Neptuo.Templates.Compilation.Tokens.csproj">
+      <Project>{5b3bf3a2-1a61-4cd9-a515-a55912bc2794}</Project>
+      <Name>Neptuo.Templates.Compilation.Tokens</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.XmlParser\Neptuo.Templates.Compilation.XmlParser.csproj">
       <Project>{2d69656a-a3b6-4206-8b1d-eb7027716172}</Project>
