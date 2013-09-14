@@ -1,5 +1,5 @@
-﻿using Neptuo.Templates.Compilation;
-using Neptuo.Templates.SharpKitGenerator;
+﻿using Neptuo.SharpKit.CodeGenerator;
+using Neptuo.Templates.Compilation;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +29,7 @@ namespace LiveWebUI.Models
             StringWriter output = new StringWriter();
             StringReader input = new StringReader(sourceCode);
 
-            SharpKitCodeGenerator sharpKitGenerator = new SharpKitCodeGenerator();
+            SharpKitCompiler sharpKitGenerator = new SharpKitCompiler();
             sharpKitGenerator.AddReference("mscorlib.dll");
             sharpKitGenerator.AddSharpKitReference("SharpKit.JavaScript.dll", "SharpKit.Html.dll", "SharpKit.jQuery.dll");
             
@@ -37,7 +37,7 @@ namespace LiveWebUI.Models
                 sharpKitGenerator.AddReferenceFolder(folder);
 
             sharpKitGenerator.TempDirectory = TempDirectory;
-            sharpKitGenerator.Generate(new SharpKitCodeGeneratorContext(input, output));
+            sharpKitGenerator.Generate(new SharpKitCompilerContext(input, output));
             return output.ToString();
         }
     }

@@ -73,6 +73,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Neptuo.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.SharpKit.CodeGenerator">
+      <HintPath>..\References\Neptuo.SharpKit.CodeGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -681,10 +684,6 @@
     <ProjectReference Include="..\Neptuo.Templates.Components\Neptuo.Templates.Components.csproj">
       <Project>{4c85862f-5d28-4907-ab59-e54375dc9d81}</Project>
       <Name>Neptuo.Templates.Components</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.SharpKitGenerator\Neptuo.Templates.SharpKitGenerator.csproj">
-      <Project>{328f5168-c8ee-4b1a-b890-9cccdb2f1231}</Project>
-      <Name>Neptuo.Templates.SharpKitGenerator</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
       <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
