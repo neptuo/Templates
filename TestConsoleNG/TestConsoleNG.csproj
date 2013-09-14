@@ -96,10 +96,6 @@
       <Project>{4c85862f-5d28-4907-ab59-e54375dc9d81}</Project>
       <Name>Neptuo.Templates.Components</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.Mvc.Compilation\Neptuo.Templates.Mvc.Compilation.csproj">
-      <Project>{1a5c88a6-fcc9-4d2b-a82f-8c3883e50cf2}</Project>
-      <Name>Neptuo.Templates.Mvc.Compilation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.SharpKitGenerator\Neptuo.Templates.SharpKitGenerator.csproj">
       <Project>{328f5168-c8ee-4b1a-b890-9cccdb2f1231}</Project>
       <Name>Neptuo.Templates.SharpKitGenerator</Name>
@@ -114,9 +110,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="IndexMvc.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="Index.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

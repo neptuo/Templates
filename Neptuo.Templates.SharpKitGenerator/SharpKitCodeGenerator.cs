@@ -191,7 +191,7 @@ namespace Neptuo.Templates.SharpKitGenerator
         }
 
 
-
+        #region Deprecated
 
         string GetOutput(List<string> output, List<string> blackList)
         {
@@ -199,33 +199,6 @@ namespace Neptuo.Templates.SharpKitGenerator
             foreach (var name in blackList)
                 s = s.Replace(name, "");
             return s;
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        public class SkcResult
-        {
-            public bool Success { get; set; }
-            public string Output { get; set; }
-            public string JsCode { get; set; }
-            public string ErrorMessage { get; set; }
-            public string JsCodeFormatted { get; set; }
-            public string CsCodeFormatted { get; set; }
         }
 
         protected class ExecuteResult
@@ -240,5 +213,7 @@ namespace Neptuo.Templates.SharpKitGenerator
                 Error = new List<string>();
             }
         }
+
+        #endregion
     }
 }
