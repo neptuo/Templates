@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.XmlParser", "Neptuo.Templates.Compilation.XmlParser\Neptuo.Templates.Compilation.XmlParser.csproj", "{2D69656A-A3B6-4206-8B1D-EB7027716172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.MarkupExtension", "Neptuo.Templates.Compilation.MarkupExtension\Neptuo.Templates.Compilation.MarkupExtension.csproj", "{CD66820C-6034-480A-A70B-FDE1F8958B91}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.CodeDomGenerator", "Neptuo.Templates.Compilation.CodeDomGenerator\Neptuo.Templates.Compilation.CodeDomGenerator.csproj", "{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Components", "Neptuo.Templates.Components\Neptuo.Templates.Components.csproj", "{4C85862F-5D28-4907-AB59-E54375DC9D81}"
@@ -33,6 +31,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleNG.Components", "TestConsoleNG.Components\TestConsoleNG.Components.csproj", "{B63A8530-0B2E-4253-95E6-A55DDD3EA7AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveWebUI", "LiveWebUI\LiveWebUI.csproj", "{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Tokens", "Neptuo.Templates.Compilation.Tokens\Neptuo.Templates.Compilation.Tokens.csproj", "{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,16 +74,6 @@ Global
 		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|x86.ActiveCfg = Release|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{CD66820C-6034-480A-A70B-FDE1F8958B91}.Release|x86.ActiveCfg = Release|Any CPU
 		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -154,18 +144,28 @@ Global
 		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}.Release|x86.ActiveCfg = Release|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C} = {0DBB3903-441E-4395-94D4-F0E3E319ED13}
 		{C31795F1-AE2E-4095-A4E3-95FA1952582E} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{B63A8530-0B2E-4253-95E6-A55DDD3EA7AF} = {6B93C14C-2672-4935-AE18-C28432632F46}
-		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C} = {0DBB3903-441E-4395-94D4-F0E3E319ED13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

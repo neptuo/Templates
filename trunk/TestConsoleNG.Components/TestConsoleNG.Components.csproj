@@ -70,6 +70,10 @@
     <Compile Include="SimpleContainer\SimpleObjectBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Tokens\Neptuo.Templates.Compilation.Tokens.csproj">
+      <Project>{5b3bf3a2-1a61-4cd9-a515-a55912bc2794}</Project>
+      <Name>Neptuo.Templates.Compilation.Tokens</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.XmlParser\Neptuo.Templates.Compilation.XmlParser.csproj">
       <Project>{2d69656a-a3b6-4206-8b1d-eb7027716172}</Project>
       <Name>Neptuo.Templates.Compilation.XmlParser</Name>
