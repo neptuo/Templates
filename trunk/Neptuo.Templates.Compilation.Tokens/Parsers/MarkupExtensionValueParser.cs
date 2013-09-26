@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             bool parsed = false;
 
             Helper helper = new Helper(context, builderRegistry);
-            helper.Parser.OnParsedToken = (e) => parsed = GenerateExtension(helper, e.Token);
+            helper.Parser.OnParsedToken += (sender, e) => parsed = GenerateExtension(helper, e.Token);
             helper.Parser.Parse(content);
 
             return parsed;
