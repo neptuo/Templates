@@ -20,6 +20,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Context = context;
                 BuilderRegistry = builderRegistry;
                 Parser = new TokenParser();
+                Parser.Configuration.AllowAttributes = true;
+                Parser.Configuration.AllowDefaultAttribute = true;
+                Parser.Configuration.AllowMultipleTokens = false;
+                Parser.Configuration.AllowTextContent = false;
             }
         }
     }
