@@ -65,6 +65,7 @@
     <Compile Include="PostProcessing\ICodeDomVisitor.cs" />
     <Compile Include="PostProcessing\ICodeDomVisitorContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">

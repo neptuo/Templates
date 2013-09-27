@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates;
+using Neptuo.Templates.Components;
 using SharpKit.JavaScript;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -34,8 +35,10 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers 
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion(VersionInfo.Version)]
+[assembly: AssemblyInformationalVersion(VersionInfo.Version)]
+[assembly: AssemblyFileVersion(VersionInfo.Version)]
+[assembly: InternalsVisibleTo("Neptuo.Templates.Components.Compilation")]
 
 [assembly: JsExport(FilenameFormat = "../TestSharpKit/res/{0}.js")]
 [assembly: JsType(JsMode.Clr, Filename = "~/Neptuo.Templates.Components")]

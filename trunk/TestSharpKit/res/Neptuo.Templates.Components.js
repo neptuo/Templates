@@ -1002,6 +1002,32 @@ var Neptuo$Templates$Observers$ObserverEventArgs =
     }
 };
 JsTypes.push(Neptuo$Templates$Observers$ObserverEventArgs);
+var Neptuo$Templates$Components$VersionInfo =
+{
+    fullname: "Neptuo.Templates.Components.VersionInfo",
+    baseTypeName: "System.Object",
+    staticDefinition:
+    {
+        cctor: function ()
+        {
+            Neptuo.Templates.Components.VersionInfo.Version = "1.0.0";
+        },
+        GetVersion: function ()
+        {
+            return new System.Version.ctor$$String("1.0.0");
+        }
+    },
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            System.Object.ctor.call(this);
+        }
+    }
+};
+JsTypes.push(Neptuo$Templates$Components$VersionInfo);
 var Neptuo$Templates$PropertyAttribute =
 {
     fullname: "Neptuo.Templates.PropertyAttribute",
