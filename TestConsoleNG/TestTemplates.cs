@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates;
+﻿using Neptuo;
+using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.Parsers;

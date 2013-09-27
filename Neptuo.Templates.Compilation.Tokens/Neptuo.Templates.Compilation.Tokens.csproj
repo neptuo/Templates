@@ -30,6 +30,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Neptuo, Version=1.11.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\Neptuo.dll</HintPath>
+    </Reference>
     <Reference Include="Neptuo.Tokens">
       <HintPath>..\References\Neptuo.Tokens.dll</HintPath>
     </Reference>
@@ -57,10 +61,6 @@
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
-      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
-      <Name>Neptuo.Templates</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

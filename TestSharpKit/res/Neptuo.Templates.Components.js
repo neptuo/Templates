@@ -645,7 +645,7 @@ var Neptuo$Templates$Extensions$DefaultMarkupExtensionContext =
         {
             this._TargetProperty = value;
         },
-        DependencyProvider$$: "Neptuo.Templates.IDependencyProvider",
+        DependencyProvider$$: "Neptuo.IDependencyProvider",
         get_DependencyProvider: function ()
         {
             return this._DependencyProvider;

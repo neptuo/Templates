@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates;
+﻿using Neptuo;
+using Neptuo.Templates;
 using System;
 using System.Collections.Generic;
 using System.Linq;

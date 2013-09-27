@@ -7,6 +7,7 @@ using TestConsoleNG.Data;
 using TestConsoleNG;
 using TestConsoleNG.Extensions;
 using TestConsoleNG.SimpleContainer;
+using Neptuo;
 
 namespace TestSharpKit
 {
