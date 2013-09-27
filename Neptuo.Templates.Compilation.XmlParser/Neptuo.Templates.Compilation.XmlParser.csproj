@@ -69,6 +69,7 @@
     <Compile Include="Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="Parsers\XmlDocumentSupport.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="XmlContentParserException.cs" />
   </ItemGroup>
   <ItemGroup>
