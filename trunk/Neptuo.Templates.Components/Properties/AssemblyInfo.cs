@@ -43,3 +43,6 @@ using System.Runtime.InteropServices;
 [assembly: JsExport(FilenameFormat = "../TestSharpKit/res/{0}.js")]
 [assembly: JsType(JsMode.Clr, Filename = "~/Neptuo.Templates.Components")]
 [assembly: JsType(TargetType = typeof(ObserverAttribute), Export = false)]
+//[assembly: JsType(TargetType = typeof(Neptuo.IDependencyProvider), Filename = "~/../TestSharpKit/res/Neptuo.Templates.Components.js")]
+//[assembly: JsType(TargetType = typeof(Neptuo.IDependencyContainer), Filename = "~/../TestSharpKit/res/Neptuo.Templates.Components.js")]
+//[assembly: JsType(TargetType = typeof(Neptuo.DependencyContainerExtensions), Filename = "~/../TestSharpKit/res/Neptuo.Templates.Components.js")]
