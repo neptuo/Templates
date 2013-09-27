@@ -40,8 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuilderAttribute.cs" />
-    <Compile Include="DependencyAttribute.cs" />
     <Compile Include="DependencyProviderExtensions.cs" />
     <Compile Include="IDependencyContainer.cs" />
     <Compile Include="IDependencyProvider.cs" />

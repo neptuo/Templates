@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BaseSourceCodeException.cs" />
+    <Compile Include="BuilderAttribute.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
