@@ -97,10 +97,6 @@
       <Project>{4c85862f-5d28-4907-ab59-e54375dc9d81}</Project>
       <Name>Neptuo.Templates.Components</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
-      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
-      <Name>Neptuo.Templates</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TestConsoleNG.Components\TestConsoleNG.Components.csproj">
       <Project>{b63a8530-0b2e-4253-95e6-a55ddd3ea7af}</Project>
       <Name>TestConsoleNG.Components</Name>

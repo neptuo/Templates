@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Neptuo">
+      <HintPath>..\References\Neptuo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -87,12 +90,6 @@
     <Compile Include="PreProcessing\IPreProcessorService.cs" />
     <Compile Include="PreProcessing\IPreProcessorServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
-      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
-      <Name>Neptuo.Templates</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

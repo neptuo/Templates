@@ -122,10 +122,6 @@
       <Project>{4c85862f-5d28-4907-ab59-e54375dc9d81}</Project>
       <Name>Neptuo.Templates.Components</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates\Neptuo.Templates.csproj">
-      <Project>{c7ef72cc-c925-45ea-aa60-58e8e2872e34}</Project>
-      <Name>Neptuo.Templates</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

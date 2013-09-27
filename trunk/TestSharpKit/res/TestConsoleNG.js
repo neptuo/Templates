@@ -893,7 +893,7 @@ var TestConsoleNG$SimpleContainer$SimpleObjectBuilder =
     fullname: "TestConsoleNG.SimpleContainer.SimpleObjectBuilder",
     baseTypeName: "System.Object",
     assemblyName: "TestConsoleNG.Components",
-    interfaceNames: ["Neptuo.Templates.IDependencyContainer"],
+    interfaceNames: ["Neptuo.IDependencyContainer"],
     Kind: "Class",
     definition:
     {
