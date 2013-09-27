@@ -100,30 +100,115 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConverter.cs" />
     <Compile Include="Parsers\TypeRegistryHelper.cs" />
+    <Compile Include="_CodeDomGenerator\CodeDomCompiler.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomObjectGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomPropertyGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomStructure.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomDependencyContext.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomGenerator.Context.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomGeneratorContext.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomPropertyContext.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomStructureContext.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeObjectExtensionContext.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomComponentGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomDependencyGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomPropertyGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomStructureGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\DefaultNaming.cs" />
+    <Compile Include="_CodeDomGenerator\IINaming.cs" />
+    <Compile Include="_CodeDomGenerator\INamingContext.cs" />
+    <Compile Include="_CodeDomGenerator\INamingService.cs" />
+    <Compile Include="_CodeDomGenerator\PostProcessing\CodeDomVisitorContext.cs" />
+    <Compile Include="_CodeDomGenerator\PostProcessing\ICodeDomVisitor.cs" />
+    <Compile Include="_CodeDomGenerator\PostProcessing\ICodeDomVisitorContext.cs" />
+    <Compile Include="_Compilation\BaseSourceCodeException.cs" />
+    <Compile Include="_Compilation\BuilderAttribute.cs" />
+    <Compile Include="_Compilation\CodeGenerators\DefaultCodeGeneratorContext.cs" />
+    <Compile Include="_Compilation\CodeGenerators\DefaultCodeGeneratorService.cs" />
+    <Compile Include="_Compilation\CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
+    <Compile Include="_Compilation\CodeGenerators\ICodeGenerator.cs" />
+    <Compile Include="_Compilation\CodeGenerators\ICodeGeneratorContext.cs" />
+    <Compile Include="_Compilation\CodeGenerators\ICodeGeneratorService.cs" />
+    <Compile Include="_Compilation\CodeGenerators\ICodeGeneratorServiceContext.cs" />
+    <Compile Include="_Compilation\CodeObjects\ICodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\IComponentCodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\IObserverCodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\IObserversCodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\IPlainValueCodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\IPropertiesCodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\IPropertyDescriptor.cs" />
+    <Compile Include="_Compilation\CodeObjects\IPropertyInfo.cs" />
+    <Compile Include="_Compilation\CodeObjects\ITypeCodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\IValueExtensionCodeObject.cs" />
+    <Compile Include="_Compilation\CodeObjects\PlainValueCodeObject.cs" />
+    <Compile Include="_Compilation\Data\ICacheItem.cs" />
+    <Compile Include="_Compilation\Data\ICacheManager.cs" />
+    <Compile Include="_Compilation\Data\StorageProvider.cs" />
+    <Compile Include="_Compilation\ErrorInfo.cs" />
+    <Compile Include="_Compilation\IErrorInfo.cs" />
+    <Compile Include="_Compilation\IFileProvider.cs" />
+    <Compile Include="_Compilation\ISourceCodeException.cs" />
+    <Compile Include="_Compilation\IViewService.cs" />
+    <Compile Include="_Compilation\IViewServiceContext.cs" />
+    <Compile Include="_Compilation\Parsers\DefaultParserContext.cs" />
+    <Compile Include="_Compilation\Parsers\DefaultParserService.cs" />
+    <Compile Include="_Compilation\Parsers\DefaultParserServiceContext.cs" />
+    <Compile Include="_Compilation\Parsers\IContentParser.cs" />
+    <Compile Include="_Compilation\Parsers\IContentParserContext.cs" />
+    <Compile Include="_Compilation\Parsers\IParserService.cs" />
+    <Compile Include="_Compilation\Parsers\IParserServiceContext.cs" />
+    <Compile Include="_Compilation\Parsers\IValueParser.cs" />
+    <Compile Include="_Compilation\Parsers\IValueParserContext.cs" />
+    <Compile Include="_Compilation\Parsers\PlainValueParser.cs" />
+    <Compile Include="_Compilation\PreProcessing\IPreProcessorService.cs" />
+    <Compile Include="_Compilation\PreProcessing\IPreProcessorServiceContext.cs" />
+    <Compile Include="_Compilation\PreProcessing\IVisitor.cs" />
+    <Compile Include="_Compilation\PreProcessing\IVisitorContext.cs" />
+    <Compile Include="_Compilation\PreProcessing\PreProcessorService.cs" />
+    <Compile Include="_Compilation\PreProcessing\PreProcessorServiceContext.cs" />
+    <Compile Include="_Compilation\PreProcessing\VisitorContext.cs" />
+    <Compile Include="_Compilation\ViewServiceContext.cs" />
+    <Compile Include="_Tokens\IMarkupExtensionBuilderFactory.cs" />
+    <Compile Include="_Tokens\IMarkupExtensionBuilderRegistry.cs" />
+    <Compile Include="_Tokens\Parsers\BaseMarkupExtensionBuilder.cs" />
+    <Compile Include="_Tokens\Parsers\IMarkupExtensionBuilder.cs" />
+    <Compile Include="_Tokens\Parsers\IMarkupExtensionBuilderContext.cs" />
+    <Compile Include="_Tokens\Parsers\IMarkupExtensionInfo.cs" />
+    <Compile Include="_Tokens\Parsers\MarkupExtensionBuilderContext.cs" />
+    <Compile Include="_Tokens\Parsers\MarkupExtensionValueParser.cs" />
+    <Compile Include="_Tokens\Parsers\MarkupExtensionValueParser.Helper.cs" />
+    <Compile Include="_XmlParser\IContentBuilderRegistry.cs" />
+    <Compile Include="_XmlParser\NamespaceDeclaration.cs" />
+    <Compile Include="_XmlParser\Parsers\BaseComponentBuilder.cs" />
+    <Compile Include="_XmlParser\Parsers\BaseObserverBuilder.cs" />
+    <Compile Include="_XmlParser\Parsers\BindPropertiesContext.cs" />
+    <Compile Include="_XmlParser\Parsers\IComponentBuilder.cs" />
+    <Compile Include="_XmlParser\Parsers\IComponentInfo.cs" />
+    <Compile Include="_XmlParser\Parsers\IContentBuilderContext.cs" />
+    <Compile Include="_XmlParser\Parsers\ILiteralBuilder.cs" />
+    <Compile Include="_XmlParser\Parsers\IObserverBuilder.cs" />
+    <Compile Include="_XmlParser\Parsers\IObserverInfo.cs" />
+    <Compile Include="_XmlParser\Parsers\IObserverRegistration.cs" />
+    <Compile Include="_XmlParser\Parsers\IXmlAttribute.cs" />
+    <Compile Include="_XmlParser\Parsers\IXmlElement.cs" />
+    <Compile Include="_XmlParser\Parsers\IXmlName.cs" />
+    <Compile Include="_XmlParser\Parsers\IXmlNode.cs" />
+    <Compile Include="_XmlParser\Parsers\IXmlText.cs" />
+    <Compile Include="_XmlParser\Parsers\XmlContentBuilderContext.cs" />
+    <Compile Include="_XmlParser\Parsers\XmlContentParser.cs" />
+    <Compile Include="_XmlParser\Parsers\XmlContentParser.Helper.cs" />
+    <Compile Include="_XmlParser\Parsers\XmlContentParser.ObserverList.cs" />
+    <Compile Include="_XmlParser\Parsers\XmlContentParser.Utils.cs" />
+    <Compile Include="_XmlParser\Parsers\XmlDocumentSupport.cs" />
+    <Compile Include="_XmlParser\XmlContentParserException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation.CodeDomGenerator\Neptuo.Templates.Compilation.CodeDomGenerator.csproj">
-      <Project>{fe55bf0f-506c-4f9e-abfd-69c4cd0761a3}</Project>
-      <Name>Neptuo.Templates.Compilation.CodeDomGenerator</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation.Tokens\Neptuo.Templates.Compilation.Tokens.csproj">
-      <Project>{5b3bf3a2-1a61-4cd9-a515-a55912bc2794}</Project>
-      <Name>Neptuo.Templates.Compilation.Tokens</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation.XmlParser\Neptuo.Templates.Compilation.XmlParser.csproj">
-      <Project>{2d69656a-a3b6-4206-8b1d-eb7027716172}</Project>
-      <Name>Neptuo.Templates.Compilation.XmlParser</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
-      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
-      <Name>Neptuo.Templates.Compilation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Components\Neptuo.Templates.Components.csproj">
       <Project>{4c85862f-5d28-4907-ab59-e54375dc9d81}</Project>
       <Name>Neptuo.Templates.Components</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
