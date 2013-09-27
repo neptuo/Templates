@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveWebUI", "LiveWebUI\Live
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Tokens", "Neptuo.Templates.Compilation.Tokens\Neptuo.Templates.Compilation.Tokens.csproj", "{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -151,9 +153,11 @@ Global
 		{C31795F1-AE2E-4095-A4E3-95FA1952582E} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{B63A8530-0B2E-4253-95E6-A55DDD3EA7AF} = {6B93C14C-2672-4935-AE18-C28432632F46}
+		{DC76C1F9-02F2-4D91-A0E3-225A7290CB5F} = {E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}
+		{4C85862F-5D28-4907-AB59-E54375DC9D81} = {E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal
