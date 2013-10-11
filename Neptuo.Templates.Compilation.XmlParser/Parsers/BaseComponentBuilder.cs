@@ -46,6 +46,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             // Bind content elements
             BindContentElements(context, bindContext, codeObject, defaultProperty, element.ChildNodes);
+
+            // Custom logic after properties are bound
+            AfterBindProperties(context, bindContext, codeObject, element);
         }
 
         protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
@@ -143,6 +146,9 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         protected abstract void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute unboundAttribute);
+
+        protected virtual void AfterBindProperties(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IXmlElement element)
+        { }
 
         protected virtual void ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
