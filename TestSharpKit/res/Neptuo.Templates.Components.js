@@ -262,10 +262,13 @@ var Neptuo$Templates$ComponentManager =
                 return;
             if (entry.get_IsDisposed())
                 return;
+            this.BeforeInitComponent(entry.get_Control());
+            var target = As(entry.get_Control(), Neptuo.Templates.Controls.IControl.ctor);
+            if (target != null)
+                this.BeforeInitControl(target);
             if (!entry.get_ArePropertiesBound())
                 entry.BindProperties();
             entry.set_IsInited(true);
-            var target = As(entry.get_Control(), Neptuo.Templates.Controls.IControl.ctor);
             if (target == null)
                 return;
             var canInit = true;
@@ -298,13 +301,27 @@ var Neptuo$Templates$ComponentManager =
                     handler(args);
                 }
             }
+            this.AfterInitControl(target);
+        },
+        BeforeInitComponent: function (component)
+        {
+        },
+        BeforeInitControl: function (control)
+        {
+        },
+        AfterInitControl: function (control)
+        {
         },
         Render: function (control, writer)
         {
             if (control == null)
                 return;
             if (control.GetType().get_FullName() == Typeof(System.String.ctor).get_FullName())
+            {
+                this.BeforeRenderComponent(control, writer);
                 writer.Content$$Object(control);
+                return;
+            }
             if (!this.entries.ContainsKey(control))
                 return;
             var entry = this.entries.get_Item$$TKey(control);
@@ -312,9 +329,11 @@ var Neptuo$Templates$ComponentManager =
                 this.Init(control);
             if (entry.get_IsDisposed())
                 return;
+            this.BeforeRenderComponent(entry.get_Control(), writer);
             var target = As(entry.get_Control(), Neptuo.Templates.Controls.IControl.ctor);
             if (target == null)
                 return;
+            this.BeforeRenderControl(target, writer);
             var canRender = true;
             if (entry.get_Observers().get_Count() > 0)
             {
@@ -335,6 +354,16 @@ var Neptuo$Templates$ComponentManager =
             }
             if (canRender)
                 target.Render(writer);
+            this.AfterRenderControl(target, writer);
+        },
+        BeforeRenderComponent: function (component, writer)
+        {
+        },
+        BeforeRenderControl: function (control, writer)
+        {
+        },
+        AfterRenderControl: function (control, writer)
+        {
         },
         Dispose: function (component)
         {
@@ -351,6 +380,12 @@ var Neptuo$Templates$ComponentManager =
                 target.Dispose();
                 entry.set_IsDisposed(true);
             }
+        },
+        BeforeDisposeComponent: function (component)
+        {
+        },
+        BeforeDisposeControl: function (control)
+        {
         }
     }
 };
@@ -1010,11 +1045,11 @@ var Neptuo$Templates$Components$VersionInfo =
     {
         cctor: function ()
         {
-            Neptuo.Templates.Components.VersionInfo.Version = "1.0.1";
+            Neptuo.Templates.Components.VersionInfo.Version = "1.1.0";
         },
         GetVersion: function ()
         {
-            return new System.Version.ctor$$String("1.0.1");
+            return new System.Version.ctor$$String("1.1.0");
         }
     },
     assemblyName: "Neptuo.Templates.Components",

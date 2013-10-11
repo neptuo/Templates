@@ -16,7 +16,7 @@ namespace Neptuo.Templates
 
         }
 
-        public void AddComponent<T>(T component, Action<T> propertyBinder)
+        public virtual void AddComponent<T>(T component, Action<T> propertyBinder)
         {
             BaseComponentEntry entry = new ComponentEntry<T>
             {
@@ -27,7 +27,7 @@ namespace Neptuo.Templates
             entries.Add(component, entry);
         }
 
-        public void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
+        public virtual void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
             where T : IObserver
         {
             //throw new LivecycleException("Control is not registered, unnable to register observer");
@@ -58,12 +58,17 @@ namespace Neptuo.Templates
             if (entry.IsDisposed)
                 return;
 
+            BeforeInitComponent(entry.Control);
+            
+            IControl target = entry.Control as IControl;
+            if (target != null)
+                BeforeInitControl(target);
+
             if (!entry.ArePropertiesBound)
                 entry.BindProperties();
 
             entry.IsInited = true;
 
-            IControl target = entry.Control as IControl;
             if (target == null)
                 return;
 
@@ -94,7 +99,18 @@ namespace Neptuo.Templates
                 foreach (OnInitComplete handler in entry.InitComplete)
                     handler(args);
             }
+
+            AfterInitControl(target);
         }
+
+        protected virtual void BeforeInitComponent(object component)
+        { }
+
+        protected virtual void BeforeInitControl(IControl control)
+        { }
+
+        protected virtual void AfterInitControl(IControl control)
+        { }
 
         public void Render(object control, IHtmlWriter writer)
         {
@@ -102,7 +118,11 @@ namespace Neptuo.Templates
                 return;
 
             if (control.GetType().FullName == typeof(String).FullName)
+            {
+                BeforeRenderComponent(control, writer);
                 writer.Content(control);
+                return;
+            }
 
             //throw new LivecycleException("Not registered control!");
             if (!entries.ContainsKey(control))
@@ -117,9 +137,13 @@ namespace Neptuo.Templates
             if (entry.IsDisposed)
                 return;
 
+            BeforeRenderComponent(entry.Control, writer);
+
             IControl target = entry.Control as IControl;
             if (target == null)
                 return;
+
+            BeforeRenderControl(target, writer);
 
             bool canRender = true;
             if (entry.Observers.Count > 0)
@@ -141,7 +165,18 @@ namespace Neptuo.Templates
 
             if (canRender)
                 target.Render(writer);
+
+            AfterRenderControl(target, writer);
         }
+
+        protected virtual void BeforeRenderComponent(object component, IHtmlWriter writer)
+        { }
+
+        protected virtual void BeforeRenderControl(IControl control, IHtmlWriter writer)
+        { }
+
+        protected virtual void AfterRenderControl(IControl control, IHtmlWriter writer)
+        { }
 
         public void Dispose(object component)
         {
@@ -165,5 +200,11 @@ namespace Neptuo.Templates
                 entry.IsDisposed = true;
             }
         }
+
+        protected virtual void BeforeDisposeComponent(object component)
+        { }
+
+        protected virtual void BeforeDisposeControl(IControl control)
+        { }
     }
 }
