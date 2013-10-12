@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeDomCompiler.cs" />
+    <Compile Include="CodeGenerators\BaseCodeDomAttributeGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeDomAttributeContext.cs" />
     <Compile Include="CodeGenerators\CodeDomGenerator.Context.cs" />
     <Compile Include="CodeGenerators\CodeDomGenerator.cs" />
     <Compile Include="CodeGenerators\BaseCodeDomObjectGenerator.cs" />
@@ -52,6 +54,7 @@
     <Compile Include="CodeGenerators\CodeDomStructureContext.cs" />
     <Compile Include="CodeGenerators\CodeObjectExtensionContext.cs" />
     <Compile Include="CodeGenerators\CodeDomDependencyContext.cs" />
+    <Compile Include="CodeGenerators\ICodeDomAttributeGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeDomStructureGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeDomComponentGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeDomDependencyGenerator.cs" />
