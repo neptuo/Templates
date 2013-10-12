@@ -54,6 +54,8 @@
     <Compile Include="Parsers\IObserverRegistration.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Parsers\ILiteralBuilder.cs" />
+    <Compile Include="Parsers\IPropertyBuilder.cs" />
+    <Compile Include="Parsers\IPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\IXmlAttribute.cs" />
     <Compile Include="Parsers\IXmlElement.cs" />
     <Compile Include="Parsers\IXmlName.cs" />
