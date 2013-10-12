@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (CanBeUsedInMarkup(type, false))
                 {
                     string name = GetComponentName(type, Configuration.ComponentSuffix);
-                    Content.Components[prefix][name] = CreateFactory<IComponentBuilderFactory>(type, t => new DefaultTypeComponentBuilderFactory(t));
+                    Content.Components[prefix][name] = CreateFactory<IComponentBuilderFactory>(type, CreateDefaultComponentBuilderFactory);
                 }
             }
         }
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (CanBeUsedInMarkup(type, false) && ImplementsInterface<IValueExtension>(type))
                 {
                     string name = GetComponentName(type, Configuration.ExtensionSuffix);
-                    Content.MarkupExtensions[prefix][name] = CreateFactory<IMarkupExtensionBuilderFactory>(type, t => new DefaultMarkupExtensionBuilderFactory(t));
+                    Content.MarkupExtensions[prefix][name] = CreateFactory<IMarkupExtensionBuilderFactory>(type, CreateDefaultMarkupExtensionBuilderFactory);
                 }
             }
         }
@@ -76,6 +76,16 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
             }
             return defaultFactory(type);
+        }
+
+        protected virtual IComponentBuilderFactory CreateDefaultComponentBuilderFactory(Type type)
+        {
+            return new DefaultTypeComponentBuilderFactory(type);
+        }
+
+        protected virtual IMarkupExtensionBuilderFactory CreateDefaultMarkupExtensionBuilderFactory(Type type)
+        {
+            return new DefaultMarkupExtensionBuilderFactory(type);
         }
 
         protected virtual List<Type> GetTypesInNamespace(string namespaceName)

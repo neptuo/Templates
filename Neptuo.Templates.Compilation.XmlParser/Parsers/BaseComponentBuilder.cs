@@ -60,8 +60,22 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo propertyInfo;
                 if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
                 {
+                    bool result = false;
+                    if (context.BuilderRegistry.ContainsProperty(propertyInfo))
+                    {
+                        result = context.BuilderRegistry
+                            .GetPropertyBuilder(propertyInfo)
+                            .Parse(context, codeObject, propertyInfo, attribute.Value);
+
+                        if (result)
+                        {
+                            bindContext.BoundProperies.Add(attributeName);
+                            continue;
+                        }
+                    }
+
                     IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                    bool result = context.ParserContext.ParserService.ProcessValue(
+                    result = context.ParserContext.ParserService.ProcessValue(
                         attribute.Value,
                         new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
                     );
@@ -152,6 +166,15 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual void ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
+            if (context.BuilderRegistry.ContainsProperty(propertyInfo))
+            {
+                context.BuilderRegistry
+                    .GetPropertyBuilder(propertyInfo)
+                    .Parse(context, codeObject, propertyInfo, content);
+
+                return;
+            }
+
             if (typeof(string) == propertyInfo.Type)
             {
                 //Get string and add as plain value

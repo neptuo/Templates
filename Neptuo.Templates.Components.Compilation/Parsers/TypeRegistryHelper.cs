@@ -38,6 +38,5 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             return name;
         }
-
     }
 }

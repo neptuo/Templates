@@ -10,10 +10,28 @@ namespace TestConsoleNG.Controls
     public class PanelControl : BaseContentControl
     {
         public string Header { get; set; }
+        public ITemplate Template { get; set; }
 
         public PanelControl(IComponentManager componentManager)
             : base(componentManager)
         { }
+
+        public override void OnInit()
+        {
+            base.OnInit();
+
+            if (Template != null)
+            {
+                Init(Template);
+
+                for (int i = 0; i < 5; i++)
+                {
+                    ITemplateContent templateContent = Template.CreateInstance();
+                    ComponentManager.Init(templateContent);
+                    Content.Add(templateContent);
+                }
+            }
+        }
 
         protected override void RenderBody(IHtmlWriter writer)
         {

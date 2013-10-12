@@ -385,6 +385,196 @@ var TestConsoleNG$Controls$BaseControl =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$BaseControl);
+var TestConsoleNG$Controls$ContentTemplate =
+{
+    fullname: "TestConsoleNG.Controls.ContentTemplate",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["TestConsoleNG.Controls.ITemplate"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (componentManager)
+        {
+            this._ComponentManager = null;
+            this._BindMethod = null;
+            System.Object.ctor.call(this);
+            this.set_ComponentManager(componentManager);
+        },
+        ComponentManager$$: "Neptuo.Templates.IComponentManager",
+        get_ComponentManager: function ()
+        {
+            return this._ComponentManager;
+        },
+        set_ComponentManager: function (value)
+        {
+            this._ComponentManager = value;
+        },
+        BindMethod$$: "System.Action`1[[TestConsoleNG.Controls.ContentTemplateContent]]",
+        get_BindMethod: function ()
+        {
+            return this._BindMethod;
+        },
+        set_BindMethod: function (value)
+        {
+            this._BindMethod = value;
+        },
+        CreateInstance: function ()
+        {
+            var templateContent = new TestConsoleNG.Controls.ContentTemplateContent.ctor(this.get_ComponentManager());
+            this.get_ComponentManager().AddComponent$1(TestConsoleNG.Controls.ContentTemplateContent.ctor, templateContent, this.get_BindMethod());
+            return templateContent;
+        },
+        Dispose: function ()
+        {
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$ContentTemplate);
+var TestConsoleNG$Controls$ContentTemplateContent =
+{
+    fullname: "TestConsoleNG.Controls.ContentTemplateContent",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["TestConsoleNG.Controls.ITemplateContent"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (componentManager)
+        {
+            this._ComponentManager = null;
+            this._Content = null;
+            System.Object.ctor.call(this);
+            this.set_ComponentManager(componentManager);
+        },
+        ComponentManager$$: "Neptuo.Templates.IComponentManager",
+        get_ComponentManager: function ()
+        {
+            return this._ComponentManager;
+        },
+        set_ComponentManager: function (value)
+        {
+            this._ComponentManager = value;
+        },
+        Content$$: "System.Collections.Generic.ICollection`1[[System.Object]]",
+        get_Content: function ()
+        {
+            return this._Content;
+        },
+        set_Content: function (value)
+        {
+            this._Content = value;
+        },
+        OnInit: function ()
+        {
+            if (this.get_Content() != null)
+            {
+                var $it6 = this.get_Content().GetEnumerator();
+                while ($it6.MoveNext())
+                {
+                    var item = $it6.get_Current();
+                    this.get_ComponentManager().Init(item);
+                }
+            }
+        },
+        Render: function (writer)
+        {
+            if (this.get_Content() != null)
+            {
+                var $it7 = this.get_Content().GetEnumerator();
+                while ($it7.MoveNext())
+                {
+                    var item = $it7.get_Current();
+                    this.get_ComponentManager().Render(item, writer);
+                }
+            }
+        },
+        Dispose: function ()
+        {
+            if (this.get_Content() != null)
+            {
+                var $it8 = this.get_Content().GetEnumerator();
+                while ($it8.MoveNext())
+                {
+                    var item = $it8.get_Current();
+                    this.get_ComponentManager().Dispose(item);
+                }
+            }
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$ContentTemplateContent);
+var TestConsoleNG$Controls$FileTemplate =
+{
+    fullname: "TestConsoleNG.Controls.FileTemplate",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["TestConsoleNG.Controls.ITemplate"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (dependencyProvider, componentManager, viewService)
+        {
+            this._DependencyProvider = null;
+            this._ComponentManager = null;
+            this._ViewService = null;
+            this._Path = null;
+            System.Object.ctor.call(this);
+            this.set_DependencyProvider(dependencyProvider);
+            this.set_ComponentManager(componentManager);
+            this.set_ViewService(viewService);
+        },
+        DependencyProvider$$: "Neptuo.IDependencyProvider",
+        get_DependencyProvider: function ()
+        {
+            return this._DependencyProvider;
+        },
+        set_DependencyProvider: function (value)
+        {
+            this._DependencyProvider = value;
+        },
+        ComponentManager$$: "Neptuo.Templates.IComponentManager",
+        get_ComponentManager: function ()
+        {
+            return this._ComponentManager;
+        },
+        set_ComponentManager: function (value)
+        {
+            this._ComponentManager = value;
+        },
+        ViewService$$: "Neptuo.Templates.Compilation.IViewService",
+        get_ViewService: function ()
+        {
+            return this._ViewService;
+        },
+        set_ViewService: function (value)
+        {
+            this._ViewService = value;
+        },
+        Path$$: "System.String",
+        get_Path: function ()
+        {
+            return this._Path;
+        },
+        set_Path: function (value)
+        {
+            this._Path = value;
+        },
+        CreateInstance: function ()
+        {
+            var view = Cast(this.get_ViewService().Process(this.get_Path(), new Neptuo.Templates.Compilation.ViewServiceContext.ctor(this.get_DependencyProvider())), Neptuo.Templates.BaseGeneratedView.ctor);
+            view.Setup(new Neptuo.Templates.BaseViewPage.ctor(Neptuo.DependencyProviderExtensions.Resolve$1(Neptuo.Templates.IComponentManager.ctor, this.get_DependencyProvider())), Neptuo.DependencyProviderExtensions.Resolve$1(Neptuo.Templates.IComponentManager.ctor, this.get_DependencyProvider()), this.get_DependencyProvider());
+            view.CreateControls();
+            var templateContent = new TestConsoleNG.Controls.ViewTemplateContent.ctor(view);
+            this.get_ComponentManager().AddComponent$1(TestConsoleNG.Controls.ViewTemplateContent.ctor, templateContent, null);
+            return templateContent;
+        },
+        Dispose: function ()
+        {
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$FileTemplate);
 var TestConsoleNG$Controls$GenericContentControl =
 {
     fullname: "TestConsoleNG.Controls.GenericContentControl",
@@ -414,6 +604,10 @@ var TestConsoleNG$Controls$GenericContentControl =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$GenericContentControl);
+var TestConsoleNG$Controls$ITemplate = {fullname: "TestConsoleNG.Controls.ITemplate", baseTypeName: "System.Object", assemblyName: "TestConsoleNG.Components", interfaceNames: ["System.IDisposable"], Kind: "Interface"};
+JsTypes.push(TestConsoleNG$Controls$ITemplate);
+var TestConsoleNG$Controls$ITemplateContent = {fullname: "TestConsoleNG.Controls.ITemplateContent", baseTypeName: "System.Object", assemblyName: "TestConsoleNG.Components", interfaceNames: ["Neptuo.Templates.Controls.IControl", "System.IDisposable"], Kind: "Interface"};
+JsTypes.push(TestConsoleNG$Controls$ITemplateContent);
 var TestConsoleNG$Controls$LiteralControl =
 {
     fullname: "TestConsoleNG.Controls.LiteralControl",
@@ -443,6 +637,55 @@ var TestConsoleNG$Controls$LiteralControl =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$LiteralControl);
+var TestConsoleNG$Controls$MethodReferenceCodeObject =
+{
+    fullname: "TestConsoleNG.Controls.MethodReferenceCodeObject",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["Neptuo.Templates.Compilation.CodeObjects.ICodeObject"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (methodName)
+        {
+            this._MethodName = null;
+            System.Object.ctor.call(this);
+            this.set_MethodName(methodName);
+        },
+        MethodName$$: "System.String",
+        get_MethodName: function ()
+        {
+            return this._MethodName;
+        },
+        set_MethodName: function (value)
+        {
+            this._MethodName = value;
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$MethodReferenceCodeObject);
+var TestConsoleNG$Controls$CodeDomMethodReferenceGenerator =
+{
+    fullname: "TestConsoleNG.Controls.CodeDomMethodReferenceGenerator",
+    baseTypeName: "Neptuo.Templates.Compilation.CodeGenerators.BaseCodeDomObjectGenerator$1",
+    assemblyName: "TestConsoleNG.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            Neptuo.Templates.Compilation.CodeGenerators.BaseCodeDomObjectGenerator$1.ctor.call(this, TestConsoleNG.Controls.MethodReferenceCodeObject.ctor);
+        },
+        GenerateCode$$CodeObjectExtensionContext$$MethodReferenceCodeObject$$IPropertyDescriptor: function (context, codeObject, propertyDescriptor)
+        {
+            var method = Neptuo.Templates.Compilation.CodeGenerators.CodeTypeMemberCollectionExtensions.FindMethod(context.get_BaseStructure().get_Class().get_Members(), codeObject.get_MethodName());
+            if (method == null)
+                return new System.CodeDom.CodePrimitiveExpression.ctor$$Object(null);
+            return new System.CodeDom.CodeMethodReferenceExpression.ctor$$CodeExpression$$String(new System.CodeDom.CodeThisReferenceExpression.ctor(), codeObject.get_MethodName());
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$CodeDomMethodReferenceGenerator);
 var TestConsoleNG$Controls$PanelControl =
 {
     fullname: "TestConsoleNG.Controls.PanelControl",
@@ -455,6 +698,7 @@ var TestConsoleNG$Controls$PanelControl =
         ctor: function (componentManager)
         {
             this._Header = null;
+            this._Template = null;
             TestConsoleNG.Controls.BaseContentControl.ctor.call(this, componentManager);
         },
         Header$$: "System.String",
@@ -465,6 +709,29 @@ var TestConsoleNG$Controls$PanelControl =
         set_Header: function (value)
         {
             this._Header = value;
+        },
+        Template$$: "TestConsoleNG.Controls.ITemplate",
+        get_Template: function ()
+        {
+            return this._Template;
+        },
+        set_Template: function (value)
+        {
+            this._Template = value;
+        },
+        OnInit: function ()
+        {
+            TestConsoleNG.Controls.BaseContentControl.commonPrototype.OnInit.call(this);
+            if (this.get_Template() != null)
+            {
+                this.Init$$Object(this.get_Template());
+                for (var i = 0; i < 5; i++)
+                {
+                    var templateContent = this.get_Template().CreateInstance();
+                    this.get_ComponentManager().Init(templateContent);
+                    this.get_Content().Add(templateContent);
+                }
+            }
         },
         RenderBody: function (writer)
         {
@@ -477,6 +744,91 @@ var TestConsoleNG$Controls$PanelControl =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$PanelControl);
+var TestConsoleNG$Controls$TemplateCodeObject =
+{
+    fullname: "TestConsoleNG.Controls.TemplateCodeObject",
+    baseTypeName: "Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject",
+    assemblyName: "TestConsoleNG.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (type)
+        {
+            Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor.call(this, type);
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$TemplateCodeObject);
+var TestConsoleNG$Controls$CodeDomTemplateGenerator =
+{
+    fullname: "TestConsoleNG.Controls.CodeDomTemplateGenerator",
+    baseTypeName: "Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator",
+    assemblyName: "TestConsoleNG.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (fieldNameProvider)
+        {
+            Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator.ctor.call(this, fieldNameProvider);
+        },
+        GenerateCode$$CodeObjectExtensionContext$$ComponentCodeObject$$IPropertyDescriptor: function (context, component, propertyDescriptor)
+        {
+            var properties = new System.Collections.Generic.List$1.ctor$$IEnumerable$1(Neptuo.Templates.Compilation.CodeObjects.IPropertyDescriptor.ctor, component.get_Properties());
+            component.get_Properties().Clear();
+            var templateContent = new Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor(Typeof(TestConsoleNG.Controls.ContentTemplateContent.ctor));
+            templateContent.get_Properties().AddRange(properties);
+            var fieldName = this.GenerateFieldName();
+            this.GenerateBindMethod$1(Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor, context, templateContent, fieldName, null);
+            component.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(component.get_Type().GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.ContentTemplate.ctor, System.Object.ctor, $CreateAnonymousDelegate(this, function (t)
+            {
+                return t.get_BindMethod();
+            })))), new TestConsoleNG.Controls.MethodReferenceCodeObject.ctor(this.FormatBindMethod(fieldName))));
+            return Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator.commonPrototype.GenerateCode$$CodeObjectExtensionContext$$ComponentCodeObject$$IPropertyDescriptor.call(this, context, component, propertyDescriptor);
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$CodeDomTemplateGenerator);
+var TestConsoleNG$Controls$TemplatePropertyBuilder =
+{
+    fullname: "TestConsoleNG.Controls.TemplatePropertyBuilder",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            System.Object.ctor.call(this);
+        },
+        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$IEnumerable$1$IXmlNode: function (context, codeObject, propertyInfo, content)
+        {
+            var templateCodeObject = new TestConsoleNG.Controls.TemplateCodeObject.ctor(Typeof(TestConsoleNG.Controls.ContentTemplate.ctor));
+            codeObject.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(propertyInfo, templateCodeObject));
+            var targetProperty = new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(Typeof(TestConsoleNG.Controls.ContentTemplateContent.ctor).GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.ContentTemplateContent.ctor, System.Object.ctor, $CreateAnonymousDelegate(this, function (t)
+            {
+                return t.get_Content();
+            }))));
+            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.ListAddPropertyDescriptor.ctor$$IPropertyInfo(targetProperty);
+            templateCodeObject.get_Properties().Add(propertyDescriptor);
+            context.get_Parser().ProcessContent(context, propertyDescriptor, content);
+            return true;
+        },
+        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$String: function (context, codeObject, propertyInfo, attributeValue)
+        {
+            var templateCodeObject = new Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor(Typeof(TestConsoleNG.Controls.FileTemplate.ctor));
+            templateCodeObject.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(Typeof(TestConsoleNG.Controls.FileTemplate.ctor).GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.FileTemplate.ctor, System.String.ctor, $CreateAnonymousDelegate(this, function (t)
+            {
+                return t.get_Path();
+            })))), new Neptuo.Templates.Compilation.CodeObjects.PlainValueCodeObject.ctor(attributeValue)));
+            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo(propertyInfo);
+            propertyDescriptor.SetValue(templateCodeObject);
+            codeObject.get_Properties().Add(propertyDescriptor);
+            return true;
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$TemplatePropertyBuilder);
 var TestConsoleNG$Controls$TextBoxControl =
 {
     fullname: "TestConsoleNG.Controls.TextBoxControl",
@@ -520,6 +872,93 @@ var TestConsoleNG$Controls$TextBoxControl =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$TextBoxControl);
+var TestConsoleNG$Controls$StringPropertyBuilder =
+{
+    fullname: "TestConsoleNG.Controls.StringPropertyBuilder",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            System.Object.ctor.call(this);
+        },
+        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$IEnumerable$1$IXmlNode: function (context, codeObject, propertyInfo, content)
+        {
+            throw $CreateException(new System.NotImplementedException.ctor(), new Error());
+        },
+        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$String: function (context, codeObject, propertyInfo, attributeValue)
+        {
+            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo(propertyInfo);
+            var result = context.get_ParserContext().get_ParserService().ProcessValue(attributeValue, new Neptuo.Templates.Compilation.Parsers.DefaultParserServiceContext.ctor(context.get_ParserContext().get_DependencyProvider(), propertyDescriptor, context.get_ParserContext().get_Errors()));
+            if (result)
+                codeObject.get_Properties().Add(propertyDescriptor);
+            return result;
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$StringPropertyBuilder);
+var TestConsoleNG$Controls$StringPropertyBuilderFactory =
+{
+    fullname: "TestConsoleNG.Controls.StringPropertyBuilderFactory",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilderFactory"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            System.Object.ctor.call(this);
+        },
+        CreateBuilder: function (propertyInfo)
+        {
+            return new TestConsoleNG.Controls.StringPropertyBuilder.ctor();
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$StringPropertyBuilderFactory);
+var TestConsoleNG$Controls$ViewTemplateContent =
+{
+    fullname: "TestConsoleNG.Controls.ViewTemplateContent",
+    baseTypeName: "System.Object",
+    assemblyName: "TestConsoleNG.Components",
+    interfaceNames: ["TestConsoleNG.Controls.ITemplateContent"],
+    Kind: "Class",
+    definition:
+    {
+        ctor: function (view)
+        {
+            this._View = null;
+            System.Object.ctor.call(this);
+            this.set_View(view);
+        },
+        View$$: "Neptuo.Templates.BaseGeneratedView",
+        get_View: function ()
+        {
+            return this._View;
+        },
+        set_View: function (value)
+        {
+            this._View = value;
+        },
+        OnInit: function ()
+        {
+            this.get_View().Init();
+        },
+        Render: function (writer)
+        {
+            this.get_View().Render(writer);
+        },
+        Dispose: function ()
+        {
+            this.get_View().Dispose();
+        }
+    }
+};
+JsTypes.push(TestConsoleNG$Controls$ViewTemplateContent);
 var TestConsoleNG$Data$DataStorage =
 {
     fullname: "TestConsoleNG.Data.DataStorage",

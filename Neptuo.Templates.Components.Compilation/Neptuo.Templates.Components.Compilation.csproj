@@ -54,6 +54,7 @@
     <Compile Include="CodeDomViewService.cs" />
     <Compile Include="CodeDomViewServiceException.cs" />
     <Compile Include="CodeDomViewServiceExtensions.cs" />
+    <Compile Include="CodeGenerators\CodeTypeMemberCollectionExtensions.cs" />
     <Compile Include="CodeGenerators\IFieldNameProvider.cs" />
     <Compile Include="CodeGenerators\SequenceFieldNameProvider.cs" />
     <Compile Include="CodeGenerators\TypeCodeDomObjectGenerator.cs" />
@@ -76,9 +77,12 @@
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="DebugUtils.cs" />
     <Compile Include="FileProvider.cs" />
+    <Compile Include="Parsers\DependencyPropertyBuilderFactory.cs" />
+    <Compile Include="Parsers\FuncPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\BaseBuilder.cs" />
     <Compile Include="Parsers\DefaultMarkupExtensionBuilder.cs" />
     <Compile Include="Parsers\DefaultMarkupExtensionBuilderFactory.cs" />
+    <Compile Include="Parsers\DefaultPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeComponentBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverRegistration.cs" />
@@ -190,6 +194,8 @@
     <Compile Include="_XmlParser\Parsers\IObserverBuilder.cs" />
     <Compile Include="_XmlParser\Parsers\IObserverInfo.cs" />
     <Compile Include="_XmlParser\Parsers\IObserverRegistration.cs" />
+    <Compile Include="_XmlParser\Parsers\IPropertyBuilder.cs" />
+    <Compile Include="_XmlParser\Parsers\IPropertyBuilderFactory.cs" />
     <Compile Include="_XmlParser\Parsers\IXmlAttribute.cs" />
     <Compile Include="_XmlParser\Parsers\IXmlElement.cs" />
     <Compile Include="_XmlParser\Parsers\IXmlName.cs" />

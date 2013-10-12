@@ -26,10 +26,11 @@ namespace TestConsoleNG
 
         static TestTemplates()
         {
-            container = new SimpleObjectBuilder();
+            container = new UnityDependencyContainer();
             container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
+            container.RegisterType<IViewServiceContext, ViewServiceContext>();
         }
 
         public static void Test()
@@ -43,16 +44,22 @@ namespace TestConsoleNG
             registry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG.Components"));
             registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
             registry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
+            registry.RegisterPropertyBuilder(typeof(string), new DefaultPropertyBuilderFactory<StringPropertyBuilder>());
+            registry.RegisterPropertyBuilder(typeof(ITemplate), new DefaultPropertyBuilderFactory<TemplatePropertyBuilder>());
 
             CodeDomViewService viewService = new CodeDomViewService();
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
             viewService.NamingService = new HashNamingService(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
-            viewService.DebugMode = true;
+            //viewService.DebugMode = true;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.BinDirectories.Add(Environment.CurrentDirectory);
-            CODEDOMREGISTEREXTENSIONS.Register(viewService.CodeDomGenerator);
+
+            IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
+            viewService.CodeDomGenerator.RegisterStandartCodeGenerators(fieldNameProvider);
+            viewService.CodeDomGenerator.SetCodeObjectGenerator(typeof(TemplateCodeObject), new CodeDomTemplateGenerator(fieldNameProvider));
+            viewService.CodeDomGenerator.SetCodeObjectGenerator(typeof(MethodReferenceCodeObject), new CodeDomMethodReferenceGenerator());
 
             container.RegisterInstance<IViewService>(viewService);
             container.RegisterInstance<IComponentManager>(new ComponentManager());
