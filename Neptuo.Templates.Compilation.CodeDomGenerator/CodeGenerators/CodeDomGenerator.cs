@@ -19,6 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
             PropertyDescriptorGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
             DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
+            AttributeGenerators = new Dictionary<Type, ICodeDomAttributeGenerator>();
             CodeDomVisitors = new HashSet<ICodeDomVisitor>();
         }
 
@@ -52,6 +53,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public void SetDependencyProviderGenerator(Type type, ICodeDomDependencyGenerator generator)
         {
             DependencyProviderGenerators[type] = generator;
+        }
+
+        #endregion
+
+        #region ICodeDomAttributeGenerator
+
+        protected Dictionary<Type, ICodeDomAttributeGenerator> AttributeGenerators { get; private set; }
+
+        public void SetDependencyProviderGenerator(Type type, ICodeDomAttributeGenerator generator)
+        {
+            AttributeGenerators[type] = generator;
         }
 
         #endregion
@@ -128,6 +140,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             }
 
             throw new NotImplementedException("Not supported type for dependency resolution!");
+        }
+
+        public CodeExpression GenerateAttribute(Context context, Attribute attribute)
+        {
+            foreach (KeyValuePair<Type, ICodeDomAttributeGenerator> item in AttributeGenerators)
+            {
+                if (item.Key.IsAssignableFrom(attribute.GetType()))
+                {
+                    CodeExpression expression = item.Value.GenerateCode(new CodeDomAttributeContext(context), attribute);
+                    if (expression != null)
+                        return expression;
+                }
+            }
+            return null;
         }
 
         #endregion

@@ -11,7 +11,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public abstract class TypeCodeDomObjectGenerator<T> : BaseCodeDomObjectGenerator<T> 
+    public abstract class TypeCodeDomObjectGenerator<T> : BaseCodeDomObjectGenerator<T>
         where T : ICodeObject
     {
         #region Name helpers
@@ -207,6 +207,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         DependencyAttribute dependency = ReflectionHelper.GetAttribute<DependencyAttribute>(propertyInfo);
                         if (dependency != null)
                             targetValue = context.CodeGenerator.GenerateDependency(context.CodeDomContext, propertyInfo.PropertyType);
+                    }
+
+                    // Try any attribute generator
+                    if (targetValue == null)
+                    {
+                        foreach (Attribute attribute in propertyInfo.GetCustomAttributes())
+                        {
+                            targetValue = context.CodeGenerator.GenerateAttribute(context.CodeDomContext, attribute);
+                            if (targetValue != null)
+                                break;
+                        }
                     }
 
                     // If we found value for property, generate appropriate set
