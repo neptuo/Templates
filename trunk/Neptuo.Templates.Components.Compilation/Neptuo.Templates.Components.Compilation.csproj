@@ -105,9 +105,11 @@
     <Compile Include="StringConverter.cs" />
     <Compile Include="Parsers\TypeRegistryHelper.cs" />
     <Compile Include="_CodeDomGenerator\CodeDomCompiler.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomAttributeGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomObjectGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomPropertyGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomStructure.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomAttributeContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomDependencyContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomGenerator.Context.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomGenerator.cs" />
@@ -115,6 +117,7 @@
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomPropertyContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomStructureContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeObjectExtensionContext.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomAttributeGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomComponentGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomDependencyGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomPropertyGenerator.cs" />
