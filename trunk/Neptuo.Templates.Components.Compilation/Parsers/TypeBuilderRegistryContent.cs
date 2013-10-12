@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-
     public class TypeBuilderRegistryContent
     {
         public ILiteralBuilder LiteralBuilder { get; set; }
@@ -16,13 +15,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         public SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>> MarkupExtensions { get; protected set; }
+        public Dictionary<Type, IPropertyBuilderFactory> Properties { get; protected set; }
 
         public TypeBuilderRegistryContent()
-            : this(null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         { }
 
         public TypeBuilderRegistryContent(TypeBuilderRegistryContent content)
-            : this(content.Namespaces, content.Components, content.Observers, content.MarkupExtensions, content.LiteralBuilder, content.GenericContentBuilder)
+            : this(content.Namespaces, content.Components, content.Observers, content.MarkupExtensions, content.Properties, content.LiteralBuilder, content.GenericContentBuilder)
         { }
 
         public TypeBuilderRegistryContent(
@@ -30,6 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
             SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>> markupExtensions,
+            Dictionary<Type, IPropertyBuilderFactory> properties,
             ILiteralBuilder literalBuilder,
             IComponentBuilder genericContentBuilder)
         {
@@ -52,6 +53,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                 MarkupExtensions = new SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>>(markupExtensions);
             else
                 MarkupExtensions = new SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>>();
+
+            if (properties == null)
+                Properties = new Dictionary<Type, IPropertyBuilderFactory>();
+            else
+                Properties = properties;
 
             LiteralBuilder = literalBuilder;
             GenericContentBuilder = genericContentBuilder;

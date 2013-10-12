@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -95,6 +96,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             return Content.Namespaces.Values;
         }
 
+        public IPropertyBuilder GetPropertyBuilder(IPropertyInfo propertyInfo)
+        {
+            if (!Content.Properties.ContainsKey(propertyInfo.Type))
+                return null;
+
+            IPropertyBuilderFactory factory = Content.Properties[propertyInfo.Type];
+            return factory.CreateBuilder(propertyInfo);
+        }
+
         #endregion
 
         #region Get/Markup
@@ -156,6 +166,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             RegisterObserver(prefix, attributeName, factory);
         }
 
+        public void RegisterPropertyBuilder(Type propertyType, IPropertyBuilderFactory factory)
+        {
+            Content.Properties[propertyType] = factory;
+        }
+
         #endregion
 
         public IContentBuilderRegistry CreateChildRegistry()
@@ -188,6 +203,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return true;
 
             return Content.Observers[prefix].ContainsKey(Configuration.ObserverWildcard);
+        }
+
+        public bool ContainsProperty(IPropertyInfo propertyInfo)
+        {
+            return Content.Properties.ContainsKey(propertyInfo.Type);
         }
 
         #endregion

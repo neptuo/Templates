@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.Parsers;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,11 @@ namespace Neptuo.Templates.Compilation
         IComponentBuilder GetGenericContentBuilder(string name);
         ILiteralBuilder GetLiteralBuilder();
         IObserverRegistration GetObserverBuilder(string prefix, string name);
+        IPropertyBuilder GetPropertyBuilder(IPropertyInfo propertyInfo);
 
         bool ContainsComponent(string prefix, string name);
         bool ContainsObserver(string prefix, string name);
+        bool ContainsProperty(IPropertyInfo propertyInfo);
 
         void RegisterNamespace(NamespaceDeclaration namespaceDeclaration);
 

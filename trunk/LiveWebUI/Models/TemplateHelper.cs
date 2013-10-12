@@ -53,7 +53,7 @@ namespace LiveWebUI.Models
             //viewService.DebugMode = true;
             ViewService.TempDirectory = @"C:\Temp\NeptuoLiveTemplates";
             ViewService.BinDirectories.Add(HttpContext.Current.Server.MapPath("~/Bin"));
-            CODEDOMREGISTEREXTENSIONS.Register(ViewService.CodeDomGenerator);
+            CODEDOMREGISTEREXTENSIONS.RegisterStandartCodeGenerators(ViewService.CodeDomGenerator);
 
             Container.RegisterInstance<IViewService>(ViewService);
             Container.RegisterInstance<IComponentManager>(new ComponentManager());

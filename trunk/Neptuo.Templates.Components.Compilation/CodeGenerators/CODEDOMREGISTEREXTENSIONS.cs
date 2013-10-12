@@ -10,9 +10,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public static class CODEDOMREGISTEREXTENSIONS
     {
-        public static void Register(CodeDomGenerator generator)
+        public static void RegisterStandartCodeGenerators(this CodeDomGenerator generator, IFieldNameProvider fieldNameProvider = null)
         {
-            IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
+            if (fieldNameProvider == null)
+                fieldNameProvider = new SequenceFieldNameProvider();
 
             generator.SetCodeObjectGenerator(typeof(ComponentCodeObject), new CodeDomComponentGenerator(fieldNameProvider));
             generator.SetCodeObjectGenerator(typeof(PlainValueCodeObject), new CodeDomPlainValueObjectGenerator());

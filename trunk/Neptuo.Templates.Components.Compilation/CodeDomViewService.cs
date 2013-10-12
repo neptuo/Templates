@@ -147,7 +147,7 @@ namespace Neptuo.Templates.Compilation
                 bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
 
                 if (!parserResult)
-                    throw new CodeDomViewServiceException("Error parsing view content!", errors);
+                    throw new CodeDomViewServiceException("Error parsing view content!", errors, viewContent);
             });
 
             return contentProperty;
