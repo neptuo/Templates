@@ -61,9 +61,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected Dictionary<Type, ICodeDomAttributeGenerator> AttributeGenerators { get; private set; }
 
-        public void SetDependencyProviderGenerator(Type type, ICodeDomAttributeGenerator generator)
+        public void SetAttributeGenerator(Type type, ICodeDomAttributeGenerator generator)
         {
             AttributeGenerators[type] = generator;
+        }
+
+        #endregion
+
+        #region ICodeDomPropertyTypeGenerator
+
+        protected Dictionary<Type, ICodeDomPropertyTypeGenerator> PropertyTypeGenerators { get; private set; }
+
+        public void SetPropertyTypeGenerator(Type type, ICodeDomPropertyTypeGenerator generator)
+        {
+            PropertyTypeGenerators[type] = generator;
         }
 
         #endregion
@@ -149,6 +160,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 if (item.Key.IsAssignableFrom(attribute.GetType()))
                 {
                     CodeExpression expression = item.Value.GenerateCode(new CodeDomAttributeContext(context), attribute);
+                    if (expression != null)
+                        return expression;
+                }
+            }
+            return null;
+        }
+
+        public CodeExpression GeneratePropertyType(Context context, PropertyInfo propertyInfo)
+        {
+            foreach (KeyValuePair<Type, ICodeDomPropertyTypeGenerator> item in PropertyTypeGenerators)
+            {
+                if (item.Key.IsAssignableFrom(propertyInfo.PropertyType))
+                {
+                    CodeExpression expression = item.Value.GenerateCode(new CodeDomPropertyTypeGeneratorContext(context), propertyInfo);
                     if (expression != null)
                         return expression;
                 }
