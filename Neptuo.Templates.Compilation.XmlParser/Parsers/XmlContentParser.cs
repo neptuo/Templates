@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
             catch (XmlException e)
             {
-                context.Errors.Add(new ErrorInfo(e.LineNumber - 1, e.LinePosition, e.Message));
+                context.Errors.Add(new ExceptionErrorInfo(e.LineNumber - 1, e.LinePosition, e));
             }
             catch (Exception e)
             {
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (sourceException != null)
                     context.Errors.Add(new ErrorInfo(sourceException.LineNumber, sourceException.LinePosition, sourceException.Message));
                 else
-                    context.Errors.Add(new ErrorInfo(e.Message));
+                    context.Errors.Add(new ExceptionErrorInfo(e));
             }
             return false;
 #endif

@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected override void GenerateProperty(CodeDomPropertyContext context, SetPropertyDescriptor propertyDescriptor)
         {
             CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(
-                new CodeObjectExtensionContext(context.Context, context.Statements, context.FieldName), 
+                new CodeObjectExtensionContext(context.Context, context.FieldName), 
                 propertyDescriptor.Value, 
                 propertyDescriptor
             );
