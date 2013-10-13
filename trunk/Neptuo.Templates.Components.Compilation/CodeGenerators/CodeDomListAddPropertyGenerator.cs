@@ -60,7 +60,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             foreach (ICodeObject propertyValue in propertyDescriptor.Values)
             {
                 CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(
-                    new CodeObjectExtensionContext(context.Context, context.Statements, context.FieldName), 
+                    new CodeObjectExtensionContext(context.Context, context.FieldName), 
                     propertyValue, 
                     propertyDescriptor
                 );

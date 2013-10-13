@@ -10,6 +10,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public interface ICodeDomPropertyTypeGenerator
     {
-        CodeExpression GenerateCode(CodeDomPropertyTypeGeneratorContext context, PropertyInfo propertyInfo);
+        CodeExpression GenerateCode(CodeDomPropertyTypeGeneratorContext context, Type type, PropertyInfo propertyInfo);
     }
 }

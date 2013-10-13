@@ -155,6 +155,7 @@
     <Compile Include="_Compilation\Data\ICacheManager.cs" />
     <Compile Include="_Compilation\Data\StorageProvider.cs" />
     <Compile Include="_Compilation\ErrorInfo.cs" />
+    <Compile Include="_Compilation\ExceptionErrorInfo.cs" />
     <Compile Include="_Compilation\IErrorInfo.cs" />
     <Compile Include="_Compilation\IFileProvider.cs" />
     <Compile Include="_Compilation\ISourceCodeException.cs" />

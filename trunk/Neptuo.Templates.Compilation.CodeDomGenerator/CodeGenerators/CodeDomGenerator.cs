@@ -20,6 +20,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             PropertyDescriptorGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
             DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
             AttributeGenerators = new Dictionary<Type, ICodeDomAttributeGenerator>();
+            PropertyTypeGenerators = new Dictionary<Type, ICodeDomPropertyTypeGenerator>();
             CodeDomVisitors = new HashSet<ICodeDomVisitor>();
         }
 
@@ -167,13 +168,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return null;
         }
 
-        public CodeExpression GeneratePropertyType(Context context, PropertyInfo propertyInfo)
+        public CodeExpression GeneratePropertyType(Context context, Type type, PropertyInfo propertyInfo)
         {
             foreach (KeyValuePair<Type, ICodeDomPropertyTypeGenerator> item in PropertyTypeGenerators)
             {
                 if (item.Key.IsAssignableFrom(propertyInfo.PropertyType))
                 {
-                    CodeExpression expression = item.Value.GenerateCode(new CodeDomPropertyTypeGeneratorContext(context), propertyInfo);
+                    CodeExpression expression = item.Value.GenerateCode(new CodeDomPropertyTypeGeneratorContext(context), type, propertyInfo);
                     if (expression != null)
                         return expression;
                 }
