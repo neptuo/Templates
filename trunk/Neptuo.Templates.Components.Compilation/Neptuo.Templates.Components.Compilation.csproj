@@ -115,12 +115,14 @@
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomGeneratorContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomPropertyContext.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomPropertyTypeGeneratorContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeDomStructureContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\CodeObjectExtensionContext.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomAttributeGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomComponentGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomDependencyGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomPropertyGenerator.cs" />
+    <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomPropertyTypeGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\ICodeDomStructureGenerator.cs" />
     <Compile Include="_CodeDomGenerator\DefaultNaming.cs" />
     <Compile Include="_CodeDomGenerator\IINaming.cs" />

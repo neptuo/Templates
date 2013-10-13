@@ -220,6 +220,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         }
                     }
 
+                    if (targetValue == null)
+                        targetValue = context.CodeGenerator.GeneratePropertyType(context.CodeDomContext, propertyInfo);
+
                     // If we found value for property, generate appropriate set
                     if (targetValue != null)
                     {
