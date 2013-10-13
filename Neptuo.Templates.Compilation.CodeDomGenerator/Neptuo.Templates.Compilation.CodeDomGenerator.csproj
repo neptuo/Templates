@@ -51,10 +51,12 @@
     <Compile Include="CodeGenerators\BaseCodeDomPropertyGenerator.cs" />
     <Compile Include="CodeGenerators\BaseCodeDomStructure.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorContext.cs" />
+    <Compile Include="CodeGenerators\CodeDomPropertyTypeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\CodeDomStructureContext.cs" />
     <Compile Include="CodeGenerators\CodeObjectExtensionContext.cs" />
     <Compile Include="CodeGenerators\CodeDomDependencyContext.cs" />
     <Compile Include="CodeGenerators\ICodeDomAttributeGenerator.cs" />
+    <Compile Include="CodeGenerators\ICodeDomPropertyTypeGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeDomStructureGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeDomComponentGenerator.cs" />
     <Compile Include="CodeGenerators\ICodeDomDependencyGenerator.cs" />
