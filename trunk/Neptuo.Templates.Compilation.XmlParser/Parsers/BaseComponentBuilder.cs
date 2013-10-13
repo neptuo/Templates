@@ -74,7 +74,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                         }
                     }
 
-                    IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
+                    IPropertyDescriptor propertyDescriptor = IsCollectionProperty(propertyInfo)
+                        ? CreateListAddPropertyDescriptor(propertyInfo)
+                        : CreateSetPropertyDescriptor(propertyInfo);
+
                     result = context.ParserContext.ParserService.ProcessValue(
                         attribute.Value,
                         new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
@@ -95,6 +98,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                     bindContext.UnboundAttributes.Add(attribute);
                 }
             }
+        }
+
+        protected bool IsCollectionProperty(IPropertyInfo propertyInfo)
+        {
+            return typeof(ICollection).IsAssignableFrom(propertyInfo.Type) 
+                || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()));
         }
 
         protected virtual void BindInnerElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IEnumerable<IXmlNode> childNodes)

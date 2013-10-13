@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation
             EnsureNamingService(context);
 
             if (!FileProvider.Exists(fileName))
-                throw new CodeDomViewServiceException("View doesn't exist!");
+                throw new CodeDomViewServiceException(String.Format("View '{0}' doesn't exist!", fileName));
 
             return ProcessContent(FileProvider.GetFileContent(fileName), context, NamingService.FromFile(fileName));
         }
@@ -116,7 +116,7 @@ namespace Neptuo.Templates.Compilation
                     foreach (CompilerError error in cr.Errors)
                         errors.Add(new ErrorInfo(error.Line, error.Column, error.ErrorText));
 
-                    throw new CodeDomViewServiceException("Error compiling view!", errors);
+                    throw new CodeDomViewServiceException("Error compiling view!", errors, viewContent, sourceCode);
                 }
             });
         }
