@@ -9,8 +9,9 @@ namespace Neptuo.Templates.Compilation
     {
         public IEnumerable<IErrorInfo> Errors { get; private set; }
         public string ViewContent { get; private set; }
+        public string SourceCode { get; private set; }
 
-        public CodeDomViewServiceException(string message, IEnumerable<IErrorInfo> errors = null, string viewContent = null)
+        public CodeDomViewServiceException(string message, IEnumerable<IErrorInfo> errors = null, string viewContent = null, string sourceCode = null)
             : base(message)
         {
             Errors = errors ?? new List<IErrorInfo>
@@ -18,6 +19,7 @@ namespace Neptuo.Templates.Compilation
                 new ErrorInfo(message)
             };
             ViewContent = viewContent;
+            SourceCode = sourceCode;
         }
     }
 }
