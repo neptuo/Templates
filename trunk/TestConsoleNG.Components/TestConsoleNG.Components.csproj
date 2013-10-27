@@ -62,7 +62,7 @@
     <Compile Include="Controls\PanelControl.cs" />
     <Compile Include="Controls\TemplateCodeObject.cs" />
     <Compile Include="Controls\TemplatePropertyBuilder.cs" />
-    <Compile Include="Controls\TextBoxControl.cs" />
+    <Compile Include="Controls\TextBoxPresenter.cs" />
     <Compile Include="Controls\StringPropertyBuilder.cs" />
     <Compile Include="Controls\ViewTemplateContent.cs" />
     <Compile Include="Data\DataStorage.cs" />
