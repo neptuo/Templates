@@ -1045,11 +1045,11 @@ var Neptuo$Templates$Components$VersionInfo =
     {
         cctor: function ()
         {
-            Neptuo.Templates.Components.VersionInfo.Version = "2.5.4";
+            Neptuo.Templates.Components.VersionInfo.Version = "2.8.0";
         },
         GetVersion: function ()
         {
-            return new System.Version.ctor$$String("2.5.4");
+            return new System.Version.ctor$$String("2.8.0");
         }
     },
     assemblyName: "Neptuo.Templates.Components",

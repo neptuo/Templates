@@ -18,7 +18,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         context.FieldName
                     ),
                     propertyDescriptor.Method.Name,
-                    propertyDescriptor.Parameters.Select(p => new CodePrimitiveExpression(((PlainValueCodeObject)p).Value)).ToArray()
+                    propertyDescriptor.Parameters.Select(
+                        p => context.CodeGenerator.GenerateCodeObject(
+                            new CodeObjectExtensionContext(context.Context, context.FieldName), p, propertyDescriptor
+                        )
+                    ).ToArray()
                 )
             );
         }

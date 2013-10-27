@@ -14,20 +14,39 @@ namespace Neptuo.Templates.Compilation.Parsers
         public const string DefaultExtensionSuffix = "extension";
 
         public bool CaseSensitive { get; private set; }
-        public string ComponentSuffix { get; private set; }
-        public string ObserverSuffix { get; private set; }
+        public List<string> ComponentSuffix { get; private set; }
+        public List<string> ObserverSuffix { get; private set; }
         public string ObserverWildcard { get; set; }
-        public string ExtensionSuffix { get; private set; }
+        public List<string> ExtensionSuffix { get; private set; }
 
         public IDependencyProvider DependencyProvider { get; private set; }
 
         public TypeBuilderRegistryConfiguration(IDependencyProvider dependencyProvider)
         {
             DependencyProvider = dependencyProvider;
-            ComponentSuffix = DefaultComponentSuffix;
-            ObserverSuffix = DefaultObserverSuffix;
+            ComponentSuffix = new List<string> { DefaultComponentSuffix };
+            ObserverSuffix = new List<string> { DefaultObserverSuffix };
             ObserverWildcard = DefaultObserverWildcard;
-            ExtensionSuffix = DefaultExtensionSuffix;
+            ExtensionSuffix = new List<string> { DefaultExtensionSuffix };
+        }
+
+
+        public TypeBuilderRegistryConfiguration AddComponentSuffix(string suffix)
+        {
+            ComponentSuffix.Add(suffix);
+            return this;
+        }
+
+        public TypeBuilderRegistryConfiguration AddObserverSuffix(string suffix)
+        {
+            ObserverSuffix.Add(suffix);
+            return this;
+        }
+
+        public TypeBuilderRegistryConfiguration AddExtensionSuffix(string suffix)
+        {
+            ExtensionSuffix.Add(suffix);
+            return this;
         }
     }
 }
