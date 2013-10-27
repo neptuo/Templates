@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             TypeConverter typeConverter = GetTypeConverter(context, plainValue, propertyDescriptor);
             if (typeConverter != null && typeConverter.CanConvertFrom(plainValue.Value.GetType()))
                 return new CodePrimitiveExpression(typeConverter.ConvertFrom(plainValue.Value));
-            else if (StringConverter.CanConvert(propertyDescriptor.Property.Type))
+            else if (propertyDescriptor.Property != null && StringConverter.CanConvert(propertyDescriptor.Property.Type))
                 return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.Type));
 
             //TODO: Inconvertable value!!
@@ -52,6 +52,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             //        )
             //    );
             //}
+            if (propertyDescriptor.Property == null)
+                return null;
+
             return TypeDescriptor.GetConverter(propertyDescriptor.Property.Type);
         }
     }

@@ -27,14 +27,23 @@ namespace Neptuo.Templates.Compilation.Parsers
             return prefix;
         }
 
-        protected string PrepareName(string name, string suffix)
+        protected string PrepareName(string name, IEnumerable<string> suffix)
         {
             if (name == null)
                 throw new ArgumentNullException("tagName");
 
+            if (suffix == null)
+                throw new ArgumentNullException("suffix");
+
             name = name.ToLowerInvariant();
-            if (name.EndsWith(suffix))
-                name = name.Substring(0, name.Length - suffix.Length);
+            foreach (string suffixName in suffix)
+            {
+                if (name.EndsWith(suffixName))
+                {
+                    name = name.Substring(0, name.Length - suffixName.Length);
+                    return name;
+                }
+            }
 
             return name;
         }

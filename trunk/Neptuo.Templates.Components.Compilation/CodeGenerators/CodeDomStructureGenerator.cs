@@ -31,12 +31,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return baseStructure;
         }
 
-        private void CreateCodeUnit(BaseCodeDomStructure structure, CodeDomStructureContext context)
+        protected virtual void CreateCodeUnit(BaseCodeDomStructure structure, CodeDomStructureContext context)
         {
             structure.Unit = new CodeCompileUnit();
         }
 
-        private void CreateCodeClass(BaseCodeDomStructure structure, CodeDomStructureContext context)
+        protected virtual void CreateCodeClass(BaseCodeDomStructure structure, CodeDomStructureContext context)
         {
             CodeNamespace codeNamespace = new CodeNamespace(Names.CodeNamespace);
             //codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
@@ -46,12 +46,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             structure.Class = new CodeTypeDeclaration(context.Naming.ClassName);
             structure.Class.IsClass = true;
             structure.Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
-            structure.Class.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
-            structure.Class.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
+            SetBaseTypes(structure.Class);
             codeNamespace.Types.Add(structure.Class);
         }
 
-        private void CreateCodeMethods(BaseCodeDomStructure structure, CodeDomStructureContext context)
+        protected virtual void SetBaseTypes(CodeTypeDeclaration typeDeclaration)
+        {
+            typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
+            typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
+        }
+
+        protected virtual void CreateCodeMethods(BaseCodeDomStructure structure, CodeDomStructureContext context)
         {
             structure.EntryPointMethod = new CodeMemberMethod
             {

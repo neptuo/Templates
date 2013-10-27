@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected virtual string GetComponentName(Type type, string suffix)
+        protected virtual string GetComponentName(Type type, IEnumerable<string> suffix)
         {
             ComponentAttribute attribute = ReflectionHelper.GetAttribute<ComponentAttribute>(type);
             string name = PrepareName(type.Name, suffix);
