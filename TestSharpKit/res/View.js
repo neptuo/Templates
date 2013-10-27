@@ -242,8 +242,8 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA =
         },
         field7_Create: function ()
         {
-            var field7 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field7, $CreateDelegate(this, this.field7_Bind));
+            var field7 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field7, $CreateDelegate(this, this.field7_Bind));
             return field7;
         },
         field7_Bind: function (field7)
@@ -273,8 +273,8 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA =
         },
         field10_Create: function ()
         {
-            var field10 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field10, $CreateDelegate(this, this.field10_Bind));
+            var field10 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field10, $CreateDelegate(this, this.field10_Bind));
             return field10;
         },
         field10_Bind: function (field10)
@@ -304,8 +304,8 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA =
         },
         field13_Create: function ()
         {
-            var field13 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field13, $CreateDelegate(this, this.field13_Bind));
+            var field13 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field13, $CreateDelegate(this, this.field13_Bind));
             return field13;
         },
         field13_Bind: function (field13)
@@ -335,8 +335,8 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA =
         },
         field16_Create: function ()
         {
-            var field16 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field16, $CreateDelegate(this, this.field16_Bind));
+            var field16 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field16, $CreateDelegate(this, this.field16_Bind));
             return field16;
         },
         field16_Bind: function (field16)
@@ -389,8 +389,8 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field2_Create: function ()
         {
-            var field2 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field2, $CreateDelegate(this, this.field2_Bind));
+            var field2 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field2, $CreateDelegate(this, this.field2_Bind));
             return field2;
         },
         field2_Bind: function (field2)
@@ -418,8 +418,8 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field5_Create: function ()
         {
-            var field5 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field5, $CreateDelegate(this, this.field5_Bind));
+            var field5 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field5, $CreateDelegate(this, this.field5_Bind));
             return field5;
         },
         field5_Bind: function (field5)
@@ -447,8 +447,8 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field8_Create: function ()
         {
-            var field8 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field8, $CreateDelegate(this, this.field8_Bind));
+            var field8 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field8, $CreateDelegate(this, this.field8_Bind));
             return field8;
         },
         field8_Bind: function (field8)
@@ -476,8 +476,8 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D =
         },
         field11_Create: function ()
         {
-            var field11 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
-            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field11, $CreateDelegate(this, this.field11_Bind));
+            var field11 = new TestConsoleNG.Controls.TextBoxPresenter.ctor(this.componentManager);
+            this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxPresenter.ctor, field11, $CreateDelegate(this, this.field11_Bind));
             return field11;
         },
         field11_Bind: function (field11)

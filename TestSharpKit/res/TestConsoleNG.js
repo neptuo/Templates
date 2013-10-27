@@ -829,9 +829,9 @@ var TestConsoleNG$Controls$TemplatePropertyBuilder =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$TemplatePropertyBuilder);
-var TestConsoleNG$Controls$TextBoxControl =
+var TestConsoleNG$Controls$TextBoxPresenter =
 {
-    fullname: "TestConsoleNG.Controls.TextBoxControl",
+    fullname: "TestConsoleNG.Controls.TextBoxPresenter",
     baseTypeName: "TestConsoleNG.Controls.BaseControl",
     assemblyName: "TestConsoleNG.Components",
     customAttributes: [ {targetType: "type", typeName: "Neptuo.Templates.HtmlAttribute", ctorName: "ctor$$String$$Boolean", positionalArguments: ["input", true]}],
@@ -871,7 +871,7 @@ var TestConsoleNG$Controls$TextBoxControl =
         }
     }
 };
-JsTypes.push(TestConsoleNG$Controls$TextBoxControl);
+JsTypes.push(TestConsoleNG$Controls$TextBoxPresenter);
 var TestConsoleNG$Controls$StringPropertyBuilder =
 {
     fullname: "TestConsoleNG.Controls.StringPropertyBuilder",
