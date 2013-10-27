@@ -214,7 +214,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     {
                         foreach (Attribute attribute in propertyInfo.GetCustomAttributes())
                         {
-                            targetValue = context.CodeGenerator.GenerateAttribute(context.CodeDomContext, attribute);
+                            targetValue = context.CodeGenerator.GenerateAttribute(context.CodeDomContext, propertyInfo, attribute);
                             if (targetValue != null)
                                 break;
                         }

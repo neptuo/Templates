@@ -154,13 +154,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             throw new NotImplementedException("Not supported type for dependency resolution!");
         }
 
-        public CodeExpression GenerateAttribute(Context context, Attribute attribute)
+        public CodeExpression GenerateAttribute(Context context, PropertyInfo propertyInfo, Attribute attribute)
         {
             foreach (KeyValuePair<Type, ICodeDomAttributeGenerator> item in AttributeGenerators)
             {
                 if (item.Key.IsAssignableFrom(attribute.GetType()))
                 {
-                    CodeExpression expression = item.Value.GenerateCode(new CodeDomAttributeContext(context), attribute);
+                    CodeExpression expression = item.Value.GenerateCode(new CodeDomAttributeContext(context, propertyInfo), attribute);
                     if (expression != null)
                         return expression;
                 }
