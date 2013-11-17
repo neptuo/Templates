@@ -77,11 +77,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected CodeExpression CreateMarkupExtensionContext(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
+            CodePrimitiveExpression propertyExpression = null;
+            if (propertyDescriptor.Property != null)
+                propertyExpression = new CodePrimitiveExpression(propertyDescriptor.Property.Name);
+
             return new CodeMethodInvokeExpression(
                 new CodeThisReferenceExpression(),
                 CodeDomStructureGenerator.Names.CreateValueExtensionContextMethod,
                 new CodeFieldReferenceExpression(null, context.ParentFieldName),
-                new CodePrimitiveExpression(propertyDescriptor.Property.Name)
+                propertyExpression
             );
             //return new CodeObjectCreateExpression(
             //    typeof(DefaultMarkupExtensionContext),

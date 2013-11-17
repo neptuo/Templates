@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Web;
 
@@ -53,9 +54,13 @@ namespace Neptuo.Templates
 
         protected IValueExtensionContext CreateValueExtensionContext(object targetObject, string targetProperty)
         {
+            PropertyInfo propertyInfo = null;
+            if (!String.IsNullOrEmpty(targetProperty))
+                propertyInfo = targetObject.GetType().GetProperty(targetProperty);
+
             return new DefaultMarkupExtensionContext(
-                targetObject, 
-                targetObject.GetType().GetProperty(targetProperty), 
+                targetObject,
+                propertyInfo, 
                 dependencyProvider
             );
         }
