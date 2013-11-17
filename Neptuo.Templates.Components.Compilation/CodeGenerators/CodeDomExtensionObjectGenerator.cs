@@ -80,6 +80,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             CodePrimitiveExpression propertyExpression = null;
             if (propertyDescriptor.Property != null)
                 propertyExpression = new CodePrimitiveExpression(propertyDescriptor.Property.Name);
+            else
+                propertyExpression = new CodePrimitiveExpression(null);
 
             return new CodeMethodInvokeExpression(
                 new CodeThisReferenceExpression(),
