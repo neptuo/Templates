@@ -16,9 +16,25 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             TypeConverter typeConverter = GetTypeConverter(context, plainValue, propertyDescriptor);
             if (typeConverter != null && typeConverter.CanConvertFrom(plainValue.Value.GetType()))
-                return new CodePrimitiveExpression(typeConverter.ConvertFrom(plainValue.Value));
+            {
+                object value = typeConverter.ConvertFrom(plainValue.Value);
+                if(value == null)
+                    return new CodePrimitiveExpression(null);
+
+                if (value.GetType().IsEnum)
+                {
+                    return new CodePropertyReferenceExpression(
+                        new CodeVariableReferenceExpression(value.GetType().FullName), 
+                        value.ToString()
+                    );
+                }
+
+                return new CodePrimitiveExpression(value);
+            }
             else if (propertyDescriptor.Property != null && StringConverter.CanConvert(propertyDescriptor.Property.Type))
+            {
                 return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.Type));
+            }
 
             //TODO: Inconvertable value!!
             //Be aware of ListAddPropertyDescriptor - type of it is Collection<TARGET REAL TYPE>
