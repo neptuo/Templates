@@ -141,6 +141,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.Components[prefix][tagName] = factory;
         }
 
+        protected void RegisterMarkupExtension(string prefix, string tagName, IMarkupExtensionBuilderFactory factory)
+        {
+            prefix = PreparePrefix(prefix);
+            tagName = PrepareName(tagName, Configuration.ExtensionSuffix);
+            Content.MarkupExtensions[prefix][tagName] = factory;
+        }
+
         protected void RegisterObserver(string prefix, string tagName, IObserverBuilderFactory factory)
         {
             prefix = PreparePrefix(prefix);
@@ -158,6 +165,12 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             RegisterNamespaceInternal(new NamespaceDeclaration(prefix, tagName));
             RegisterComponent(prefix, tagName, factory);
+        }
+
+        public void RegisterExtensionBuilder(string prefix, string tagName, IMarkupExtensionBuilderFactory factory)
+        {
+            RegisterNamespaceInternal(new NamespaceDeclaration(prefix, tagName));
+            RegisterMarkupExtension(prefix, tagName, factory);
         }
 
         public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilderFactory factory)
