@@ -148,7 +148,7 @@ var Neptuo$Templates$BaseGeneratedView =
                 return Default(T);
             var sourceType = value.GetType();
             var targetType = Typeof(T);
-            if (sourceType == targetType)
+            if (System.Type.op_Equality$$Type$$Type(sourceType, targetType))
                 return value;
             var converter = System.ComponentModel.TypeDescriptor.GetConverter$$Object(value);
             if (converter.CanConvertTo$$Type(targetType))
@@ -247,7 +247,7 @@ var Neptuo$Templates$ComponentManager =
             {
                 var $v1 = new Neptuo.Templates.ComponentManager.ComponentEntry$1.ctor(T);
                 $v1.set_Control(component);
-                $v1.set_ArePropertiesBound(propertyBinder == null);
+                $v1.set_ArePropertiesBound(System.MulticastDelegate.op_Equality$$MulticastDelegate$$MulticastDelegate(propertyBinder, null));
                 $v1.set_PropertyBinder(propertyBinder);
                 return $v1;
             }).call(this);
@@ -527,7 +527,7 @@ var Neptuo$Templates$ComponentManager$ComponentEntry$1 =
         },
         BindProperties: function ()
         {
-            if (this.propertyBinder != null)
+            if (System.MulticastDelegate.op_Inequality$$MulticastDelegate$$MulticastDelegate(this.propertyBinder, null))
             {
                 this.propertyBinder(this.control);
                 this.set_ArePropertiesBound(true);
@@ -622,7 +622,7 @@ var Neptuo$Templates$ComponentManager$ObserverInfo$1 =
         },
         BindProperties: function ()
         {
-            if (this.propertyBinder != null)
+            if (System.MulticastDelegate.op_Inequality$$MulticastDelegate$$MulticastDelegate(this.propertyBinder, null))
             {
                 this.propertyBinder(this.observer);
                 this.set_ArePropertiesBound(true);
@@ -1023,6 +1023,39 @@ var Neptuo$Templates$IVirtualUrlProvider = {fullname: "Neptuo.Templates.IVirtual
 JsTypes.push(Neptuo$Templates$IVirtualUrlProvider);
 var Neptuo$Templates$IVirtualPathProvider = {fullname: "Neptuo.Templates.IVirtualPathProvider", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates.Components", Kind: "Interface", ctors: [], IsAbstract: true};
 JsTypes.push(Neptuo$Templates$IVirtualPathProvider);
+var Neptuo$Templates$ObserverAttribute =
+{
+    fullname: "Neptuo.Templates.ObserverAttribute",
+    baseTypeName: "System.Attribute",
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition:
+    {
+        ctor: function ()
+        {
+            this._Livecycle = Neptuo.Templates.ObserverLivecycle.PerAttribute;
+            Neptuo.Templates.ObserverAttribute.ctor$$ObserverLivecycle.call(this, Neptuo.Templates.ObserverLivecycle.PerControl);
+        },
+        Livecycle$$: "Neptuo.Templates.ObserverLivecycle",
+        get_Livecycle: function ()
+        {
+            return this._Livecycle;
+        },
+        set_Livecycle: function (value)
+        {
+            this._Livecycle = value;
+        },
+        ctor$$ObserverLivecycle: function (livecycle)
+        {
+            this._Livecycle = Neptuo.Templates.ObserverLivecycle.PerAttribute;
+            System.Attribute.ctor.call(this);
+            this.set_Livecycle(livecycle);
+        }
+    },
+    ctors: [ {name: "ctor", parameters: []}, {name: "ctor$$ObserverLivecycle", parameters: ["Neptuo.Templates.ObserverLivecycle"]}],
+    IsAbstract: false
+};
+JsTypes.push(Neptuo$Templates$ObserverAttribute);
 var Neptuo$Templates$ObserverLivecycle =
 {
     fullname: "Neptuo.Templates.ObserverLivecycle",
@@ -1086,11 +1119,11 @@ var Neptuo$Templates$Components$VersionInfo =
     {
         cctor: function ()
         {
-            Neptuo.Templates.Components.VersionInfo.Version = "2.10.0";
+            Neptuo.Templates.Components.VersionInfo.Version = "2.11.0";
         },
         GetVersion: function ()
         {
-            return new System.Version.ctor$$String("2.10.0");
+            return new System.Version.ctor$$String("2.11.0");
         }
     },
     assemblyName: "Neptuo.Templates.Components",

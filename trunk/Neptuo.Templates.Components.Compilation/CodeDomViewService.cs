@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation
         public INamingService NamingService { get; set; }
         public ICollection<string> BinDirectories { get; set; }
         public string TempDirectory { get; set; }
-        public bool DebugMode { get; set; }
+        public CodeDomDebugMode DebugMode { get; set; }
 
         public CodeDomViewService()
         {
@@ -98,13 +98,13 @@ namespace Neptuo.Templates.Compilation
         {
             string sourceCode = GenerateSourceCodeFromView(viewContent, context, naming);
 
-            if (DebugMode)
+            if (DebugMode.HasFlag(CodeDomDebugMode.GenerateSourceCode))
                 File.WriteAllText(Path.Combine(TempDirectory, naming.AssemblyName.Replace(".dll", ".cs")), sourceCode);//TODO: Do it better!
 
             DebugUtils.Run("Compile", () =>
             {
                 CodeDomCompiler compiler = new CodeDomCompiler();
-                compiler.IncludeDebugInformation = DebugMode;
+                compiler.IncludeDebugInformation = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
 
                 foreach (string directory in BinDirectories)
                     compiler.AddReferencedFolder(directory);    
@@ -175,7 +175,7 @@ namespace Neptuo.Templates.Compilation
         /// <returns>True if assembly exists.</returns>
         protected virtual bool AssemblyExists(string assemblyName)
         {
-            return !DebugMode && FileProvider.Exists(assemblyName);
+            return !DebugMode.HasFlag(CodeDomDebugMode.AlwaysReGenerate) && FileProvider.Exists(assemblyName);
         }
 
         /// <summary>
