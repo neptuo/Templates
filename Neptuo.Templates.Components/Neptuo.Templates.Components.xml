@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ExportConfiguration>
-  <Export DefaultFilename="Neptuo.Templates.Components.js" FilenameFormat="~/{0}" />
-  <JsType TargetType="Neptuo.Templates.ObserverAttribute" Export="False" />
-</ExportConfiguration>
+<Exugin>
+  <Export Filename="Neptuo.Templates.Components.js" FilenameFormat="~/{0}" />
+  <Type Type="Neptuo.Templates.ObserverAttribute" Export="False" />
+</Exugin>

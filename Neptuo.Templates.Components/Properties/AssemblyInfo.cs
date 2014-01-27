@@ -1,6 +1,5 @@
 ﻿using Neptuo.Templates;
 using Neptuo.Templates.Components;
-using SharpKit.JavaScript;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
