@@ -115,10 +115,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                             new CodeThisReferenceExpression(),
                             fieldName
                         ),
-                        new CodeObjectCreateExpression(
-                            codeObject.Type,
-                            ResolveConstructorParameters(context, codeObject.Type)
-                        )
+                        CreateObjectCreateExpression(context, codeObject)
                     )
                 );
                 createMethodInfo = new ComponentMethodInfo(ifNull.TrueStatements, createMethod.Name, fieldName);
@@ -129,10 +126,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     new CodeVariableDeclarationStatement(
                         codeObject.Type,
                         fieldName,
-                        new CodeObjectCreateExpression(
-                            codeObject.Type,
-                            ResolveConstructorParameters(context, codeObject.Type)
-                        )
+                        CreateObjectCreateExpression(context, codeObject)
                     )
                 );
                 createMethodInfo = new ComponentMethodInfo(createMethod, fieldName);
@@ -148,6 +142,22 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 )
             );
             return createMethodInfo;
+        }
+
+        protected virtual CodeExpression CreateObjectCreateExpression<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
+            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        {
+            if (context.CodeDomContext.IsDirectObjectResolve)
+            {
+                return context.CodeGenerator.GenerateDependency(context.CodeDomContext, codeObject.Type);
+            }
+            else
+            {
+                return new CodeObjectCreateExpression(
+                    codeObject.Type,
+                    ResolveConstructorParameters(context, codeObject.Type)
+                );
+            }
         }
 
         protected virtual void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)

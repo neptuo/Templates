@@ -14,6 +14,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public partial class CodeDomGenerator : ICodeGenerator
     {
+        public bool IsDirectObjectResolve { get; set; }
+
         public CodeDomGenerator()
         {
             CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
@@ -186,7 +188,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext codeContext)
         {
-            Context context = new Context(codeContext, this);
+            Context context = new Context(codeContext, this, IsDirectObjectResolve);
 
             if (BaseStructureGenerator == null)
                 throw new ArgumentNullException("BaseStructureExtension", "Base structure extension not provided!");
