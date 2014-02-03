@@ -23,6 +23,12 @@ namespace Neptuo.Templates.Compilation.PreProcessing
             Visit(codeObject);
         }
 
+        protected void Visit(IEnumerable<IPropertyDescriptor> properties)
+        {
+            foreach (IPropertyDescriptor propertyDescriptor in properties)
+                Visit(propertyDescriptor);
+        }
+
         protected void Visit(IPropertyDescriptor propertyDescriptor)
         {
             if (propertyDescriptor is ListAddPropertyDescriptor)
