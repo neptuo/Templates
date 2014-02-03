@@ -33,21 +33,21 @@ namespace Neptuo.Templates
             OpenTags = new Stack<string>();
         }
 
-        public IHtmlWriter Content(object content)
+        public virtual IHtmlWriter Content(object content)
         {
             EnsureCloseOpeningTag();
             InnerWriter.Write(content);
             return this;
         }
 
-        public IHtmlWriter Content(string content)
+        public virtual IHtmlWriter Content(string content)
         {
             EnsureCloseOpeningTag();
             InnerWriter.Write(content);
             return this;
         }
 
-        public IHtmlWriter Tag(string name)
+        public virtual IHtmlWriter Tag(string name)
         {
             EnsureCloseOpeningTag();
 
@@ -61,19 +61,19 @@ namespace Neptuo.Templates
             return this;
         }
 
-        public IHtmlWriter CloseTag()
+        public virtual IHtmlWriter CloseTag()
         {
             WriteCloseTag(HasContent);
             return this;
         }
 
-        public IHtmlWriter CloseFullTag()
+        public virtual IHtmlWriter CloseFullTag()
         {
             WriteCloseTag(true);
             return this;
         }
 
-        public IHtmlWriter Attribute(string name, string value)
+        public virtual IHtmlWriter Attribute(string name, string value)
         {
             if (!CanWriteAttribute)
                 throw new HtmlTextWriterException("Unnable to write attribute in current state!");
@@ -113,7 +113,7 @@ namespace Neptuo.Templates
             HasContent = true;
         }
 
-        protected void EnsureCloseOpeningTag()
+        protected virtual void EnsureCloseOpeningTag()
         {
             if (IsOpenTag)
                 InnerWriter.Write(Html.CloseTag);
