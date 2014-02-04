@@ -164,7 +164,7 @@ namespace Neptuo.Templates
             }
 
             if (canRender)
-                target.Render(writer);
+                DoRenderControl(target, writer);
 
             AfterRenderControl(target, writer);
         }
@@ -174,6 +174,11 @@ namespace Neptuo.Templates
 
         protected virtual void BeforeRenderControl(IControl control, IHtmlWriter writer)
         { }
+
+        protected virtual void DoRenderControl(IControl control, IHtmlWriter writer)
+        {
+            control.Render(writer);
+        }
 
         protected virtual void AfterRenderControl(IControl control, IHtmlWriter writer)
         { }

@@ -364,7 +364,7 @@ var Neptuo$Templates$ComponentManager =
                 }
             }
             if (canRender)
-                target.Render(writer);
+                this.DoRenderControl(target, writer);
             this.AfterRenderControl(target, writer);
         },
         BeforeRenderComponent: function (component, writer)
@@ -372,6 +372,10 @@ var Neptuo$Templates$ComponentManager =
         },
         BeforeRenderControl: function (control, writer)
         {
+        },
+        DoRenderControl: function (control, writer)
+        {
+            control.Render(writer);
         },
         AfterRenderControl: function (control, writer)
         {
@@ -1119,11 +1123,11 @@ var Neptuo$Templates$Components$VersionInfo =
     {
         cctor: function ()
         {
-            Neptuo.Templates.Components.VersionInfo.Version = "2.13.1";
+            Neptuo.Templates.Components.VersionInfo.Version = "2.13.2";
         },
         GetVersion: function ()
         {
-            return new System.Version.ctor$$String("2.13.1");
+            return new System.Version.ctor$$String("2.13.2");
         }
     },
     assemblyName: "Neptuo.Templates.Components",
