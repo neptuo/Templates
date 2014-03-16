@@ -8,6 +8,7 @@ namespace Neptuo.Templates.Compilation
 {
     public interface INaming
     {
+        string SourceName { get; }
         string ClassNamespace { get; }
         string ClassName { get; }
         string AssemblyName { get; }
