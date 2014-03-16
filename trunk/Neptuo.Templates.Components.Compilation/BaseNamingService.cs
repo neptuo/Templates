@@ -13,17 +13,18 @@ namespace Neptuo.Templates.Compilation
 
         public INaming FromFile(string fileName)
         {
-            return GetNaming(GetNameForFile(fileName));
+            return GetNaming(fileName, GetNameForFile(fileName));
         }
 
         public INaming FromContent(string viewContent)
         {
-            return GetNaming(GetNameForContent(viewContent));
+            return GetNaming(null, GetNameForContent(viewContent));
         }
 
-        protected virtual INaming GetNaming(string viewName)
+        protected virtual INaming GetNaming(string sourceName, string viewName)
         {
             return new DefaultNaming(
+                sourceName,
                 CodeDomStructureGenerator.Names.CodeNamespace,
                 viewName,
                 GetAssemblyForName(viewName)
