@@ -44,8 +44,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                     }
                 }
             }
-
-            public static bool NeedsServerProcessing(IContentBuilderRegistry builderRegistry, IXmlElement element)
+            
+            public static bool NeedsServerProcessing(Helper helper, IContentBuilderRegistry builderRegistry, IXmlElement element)
             {
                 if (builderRegistry.ContainsComponent(element.Prefix, element.LocalName))
                     return true;
@@ -54,6 +54,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 {
                     if(builderRegistry.ContainsObserver(attribute.Prefix, attribute.LocalName))
                         return true;
+
+                    if (attribute.Value.StartsWith("{"))
+                        return true; //TODO: Fix for {Expressions}
                 }
 
                 return false;
