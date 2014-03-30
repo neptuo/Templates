@@ -70,7 +70,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 {
                     IXmlElement element = (IXmlElement)node;
                     IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(builderRegistry, Utils.GetXmlNsNamespace(element));
-                    if (Utils.NeedsServerProcessing(newBuilderRegistry, element))
+                    if (Utils.NeedsServerProcessing(helper, newBuilderRegistry, element))
                     {
                         FlushContent(helper);
 
