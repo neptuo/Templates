@@ -14,11 +14,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected ICodeGenerator InnerGenerator { get; private set; }
         public ICollection<string> BinDirectories { get; private set; }
         public string TempDirectory { get; set; }
+        public bool RunCsc { get; set; }
 
         public SharpKitCodeGenerator(ICodeGenerator innerGenerator)
         {
             InnerGenerator = innerGenerator;
             BinDirectories = new List<string>();
+            RunCsc = true;
         }
 
         public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context)
@@ -61,6 +63,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             StringReader input = new StringReader(sourceCode);
 
             SharpKitCompiler sharpKitGenerator = new SharpKitCompiler();
+            sharpKitGenerator.RunCsc = RunCsc;
             sharpKitGenerator.AddReference("mscorlib.dll");
             sharpKitGenerator.AddReference("SharpKit.JavaScript.dll", "SharpKit.Html.dll", "SharpKit.jQuery.dll");
             sharpKitGenerator.AddPlugin("Neptuo.SharpKit.Exugin", "Neptuo.SharpKit.Exugin.ExuginPlugin");
@@ -69,7 +72,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 sharpKitGenerator.AddReferenceFolder(folder);
 
             sharpKitGenerator.RemoveReference("System.Web.dll");
-            sharpKitGenerator.RemoveReference("SharpKit.JavaScript.dll");
+            //sharpKitGenerator.RemoveReference("SharpKit.JavaScript.dll");
 
             sharpKitGenerator.TempDirectory = TempDirectory;
             sharpKitGenerator.Generate(new SharpKitCompilerContext(input, output));

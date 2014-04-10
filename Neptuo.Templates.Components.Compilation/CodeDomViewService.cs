@@ -170,7 +170,7 @@ namespace Neptuo.Templates.Compilation
             return writer.ToString();
         }
 
-        protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context)
+        protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming)
         {
             if (JavascriptGenerator.TempDirectory == null)
             {
@@ -185,7 +185,7 @@ namespace Neptuo.Templates.Compilation
 
             DebugUtils.Run("GenerateSourceCode", () =>
             {
-                bool generatorResult = JavascriptGenerator.ProcessTree(contentProperty, new DefaultCodeGeneratorContext(writer, CodeGeneratorService, context.DependencyProvider, errors));
+                bool generatorResult = JavascriptGenerator.ProcessTree(contentProperty, new CodeDomGeneratorContext(naming, writer, CodeGeneratorService, context.DependencyProvider, errors));
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });
