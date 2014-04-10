@@ -1,7 +1,9 @@
 ﻿using Neptuo;
+using Neptuo.Linq.Expressions;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeGenerators;
+using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Controls;
 using System;
@@ -56,6 +58,9 @@ namespace TestConsoleNG
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.BinDirectories.Add(Environment.CurrentDirectory);
 
+            viewService.JavascriptGenerator.TempDirectory = @"C:\Temp\NeptuoFramework";
+            viewService.JavascriptGenerator.BinDirectories.Add(Environment.CurrentDirectory);
+
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             viewService.CodeDomGenerator.RegisterStandartCodeGenerators(fieldNameProvider);
             viewService.CodeDomGenerator.SetCodeObjectGenerator(typeof(TemplateCodeObject), new CodeDomTemplateGenerator(fieldNameProvider));
@@ -72,6 +77,28 @@ namespace TestConsoleNG
             //{
 
             IViewServiceContext context = new ViewServiceContext(container);
+
+
+
+
+
+            
+            //IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
+            //IPropertyDescriptor contentProperty= new ListAddPropertyDescriptor(propertyInfo);
+            //StringWriter javascriptOutput = new StringWriter();
+
+            //viewService.ParserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(container, contentProperty));
+            //viewService.JavascriptGenerator.ProcessTree(contentProperty, new CodeDomGeneratorContext(new DefaultNaming("X", "X", "X", "X"), output, viewService.CodeGeneratorService, container));
+
+            //Console.WriteLine(javascriptOutput);
+
+
+
+
+
+
+
+
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
             BaseGeneratedView view = (BaseGeneratedView)viewService.Process("Index.html", context);

@@ -34,6 +34,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\Neptuo.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.SharpKit.CodeGenerator">
+      <HintPath>..\References\Neptuo.SharpKit.CodeGenerator.dll</HintPath>
+    </Reference>
     <Reference Include="Neptuo.Tokens">
       <HintPath>..\References\Neptuo.Tokens.dll</HintPath>
     </Reference>
@@ -58,6 +61,7 @@
     <Compile Include="CodeGenerators\CodeTypeMemberCollectionExtensions.cs" />
     <Compile Include="CodeGenerators\IFieldNameProvider.cs" />
     <Compile Include="CodeGenerators\SequenceFieldNameProvider.cs" />
+    <Compile Include="CodeGenerators\SharpKitCodeGenerator.cs" />
     <Compile Include="CodeGenerators\TypeCodeDomObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CODEDOMREGISTEREXTENSIONS.cs" />
     <Compile Include="CodeGenerators\CodeDomComponentGenerator.cs" />

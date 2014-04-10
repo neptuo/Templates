@@ -27,7 +27,7 @@ namespace TestConsoleNG.SimpleContainer
             return this;
         }
 
-        public IDependencyContainer RegisterType(Type from, Type to, string name)
+        public IDependencyContainer RegisterType(Type from, Type to, string name, object lifetime)
         {
             registry[from] = () => Activator.CreateInstance(to);
             return this;
