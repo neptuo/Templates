@@ -25,7 +25,8 @@ namespace Neptuo.Templates.Compilation
         public IParserService ParserService { get; private set; }
         public IPreProcessorService PreProcessorService { get; private set; }
         public CodeDomGenerator CodeDomGenerator { get; private set; }
-        protected ICodeGeneratorService CodeGeneratorService { get; private set; }
+        public SharpKitCodeGenerator JavascriptGenerator { get; private set; }
+        public ICodeGeneratorService CodeGeneratorService { get; private set; }
         public IFileProvider FileProvider { get; private set; }
 
         public INamingService NamingService { get; set; }
@@ -39,6 +40,7 @@ namespace Neptuo.Templates.Compilation
             PreProcessorService = new DefaultPreProcessorService();
             CodeGeneratorService = new DefaultCodeGeneratorService();
             CodeDomGenerator = new CodeDomGenerator();
+            JavascriptGenerator = new SharpKitCodeGenerator(CodeDomGenerator);
             CodeGeneratorService.AddGenerator("CSharp", CodeDomGenerator);
 
             BinDirectories = new List<string>();
@@ -161,6 +163,29 @@ namespace Neptuo.Templates.Compilation
             DebugUtils.Run("GenerateSourceCode", () =>
             {
                 bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors));
+                if (!generatorResult)
+                    throw new CodeDomViewServiceException("Error generating code from view!", errors);
+            });
+
+            return writer.ToString();
+        }
+
+        protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context)
+        {
+            if (JavascriptGenerator.TempDirectory == null)
+            {
+                JavascriptGenerator.TempDirectory = TempDirectory;
+
+                foreach (string directory in BinDirectories)
+                    JavascriptGenerator.BinDirectories.Add(directory);
+            }
+
+            ICollection<IErrorInfo> errors = new List<IErrorInfo>();
+            TextWriter writer = new StringWriter();
+
+            DebugUtils.Run("GenerateSourceCode", () =>
+            {
+                bool generatorResult = JavascriptGenerator.ProcessTree(contentProperty, new DefaultCodeGeneratorContext(writer, CodeGeneratorService, context.DependencyProvider, errors));
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });

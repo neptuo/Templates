@@ -1108,10 +1108,10 @@ var Neptuo$Templates$Components$VersionInfo = {
     baseTypeName: "System.Object",
     staticDefinition: {
         cctor: function (){
-            Neptuo.Templates.Components.VersionInfo.Version = "2.14.2";
+            Neptuo.Templates.Components.VersionInfo.Version = "3.0.0";
         },
         GetVersion: function (){
-            return new System.Version.ctor$$String("2.14.2");
+            return new System.Version.ctor$$String("3.0.0");
         }
     },
     assemblyName: "Neptuo.Templates.Components",

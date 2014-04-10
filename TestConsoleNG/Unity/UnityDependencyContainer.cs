@@ -27,7 +27,7 @@ namespace TestConsoleNG.Unity
             return this;
         }
 
-        public IDependencyContainer RegisterType(Type from, Type to, string name)
+        public IDependencyContainer RegisterType(Type from, Type to, string name, object lifetime)
         {
             Container.RegisterType(from, to, name);
             return this;
