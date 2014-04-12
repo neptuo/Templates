@@ -9,7 +9,7 @@ namespace Neptuo.Templates
 {
     public partial class ComponentManager : IComponentManager
     {
-        private Dictionary<object, BaseComponentEntry> entries = new Dictionary<object, BaseComponentEntry>();
+        private Dictionary<object, ComponentEntryBase> entries = new Dictionary<object, ComponentEntryBase>();
 
         public ComponentManager()
         {
@@ -18,7 +18,7 @@ namespace Neptuo.Templates
 
         public virtual void AddComponent<T>(T component, Action<T> propertyBinder)
         {
-            BaseComponentEntry entry = new ComponentEntry<T>
+            ComponentEntryBase entry = new ComponentEntry<T>
             {
                 Control = component,
                 ArePropertiesBound = propertyBinder == null,
@@ -46,11 +46,20 @@ namespace Neptuo.Templates
         public void Init(object control)
         {
             //throw new LivecycleException("Not registered control!");
-            if (control == null || !entries.ContainsKey(control))
+            if (control == null)
                 return;
 
+            if (!entries.ContainsKey(control))
+            {
+                IControl targetControl = control as IControl;
+                if (targetControl != null)
+                    BeforeInitControl(targetControl);
+
+                targetControl.OnInit();
+            }
+
             //throw new LivecycleException("Control is already inited!");
-            BaseComponentEntry entry = entries[control];
+            ComponentEntryBase entry = entries[control];
             if (entry.IsInited)
                 return;
 
@@ -72,10 +81,25 @@ namespace Neptuo.Templates
             if (target == null)
                 return;
 
+            if (ExecuteObservers(entry))
+                target.OnInit();
+
+            if (entry.InitComplete.Count > 0)
+            {
+                ControlInitCompleteEventArgs args = new ControlInitCompleteEventArgs(target);
+                foreach (OnInitComplete handler in entry.InitComplete)
+                    handler(args);
+            }
+
+            AfterInitControl(target);
+        }
+
+        private bool ExecuteObservers(ComponentEntryBase entry)
+        {
             bool canInit = true;
             if (entry.Observers.Count > 0)
             {
-                ObserverEventArgs args = new ObserverEventArgs(target);
+                ObserverEventArgs args = new ObserverEventArgs(entry.Control as IControl);
                 foreach (ObserverInfo info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
@@ -90,17 +114,7 @@ namespace Neptuo.Templates
                 }
             }
 
-            if (canInit)
-                target.OnInit();
-
-            if (entry.InitComplete.Count > 0)
-            {
-                ControlInitCompleteEventArgs args = new ControlInitCompleteEventArgs(target);
-                foreach (OnInitComplete handler in entry.InitComplete)
-                    handler(args);
-            }
-
-            AfterInitControl(target);
+            return canInit;
         }
 
         protected virtual void BeforeInitComponent(object component)
@@ -128,7 +142,7 @@ namespace Neptuo.Templates
             if (!entries.ContainsKey(control))
                 return;
 
-            BaseComponentEntry entry = entries[control];
+            ComponentEntryBase entry = entries[control];
 
             if (!entry.IsInited)
                 Init(control);
@@ -189,7 +203,7 @@ namespace Neptuo.Templates
             if (!entries.ContainsKey(component))
                 return;
 
-            BaseComponentEntry entry = entries[component];
+            ComponentEntryBase entry = entries[component];
 
             if (!entry.IsInited)
                 Init(component);
