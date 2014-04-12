@@ -51,11 +51,16 @@ namespace Neptuo.Templates
 
             if (!entries.ContainsKey(control))
             {
+                // Try init not registered control
+                BeforeInitComponent(control);
+
                 IControl targetControl = control as IControl;
                 if (targetControl != null)
+                {
                     BeforeInitControl(targetControl);
-
-                targetControl.OnInit();
+                    targetControl.OnInit();
+                }
+                return;
             }
 
             //throw new LivecycleException("Control is already inited!");
@@ -140,7 +145,17 @@ namespace Neptuo.Templates
 
             //throw new LivecycleException("Not registered control!");
             if (!entries.ContainsKey(control))
+            {
+                // Try render not registered control
+                IControl targetControl = control as IControl;
+                if (targetControl != null)
+                {
+                    BeforeRenderControl(targetControl, writer);
+                    DoRenderControl(targetControl, writer);
+                    AfterRenderControl(targetControl, writer);
+                }
                 return;
+            }
 
             ComponentEntryBase entry = entries[control];
 
