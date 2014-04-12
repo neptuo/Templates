@@ -250,10 +250,13 @@ var Neptuo$Templates$ComponentManager = {
             if (control == null)
                 return;
             if (!this.entries.ContainsKey(control)){
+                this.BeforeInitComponent(control);
                 var targetControl = As(control, Neptuo.Templates.Controls.IControl.ctor);
-                if (targetControl != null)
+                if (targetControl != null){
                     this.BeforeInitControl(targetControl);
-                targetControl.OnInit();
+                    targetControl.OnInit();
+                }
+                return;
             }
             var entry = this.entries.get_Item$$TKey(control);
             if (entry.get_IsInited())
@@ -313,8 +316,15 @@ var Neptuo$Templates$ComponentManager = {
                 writer.Content$$Object(control);
                 return;
             }
-            if (!this.entries.ContainsKey(control))
+            if (!this.entries.ContainsKey(control)){
+                var targetControl = As(control, Neptuo.Templates.Controls.IControl.ctor);
+                if (targetControl != null){
+                    this.BeforeRenderControl(targetControl, writer);
+                    this.DoRenderControl(targetControl, writer);
+                    this.AfterRenderControl(targetControl, writer);
+                }
                 return;
+            }
             var entry = this.entries.get_Item$$TKey(control);
             if (!entry.get_IsInited())
                 this.Init(control);
@@ -1117,10 +1127,10 @@ var Neptuo$Templates$Components$VersionInfo = {
     baseTypeName: "System.Object",
     staticDefinition: {
         cctor: function (){
-            Neptuo.Templates.Components.VersionInfo.Version = "3.0.1";
+            Neptuo.Templates.Components.VersionInfo.Version = "3.0.4";
         },
         GetVersion: function (){
-            return new System.Version.ctor$$String("3.0.1");
+            return new System.Version.ctor$$String("3.0.4");
         }
     },
     assemblyName: "Neptuo.Templates.Components",
