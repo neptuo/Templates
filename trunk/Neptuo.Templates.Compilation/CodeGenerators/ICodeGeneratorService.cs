@@ -12,11 +12,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public interface ICodeGeneratorService
     {
         /// <summary>
-        /// Event fired when no generator is found.
-        /// </summary>
-        event Func<string, IPropertyDescriptor, ICodeGeneratorServiceContext, bool> OnSearchGenerator;
-
-        /// <summary>
         /// Registers <paramref name="generator"/> with <paramref name="name"/>.
         /// </summary>
         /// <param name="name">Name of generator.</param>

@@ -11,10 +11,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         IList<IValueParser> ValueParsers { get; }
         IValueParser DefaultValueParser { get; set; }
 
-        event Func<string, IParserServiceContext, bool> OnSearchContentParser;
-        event Func<string, IParserServiceContext, bool> OnSearchValueParser;
-        event Func<string, IParserServiceContext, bool> OnSearchDefaultValueParser;
-
         bool ProcessContent(string content, IParserServiceContext context);
         bool ProcessValue(string value, IParserServiceContext context);
     }
