@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation
         public IFileProvider FileProvider { get; private set; }
         public INamingService NamingService { get; set; }
         public ICollection<string> BinDirectories { get; set; }
-        
+
         public CodeDomGenerator CodeDomGenerator
         {
             get
@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation
         {
             get
             {
-                if(!useDefaultGenerators)
+                if (!useDefaultGenerators)
                     throw new InvalidOperationException("This CodeDomViewService is configured without default JavascriptGenerator.");
 
                 return javascriptGenerator;
@@ -66,7 +66,7 @@ namespace Neptuo.Templates.Compilation
                     JavascriptGenerator.TempDirectory = value;
             }
         }
-        
+
         /// <summary>
         /// Creates instance as main view service.
         /// </summary>
@@ -85,10 +85,10 @@ namespace Neptuo.Templates.Compilation
                 javascriptGenerator = new SharpKitCodeGenerator(CodeDomGenerator);
                 CodeGeneratorService.AddGenerator("CSharp", CodeDomGenerator);
                 CodeGeneratorService.AddGenerator("Javascript", JavascriptGenerator);
-                
+
                 BinDirectories = new NotifyList<string>(
-                    JavascriptGenerator.BinDirectories.Add, 
-                    JavascriptGenerator.BinDirectories.Remove, 
+                    JavascriptGenerator.BinDirectories.Add,
+                    JavascriptGenerator.BinDirectories.Remove,
                     JavascriptGenerator.BinDirectories.Clear
                 );
             }
@@ -96,17 +96,6 @@ namespace Neptuo.Templates.Compilation
             {
                 BinDirectories = new NotifyList<string>();
             }
-        }
-
-        /// <summary>
-        /// Creates instance as extension to <paramref name="mainViewService"/>.
-        /// </summary>
-        /// <param name="mainViewService">Main view service.</param>
-        public CodeDomViewService(CodeDomViewService mainViewService)
-            : this(false)
-        {
-            Guard.NotNull(mainViewService, "mainViewService");
-            new SubViewServiceAdapter(mainViewService, this);
         }
 
         public object Process(string fileName, IViewServiceContext context)
@@ -172,7 +161,7 @@ namespace Neptuo.Templates.Compilation
                 compiler.IncludeDebugInformation = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
 
                 foreach (string directory in BinDirectories)
-                    compiler.AddReferencedFolder(directory);    
+                    compiler.AddReferencedFolder(directory);
 
                 CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, GetAssemblyPath(naming));
                 if (cr.Errors.Count > 0)
@@ -202,14 +191,14 @@ namespace Neptuo.Templates.Compilation
             return new ListAddPropertyDescriptor(propertyInfo);
         }
 
-        protected virtual IPropertyDescriptor ParseViewContent(string viewContent, IViewServiceContext context)
+        protected virtual IPropertyDescriptor ParseViewContent(string viewContent, IViewServiceContext context, IParserService parserService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = GetRootPropertyDescriptor(context);
 
             DebugUtils.Run("ParseContent", () =>
             {
-                bool parserResult = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
+                bool parserResult = (parserService ?? ParserService).ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
 
                 if (!parserResult)
                     throw new CodeDomViewServiceException("Error parsing view content!", errors, viewContent);
@@ -218,14 +207,15 @@ namespace Neptuo.Templates.Compilation
             return contentProperty;
         }
 
-        protected virtual string GenerateSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming)
+        protected virtual string GenerateSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
 
             DebugUtils.Run("GenerateSourceCode", () =>
             {
-                bool generatorResult = CodeGeneratorService.GeneratedCode("CSharp", contentProperty, new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors));
+                ICodeGeneratorServiceContext generatorContext = new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors);
+                bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("CSharp", contentProperty, generatorContext);
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });
@@ -233,14 +223,15 @@ namespace Neptuo.Templates.Compilation
             return writer.ToString();
         }
 
-        protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming)
+        protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
 
             DebugUtils.Run("GenerateSourceCode", () =>
             {
-                bool generatorResult = CodeGeneratorService.GeneratedCode("Javascript", contentProperty, new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors));
+                ICodeGeneratorServiceContext generatorContext = new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors);
+                bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("Javascript", contentProperty, generatorContext);
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });

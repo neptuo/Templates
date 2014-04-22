@@ -9,8 +9,6 @@ namespace Neptuo.Templates.Compilation.PreProcessing
     public class DefaultPreProcessorService : IPreProcessorService
     {
         private HashSet<IVisitor> visitors = new HashSet<IVisitor>();
-        
-        public event Action<IPropertyDescriptor, IPreProcessorServiceContext> OnSeachVisitor;
 
         public void AddVisitor(IVisitor visitor)
         {
@@ -19,15 +17,8 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         public void Process(IPropertyDescriptor propertyDescriptor, IPreProcessorServiceContext context)
         {
-            if (visitors.Any())
-            {
-                foreach (IVisitor visitor in visitors)
-                    visitor.Visit(propertyDescriptor, new DefaultPreProcessorContext(context.DependencyProvider, this));
-            }
-            else if (OnSeachVisitor != null)
-            {
-                OnSeachVisitor(propertyDescriptor, context);
-            }
+            foreach (IVisitor visitor in visitors)
+                visitor.Visit(propertyDescriptor, new DefaultPreProcessorContext(context.DependencyProvider, this));
         }
     }
 }

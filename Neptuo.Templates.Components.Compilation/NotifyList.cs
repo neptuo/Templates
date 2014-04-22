@@ -74,7 +74,7 @@ namespace Neptuo.Templates.Compilation
             bool result = storage.Remove(item);
             if (result && OnRemoveItem != null)
                 OnRemoveItem(item);
-            
+
             return result;
         }
 
