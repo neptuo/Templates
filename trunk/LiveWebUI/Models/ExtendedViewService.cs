@@ -10,6 +10,10 @@ namespace LiveWebUI.Models
 {
     public class ExtendedViewService : CodeDomViewService
     {
+        public ExtendedViewService()
+            : base(true)
+        { }
+
         public string GenerateSourceCode(string viewContent, IViewServiceContext context, INaming naming)
         {
             string sourceCode = GenerateSourceCodeFromView(viewContent, context, naming);
