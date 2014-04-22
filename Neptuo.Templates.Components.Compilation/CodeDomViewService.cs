@@ -1,12 +1,9 @@
 ﻿using Neptuo.Linq.Expressions;
 using Neptuo.Security.Cryptography;
 using Neptuo.Templates.Compilation.CodeGenerators;
-using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.PreProcessing;
-//using Neptuo.Templates.Configuration;
-//using Neptuo.Templates.Utils;
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -22,28 +19,94 @@ namespace Neptuo.Templates.Compilation
 {
     public class CodeDomViewService : IViewService
     {
-        public IParserService ParserService { get; private set; }
-        public IPreProcessorService PreProcessorService { get; private set; }
-        public CodeDomGenerator CodeDomGenerator { get; private set; }
-        public SharpKitCodeGenerator JavascriptGenerator { get; private set; }
-        public ICodeGeneratorService CodeGeneratorService { get; private set; }
-        public IFileProvider FileProvider { get; private set; }
+        private bool useDefaultGenerators;
+        private string tempDirectory;
 
-        public INamingService NamingService { get; set; }
-        public ICollection<string> BinDirectories { get; set; }
-        public string TempDirectory { get; set; }
+        private CodeDomGenerator codeDomGenerator;
+        private SharpKitCodeGenerator javascriptGenerator;
+
         public CodeDomDebugMode DebugMode { get; set; }
 
-        public CodeDomViewService()
+        public IParserService ParserService { get; private set; }
+        public IPreProcessorService PreProcessorService { get; private set; }
+        public ICodeGeneratorService CodeGeneratorService { get; private set; }
+        public IFileProvider FileProvider { get; private set; }
+        public INamingService NamingService { get; set; }
+        public ICollection<string> BinDirectories { get; set; }
+        
+        public CodeDomGenerator CodeDomGenerator
         {
+            get
+            {
+                if (!useDefaultGenerators)
+                    throw new InvalidOperationException("This CodeDomViewService is configured without default CodeDomGenerator.");
+
+                return codeDomGenerator;
+            }
+        }
+
+        public SharpKitCodeGenerator JavascriptGenerator
+        {
+            get
+            {
+                if(!useDefaultGenerators)
+                    throw new InvalidOperationException("This CodeDomViewService is configured without default JavascriptGenerator.");
+
+                return javascriptGenerator;
+            }
+        }
+
+        public string TempDirectory
+        {
+            get { return tempDirectory; }
+            set
+            {
+                tempDirectory = value;
+                if (useDefaultGenerators)
+                    JavascriptGenerator.TempDirectory = value;
+            }
+        }
+        
+        /// <summary>
+        /// Creates instance as main view service.
+        /// </summary>
+        /// <param name="useDefaultGenerators">Whether create </param>
+        public CodeDomViewService(bool useDefaultGenerators)
+        {
+            this.useDefaultGenerators = useDefaultGenerators;
+
             ParserService = new DefaultParserService();
             PreProcessorService = new DefaultPreProcessorService();
             CodeGeneratorService = new DefaultCodeGeneratorService();
-            CodeDomGenerator = new CodeDomGenerator();
-            JavascriptGenerator = new SharpKitCodeGenerator(CodeDomGenerator);
-            CodeGeneratorService.AddGenerator("CSharp", CodeDomGenerator);
 
-            BinDirectories = new List<string>();
+            if (useDefaultGenerators)
+            {
+                codeDomGenerator = new CodeDomGenerator();
+                javascriptGenerator = new SharpKitCodeGenerator(CodeDomGenerator);
+                CodeGeneratorService.AddGenerator("CSharp", CodeDomGenerator);
+                CodeGeneratorService.AddGenerator("Javascript", JavascriptGenerator);
+                
+                BinDirectories = new NotifyList<string>(
+                    JavascriptGenerator.BinDirectories.Add, 
+                    JavascriptGenerator.BinDirectories.Remove, 
+                    JavascriptGenerator.BinDirectories.Clear
+                );
+            }
+            else
+            {
+                BinDirectories = new NotifyList<string>();
+            }
+        }
+
+        /// <summary>
+        /// Creates instance as extension to <paramref name="mainViewService"/>.
+        /// </summary>
+        /// <param name="mainViewService">Main view service.</param>
+        public CodeDomViewService(CodeDomViewService mainViewService)
+            : this(false)
+        {
+            Guard.NotNull(mainViewService, "mainViewService");
+            new SubViewServiceAdapter(mainViewService, this);
         }
 
         public object Process(string fileName, IViewServiceContext context)
@@ -172,20 +235,12 @@ namespace Neptuo.Templates.Compilation
 
         protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming)
         {
-            if (JavascriptGenerator.TempDirectory == null)
-            {
-                JavascriptGenerator.TempDirectory = TempDirectory;
-
-                foreach (string directory in BinDirectories)
-                    JavascriptGenerator.BinDirectories.Add(directory);
-            }
-
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
 
             DebugUtils.Run("GenerateSourceCode", () =>
             {
-                bool generatorResult = JavascriptGenerator.ProcessTree(contentProperty, new CodeDomGeneratorContext(naming, writer, CodeGeneratorService, context.DependencyProvider, errors));
+                bool generatorResult = CodeGeneratorService.GeneratedCode("Javascript", contentProperty, new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors));
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });

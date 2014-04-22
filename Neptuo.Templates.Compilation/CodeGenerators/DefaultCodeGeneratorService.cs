@@ -11,6 +11,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         private Dictionary<string, ICodeGenerator> generators = new Dictionary<string, ICodeGenerator>();
 
+        public event Func<string, IPropertyDescriptor, ICodeGeneratorServiceContext, bool> OnSearchGenerator;
+
         public void AddGenerator(string name, ICodeGenerator generator)
         {
             generators[name] = generator;
@@ -20,6 +22,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             if (generators.ContainsKey(name))
                 return generators[name].ProcessTree(propertyDescriptor, context.CreateGeneratorContext(this));
+            else if (OnSearchGenerator != null)
+                return OnSearchGenerator(name, propertyDescriptor, context);
 
             return false;
         }

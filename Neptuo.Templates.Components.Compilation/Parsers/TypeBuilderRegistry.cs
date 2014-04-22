@@ -186,9 +186,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        public IContentBuilderRegistry CreateChildRegistry()
+        public TypeBuilderRegistry CreateChildRegistry()
         {
             return new TypeBuilderRegistry(Configuration, new TypeBuilderRegistryContent(Content));
+        }
+
+        IContentBuilderRegistry IContentBuilderRegistry.CreateChildRegistry()
+        {
+            return CreateChildRegistry();
         }
 
         #region Contains
