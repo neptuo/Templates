@@ -82,6 +82,7 @@
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="DebugUtils.cs" />
     <Compile Include="FileProvider.cs" />
+    <Compile Include="NotifyList.cs" />
     <Compile Include="Parsers\DependencyPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\FuncPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\BaseBuilder.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringConverter.cs" />
     <Compile Include="Parsers\TypeRegistryHelper.cs" />
+    <Compile Include="SubViewServiceAdapter.cs" />
     <Compile Include="_CodeDomGenerator\CodeDomCompiler.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomAttributeGenerator.cs" />
     <Compile Include="_CodeDomGenerator\CodeGenerators\BaseCodeDomObjectGenerator.cs" />

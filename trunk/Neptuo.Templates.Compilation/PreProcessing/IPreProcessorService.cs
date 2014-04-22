@@ -8,6 +8,8 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 {
     public interface IPreProcessorService
     {
+        event Action<IPropertyDescriptor, IPreProcessorServiceContext> OnSeachVisitor;
+
         void AddVisitor(IVisitor visitor);
         void Process(IPropertyDescriptor propertyDescriptor, IPreProcessorServiceContext context);
     }

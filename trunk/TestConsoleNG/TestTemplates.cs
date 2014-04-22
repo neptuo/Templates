@@ -42,17 +42,17 @@ namespace TestConsoleNG
                 new LiteralControlBuilder<LiteralControl>(c => c.Text), 
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
-            registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));
+            //registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));
             registry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG.Components"));
             registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
             registry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
             registry.RegisterPropertyBuilder(typeof(string), new DefaultPropertyBuilderFactory<StringPropertyBuilder>());
             registry.RegisterPropertyBuilder(typeof(ITemplate), new DefaultPropertyBuilderFactory<TemplatePropertyBuilder>());
 
-            CodeDomViewService viewService = new CodeDomViewService();
-            viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
-            viewService.ParserService.DefaultValueParser = new PlainValueParser();
-            viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
+            CodeDomViewService viewService = new CodeDomViewService(true);
+            //viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
+            //viewService.ParserService.DefaultValueParser = new PlainValueParser();
+            //viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
             viewService.NamingService = new HashNamingService(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
             //viewService.DebugMode = true;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
@@ -81,6 +81,20 @@ namespace TestConsoleNG
 
 
 
+            viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
+            viewService.ParserService.DefaultValueParser = new PlainValueParser();
+            viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
+
+
+
+            TypeBuilderRegistry subRegistry = registry.CreateChildRegistry();
+            subRegistry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));
+
+            CodeDomViewService subViewService = new CodeDomViewService(viewService);
+            subViewService.ParserService.ContentParsers.Add(new XmlContentParser(subRegistry));
+            //subViewService.ParserService.DefaultValueParser = new PlainValueParser();
+            //subViewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
+
 
             
             //IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
@@ -99,9 +113,8 @@ namespace TestConsoleNG
 
 
 
-
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
-            BaseGeneratedView view = (BaseGeneratedView)viewService.Process("Index.html", context);
+            BaseGeneratedView view = (BaseGeneratedView)subViewService.Process("Index.html", context);
             DebugUtils.Run("Run", () =>
             {
                 view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);

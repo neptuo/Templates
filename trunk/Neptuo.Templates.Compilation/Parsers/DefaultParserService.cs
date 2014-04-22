@@ -12,6 +12,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         public IList<IValueParser> ValueParsers { get; set; }
         public IValueParser DefaultValueParser { get; set; }
 
+        public event Func<string, IParserServiceContext, bool> OnSearchContentParser;
+        public event Func<string, IParserServiceContext, bool> OnSearchValueParser;
+        public event Func<string, IParserServiceContext, bool> OnSearchDefaultValueParser;
+
         public DefaultParserService()
         {
             ContentParsers = new List<IContentParser>();
@@ -32,6 +36,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (contentParser.Parse(content, new DefaultParserContext(provider, this, context.PropertyDescriptor, context.Errors)))
                     return true;
             }
+
+            if (OnSearchContentParser != null)
+                return OnSearchContentParser(content, context);
 
             return false;
         }
@@ -54,10 +61,20 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             if (!generated)
             {
-                if (DefaultValueParser == null)
-                    throw new ArgumentNullException("DefaultValueParser");
+                if (OnSearchValueParser != null && OnSearchValueParser(value, context))
+                    return true;
 
-                generated = DefaultValueParser.Parse(value, new DefaultParserContext(provider, this, context.PropertyDescriptor, context.Errors));
+                if (DefaultValueParser == null)
+                {
+                    if (OnSearchDefaultValueParser == null)
+                        throw new ArgumentNullException("DefaultValueParser");
+
+                    generated = OnSearchDefaultValueParser(value, context);
+                }
+                else
+                {
+                    generated = DefaultValueParser.Parse(value, new DefaultParserContext(provider, this, context.PropertyDescriptor, context.Errors));
+                }
             }
 
             return generated;
