@@ -5,9 +5,15 @@ using System.Text;
 
 namespace Neptuo.Templates.Controls
 {
+    /// <summary>
+    /// Provides metadata about control.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class ComponentAttribute : Attribute
     {
+        /// <summary>
+        /// Name of control for standart registration.
+        /// </summary>
         public string Name { get; set; }
 
         public ComponentAttribute()
@@ -15,6 +21,7 @@ namespace Neptuo.Templates.Controls
 
         public ComponentAttribute(string name)
         {
+            Guard.NotNullOrEmpty(name, "name");
             Name = name;
         }
     }

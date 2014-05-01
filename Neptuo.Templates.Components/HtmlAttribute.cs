@@ -5,14 +5,25 @@ using System.Text;
 
 namespace Neptuo.Templates
 {
+    /// <summary>
+    /// Provides metadata about target html tag.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public class HtmlAttribute : Attribute
     {
+        /// <summary>
+        /// Tag name.
+        /// </summary>
         public string TagName { get; set; }
+
+        /// <summary>
+        /// Whether html tag is self closing.
+        /// </summary>
         public bool IsSelfClosing { get; set; }
 
         public HtmlAttribute(string tagName)
         {
+            Guard.NotNullOrEmpty(tagName, "tagName");
             TagName = tagName;
         }
 

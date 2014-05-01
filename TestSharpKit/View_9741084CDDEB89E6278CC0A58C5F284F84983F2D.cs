@@ -44,7 +44,7 @@ namespace Neptuo.Templates
         private void field2_Bind(TestConsoleNG.Controls.TextBoxPresenter field2)
         {
             field2.Name = "street";
-            field2.Text = ((string)(this.field3_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext(field2, field2.GetType().GetProperty("Text"), this.dependencyProvider))));
+            field2.Text = ((string)(this.field3_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field2, field2.GetType().GetProperty("Text"), this.dependencyProvider))));
         }
         private TestConsoleNG.Extensions.BindingExtension field3_Create()
         {
@@ -73,7 +73,7 @@ namespace Neptuo.Templates
         private void field5_Bind(TestConsoleNG.Controls.TextBoxPresenter field5)
         {
             field5.Name = "housenumber";
-            field5.Text = ((string)(this.field6_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext(field5, field5.GetType().GetProperty("Text"), this.dependencyProvider))));
+            field5.Text = ((string)(this.field6_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field5, field5.GetType().GetProperty("Text"), this.dependencyProvider))));
         }
         private TestConsoleNG.Extensions.BindingExtension field6_Create()
         {
@@ -102,7 +102,7 @@ namespace Neptuo.Templates
         private void field8_Bind(TestConsoleNG.Controls.TextBoxPresenter field8)
         {
             field8.Name = "city";
-            field8.Text = ((string)(this.field9_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext(field8, field8.GetType().GetProperty("Text"), this.dependencyProvider))));
+            field8.Text = ((string)(this.field9_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field8, field8.GetType().GetProperty("Text"), this.dependencyProvider))));
         }
         private TestConsoleNG.Extensions.BindingExtension field9_Create()
         {
@@ -131,7 +131,7 @@ namespace Neptuo.Templates
         private void field11_Bind(TestConsoleNG.Controls.TextBoxPresenter field11)
         {
             field11.Name = "postalcode";
-            field11.Text = ((string)(this.field12_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext(field11, field11.GetType().GetProperty("Text"), this.dependencyProvider))));
+            field11.Text = ((string)(this.field12_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field11, field11.GetType().GetProperty("Text"), this.dependencyProvider))));
         }
         private TestConsoleNG.Extensions.BindingExtension field12_Create()
         {

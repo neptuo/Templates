@@ -6,12 +6,24 @@ using System.Text;
 
 namespace Neptuo.Templates.Extensions
 {
+    /// <summary>
+    /// Describes context in which <see cref="IValueExtension"/> is used.
+    /// </summary>
     public interface IValueExtensionContext
     {
+        /// <summary>
+        /// Target controller, on which extension is declared.
+        /// </summary>
         object TargetObject { get; }
+        
+        /// <summary>
+        /// Target property, on which extensions is declared.
+        /// </summary>
         PropertyInfo TargetProperty { get; }
 
-        //TODO: Really need this?
+        /// <summary>
+        /// Current dependency provider.
+        /// </summary>
         IDependencyProvider DependencyProvider { get; }
     }
 }

@@ -5,8 +5,16 @@ using System.Text;
 
 namespace Neptuo.Templates
 {
-    public interface IVirtualUrlProvider
+    /// <summary>
+    /// Enables to map physical file in context of current application path.
+    /// </summary>
+    public interface IVirtualPathProvider
     {
-        string ResolveUrl(string path);
+        /// <summary>
+        /// Maps physical file in context of current application path.
+        /// </summary>
+        /// <param name="path">Application relative file path.</param>
+        /// <returns>Absolute file path.</returns>
+        string MapPath(string path);
     }
 }

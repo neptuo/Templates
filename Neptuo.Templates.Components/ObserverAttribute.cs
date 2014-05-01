@@ -6,9 +6,15 @@ using System.Text;
 
 namespace Neptuo.Templates
 {
+    /// <summary>
+    /// Provides metadata about observer.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = false)]
     public sealed class ObserverAttribute : Attribute
     {
+        /// <summary>
+        /// Observer live cycle scope.
+        /// </summary>
         public ObserverLivecycle Livecycle { get; set; }
 
         public ObserverAttribute()
@@ -19,10 +25,5 @@ namespace Neptuo.Templates
         {
             Livecycle = livecycle;
         }
-    }
-
-    public enum ObserverLivecycle
-    {
-        PerAttribute, PerControl, PerPage
     }
 }

@@ -8,22 +8,43 @@ namespace Neptuo.Templates
 {
     partial class ComponentManager
     {
+        /// <summary>
+        /// Helper class for representing registered observer.
+        /// </summary>
         internal abstract class ObserverInfo
         {
+            /// <summary>
+            /// Target observer.
+            /// </summary>
             public virtual IObserver Observer { get; set; }
+
+            /// <summary>
+            /// Method that binds property values.
+            /// </summary>
             public virtual Delegate PropertyBinder { get; set; }
 
+            /// <summary>
+            /// Flag to see if properties where bound.
+            /// </summary>
             public bool ArePropertiesBound { get; set; }
 
             public ObserverInfo(IObserver observer, Delegate propertyBinder)
             {
+                Guard.NotNull(observer, "observer");
                 Observer = observer;
                 PropertyBinder = propertyBinder;
             }
 
+            /// <summary>
+            /// Calls property binder.
+            /// </summary>
             public abstract void BindProperties();
         }
 
+        /// <summary>
+        /// Typed version of <see cref="ObserverInfo"/>.
+        /// </summary>
+        /// <typeparam name="T">Target observer type.</typeparam>
         internal class ObserverInfo<T> : ObserverInfo
             where T : IObserver
         {

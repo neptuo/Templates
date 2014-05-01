@@ -7,8 +7,14 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates
 {
+    /// <summary>
+    /// Implementation of <see cref="IHtmlWriter"/> for writing html.
+    /// </summary>
     public class HtmlTextWriter : IHtmlWriter
     {
+        /// <summary>
+        /// Html special characters.
+        /// </summary>
         public static class Html
         {
             public const char StartTag = '<';
@@ -21,18 +27,43 @@ namespace Neptuo.Templates
             public const char Quote = '\'';
         }
 
+        /// <summary>
+        /// Inner text writer.
+        /// </summary>
         protected TextWriter InnerWriter { get; private set; }
+
+        /// <summary>
+        /// List of opened tags.
+        /// </summary>
         protected Stack<string> OpenTags { get; private set; }
+
+        /// <summary>
+        /// Flag to see if there is currently opened tag.
+        /// </summary>
         protected bool IsOpenTag { get; set; }
+
+        /// <summary>
+        /// Flag to see if current tag has content.
+        /// </summary>
         protected bool HasContent { get; set; }
+
+        /// <summary>
+        /// Flag to see if attribute can be renderend at current place.
+        /// </summary>
         protected bool CanWriteAttribute { get; set; }
 
         public HtmlTextWriter(TextWriter innerWriter)
         {
+            Guard.NotNull(innerWriter, "innerWriter");
             InnerWriter = innerWriter;
             OpenTags = new Stack<string>();
         }
 
+        /// <summary>
+        /// Writes content.
+        /// </summary>
+        /// <param name="content">Content</param>
+        /// <returns>This.</returns>
         public virtual IHtmlWriter Content(object content)
         {
             EnsureCloseOpeningTag();
@@ -40,6 +71,11 @@ namespace Neptuo.Templates
             return this;
         }
 
+        /// <summary>
+        /// Writes text content.
+        /// </summary>
+        /// <param name="content">Text content</param>
+        /// <returns>This.</returns>
         public virtual IHtmlWriter Content(string content)
         {
             EnsureCloseOpeningTag();
@@ -47,6 +83,11 @@ namespace Neptuo.Templates
             return this;
         }
 
+        /// <summary>
+        /// Writes start tag.
+        /// </summary>
+        /// <param name="name">Tag name.</param>
+        /// <returns>This.</returns>
         public virtual IHtmlWriter Tag(string name)
         {
             EnsureCloseOpeningTag();
@@ -61,20 +102,36 @@ namespace Neptuo.Templates
             return this;
         }
 
+        /// <summary>
+        /// Writes close tag (can be self closed, if there is no content in current tag).
+        /// </summary>
+        /// <returns>This.</returns>
         public virtual IHtmlWriter CloseTag()
         {
             WriteCloseTag(HasContent);
             return this;
         }
 
+        /// <summary>
+        /// Writes close tag (forces full close tag).
+        /// </summary>
+        /// <returns>This.</returns>
         public virtual IHtmlWriter CloseFullTag()
         {
             WriteCloseTag(true);
             return this;
         }
 
+        /// <summary>
+        /// Writers attribute <paramref name="name"/> with value <paramref name="value"/>.
+        /// </summary>
+        /// <param name="name">Attribute name.</param>
+        /// <param name="value">Attribute value.</param>
+        /// <returns>This.</returns>
         public virtual IHtmlWriter Attribute(string name, string value)
         {
+            Guard.NotNullOrEmpty(name, "name");
+
             if (!CanWriteAttribute)
                 throw new HtmlTextWriterException("Unnable to write attribute in current state!");
 
@@ -88,6 +145,10 @@ namespace Neptuo.Templates
             return this;
         }
 
+        /// <summary>
+        /// Do write close tag.
+        /// </summary>
+        /// <param name="hasContent">Whether use self closing or full tag.</param>
         protected void WriteCloseTag(bool hasContent)
         {
             if (OpenTags.Count == 0)
@@ -113,6 +174,9 @@ namespace Neptuo.Templates
             HasContent = true;
         }
 
+        /// <summary>
+        /// Ensures writing close tag if needed.
+        /// </summary>
         protected virtual void EnsureCloseOpeningTag()
         {
             if (IsOpenTag)

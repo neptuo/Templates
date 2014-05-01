@@ -332,7 +332,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
         },
         field2_Bind: function (field2){
             field2.set_Name("street");
-            field2.set_Text((Cast((this.field3_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field2, field2.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
+            field2.set_Text((Cast((this.field3_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext.ctor(field2, field2.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field3_Create: function (){
             var field3 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
@@ -356,7 +356,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
         },
         field5_Bind: function (field5){
             field5.set_Name("housenumber");
-            field5.set_Text((Cast((this.field6_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field5, field5.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
+            field5.set_Text((Cast((this.field6_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext.ctor(field5, field5.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field6_Create: function (){
             var field6 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
@@ -380,7 +380,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
         },
         field8_Bind: function (field8){
             field8.set_Name("city");
-            field8.set_Text((Cast((this.field9_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field8, field8.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
+            field8.set_Text((Cast((this.field9_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext.ctor(field8, field8.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field9_Create: function (){
             var field9 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
@@ -404,7 +404,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
         },
         field11_Bind: function (field11){
             field11.set_Name("postalcode");
-            field11.set_Text((Cast((this.field12_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(field11, field11.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
+            field11.set_Text((Cast((this.field12_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext.ctor(field11, field11.GetType().GetProperty$$String("Text"), this.dependencyProvider))), System.String.ctor)));
         },
         field12_Create: function (){
             var field12 = new TestConsoleNG.Extensions.BindingExtension.ctor((Cast((this.dependencyProvider.Resolve(Typeof(TestConsoleNG.Data.DataStorage.ctor), null)), TestConsoleNG.Data.DataStorage.ctor)), null);
