@@ -46,6 +46,38 @@ if (typeof($CreateDelegate)=='undefined'){
 
 if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
+var Neptuo$Templates$ControlInitCompleteEventArgs = {
+    fullname: "Neptuo.Templates.ControlInitCompleteEventArgs",
+    baseTypeName: "System.EventArgs",
+    staticDefinition: {
+        cctor: function (){
+        }
+    },
+    assemblyName: "Neptuo.Templates.Components",
+    Kind: "Class",
+    definition: {
+        ctor: function (target){
+            this._Target = null;
+            System.EventArgs.ctor.call(this);
+            Neptuo.Guard.NotNull$$Object$$String(target, "target");
+            this.set_Target(target);
+        },
+        Target$$: "Neptuo.Templates.Controls.IControl",
+        get_Target: function (){
+            return this._Target;
+        },
+        set_Target: function (value){
+            this._Target = value;
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: ["Neptuo.Templates.Controls.IControl"]
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(Neptuo$Templates$ControlInitCompleteEventArgs);
 var Neptuo$Templates$DependencyAttribute = {
     fullname: "Neptuo.Templates.DependencyAttribute",
     baseTypeName: "System.Attribute",
@@ -66,6 +98,7 @@ var Neptuo$Templates$DependencyAttribute = {
         ctor$$String: function (name){
             this._Name = null;
             System.Attribute.ctor.call(this);
+            Neptuo.Guard.NotNullOrEmpty(name, "name");
             this.set_Name(name);
         }
     },
@@ -115,6 +148,9 @@ var Neptuo$Templates$BaseGeneratedView = {
             return this.viewPage.get_Content();
         },
         Setup: function (viewPage, componentManager, dependencyProvider){
+            Neptuo.Guard.NotNull$$Object$$String(viewPage, "viewPage");
+            Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
+            Neptuo.Guard.NotNull$$Object$$String(dependencyProvider, "dependencyProvider");
             this.viewPage = viewPage;
             this.componentManager = componentManager;
             this.dependencyProvider = dependencyProvider;
@@ -126,16 +162,18 @@ var Neptuo$Templates$BaseGeneratedView = {
             this.componentManager.Init(this.viewPage);
         },
         Render: function (writer){
+            Neptuo.Guard.NotNull$$Object$$String(writer, "writer");
             this.viewPage.Render(writer);
         },
         Dispose: function (){
             this.viewPage.Dispose();
         },
         CreateValueExtensionContext: function (targetObject, targetProperty){
+            Neptuo.Guard.NotNull$$Object$$String(targetObject, "targetObject");
             var propertyInfo = null;
             if (!System.String.IsNullOrEmpty(targetProperty))
                 propertyInfo = targetObject.GetType().GetProperty$$String(targetProperty);
-            return new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(targetObject, propertyInfo, this.dependencyProvider);
+            return new Neptuo.Templates.Extensions.DefaultExtensionContext.ctor(targetObject, propertyInfo, this.dependencyProvider);
         },
         CastValueTo$1: function (T, value){
             if (value == null)
@@ -169,6 +207,7 @@ var Neptuo$Templates$BaseViewPage = {
             this._ComponentManager = null;
             this._Content = null;
             System.Object.ctor.call(this);
+            Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
             this.set_ComponentManager(componentManager);
             this.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
         },
@@ -194,6 +233,7 @@ var Neptuo$Templates$BaseViewPage = {
             }
         },
         Render: function (writer){
+            Neptuo.Guard.NotNull$$Object$$String(writer, "writer");
             var $it2 = this.get_Content().GetEnumerator();
             while ($it2.MoveNext()){
                 var item = $it2.get_Current();
@@ -228,6 +268,7 @@ var Neptuo$Templates$ComponentManager = {
             System.Object.ctor.call(this);
         },
         AddComponent$1: function (T, component, propertyBinder){
+            Neptuo.Guard.NotNull$$Object$$String(component, "component");
             var entry = (function (){
                 var $v1 = new Neptuo.Templates.ComponentManager.ComponentEntry$1.ctor(T);
                 $v1.set_Control(component);
@@ -238,11 +279,15 @@ var Neptuo$Templates$ComponentManager = {
             this.entries.Add(component, entry);
         },
         AttachObserver$1: function (T, control, observer, propertyBinder){
+            Neptuo.Guard.NotNull$$Object$$String(control, "control");
+            Neptuo.Guard.NotNull$$Object$$String(observer, "observer");
             if (!this.entries.ContainsKey(control))
                 return;
             this.entries.get_Item$$TKey(control).get_Observers().Add(new Neptuo.Templates.ComponentManager.ObserverInfo$1.ctor(T, observer, propertyBinder));
         },
         AttachInitComplete: function (control, handler){
+            Neptuo.Guard.NotNull$$Object$$String(control, "control");
+            Neptuo.Guard.NotNull$$Object$$String(handler, "handler");
             if (this.entries.ContainsKey(control))
                 this.entries.get_Item$$TKey(control).get_InitComplete().Add(handler);
         },
@@ -518,6 +563,7 @@ var Neptuo$Templates$ComponentManager$ObserverInfo = {
             this._PropertyBinder = null;
             this._ArePropertiesBound = false;
             System.Object.ctor.call(this);
+            Neptuo.Guard.NotNull$$Object$$String(observer, "observer");
             this.set_Observer(observer);
             this.set_PropertyBinder(propertyBinder);
         },
@@ -612,6 +658,7 @@ var Neptuo$Templates$Controls$ComponentAttribute = {
         ctor$$String: function (name){
             this._Name = null;
             System.Attribute.ctor.call(this);
+            Neptuo.Guard.NotNullOrEmpty(name, "name");
             this.set_Name(name);
         }
     },
@@ -626,8 +673,8 @@ var Neptuo$Templates$Controls$ComponentAttribute = {
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$Controls$ComponentAttribute);
-var Neptuo$Templates$Extensions$DefaultMarkupExtensionContext = {
-    fullname: "Neptuo.Templates.Extensions.DefaultMarkupExtensionContext",
+var Neptuo$Templates$Extensions$DefaultExtensionContext = {
+    fullname: "Neptuo.Templates.Extensions.DefaultExtensionContext",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     interfaceNames: ["Neptuo.Templates.Extensions.IValueExtensionContext"],
@@ -638,6 +685,9 @@ var Neptuo$Templates$Extensions$DefaultMarkupExtensionContext = {
             this._TargetProperty = null;
             this._DependencyProvider = null;
             System.Object.ctor.call(this);
+            Neptuo.Guard.NotNull$$Object$$String(targetObject, "targetObject");
+            Neptuo.Guard.NotNull$$Object$$String(targetProperty, "targetProperty");
+            Neptuo.Guard.NotNull$$Object$$String(dependencyProvider, "dependencyProvider");
             this.set_TargetObject(targetObject);
             this.set_TargetProperty(targetProperty);
             this.set_DependencyProvider(dependencyProvider);
@@ -671,7 +721,7 @@ var Neptuo$Templates$Extensions$DefaultMarkupExtensionContext = {
     ],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$Extensions$DefaultMarkupExtensionContext);
+JsTypes.push(Neptuo$Templates$Extensions$DefaultExtensionContext);
 var Neptuo$Templates$HtmlAttribute = {
     fullname: "Neptuo.Templates.HtmlAttribute",
     baseTypeName: "System.Attribute",
@@ -682,6 +732,7 @@ var Neptuo$Templates$HtmlAttribute = {
             this._TagName = null;
             this._IsSelfClosing = false;
             System.Attribute.ctor.call(this);
+            Neptuo.Guard.NotNullOrEmpty(tagName, "tagName");
             this.set_TagName(tagName);
         },
         TagName$$: "System.String",
@@ -730,6 +781,7 @@ var Neptuo$Templates$HtmlTextWriter = {
             this._HasContent = false;
             this._CanWriteAttribute = false;
             System.Object.ctor.call(this);
+            Neptuo.Guard.NotNull$$Object$$String(innerWriter, "innerWriter");
             this.set_InnerWriter(innerWriter);
             this.set_OpenTags(new System.Collections.Generic.Stack$1.ctor(System.String.ctor));
         },
@@ -797,6 +849,7 @@ var Neptuo$Templates$HtmlTextWriter = {
             return this;
         },
         Attribute: function (name, value){
+            Neptuo.Guard.NotNullOrEmpty(name, "name");
             if (!this.get_CanWriteAttribute())
                 throw $CreateException(new Neptuo.Templates.HtmlTextWriterException.ctor("Unnable to write attribute in current state!"), new Error());
             this.get_InnerWriter().Write$$Char(" ");
@@ -949,53 +1002,6 @@ var Neptuo$Templates$IComponentManager = {
     IsAbstract: true
 };
 JsTypes.push(Neptuo$Templates$IComponentManager);
-var Neptuo$Templates$OnInitComplete = {
-    fullname: "Neptuo.Templates.OnInitComplete",
-    Kind: "Delegate",
-    definition: {
-        ctor: function (obj, func){
-            System.MulticastDelegate.ctor.call(this, obj, func);
-        }
-    },
-    ctors: [{
-        name: "ctor",
-        parameters: ["System.Object", "System.IntPtr"]
-    }
-    ],
-    IsAbstract: false
-};
-JsTypes.push(Neptuo$Templates$OnInitComplete);
-var Neptuo$Templates$ControlInitCompleteEventArgs = {
-    fullname: "Neptuo.Templates.ControlInitCompleteEventArgs",
-    baseTypeName: "System.EventArgs",
-    staticDefinition: {
-        cctor: function (){
-        }
-    },
-    assemblyName: "Neptuo.Templates.Components",
-    Kind: "Class",
-    definition: {
-        ctor: function (target){
-            this._Target = null;
-            System.EventArgs.ctor.call(this);
-            this.set_Target(target);
-        },
-        Target$$: "Neptuo.Templates.Controls.IControl",
-        get_Target: function (){
-            return this._Target;
-        },
-        set_Target: function (value){
-            this._Target = value;
-        }
-    },
-    ctors: [{
-        name: "ctor",
-        parameters: ["Neptuo.Templates.Controls.IControl"]
-    }
-    ],
-    IsAbstract: false
-};
-JsTypes.push(Neptuo$Templates$ControlInitCompleteEventArgs);
 var Neptuo$Templates$IViewPage = {
     fullname: "Neptuo.Templates.IViewPage",
     baseTypeName: "System.Object",
@@ -1097,6 +1103,7 @@ var Neptuo$Templates$Observers$ObserverEventArgs = {
             this._Target = null;
             this._Cancel = false;
             System.EventArgs.ctor.call(this);
+            Neptuo.Guard.NotNull$$Object$$String(target, "target");
             this.set_Target(target);
         },
         Target$$: "Neptuo.Templates.Controls.IControl",
@@ -1122,6 +1129,22 @@ var Neptuo$Templates$Observers$ObserverEventArgs = {
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$Observers$ObserverEventArgs);
+var Neptuo$Templates$OnInitComplete = {
+    fullname: "Neptuo.Templates.OnInitComplete",
+    Kind: "Delegate",
+    definition: {
+        ctor: function (obj, func){
+            System.MulticastDelegate.ctor.call(this, obj, func);
+        }
+    },
+    ctors: [{
+        name: "ctor",
+        parameters: ["System.Object", "System.IntPtr"]
+    }
+    ],
+    IsAbstract: false
+};
+JsTypes.push(Neptuo$Templates$OnInitComplete);
 var Neptuo$Templates$Components$VersionInfo = {
     fullname: "Neptuo.Templates.Components.VersionInfo",
     baseTypeName: "System.Object",
@@ -1164,6 +1187,7 @@ var Neptuo$Templates$PropertyAttribute = {
         ctor$$String: function (name){
             this._Name = null;
             System.Attribute.ctor.call(this);
+            Neptuo.Guard.NotNullOrEmpty(name, "name");
             this.set_Name(name);
         }
     },

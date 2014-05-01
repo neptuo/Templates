@@ -5,6 +5,9 @@ using System.Web.UI;
 
 namespace Neptuo.Templates
 {
+    /// <summary>
+    /// Output writer.
+    /// </summary>
     public interface IHtmlWriter
     {
         /// <summary>

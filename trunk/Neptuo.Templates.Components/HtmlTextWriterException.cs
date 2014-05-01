@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates
 {
+    /// <summary>
+    /// Exception used in <see cref="HtmlTextWriter"/>.
+    /// </summary>
     public class HtmlTextWriterException : Exception
     {
         public HtmlTextWriterException(string message)

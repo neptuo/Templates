@@ -7,15 +7,23 @@ using System.IO;
 namespace Neptuo.Templates.Controls
 {
     /// <summary>
-    /// Base interface that each HtmlControl must implement. 
-    /// Class name can contain suffix Control that automaticaly appended to tag name.
-    /// As addition, class can be decorated with attribute <see cref="ControlAttribute"/>.
+    /// Base interface that each control must implement. 
+    /// Class name can contain suffix Control that is automaticaly appended to tag name.
+    /// As addition, class can be decorated with attribute <see cref="ComponentAttribute"/>.
     /// To define default property use <see cref="DefaultPropertyAttribute"/>.
     /// </summary>
     public interface IControl
     {
+        /// <summary>
+        /// Method invoked in init phase.
+        /// Place any inicialization code here.
+        /// </summary>
         void OnInit();
 
+        /// <summary>
+        /// Renders output to <paramref name="writer"/>.
+        /// </summary>
+        /// <param name="writer">Output writer.</param>
         void Render(IHtmlWriter writer);
     }
 }
