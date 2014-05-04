@@ -1,6 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Data;
-using Neptuo.Xml;
 using System;
 using System.Collections;
 using System.Collections.Generic;

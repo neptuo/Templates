@@ -40,9 +40,6 @@
     <Reference Include="Neptuo.Tokens">
       <HintPath>..\References\Neptuo.Tokens.dll</HintPath>
     </Reference>
-    <Reference Include="Neptuo.Xml">
-      <HintPath>..\References\Neptuo.Xml.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
