@@ -17,23 +17,69 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// Implementation of <see cref="IViewService"/> using CodeDom.
+    /// </summary>
     public class CodeDomViewService : IViewService
     {
+        /// <summary>
+        /// Flag to see whether use default (<see cref="CodeDomGenerator"/> and <see cref="SharpKitCodeGenerator"/>) generators.
+        /// </summary>
         private bool useDefaultGenerators;
+
+        /// <summary>
+        /// Temp directory path.
+        /// </summary>
         private string tempDirectory;
 
+        /// <summary>
+        /// Default server side generator.
+        /// </summary>
         private CodeDomGenerator codeDomGenerator;
+
+        /// <summary>
+        /// Default javascript generator.
+        /// </summary>
         private SharpKitCodeGenerator javascriptGenerator;
 
+        /// <summary>
+        /// Current debug information, <see cref="CodeDomDebugMode"/>.
+        /// </summary>
         public CodeDomDebugMode DebugMode { get; set; }
 
+        /// <summary>
+        /// Parser service used for parsing templates.
+        /// </summary>
         public IParserService ParserService { get; private set; }
+
+        /// <summary>
+        /// Pre processor service used for pre processing ast.
+        /// </summary>
         public IPreProcessorService PreProcessorService { get; private set; }
+
+        /// <summary>
+        /// Code generator service used for generating source code.
+        /// </summary>
         public ICodeGeneratorService CodeGeneratorService { get; private set; }
+
+        /// <summary>
+        /// File provider provides access to file system.
+        /// </summary>
         public IFileProvider FileProvider { get; private set; }
+
+        /// <summary>
+        /// Current naming service used for naming generated code.
+        /// </summary>
         public INamingService NamingService { get; set; }
+
+        /// <summary>
+        /// List of bin directories included in compilation process.
+        /// </summary>
         public ICollection<string> BinDirectories { get; set; }
 
+        /// <summary>
+        /// Default server side generator.
+        /// </summary>
         public CodeDomGenerator CodeDomGenerator
         {
             get
@@ -45,6 +91,9 @@ namespace Neptuo.Templates.Compilation
             }
         }
 
+        /// <summary>
+        /// Default javascript generator.
+        /// </summary>
         public SharpKitCodeGenerator JavascriptGenerator
         {
             get
@@ -56,6 +105,9 @@ namespace Neptuo.Templates.Compilation
             }
         }
 
+        /// <summary>
+        /// Temp directory path.
+        /// </summary>
         public string TempDirectory
         {
             get { return tempDirectory; }
@@ -98,8 +150,17 @@ namespace Neptuo.Templates.Compilation
             }
         }
 
+        /// <summary>
+        /// Compiles <see cref="fileName"/> and retuns <see cref="BaseGeneratedView"/>.
+        /// </summary>
+        /// <param name="fileName">Template file name.</param>
+        /// <param name="context">Context information.</param>
+        /// <returns><see cref="BaseGeneratedView"/> for <paramref name="fileName"/>.</returns>
         public object Process(string fileName, IViewServiceContext context)
         {
+            Guard.NotNullOrEmpty(fileName, "fileName");
+            Guard.NotNull(context, "context");
+
             EnsureFileProvider(context);
             EnsureNamingService(context);
 
@@ -109,12 +170,28 @@ namespace Neptuo.Templates.Compilation
             return ProcessContent(FileProvider.GetFileContent(fileName), context, NamingService.FromFile(fileName));
         }
 
+        /// <summary>
+        /// Compiles <see cref="viewContent"/> and retuns <see cref="BaseGeneratedView"/>.
+        /// </summary>
+        /// <param name="viewContent">Template content.</param>
+        /// <param name="context">Context information.</param>
+        /// <returns><see cref="BaseGeneratedView"/> for <paramref name="viewContent"/>.</returns>
         public object ProcessContent(string viewContent, IViewServiceContext context)
         {
+            Guard.NotNullOrEmpty(viewContent, "viewContent");
+            Guard.NotNull(context, "context");
+
             EnsureNamingService(context);
             return ProcessContent(viewContent, context, NamingService.FromContent(viewContent));
         }
 
+        /// <summary>
+        /// Compiles <see cref="viewContent"/> and retuns <see cref="BaseGeneratedView"/>.
+        /// </summary>
+        /// <param name="viewContent">Template content.</param>
+        /// <param name="context">Context information.</param>
+        /// <param name="naming">Naming for this template compilation.</param>
+        /// <returns><see cref="BaseGeneratedView"/> for <paramref name="viewContent"/>.</returns>
         protected virtual object ProcessContent(string viewContent, IViewServiceContext context, INaming naming)
         {
             EnsureFileProvider(context);
@@ -125,18 +202,31 @@ namespace Neptuo.Templates.Compilation
             return CreateGeneratedView(naming);
         }
 
+        /// <summary>
+        /// Ensures naming service is not null.
+        /// </summary>
+        /// <param name="context">Context information.</param>
         protected void EnsureNamingService(IViewServiceContext context)
         {
             if (NamingService == null)
                 NamingService = context.DependencyProvider.Resolve<INamingService>();
         }
 
+        /// <summary>
+        /// Ensures file provider is not null.
+        /// </summary>
+        /// <param name="context">Context information.</param>
         protected void EnsureFileProvider(IViewServiceContext context)
         {
             if (FileProvider == null)
                 FileProvider = context.DependencyProvider.Resolve<IFileProvider>();
         }
 
+        /// <summary>
+        /// Creates instance of generated view from <paramref name="naming"/>.
+        /// </summary>
+        /// <param name="naming">Naming information about view to create.</param>
+        /// <returns>Instance of generated view from <paramref name="naming"/>.</returns>
         protected virtual object CreateGeneratedView(INaming naming)
         {
             Assembly views = Assembly.LoadFile(GetAssemblyPath(naming));
@@ -148,10 +238,17 @@ namespace Neptuo.Templates.Compilation
             return view;
         }
 
+        /// <summary>
+        /// Compiles view content into assembly.
+        /// </summary>
+        /// <param name="viewContent">Template content.</param>
+        /// <param name="context">Context information.</param>
+        /// <param name="naming">Naming for this template compilation.</param>
         protected virtual void CompileView(string viewContent, IViewServiceContext context, INaming naming)
         {
             string sourceCode = GenerateSourceCodeFromView(viewContent, context, naming);
 
+            // If flag GenerateSourceCode, then safe it into temp
             if (DebugMode.HasFlag(CodeDomDebugMode.GenerateSourceCode))
                 File.WriteAllText(Path.Combine(TempDirectory, naming.AssemblyName.Replace(".dll", ".cs")), sourceCode);//TODO: Do it better!
 
@@ -175,6 +272,13 @@ namespace Neptuo.Templates.Compilation
             });
         }
 
+        /// <summary>
+        /// Generates C# source code from <paramref name="viewContent"/>.
+        /// </summary>
+        /// <param name="viewContent">Template content.</param>
+        /// <param name="context">Context information.</param>
+        /// <param name="naming">Naming for this template compilation.</param>
+        /// <returns>Generated C# source code from <paramref name="viewContent"/>.</returns>
         protected virtual string GenerateSourceCodeFromView(string viewContent, IViewServiceContext context, INaming naming)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
@@ -185,12 +289,24 @@ namespace Neptuo.Templates.Compilation
             return GenerateSourceCode(contentProperty, context, naming);
         }
 
+        /// <summary>
+        /// Gets root property of view.
+        /// </summary>
+        /// <param name="context">Context information.</param>
+        /// <returns>Root property of view.</returns>
         protected virtual IPropertyDescriptor GetRootPropertyDescriptor(IViewServiceContext context)
         {
             IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
             return new ListAddPropertyDescriptor(propertyInfo);
         }
 
+        /// <summary>
+        /// Uses <see cref="IParserService"/> to parse view content and creates AST.
+        /// </summary>
+        /// <param name="viewContent">Template content.</param>
+        /// <param name="context">Context information.</param>
+        /// <param name="parserService">Parser service.</param>
+        /// <returns>AST.</returns>
         protected virtual IPropertyDescriptor ParseViewContent(string viewContent, IViewServiceContext context, IParserService parserService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
@@ -207,6 +323,14 @@ namespace Neptuo.Templates.Compilation
             return contentProperty;
         }
 
+        /// <summary>
+        /// Generates C# source code from AST in <paramref name="contentProperty"/>.
+        /// </summary>
+        /// <param name="contentProperty">Root AST property.</param>
+        /// <param name="context">Context information.</param>
+        /// <param name="naming">Naming for this template compilation.</param>
+        /// <param name="codeGeneratorService">Custom generator service to override default in <see cref="CodeGeneratorService"/>.</param>
+        /// <returns>Generated C# source code from AST in <paramref name="contentProperty"/>.</returns>
         protected virtual string GenerateSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
@@ -223,6 +347,14 @@ namespace Neptuo.Templates.Compilation
             return writer.ToString();
         }
 
+        /// <summary>
+        /// Generates javascript source code from AST in <paramref name="contentProperty"/>.
+        /// </summary>
+        /// <param name="contentProperty">Root AST property.</param>
+        /// <param name="context">Context information.</param>
+        /// <param name="naming">Naming for this template compilation.</param>
+        /// <param name="codeGeneratorService">Custom generator service to override default in <see cref="CodeGeneratorService"/>.</param>
+        /// <returns>Generated javascript source code from AST in <paramref name="contentProperty"/>.</returns>
         protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
