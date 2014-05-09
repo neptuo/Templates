@@ -7,6 +7,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// List implementation that enables subscription for Add, Remove and Clear actions.
+    /// </summary>
+    /// <typeparam name="T">Item type.</typeparam>
     internal class NotifyList<T> : ICollection<T>
     {
         private List<T> storage;
