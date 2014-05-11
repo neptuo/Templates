@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// Exception that contains information about position in template.
+    /// </summary>
     public interface ISourceCodeException
     {
         int LineNumber { get; }

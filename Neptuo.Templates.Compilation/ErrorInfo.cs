@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// Actual implementation of <see cref="IErrorInfo"/>.
+    /// </summary>
     public class ErrorInfo : IErrorInfo
     {
         public int Line { get; set; }

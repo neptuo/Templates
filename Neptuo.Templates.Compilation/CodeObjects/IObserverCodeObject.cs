@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
+    /// <summary>
+    /// Observer code object.
+    /// </summary>
     public interface IObserverCodeObject : ITypeCodeObject, IPropertiesCodeObject
     {
     }

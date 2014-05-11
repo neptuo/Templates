@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
+    /// <summary>
+    /// CodeDom sub generator.
+    /// </summary>
     public interface ICodeDomComponentGenerator
     {
         CodeExpression GenerateCode(CodeObjectExtensionContext context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor);

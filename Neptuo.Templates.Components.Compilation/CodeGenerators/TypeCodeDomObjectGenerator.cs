@@ -11,6 +11,10 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
+    /// <summary>
+    /// Base codeDom generator for generating class based components.
+    /// </summary>
+    /// <typeparam name="T">Type of code object.</typeparam>
     public abstract class TypeCodeDomObjectGenerator<T> : BaseCodeDomObjectGenerator<T>
         where T : ICodeObject
     {

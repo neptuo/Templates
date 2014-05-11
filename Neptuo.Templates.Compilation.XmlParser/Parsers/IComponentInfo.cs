@@ -7,9 +7,21 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Defines component.
+    /// </summary>
     public interface IComponentInfo
     {
+        /// <summary>
+        /// Enumerates properties.
+        /// </summary>
+        /// <returns>Enumerates properties.</returns>
         IEnumerable<IPropertyInfo> GetProperties();
+
+        /// <summary>
+        /// Gets default property.
+        /// </summary>
+        /// <returns>Gets default property.</returns>
         IPropertyInfo GetDefaultProperty();
     }
 }

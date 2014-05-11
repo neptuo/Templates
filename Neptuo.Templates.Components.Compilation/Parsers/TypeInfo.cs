@@ -8,12 +8,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Defines <see cref="IComponentInfo"/>, <see cref="IMarkupExtensionInfo"/> and <see cref="IObserverInfo"/> using class.
+    /// </summary>
     public class TypeInfo : IComponentInfo, IMarkupExtensionInfo, IObserverInfo
     {
         private Type type;
 
         public TypeInfo(Type type)
         {
+            Guard.NotNull(type, "type");
             this.type = type;
         }
 

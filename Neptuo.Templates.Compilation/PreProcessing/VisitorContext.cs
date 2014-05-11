@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.PreProcessing
 {
+    /// <summary>
+    /// Actual implementation of <see cref="IVisitorContext"/>.
+    /// </summary>
     public class DefaultPreProcessorContext : IVisitorContext
     {
         public IDependencyProvider DependencyProvider { get; set; }

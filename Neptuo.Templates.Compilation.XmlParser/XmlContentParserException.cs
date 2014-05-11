@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// Exception used in <see cref="XmlContentParser"/>.
+    /// </summary>
     [Serializable]
     public class XmlContentParserException : BaseSourceCodeException
     {

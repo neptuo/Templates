@@ -7,6 +7,9 @@ using System.Reflection;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Markup extension value parser.
+    /// </summary>
     public partial class MarkupExtensionValueParser : IValueParser
     {
         private IMarkupExtensionBuilderRegistry builderRegistry;

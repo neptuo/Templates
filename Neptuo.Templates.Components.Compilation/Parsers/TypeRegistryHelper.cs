@@ -6,9 +6,19 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Base registration structure.
+    /// </summary>
     public abstract class TypeRegistryHelper
     {
+        /// <summary>
+        /// Configuration.
+        /// </summary>
         protected TypeBuilderRegistryConfiguration Configuration { get; private set; }
+
+        /// <summary>
+        /// Content of registrations.
+        /// </summary>
         protected TypeBuilderRegistryContent Content { get; private set; }
 
         public TypeRegistryHelper(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content)

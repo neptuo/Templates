@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
+    /// <summary>
+    /// SharpKit javascrip generator.
+    /// </summary>
     public class SharpKitCodeGenerator : ICodeGenerator
     {
         protected ICodeGenerator InnerGenerator { get; private set; }

@@ -7,6 +7,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Helper for parsing markup extensions.
+    /// </summary>
     partial class MarkupExtensionValueParser
     {
         public class Helper

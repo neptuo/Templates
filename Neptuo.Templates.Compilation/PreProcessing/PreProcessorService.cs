@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.PreProcessing
 {
+    /// <summary>
+    /// Actual implementation of <see cref="IPreProcessorService"/>.
+    /// </summary>
     public class DefaultPreProcessorService : IPreProcessorService
     {
         private HashSet<IVisitor> visitors = new HashSet<IVisitor>();
