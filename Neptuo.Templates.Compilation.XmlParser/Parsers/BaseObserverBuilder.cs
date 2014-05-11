@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Base builder for observer operation on <see cref="IObserverInfo"/>.
+    /// </summary>
     public abstract class BaseObserverBuilder : IObserverBuilder
     {
         public void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)

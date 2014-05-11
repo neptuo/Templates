@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Actual implementation of <see cref="IContentBuilderContext"/>.
+    /// </summary>
     public class XmlContentBuilderContext : IContentBuilderContext
     {
         public IContentParserContext ParserContext { get { return Helper.Context; } }

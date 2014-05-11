@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Context of binding properties.
+    /// </summary>
     public class BindPropertiesContext
     {
         public Dictionary<string, IPropertyInfo> Properties { get; private set; }

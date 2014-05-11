@@ -9,6 +9,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     partial class XmlContentParser
     {
+        /// <summary>
+        /// Helper for xml content parser.
+        /// </summary>
         public class Helper
         {
             public IPropertyDescriptor Parent { get; set; }

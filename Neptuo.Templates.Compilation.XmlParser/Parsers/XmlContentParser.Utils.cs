@@ -7,6 +7,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     partial class XmlContentParser
     {
+        /// <summary>
+        /// Some static usefull methods.
+        /// </summary>
         public static class Utils
         {
             public static bool FindChildNode(IXmlElement sourceElement, string name, out IXmlNode result)
