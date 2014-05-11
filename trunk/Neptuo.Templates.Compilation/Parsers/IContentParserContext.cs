@@ -6,11 +6,29 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Content parser context.
+    /// </summary>
     public interface IContentParserContext
     {
+        /// <summary>
+        /// Current dependency provider.
+        /// </summary>
         IDependencyProvider DependencyProvider { get; }
+
+        /// <summary>
+        /// Current parser service.
+        /// </summary>
         IParserService ParserService { get; }
+
+        /// <summary>
+        /// Root property descriptor.
+        /// </summary>
         IPropertyDescriptor PropertyDescriptor { get; }
+
+        /// <summary>
+        /// List of error messages.
+        /// </summary>
         ICollection<IErrorInfo> Errors { get; }
     }
 }

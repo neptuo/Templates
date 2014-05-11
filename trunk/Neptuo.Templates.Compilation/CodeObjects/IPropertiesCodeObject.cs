@@ -5,8 +5,14 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
+    /// <summary>
+    /// Object that has properties.
+    /// </summary>
     public interface IPropertiesCodeObject : ICodeObject
     {
+        /// <summary>
+        /// List of assigned properties.
+        /// </summary>
         List<IPropertyDescriptor> Properties { get; set; }
     }
 }

@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Smart 'dictionary' for registrations.
+    /// </summary>
     public class TypeBuilderRegistryContent
     {
         public ILiteralBuilder LiteralBuilder { get; set; }

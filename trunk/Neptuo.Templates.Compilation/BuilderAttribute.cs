@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// Used by <see cref="TypeScanner"/> for registering builder component.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, Inherited = true, AllowMultiple = true)]
     public class BuilderAttribute : Attribute
     {

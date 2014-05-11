@@ -8,6 +8,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Parses any value as <see cref="IPlainValueCodeObject"/>.
+    /// </summary>
     public class PlainValueParser : IValueParser
     {
         public bool Parse(string content, IValueParserContext context)

@@ -11,6 +11,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Helper for scanning namespaces for types which can be registered.
+    /// </summary>
     public class TypeScanner : TypeRegistryHelper
     {
         public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content)

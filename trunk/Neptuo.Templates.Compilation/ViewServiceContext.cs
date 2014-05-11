@@ -5,6 +5,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// Actual implementaion of <see cref="IViewServiceContext"/>.
+    /// </summary>
     public class ViewServiceContext : IViewServiceContext
     {
         public IDependencyProvider DependencyProvider { get; set; }

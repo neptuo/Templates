@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Actuak implementaion of <see cref="IMarkupExtensionBuilderContext"/>.
+    /// </summary>
     public class MarkupExtensionBuilderContext : IMarkupExtensionBuilderContext
     {
         public IValueParserContext ParserContext { get; private set; }

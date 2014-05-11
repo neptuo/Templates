@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="IMarkupExtensionBuilderRegistry"/>.
+    /// </summary>
     public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, IMarkupExtensionBuilderRegistry
     {
         #region Type scanner

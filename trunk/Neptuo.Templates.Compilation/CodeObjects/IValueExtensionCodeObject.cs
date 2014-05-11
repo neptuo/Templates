@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
+    /// <summary>
+    /// Value extension object.
+    /// </summary>
     public interface IValueExtensionCodeObject : IPropertiesCodeObject
     {
     }

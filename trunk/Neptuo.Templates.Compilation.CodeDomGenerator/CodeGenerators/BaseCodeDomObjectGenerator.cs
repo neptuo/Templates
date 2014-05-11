@@ -7,6 +7,10 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
+    /// <summary>
+    /// Base codeDom sub generator for code objects of type <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of code object.</typeparam>
     public abstract class BaseCodeDomObjectGenerator<T> : ICodeDomComponentGenerator
         where T : ICodeObject
     {

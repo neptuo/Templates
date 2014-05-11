@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Data
 {
+
     public interface ICacheItem
     {
         bool HasValue();
