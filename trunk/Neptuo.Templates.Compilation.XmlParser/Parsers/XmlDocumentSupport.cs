@@ -17,6 +17,9 @@ using XXmlComment = System.Xml.XmlComment;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// XML abstraction for System.Xml.
+    /// </summary>
     internal class XmlDocumentSupport
     {
         public static XmlElement LoadXml(string xmlContent)

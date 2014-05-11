@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Base builder that uses <see cref="Type"/> for defining component.
+    /// </summary>
     public abstract class BaseTypeComponentBuilder : BaseComponentBuilder
     {
         protected abstract Type GetControlType(IXmlElement element);

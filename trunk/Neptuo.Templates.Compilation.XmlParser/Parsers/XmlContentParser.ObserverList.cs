@@ -7,6 +7,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     partial class XmlContentParser
     {
+        /// <summary>
+        /// Specialized list of observers.
+        /// </summary>
         public class ObserverList : List<ParsedObserver> 
         {
             Dictionary<IObserverRegistration, ParsedObserver> byBuilder = new Dictionary<IObserverRegistration, ParsedObserver>();

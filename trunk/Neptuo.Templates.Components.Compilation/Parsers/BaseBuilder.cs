@@ -9,8 +9,14 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Shared builder helper.
+    /// </summary>
     public static class BaseBuilder
     {
+        /// <summary>
+        /// Binds attribute <paramref name="name"/> to component of type <see cref="IAttributeCollection"/> and parses <paramref name="value"/> using value parsers.
+        /// </summary>
         public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
         {
             MethodInfo method = typeCodeObject.Type.GetMethod(TypeHelper.MethodName<IAttributeCollection, string, string>(a => a.SetAttribute));
@@ -32,6 +38,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
+        /// <summary>
+        /// Binds attribute <paramref name="name"/> to component of type <see cref="IAttributeCollection"/> and parses <paramref name="value"/>.
+        /// </summary>
         public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, ICodeObject value)
         {
             MethodInfo method = typeCodeObject.Type.GetMethod(TypeHelper.MethodName<IAttributeCollection, string, string>(a => a.SetAttribute));

@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Base component builder including logic loading of XML elements as properties and inner values.
+    /// </summary>
     public abstract class BaseComponentBuilder : IComponentBuilder
     {
         public void Parse(IContentBuilderContext context, IXmlElement element)
@@ -22,12 +25,29 @@ namespace Neptuo.Templates.Compilation.Parsers
             context.Parent.SetValue(codeObject);
         }
 
+        /// <summary>
+        /// Should create code object for this component.
+        /// </summary>
         protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
+
+        /// <summary>
+        /// Gets current component definition.
+        /// </summary>
         protected abstract IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
 
+        /// <summary>
+        /// Creates property descriptor for single value property.
+        /// </summary>
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
+
+        /// <summary>
+        /// Creates property descriptor for list value property.
+        /// </summary>
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
+        /// <summary>
+        /// Binds properties to <paramref name="codeObject"/>.
+        /// </summary>
         protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
             IComponentInfo componentDefinition = GetComponentDefinition(context, codeObject, element);
