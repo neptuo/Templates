@@ -28,6 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Release\Neptuo.Templates.Components.Compilation.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Neptuo, Version=1.7.1.0, Culture=neutral, processorArchitecture=MSIL">
