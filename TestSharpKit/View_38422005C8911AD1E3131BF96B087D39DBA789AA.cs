@@ -97,13 +97,13 @@ namespace Neptuo.Templates
             field4.Content.Add(this.field7_Create());
             field4.Content.Add("\r\n    ");
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field7_Create()
+        private TestConsoleNG.Controls.TextBoxControl field7_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field7 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field7 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field7, this.field7_Bind);
             return field7;
         }
-        private void field7_Bind(TestConsoleNG.Controls.TextBoxPresenter field7)
+        private void field7_Bind(TestConsoleNG.Controls.TextBoxControl field7)
         {
             field7.Name = "street";
             field7.Text = this.CastValueTo<string>(this.field8_Create().ProvideValue(this.CreateValueExtensionContext(field7, "Text")));
@@ -128,13 +128,13 @@ namespace Neptuo.Templates
             field9.Content.Add(this.field10_Create());
             field9.Content.Add("\r\n    ");
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field10_Create()
+        private TestConsoleNG.Controls.TextBoxControl field10_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field10 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field10 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field10, this.field10_Bind);
             return field10;
         }
-        private void field10_Bind(TestConsoleNG.Controls.TextBoxPresenter field10)
+        private void field10_Bind(TestConsoleNG.Controls.TextBoxControl field10)
         {
             field10.Name = "housenumber";
             field10.Text = this.CastValueTo<string>(this.field11_Create().ProvideValue(this.CreateValueExtensionContext(field10, "Text")));
@@ -159,13 +159,13 @@ namespace Neptuo.Templates
             field12.Content.Add(this.field13_Create());
             field12.Content.Add("\r\n    ");
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field13_Create()
+        private TestConsoleNG.Controls.TextBoxControl field13_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field13 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field13 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field13, this.field13_Bind);
             return field13;
         }
-        private void field13_Bind(TestConsoleNG.Controls.TextBoxPresenter field13)
+        private void field13_Bind(TestConsoleNG.Controls.TextBoxControl field13)
         {
             field13.Name = "city";
             field13.Text = this.CastValueTo<string>(this.field14_Create().ProvideValue(this.CreateValueExtensionContext(field13, "Text")));
@@ -190,13 +190,13 @@ namespace Neptuo.Templates
             field15.Content.Add(this.field16_Create());
             field15.Content.Add("\r\n    ");
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field16_Create()
+        private TestConsoleNG.Controls.TextBoxControl field16_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field16 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field16 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field16, this.field16_Bind);
             return field16;
         }
-        private void field16_Bind(TestConsoleNG.Controls.TextBoxPresenter field16)
+        private void field16_Bind(TestConsoleNG.Controls.TextBoxControl field16)
         {
             field16.Name = "postalcode";
             field16.Text = this.CastValueTo<string>(this.field17_Create().ProvideValue(this.CreateValueExtensionContext(field16, "Text")));

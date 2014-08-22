@@ -35,13 +35,13 @@ namespace Neptuo.Templates
             field1.Content.Add(" \r\n        Street: \r\n        ");
             field1.Content.Add(this.field2_Create());
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field2_Create()
+        private TestConsoleNG.Controls.TextBoxControl field2_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field2 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field2 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field2, this.field2_Bind);
             return field2;
         }
-        private void field2_Bind(TestConsoleNG.Controls.TextBoxPresenter field2)
+        private void field2_Bind(TestConsoleNG.Controls.TextBoxControl field2)
         {
             field2.Name = "street";
             field2.Text = ((string)(this.field3_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field2, field2.GetType().GetProperty("Text"), this.dependencyProvider))));
@@ -64,13 +64,13 @@ namespace Neptuo.Templates
             field4.Content.Add("\r\n        House Number:\r\n        ");
             field4.Content.Add(this.field5_Create());
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field5_Create()
+        private TestConsoleNG.Controls.TextBoxControl field5_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field5 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field5 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field5, this.field5_Bind);
             return field5;
         }
-        private void field5_Bind(TestConsoleNG.Controls.TextBoxPresenter field5)
+        private void field5_Bind(TestConsoleNG.Controls.TextBoxControl field5)
         {
             field5.Name = "housenumber";
             field5.Text = ((string)(this.field6_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field5, field5.GetType().GetProperty("Text"), this.dependencyProvider))));
@@ -93,13 +93,13 @@ namespace Neptuo.Templates
             field7.Content.Add(" \r\n        City: \r\n        ");
             field7.Content.Add(this.field8_Create());
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field8_Create()
+        private TestConsoleNG.Controls.TextBoxControl field8_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field8 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field8 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field8, this.field8_Bind);
             return field8;
         }
-        private void field8_Bind(TestConsoleNG.Controls.TextBoxPresenter field8)
+        private void field8_Bind(TestConsoleNG.Controls.TextBoxControl field8)
         {
             field8.Name = "city";
             field8.Text = ((string)(this.field9_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field8, field8.GetType().GetProperty("Text"), this.dependencyProvider))));
@@ -122,13 +122,13 @@ namespace Neptuo.Templates
             field10.Content.Add("\r\n        Postal code:\r\n        ");
             field10.Content.Add(this.field11_Create());
         }
-        private TestConsoleNG.Controls.TextBoxPresenter field11_Create()
+        private TestConsoleNG.Controls.TextBoxControl field11_Create()
         {
-            TestConsoleNG.Controls.TextBoxPresenter field11 = new TestConsoleNG.Controls.TextBoxPresenter(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field11 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
             this.componentManager.AddComponent(field11, this.field11_Bind);
             return field11;
         }
-        private void field11_Bind(TestConsoleNG.Controls.TextBoxPresenter field11)
+        private void field11_Bind(TestConsoleNG.Controls.TextBoxControl field11)
         {
             field11.Name = "postalcode";
             field11.Text = ((string)(this.field12_Create().ProvideValue(new Neptuo.Templates.Extensions.DefaultExtensionContext(field11, field11.GetType().GetProperty("Text"), this.dependencyProvider))));

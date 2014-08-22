@@ -90,6 +90,7 @@ namespace Neptuo.Templates
         /// <returns>This.</returns>
         public virtual IHtmlWriter Tag(string name)
         {
+            Guard.NotNullOrEmpty(name, "name");
             EnsureCloseOpeningTag();
 
             CanWriteAttribute = true;

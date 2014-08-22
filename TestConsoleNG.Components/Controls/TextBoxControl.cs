@@ -9,7 +9,7 @@ namespace TestConsoleNG.Controls
 {
     [Html("input", true)]
     [DefaultProperty("Text")]
-    public class TextBoxPresenter : BaseControl
+    public class TextBoxControl : BaseControl
     {
         public string Name
         {
@@ -23,7 +23,7 @@ namespace TestConsoleNG.Controls
             set { Attributes["value"] = value; }
         }
 
-        public TextBoxPresenter(IComponentManager componentManager)
+        public TextBoxControl(IComponentManager componentManager)
             : base(componentManager)
         { }
 
