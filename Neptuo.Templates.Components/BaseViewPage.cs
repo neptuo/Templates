@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +9,7 @@ namespace Neptuo.Templates
     /// <summary>
     /// Base implmenetation of <see cref="IViewPage"/>.
     /// </summary>
-    public class BaseViewPage : IViewPage
+    public class BaseViewPage : DisposableBase, IViewPage
     {
         /// <summary>
         /// Current component manager.
@@ -51,8 +52,10 @@ namespace Neptuo.Templates
         /// <summary>
         /// Disposes this view.
         /// </summary>
-        public void Dispose()
+        protected override void DisposeManagedResources()
         {
+            base.DisposeManagedResources();
+
             foreach (object item in Content)
                 ComponentManager.Dispose(item);
         }
