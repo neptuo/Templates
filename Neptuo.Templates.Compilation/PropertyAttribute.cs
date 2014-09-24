@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Reflection;
 
-namespace Neptuo.Templates
+namespace Neptuo.Templates.Compilation
 {
     /// <summary>
     /// Provides metadata about property.
