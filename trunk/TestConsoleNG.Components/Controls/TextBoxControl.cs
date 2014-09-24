@@ -13,14 +13,14 @@ namespace TestConsoleNG.Controls
     {
         public string Name
         {
-            get { return Attributes["name"]; }
-            set { Attributes["name"] = value; }
+            get { return HtmlAttributes["name"]; }
+            set { HtmlAttributes["name"] = value; }
         }
 
         public string Text
         {
-            get { return Attributes["value"]; }
-            set { Attributes["value"] = value; }
+            get { return HtmlAttributes["value"]; }
+            set { HtmlAttributes["value"] = value; }
         }
 
         public TextBoxControl(IComponentManager componentManager)
@@ -31,7 +31,7 @@ namespace TestConsoleNG.Controls
         {
             base.OnInit();
 
-            Attributes["type"] = "text";
+            HtmlAttributes["type"] = "text";
         }
 
         public override void Render(IHtmlWriter writer)

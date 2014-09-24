@@ -12,15 +12,15 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         public List<ICodeObject> Values { get; set; }
         public bool IsDefaultValue { get; set; }
 
-        public ListAddPropertyDescriptor(IPropertyInfo propertyName)
+        public ListAddPropertyDescriptor(IPropertyInfo property)
         {
-            Property = propertyName;
+            Property = property;
             Values = new List<ICodeObject>();
         }
 
-        public ListAddPropertyDescriptor(IPropertyInfo propertyName, params ICodeObject[] values)
+        public ListAddPropertyDescriptor(IPropertyInfo property, params ICodeObject[] values)
         {
-            Property = propertyName;
+            Property = property;
             Values = new List<ICodeObject>(values);
         }
 

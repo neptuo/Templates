@@ -52,6 +52,7 @@
   <ItemGroup>
     <Compile Include="BaseNamingService.cs" />
     <Compile Include="CodeDomDebugMode.cs" />
+    <Compile Include="CodeGenerators\CodeDomDictionaryAddPropertyGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorServiceContext.cs" />
     <Compile Include="CodeDomViewService.cs" />
     <Compile Include="CodeDomViewServiceException.cs" />
@@ -73,6 +74,7 @@
     <Compile Include="CodeGenerators\CodeDomSetPropertyGenerator.cs" />
     <Compile Include="CodeObjects\ComponentCodeObject.cs" />
     <Compile Include="CodeObjects\DependencyCodeObject.cs" />
+    <Compile Include="CodeObjects\DictionaryAddPropertyDescriptor.cs" />
     <Compile Include="CodeObjects\ExtensionCodeObject.cs" />
     <Compile Include="CodeObjects\ListAddPropertyDescriptor.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyDescriptor.cs" />

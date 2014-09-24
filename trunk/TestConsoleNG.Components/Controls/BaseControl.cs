@@ -13,13 +13,13 @@ namespace TestConsoleNG.Controls
     /// <summary>
     /// Controls extends this class support tag name specified in <see cref="ComponentAttribute"/>.
     /// </summary>
-    public abstract class BaseControl : IControl, IAttributeCollection
+    public abstract class BaseControl : IControl, IHasHtmlAttributeCollection
     {
         private string tagName;
         private bool? isSelfClosing;
         private string defaultPropertyName;
 
-        public HtmlAttributeCollection Attributes { get; protected set; }
+        public HtmlAttributeCollection HtmlAttributes { get; protected set; }
 
         protected IComponentManager ComponentManager { get; private set; }
         protected virtual string TagName
@@ -72,7 +72,7 @@ namespace TestConsoleNG.Controls
         public BaseControl(IComponentManager componentManager)
         {
             ComponentManager = componentManager;
-            Attributes = new HtmlAttributeCollection();
+            HtmlAttributes = new HtmlAttributeCollection();
         }
 
         public virtual void OnInit() { }
@@ -83,7 +83,7 @@ namespace TestConsoleNG.Controls
             {
                 writer.Tag(TagName);
 
-                foreach (KeyValuePair<string, string> attribute in Attributes)
+                foreach (KeyValuePair<string, string> attribute in HtmlAttributes)
                     writer.Attribute(attribute.Key, attribute.Value);
 
                 
@@ -121,7 +121,7 @@ namespace TestConsoleNG.Controls
 
         public void SetAttribute(string name, string value)
         {
-            Attributes[name] = value;
+            HtmlAttributes[name] = value;
         }
     }
 }

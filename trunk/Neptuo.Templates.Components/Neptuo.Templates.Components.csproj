@@ -45,7 +45,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ControlInitCompleteEventArgs.cs" />
-    <Compile Include="DependencyAttribute.cs" />
     <Compile Include="HtmlAttributeCollection.cs" />
     <Compile Include="BaseGeneratedView.cs" />
     <Compile Include="BaseViewPage.cs" />
@@ -56,7 +55,7 @@
     <Compile Include="HtmlAttribute.cs" />
     <Compile Include="HtmlTextWriter.cs" />
     <Compile Include="HtmlTextWriterException.cs" />
-    <Compile Include="IAttributeCollection.cs" />
+    <Compile Include="IHasHtmlAttributeCollection.cs" />
     <Compile Include="Controls\IContentControl.cs" />
     <Compile Include="Controls\IControl.cs" />
     <Compile Include="Extensions\IValueExtension.cs" />
