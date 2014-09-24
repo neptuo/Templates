@@ -8,7 +8,7 @@ using System.Text;
 namespace Neptuo.Templates.Compilation
 {
     /// <summary>
-    /// Service that enables view compilation.
+    /// Service that enables template compilation.
     /// </summary>
     public interface IViewService
     {

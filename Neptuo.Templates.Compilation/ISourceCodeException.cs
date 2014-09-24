@@ -11,8 +11,19 @@ namespace Neptuo.Templates.Compilation
     /// </summary>
     public interface ISourceCodeException
     {
+        /// <summary>
+        /// Source code line number.
+        /// </summary>
         int LineNumber { get; }
+
+        /// <summary>
+        /// Source code line position (index).
+        /// </summary>
         int LinePosition { get; }
+
+        /// <summary>
+        /// Error message.
+        /// </summary>
         string Message { get; }
     }
 }
