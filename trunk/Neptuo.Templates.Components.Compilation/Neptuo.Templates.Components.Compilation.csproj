@@ -157,8 +157,6 @@
     <Compile Include="_Compilation\CodeObjects\IValueExtensionCodeObject.cs" />
     <Compile Include="_Compilation\CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="_Compilation\ComponentAttribute.cs" />
-    <Compile Include="_Compilation\Data\ICacheItem.cs" />
-    <Compile Include="_Compilation\Data\ICacheManager.cs" />
     <Compile Include="_Compilation\Data\StorageProvider.cs" />
     <Compile Include="_Compilation\ErrorInfo.cs" />
     <Compile Include="_Compilation\ExceptionErrorInfo.cs" />
