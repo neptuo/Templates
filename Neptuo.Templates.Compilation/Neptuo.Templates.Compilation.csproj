@@ -63,8 +63,6 @@
     <Compile Include="CodeObjects\IValueExtensionCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="ComponentAttribute.cs" />
-    <Compile Include="Data\ICacheItem.cs" />
-    <Compile Include="Data\ICacheManager.cs" />
     <Compile Include="Data\StorageProvider.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
