@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Controls
     /// <summary>
     /// Base interface that each control must implement. 
     /// Class name can contain suffix Control that is automaticaly appended to tag name.
-    /// As addition, class can be decorated with attribute <see cref="ComponentAttribute"/>.
+    /// As addition, class can be decorated with attribute <see cref="Neptuo.Templates.Compilation.ComponentAttribute"/>.
     /// To define default property use <see cref="DefaultPropertyAttribute"/>.
     /// </summary>
     public interface IControl
