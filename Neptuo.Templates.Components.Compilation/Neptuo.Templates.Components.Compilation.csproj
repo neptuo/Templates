@@ -156,6 +156,7 @@
     <Compile Include="_Compilation\CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="_Compilation\CodeObjects\IValueExtensionCodeObject.cs" />
     <Compile Include="_Compilation\CodeObjects\PlainValueCodeObject.cs" />
+    <Compile Include="_Compilation\ComponentAttribute.cs" />
     <Compile Include="_Compilation\Data\ICacheItem.cs" />
     <Compile Include="_Compilation\Data\ICacheManager.cs" />
     <Compile Include="_Compilation\Data\StorageProvider.cs" />
@@ -183,6 +184,7 @@
     <Compile Include="_Compilation\PreProcessing\PreProcessorService.cs" />
     <Compile Include="_Compilation\PreProcessing\PreProcessorServiceContext.cs" />
     <Compile Include="_Compilation\PreProcessing\VisitorContext.cs" />
+    <Compile Include="_Compilation\PropertyAttribute.cs" />
     <Compile Include="_Compilation\ViewServiceContext.cs" />
     <Compile Include="_Tokens\IMarkupExtensionBuilderFactory.cs" />
     <Compile Include="_Tokens\IMarkupExtensionBuilderRegistry.cs" />
