@@ -133,7 +133,7 @@ var Neptuo$Templates$HtmlAttributeCollection = {
 JsTypes.push(Neptuo$Templates$HtmlAttributeCollection);
 var Neptuo$Templates$BaseGeneratedView = {
     fullname: "Neptuo.Templates.BaseGeneratedView",
-    baseTypeName: "System.Object",
+    baseTypeName: "Neptuo.ComponentModel.DisposableBase",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Class",
     definition: {
@@ -141,7 +141,7 @@ var Neptuo$Templates$BaseGeneratedView = {
             this.viewPage = null;
             this.componentManager = null;
             this.dependencyProvider = null;
-            System.Object.ctor.call(this);
+            Neptuo.ComponentModel.DisposableBase.ctor.call(this);
         },
         Content$$: "System.Collections.Generic.ICollection`1[[System.Object]]",
         get_Content: function (){
@@ -165,7 +165,8 @@ var Neptuo$Templates$BaseGeneratedView = {
             Neptuo.Guard.NotNull$$Object$$String(writer, "writer");
             this.viewPage.Render(writer);
         },
-        Dispose: function (){
+        DisposeManagedResources: function (){
+            Neptuo.ComponentModel.DisposableBase.commonPrototype.DisposeManagedResources.call(this);
             this.viewPage.Dispose();
         },
         CreateValueExtensionContext: function (targetObject, targetProperty){
@@ -979,24 +980,6 @@ var Neptuo$Templates$IViewPage = {
     IsAbstract: true
 };
 JsTypes.push(Neptuo$Templates$IViewPage);
-var Neptuo$Templates$IVirtualUrlProvider = {
-    fullname: "Neptuo.Templates.IVirtualUrlProvider",
-    baseTypeName: "System.Object",
-    assemblyName: "Neptuo.Templates.Components",
-    Kind: "Interface",
-    ctors: [],
-    IsAbstract: true
-};
-JsTypes.push(Neptuo$Templates$IVirtualUrlProvider);
-var Neptuo$Templates$IVirtualPathProvider = {
-    fullname: "Neptuo.Templates.IVirtualPathProvider",
-    baseTypeName: "System.Object",
-    assemblyName: "Neptuo.Templates.Components",
-    Kind: "Interface",
-    ctors: [],
-    IsAbstract: true
-};
-JsTypes.push(Neptuo$Templates$IVirtualPathProvider);
 var Neptuo$Templates$ObserverAttribute = {
     fullname: "Neptuo.Templates.ObserverAttribute",
     baseTypeName: "System.Attribute",

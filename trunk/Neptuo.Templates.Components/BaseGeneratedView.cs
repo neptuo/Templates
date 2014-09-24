@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Extensions;
+﻿using Neptuo.ComponentModel;
+using Neptuo.Templates.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,7 +13,7 @@ namespace Neptuo.Templates
     /// <summary>
     /// Base class for generated views.
     /// </summary>
-    public abstract class BaseGeneratedView
+    public abstract class BaseGeneratedView : DisposableBase
     {
         protected IViewPage viewPage;
         protected IComponentManager componentManager;
@@ -77,8 +78,9 @@ namespace Neptuo.Templates
         /// <summary>
         /// Disposes this view.
         /// </summary>
-        public void Dispose()
+        protected override void DisposeManagedResources()
         {
+            base.DisposeManagedResources();
             viewPage.Dispose();
         }
 

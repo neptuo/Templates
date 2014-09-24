@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.FileSystems;
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
@@ -29,7 +30,7 @@ namespace TestConsoleNG
         static TestTemplates()
         {
             container = new UnityDependencyContainer();
-            container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
+            container.RegisterInstance<IFileProvider>(new FileProvider(new StaticFileSystem(Environment.CurrentDirectory, false).RootDirectory));
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
             container.RegisterType<IViewServiceContext, ViewServiceContext>();
@@ -38,7 +39,7 @@ namespace TestConsoleNG
         public static void Test()
         {
             TypeBuilderRegistry registry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container).AddComponentSuffix("presenter"),
+                new TypeBuilderRegistryConfiguration(container),//.AddComponentSuffix("presenter"),
                 new LiteralControlBuilder<LiteralControl>(c => c.Text), 
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
@@ -53,7 +54,7 @@ namespace TestConsoleNG
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
-            viewService.NamingService = new HashNamingService(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
+            viewService.NamingService = new HashNamingService(new FileProvider(new StaticFileSystem(Environment.CurrentDirectory, false).RootDirectory));
             //viewService.DebugMode = true;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
             viewService.BinDirectories.Add(Environment.CurrentDirectory);

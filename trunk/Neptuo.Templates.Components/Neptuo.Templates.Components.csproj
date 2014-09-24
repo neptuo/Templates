@@ -64,8 +64,6 @@
     <Compile Include="IHtmlWriter.cs" />
     <Compile Include="IComponentManager.cs" />
     <Compile Include="IViewPage.cs" />
-    <Compile Include="IVirtualUrlProvider.cs" />
-    <Compile Include="IVirtualPathProvider.cs" />
     <Compile Include="ObserverAttribute.cs" />
     <Compile Include="ObserverLivecycle.cs" />
     <Compile Include="Observers\IObserver.cs" />
