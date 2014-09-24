@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.FileSystems;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,19 +12,16 @@ namespace Neptuo.Templates.Compilation
     /// </summary>
     public class FileProvider : IFileProvider
     {
-        /// <summary>
-        /// Virtual path resolver.
-        /// </summary>
-        public IVirtualPathProvider PathProvider { get; private set; }
+        private readonly IReadOnlyDirectory directory;
 
         /// <summary>
         /// Create new instance.
         /// </summary>
-        /// <param name="pathProvider">Virtual path resolver.</param>
-        public FileProvider(IVirtualPathProvider pathProvider)
+        /// <param name="directory">Root directory to search in.</param>
+        public FileProvider(IReadOnlyDirectory directory)
         {
-            Guard.NotNull(pathProvider, "pathProvider");
-            PathProvider = pathProvider;
+            Guard.NotNull(directory, "directory");
+            this.directory = directory;
         }
 
         /// <summary>
@@ -34,7 +32,7 @@ namespace Neptuo.Templates.Compilation
         public bool Exists(string relativePath)
         {
             Guard.NotNull(relativePath, "relativePath");
-            return File.Exists(PathProvider.MapPath(relativePath));
+            return directory.FindFiles(relativePath, true).Any();
         }
 
         /// <summary>
@@ -45,7 +43,10 @@ namespace Neptuo.Templates.Compilation
         public string GetFileContent(string relativePath)
         {
             Guard.NotNull(relativePath, "relativePath");
-            return File.ReadAllText(PathProvider.MapPath(relativePath));
+            if (!Exists(relativePath))
+                return null;
+
+            return directory.FindFiles(relativePath, true).First().GetContentAsync().Result;
         }
     }
 }

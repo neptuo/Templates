@@ -229,7 +229,7 @@ namespace Neptuo.Templates.Compilation
         /// <returns>Instance of generated view from <paramref name="naming"/>.</returns>
         protected virtual object CreateGeneratedView(INaming naming)
         {
-            Assembly views = Assembly.LoadFile(GetAssemblyPath(naming));
+            Assembly views = Assembly.LoadFile(Path.Combine(TempDirectory, GetAssemblyPath(naming)));
             Type generatedView = views.GetType(
                 String.Format("{0}.{1}", naming.ClassNamespace, naming.ClassName)
             );
@@ -388,7 +388,7 @@ namespace Neptuo.Templates.Compilation
         /// <returns>Full path for assembly.</returns>
         protected virtual string GetAssemblyPath(INaming naming)
         {
-            return Path.Combine(TempDirectory, naming.AssemblyName);
+            return naming.AssemblyName;
         }
     }
 }

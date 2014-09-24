@@ -1,5 +1,6 @@
 ﻿using LiveWebUI.Models;
 using Neptuo;
+using Neptuo.FileSystems;
 using Neptuo.Security.Cryptography;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
@@ -30,7 +31,7 @@ namespace LiveWebUI.Models
 
 
             Container = new SimpleObjectBuilder();
-            Container.RegisterInstance<IFileProvider>(new FileProvider(new CurrentDirectoryVirtualPathProvider()));
+            Container.RegisterInstance<IFileProvider>(new FileProvider(new StaticFileSystem("C:/Temp", false).RootDirectory));
             Container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             Container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
 
