@@ -14,21 +14,34 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public static class BaseBuilder
     {
+        private static string htmlAttributesPropertyName = TypeHelper.PropertyName<IHasHtmlAttributeCollection, HtmlAttributeCollection>(c => c.HtmlAttributes);
+
+        private static DictionaryAddPropertyDescriptor CreatePropertyDescriptor(ITypeCodeObject typeCodeObject)
+        {
+            TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(htmlAttributesPropertyName));
+            DictionaryAddPropertyDescriptor propertyDescriptor = new DictionaryAddPropertyDescriptor(propertyInfo);
+            return propertyDescriptor;
+        }
+
         /// <summary>
-        /// Binds attribute <paramref name="name"/> to component of type <see cref="IAttributeCollection"/> and parses <paramref name="value"/> using value parsers.
+        /// Binds attribute <paramref name="name"/> to component of type <see cref="IHasHtmlAttributeCollection"/> and parses <paramref name="value"/> using value parsers.
         /// </summary>
         public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
         {
-            MethodInfo method = typeCodeObject.Type.GetMethod(TypeHelper.MethodName<IAttributeCollection, string, string>(a => a.SetAttribute));
-            if (method != null)
+            if (typeof(IHasHtmlAttributeCollection).IsAssignableFrom(typeCodeObject.Type))
             {
-                MethodInvokePropertyDescriptor propertyDescriptor = new MethodInvokePropertyDescriptor(method);
+                DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(name));
 
                 bool result = context.ParserContext.ParserService.ProcessValue(
                     value,
-                    new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+                    new DefaultParserServiceContext(
+                        context.ParserContext.DependencyProvider, 
+                        propertyDescriptor, 
+                        context.ParserContext.Errors
+                    )
                 );
+
                 if (result)
                     propertiesCodeObject.Properties.Add(propertyDescriptor);
 
@@ -39,14 +52,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Binds attribute <paramref name="name"/> to component of type <see cref="IAttributeCollection"/> and parses <paramref name="value"/>.
+        /// Binds attribute <paramref name="name"/> to component of type <see cref="IHasHtmlAttributeCollection"/> and parses <paramref name="value"/>.
         /// </summary>
         public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, ICodeObject value)
         {
-            MethodInfo method = typeCodeObject.Type.GetMethod(TypeHelper.MethodName<IAttributeCollection, string, string>(a => a.SetAttribute));
-            if (method != null)
+            if (typeof(IHasHtmlAttributeCollection).IsAssignableFrom(typeCodeObject.Type))
             {
-                MethodInvokePropertyDescriptor propertyDescriptor = new MethodInvokePropertyDescriptor(method);
+                DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(name));
                 propertyDescriptor.SetValue(value);
                 propertiesCodeObject.Properties.Add(propertyDescriptor);

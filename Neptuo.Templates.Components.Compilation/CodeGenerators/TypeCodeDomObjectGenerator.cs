@@ -215,14 +215,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                             targetValue = new CodePrimitiveExpression(defaultValue.Value);
                     }
 
-                    // DependencyAttribute
-                    if (targetValue == null)
-                    {
-                        DependencyAttribute dependency = ReflectionHelper.GetAttribute<DependencyAttribute>(propertyInfo);
-                        if (dependency != null)
-                            targetValue = context.CodeGenerator.GenerateDependency(context.CodeDomContext, propertyInfo.PropertyType);
-                    }
-
                     // Try any attribute generator
                     if (targetValue == null)
                     {

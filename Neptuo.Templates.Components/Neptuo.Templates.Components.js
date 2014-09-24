@@ -78,41 +78,6 @@ var Neptuo$Templates$ControlInitCompleteEventArgs = {
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$ControlInitCompleteEventArgs);
-var Neptuo$Templates$DependencyAttribute = {
-    fullname: "Neptuo.Templates.DependencyAttribute",
-    baseTypeName: "System.Attribute",
-    assemblyName: "Neptuo.Templates.Components",
-    Kind: "Class",
-    definition: {
-        ctor: function (){
-            this._Name = null;
-            System.Attribute.ctor.call(this);
-        },
-        Name$$: "System.String",
-        get_Name: function (){
-            return this._Name;
-        },
-        set_Name: function (value){
-            this._Name = value;
-        },
-        ctor$$String: function (name){
-            this._Name = null;
-            System.Attribute.ctor.call(this);
-            Neptuo.Guard.NotNullOrEmpty(name, "name");
-            this.set_Name(name);
-        }
-    },
-    ctors: [{
-        name: "ctor",
-        parameters: []
-    }, {
-        name: "ctor$$String",
-        parameters: ["System.String"]
-    }
-    ],
-    IsAbstract: false
-};
-JsTypes.push(Neptuo$Templates$DependencyAttribute);
 var Neptuo$Templates$HtmlAttributeCollection = {
     fullname: "Neptuo.Templates.HtmlAttributeCollection",
     baseTypeName: "System.Collections.Generic.Dictionary$2",
@@ -906,15 +871,15 @@ var Neptuo$Templates$HtmlTextWriterException = {
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$HtmlTextWriterException);
-var Neptuo$Templates$IAttributeCollection = {
-    fullname: "Neptuo.Templates.IAttributeCollection",
+var Neptuo$Templates$IHasHtmlAttributeCollection = {
+    fullname: "Neptuo.Templates.IHasHtmlAttributeCollection",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Interface",
     ctors: [],
     IsAbstract: true
 };
-JsTypes.push(Neptuo$Templates$IAttributeCollection);
+JsTypes.push(Neptuo$Templates$IHasHtmlAttributeCollection);
 var Neptuo$Templates$Controls$IContentControl = {
     fullname: "Neptuo.Templates.Controls.IContentControl",
     baseTypeName: "System.Object",

@@ -41,7 +41,7 @@ namespace TestConsoleNG.Controls
 
                 Url += String.Format("{0}={1}", parameter.Name, parameter.Value);
             }
-            Attributes["href"] = Url;
+            HtmlAttributes["href"] = Url;
         }
     }
 
