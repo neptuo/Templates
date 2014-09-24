@@ -198,7 +198,7 @@ var Neptuo$Templates$BaseGeneratedView = {
 JsTypes.push(Neptuo$Templates$BaseGeneratedView);
 var Neptuo$Templates$BaseViewPage = {
     fullname: "Neptuo.Templates.BaseViewPage",
-    baseTypeName: "System.Object",
+    baseTypeName: "Neptuo.ComponentModel.DisposableBase",
     assemblyName: "Neptuo.Templates.Components",
     interfaceNames: ["Neptuo.Templates.IViewPage"],
     Kind: "Class",
@@ -206,7 +206,7 @@ var Neptuo$Templates$BaseViewPage = {
         ctor: function (componentManager){
             this._ComponentManager = null;
             this._Content = null;
-            System.Object.ctor.call(this);
+            Neptuo.ComponentModel.DisposableBase.ctor.call(this);
             Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
             this.set_ComponentManager(componentManager);
             this.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
@@ -240,7 +240,8 @@ var Neptuo$Templates$BaseViewPage = {
                 this.get_ComponentManager().Render(item, writer);
             }
         },
-        Dispose: function (){
+        DisposeManagedResources: function (){
+            Neptuo.ComponentModel.DisposableBase.commonPrototype.DisposeManagedResources.call(this);
             var $it3 = this.get_Content().GetEnumerator();
             while ($it3.MoveNext()){
                 var item = $it3.get_Current();
@@ -416,7 +417,7 @@ var Neptuo$Templates$ComponentManager = {
                 this.Init(component);
             if (entry.get_IsDisposed())
                 return;
-            var target = As(entry.get_Control(), System.IDisposable.ctor);
+            var target = As(entry.get_Control(), Neptuo.IDisposable.ctor);
             if (target != null){
                 target.Dispose();
                 entry.set_IsDisposed(true);
@@ -972,7 +973,7 @@ var Neptuo$Templates$IViewPage = {
     fullname: "Neptuo.Templates.IViewPage",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
-    interfaceNames: ["Neptuo.Templates.Controls.IContentControl", "System.IDisposable"],
+    interfaceNames: ["Neptuo.Templates.Controls.IContentControl", "Neptuo.IDisposable"],
     Kind: "Interface",
     ctors: [],
     IsAbstract: true
