@@ -1,4 +1,5 @@
 ﻿using Neptuo.CodeDom.Compiler;
+using Neptuo.Diagnostics;
 using Neptuo.Linq.Expressions;
 using Neptuo.Security.Cryptography;
 using Neptuo.Templates.Compilation.CodeGenerators;
@@ -21,7 +22,7 @@ namespace Neptuo.Templates.Compilation
     /// <summary>
     /// Implementation of <see cref="IViewService"/> using CodeDom.
     /// </summary>
-    public class CodeDomViewService : IViewService
+    public class CodeDomViewService : DebugBase, IViewService
     {
         /// <summary>
         /// Flag to see whether use default (<see cref="CodeDomGenerator"/> and <see cref="SharpKitCodeGenerator"/>) generators.
@@ -121,10 +122,24 @@ namespace Neptuo.Templates.Compilation
         }
 
         /// <summary>
+        /// Text writer pro simple performance measurements.
+        /// </summary>
+        public TextWriter DebugMeasureWriter
+        {
+            get { return InnerWriter; }
+            set
+            {
+                if (value != null)
+                    InnerWriter = value;
+            }
+        }
+
+        /// <summary>
         /// Creates instance as main view service.
         /// </summary>
         /// <param name="useDefaultGenerators">Whether create </param>
         public CodeDomViewService(bool useDefaultGenerators)
+            : base(Console.Out)
         {
             this.useDefaultGenerators = useDefaultGenerators;
 
@@ -253,7 +268,7 @@ namespace Neptuo.Templates.Compilation
             if (DebugMode.HasFlag(CodeDomDebugMode.GenerateSourceCode))
                 File.WriteAllText(Path.Combine(TempDirectory, naming.AssemblyName.Replace(".dll", ".cs")), sourceCode);//TODO: Do it better!
 
-            DebugUtils.Run("Compile", () =>
+            DebugHelper.Debug("Compile", () =>
             {
                 CsCodeDomCompiler compiler = new CsCodeDomCompiler();
                 compiler.IsDebugInformationIncluded = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
@@ -313,7 +328,7 @@ namespace Neptuo.Templates.Compilation
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = GetRootPropertyDescriptor(context);
 
-            DebugUtils.Run("ParseContent", () =>
+            DebugHelper.Debug("ParseContent", () =>
             {
                 bool parserResult = (parserService ?? ParserService).ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
 
@@ -337,7 +352,7 @@ namespace Neptuo.Templates.Compilation
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
 
-            DebugUtils.Run("GenerateSourceCode", () =>
+            DebugHelper.Debug("GenerateSourceCode", () =>
             {
                 ICodeGeneratorServiceContext generatorContext = new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors);
                 bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("CSharp", contentProperty, generatorContext);
@@ -361,7 +376,7 @@ namespace Neptuo.Templates.Compilation
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
 
-            DebugUtils.Run("GenerateSourceCode", () =>
+            DebugHelper.Debug("GenerateSourceCode", () =>
             {
                 ICodeGeneratorServiceContext generatorContext = new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors);
                 bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("Javascript", contentProperty, generatorContext);

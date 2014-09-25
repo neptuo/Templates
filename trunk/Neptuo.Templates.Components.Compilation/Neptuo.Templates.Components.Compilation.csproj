@@ -82,7 +82,6 @@
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="ComponentAttribute.cs" />
-    <Compile Include="DebugUtils.cs" />
     <Compile Include="FileProvider.cs" />
     <Compile Include="NotifyList.cs" />
     <Compile Include="Parsers\DependencyPropertyBuilderFactory.cs" />
