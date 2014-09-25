@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public TokenValueParser(ITokenBuilderFactory builderFactory)
         {
-            Guard.NotNull(builderFactory, "builderFactory")
+            Guard.NotNull(builderFactory, "builderFactory");
             this.builderFactory = builderFactory;
         }
 
