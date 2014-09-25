@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomPlainValueObjectGenerator : BaseCodeDomObjectGenerator<IPlainValueCodeObject>
+    public class CodeDomPlainValueObjectGenerator : CodeDomObjectGeneratorBase<IPlainValueCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
         {

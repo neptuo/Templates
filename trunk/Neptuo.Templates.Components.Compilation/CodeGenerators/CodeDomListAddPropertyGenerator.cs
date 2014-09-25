@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomListAddPropertyGenerator : BaseCodeDomPropertyGenerator<ListAddPropertyDescriptor>
+    public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddPropertyDescriptor>
     {
         protected override void GenerateProperty(CodeDomPropertyContext context, ListAddPropertyDescriptor propertyDescriptor)
         {

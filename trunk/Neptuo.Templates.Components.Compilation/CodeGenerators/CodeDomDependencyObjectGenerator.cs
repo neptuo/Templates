@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomDependencyObjectGenerator : BaseCodeDomObjectGenerator<DependencyCodeObject>
+    public class CodeDomDependencyObjectGenerator : CodeDomObjectGeneratorBase<DependencyCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, DependencyCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {

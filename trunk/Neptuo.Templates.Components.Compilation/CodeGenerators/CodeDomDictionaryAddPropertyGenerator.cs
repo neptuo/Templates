@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomDictionaryAddPropertyGenerator : BaseCodeDomPropertyGenerator<DictionaryAddPropertyDescriptor>
+    public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<DictionaryAddPropertyDescriptor>
     {
         private static string addMethodName = TypeHelper.MethodName<IDictionary<string, string>, string, string>(d => d.Add);
 
