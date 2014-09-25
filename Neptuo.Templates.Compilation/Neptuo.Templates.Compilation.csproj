@@ -43,7 +43,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="SourceCodeException.cs" />
-    <Compile Include="BuilderAttribute.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
@@ -62,11 +61,9 @@
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="CodeObjects\IValueExtensionCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
-    <Compile Include="ComponentAttribute.cs" />
     <Compile Include="Data\StorageProvider.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
-    <Compile Include="PropertyAttribute.cs" />
     <Compile Include="ViewServiceContext.cs" />
     <Compile Include="ErrorInfo.cs" />
     <Compile Include="IErrorInfo.cs" />
