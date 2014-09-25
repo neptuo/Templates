@@ -83,7 +83,6 @@ namespace TestConsoleNG
 
 
 
-            
             //IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
             //IPropertyDescriptor contentProperty= new ListAddPropertyDescriptor(propertyInfo);
             //StringWriter javascriptOutput = new StringWriter();
