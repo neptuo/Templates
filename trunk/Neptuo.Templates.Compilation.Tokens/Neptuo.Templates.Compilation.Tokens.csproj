@@ -47,11 +47,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Parsers\ITokenBuilderFactory.cs" />
-    <Compile Include="Parsers\BaseTokenBuilder.cs" />
     <Compile Include="Parsers\ITokenBuilder.cs" />
     <Compile Include="Parsers\ITokenBuilderContext.cs" />
-    <Compile Include="Parsers\ITokenInfo.cs" />
+    <Compile Include="Parsers\ITokenDescriptor.cs" />
     <Compile Include="Parsers\TokenBuilderContext.cs" />
+    <Compile Include="Parsers\TokenDescriptorBuilder.cs" />
     <Compile Include="Parsers\TokenValueParser.cs" />
     <Compile Include="Parsers\TokenValueParser.Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

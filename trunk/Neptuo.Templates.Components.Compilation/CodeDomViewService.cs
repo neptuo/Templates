@@ -1,4 +1,5 @@
-﻿using Neptuo.Linq.Expressions;
+﻿using Neptuo.CodeDom.Compiler;
+using Neptuo.Linq.Expressions;
 using Neptuo.Security.Cryptography;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
@@ -254,8 +255,8 @@ namespace Neptuo.Templates.Compilation
 
             DebugUtils.Run("Compile", () =>
             {
-                CodeDomCompiler compiler = new CodeDomCompiler();
-                compiler.IncludeDebugInformation = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
+                CsCodeDomCompiler compiler = new CsCodeDomCompiler();
+                compiler.IsDebugInformationIncluded = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
 
                 foreach (string directory in BinDirectories)
                     compiler.AddReferencedFolder(directory);

@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTypeComponentBuilder : BaseTypeComponentBuilder
+    public class DefaultTypeComponentBuilder : TypeComponentBuilder
     {
         protected Type Type { get; private set; }
 

@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTypeObserverBuilder : BaseTypeObserverBuilder
+    public class DefaultTypeObserverBuilder : TypeObserverBuilder
     {
         protected Type Type { get; private set; }
         protected ObserverLivecycle Scope { get; private set; }
