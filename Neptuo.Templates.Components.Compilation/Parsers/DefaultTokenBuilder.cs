@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTokenBuilder : TokenInfoBuilder
+    public class DefaultTokenBuilder : TokenDescriptorBuilder
     {
         protected Type Type { get; private set; }
 

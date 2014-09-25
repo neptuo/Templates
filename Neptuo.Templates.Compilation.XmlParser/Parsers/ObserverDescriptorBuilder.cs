@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base builder for observer operation on <see cref="IObserverInfo"/>.
+    /// Base builder for observer which operates on <see cref="IObserverDescriptor"/>.
     /// </summary>
-    public abstract class BaseObserverBuilder : IObserverBuilder
+    public abstract class ObserverDescriptorBuilder : IObserverBuilder
     {
         public void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             IObserverCodeObject observerObject = CreateCodeObject(context, attributes);
-            IObserverInfo observerDefinition = GetObserverDefinition(context, codeObject, attributes);
+            IObserverDescriptor observerDefinition = GetObserverDefinition(context, codeObject, attributes);
             codeObject.Observers.Add(observerObject);
 
             BindProperties(context, new BindPropertiesContext(observerDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant())), observerObject, attributes);
         }
 
         protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes);
-        protected abstract IObserverInfo GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
+        protected abstract IObserverDescriptor GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);

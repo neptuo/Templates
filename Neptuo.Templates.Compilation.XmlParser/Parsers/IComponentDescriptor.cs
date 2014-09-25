@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Describes token structure, its properties and default property (if available).
+    /// Defines component.
     /// </summary>
-    public interface ITokenDescriptor
+    public interface IComponentDescriptor
     {
         /// <summary>
-        /// Enumerates propertis.
+        /// Enumerates properties.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Enumerates properties.</returns>
         IEnumerable<IPropertyInfo> GetProperties();
 
         /// <summary>
-        /// Gets default property. Can be <c>null</c>.
+        /// Gets default property.
         /// </summary>
         /// <returns>Gets default property.</returns>
         IPropertyInfo GetDefaultProperty();

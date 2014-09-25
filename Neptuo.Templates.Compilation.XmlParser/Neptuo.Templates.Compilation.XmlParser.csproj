@@ -44,10 +44,10 @@
   <ItemGroup>
     <Compile Include="IContentBuilderRegistry.cs" />
     <Compile Include="Parsers\BaseComponentBuilder.cs" />
-    <Compile Include="Parsers\BaseObserverBuilder.cs" />
+    <Compile Include="Parsers\ObserverDescriptorBuilder.cs" />
     <Compile Include="Parsers\BindPropertiesContext.cs" />
-    <Compile Include="Parsers\IComponentInfo.cs" />
-    <Compile Include="Parsers\IObserverInfo.cs" />
+    <Compile Include="Parsers\IComponentDescriptor.cs" />
+    <Compile Include="Parsers\IObserverDescriptor.cs" />
     <Compile Include="Parsers\IObserverRegistration.cs" />
     <Compile Include="NamespaceDeclaration.cs" />
     <Compile Include="Parsers\ILiteralBuilder.cs" />

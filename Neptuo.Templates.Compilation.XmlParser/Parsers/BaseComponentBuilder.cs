@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base component builder including logic loading of XML elements as properties and inner values.
+    /// Base component builder including logic for processing XML elements as properties and inner values.
     /// </summary>
     public abstract class BaseComponentBuilder : IComponentBuilder
     {
@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Gets current component definition.
         /// </summary>
-        protected abstract IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
+        protected abstract IComponentDescriptor GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
 
         /// <summary>
         /// Creates property descriptor for single value property.
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
-            IComponentInfo componentDefinition = GetComponentDefinition(context, codeObject, element);
+            IComponentDescriptor componentDefinition = GetComponentDefinition(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
             BindPropertiesContext bindContext = new BindPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
 
