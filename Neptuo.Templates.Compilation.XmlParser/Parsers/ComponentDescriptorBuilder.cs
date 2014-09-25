@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Base component builder including logic for processing XML elements as properties and inner values.
     /// </summary>
-    public abstract class BaseComponentBuilder : IComponentBuilder
+    public abstract class ComponentDescriptorBuilder : IComponentBuilder
     {
         public void Parse(IContentBuilderContext context, IXmlElement element)
         {

@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IContentBuilderRegistry.cs" />
-    <Compile Include="Parsers\BaseComponentBuilder.cs" />
+    <Compile Include="Parsers\ComponentDescriptorBuilder.cs" />
     <Compile Include="Parsers\ObserverDescriptorBuilder.cs" />
     <Compile Include="Parsers\BindPropertiesContext.cs" />
     <Compile Include="Parsers\IComponentDescriptor.cs" />
