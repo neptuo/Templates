@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         /// <param name="name">Name of generator.</param>
         /// <param name="generator">Code generator.</param>
-        void AddGenerator(string name, ICodeGenerator generator);
+        ICodeGeneratorService AddGenerator(string name, ICodeGenerator generator);
 
         /// <summary>
         /// Generates code using code generator registered with <paramref name="name"/>.

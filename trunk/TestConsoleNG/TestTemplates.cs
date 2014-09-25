@@ -40,7 +40,7 @@ namespace TestConsoleNG
         {
             TypeBuilderRegistry registry = new TypeBuilderRegistry(
                 new TypeBuilderRegistryConfiguration(container),//.AddComponentSuffix("presenter"),
-                new LiteralControlBuilder<LiteralControl>(c => c.Text), 
+                new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text), 
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
             registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));

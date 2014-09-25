@@ -38,7 +38,7 @@ namespace LiveWebUI.Models
 
             TypeBuilderRegistry registry = new TypeBuilderRegistry(
                 new TypeBuilderRegistryConfiguration(Container),
-                new LiteralControlBuilder<LiteralControl>(c => c.Text),
+                new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text),
                 new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
             );
             registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));

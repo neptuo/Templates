@@ -11,14 +11,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     public interface ICodeGeneratorServiceContext
     {
-
         /// <summary>
         /// Current dependency provider.
         /// </summary>
         IDependencyProvider DependencyProvider { get; }
 
         /// <summary>
-        /// List of error messsages.
+        /// Result (output) list of error messsages.
         /// </summary>
         ICollection<IErrorInfo> Errors { get; }
 
