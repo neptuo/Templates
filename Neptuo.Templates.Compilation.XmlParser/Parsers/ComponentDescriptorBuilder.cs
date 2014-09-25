@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Gets current component definition.
         /// </summary>
-        protected abstract IComponentDescriptor GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
+        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
 
         /// <summary>
         /// Creates property descriptor for single value property.
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
-            IComponentDescriptor componentDefinition = GetComponentDefinition(context, codeObject, element);
+            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
             BindPropertiesContext bindContext = new BindPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
 
