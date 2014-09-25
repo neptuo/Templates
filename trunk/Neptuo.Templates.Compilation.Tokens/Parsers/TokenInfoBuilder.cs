@@ -8,10 +8,13 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public abstract class BaseTokenBuilder : ITokenBuilder
+    /// <summary>
+    /// Base implementation of <see cref="ITokenBuilder"/> that uses <see cref="ITokenDescriptor"/> as target decriptor.
+    /// </summary>
+    public abstract class TokenInfoBuilder : ITokenBuilder
     {
         protected abstract IValueExtensionCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
-        protected abstract ITokenInfo GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension);
+        protected abstract ITokenDescriptor GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
@@ -29,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected virtual bool BindProperties(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
         {
             HashSet<string> boundProperies = new HashSet<string>();
-            ITokenInfo extensionDefinition = GetExtensionDefinition(context, codeObject, extension);
+            ITokenDescriptor extensionDefinition = GetExtensionDefinition(context, codeObject, extension);
             IPropertyInfo defaultProperty = extensionDefinition.GetDefaultProperty();
 
             foreach (IPropertyInfo propertyInfo in extensionDefinition.GetProperties())
