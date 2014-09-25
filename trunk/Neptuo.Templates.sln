@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebSites", "WebSites", "{0DBB3903-441E-4395-94D4-F0E3E319ED13}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F9BE539D-8A58-4E99-8B09-5B03955DE775}"
@@ -14,10 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6B93C14C-2
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation", "Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj", "{37BC3720-17C6-40EB-8236-037EC9BBC66B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.XmlParser", "Neptuo.Templates.Compilation.XmlParser\Neptuo.Templates.Compilation.XmlParser.csproj", "{2D69656A-A3B6-4206-8B1D-EB7027716172}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.CodeDomGenerator", "Neptuo.Templates.Compilation.CodeDomGenerator\Neptuo.Templates.Compilation.CodeDomGenerator.csproj", "{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Components", "Neptuo.Templates.Components\Neptuo.Templates.Components.csproj", "{4C85862F-5D28-4907-AB59-E54375DC9D81}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Components.Compilation", "Neptuo.Templates.Components.Compilation\Neptuo.Templates.Components.Compilation.csproj", "{DC76C1F9-02F2-4D91-A0E3-225A7290CB5F}"
@@ -29,8 +27,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestConsoleNG.Components", "TestConsoleNG.Components\TestConsoleNG.Components.csproj", "{B63A8530-0B2E-4253-95E6-A55DDD3EA7AF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveWebUI", "LiveWebUI\LiveWebUI.csproj", "{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Tokens", "Neptuo.Templates.Compilation.Tokens\Neptuo.Templates.Compilation.Tokens.csproj", "{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Components", "Components", "{E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}"
 EndProject
@@ -54,26 +50,6 @@ Global
 		{37BC3720-17C6-40EB-8236-037EC9BBC66B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{37BC3720-17C6-40EB-8236-037EC9BBC66B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{37BC3720-17C6-40EB-8236-037EC9BBC66B}.Release|x86.ActiveCfg = Release|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{2D69656A-A3B6-4206-8B1D-EB7027716172}.Release|x86.ActiveCfg = Release|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{FE55BF0F-506C-4F9E-ABFD-69C4CD0761A3}.Release|x86.ActiveCfg = Release|Any CPU
 		{4C85862F-5D28-4907-AB59-E54375DC9D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4C85862F-5D28-4907-AB59-E54375DC9D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C85862F-5D28-4907-AB59-E54375DC9D81}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -134,30 +110,20 @@ Global
 		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C}.Release|x86.ActiveCfg = Release|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{5B3BF3A2-1A61-4CD9-A515-A55912BC2794}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C} = {0DBB3903-441E-4395-94D4-F0E3E319ED13}
+		{4C85862F-5D28-4907-AB59-E54375DC9D81} = {E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}
+		{DC76C1F9-02F2-4D91-A0E3-225A7290CB5F} = {E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}
 		{C31795F1-AE2E-4095-A4E3-95FA1952582E} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{8FA7AF8F-37BB-4D0B-998E-FFEB0700AFF2} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{B63A8530-0B2E-4253-95E6-A55DDD3EA7AF} = {6B93C14C-2672-4935-AE18-C28432632F46}
-		{DC76C1F9-02F2-4D91-A0E3-225A7290CB5F} = {E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}
-		{4C85862F-5D28-4907-AB59-E54375DC9D81} = {E7F4B8C5-D406-4978-B24F-E44F6A1C99D0}
+		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C} = {0DBB3903-441E-4395-94D4-F0E3E319ED13}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal
