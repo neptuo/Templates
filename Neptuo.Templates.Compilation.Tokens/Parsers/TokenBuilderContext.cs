@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Actuak implementaion of <see cref="IMarkupExtensionBuilderContext"/>.
+    /// Actuak implementaion of <see cref="ITokenBuilderContext"/>.
     /// </summary>
-    public class MarkupExtensionBuilderContext : IMarkupExtensionBuilderContext
+    public class TokenBuilderContext : ITokenBuilderContext
     {
         public IValueParserContext ParserContext { get; private set; }
         public IPropertyDescriptor Parent { get; private set; }
-        public MarkupExtensionValueParser Parser { get; private set; }
-        public MarkupExtensionValueParser.Helper Helper { get; private set; }
-        public IMarkupExtensionBuilderRegistry BuilderRegistry { get; private set; }
+        public TokenValueParser Parser { get; private set; }
+        public TokenValueParser.Helper Helper { get; private set; }
+        public ITokenBuilderRegistry BuilderRegistry { get; private set; }
 
-        public MarkupExtensionBuilderContext(MarkupExtensionValueParser parser, MarkupExtensionValueParser.Helper helper)
+        public TokenBuilderContext(TokenValueParser parser, TokenValueParser.Helper helper)
         {
             Parser = parser;
             Helper = helper;

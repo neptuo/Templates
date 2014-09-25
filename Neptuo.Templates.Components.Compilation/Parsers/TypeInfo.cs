@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Defines <see cref="IComponentInfo"/>, <see cref="IMarkupExtensionInfo"/> and <see cref="IObserverInfo"/> using class.
+    /// Defines <see cref="IComponentInfo"/>, <see cref="ITokenInfo"/> and <see cref="IObserverInfo"/> using class.
     /// </summary>
-    public class TypeInfo : IComponentInfo, IMarkupExtensionInfo, IObserverInfo
+    public class TypeInfo : IComponentInfo, ITokenInfo, IObserverInfo
     {
         private Type type;
 

@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Builder for markup extension.
     /// </summary>
-    public interface IMarkupExtensionBuilder
+    public interface ITokenBuilder
     {
         /// <summary>
         /// Parses markup extension and creates AST.
@@ -18,6 +18,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context information.</param>
         /// <param name="extension">Token describing markup extension.</param>
         /// <returns>True if succeed.</returns>
-        bool Parse(IMarkupExtensionBuilderContext context, Token extension);
+        bool Parse(ITokenBuilderContext context, Token extension);
     }
 }

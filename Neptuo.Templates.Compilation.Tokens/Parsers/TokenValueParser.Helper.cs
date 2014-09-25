@@ -10,15 +10,15 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Helper for parsing markup extensions.
     /// </summary>
-    partial class MarkupExtensionValueParser
+    partial class TokenValueParser
     {
         public class Helper
         {
             public IValueParserContext Context { get; protected set; }
-            public IMarkupExtensionBuilderRegistry BuilderRegistry { get; protected set; }
+            public ITokenBuilderRegistry BuilderRegistry { get; protected set; }
             public TokenParser Parser { get; protected set; }
 
-            public Helper(IValueParserContext context, IMarkupExtensionBuilderRegistry builderRegistry)
+            public Helper(IValueParserContext context, ITokenBuilderRegistry builderRegistry)
             {
                 Context = context;
                 BuilderRegistry = builderRegistry;

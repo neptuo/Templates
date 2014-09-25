@@ -46,15 +46,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IMarkupExtensionBuilderFactory.cs" />
-    <Compile Include="IMarkupExtensionBuilderRegistry.cs" />
-    <Compile Include="Parsers\BaseMarkupExtensionBuilder.cs" />
-    <Compile Include="Parsers\IMarkupExtensionBuilder.cs" />
-    <Compile Include="Parsers\IMarkupExtensionBuilderContext.cs" />
-    <Compile Include="Parsers\IMarkupExtensionInfo.cs" />
-    <Compile Include="Parsers\MarkupExtensionBuilderContext.cs" />
-    <Compile Include="Parsers\MarkupExtensionValueParser.cs" />
-    <Compile Include="Parsers\MarkupExtensionValueParser.Helper.cs" />
+    <Compile Include="ITokenBuilderFactory.cs" />
+    <Compile Include="ITokenBuilderRegistry.cs" />
+    <Compile Include="Parsers\BaseTokenBuilder.cs" />
+    <Compile Include="Parsers\ITokenBuilder.cs" />
+    <Compile Include="Parsers\ITokenBuilderContext.cs" />
+    <Compile Include="Parsers\ITokenInfo.cs" />
+    <Compile Include="Parsers\TokenBuilderContext.cs" />
+    <Compile Include="Parsers\TokenValueParser.cs" />
+    <Compile Include="Parsers\TokenValueParser.Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
   </ItemGroup>

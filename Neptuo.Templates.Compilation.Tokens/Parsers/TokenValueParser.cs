@@ -10,11 +10,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Markup extension value parser.
     /// </summary>
-    public partial class MarkupExtensionValueParser : IValueParser
+    public partial class TokenValueParser : IValueParser
     {
-        private IMarkupExtensionBuilderRegistry builderRegistry;
+        private ITokenBuilderRegistry builderRegistry;
 
-        public MarkupExtensionValueParser(IMarkupExtensionBuilderRegistry builderRegistry)
+        public TokenValueParser(ITokenBuilderRegistry builderRegistry)
         {
             this.builderRegistry = builderRegistry;
         }
@@ -32,11 +32,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         private bool GenerateExtension(Helper helper, Token extension)
         {
-            IMarkupExtensionBuilder builder = helper.BuilderRegistry.GetMarkupExtensionBuilder(extension.Prefix, extension.Name);
+            ITokenBuilder builder = helper.BuilderRegistry.GetTokenBuilder(extension.Prefix, extension.Name);
             if (builder == null)
                 return false;
 
-            return builder.Parse(new MarkupExtensionBuilderContext(this, helper), extension);
+            return builder.Parse(new TokenBuilderContext(this, helper), extension);
         }
     }
 }

@@ -86,8 +86,8 @@
     <Compile Include="Parsers\DependencyPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\FuncPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\BaseBuilder.cs" />
-    <Compile Include="Parsers\DefaultMarkupExtensionBuilder.cs" />
-    <Compile Include="Parsers\DefaultMarkupExtensionBuilderFactory.cs" />
+    <Compile Include="Parsers\DefaultTokenBuilder.cs" />
+    <Compile Include="Parsers\DefaultTokenBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeComponentBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilderFactory.cs" />

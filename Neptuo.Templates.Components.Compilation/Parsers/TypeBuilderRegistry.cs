@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="IMarkupExtensionBuilderRegistry"/>.
+    /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="ITokenBuilderRegistry"/>.
     /// </summary>
-    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, IMarkupExtensionBuilderRegistry
+    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, ITokenBuilderRegistry
     {
         #region Type scanner
 
@@ -112,14 +112,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region Get/Markup
 
-        public IMarkupExtensionBuilder GetMarkupExtensionBuilder(string prefix, string name)
+        public ITokenBuilder GetTokenBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ComponentSuffix);
 
-            if (Content.MarkupExtensions[prefix].ContainsKey(name))
+            if (Content.Tokens[prefix].ContainsKey(name))
             {
-                IMarkupExtensionBuilderFactory factory = Content.MarkupExtensions[prefix][name];
+                ITokenBuilderFactory factory = Content.Tokens[prefix][name];
                 if (factory != null)
                     return factory.CreateBuilder(prefix, name);
             }
@@ -144,11 +144,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.Components[prefix][tagName] = factory;
         }
 
-        protected void RegisterMarkupExtension(string prefix, string tagName, IMarkupExtensionBuilderFactory factory)
+        protected void RegisterToken(string prefix, string tagName, ITokenBuilderFactory factory)
         {
             prefix = PreparePrefix(prefix);
             tagName = PrepareName(tagName, Configuration.ExtensionSuffix);
-            Content.MarkupExtensions[prefix][tagName] = factory;
+            Content.Tokens[prefix][tagName] = factory;
         }
 
         protected void RegisterObserver(string prefix, string tagName, IObserverBuilderFactory factory)
@@ -170,10 +170,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             RegisterComponent(prefix, tagName, factory);
         }
 
-        public void RegisterExtensionBuilder(string prefix, string tagName, IMarkupExtensionBuilderFactory factory)
+        public void RegisterExtensionBuilder(string prefix, string tagName, ITokenBuilderFactory factory)
         {
             RegisterNamespaceInternal(new NamespaceDeclaration(prefix, tagName));
-            RegisterMarkupExtension(prefix, tagName, factory);
+            RegisterToken(prefix, tagName, factory);
         }
 
         public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilderFactory factory)

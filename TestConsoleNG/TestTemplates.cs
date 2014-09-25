@@ -53,7 +53,7 @@ namespace TestConsoleNG
             CodeDomViewService viewService = new CodeDomViewService(true);
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
-            viewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
+            viewService.ParserService.ValueParsers.Add(new TokenValueParser(registry));
             viewService.NamingService = new HashNamingService(new FileProvider(new StaticFileSystem(Environment.CurrentDirectory, false).RootDirectory));
             //viewService.DebugMode = true;
             viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
