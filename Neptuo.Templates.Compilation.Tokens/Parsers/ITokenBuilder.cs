@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context information.</param>
         /// <param name="extension">Token describing markup extension.</param>
-        /// <returns>True if succeed.</returns>
+        /// <returns><c>true</c> if succeed and token can be used; <c>false</c> otherwise.</returns>
         bool Parse(ITokenBuilderContext context, Token extension);
     }
 }
