@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Base builder that uses <see cref="Type"/> for defining component.
     /// </summary>
-    public abstract class TypeComponentBuilder : BaseComponentBuilder
+    public abstract class TypeComponentBuilder : ComponentDescriptorBuilder
     {
         protected abstract Type GetControlType(IXmlElement element);
 
@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ComponentCodeObject(GetControlType(element));
         }
 
-        protected override IComponentDescriptor GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
+        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
             return new TypeInfo(GetControlType(element));
         }
