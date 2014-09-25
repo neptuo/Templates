@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Dictionary<string, NamespaceDeclaration> namespaces,
             SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
-            SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> Tokens,
+            SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> tokens,
             Dictionary<Type, IPropertyBuilderFactory> properties,
             ILiteralBuilder literalBuilder,
             IComponentBuilder genericContentBuilder)
@@ -52,8 +52,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             else
                 Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>();
 
-            if (Tokens != null)
-                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>(Tokens);
+            if (tokens != null)
+                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>(tokens);
             else
                 Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>();
 

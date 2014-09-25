@@ -57,10 +57,10 @@ namespace TestConsoleNG
             viewService.ParserService.ValueParsers.Add(new TokenValueParser(registry));
             viewService.NamingService = new HashNamingService(new FileProvider(new StaticFileSystem(Environment.CurrentDirectory, false).RootDirectory));
             //viewService.DebugMode = true;
-            viewService.TempDirectory = @"C:\Temp\NeptuoFramework";
+            viewService.TempDirectory = Environment.CurrentDirectory;
             viewService.BinDirectories.Add(Environment.CurrentDirectory);
 
-            viewService.JavascriptGenerator.TempDirectory = @"C:\Temp\NeptuoFramework";
+            viewService.JavascriptGenerator.TempDirectory = Environment.CurrentDirectory;
             viewService.JavascriptGenerator.BinDirectories.Add(Environment.CurrentDirectory);
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
