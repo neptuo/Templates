@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="ITokenBuilderRegistry"/>.
+    /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="ITokenBuilderFactory"/>.
     /// </summary>
-    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, ITokenBuilderRegistry
+    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, ITokenBuilderFactory
     {
         #region Type scanner
 
@@ -110,9 +110,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        #region Get/Markup
+        #region Get token
 
-        public ITokenBuilder GetTokenBuilder(string prefix, string name)
+        public ITokenBuilder CreateBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ComponentSuffix);

@@ -35,6 +35,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// List of registration of <see cref="ITokenBuilder"/>.
         /// </summary>
-        ITokenBuilderRegistry BuilderRegistry { get; }
+        ITokenBuilderFactory BuilderFactory { get; }
     }
 }
