@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation
     /// Exception used in <see cref="XmlContentParser"/>.
     /// </summary>
     [Serializable]
-    public class XmlContentParserException : BaseSourceCodeException
+    public class XmlContentParserException : SourceCodeException
     {
         public XmlContentParserException(string message, int lineNumber, int linePosition)
             : base(message, lineNumber, linePosition)
