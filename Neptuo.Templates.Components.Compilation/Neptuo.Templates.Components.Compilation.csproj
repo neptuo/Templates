@@ -95,6 +95,7 @@
     <Compile Include="Parsers\IComponentBuilderFactory.cs" />
     <Compile Include="Parsers\IObserverBuilderFactory.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyInfo.cs" />
+    <Compile Include="Parsers\DefaultLiteralControlBuilder.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryConfiguration.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryContent.cs" />
     <Compile Include="Parsers\TypeScanner.cs" />

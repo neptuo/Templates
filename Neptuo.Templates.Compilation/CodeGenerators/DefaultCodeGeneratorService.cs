@@ -7,17 +7,30 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
+    /// <summary>
+    /// Default implementation of <see cref="ICodeGeneratorService"/>.
+    /// </summary>
     public class DefaultCodeGeneratorService : ICodeGeneratorService
     {
+        /// <summary>
+        /// Internal storage.
+        /// </summary>
         private Dictionary<string, ICodeGenerator> generators = new Dictionary<string, ICodeGenerator>();
 
-        public void AddGenerator(string name, ICodeGenerator generator)
+        public ICodeGeneratorService AddGenerator(string name, ICodeGenerator generator)
         {
+            Guard.NotNullOrEmpty(name, "name");
+            Guard.NotNull(generator, "generator");
             generators[name] = generator;
+            return this;
         }
 
         public bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context)
         {
+            Guard.NotNullOrEmpty(name, "name");
+            Guard.NotNull(propertyDescriptor, "propertyDescriptor");
+            Guard.NotNull(context, "context");
+
             if (generators.ContainsKey(name))
                 return generators[name].ProcessTree(propertyDescriptor, context.CreateGeneratorContext(this));
 

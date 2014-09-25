@@ -12,9 +12,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public interface ICodeGenerator
     {
         /// <summary>
-        /// Processes <paramref name="rootObject"/> and generates code for view.
+        /// Processes <paramref name="propertyDescriptor"/> and generates code for view.
         /// </summary>
-        /// <param name="rootObject">Root AST object.</param>
+        /// <param name="propertyDescriptor">Root AST property.</param>
         /// <param name="context">Context</param>
         bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context);
     }
