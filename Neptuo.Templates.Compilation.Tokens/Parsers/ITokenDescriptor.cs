@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Definition of markup extension.
     /// </summary>
-    public interface ITokenInfo
+    public interface ITokenDescriptor
     {
         /// <summary>
         /// Enumerates propertis.

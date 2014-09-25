@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTokenBuilder : BaseTokenBuilder
+    public class DefaultTokenBuilder : TokenInfoBuilder
     {
         protected Type Type { get; private set; }
 
@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ExtensionCodeObject(Type);
         }
 
-        protected override ITokenInfo GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
+        protected override ITokenDescriptor GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
         {
             return new TypeInfo(Type);
         }

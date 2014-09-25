@@ -187,11 +187,11 @@
     <Compile Include="_Compilation\PreProcessing\VisitorContext.cs" />
     <Compile Include="_Compilation\PropertyAttribute.cs" />
     <Compile Include="_Compilation\ViewServiceContext.cs" />
-    <Compile Include="_Tokens\Parsers\BaseTokenBuilder.cs" />
+    <Compile Include="_Tokens\Parsers\TokenInfoBuilder.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderFactory.cs" />
-    <Compile Include="_Tokens\Parsers\ITokenInfo.cs" />
+    <Compile Include="_Tokens\Parsers\ITokenDescriptor.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.Helper.cs" />
