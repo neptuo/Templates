@@ -42,13 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeGenerators\BaseCodeDomAttributeGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeDomAttributeGeneratorBase.cs" />
     <Compile Include="CodeGenerators\CodeDomAttributeContext.cs" />
     <Compile Include="CodeGenerators\CodeDomGenerator.Context.cs" />
     <Compile Include="CodeGenerators\CodeDomGenerator.cs" />
-    <Compile Include="CodeGenerators\BaseCodeDomObjectGenerator.cs" />
-    <Compile Include="CodeGenerators\BaseCodeDomPropertyGenerator.cs" />
-    <Compile Include="CodeGenerators\BaseCodeDomStructure.cs" />
+    <Compile Include="CodeGenerators\CodeDomObjectGeneratorBase.cs" />
+    <Compile Include="CodeGenerators\CodeDomPropertyGeneratorBase.cs" />
+    <Compile Include="CodeGenerators\CodeDomStructure.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorContext.cs" />
     <Compile Include="CodeGenerators\CodeDomPropertyTypeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\CodeDomStructureContext.cs" />
