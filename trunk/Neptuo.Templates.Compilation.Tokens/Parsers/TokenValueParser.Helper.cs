@@ -20,6 +20,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             public Helper(IValueParserContext context, ITokenBuilderFactory builderFactory)
             {
+                Guard.NotNull(context, "context");
+                Guard.NotNull(builderFactory, "builderFactory");
                 Context = context;
                 BuilderFactory = builderFactory;
                 Parser = new TokenParser();
