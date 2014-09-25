@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             public ICodeGeneratorContext CodeGeneratorContext { get; private set; }
             public CodeDomGenerator CodeGenerator { get; private set; }
-            public BaseCodeDomStructure BaseStructure { get; set; }
+            public CodeDomStructure Structure { get; set; }
             public bool IsDirectObjectResolve { get; private set; }
 
             public Context(ICodeGeneratorContext codeGeneratorContext, CodeDomGenerator codeGenerator, bool isDirectObjectResolve)

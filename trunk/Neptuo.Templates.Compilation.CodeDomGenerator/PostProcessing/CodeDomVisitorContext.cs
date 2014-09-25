@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.PostProcessing
     {
         public CodeDomGenerator.Context GeneratorContext { get; private set; }
         public CodeDomGenerator CodeDomGenerator { get { return GeneratorContext.CodeGenerator; } }
-        public BaseCodeDomStructure BaseStructure { get { return GeneratorContext.BaseStructure; } }
+        public CodeDomStructure Structure { get { return GeneratorContext.Structure; } }
 
         public CodeDomVisitorContext(CodeDomGenerator.Context generatorContext)
         {

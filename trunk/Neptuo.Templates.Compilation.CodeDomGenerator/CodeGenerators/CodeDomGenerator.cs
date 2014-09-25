@@ -197,15 +197,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if(namingContext == null)
                 throw new ArgumentNullException("codeContext", "CodeDomGenerator requires INamingContext!");
 
-            context.BaseStructure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
+            context.Structure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
 
             GenerateProperty(
-                new CodeDomPropertyContext(context, null, context.BaseStructure.EntryPointMethod.Statements), 
+                new CodeDomPropertyContext(context, null, context.Structure.EntryPointMethod.Statements), 
                 propertyDescriptor
             );
             RunCodeDomVisitors(context);
 
-            WriteOutput(context.BaseStructure.Unit, codeContext.Output);
+            WriteOutput(context.Structure.Unit, codeContext.Output);
             return true;
         }
 

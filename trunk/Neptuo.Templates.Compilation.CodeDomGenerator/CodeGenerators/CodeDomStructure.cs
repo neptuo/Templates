@@ -7,10 +7,24 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class BaseCodeDomStructure
+    /// <summary>
+    /// Describes base generated code structure.
+    /// </summary>
+    public class CodeDomStructure
     {
+        /// <summary>
+        /// Compile unit.
+        /// </summary>
         public CodeCompileUnit Unit { get; set; }
+
+        /// <summary>
+        /// View class.
+        /// </summary>
         public CodeTypeDeclaration Class { get; set; }
+
+        /// <summary>
+        /// Entry method.
+        /// </summary>
         public CodeMemberMethod EntryPointMethod { get; set; }
     }
 }

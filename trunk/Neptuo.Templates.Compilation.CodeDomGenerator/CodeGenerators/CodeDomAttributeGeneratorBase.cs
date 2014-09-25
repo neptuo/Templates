@@ -7,7 +7,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public abstract class BaseCodeDomAttributeGenerator<T> : ICodeDomAttributeGenerator
+    /// <summary>
+    /// Base implementation of <see cref="ICodeDomAttributeGenerator"/> which casts input attribute to <typeparamref name="T"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of attribute that is supported.</typeparam>
+    public abstract class CodeDomAttributeGeneratorBase<T> : ICodeDomAttributeGenerator
         where T : Attribute
     {
         public CodeExpression GenerateCode(CodeDomAttributeContext context, Attribute attribute)
