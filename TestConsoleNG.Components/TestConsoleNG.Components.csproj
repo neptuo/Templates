@@ -79,6 +79,10 @@
     <Compile Include="SimpleContainer\SimpleObjectBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Components.Compilation\Neptuo.Templates.Components.Compilation.csproj">
       <Project>{dc76c1f9-02f2-4d91-a0e3-225a7290cb5f}</Project>
       <Name>Neptuo.Templates.Components.Compilation</Name>

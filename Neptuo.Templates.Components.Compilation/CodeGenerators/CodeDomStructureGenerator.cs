@@ -22,21 +22,21 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             public const string CastValueToMethod = "CastValueTo";
         }
 
-        public BaseCodeDomStructure GenerateCode(CodeDomStructureContext context)
+        public CodeDomStructure GenerateCode(CodeDomStructureContext context)
         {
-            BaseCodeDomStructure baseStructure = new BaseCodeDomStructure();
+            CodeDomStructure baseStructure = new CodeDomStructure();
             CreateCodeUnit(baseStructure, context);
             CreateCodeClass(baseStructure, context);
             CreateCodeMethods(baseStructure, context);
             return baseStructure;
         }
 
-        protected virtual void CreateCodeUnit(BaseCodeDomStructure structure, CodeDomStructureContext context)
+        protected virtual void CreateCodeUnit(CodeDomStructure structure, CodeDomStructureContext context)
         {
             structure.Unit = new CodeCompileUnit();
         }
 
-        protected virtual void CreateCodeClass(BaseCodeDomStructure structure, CodeDomStructureContext context)
+        protected virtual void CreateCodeClass(CodeDomStructure structure, CodeDomStructureContext context)
         {
             CodeNamespace codeNamespace = new CodeNamespace(Names.CodeNamespace);
             //codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
@@ -56,7 +56,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
         }
 
-        protected virtual void CreateCodeMethods(BaseCodeDomStructure structure, CodeDomStructureContext context)
+        protected virtual void CreateCodeMethods(CodeDomStructure structure, CodeDomStructureContext context)
         {
             structure.EntryPointMethod = new CodeMemberMethod
             {

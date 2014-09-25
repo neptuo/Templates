@@ -19,7 +19,7 @@ namespace TestConsoleNG.Controls
         }
     }
 
-    public class CodeDomMethodReferenceGenerator : BaseCodeDomObjectGenerator<MethodReferenceCodeObject>
+    public class CodeDomMethodReferenceGenerator : CodeDomObjectGeneratorBase<MethodReferenceCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, MethodReferenceCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
