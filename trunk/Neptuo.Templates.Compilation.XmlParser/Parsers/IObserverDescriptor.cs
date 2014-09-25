@@ -8,20 +8,14 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Defines component.
+    /// Describes observer, its properties.
     /// </summary>
-    public interface IComponentInfo
+    public interface IObserverDescriptor
     {
         /// <summary>
-        /// Enumerates properties.
+        /// Enumeration of properties of this observer.
         /// </summary>
-        /// <returns>Enumerates properties.</returns>
+        /// <returns>Enumeration of properties of this observer.</returns>
         IEnumerable<IPropertyInfo> GetProperties();
-
-        /// <summary>
-        /// Gets default property.
-        /// </summary>
-        /// <returns>Gets default property.</returns>
-        IPropertyInfo GetDefaultProperty();
     }
 }

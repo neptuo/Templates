@@ -7,11 +7,18 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Abstraction of XML node.
+    /// Abstraction of any XML node.
     /// </summary>
     public interface IXmlNode
     {
+        /// <summary>
+        /// Type of node, <see cref="XmlNodeType"/>.
+        /// </summary>
         XmlNodeType NodeType { get; }
+
+        /// <summary>
+        /// Whole XML including this node as string.
+        /// </summary>
         string OuterXml { get; }
     }
 
@@ -20,6 +27,19 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public enum XmlNodeType
     {
-        Element, Comment, Text
+        /// <summary>
+        /// XML element.
+        /// </summary>
+        Element, 
+        
+        /// <summary>
+        /// XML comment.
+        /// </summary>
+        Comment, 
+        
+        /// <summary>
+        /// Other XML content, such as raw text.
+        /// </summary>
+        Text
     }
 }

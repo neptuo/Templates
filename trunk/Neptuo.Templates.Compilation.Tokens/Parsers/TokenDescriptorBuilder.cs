@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Base implementation of <see cref="ITokenBuilder"/> that uses <see cref="ITokenDescriptor"/> as target decriptor.
     /// </summary>
-    public abstract class TokenInfoBuilder : ITokenBuilder
+    public abstract class TokenDescriptorBuilder : ITokenBuilder
     {
         protected abstract IValueExtensionCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
         protected abstract ITokenDescriptor GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension);

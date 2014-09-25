@@ -7,7 +7,7 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Actual implementation of <see cref="IContentBuilderContext"/>.
+    /// Base implementation of <see cref="IContentBuilderContext"/>.
     /// </summary>
     public class XmlContentBuilderContext : IContentBuilderContext
     {
@@ -19,6 +19,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public XmlContentBuilderContext(XmlContentParser parser, XmlContentParser.Helper helper, IContentBuilderRegistry builderRegistry)
         {
+            Guard.NotNull(parser, "parser");
+            Guard.NotNull(helper, "helper");
+            Guard.NotNull(builderRegistry, "builderRegistry");
             Parser = parser;
             Helper = helper;
             BuilderRegistry = builderRegistry;

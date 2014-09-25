@@ -11,6 +11,9 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public interface IXmlText : IXmlNode
     {
+        /// <summary>
+        /// Value of this text block.
+        /// </summary>
         string Text { get; }
     }
 }

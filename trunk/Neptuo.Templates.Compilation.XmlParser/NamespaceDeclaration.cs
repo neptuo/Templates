@@ -23,6 +23,7 @@ namespace Neptuo.Templates.Compilation
 
         public NamespaceDeclaration(string prefix, string ns)
         {
+            Guard.NotNullOrEmpty(ns, "ns");
             Prefix = prefix;
             Namespace = ns;
         }

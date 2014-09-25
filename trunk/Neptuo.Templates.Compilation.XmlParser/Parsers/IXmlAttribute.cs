@@ -11,7 +11,14 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public interface IXmlAttribute : IXmlName
     {
+        /// <summary>
+        /// Attribute value.
+        /// </summary>
         string Value { get; }
+
+        /// <summary>
+        /// Xml element that owns this attribute.
+        /// </summary>
         IXmlElement OwnerElement { get; }
     }
 }
