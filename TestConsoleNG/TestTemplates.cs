@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.Diagnostics;
 using Neptuo.FileSystems;
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates;
@@ -102,7 +103,7 @@ namespace TestConsoleNG
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
             BaseGeneratedView view = (BaseGeneratedView)viewService.Process("Index.html", context);
-            DebugUtils.Run("Run", () =>
+            DebugHelper.Debug("Run", () =>
             {
                 view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
                 view.CreateControls();
