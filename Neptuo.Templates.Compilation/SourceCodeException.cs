@@ -8,30 +8,30 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation
 {
     [Serializable]
-    public class BaseSourceCodeException : Exception, ISourceCodeException
+    public class SourceCodeException : Exception, ISourceCodeException
     {
         public int LineNumber { get; set; }
         public int LinePosition { get; set; }
 
-        public BaseSourceCodeException() 
+        public SourceCodeException() 
         { }
 
-        public BaseSourceCodeException(string message)
+        public SourceCodeException(string message)
             : base(message)
         { }
 
-        public BaseSourceCodeException(string message, int lineNumber, int linePosition)
+        public SourceCodeException(string message, int lineNumber, int linePosition)
             : base(message)
         {
             LineNumber = lineNumber;
             LinePosition = linePosition;
         }
 
-        public BaseSourceCodeException(string message, Exception inner) 
+        public SourceCodeException(string message, Exception inner) 
             : base(message, inner) 
         { }
 
-        protected BaseSourceCodeException(SerializationInfo info, StreamingContext context)
+        protected SourceCodeException(SerializationInfo info, StreamingContext context)
             : base(info, context) 
         { }
     }
