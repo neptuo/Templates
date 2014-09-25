@@ -33,6 +33,9 @@
     <Reference Include="Neptuo">
       <HintPath>..\References\Neptuo.dll</HintPath>
     </Reference>
+    <Reference Include="Neptuo.Tokens">
+      <HintPath>..\References\Neptuo.Tokens.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -89,6 +92,40 @@
     <Compile Include="PreProcessing\IPreProcessorService.cs" />
     <Compile Include="PreProcessing\IPreProcessorServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
+    <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
+    <Compile Include="_Tokens\Parsers\ITokenBuilderFactory.cs" />
+    <Compile Include="_Tokens\Parsers\ITokenDescriptor.cs" />
+    <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
+    <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
+    <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
+    <Compile Include="_Tokens\Parsers\TokenValueParser.Helper.cs" />
+    <Compile Include="_Xml\IContentBuilderRegistry.cs" />
+    <Compile Include="_Xml\NamespaceDeclaration.cs" />
+    <Compile Include="_Xml\Parsers\BindPropertiesContext.cs" />
+    <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />
+    <Compile Include="_Xml\Parsers\IComponentBuilder.cs" />
+    <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />
+    <Compile Include="_Xml\Parsers\IContentBuilderContext.cs" />
+    <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
+    <Compile Include="_Xml\Parsers\IObserverBuilder.cs" />
+    <Compile Include="_Xml\Parsers\IObserverDescriptor.cs" />
+    <Compile Include="_Xml\Parsers\IObserverRegistration.cs" />
+    <Compile Include="_Xml\Parsers\IPropertyBuilder.cs" />
+    <Compile Include="_Xml\Parsers\IPropertyBuilderFactory.cs" />
+    <Compile Include="_Xml\Parsers\IXmlAttribute.cs" />
+    <Compile Include="_Xml\Parsers\IXmlElement.cs" />
+    <Compile Include="_Xml\Parsers\IXmlName.cs" />
+    <Compile Include="_Xml\Parsers\IXmlNode.cs" />
+    <Compile Include="_Xml\Parsers\IXmlText.cs" />
+    <Compile Include="_Xml\Parsers\ObserverDescriptorBuilder.cs" />
+    <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
+    <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
+    <Compile Include="_Xml\Parsers\XmlContentParser.Helper.cs" />
+    <Compile Include="_Xml\Parsers\XmlContentParser.ObserverList.cs" />
+    <Compile Include="_Xml\Parsers\XmlContentParser.Utils.cs" />
+    <Compile Include="_Xml\Parsers\XmlDocumentSupport.cs" />
+    <Compile Include="_Xml\XmlContentParserException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
