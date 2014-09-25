@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Shared builder helper.
     /// </summary>
-    public static class BaseBuilder
+    public static class BuilderBase
     {
         private static string htmlAttributesPropertyName = TypeHelper.PropertyName<IHasHtmlAttributeCollection, HtmlAttributeCollection>(c => c.HtmlAttributes);
 

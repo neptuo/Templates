@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines <see cref="IComponentInfo"/>, <see cref="ITokenDescriptor"/> and <see cref="IObserverInfo"/> using class.
     /// </summary>
-    public class TypeInfo : IComponentInfo, ITokenDescriptor, IObserverInfo
+    public class TypeInfo : IComponentDescriptor, ITokenDescriptor, IObserverDescriptor
     {
         private Type type;
 
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             PropertyDescriptor defaultProperty = TypeDescriptor.GetDefaultProperty(type);
             if (defaultProperty != null)
-                return new DescriptorPropertyInfo(defaultProperty);
+                return new PropertyDescriptorPropertyInfo(defaultProperty);
 
             return null;
         }

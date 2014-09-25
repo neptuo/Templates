@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeDomCompiler.cs" />
     <Compile Include="CodeGenerators\BaseCodeDomAttributeGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomAttributeContext.cs" />
     <Compile Include="CodeGenerators\CodeDomGenerator.Context.cs" />

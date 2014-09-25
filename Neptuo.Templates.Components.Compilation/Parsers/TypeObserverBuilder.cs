@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public abstract class BaseTypeObserverBuilder : BaseObserverBuilder
+    public abstract class TypeObserverBuilder : ObserverDescriptorBuilder
     {
         protected abstract Type GetObserverType(IEnumerable<IXmlAttribute> attributes);
         protected abstract ObserverLivecycle GetObserverScope(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes);
@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ObserverCodeObject(GetObserverType(attributes), GetObserverScope(context, attributes));
         }
 
-        protected override IObserverInfo GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
+        protected override IObserverDescriptor GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             return new TypeInfo(GetObserverType(attributes));
         }
@@ -39,7 +39,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (typeCodeObject != null)
             {
                 foreach (IXmlAttribute attribute in unboundAttributes)
-                    BaseBuilder.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
+                    BuilderBase.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
             }
             else
             {

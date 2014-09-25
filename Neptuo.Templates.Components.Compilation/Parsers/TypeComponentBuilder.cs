@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Base builder that uses <see cref="Type"/> for defining component.
     /// </summary>
-    public abstract class BaseTypeComponentBuilder : BaseComponentBuilder
+    public abstract class TypeComponentBuilder : BaseComponentBuilder
     {
         protected abstract Type GetControlType(IXmlElement element);
 
@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ComponentCodeObject(GetControlType(element));
         }
 
-        protected override IComponentInfo GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
+        protected override IComponentDescriptor GetComponentDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
             return new TypeInfo(GetControlType(element));
         }
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject != null)
-                BaseBuilder.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
+                BuilderBase.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
             else
                 throw new NotImplementedException(String.Format("Can't process unbound attributes! Attribute {0} on {1}.", attribute.Name, attribute.OwnerElement.Name));
         }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DescriptorPropertyInfo : IPropertyInfo
+    public class PropertyDescriptorPropertyInfo : IPropertyInfo
     {
         private string name;
         private PropertyDescriptor propertyDescriptor;
@@ -39,7 +39,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             get { return propertyDescriptor.IsReadOnly; }
         }
 
-        public DescriptorPropertyInfo(PropertyDescriptor propertyDescriptor)
+        public PropertyDescriptorPropertyInfo(PropertyDescriptor propertyDescriptor)
         {
             this.propertyDescriptor = propertyDescriptor;
         }
