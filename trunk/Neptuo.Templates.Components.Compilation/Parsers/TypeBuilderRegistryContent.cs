@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
-        public SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>> MarkupExtensions { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> Tokens { get; protected set; }
         public Dictionary<Type, IPropertyBuilderFactory> Properties { get; protected set; }
 
         public TypeBuilderRegistryContent()
@@ -25,14 +25,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         { }
 
         public TypeBuilderRegistryContent(TypeBuilderRegistryContent content)
-            : this(content.Namespaces, content.Components, content.Observers, content.MarkupExtensions, content.Properties, content.LiteralBuilder, content.GenericContentBuilder)
+            : this(content.Namespaces, content.Components, content.Observers, content.Tokens, content.Properties, content.LiteralBuilder, content.GenericContentBuilder)
         { }
 
         public TypeBuilderRegistryContent(
             Dictionary<string, NamespaceDeclaration> namespaces,
             SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
-            SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>> markupExtensions,
+            SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> Tokens,
             Dictionary<Type, IPropertyBuilderFactory> properties,
             ILiteralBuilder literalBuilder,
             IComponentBuilder genericContentBuilder)
@@ -52,10 +52,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             else
                 Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>();
 
-            if (markupExtensions != null)
-                MarkupExtensions = new SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>>(markupExtensions);
+            if (Tokens != null)
+                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>(Tokens);
             else
-                MarkupExtensions = new SpecialDictionary<string, Dictionary<string, IMarkupExtensionBuilderFactory>>();
+                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>();
 
             if (properties == null)
                 Properties = new Dictionary<Type, IPropertyBuilderFactory>();

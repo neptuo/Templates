@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             CodeExpression result = new CodeMethodInvokeExpression(
                 field,
                 TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue),
-                CreateMarkupExtensionContext(context, codeObject, propertyDescriptor)
+                CreateTokenContext(context, codeObject, propertyDescriptor)
             );
 
             if (RequiredConverter(codeObject, propertyDescriptor))
@@ -75,7 +75,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return true;
         }
 
-        protected CodeExpression CreateMarkupExtensionContext(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected CodeExpression CreateTokenContext(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
             CodePrimitiveExpression propertyExpression = null;
             if (propertyDescriptor.Property != null)
@@ -90,7 +90,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 propertyExpression
             );
             //return new CodeObjectCreateExpression(
-            //    typeof(DefaultMarkupExtensionContext),
+            //    typeof(DefaultTokenContext),
             //    new CodeFieldReferenceExpression(
             //        null,
             //        context.ParentFieldName

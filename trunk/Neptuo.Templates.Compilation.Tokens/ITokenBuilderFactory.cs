@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Factor for <see cref="IMarkupExtensionBuilder"/>.
+    /// Factor for <see cref="ITokenBuilder"/>.
     /// </summary>
-    public interface IMarkupExtensionBuilderFactory
+    public interface ITokenBuilderFactory
     {
         /// <summary>
         /// Creates builder for <paramref name="prefix"/> and <paramref name="name"/>.
@@ -17,6 +17,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="prefix">Extension prefix.</param>
         /// <param name="name">Extension name.</param>
         /// <returns>Creates builder for <paramref name="prefix"/> and <paramref name="name"/>.</returns>
-        IMarkupExtensionBuilder CreateBuilder(string prefix, string name);
+        ITokenBuilder CreateBuilder(string prefix, string name);
     }
 }

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Context of <see cref="IMarkupExtensionBuilder"/>.
+    /// Context of <see cref="ITokenBuilder"/>.
     /// </summary>
-    public interface IMarkupExtensionBuilderContext
+    public interface ITokenBuilderContext
     {
         /// <summary>
         /// Current parser context.
@@ -25,16 +25,16 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Current parser.
         /// </summary>
-        MarkupExtensionValueParser Parser { get; }
+        TokenValueParser Parser { get; }
         
         /// <summary>
         /// Current parser helper.
         /// </summary>
-        MarkupExtensionValueParser.Helper Helper { get; }
+        TokenValueParser.Helper Helper { get; }
 
         /// <summary>
-        /// List of registration of <see cref="IMarkupExtensionBuilder"/>.
+        /// List of registration of <see cref="ITokenBuilder"/>.
         /// </summary>
-        IMarkupExtensionBuilderRegistry BuilderRegistry { get; }
+        ITokenBuilderRegistry BuilderRegistry { get; }
     }
 }

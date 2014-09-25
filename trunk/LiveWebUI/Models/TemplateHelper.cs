@@ -49,7 +49,7 @@ namespace LiveWebUI.Models
             ViewService = new ExtendedViewService();
             ViewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             ViewService.ParserService.DefaultValueParser = new PlainValueParser();
-            ViewService.ParserService.ValueParsers.Add(new MarkupExtensionValueParser(registry));
+            ViewService.ParserService.ValueParsers.Add(new TokenValueParser(registry));
             ViewService.NamingService = new UniqueNamingService();
             //viewService.DebugMode = true;
             ViewService.TempDirectory = @"C:\Temp\NeptuoLiveTemplates";

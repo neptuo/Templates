@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultMarkupExtensionBuilder : BaseMarkupExtensionBuilder
+    public class DefaultTokenBuilder : BaseTokenBuilder
     {
         protected Type Type { get; private set; }
 
-        public DefaultMarkupExtensionBuilder(Type type)
+        public DefaultTokenBuilder(Type type)
         {
             Type = type;
         }
 
-        protected override IValueExtensionCodeObject CreateCodeObject(IMarkupExtensionBuilderContext context, Token extension)
+        protected override IValueExtensionCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension)
         {
             return new ExtensionCodeObject(Type);
         }
 
-        protected override IMarkupExtensionInfo GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
+        protected override ITokenInfo GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
         {
             return new TypeInfo(Type);
         }

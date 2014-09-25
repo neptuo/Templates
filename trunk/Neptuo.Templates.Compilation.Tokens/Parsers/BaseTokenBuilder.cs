@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public abstract class BaseMarkupExtensionBuilder : IMarkupExtensionBuilder
+    public abstract class BaseTokenBuilder : ITokenBuilder
     {
-        protected abstract IValueExtensionCodeObject CreateCodeObject(IMarkupExtensionBuilderContext context, Token extension);
-        protected abstract IMarkupExtensionInfo GetExtensionDefinition(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Token extension);
+        protected abstract IValueExtensionCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
+        protected abstract ITokenInfo GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
-        public bool Parse(IMarkupExtensionBuilderContext context, Token extension)
+        public bool Parse(ITokenBuilderContext context, Token extension)
         {
             IValueExtensionCodeObject codeObject = CreateCodeObject(context, extension);
             if (codeObject == null)
@@ -26,10 +26,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             return BindProperties(context, codeObject, extension);
         }
 
-        protected virtual bool BindProperties(IMarkupExtensionBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
+        protected virtual bool BindProperties(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
         {
             HashSet<string> boundProperies = new HashSet<string>();
-            IMarkupExtensionInfo extensionDefinition = GetExtensionDefinition(context, codeObject, extension);
+            ITokenInfo extensionDefinition = GetExtensionDefinition(context, codeObject, extension);
             IPropertyInfo defaultProperty = extensionDefinition.GetDefaultProperty();
 
             foreach (IPropertyInfo propertyInfo in extensionDefinition.GetProperties())

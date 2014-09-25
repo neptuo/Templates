@@ -140,7 +140,7 @@ var Neptuo$Templates$BaseGeneratedView =
             var propertyInfo = null;
             if (!System.String.IsNullOrEmpty(targetProperty))
                 propertyInfo = targetObject.GetType().GetProperty$$String(targetProperty);
-            return new Neptuo.Templates.Extensions.DefaultMarkupExtensionContext.ctor(targetObject, propertyInfo, this.dependencyProvider);
+            return new Neptuo.Templates.Extensions.DefaultTokenContext.ctor(targetObject, propertyInfo, this.dependencyProvider);
         },
         CastValueTo$1: function (T, value)
         {
@@ -666,9 +666,9 @@ var Neptuo$Templates$Controls$ComponentAttribute =
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$Controls$ComponentAttribute);
-var Neptuo$Templates$Extensions$DefaultMarkupExtensionContext =
+var Neptuo$Templates$Extensions$DefaultTokenContext =
 {
-    fullname: "Neptuo.Templates.Extensions.DefaultMarkupExtensionContext",
+    fullname: "Neptuo.Templates.Extensions.DefaultTokenContext",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     interfaceNames: ["Neptuo.Templates.Extensions.IValueExtensionContext"],
@@ -716,7 +716,7 @@ var Neptuo$Templates$Extensions$DefaultMarkupExtensionContext =
     ctors: [ {name: "ctor", parameters: ["System.Object", "System.Reflection.PropertyInfo", "Neptuo.IDependencyProvider"]}],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$Extensions$DefaultMarkupExtensionContext);
+JsTypes.push(Neptuo$Templates$Extensions$DefaultTokenContext);
 var Neptuo$Templates$HtmlAttribute =
 {
     fullname: "Neptuo.Templates.HtmlAttribute",

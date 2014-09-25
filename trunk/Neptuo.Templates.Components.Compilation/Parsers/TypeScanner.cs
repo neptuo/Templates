@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             List<Type> types = GetTypesInNamespace(namespaceName);
             RegisterControls(types, prefix);
-            RegisterMarkupExtensions(types, prefix);
+            RegisterTokens(types, prefix);
         }
 
         protected void RegisterControls(List<Type> types, string prefix)
@@ -41,14 +41,14 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        protected void RegisterMarkupExtensions(List<Type> types, string prefix)
+        protected void RegisterTokens(List<Type> types, string prefix)
         {
             foreach (Type type in types)
             {
                 if (CanBeUsedInMarkup(type, false) && ImplementsInterface<IValueExtension>(type))
                 {
                     string name = GetComponentName(type, Configuration.ExtensionSuffix);
-                    Content.MarkupExtensions[prefix][name] = CreateFactory<IMarkupExtensionBuilderFactory>(type, CreateDefaultMarkupExtensionBuilderFactory);
+                    Content.Tokens[prefix][name] = CreateFactory<ITokenBuilderFactory>(type, CreateDefaultTokenBuilderFactory);
                 }
             }
         }
@@ -86,9 +86,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new DefaultTypeComponentBuilderFactory(type);
         }
 
-        protected virtual IMarkupExtensionBuilderFactory CreateDefaultMarkupExtensionBuilderFactory(Type type)
+        protected virtual ITokenBuilderFactory CreateDefaultTokenBuilderFactory(Type type)
         {
-            return new DefaultMarkupExtensionBuilderFactory(type);
+            return new DefaultTokenBuilderFactory(type);
         }
 
         protected virtual List<Type> GetTypesInNamespace(string namespaceName)
