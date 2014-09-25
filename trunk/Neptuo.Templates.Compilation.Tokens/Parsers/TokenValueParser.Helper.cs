@@ -15,13 +15,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         public class Helper
         {
             public IValueParserContext Context { get; protected set; }
-            public ITokenBuilderRegistry BuilderRegistry { get; protected set; }
+            public ITokenBuilderFactory BuilderFactory { get; protected set; }
             public TokenParser Parser { get; protected set; }
 
-            public Helper(IValueParserContext context, ITokenBuilderRegistry builderRegistry)
+            public Helper(IValueParserContext context, ITokenBuilderFactory builderFactory)
             {
                 Context = context;
-                BuilderRegistry = builderRegistry;
+                BuilderFactory = builderFactory;
                 Parser = new TokenParser();
                 Parser.Configuration.AllowAttributes = true;
                 Parser.Configuration.AllowDefaultAttribute = true;

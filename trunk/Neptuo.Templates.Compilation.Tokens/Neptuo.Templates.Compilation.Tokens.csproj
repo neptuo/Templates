@@ -46,8 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ITokenBuilderFactory.cs" />
-    <Compile Include="ITokenBuilderRegistry.cs" />
+    <Compile Include="Parsers\ITokenBuilderFactory.cs" />
     <Compile Include="Parsers\BaseTokenBuilder.cs" />
     <Compile Include="Parsers\ITokenBuilder.cs" />
     <Compile Include="Parsers\ITokenBuilderContext.cs" />

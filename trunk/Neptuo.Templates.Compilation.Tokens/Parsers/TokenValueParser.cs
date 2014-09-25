@@ -12,18 +12,19 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public partial class TokenValueParser : IValueParser
     {
-        private ITokenBuilderRegistry builderRegistry;
+        private readonly ITokenBuilderFactory builderFactory;
 
-        public TokenValueParser(ITokenBuilderRegistry builderRegistry)
+        public TokenValueParser(ITokenBuilderFactory builderFactory)
         {
-            this.builderRegistry = builderRegistry;
+            Guard.NotNull(builderFactory, "builderFactory")
+            this.builderFactory = builderFactory;
         }
 
         public bool Parse(string content, IValueParserContext context)
         {
             bool parsed = false;
 
-            Helper helper = new Helper(context, builderRegistry);
+            Helper helper = new Helper(context, builderFactory);
             helper.Parser.OnParsedToken += (sender, e) => parsed = GenerateExtension(helper, e.Token);
             helper.Parser.Parse(content);
 
@@ -32,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         private bool GenerateExtension(Helper helper, Token extension)
         {
-            ITokenBuilder builder = helper.BuilderRegistry.GetTokenBuilder(extension.Prefix, extension.Name);
+            ITokenBuilder builder = helper.BuilderFactory.CreateBuilder(extension.Prefix, extension.Name);
             if (builder == null)
                 return false;
 
