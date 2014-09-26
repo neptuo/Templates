@@ -637,55 +637,55 @@ var TestConsoleNG$Controls$LiteralControl =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$LiteralControl);
-var TestConsoleNG$Controls$MethodReferenceCodeObject =
-{
-    fullname: "TestConsoleNG.Controls.MethodReferenceCodeObject",
-    baseTypeName: "System.Object",
-    assemblyName: "TestConsoleNG.Components",
-    interfaceNames: ["Neptuo.Templates.Compilation.CodeObjects.ICodeObject"],
-    Kind: "Class",
-    definition:
-    {
-        ctor: function (methodName)
-        {
-            this._MethodName = null;
-            System.Object.ctor.call(this);
-            this.set_MethodName(methodName);
-        },
-        MethodName$$: "System.String",
-        get_MethodName: function ()
-        {
-            return this._MethodName;
-        },
-        set_MethodName: function (value)
-        {
-            this._MethodName = value;
-        }
-    }
-};
-JsTypes.push(TestConsoleNG$Controls$MethodReferenceCodeObject);
-var TestConsoleNG$Controls$CodeDomMethodReferenceGenerator =
-{
-    fullname: "TestConsoleNG.Controls.CodeDomMethodReferenceGenerator",
-    baseTypeName: "Neptuo.Templates.Compilation.CodeGenerators.BaseCodeDomObjectGenerator$1",
-    assemblyName: "TestConsoleNG.Components",
-    Kind: "Class",
-    definition:
-    {
-        ctor: function ()
-        {
-            Neptuo.Templates.Compilation.CodeGenerators.BaseCodeDomObjectGenerator$1.ctor.call(this, TestConsoleNG.Controls.MethodReferenceCodeObject.ctor);
-        },
-        GenerateCode$$CodeObjectExtensionContext$$MethodReferenceCodeObject$$IPropertyDescriptor: function (context, codeObject, propertyDescriptor)
-        {
-            var method = Neptuo.Templates.Compilation.CodeGenerators.CodeTypeMemberCollectionExtensions.FindMethod(context.get_BaseStructure().get_Class().get_Members(), codeObject.get_MethodName());
-            if (method == null)
-                return new System.CodeDom.CodePrimitiveExpression.ctor$$Object(null);
-            return new System.CodeDom.CodeMethodReferenceExpression.ctor$$CodeExpression$$String(new System.CodeDom.CodeThisReferenceExpression.ctor(), codeObject.get_MethodName());
-        }
-    }
-};
-JsTypes.push(TestConsoleNG$Controls$CodeDomMethodReferenceGenerator);
+//var TestConsoleNG$Controls$MethodReferenceCodeObject =
+//{
+//    fullname: "TestConsoleNG.Controls.MethodReferenceCodeObject",
+//    baseTypeName: "System.Object",
+//    assemblyName: "TestConsoleNG.Components",
+//    interfaceNames: ["Neptuo.Templates.Compilation.CodeObjects.ICodeObject"],
+//    Kind: "Class",
+//    definition:
+//    {
+//        ctor: function (methodName)
+//        {
+//            this._MethodName = null;
+//            System.Object.ctor.call(this);
+//            this.set_MethodName(methodName);
+//        },
+//        MethodName$$: "System.String",
+//        get_MethodName: function ()
+//        {
+//            return this._MethodName;
+//        },
+//        set_MethodName: function (value)
+//        {
+//            this._MethodName = value;
+//        }
+//    }
+//};
+//JsTypes.push(TestConsoleNG$Controls$MethodReferenceCodeObject);
+//var TestConsoleNG$Controls$CodeDomMethodReferenceGenerator =
+//{
+//    fullname: "TestConsoleNG.Controls.CodeDomMethodReferenceGenerator",
+//    baseTypeName: "Neptuo.Templates.Compilation.CodeGenerators.BaseCodeDomObjectGenerator$1",
+//    assemblyName: "TestConsoleNG.Components",
+//    Kind: "Class",
+//    definition:
+//    {
+//        ctor: function ()
+//        {
+//            Neptuo.Templates.Compilation.CodeGenerators.BaseCodeDomObjectGenerator$1.ctor.call(this, TestConsoleNG.Controls.MethodReferenceCodeObject.ctor);
+//        },
+//        GenerateCode$$CodeObjectExtensionContext$$MethodReferenceCodeObject$$IPropertyDescriptor: function (context, codeObject, propertyDescriptor)
+//        {
+//            var method = Neptuo.Templates.Compilation.CodeGenerators.CodeTypeMemberCollectionExtensions.FindMethod(context.get_BaseStructure().get_Class().get_Members(), codeObject.get_MethodName());
+//            if (method == null)
+//                return new System.CodeDom.CodePrimitiveExpression.ctor$$Object(null);
+//            return new System.CodeDom.CodeMethodReferenceExpression.ctor$$CodeExpression$$String(new System.CodeDom.CodeThisReferenceExpression.ctor(), codeObject.get_MethodName());
+//        }
+//    }
+//};
+//JsTypes.push(TestConsoleNG$Controls$CodeDomMethodReferenceGenerator);
 var TestConsoleNG$Controls$PanelControl =
 {
     fullname: "TestConsoleNG.Controls.PanelControl",
@@ -744,94 +744,94 @@ var TestConsoleNG$Controls$PanelControl =
     }
 };
 JsTypes.push(TestConsoleNG$Controls$PanelControl);
-var TestConsoleNG$Controls$TemplateCodeObject =
+//var TestConsoleNG$Controls$TemplateCodeObject =
+//{
+//    fullname: "TestConsoleNG.Controls.TemplateCodeObject",
+//    baseTypeName: "Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject",
+//    assemblyName: "TestConsoleNG.Components",
+//    Kind: "Class",
+//    definition:
+//    {
+//        ctor: function (type)
+//        {
+//            Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor.call(this, type);
+//        }
+//    }
+//};
+//JsTypes.push(TestConsoleNG$Controls$TemplateCodeObject);
+//var TestConsoleNG$Controls$CodeDomTemplateGenerator =
+//{
+//    fullname: "TestConsoleNG.Controls.CodeDomTemplateGenerator",
+//    baseTypeName: "Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator",
+//    assemblyName: "TestConsoleNG.Components",
+//    Kind: "Class",
+//    definition:
+//    {
+//        ctor: function (fieldNameProvider)
+//        {
+//            Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator.ctor.call(this, fieldNameProvider);
+//        },
+//        GenerateCode$$CodeObjectExtensionContext$$ComponentCodeObject$$IPropertyDescriptor: function (context, component, propertyDescriptor)
+//        {
+//            var properties = new System.Collections.Generic.List$1.ctor$$IEnumerable$1(Neptuo.Templates.Compilation.CodeObjects.IPropertyDescriptor.ctor, component.get_Properties());
+//            component.get_Properties().Clear();
+//            var templateContent = new Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor(Typeof(TestConsoleNG.Controls.ContentTemplateContent.ctor));
+//            templateContent.get_Properties().AddRange(properties);
+//            var fieldName = this.GenerateFieldName();
+//            this.GenerateBindMethod$1(Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor, context, templateContent, fieldName, null);
+//            component.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(component.get_Type().GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.ContentTemplate.ctor, System.Object.ctor, $CreateAnonymousDelegate(this, function (t)
+//            {
+//                return t.get_BindMethod();
+//            })))), new TestConsoleNG.Controls.MethodReferenceCodeObject.ctor(this.FormatBindMethod(fieldName))));
+//            return Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator.commonPrototype.GenerateCode$$CodeObjectExtensionContext$$ComponentCodeObject$$IPropertyDescriptor.call(this, context, component, propertyDescriptor);
+//        }
+//    }
+//};
+//JsTypes.push(TestConsoleNG$Controls$CodeDomTemplateGenerator);
+//var TestConsoleNG$Controls$TemplatePropertyBuilder =
+//{
+//    fullname: "TestConsoleNG.Controls.TemplatePropertyBuilder",
+//    baseTypeName: "System.Object",
+//    assemblyName: "TestConsoleNG.Components",
+//    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"],
+//    Kind: "Class",
+//    definition:
+//    {
+//        ctor: function ()
+//        {
+//            System.Object.ctor.call(this);
+//        },
+//        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$IEnumerable$1$IXmlNode: function (context, codeObject, propertyInfo, content)
+//        {
+//            var templateCodeObject = new TestConsoleNG.Controls.TemplateCodeObject.ctor(Typeof(TestConsoleNG.Controls.ContentTemplate.ctor));
+//            codeObject.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(propertyInfo, templateCodeObject));
+//            var targetProperty = new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(Typeof(TestConsoleNG.Controls.ContentTemplateContent.ctor).GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.ContentTemplateContent.ctor, System.Object.ctor, $CreateAnonymousDelegate(this, function (t)
+//            {
+//                return t.get_Content();
+//            }))));
+//            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.ListAddPropertyDescriptor.ctor$$IPropertyInfo(targetProperty);
+//            templateCodeObject.get_Properties().Add(propertyDescriptor);
+//            context.get_Parser().ProcessContent(context, propertyDescriptor, content);
+//            return true;
+//        },
+//        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$String: function (context, codeObject, propertyInfo, attributeValue)
+//        {
+//            var templateCodeObject = new Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor(Typeof(TestConsoleNG.Controls.FileTemplate.ctor));
+//            templateCodeObject.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(Typeof(TestConsoleNG.Controls.FileTemplate.ctor).GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.FileTemplate.ctor, System.String.ctor, $CreateAnonymousDelegate(this, function (t)
+//            {
+//                return t.get_Path();
+//            })))), new Neptuo.Templates.Compilation.CodeObjects.PlainValueCodeObject.ctor(attributeValue)));
+//            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo(propertyInfo);
+//            propertyDescriptor.SetValue(templateCodeObject);
+//            codeObject.get_Properties().Add(propertyDescriptor);
+//            return true;
+//        }
+//    }
+//};
+//JsTypes.push(TestConsoleNG$Controls$TemplatePropertyBuilder);
+var TestConsoleNG$Controls$TextBoxControl =
 {
-    fullname: "TestConsoleNG.Controls.TemplateCodeObject",
-    baseTypeName: "Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject",
-    assemblyName: "TestConsoleNG.Components",
-    Kind: "Class",
-    definition:
-    {
-        ctor: function (type)
-        {
-            Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor.call(this, type);
-        }
-    }
-};
-JsTypes.push(TestConsoleNG$Controls$TemplateCodeObject);
-var TestConsoleNG$Controls$CodeDomTemplateGenerator =
-{
-    fullname: "TestConsoleNG.Controls.CodeDomTemplateGenerator",
-    baseTypeName: "Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator",
-    assemblyName: "TestConsoleNG.Components",
-    Kind: "Class",
-    definition:
-    {
-        ctor: function (fieldNameProvider)
-        {
-            Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator.ctor.call(this, fieldNameProvider);
-        },
-        GenerateCode$$CodeObjectExtensionContext$$ComponentCodeObject$$IPropertyDescriptor: function (context, component, propertyDescriptor)
-        {
-            var properties = new System.Collections.Generic.List$1.ctor$$IEnumerable$1(Neptuo.Templates.Compilation.CodeObjects.IPropertyDescriptor.ctor, component.get_Properties());
-            component.get_Properties().Clear();
-            var templateContent = new Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor(Typeof(TestConsoleNG.Controls.ContentTemplateContent.ctor));
-            templateContent.get_Properties().AddRange(properties);
-            var fieldName = this.GenerateFieldName();
-            this.GenerateBindMethod$1(Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor, context, templateContent, fieldName, null);
-            component.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(component.get_Type().GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.ContentTemplate.ctor, System.Object.ctor, $CreateAnonymousDelegate(this, function (t)
-            {
-                return t.get_BindMethod();
-            })))), new TestConsoleNG.Controls.MethodReferenceCodeObject.ctor(this.FormatBindMethod(fieldName))));
-            return Neptuo.Templates.Compilation.CodeGenerators.CodeDomComponentGenerator.commonPrototype.GenerateCode$$CodeObjectExtensionContext$$ComponentCodeObject$$IPropertyDescriptor.call(this, context, component, propertyDescriptor);
-        }
-    }
-};
-JsTypes.push(TestConsoleNG$Controls$CodeDomTemplateGenerator);
-var TestConsoleNG$Controls$TemplatePropertyBuilder =
-{
-    fullname: "TestConsoleNG.Controls.TemplatePropertyBuilder",
-    baseTypeName: "System.Object",
-    assemblyName: "TestConsoleNG.Components",
-    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"],
-    Kind: "Class",
-    definition:
-    {
-        ctor: function ()
-        {
-            System.Object.ctor.call(this);
-        },
-        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$IEnumerable$1$IXmlNode: function (context, codeObject, propertyInfo, content)
-        {
-            var templateCodeObject = new TestConsoleNG.Controls.TemplateCodeObject.ctor(Typeof(TestConsoleNG.Controls.ContentTemplate.ctor));
-            codeObject.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(propertyInfo, templateCodeObject));
-            var targetProperty = new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(Typeof(TestConsoleNG.Controls.ContentTemplateContent.ctor).GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.ContentTemplateContent.ctor, System.Object.ctor, $CreateAnonymousDelegate(this, function (t)
-            {
-                return t.get_Content();
-            }))));
-            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.ListAddPropertyDescriptor.ctor$$IPropertyInfo(targetProperty);
-            templateCodeObject.get_Properties().Add(propertyDescriptor);
-            context.get_Parser().ProcessContent(context, propertyDescriptor, content);
-            return true;
-        },
-        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$String: function (context, codeObject, propertyInfo, attributeValue)
-        {
-            var templateCodeObject = new Neptuo.Templates.Compilation.CodeObjects.ComponentCodeObject.ctor(Typeof(TestConsoleNG.Controls.FileTemplate.ctor));
-            templateCodeObject.get_Properties().Add(new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo$$ICodeObject(new Neptuo.Templates.Compilation.Parsers.TypePropertyInfo.ctor(Typeof(TestConsoleNG.Controls.FileTemplate.ctor).GetProperty$$String(Neptuo.Linq.Expressions.TypeHelper.PropertyName$2$$Expression$1(TestConsoleNG.Controls.FileTemplate.ctor, System.String.ctor, $CreateAnonymousDelegate(this, function (t)
-            {
-                return t.get_Path();
-            })))), new Neptuo.Templates.Compilation.CodeObjects.PlainValueCodeObject.ctor(attributeValue)));
-            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo(propertyInfo);
-            propertyDescriptor.SetValue(templateCodeObject);
-            codeObject.get_Properties().Add(propertyDescriptor);
-            return true;
-        }
-    }
-};
-JsTypes.push(TestConsoleNG$Controls$TemplatePropertyBuilder);
-var TestConsoleNG$Controls$TextBoxPresenter =
-{
-    fullname: "TestConsoleNG.Controls.TextBoxPresenter",
+    fullname: "TestConsoleNG.Controls.TextBoxControl",
     baseTypeName: "TestConsoleNG.Controls.BaseControl",
     assemblyName: "TestConsoleNG.Components",
     customAttributes: [ {targetType: "type", typeName: "Neptuo.Templates.HtmlAttribute", ctorName: "ctor$$String$$Boolean", positionalArguments: ["input", true]}],
@@ -871,55 +871,55 @@ var TestConsoleNG$Controls$TextBoxPresenter =
         }
     }
 };
-JsTypes.push(TestConsoleNG$Controls$TextBoxPresenter);
-var TestConsoleNG$Controls$StringPropertyBuilder =
-{
-    fullname: "TestConsoleNG.Controls.StringPropertyBuilder",
-    baseTypeName: "System.Object",
-    assemblyName: "TestConsoleNG.Components",
-    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"],
-    Kind: "Class",
-    definition:
-    {
-        ctor: function ()
-        {
-            System.Object.ctor.call(this);
-        },
-        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$IEnumerable$1$IXmlNode: function (context, codeObject, propertyInfo, content)
-        {
-            throw $CreateException(new System.NotImplementedException.ctor(), new Error());
-        },
-        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$String: function (context, codeObject, propertyInfo, attributeValue)
-        {
-            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo(propertyInfo);
-            var result = context.get_ParserContext().get_ParserService().ProcessValue(attributeValue, new Neptuo.Templates.Compilation.Parsers.DefaultParserServiceContext.ctor(context.get_ParserContext().get_DependencyProvider(), propertyDescriptor, context.get_ParserContext().get_Errors()));
-            if (result)
-                codeObject.get_Properties().Add(propertyDescriptor);
-            return result;
-        }
-    }
-};
-JsTypes.push(TestConsoleNG$Controls$StringPropertyBuilder);
-var TestConsoleNG$Controls$StringPropertyBuilderFactory =
-{
-    fullname: "TestConsoleNG.Controls.StringPropertyBuilderFactory",
-    baseTypeName: "System.Object",
-    assemblyName: "TestConsoleNG.Components",
-    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilderFactory"],
-    Kind: "Class",
-    definition:
-    {
-        ctor: function ()
-        {
-            System.Object.ctor.call(this);
-        },
-        CreateBuilder: function (propertyInfo)
-        {
-            return new TestConsoleNG.Controls.StringPropertyBuilder.ctor();
-        }
-    }
-};
-JsTypes.push(TestConsoleNG$Controls$StringPropertyBuilderFactory);
+JsTypes.push(TestConsoleNG$Controls$TextBoxControl);
+//var TestConsoleNG$Controls$StringPropertyBuilder =
+//{
+//    fullname: "TestConsoleNG.Controls.StringPropertyBuilder",
+//    baseTypeName: "System.Object",
+//    assemblyName: "TestConsoleNG.Components",
+//    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilder"],
+//    Kind: "Class",
+//    definition:
+//    {
+//        ctor: function ()
+//        {
+//            System.Object.ctor.call(this);
+//        },
+//        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$IEnumerable$1$IXmlNode: function (context, codeObject, propertyInfo, content)
+//        {
+//            throw $CreateException(new System.NotImplementedException.ctor(), new Error());
+//        },
+//        Parse$$IContentBuilderContext$$IPropertiesCodeObject$$IPropertyInfo$$String: function (context, codeObject, propertyInfo, attributeValue)
+//        {
+//            var propertyDescriptor = new Neptuo.Templates.Compilation.CodeObjects.SetPropertyDescriptor.ctor$$IPropertyInfo(propertyInfo);
+//            var result = context.get_ParserContext().get_ParserService().ProcessValue(attributeValue, new Neptuo.Templates.Compilation.Parsers.DefaultParserServiceContext.ctor(context.get_ParserContext().get_DependencyProvider(), propertyDescriptor, context.get_ParserContext().get_Errors()));
+//            if (result)
+//                codeObject.get_Properties().Add(propertyDescriptor);
+//            return result;
+//        }
+//    }
+//};
+//JsTypes.push(TestConsoleNG$Controls$StringPropertyBuilder);
+//var TestConsoleNG$Controls$StringPropertyBuilderFactory =
+//{
+//    fullname: "TestConsoleNG.Controls.StringPropertyBuilderFactory",
+//    baseTypeName: "System.Object",
+//    assemblyName: "TestConsoleNG.Components",
+//    interfaceNames: ["Neptuo.Templates.Compilation.Parsers.IPropertyBuilderFactory"],
+//    Kind: "Class",
+//    definition:
+//    {
+//        ctor: function ()
+//        {
+//            System.Object.ctor.call(this);
+//        },
+//        CreateBuilder: function (propertyInfo)
+//        {
+//            return new TestConsoleNG.Controls.StringPropertyBuilder.ctor();
+//        }
+//    }
+//};
+//JsTypes.push(TestConsoleNG$Controls$StringPropertyBuilderFactory);
 var TestConsoleNG$Controls$ViewTemplateContent =
 {
     fullname: "TestConsoleNG.Controls.ViewTemplateContent",
