@@ -23,6 +23,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public TypeRegistryHelper(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content)
         {
+            Guard.NotNull(configuration, "configuration");
+            Guard.NotNull(content, "content");
             Configuration = configuration;
             Content = content;
         }
