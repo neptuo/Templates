@@ -39,6 +39,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
             : this(configuration, null)
         {
+            Guard.NotNull(literalBuilder, "literalBuilder");
+            Guard.NotNull(genericContentBuilder, "genericContentBuilder");
             Content.LiteralBuilder = literalBuilder;
             Content.GenericContentBuilder = genericContentBuilder;
         }
