@@ -50,7 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseNamingService.cs" />
+    <Compile Include="NamingServiceBase.cs" />
     <Compile Include="BuilderAttribute.cs" />
     <Compile Include="CodeDomDebugMode.cs" />
     <Compile Include="CodeGenerators\CodeDomDictionaryAddPropertyGenerator.cs" />

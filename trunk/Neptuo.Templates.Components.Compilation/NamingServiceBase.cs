@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation
     /// <summary>
     /// Base implementation of <see cref="INamingService"/>.
     /// </summary>
-    public abstract class BaseNamingService : INamingService
+    public abstract class NamingServiceBase : INamingService
     {
         /// <summary>
         /// Base view name template in form View_{0}.

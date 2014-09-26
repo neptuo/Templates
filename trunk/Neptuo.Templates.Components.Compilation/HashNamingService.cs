@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation
     /// <summary>
     /// NamingService using <see cref="HashHelper.Sha1"/>
     /// </summary>
-    public class HashNamingService : BaseNamingService
+    public class HashNamingService : NamingServiceBase
     {
         /// <summary>
         /// Access to file system.

@@ -6,7 +6,7 @@ using System.Web;
 
 namespace LiveWebUI.Models
 {
-    public class UniqueNamingService : BaseNamingService
+    public class UniqueNamingService : NamingServiceBase
     {
         protected override string GetNameForContent(string viewContent)
         {
