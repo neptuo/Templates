@@ -12,6 +12,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, ITokenBuilderFactory
     {
+        private readonly TypeBuilderRegistry parentRegistry;
+
         #region Type scanner
 
         private object scannerLock = new object();
@@ -37,7 +39,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         #endregion
 
         public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
-            : this(configuration, null)
+            : base(configuration, new TypeBuilderRegistryContent())
         {
             Guard.NotNull(literalBuilder, "literalBuilder");
             Guard.NotNull(genericContentBuilder, "genericContentBuilder");
@@ -45,9 +47,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.GenericContentBuilder = genericContentBuilder;
         }
 
-        protected TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content = null)
-            : base(configuration, content ?? new TypeBuilderRegistryContent())
-        { }
+        protected TypeBuilderRegistry(TypeBuilderRegistry parentRegistry)
+            : base(parentRegistry.Configuration, new TypeBuilderRegistryContent())
+        {
+            Guard.NotNull(parentRegistry, "parentRegistry");
+            this.parentRegistry = parentRegistry;
+        }
 
         #region Get
 
@@ -61,6 +66,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IComponentBuilderFactory factory = Content.Components[prefix][name];
                 return factory.CreateBuilder(prefix, name);
             }
+
+            if (parentRegistry != null && parentRegistry.ContainsComponent(prefix, name))
+                return parentRegistry.GetComponentBuilder(prefix, name);
 
             return GetGenericContentBuilder(name);
         }
@@ -83,28 +91,55 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (factory != null)
                 return factory.CreateBuilder(prefix, name);
 
+            if (parentRegistry != null)
+                return parentRegistry.GetObserverBuilder(prefix, name);
+
             return null;
         }
 
         public IComponentBuilder GetGenericContentBuilder(string name)
         {
+            if (Content.GenericContentBuilder == null)
+            {
+                if (parentRegistry != null)
+                    return parentRegistry.GetGenericContentBuilder(name);
+
+                throw new TypeBuilderRegistryException("Registry doesn't contain generic content builder.");
+            }
+
             return Content.GenericContentBuilder;
         }
 
         public ILiteralBuilder GetLiteralBuilder()
         {
+            if (Content.LiteralBuilder == null)
+            {
+                if (parentRegistry != null)
+                    return parentRegistry.GetLiteralBuilder();
+
+                throw new TypeBuilderRegistryException("Registry doesn't contain literal builder.");
+            }
+
             return Content.LiteralBuilder;
         }
 
         public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
         {
+            if (parentRegistry != null)
+                return Enumerable.Concat(Content.Namespaces.Values, parentRegistry.GetRegisteredNamespaces());
+
             return Content.Namespaces.Values;
         }
 
         public IPropertyBuilder GetPropertyBuilder(IPropertyInfo propertyInfo)
         {
             if (!Content.Properties.ContainsKey(propertyInfo.Type))
+            {
+                if (parentRegistry != null)
+                    return parentRegistry.GetPropertyBuilder(propertyInfo);
+
                 return null;
+            }
 
             IPropertyBuilderFactory factory = Content.Properties[propertyInfo.Type];
             return factory.CreateBuilder(propertyInfo);
@@ -125,6 +160,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (factory != null)
                     return factory.CreateBuilder(prefix, name);
             }
+
+            if (parentRegistry != null)
+                return parentRegistry.CreateBuilder(prefix, name);
+
             return null;
         }
 
@@ -193,7 +232,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IContentBuilderRegistry CreateChildRegistry()
         {
-            return new TypeBuilderRegistry(Configuration, new TypeBuilderRegistryContent(Content));
+            return new TypeBuilderRegistry(this);
         }
 
         #region Contains
@@ -203,10 +242,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ComponentSuffix);
 
-            if(!Content.Components.ContainsKey(prefix))
-                return false;
+            if (!Content.Components.ContainsKey(prefix) || !Content.Components[prefix].ContainsKey(name))
+            {
+                if (parentRegistry != null)
+                    return parentRegistry.ContainsComponent(prefix, name);
 
-            return Content.Components[prefix].ContainsKey(name);
+                return false;
+            }
+
+            return true;
         }
 
         public bool ContainsObserver(string prefix, string name)
@@ -214,18 +258,29 @@ namespace Neptuo.Templates.Compilation.Parsers
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ObserverSuffix);
 
-            if (!Content.Observers.ContainsKey(prefix))
+            if (!Content.Observers.ContainsKey(prefix) || (!Content.Observers[prefix].ContainsKey(name) && !Content.Observers[prefix].ContainsKey(Configuration.ObserverWildcard)))
+            {
+                if(parentRegistry != null)
+                    return parentRegistry.ContainsObserver(prefix, name);
+
                 return false;
+            }
 
-            if (Content.Observers[prefix].ContainsKey(name))
-                return true;
-
-            return Content.Observers[prefix].ContainsKey(Configuration.ObserverWildcard);
+            return true;
         }
 
         public bool ContainsProperty(IPropertyInfo propertyInfo)
         {
-            return Content.Properties.ContainsKey(propertyInfo.Type);
+            Guard.NotNull(propertyInfo, "propertyInfo");
+            if (!Content.Properties.ContainsKey(propertyInfo.Type))
+            {
+                if (parentRegistry != null)
+                    return parentRegistry.ContainsProperty(propertyInfo);
+
+                return false;
+            }
+
+            return true;
         }
 
         #endregion
