@@ -24,7 +24,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override ITokenDescriptor GetExtensionDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
         {
-            return new TypeInfo(Type);
+            return new TypeDescriptor(Type);
         }
 
         protected override IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo)
