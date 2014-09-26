@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IObserverDescriptor GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
-            return new TypeDescriptor(GetObserverType(attributes));
+            return new TypeDescriptorBase(GetObserverType(attributes));
         }
 
         protected override IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo)
