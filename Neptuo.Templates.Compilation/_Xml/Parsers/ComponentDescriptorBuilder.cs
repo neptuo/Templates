@@ -36,14 +36,9 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
 
         /// <summary>
-        /// Creates property descriptor for single value property.
+        /// Should create property descriptor for <paramref name="propertyInfo"/>.
         /// </summary>
-        protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
-
-        /// <summary>
-        /// Creates property descriptor for list value property.
-        /// </summary>
-        protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
+        protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
 
         /// <summary>
         /// Binds properties to <paramref name="codeObject"/>.
@@ -93,9 +88,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                         }
                     }
 
-                    IPropertyDescriptor propertyDescriptor = IsCollectionProperty(propertyInfo)
-                        ? CreateListAddPropertyDescriptor(propertyInfo)
-                        : CreateSetPropertyDescriptor(propertyInfo);
+                    IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
 
                     result = context.ParserContext.ParserService.ProcessValue(
                         attribute.Value,
@@ -117,12 +110,6 @@ namespace Neptuo.Templates.Compilation.Parsers
                     bindContext.UnboundAttributes.Add(attribute);
                 }
             }
-        }
-
-        protected bool IsCollectionProperty(IPropertyInfo propertyInfo)
-        {
-            return typeof(ICollection).IsAssignableFrom(propertyInfo.Type) 
-                || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()));
         }
 
         protected virtual void BindInnerElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IEnumerable<IXmlNode> childNodes)
@@ -210,7 +197,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 foreach (IXmlNode node in content)
                     contentValue.Append(node.OuterXml);
 
-                IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
+                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
                 codeObject.Properties.Add(propertyDescriptor);
             }
@@ -220,7 +207,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             )
             {
                 //Collection item
-                IPropertyDescriptor propertyDescriptor = CreateListAddPropertyDescriptor(propertyInfo);
+                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                 codeObject.Properties.Add(propertyDescriptor);
                 context.Parser.ProcessContent(context, propertyDescriptor, content);
             }
@@ -233,7 +220,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     // One IXmlElement is ok
                     if (elements.Count() == 1)
                     {
-                        IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
+                        IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                         codeObject.Properties.Add(propertyDescriptor);
                         context.Parser.ProcessContent(context, propertyDescriptor, content);
                     }
@@ -250,7 +237,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     foreach (IXmlNode node in content)
                         contentValue.Append(node.OuterXml);
 
-                    IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
+                    IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                     propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
                     codeObject.Properties.Add(propertyDescriptor);
                 }

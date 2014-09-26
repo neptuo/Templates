@@ -36,14 +36,23 @@ namespace Neptuo.Templates.Compilation.Parsers
                 throw new NotImplementedException(String.Format("Can't process unbound attributes! Attribute {0} on {1}.", attribute.Name, attribute.OwnerElement.Name));
         }
 
-        protected override IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo)
+        protected bool IsCollectionProperty(IPropertyInfo propertyInfo)
         {
-            return new ListAddPropertyDescriptor(propertyInfo);
+            return typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type);
+            //TODO: Test for IEnumerable should be enough.
+            //return typeof(ICollection).IsAssignableFrom(propertyInfo.Type)
+            //    || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()));
         }
 
-        protected override IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo)
+        protected override IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo)
         {
-            return new SetPropertyDescriptor(propertyInfo);
+            IPropertyDescriptor propertyDescriptor = null;
+            if (IsCollectionProperty(propertyInfo))
+                propertyDescriptor = new ListAddPropertyDescriptor(propertyInfo);
+            else
+                propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
+
+            return propertyDescriptor;
         }
     }
 }
