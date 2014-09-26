@@ -1,5 +1,6 @@
 ﻿using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
+using SharpKit.JavaScript;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace TestConsoleNG.Controls
 {
+    [JsType(Export = false)]
     public class MethodReferenceCodeObject : ICodeObject
     {
         public string MethodName { get; set; }
@@ -19,6 +21,7 @@ namespace TestConsoleNG.Controls
         }
     }
 
+    [JsType(Export = false)]
     public class CodeDomMethodReferenceGenerator : CodeDomObjectGeneratorBase<MethodReferenceCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, MethodReferenceCodeObject codeObject, IPropertyDescriptor propertyDescriptor)

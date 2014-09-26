@@ -3,7 +3,7 @@ if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
 var Neptuo$Templates$DependencyProviderExtensions =
 {
-    fullname: "Neptuo.Templates.DependencyProviderExtensions",
+    fullname: "Neptuo.DependencyProviderExtensions",
     baseTypeName: "System.Object",
     staticDefinition:
     {
@@ -25,7 +25,7 @@ var Neptuo$Templates$DependencyProviderExtensions =
 JsTypes.push(Neptuo$Templates$DependencyProviderExtensions);
 var Neptuo$Templates$DependencyContainerExtensions =
 {
-    fullname: "Neptuo.Templates.DependencyContainerExtensions",
+    fullname: "Neptuo.DependencyContainerExtensions",
     baseTypeName: "System.Object",
     staticDefinition:
     {
@@ -49,7 +49,7 @@ var Neptuo$Templates$DependencyContainerExtensions =
     }
 };
 JsTypes.push(Neptuo$Templates$DependencyContainerExtensions);
-var Neptuo$Templates$IDependencyContainer = {fullname: "Neptuo.Templates.IDependencyContainer", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates", interfaceNames: ["Neptuo.Templates.IDependencyProvider"], Kind: "Interface"};
+var Neptuo$Templates$IDependencyContainer = {fullname: "Neptuo.IDependencyContainer", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates", interfaceNames: ["Neptuo.IDependencyProvider"], Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IDependencyContainer);
-var Neptuo$Templates$IDependencyProvider = {fullname: "Neptuo.Templates.IDependencyProvider", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates", Kind: "Interface"};
+var Neptuo$Templates$IDependencyProvider = {fullname: "Neptuo.IDependencyProvider", baseTypeName: "System.Object", assemblyName: "Neptuo.Templates", Kind: "Interface"};
 JsTypes.push(Neptuo$Templates$IDependencyProvider);
