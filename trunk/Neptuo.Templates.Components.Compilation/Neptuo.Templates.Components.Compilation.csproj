@@ -99,6 +99,7 @@
     <Compile Include="Parsers\DefaultLiteralControlBuilder.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryConfiguration.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryContent.cs" />
+    <Compile Include="Parsers\TypeBuilderRegistryException.cs" />
     <Compile Include="Parsers\TypeScanner.cs" />
     <Compile Include="HashNamingService.cs" />
     <Compile Include="Parsers\TypeBuilderRegistry.cs" />
