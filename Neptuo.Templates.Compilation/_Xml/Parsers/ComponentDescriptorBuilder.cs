@@ -11,13 +11,29 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Base component builder including logic for processing XML elements as properties and inner values.
     /// </summary>
-    public abstract class ComponentDescriptorBuilder : IComponentBuilder
+    public abstract class ComponentDescriptorBuilder : ComponentBuilder
     {
-        public void Parse(IContentBuilderContext context, IXmlElement element)
+        private bool isParsing;
+
+        protected IComponentCodeObject CodeObject { get; private set; }
+        protected IComponentDescriptor ComponentDefinition { get; private set; }
+        protected IPropertyInfo DefaultProperty { get; private set; }
+        protected BindPropertiesContext BindContext { get; private set; }
+
+        public override void Parse(IContentBuilderContext context, IXmlElement element)
         {
-            IComponentCodeObject codeObject = CreateCodeObject(context, element);
-            BindProperties(context, codeObject, element);
-            AppendToParent(context, codeObject);
+            if (isParsing)
+                throw new InvalidOperationException("ComponentDescriptorBuilder can't be reused! Create new instance for every xml tag.");
+
+            isParsing = true;
+            CodeObject = CreateCodeObject(context, element);
+            ComponentDefinition = GetComponentDescriptor(context, CodeObject, element);
+            DefaultProperty = ComponentDefinition.GetDefaultProperty();
+            BindContext = new BindPropertiesContext(ComponentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
+
+            base.Parse(context, element);
+            AppendToParent(context, CodeObject);
+            isParsing = false;
         }
 
         protected virtual void AppendToParent(IContentBuilderContext context, IComponentCodeObject codeObject)
@@ -25,124 +41,57 @@ namespace Neptuo.Templates.Compilation.Parsers
             context.Parent.SetValue(codeObject);
         }
 
-        /// <summary>
-        /// Should create code object for this component.
-        /// </summary>
-        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
-
-        /// <summary>
-        /// Gets current component definition.
-        /// </summary>
-        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
-
-        /// <summary>
-        /// Should create property descriptor for <paramref name="propertyInfo"/>.
-        /// </summary>
-        protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
-
-        /// <summary>
-        /// Binds properties to <paramref name="codeObject"/>.
-        /// </summary>
-        protected virtual void BindProperties(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
+        protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, string value)
         {
-            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
-            IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
-            BindPropertiesContext bindContext = new BindPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
-
-            // Bind attributes
-            BindAttributes(context, bindContext, codeObject, element.Attributes);
-            
-            // Bind inner elements
-            BindInnerElements(context, bindContext, codeObject, element.ChildNodes);
-
-            // Process unbound attributes
-            ProcessUnboundAttributes(context, codeObject, bindContext.UnboundAttributes);
-
-            // Bind content elements
-            BindContentElements(context, bindContext, codeObject, defaultProperty, element.ChildNodes);
-
-            // Custom logic after properties are bound
-            AfterBindProperties(context, bindContext, codeObject, element);
-        }
-
-        protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
-        {
-            // Bind attributes
-            foreach (IXmlAttribute attribute in attributes)
+            IPropertyInfo propertyInfo;
+            if (BindContext.Properties.TryGetValue(name, out propertyInfo))
             {
-                string attributeName = attribute.Name.ToLowerInvariant();
-                IPropertyInfo propertyInfo;
-                if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
+                bool result = false;
+                if (context.BuilderRegistry.ContainsProperty(propertyInfo))
                 {
-                    bool result = false;
-                    if (context.BuilderRegistry.ContainsProperty(propertyInfo))
-                    {
-                        result = context.BuilderRegistry
-                            .GetPropertyBuilder(propertyInfo)
-                            .Parse(context, codeObject, propertyInfo, attribute.Value);
-
-                        if (result)
-                        {
-                            bindContext.BoundProperies.Add(attributeName);
-                            continue;
-                        }
-                    }
-
-                    IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-
-                    result = context.ParserContext.ParserService.ProcessValue(
-                        attribute.Value,
-                        new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
-                    );
+                    result = context.BuilderRegistry
+                        .GetPropertyBuilder(propertyInfo)
+                        .Parse(context, CodeObject, propertyInfo, value);
 
                     if (result)
                     {
-                        codeObject.Properties.Add(propertyDescriptor);
-                        bindContext.BoundProperies.Add(attributeName);
-                    }
-                    else
-                    {
-                        bindContext.UnboundAttributes.Add(attribute);
+                        BindContext.BoundProperies.Add(name);
+                        return true;
                     }
                 }
-                else
+
+                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
+
+                result = context.ParserContext.ParserService.ProcessValue(
+                    value,
+                    new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+                );
+
+                if (result)
                 {
-                    bindContext.UnboundAttributes.Add(attribute);
+                    CodeObject.Properties.Add(propertyDescriptor);
+                    BindContext.BoundProperies.Add(name);
+                    return true;
                 }
             }
+
+            return false;
         }
 
-        protected virtual void BindInnerElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IEnumerable<IXmlNode> childNodes)
+        protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
-            // Bind inner elements
-            foreach (IXmlNode childNode in childNodes)
+            IPropertyInfo propertyInfo;
+            if (!BindContext.BoundProperies.Contains(name) && BindContext.Properties.TryGetValue(name, out propertyInfo))
             {
-                if (childNode.NodeType == XmlNodeType.Element)
-                {
-                    IXmlElement element = (IXmlElement)childNode;
-                    string childName = element.Name.ToLowerInvariant();
-                    IPropertyInfo propertyInfo;
-                    if (!bindContext.BoundProperies.Contains(childName) && bindContext.Properties.TryGetValue(childName, out propertyInfo))
-                    {
-                        ResolvePropertyValue(context, codeObject, propertyInfo, element.ChildNodes);
-                        bindContext.BoundProperies.Add(childName);
-                    }
-                }
+                ResolvePropertyValue(context, CodeObject, propertyInfo, value);
+                BindContext.BoundProperies.Add(name);
+                return true;
             }
+
+            return false;
         }
 
-        protected virtual void BindContentElements(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IPropertyInfo defaultProperty, IEnumerable<IXmlNode> childNodes)
-        {
-            // Bind content elements
-            if (defaultProperty != null && !bindContext.BoundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
-            {
-                IEnumerable<IXmlNode> defaultChildNodes = XmlContentParser.Utils.FindNotUsedChildNodes(childNodes, bindContext.BoundProperies);
-                if (defaultChildNodes.Any())
-                    ResolvePropertyValue(context, codeObject, defaultProperty, defaultChildNodes);
-            }
-        }
-
-        protected virtual void ProcessUnboundAttributes(IContentBuilderContext context, IComponentCodeObject codeObject, List<IXmlAttribute> unboundAttributes)
+        protected override void ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
         {
             List<IXmlAttribute> usedAttributes = new List<IXmlAttribute>();
             XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();
@@ -168,17 +117,45 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
 
                 if (!boundAttribute)
-                    ProcessUnboundAttribute(context, codeObject, attribute);
+                    ProcessUnboundAttribute(context, attribute);
             }
 
-            context.Parser.AttachObservers(context, codeObject, observers);
+            context.Parser.AttachObservers(context, CodeObject, observers);
         }
 
-        protected abstract void ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute unboundAttribute);
+        protected override void ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
+        {
+            // Bind content elements
+            if (DefaultProperty != null && !BindContext.BoundProperies.Contains(DefaultProperty.Name.ToLowerInvariant()))
+            {
+                if (unboundNodes.Any())
+                    ResolvePropertyValue(context, CodeObject, DefaultProperty, unboundNodes);
+            }
+        }
 
-        protected virtual void AfterBindProperties(IContentBuilderContext context, BindPropertiesContext bindContext, IComponentCodeObject codeObject, IXmlElement element)
-        { }
+        /// <summary>
+        /// Should process xml attribute that isn't property neither observer.
+        /// </summary>
+        protected abstract void ProcessUnboundAttribute(IContentBuilderContext context, IXmlAttribute unboundAttribute);
 
+        /// <summary>
+        /// Should create code object for this component.
+        /// </summary>
+        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
+
+        /// <summary>
+        /// Gets current component definition.
+        /// </summary>
+        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
+
+        /// <summary>
+        /// Should create property descriptor for <paramref name="propertyInfo"/>.
+        /// </summary>
+        protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
+
+        /// <summary>
+        /// Some magic logic to create right proproperty descriptors for right property types.
+        /// </summary>
         protected virtual void ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             if (context.BuilderRegistry.ContainsProperty(propertyInfo))

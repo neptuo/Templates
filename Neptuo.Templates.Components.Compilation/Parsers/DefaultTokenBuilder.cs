@@ -14,6 +14,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public DefaultTokenBuilder(Type type)
         {
+            Guard.NotNull(type, "type");
             Type = type;
         }
 
