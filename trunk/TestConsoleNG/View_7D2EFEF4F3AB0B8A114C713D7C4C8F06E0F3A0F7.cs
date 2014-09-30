@@ -16,7 +16,7 @@ namespace Neptuo.Templates
     using Neptuo.Templates.Controls;
     using TestConsoleNG.Controls;
 
-    public sealed class View_7D2EFEF4F3AB0B8A114C713D7C4C8F06E0F3A0F7 : Neptuo.Templates.BaseGeneratedView, System.IDisposable
+    public sealed class View_7D2EFEF4F3AB0B8A114C713D7C4C8F06E0F3A0F7 : Neptuo.Templates.GeneratedView, System.IDisposable
     {
         protected override void CreateViewPageControls(IViewPage viewPage)
         {

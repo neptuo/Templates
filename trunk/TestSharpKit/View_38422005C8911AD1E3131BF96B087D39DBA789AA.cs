@@ -12,7 +12,7 @@ using SharpKit.JavaScript;
 namespace Neptuo.Templates
 {
     [JsType(JsMode.Clr, Filename = "res/View.js")]
-    public sealed class View_38422005C8911AD1E3131BF96B087D39DBA789AA : Neptuo.Templates.BaseGeneratedView, System.IDisposable
+    public sealed class View_38422005C8911AD1E3131BF96B087D39DBA789AA : Neptuo.Templates.GeneratedView, System.IDisposable
     {
         protected override T CastValueTo<T>(object value)
         {

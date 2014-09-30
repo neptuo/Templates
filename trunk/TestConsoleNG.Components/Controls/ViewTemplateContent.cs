@@ -9,9 +9,9 @@ namespace TestConsoleNG.Controls
 {
     public class ViewTemplateContent : ITemplateContent
     {
-        public BaseGeneratedView View { get; private set; }
+        public GeneratedView View { get; private set; }
 
-        public ViewTemplateContent(BaseGeneratedView view)
+        public ViewTemplateContent(GeneratedView view)
         {
             View = view;
         }

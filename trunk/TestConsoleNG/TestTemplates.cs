@@ -31,7 +31,7 @@ namespace TestConsoleNG
         static TestTemplates()
         {
             container = new UnityDependencyContainer();
-            container.RegisterInstance<IFileProvider>(new FileProvider(new StaticFileSystem(Environment.CurrentDirectory, false).RootDirectory));
+            container.RegisterInstance<IFileProvider>(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
             container.RegisterType<IViewServiceContext, ViewServiceContext>();
@@ -55,8 +55,8 @@ namespace TestConsoleNG
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new TokenValueParser(registry));
-            viewService.NamingService = new HashNamingService(new FileProvider(new StaticFileSystem(Environment.CurrentDirectory, false).RootDirectory));
-            //viewService.DebugMode = true;
+            viewService.NamingService = new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
+            //viewService.DebugMode = true; 
             viewService.TempDirectory = Environment.CurrentDirectory;
             viewService.BinDirectories.Add(Environment.CurrentDirectory);
 
@@ -102,10 +102,10 @@ namespace TestConsoleNG
 
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
-            BaseGeneratedView view = (BaseGeneratedView)viewService.Process("CSharp", "Index.html", context);
+            GeneratedView view = (GeneratedView)viewService.ProcessContent("CSharp", LocalFileSystem.FromFilePath("Index.html").GetContent(), context);
             DebugHelper.Debug("Run", () =>
             {
-                view.Setup(new BaseViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
+                view.Setup(new ViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
                 view.CreateControls();
                 view.Init();
                 view.Render(new HtmlTextWriter(output));

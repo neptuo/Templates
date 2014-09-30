@@ -26,8 +26,8 @@ namespace LiveWebUI.Controllers
 
             StringWriter output = new StringWriter();
 
-            BaseGeneratedView view = (BaseGeneratedView)TemplateHelper.ViewService.ProcessContent("CSharp", viewContent, new ViewServiceContext(TemplateHelper.Container));
-            view.Setup(new BaseViewPage(TemplateHelper.Container.Resolve<IComponentManager>()), TemplateHelper.Container.Resolve<IComponentManager>(), TemplateHelper.Container);
+            GeneratedView view = (GeneratedView)TemplateHelper.ViewService.ProcessContent("CSharp", viewContent, new ViewServiceContext(TemplateHelper.Container));
+            view.Setup(new ViewPage(TemplateHelper.Container.Resolve<IComponentManager>()), TemplateHelper.Container.Resolve<IComponentManager>(), TemplateHelper.Container);
             view.CreateControls();
             view.Init();
             view.Render(new HtmlTextWriter(output));

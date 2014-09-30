@@ -46,8 +46,8 @@
   <ItemGroup>
     <Compile Include="ControlInitCompleteEventArgs.cs" />
     <Compile Include="HtmlAttributeCollection.cs" />
-    <Compile Include="BaseGeneratedView.cs" />
-    <Compile Include="BaseViewPage.cs" />
+    <Compile Include="GeneratedView.cs" />
+    <Compile Include="ViewPage.cs" />
     <Compile Include="ComponentManager.ComponentEntry.cs" />
     <Compile Include="ComponentManager.cs" />
     <Compile Include="ComponentManager.ObserverInfo.cs" />
