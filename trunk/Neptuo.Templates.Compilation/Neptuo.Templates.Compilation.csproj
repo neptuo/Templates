@@ -103,6 +103,7 @@
     <Compile Include="_Xml\IContentBuilderRegistry.cs" />
     <Compile Include="_Xml\NamespaceDeclaration.cs" />
     <Compile Include="_Xml\Parsers\BindPropertiesContext.cs" />
+    <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\IComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />

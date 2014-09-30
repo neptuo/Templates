@@ -6,13 +6,18 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Single type token builder factory.
+    /// Creates instances of <see cref="DefaultTokenBuilder"/>.
+    /// </summary>
     public class DefaultTokenBuilderFactory : ITokenBuilderFactory
     {
         protected Type TokenType { get; private set; }
 
-        public DefaultTokenBuilderFactory(Type TokenType)
+        public DefaultTokenBuilderFactory(Type tokenType)
         {
-            TokenType = TokenType;
+            Guard.NotNull(tokenType, "tokenType");
+            TokenType = tokenType;
         }
 
         public ITokenBuilder CreateBuilder(string prefix, string name)
