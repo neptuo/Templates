@@ -8,28 +8,24 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Base logic processing xml element.
+    /// Attributes and inner nodes and processed as properties.
+    /// </summary>
     public abstract class ComponentBuilder : IComponentBuilder
     {
-        public virtual void Parse(IContentBuilderContext context, IXmlElement element)
-        {
-            BindProperties(context, element);
-        }
-
         /// <summary>
         /// Process <paramref name="element"/>.
         /// </summary>
         /// <param name="context">Context of current build.</param>
         /// <param name="element">Xml element that is being processed.</param>
-        protected virtual void BindProperties(IContentBuilderContext context, IXmlElement element)
+        public virtual void Parse(IContentBuilderContext context, IXmlElement element)
         {
-            List<IXmlAttribute> unboundAttributes = new List<IXmlAttribute>();
-            List<IXmlNode> unboundNodes = new List<IXmlNode>();
-
             // Bind attributes
-            BindAttributes(context, element.Attributes, unboundAttributes);
-            
+            IEnumerable<IXmlAttribute> unboundAttributes = BindPropertiesFromAttributes(context, element.Attributes);
+
             // Bind inner elements
-            BindNodes(context, element.ChildNodes, unboundNodes);
+            IEnumerable<IXmlNode> unboundNodes = BindProperiesFromNodes(context, element.ChildNodes);
 
             // Process unbound attributes
             ProcessUnboundAttributes(context, unboundAttributes);
@@ -39,24 +35,32 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// 
+        /// Process xml attributes defined of xml element that is being processed.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="attributes"></param>
-        /// <param name="unboundAttributes"></param>
-        protected virtual void BindAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes, List<IXmlAttribute> unboundAttributes)
+        /// <param name="context">Context of current build.</param>
+        /// <param name="attributes">Enumeration of defined xml attributes.</param>
+        /// <returns>Enumeration of xml attributes that can't be used as properties.</returns>
+        private IEnumerable<IXmlAttribute> BindPropertiesFromAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes)
         {
-            // Bind attributes
+            List<IXmlAttribute> unboundAttributes = new List<IXmlAttribute>();
             foreach (IXmlAttribute attribute in attributes)
             {
                 if (!TryBindProperty(context, attribute.Prefix.ToLowerInvariant(), attribute.Name.ToLowerInvariant(), attribute.Value))
                     unboundAttributes.Add(attribute);
             }
+
+            return unboundAttributes;
         }
 
-        protected virtual void BindNodes(IContentBuilderContext context, IEnumerable<IXmlNode> childNodes, List<IXmlNode> unboundNodes)
+        /// <summary>
+        /// Process xml inner nodes of xml element that is being processed.
+        /// </summary>
+        /// <param name="context">Context of current build.</param>
+        /// <param name="childNodes">Enumeration of inner xml nodes.</param>
+        /// <returns>Enumeration of inner xml nodes that can't be used as properties.</returns>
+        private IEnumerable<IXmlNode> BindProperiesFromNodes(IContentBuilderContext context, IEnumerable<IXmlNode> childNodes)
         {
-            // Bind inner elements
+            List<IXmlNode> unboundNodes = new List<IXmlNode>();
             foreach (IXmlNode childNode in childNodes)
             {
                 if (childNode.NodeType == XmlNodeType.Element)
@@ -67,6 +71,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                         unboundNodes.Add(element);
                 }
             }
+
+            return unboundNodes;
         }
 
         /// <summary>
