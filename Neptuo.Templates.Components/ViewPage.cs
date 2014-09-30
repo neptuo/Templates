@@ -9,7 +9,7 @@ namespace Neptuo.Templates
     /// <summary>
     /// Base implmenetation of <see cref="IViewPage"/>.
     /// </summary>
-    public class BaseViewPage : DisposableBase, IViewPage
+    public class ViewPage : DisposableBase, IViewPage
     {
         /// <summary>
         /// Current component manager.
@@ -21,7 +21,7 @@ namespace Neptuo.Templates
         /// </summary>
         public ICollection<object> Content { get; set; }
 
-        public BaseViewPage(IComponentManager componentManager)
+        public ViewPage(IComponentManager componentManager)
         {
             Guard.NotNull(componentManager, "componentManager");
             ComponentManager = componentManager;

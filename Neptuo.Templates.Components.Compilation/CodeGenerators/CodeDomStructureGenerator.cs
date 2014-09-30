@@ -52,7 +52,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected virtual void SetBaseTypes(CodeTypeDeclaration typeDeclaration)
         {
-            typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(BaseGeneratedView)));
+            typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(GeneratedView)));
             typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
         }
 

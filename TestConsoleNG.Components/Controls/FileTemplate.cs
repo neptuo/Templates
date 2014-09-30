@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.FileSystems;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
 using System;
@@ -25,8 +26,8 @@ namespace TestConsoleNG.Controls
 
         public ITemplateContent CreateInstance()
         {
-            BaseGeneratedView view = (BaseGeneratedView)ViewService.Process("CSharp", Path, new ViewServiceContext(DependencyProvider));
-            view.Setup(new BaseViewPage(DependencyProvider.Resolve<IComponentManager>()), DependencyProvider.Resolve<IComponentManager>(), DependencyProvider);
+            GeneratedView view = (GeneratedView)ViewService.ProcessContent("CSharp", LocalFileSystem.FromFilePath(Path).GetContent(), new ViewServiceContext(DependencyProvider));
+            view.Setup(new ViewPage(DependencyProvider.Resolve<IComponentManager>()), DependencyProvider.Resolve<IComponentManager>(), DependencyProvider);
             view.CreateControls();
 
             ViewTemplateContent templateContent = new ViewTemplateContent(view);

@@ -31,7 +31,7 @@ namespace LiveWebUI.Models
 
 
             Container = new SimpleObjectBuilder();
-            Container.RegisterInstance<IFileProvider>(new FileProvider(new StaticFileSystem("C:/Temp", false).RootDirectory));
+            Container.RegisterInstance<IFileProvider>(new FileProvider(new LocalFileSystem("C:/Temp", false).RootDirectory));
             Container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             Container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
 

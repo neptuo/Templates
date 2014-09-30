@@ -167,33 +167,12 @@ namespace Neptuo.Templates.Compilation
         }
 
         /// <summary>
-        /// Compiles <see cref="fileName"/> and retuns <see cref="BaseGeneratedView"/>.
-        /// </summary>
-        /// <param name="name">Name of required process to run.</param>
-        /// <param name="fileName">Template file name.</param>
-        /// <param name="context">Context information.</param>
-        /// <returns><see cref="BaseGeneratedView"/> for <paramref name="fileName"/>.</returns>
-        public object Process(string name, string fileName, IViewServiceContext context)
-        {
-            Guard.NotNullOrEmpty(fileName, "fileName");
-            Guard.NotNull(context, "context");
-
-            EnsureFileProvider(context);
-            EnsureNamingService(context);
-
-            if (!FileProvider.Exists(fileName))
-                throw new CodeDomViewServiceException(String.Format("View '{0}' doesn't exist!", fileName));
-
-            return ProcessContent(name, FileProvider.GetFileContent(fileName), context, NamingService.FromFile(fileName));
-        }
-
-        /// <summary>
-        /// Compiles <see cref="viewContent"/> and retuns <see cref="BaseGeneratedView"/>.
+        /// Compiles <see cref="viewContent"/> and retuns <see cref="GeneratedView"/>.
         /// </summary>
         /// <param name="name">Name of required process to run.</param>
         /// <param name="viewContent">Template content.</param>
         /// <param name="context">Context information.</param>
-        /// <returns><see cref="BaseGeneratedView"/> for <paramref name="viewContent"/>.</returns>
+        /// <returns><see cref="GeneratedView"/> for <paramref name="viewContent"/>.</returns>
         public object ProcessContent(string name, string viewContent, IViewServiceContext context)
         {
             Guard.NotNullOrEmpty(viewContent, "viewContent");
@@ -204,13 +183,13 @@ namespace Neptuo.Templates.Compilation
         }
 
         /// <summary>
-        /// Compiles <see cref="viewContent"/> and retuns <see cref="BaseGeneratedView"/>.
+        /// Compiles <see cref="viewContent"/> and retuns <see cref="GeneratedView"/>.
         /// </summary>
         /// <param name="name">Name of required process to run.</param>
         /// <param name="viewContent">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <param name="naming">Naming for this template compilation.</param>
-        /// <returns><see cref="BaseGeneratedView"/> for <paramref name="viewContent"/>.</returns>
+        /// <returns><see cref="GeneratedView"/> for <paramref name="viewContent"/>.</returns>
         protected virtual object ProcessContent(string name, string viewContent, IViewServiceContext context, INaming naming)
         {
             EnsureFileProvider(context);
@@ -330,7 +309,7 @@ namespace Neptuo.Templates.Compilation
         /// <returns>Root property of view.</returns>
         protected virtual IPropertyDescriptor GetRootPropertyDescriptor(IViewServiceContext context)
         {
-            IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
+            IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView>(v => v.Content)));
             return new ListAddPropertyDescriptor(propertyInfo);
         }
 
