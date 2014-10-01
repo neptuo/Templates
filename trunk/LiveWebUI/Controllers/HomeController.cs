@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ViewPage = Neptuo.Templates.ViewPage;
 
 namespace LiveWebUI.Controllers
 {

@@ -10,7 +10,7 @@ function btnTest_click(e){
     Neptuo.DependencyContainerExtensions.RegisterInstance$1(Neptuo.Templates.IComponentManager.ctor, container, new Neptuo.Templates.ComponentManager.ctor());
     var writer = new System.IO.StringWriter.ctor();
     var view = new Neptuo.Templates.View_38422005C8911AD1E3131BF96B087D39DBA789AA.ctor();
-    view.Setup(new Neptuo.Templates.BaseViewPage.ctor(Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.IComponentManager.ctor, container)), Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.IComponentManager.ctor, container), container);
+    view.Setup(new Neptuo.Templates.ViewPage.ctor(Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.IComponentManager.ctor, container)), Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.IComponentManager.ctor, container), container);
     view.CreateControls();
     view.Init();
     view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(writer));
