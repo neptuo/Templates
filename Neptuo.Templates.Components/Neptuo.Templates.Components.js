@@ -96,8 +96,8 @@ var Neptuo$Templates$HtmlAttributeCollection = {
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$HtmlAttributeCollection);
-var Neptuo$Templates$BaseGeneratedView = {
-    fullname: "Neptuo.Templates.BaseGeneratedView",
+var Neptuo$Templates$GeneratedView = {
+    fullname: "Neptuo.Templates.GeneratedView",
     baseTypeName: "Neptuo.ComponentModel.DisposableBase",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Class",
@@ -161,9 +161,9 @@ var Neptuo$Templates$BaseGeneratedView = {
     ],
     IsAbstract: true
 };
-JsTypes.push(Neptuo$Templates$BaseGeneratedView);
-var Neptuo$Templates$BaseViewPage = {
-    fullname: "Neptuo.Templates.BaseViewPage",
+JsTypes.push(Neptuo$Templates$GeneratedView);
+var Neptuo$Templates$ViewPage = {
+    fullname: "Neptuo.Templates.ViewPage",
     baseTypeName: "Neptuo.ComponentModel.DisposableBase",
     assemblyName: "Neptuo.Templates.Components",
     interfaceNames: ["Neptuo.Templates.IViewPage"],
@@ -222,7 +222,7 @@ var Neptuo$Templates$BaseViewPage = {
     ],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$BaseViewPage);
+JsTypes.push(Neptuo$Templates$ViewPage);
 var Neptuo$Templates$ComponentManager = {
     fullname: "Neptuo.Templates.ComponentManager",
     baseTypeName: "System.Object",
