@@ -152,7 +152,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public ITokenBuilder CreateBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
-            name = PrepareName(name, Configuration.ComponentSuffix);
+            name = PrepareName(name, Configuration.ExtensionSuffix);
 
             if (Content.Tokens[prefix].ContainsKey(name))
             {
