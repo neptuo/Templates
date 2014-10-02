@@ -28,8 +28,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (xml != null)
                 {
                     DocumentElement = XmlDocumentSupport.LoadXml(CreateRootElement(xml));
-                    if (DocumentElement.Name == "NeptuoTemplatesRoot" && DocumentElement.ChildNodes.Count() == 1)
-                        DocumentElement = (IXmlElement)DocumentElement.ChildNodes.First();
+                    //if (DocumentElement.Name == "NeptuoTemplatesRoot" && DocumentElement.ChildNodes.Count() == 1)
+                    //    DocumentElement = (IXmlElement)DocumentElement.ChildNodes.First();
                 }
             }
 
