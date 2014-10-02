@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation
+namespace Neptuo.Templates.Compilation.CodeCompilers
 {
     /// <summary>
-    /// View service context.
+    /// Code for code compilation using <see cref="ICodeCompilerService"/>.
     /// </summary>
-    public interface IViewServiceContext
+    public interface ICodeCompilerServiceContext
     {
         /// <summary>
         /// Current dependency provider.
@@ -16,7 +17,7 @@ namespace Neptuo.Templates.Compilation
         IDependencyProvider DependencyProvider { get; }
 
         /// <summary>
-        /// Collection of errors that occured during processing view.
+        /// List of error messsages.
         /// </summary>
         ICollection<IErrorInfo> Errors { get; }
     }

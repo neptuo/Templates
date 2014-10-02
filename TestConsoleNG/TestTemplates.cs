@@ -34,7 +34,7 @@ namespace TestConsoleNG
             container.RegisterInstance<IFileProvider>(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
-            container.RegisterType<IViewServiceContext, ViewServiceContext>();
+            container.RegisterType<IViewServiceContext, DefaultViewServiceContext>();
         }
 
         public static void Test()
@@ -79,7 +79,7 @@ namespace TestConsoleNG
             //try
             //{
 
-            IViewServiceContext context = new ViewServiceContext(container);
+            IViewServiceContext context = new DefaultViewServiceContext(container);
 
 
 

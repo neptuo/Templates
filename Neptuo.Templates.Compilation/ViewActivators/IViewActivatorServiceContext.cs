@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Compilation
+namespace Neptuo.Templates.Compilation.ViewActivators
 {
     /// <summary>
-    /// View service context.
+    /// Context for view activation.
     /// </summary>
-    public interface IViewServiceContext
+    public interface IViewActivatorServiceContext
     {
         /// <summary>
         /// Current dependency provider.
@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation
         IDependencyProvider DependencyProvider { get; }
 
         /// <summary>
-        /// Collection of errors that occured during processing view.
+        /// Collection of errors.
         /// </summary>
         ICollection<IErrorInfo> Errors { get; }
     }
