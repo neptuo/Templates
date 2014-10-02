@@ -32,24 +32,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.textProperty = textProperty;
         }
 
-        public void Parse(IContentBuilderContext context, string text)
+        public ICodeObject Parse(IContentBuilderContext context, string text)
         {
             Guard.NotNull(context, "context");
-            if (context.Parent.Property.CanAssign(typeof(string)))
-            {
-                context.Parent.SetValue(new PlainValueCodeObject(text));
-                return;
-            }
-
-            if (context.Parent.Property.CanAssign(literalControlType))
-            {
-                IComponentCodeObject codeObject = new ComponentCodeObject(literalControlType);
-                codeObject.Properties.Add(new SetPropertyDescriptor(
-                    new TypePropertyInfo(literalControlType.GetProperty(textProperty)),
-                    new PlainValueCodeObject(text)
-                ));
-                context.Parent.SetValue(codeObject);
-            }
+            return new LiteralCodeObject(literalControlType, textProperty, text);
         }
     }
 }

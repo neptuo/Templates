@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             RunCsc = true;
         }
 
-        public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext context)
+        public bool ProcessTree(ICodeObject codeObject, ICodeGeneratorContext context)
         {
             StringWriter innerOutput = new StringWriter();
             ICodeGeneratorContext innerContext = null;
@@ -51,7 +51,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 );
             }
 
-            if (!InnerGenerator.ProcessTree(propertyDescriptor, innerContext))
+            if (!InnerGenerator.ProcessTree(codeObject, innerContext))
                 return false;
 
             return GenerateJavascriptFromCSharpCode(innerOutput, context);

@@ -16,15 +16,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 propertyDescriptor.Value, 
                 propertyDescriptor
             );
-            context.Statements.Add(
-                new CodeAssignStatement(
-                    new CodePropertyReferenceExpression(
-                        GetPropertyTarget(context),
-                        propertyDescriptor.Property.Name
-                    ),
-                    codeExpression
-                )
-            );
+            if (codeExpression != null)
+            {
+                context.Statements.Add(
+                    new CodeAssignStatement(
+                        new CodePropertyReferenceExpression(
+                            GetPropertyTarget(context),
+                            propertyDescriptor.Property.Name
+                        ),
+                        codeExpression
+                    )
+                );
+            }
         }
     }
 }

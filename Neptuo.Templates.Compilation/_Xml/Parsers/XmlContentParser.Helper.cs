@@ -14,7 +14,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         public class Helper
         {
-            public IPropertyDescriptor Parent { get; set; }
             public IContentParserContext Context { get; protected set; }
             public IXmlElement DocumentElement { get; protected set; }
             private IContentBuilderRegistry BuilderRegistry { get; set; }
@@ -25,18 +24,13 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Context = context;
                 BuilderRegistry = builderRegistry;
                 Content = new StringBuilder();
-                Parent = context.PropertyDescriptor;
 
                 if (xml != null)
+                {
                     DocumentElement = XmlDocumentSupport.LoadXml(CreateRootElement(xml));
-            }
-
-            public void WithParent(IPropertyDescriptor parent, Action execute)
-            {
-                IPropertyDescriptor current = Parent;
-                Parent = parent;
-                execute();
-                Parent = current;
+                    if (DocumentElement.Name == "NeptuoTemplatesRoot" && DocumentElement.ChildNodes.Count() == 1)
+                        DocumentElement = (IXmlElement)DocumentElement.ChildNodes.First();
+                }
             }
 
             public void FormatEmptyElement(IXmlElement element)
@@ -64,11 +58,16 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             private string CreateRootElement(string content)
             {
+                // If we start with property xml definition name, we are assuming that content is prefectly valid.
+                if (content.StartsWith("<?xml"))
+                    return content;
+
+                // Otherwise we create root element with necessary namespace mappings.
                 HashSet<string> usedPrefixes = new HashSet<string>();
                 StringBuilder result = new StringBuilder();
 
                 result.Append("<?xml version=\"1.0\" ?>");
-                result.Append("<Neptuo-Templates-Root");
+                result.Append("<NeptuoTemplatesRoot");
                 foreach (NamespaceDeclaration entry in BuilderRegistry.GetRegisteredNamespaces())
                 {
                     if (usedPrefixes.Add(entry.Prefix))
@@ -82,7 +81,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
                 result.Append(">");
                 result.Append(content);
-                result.Append("</Neptuo-Templates-Root>");
+                result.Append("</NeptuoTemplatesRoot>");
 
                 return result.ToString();
             }

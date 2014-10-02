@@ -18,14 +18,14 @@ namespace Neptuo.Templates.Compilation
         /// <param name="prefix">Component prefix.</param>
         /// <param name="name">Component name.</param>
         /// <returns>Get component builder for <paramref name="prefix"/> and <paramref name="name"/> or null.</returns>
-        IComponentBuilder GetComponentBuilder(string prefix, string name);
+        IContentBuilder GetComponentBuilder(string prefix, string name);
 
         /// <summary>
         /// Gets generic component builder.
         /// </summary>
         /// <param name="name">Component name.</param>
         /// <returns>Gets generic component builder.</returns>
-        IComponentBuilder GetGenericContentBuilder(string name);
+        IContentBuilder GetGenericContentBuilder(string name);
 
         /// <summary>
         /// Gets static text builder.

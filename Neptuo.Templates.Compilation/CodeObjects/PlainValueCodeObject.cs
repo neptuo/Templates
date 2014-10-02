@@ -8,9 +8,26 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Property value (in final state) or literal object.
     /// </summary>
-    public class PlainValueCodeObject : IPlainValueCodeObject
+    public class PlainValueCodeObject : IPlainValueCodeObject, ITypeCodeObject
     {
-        public object Value { get; set; }
+        private object value;
+
+        public object Value
+        {
+            get { return value; }
+            set
+            {
+                this.value = value;
+
+                if (this.value != null)
+                    Type = this.value.GetType();
+                else
+                    Type = typeof(object);
+
+            }
+        }
+
+        public Type Type { get; set; }
 
         public PlainValueCodeObject(object value)
         {

@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected IPropertyInfo DefaultProperty { get; private set; }
         protected BindPropertiesContext BindContext { get; private set; }
 
-        public override void Parse(IContentBuilderContext context, IXmlElement element)
+        public override ICodeObject Parse(IContentBuilderContext context, IXmlElement element)
         {
             if (isParsing)
                 throw new InvalidOperationException("ComponentDescriptorBuilder can't be reused! Create new instance for every xml tag.");
@@ -31,14 +31,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             DefaultProperty = ComponentDefinition.GetDefaultProperty();
             BindContext = new BindPropertiesContext(ComponentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
 
-            base.Parse(context, element);
-            AppendToParent(context, CodeObject);
+            BindProperties(context, element);
             isParsing = false;
-        }
-
-        protected virtual void AppendToParent(IContentBuilderContext context, IComponentCodeObject codeObject)
-        {
-            context.Parent.SetValue(codeObject);
+            return CodeObject;
         }
 
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, string value)
@@ -62,13 +57,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
 
-                result = context.ParserContext.ParserService.ProcessValue(
+                ICodeObject codeObject = context.ParserContext.ParserService.ProcessValue(
                     value,
-                    new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+                    new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
                 );
 
                 if (result)
                 {
+                    propertyDescriptor.SetValue(codeObject);
                     CodeObject.Properties.Add(propertyDescriptor);
                     BindContext.BoundProperies.Add(name);
                     return true;
@@ -186,7 +182,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                 //Collection item
                 IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                 codeObject.Properties.Add(propertyDescriptor);
-                context.Parser.ProcessContent(context, propertyDescriptor, content);
+
+                foreach (IXmlNode node in content)
+                {
+                    ICodeObject valueObject = context.Parser.ProcessNode(context, node);
+                    propertyDescriptor.SetValue(valueObject);
+                }
             }
             else
             {
@@ -199,7 +200,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                     {
                         IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                         codeObject.Properties.Add(propertyDescriptor);
-                        context.Parser.ProcessContent(context, propertyDescriptor, content);
+
+                        foreach (IXmlElement node in elements)
+                        {
+                            ICodeObject valueObject = context.Parser.ProcessNode(context, node);
+                            propertyDescriptor.SetValue(valueObject);
+                        }
                     }
                     else
                     {

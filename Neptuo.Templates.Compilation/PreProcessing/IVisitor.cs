@@ -16,6 +16,6 @@ namespace Neptuo.Templates.Compilation.PreProcessing
         /// </summary>
         /// <param name="propertyDescriptor">AST property.</param>
         /// <param name="context">Context information.</param>
-        void Visit(IPropertyDescriptor propertyDescriptor, IVisitorContext context);
+        void Visit(ICodeObject codeObject, IVisitorContext context);
     }
 }

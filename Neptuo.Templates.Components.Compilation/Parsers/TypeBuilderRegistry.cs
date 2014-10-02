@@ -38,13 +38,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilder literalBuilder, IComponentBuilder genericContentBuilder)
+        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilderFactory literalBuilderFactory, IContentBuilderFactory genericContentBuilderFactory)
             : base(configuration, new TypeBuilderRegistryContent())
         {
-            Guard.NotNull(literalBuilder, "literalBuilder");
-            Guard.NotNull(genericContentBuilder, "genericContentBuilder");
-            Content.LiteralBuilder = literalBuilder;
-            Content.GenericContentBuilder = genericContentBuilder;
+            Guard.NotNull(literalBuilderFactory, "literalBuilderFactory");
+            Guard.NotNull(genericContentBuilderFactory, "genericContentBuilder");
+            Content.LiteralBuilderFactory = literalBuilderFactory;
+            Content.GenericContentBuilderFactory = genericContentBuilderFactory;
         }
 
         protected TypeBuilderRegistry(TypeBuilderRegistry parentRegistry)
@@ -56,14 +56,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region Get
 
-        public IComponentBuilder GetComponentBuilder(string prefix, string name)
+        public IContentBuilder GetComponentBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ComponentSuffix);
 
             if (Content.Components[prefix].ContainsKey(name))
             {
-                IComponentBuilderFactory factory = Content.Components[prefix][name];
+                IContentBuilderFactory factory = Content.Components[prefix][name];
                 return factory.CreateBuilder(prefix, name);
             }
 
@@ -97,9 +97,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return null;
         }
 
-        public IComponentBuilder GetGenericContentBuilder(string name)
+        public IContentBuilder GetGenericContentBuilder(string name)
         {
-            if (Content.GenericContentBuilder == null)
+            if (Content.GenericContentBuilderFactory == null)
             {
                 if (parentRegistry != null)
                     return parentRegistry.GetGenericContentBuilder(name);
@@ -107,12 +107,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                 throw new TypeBuilderRegistryException("Registry doesn't contain generic content builder.");
             }
 
-            return Content.GenericContentBuilder;
+            return Content.GenericContentBuilderFactory.CreateBuilder(String.Empty, name);
         }
 
         public ILiteralBuilder GetLiteralBuilder()
         {
-            if (Content.LiteralBuilder == null)
+            if (Content.LiteralBuilderFactory == null)
             {
                 if (parentRegistry != null)
                     return parentRegistry.GetLiteralBuilder();
@@ -120,7 +120,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 throw new TypeBuilderRegistryException("Registry doesn't contain literal builder.");
             }
 
-            return Content.LiteralBuilder;
+            return Content.LiteralBuilderFactory.CreateBuilder();
         }
 
         public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
@@ -178,7 +178,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Content.Namespaces[prefix] = namespaceDeclaration;
         }
 
-        protected void RegisterComponent(string prefix, string tagName, IComponentBuilderFactory factory)
+        protected void RegisterComponent(string prefix, string tagName, IContentBuilderFactory factory)
         {
             prefix = PreparePrefix(prefix);
             tagName = PrepareName(tagName, Configuration.ComponentSuffix);
@@ -205,7 +205,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             TypeScanner.Scan(namespaceDeclaration.Prefix, namespaceDeclaration.Namespace);
         }
 
-        public void RegisterComponentBuilder(string prefix, string tagName, IComponentBuilderFactory factory)
+        public void RegisterComponentBuilder(string prefix, string tagName, IContentBuilderFactory factory)
         {
             RegisterNamespaceInternal(new NamespaceDeclaration(prefix, tagName));
             RegisterComponent(prefix, tagName, factory);

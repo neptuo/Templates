@@ -18,10 +18,10 @@ namespace Neptuo.Templates.Compilation.PreProcessing
             visitors.Add(visitor);
         }
 
-        public void Process(IPropertyDescriptor propertyDescriptor, IPreProcessorServiceContext context)
+        public void Process(ICodeObject codeObject, IPreProcessorServiceContext context)
         {
             foreach (IVisitor visitor in visitors)
-                visitor.Visit(propertyDescriptor, new DefaultPreProcessorContext(context.DependencyProvider, this));
+                visitor.Visit(codeObject, new DefaultPreProcessorContext(context.DependencyProvider, this));
         }
     }
 }

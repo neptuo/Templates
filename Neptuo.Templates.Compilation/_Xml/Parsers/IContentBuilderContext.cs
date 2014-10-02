@@ -7,7 +7,7 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Context for <see cref="IComponentBuilder"/>.
+    /// Context for <see cref="IContentBuilder"/>.
     /// </summary>
     public interface IContentBuilderContext
     {
@@ -15,11 +15,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Current parser context.
         /// </summary>
         IContentParserContext ParserContext { get; }
-
-        /// <summary>
-        /// Parent property descriptor where this component will be set.
-        /// </summary>
-        IPropertyDescriptor Parent { get; }
 
         /// <summary>
         /// XML parser.

@@ -17,11 +17,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         IDependencyProvider DependencyProvider { get; }
 
         /// <summary>
-        /// Root property descriptor.
-        /// </summary>
-        IPropertyDescriptor PropertyDescriptor { get; }
-
-        /// <summary>
         /// List of error messages.
         /// </summary>
         ICollection<IErrorInfo> Errors { get; }

@@ -18,15 +18,19 @@ namespace TestConsoleNG.Controls
         public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, string attributeValue)
         {
             IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            bool result = context.ParserContext.ParserService.ProcessValue(
+            ICodeObject valueObject = context.ParserContext.ParserService.ProcessValue(
                 attributeValue,
-                new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+                new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
             );
 
-            if(result)
+            if (valueObject != null)
+            {
+                propertyDescriptor.SetValue(valueObject);
                 codeObject.Properties.Add(propertyDescriptor);
+                return true;
+            }
 
-            return result;
+            return false;
         }
     }
 

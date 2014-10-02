@@ -13,10 +13,9 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class PlainValueParser : IValueParser
     {
-        public bool Parse(string content, IValueParserContext context)
+        public ICodeObject Parse(string content, IValueParserContext context)
         {
-            context.PropertyDescriptor.SetValue(new PlainValueCodeObject(content));
-            return true;
+            return new PlainValueCodeObject(content);
         }
     }
 }

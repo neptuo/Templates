@@ -118,13 +118,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeExpression GenerateCodeObject(CodeObjectExtensionContext context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(codeObject, "codeObject");
             foreach (KeyValuePair<Type, ICodeDomComponentGenerator> item in CodeObjectGenerators)
             {
                 if (item.Key == codeObject.GetType())
                     return item.Value.GenerateCode(context, codeObject, propertyDescriptor);
             }
 
-            throw new NotImplementedException("Not supported code object");
+            throw new NotImplementedException(String.Format("Not supported code object of type '{0}'", codeObject.GetType()));
         }
 
         public void GenerateProperty(CodeDomPropertyContext context, IPropertyDescriptor propertyDescriptor)
@@ -186,8 +188,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #endregion
 
-        public bool ProcessTree(IPropertyDescriptor propertyDescriptor, ICodeGeneratorContext codeContext)
+        public bool ProcessTree(ICodeObject codeObject, ICodeGeneratorContext codeContext)
         {
+            Guard.NotNull(codeObject, "codeObject");
+            Guard.NotNull(codeContext, "codeContext");
             Context context = new Context(codeContext, this, IsDirectObjectResolve);
 
             if (BaseStructureGenerator == null)
@@ -199,9 +203,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             context.Structure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
 
-            GenerateProperty(
-                new CodeDomPropertyContext(context, null, context.Structure.EntryPointMethod.Statements), 
-                propertyDescriptor
+            GenerateCodeObject(
+                new CodeObjectExtensionContext(context, null),
+                codeObject,
+                null
             );
             RunCodeDomVisitors(context);
 

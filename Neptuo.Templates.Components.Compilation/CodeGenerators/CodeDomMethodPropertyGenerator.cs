@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         p => context.CodeGenerator.GenerateCodeObject(
                             new CodeObjectExtensionContext(context.Context, context.FieldName), p, propertyDescriptor
                         )
-                    ).ToArray()
+                    ).Where(p => p != null).ToArray()
                 )
             );
         }

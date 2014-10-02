@@ -270,8 +270,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="context">Generator context.</param>
         /// <param name="codeObject">Code object.</param>
         /// <param name="bindMethod">Bind method info.</param>
-        protected void GenerateBindMethodStatements<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo bindMethod)
-            where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
+        protected void GenerateBindMethodStatements(CodeObjectExtensionContext context, IPropertiesCodeObject codeObject, ComponentMethodInfo bindMethod)
         {
             foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
             {

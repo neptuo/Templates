@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTypeComponentBuilderFactory : IComponentBuilderFactory
+    public class DefaultTypeComponentBuilderFactory : IContentBuilderFactory
     {
         protected Type ControlType { get; private set; }
 
@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ControlType = controlType;
         }
 
-        public IComponentBuilder CreateBuilder(string prefix, string tagName)
+        public IContentBuilder CreateBuilder(string prefix, string tagName)
         {
             return new DefaultTypeComponentBuilder(ControlType);
         }

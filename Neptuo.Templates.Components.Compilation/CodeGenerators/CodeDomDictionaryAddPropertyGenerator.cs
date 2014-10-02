@@ -45,14 +45,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     propertyValue.Value,
                     propertyDescriptor
                 );
-                context.Statements.Add(
-                    new CodeMethodInvokeExpression(
-                        codePropertyReference,
-                        addMethodName,
-                        keyCodeExpression,
-                        valueCodeExpression
-                    )
-                );
+                if (keyCodeExpression != null && valueCodeExpression != null)
+                {
+                    context.Statements.Add(
+                        new CodeMethodInvokeExpression(
+                            codePropertyReference,
+                            addMethodName,
+                            keyCodeExpression,
+                            valueCodeExpression
+                        )
+                    );
+                }
             }
         }
     }

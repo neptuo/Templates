@@ -105,9 +105,11 @@
     <Compile Include="_Xml\Parsers\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />
-    <Compile Include="_Xml\Parsers\IComponentBuilder.cs" />
+    <Compile Include="_Xml\Parsers\IContentBuilderFactory.cs" />
+    <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
     <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilderContext.cs" />
+    <Compile Include="_Xml\Parsers\ILiteralBuilderFactory.cs" />
     <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverDescriptor.cs" />

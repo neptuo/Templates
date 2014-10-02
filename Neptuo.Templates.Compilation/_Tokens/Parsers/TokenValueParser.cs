@@ -8,7 +8,7 @@ using System.Reflection;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Markup extension value parser.
+    /// Token value parser.
     /// </summary>
     public partial class TokenValueParser : IValueParser
     {
@@ -20,24 +20,25 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.builderFactory = builderFactory;
         }
 
-        public bool Parse(string content, IValueParserContext context)
+        public ICodeObject Parse(string content, IValueParserContext context)
         {
-            bool parsed = false;
+            ICodeObject codeObject = null;
 
             Helper helper = new Helper(context, builderFactory);
-            helper.Parser.OnParsedToken += (sender, e) => parsed = GenerateExtension(helper, e.Token);
+            helper.Parser.OnParsedToken += (sender, e) => codeObject = GenerateToken(helper, e.Token);
             helper.Parser.Parse(content);
 
-            return parsed;
+            return codeObject;
         }
 
-        private bool GenerateExtension(Helper helper, Token extension)
+        private ICodeObject GenerateToken(Helper helper, Token extension)
         {
             ITokenBuilder builder = helper.BuilderFactory.CreateBuilder(extension.Prefix, extension.Name);
             if (builder == null)
-                return false;
+                return null;
 
-            return builder.Parse(new TokenBuilderContext(this, helper), extension);
+            ICodeObject codeObject = builder.Parse(new TokenBuilderContext(this, helper), extension);
+            return codeObject;
         }
     }
 }
