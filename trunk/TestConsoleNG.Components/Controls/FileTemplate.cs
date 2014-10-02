@@ -26,7 +26,7 @@ namespace TestConsoleNG.Controls
 
         public ITemplateContent CreateInstance()
         {
-            GeneratedView view = (GeneratedView)ViewService.ProcessContent("CSharp", LocalFileSystem.FromFilePath(Path).GetContent(), new ViewServiceContext(DependencyProvider));
+            GeneratedView view = (GeneratedView)ViewService.ProcessContent("CSharp", LocalFileSystem.FromFilePath(Path).GetContent(), new DefaultViewServiceContext(DependencyProvider));
             view.Setup(new ViewPage(DependencyProvider.Resolve<IComponentManager>()), DependencyProvider.Resolve<IComponentManager>(), DependencyProvider);
             view.CreateControls();
 

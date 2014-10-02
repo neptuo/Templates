@@ -37,8 +37,8 @@ namespace LiveWebUI.Hubs
             try
             {
                 return TemplateHelper.ViewService.GenerateSourceCode(
-                    viewContent, 
-                    new ViewServiceContext(TemplateHelper.Container), 
+                    viewContent,
+                    new DefaultViewServiceContext(TemplateHelper.Container), 
                     TemplateHelper.ViewService.NamingService.FromContent(viewContent)
                 );
             }
@@ -54,8 +54,8 @@ namespace LiveWebUI.Hubs
             try
             {
                 TemplateHelper.ViewService.CompileViewContent(
-                    viewContent, 
-                    new ViewServiceContext(TemplateHelper.Container), 
+                    viewContent,
+                    new DefaultViewServiceContext(TemplateHelper.Container), 
                     TemplateHelper.ViewService.NamingService.FromContent(viewContent)
                 );
                 return Save(identifier, viewContent);

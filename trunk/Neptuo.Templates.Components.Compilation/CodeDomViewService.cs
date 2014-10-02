@@ -124,7 +124,7 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Text writer pro simple performance measurements.
         /// </summary>
-        public TextWriter DebugMeasureWriter
+        public TextWriter DebugWriter
         {
             get { return InnerWriter; }
             set

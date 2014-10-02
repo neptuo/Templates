@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation
         /// <param name="name">Name of required process to run.</param>
         /// <param name="viewContent">Template file content.</param>
         /// <param name="context">Context information.</param>
-        /// <returns>Instance of compiled template.</returns>
+        /// <returns>Instance of compiled template; <c>null</c> if compilation was not successfull.</returns>
         object ProcessContent(string name, string viewContent, IViewServiceContext context);
     }
 }

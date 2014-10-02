@@ -27,7 +27,7 @@ namespace LiveWebUI.Controllers
 
             StringWriter output = new StringWriter();
 
-            GeneratedView view = (GeneratedView)TemplateHelper.ViewService.ProcessContent("CSharp", viewContent, new ViewServiceContext(TemplateHelper.Container));
+            GeneratedView view = (GeneratedView)TemplateHelper.ViewService.ProcessContent("CSharp", viewContent, new DefaultViewServiceContext(TemplateHelper.Container));
             view.Setup(new ViewPage(TemplateHelper.Container.Resolve<IComponentManager>()), TemplateHelper.Container.Resolve<IComponentManager>(), TemplateHelper.Container);
             view.CreateControls();
             view.Init();
@@ -43,7 +43,7 @@ namespace LiveWebUI.Controllers
                 return Content("Missing view content!");
 
             INaming naming = TemplateHelper.ViewService.NamingService.FromContent(viewContent);
-            string javascript = TemplateHelper.ViewService.GenerateJavascript(viewContent, new ViewServiceContext(TemplateHelper.Container), naming);
+            string javascript = TemplateHelper.ViewService.GenerateJavascript(viewContent, new DefaultViewServiceContext(TemplateHelper.Container), naming);
             
             return View(new JavascriptModel(javascript, String.Join(".", naming.ClassNamespace, naming.ClassName)));
         }
