@@ -18,7 +18,8 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         {
             Guard.NotNullOrEmpty(name, "name");
             Guard.NotNull(compiler, "compiler");
-            throw new NotImplementedException();
+            compilers[name] = compiler;
+            return this;
         }
 
         public object Compile(string name, TextReader sourceCode, ICodeCompilerServiceContext context)

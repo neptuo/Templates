@@ -7,10 +7,13 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Implementation of <see cref="IParserService"/>.
+    /// </summary>
     public class DefaultParserService : IParserService
     {
-        public IList<IContentParser> ContentParsers { get; set; }
-        public IList<IValueParser> ValueParsers { get; set; }
+        public IList<IContentParser> ContentParsers { get; private set; }
+        public IList<IValueParser> ValueParsers { get; private set; }
         public IValueParser DefaultValueParser { get; set; }
 
         public DefaultParserService()

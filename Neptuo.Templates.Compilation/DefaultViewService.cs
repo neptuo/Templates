@@ -69,6 +69,7 @@ namespace Neptuo.Templates.Compilation
             PreProcessorService = new DefaultPreProcessorService();
             GeneratorService = new DefaultCodeGeneratorService();
             CompilerService = new DefaultCodeCompilerService();
+            ActivatorService = new DefaultViewActivatorService();
         }
 
         public object ProcessContent(string name, string viewContent, IViewServiceContext context)
