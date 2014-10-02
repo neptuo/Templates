@@ -24,17 +24,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.builderRegistry = builderRegistry;
         }
 
-        public bool Parse(string content, IContentParserContext context)
+        public ICodeObject Parse(string content, IContentParserContext context)
         {
 #if !DEBUG
             try
             {
 #endif
                 Helper helper = new Helper(content, context, builderRegistry);
-                GenerateRecursive(helper, builderRegistry, helper.DocumentElement.ChildNodes);
+                ICodeObject codeObject = ProcessNode(new XmlContentBuilderContext(this, helper, builderRegistry), helper.DocumentElement);
                 //FlushContent(helper); - doesn't respect current parent
 
-                return true;
+                return codeObject;
 #if !DEBUG
             }
             catch (XmlException e)
@@ -49,13 +49,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                 else
                     context.Errors.Add(new ExceptionErrorInfo(e));
             }
-            return false;
+            return null;
 #endif
-        }
-
-        public void ProcessContent(IContentBuilderContext context, IPropertyDescriptor propertyDescriptor, IEnumerable<IXmlNode> content)
-        {
-            context.Helper.WithParent(propertyDescriptor, () => GenerateRecursive(context.Helper, context.BuilderRegistry, content));
         }
 
         public void AttachObservers(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<ParsedObserver> observers)
@@ -64,48 +59,55 @@ namespace Neptuo.Templates.Compilation.Parsers
                 observer.Observer.CreateBuilder().Parse(context, codeObject, observer.Attributes);
         }
 
-        private void GenerateRecursive(Helper helper, IContentBuilderRegistry buildeRegistry, IEnumerable<IXmlNode> childNodes)
+        public ICodeObject ProcessNode(IContentBuilderContext context, IXmlNode node)
         {
-            foreach (IXmlNode node in childNodes)
+            Helper helper = context.Helper;
+            if (node.NodeType == XmlNodeType.Element)
             {
-                if (node.NodeType == XmlNodeType.Element)
-                {
-                    IXmlElement element = (IXmlElement)node;
-                    IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(builderRegistry, Utils.GetXmlNsNamespace(element));
-                    if (Utils.NeedsServerProcessing(helper, newBuilderRegistry, element))
-                    {
-                        FlushContent(helper);
+                IXmlElement element = (IXmlElement)node;
+                IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistrator(builderRegistry, Utils.GetXmlNsNamespace(element));
+                //if (Utils.NeedsServerProcessing(helper, newBuilderRegistry, element))
+                //{
+                //    FlushContent(helper);
 
-                        IComponentBuilder builder = builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
+                IContentBuilder builder = builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
 
-                        if (builder == null)
-                            throw new ArgumentOutOfRangeException(element.Name, "This element doesn't have builder!"); //TODO: Add as error!
-                            
-                        builder.Parse(new XmlContentBuilderContext(this, helper, newBuilderRegistry), element);
-                    }
-                    else if (element.IsEmpty)
-                    {
-                        helper.FormatEmptyElement(element);
-                    }
-                    else
-                    {
-                        helper.FormatStartElement(element);
-                        GenerateRecursive(helper, buildeRegistry, element.ChildNodes);
-                        helper.FormatEndElement(element);
-                    }
-                }
-                else if (node.NodeType == XmlNodeType.Text)
-                {
-                    IXmlText text = (IXmlText)node;
-                    helper.Content.Append(text.Text);
-                }
-                else if (node.NodeType == XmlNodeType.Comment)
-                {
-                    IXmlText text = (IXmlText)node;
-                    helper.Content.Append("<!--" + text.Text + "-->");
-                }
+                if (builder == null)
+                    throw new ArgumentOutOfRangeException(element.Name, "This element doesn't have builder!"); //TODO: Add as error!
+
+                ICodeObject codeObject = builder.Parse(new XmlContentBuilderContext(this, helper, newBuilderRegistry), element);
+                if (codeObject != null)
+                    return codeObject;
+                else
+                    throw new Exception(String.Format("Builder was not able to process xml element '{0}'.", element.Name));
+                
+                //}
+                //else if (element.IsEmpty)
+                //{
+                //    helper.FormatEmptyElement(element);
+                //}
+                //else
+                //{
+                //    helper.FormatStartElement(element);
+                //    GenerateRecursive(helper, builderRegistry, element.ChildNodes);
+                //    helper.FormatEndElement(element);
+                //}
             }
-            FlushContent(helper);
+            else if (node.NodeType == XmlNodeType.Text)
+            {
+                IXmlText text = (IXmlText)node;
+                return builderRegistry.GetLiteralBuilder().Parse(new XmlContentBuilderContext(this, helper, builderRegistry), text.Text);
+                //helper.Content.Append(text.Text);
+            }
+            else if (node.NodeType == XmlNodeType.Comment)
+            {
+                IXmlText text = (IXmlText)node;
+                return builderRegistry.GetLiteralBuilder().Parse(new XmlContentBuilderContext(this, helper, builderRegistry), "<!--" + text.Text + "-->");
+                //helper.Content.Append("<!--" + text.Text + "-->");
+            }
+            //FlushContent(helper);
+
+            throw new NotImplementedException();
         }
 
         private void FlushContent(Helper helper)

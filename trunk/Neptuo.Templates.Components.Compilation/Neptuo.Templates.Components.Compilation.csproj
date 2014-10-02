@@ -50,6 +50,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerators\CodeDomRootGenerator.cs" />
+    <Compile Include="CodeObjects\LiteralCodeObject.cs" />
+    <Compile Include="CodeObjects\RootCodeObject.cs" />
+    <Compile Include="Parsers\RootComponentDescriptor.cs" />
     <Compile Include="NamingServiceBase.cs" />
     <Compile Include="BuilderAttribute.cs" />
     <Compile Include="CodeDomDebugMode.cs" />
@@ -84,7 +88,9 @@
     <Compile Include="ComponentAttribute.cs" />
     <Compile Include="FileProvider.cs" />
     <Compile Include="NotifyList.cs" />
+    <Compile Include="Parsers\DefaultLiteralControlBuilderFactory.cs" />
     <Compile Include="Parsers\DependencyPropertyBuilderFactory.cs" />
+    <Compile Include="Parsers\FuncContentBuilderFactory.cs" />
     <Compile Include="Parsers\FuncPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\BuilderBase.cs" />
     <Compile Include="Parsers\DefaultTokenBuilder.cs" />
@@ -93,10 +99,10 @@
     <Compile Include="Parsers\DefaultTypeComponentBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverRegistration.cs" />
-    <Compile Include="Parsers\IComponentBuilderFactory.cs" />
     <Compile Include="Parsers\IObserverBuilderFactory.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyInfo.cs" />
     <Compile Include="Parsers\DefaultLiteralControlBuilder.cs" />
+    <Compile Include="Parsers\RootContentBuilder.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryConfiguration.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryContent.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryException.cs" />

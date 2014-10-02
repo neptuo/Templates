@@ -11,11 +11,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class TypeBuilderRegistryContent
     {
-        public ILiteralBuilder LiteralBuilder { get; set; }
-        public IComponentBuilder GenericContentBuilder { get; set; }
+        public ILiteralBuilderFactory LiteralBuilderFactory { get; set; }
+        public IContentBuilderFactory GenericContentBuilderFactory { get; set; }
 
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
-        public SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> Components { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> Tokens { get; protected set; }
         public Dictionary<Type, IPropertyBuilderFactory> Properties { get; protected set; }
@@ -25,17 +25,17 @@ namespace Neptuo.Templates.Compilation.Parsers
         { }
 
         public TypeBuilderRegistryContent(TypeBuilderRegistryContent content)
-            : this(content.Namespaces, content.Components, content.Observers, content.Tokens, content.Properties, content.LiteralBuilder, content.GenericContentBuilder)
+            : this(content.Namespaces, content.Components, content.Observers, content.Tokens, content.Properties, content.LiteralBuilderFactory, content.GenericContentBuilderFactory)
         { }
 
         public TypeBuilderRegistryContent(
             Dictionary<string, NamespaceDeclaration> namespaces,
-            SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>> controls,
+            SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
             SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> tokens,
             Dictionary<Type, IPropertyBuilderFactory> properties,
-            ILiteralBuilder literalBuilder,
-            IComponentBuilder genericContentBuilder)
+            ILiteralBuilderFactory literalBuilderFactory,
+            IContentBuilderFactory genericContentBuilderFactory)
         {
             if (namespaces != null)
                 Namespaces = new Dictionary<string, NamespaceDeclaration>(namespaces);
@@ -43,9 +43,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Namespaces = new Dictionary<string, NamespaceDeclaration>();
 
             if (controls != null)
-                Components = new SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>>(controls);
+                Components = new SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>>(controls);
             else
-                Components = new SpecialDictionary<string, Dictionary<string, IComponentBuilderFactory>>();
+                Components = new SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>>();
 
             if (observers != null)
                 Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>(observers);
@@ -62,8 +62,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             else
                 Properties = properties;
 
-            LiteralBuilder = literalBuilder;
-            GenericContentBuilder = genericContentBuilder;
+            LiteralBuilderFactory = literalBuilderFactory;
+            GenericContentBuilderFactory = genericContentBuilderFactory;
         }
 
         public class SpecialDictionary<TKey, TValue> : Dictionary<TKey, TValue>

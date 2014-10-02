@@ -19,6 +19,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             generator.SetCodeObjectGenerator(typeof(PlainValueCodeObject), new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator(typeof(DependencyCodeObject), new CodeDomDependencyObjectGenerator());
             generator.SetCodeObjectGenerator(typeof(ExtensionCodeObject), new CodeDomExtensionObjectGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator(typeof(LiteralCodeObject), new CodeDomPlainValueObjectGenerator());
+            generator.SetCodeObjectGenerator(typeof(RootCodeObject), new CodeDomRootGenerator());
 
             generator.SetPropertyDescriptorGenerator(typeof(ListAddPropertyDescriptor), new CodeDomListAddPropertyGenerator());
             generator.SetPropertyDescriptorGenerator(typeof(DictionaryAddPropertyDescriptor), new CodeDomDictionaryAddPropertyGenerator());

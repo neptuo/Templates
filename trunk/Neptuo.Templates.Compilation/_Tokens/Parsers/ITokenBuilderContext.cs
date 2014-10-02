@@ -18,11 +18,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         IValueParserContext ParserContext { get; }
 
         /// <summary>
-        /// AST property where this extension will be set.
-        /// </summary>
-        IPropertyDescriptor Parent { get; }
-
-        /// <summary>
         /// Current parser.
         /// </summary>
         TokenValueParser Parser { get; }

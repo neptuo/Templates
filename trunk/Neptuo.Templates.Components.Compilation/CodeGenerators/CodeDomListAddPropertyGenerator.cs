@@ -64,13 +64,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     propertyValue, 
                     propertyDescriptor
                 );
-                context.Statements.Add(
-                    new CodeMethodInvokeExpression(
-                        codePropertyReference,
-                        addMethodName,
-                        codeExpression
-                    )
-                );
+                if (codeExpression != null)
+                {
+                    context.Statements.Add(
+                        new CodeMethodInvokeExpression(
+                            codePropertyReference,
+                            addMethodName,
+                            codeExpression
+                        )
+                    );
+                }
                 //TODO: Other bindable ways
             }
         }

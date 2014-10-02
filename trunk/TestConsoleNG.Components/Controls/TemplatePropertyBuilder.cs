@@ -24,9 +24,14 @@ namespace TestConsoleNG.Controls
 
             //Collection item
             IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(targetProperty);
-            templateCodeObject.Properties.Add(propertyDescriptor);
-            context.Parser.ProcessContent(context, propertyDescriptor, content);
 
+            foreach (IXmlNode node in content)
+            {
+                ICodeObject valueObject = context.Parser.ProcessNode(context, node);
+                propertyDescriptor.SetValue(valueObject);
+            }
+
+            templateCodeObject.Properties.Add(propertyDescriptor);
             return true;
         }
 

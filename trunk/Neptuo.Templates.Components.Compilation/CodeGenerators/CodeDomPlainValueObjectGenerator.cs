@@ -36,6 +36,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.Type));
             }
 
+            if (plainValue.Value is string)
+            {
+                string textValue = (string)plainValue.Value;
+                if (String.IsNullOrEmpty(textValue) || String.IsNullOrWhiteSpace(textValue))
+                    return null;
+            }
+
             //TODO: Inconvertable value!!
             //Be aware of ListAddPropertyDescriptor - type of it is Collection<TARGET REAL TYPE>
             return new CodePrimitiveExpression(plainValue.Value);

@@ -41,8 +41,8 @@ namespace TestConsoleNG
         {
             TypeBuilderRegistry registry = new TypeBuilderRegistry(
                 new TypeBuilderRegistryConfiguration(container),//.AddComponentSuffix("presenter"),
-                new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text), 
-                new GenericContentControlBuilder<GenericContentControl>(c => c.TagName)
+                new DefaultLiteralControlBuilderFactory<LiteralControl>(c => c.Text), 
+                new FuncContentBuilderFactory((prefix, name) => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName))
             );
             registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));
             registry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG.Components"));
@@ -50,6 +50,7 @@ namespace TestConsoleNG
             registry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
             registry.RegisterPropertyBuilder(typeof(string), new DefaultPropertyBuilderFactory<StringPropertyBuilder>());
             registry.RegisterPropertyBuilder(typeof(ITemplate), new DefaultPropertyBuilderFactory<TemplatePropertyBuilder>());
+            registry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new FuncContentBuilderFactory((prefix, name) => new RootContentBuilder()));
 
             CodeDomViewService viewService = new CodeDomViewService(true);
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));

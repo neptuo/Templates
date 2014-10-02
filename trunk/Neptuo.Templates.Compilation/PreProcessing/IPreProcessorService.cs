@@ -19,10 +19,10 @@ namespace Neptuo.Templates.Compilation.PreProcessing
         void AddVisitor(IVisitor visitor);
 
         /// <summary>
-        /// Use registered visitors to wall through <see cref="propertyDescriptor"/>.
+        /// Use registered visitors to wall through <see cref="codeObject"/>.
         /// </summary>
-        /// <param name="propertyDescriptor">AST property.</param>
+        /// <param name="codeObject">Root AST object.</param>
         /// <param name="context">Context information.</param>
-        void Process(IPropertyDescriptor propertyDescriptor, IPreProcessorServiceContext context);
+        void Process(ICodeObject codeObject, IPreProcessorServiceContext context);
     }
 }

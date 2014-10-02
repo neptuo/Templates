@@ -204,11 +204,11 @@ namespace Neptuo.Templates.Compilation
             else if (name == "Javascript")
             {
                 ICollection<IErrorInfo> errors = new List<IErrorInfo>();
-                IPropertyDescriptor contentProperty = ParseViewContent(viewContent, context);
+                ICodeObject codeObject = ParseViewContent(viewContent, context);
 
-                PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(context.DependencyProvider));
+                PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
 
-                string sourceCode = GenerateJavascriptSourceCode(contentProperty, context, naming);
+                string sourceCode = GenerateJavascriptSourceCode(codeObject, context, naming);
                 return sourceCode;
             }
 
@@ -295,11 +295,10 @@ namespace Neptuo.Templates.Compilation
         protected virtual string GenerateSourceCodeFromView(string viewContent, IViewServiceContext context, INaming naming)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
-            IPropertyDescriptor contentProperty = ParseViewContent(viewContent, context);
+            ICodeObject codeObject = ParseViewContent(viewContent, context);
 
-            PreProcessorService.Process(contentProperty, new DefaultPreProcessorServiceContext(context.DependencyProvider));
-
-            return GenerateSourceCode(contentProperty, context, naming);
+            PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
+            return GenerateSourceCode(codeObject, context, naming);
         }
 
         /// <summary>
@@ -320,31 +319,31 @@ namespace Neptuo.Templates.Compilation
         /// <param name="context">Context information.</param>
         /// <param name="parserService">Parser service.</param>
         /// <returns>AST.</returns>
-        protected virtual IPropertyDescriptor ParseViewContent(string viewContent, IViewServiceContext context, IParserService parserService = null)
+        protected virtual ICodeObject ParseViewContent(string viewContent, IViewServiceContext context, IParserService parserService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = GetRootPropertyDescriptor(context);
+            ICodeObject codeObject = null;
 
             DebugHelper.Debug("ParseContent", () =>
             {
-                bool parserResult = (parserService ?? ParserService).ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, contentProperty, errors));
-
-                if (!parserResult)
+                codeObject = (parserService ?? ParserService).ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, errors));
+                if (codeObject == null)
                     throw new CodeDomViewServiceException("Error parsing view content!", errors, viewContent);
             });
 
-            return contentProperty;
+            return codeObject;
         }
 
         /// <summary>
-        /// Generates C# source code from AST in <paramref name="contentProperty"/>.
+        /// Generates C# source code from AST in <paramref name="codeObject"/>.
         /// </summary>
-        /// <param name="contentProperty">Root AST property.</param>
+        /// <param name="codeObject">Root AST object.</param>
         /// <param name="context">Context information.</param>
         /// <param name="naming">Naming for this template compilation.</param>
         /// <param name="codeGeneratorService">Custom generator service to override default in <see cref="CodeGeneratorService"/>.</param>
-        /// <returns>Generated C# source code from AST in <paramref name="contentProperty"/>.</returns>
-        protected virtual string GenerateSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
+        /// <returns>Generated C# source code from AST in <paramref name="codeObject"/>.</returns>
+        protected virtual string GenerateSourceCode(ICodeObject codeObject, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
@@ -352,7 +351,7 @@ namespace Neptuo.Templates.Compilation
             DebugHelper.Debug("GenerateSourceCode", () =>
             {
                 ICodeGeneratorServiceContext generatorContext = new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors);
-                bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("CSharp", contentProperty, generatorContext);
+                bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("CSharp", codeObject, generatorContext);
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });
@@ -368,7 +367,7 @@ namespace Neptuo.Templates.Compilation
         /// <param name="naming">Naming for this template compilation.</param>
         /// <param name="codeGeneratorService">Custom generator service to override default in <see cref="CodeGeneratorService"/>.</param>
         /// <returns>Generated javascript source code from AST in <paramref name="contentProperty"/>.</returns>
-        protected virtual string GenerateJavascriptSourceCode(IPropertyDescriptor contentProperty, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
+        protected virtual string GenerateJavascriptSourceCode(ICodeObject codeObject, IViewServiceContext context, INaming naming, ICodeGeneratorService codeGeneratorService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             TextWriter writer = new StringWriter();
@@ -376,7 +375,7 @@ namespace Neptuo.Templates.Compilation
             DebugHelper.Debug("GenerateSourceCode", () =>
             {
                 ICodeGeneratorServiceContext generatorContext = new CodeDomGeneratorServiceContext(naming, writer, context.DependencyProvider, errors);
-                bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("Javascript", contentProperty, generatorContext);
+                bool generatorResult = (codeGeneratorService ?? CodeGeneratorService).GeneratedCode("Javascript", codeObject, generatorContext);
                 if (!generatorResult)
                     throw new CodeDomViewServiceException("Error generating code from view!", errors);
             });

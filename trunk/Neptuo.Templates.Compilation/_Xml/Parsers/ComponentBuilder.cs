@@ -12,14 +12,19 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// Base logic processing xml element.
     /// Attributes and inner nodes and processed as properties.
     /// </summary>
-    public abstract class ComponentBuilder : IComponentBuilder
+    public abstract class ComponentBuilder : IContentBuilder
     {
         /// <summary>
         /// Process <paramref name="element"/>.
         /// </summary>
+        public abstract ICodeObject Parse(IContentBuilderContext context, IXmlElement element);
+
+        /// <summary>
+        /// Binds attributes and inner elements of <paramref name="element"/>.
+        /// </summary>
         /// <param name="context">Context of current build.</param>
         /// <param name="element">Xml element that is being processed.</param>
-        public virtual void Parse(IContentBuilderContext context, IXmlElement element)
+        protected void BindProperties(IContentBuilderContext context, IXmlElement element)
         {
             // Bind attributes
             IEnumerable<IXmlAttribute> unboundAttributes = BindPropertiesFromAttributes(context, element.Attributes);

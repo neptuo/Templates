@@ -13,7 +13,6 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class TokenBuilderContext : ITokenBuilderContext
     {
         public IValueParserContext ParserContext { get; private set; }
-        public IPropertyDescriptor Parent { get; private set; }
         public TokenValueParser Parser { get; private set; }
         public TokenValueParser.Helper Helper { get; private set; }
         public ITokenBuilderFactory BuilderFactory { get; private set; }
@@ -25,7 +24,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             Parser = parser;
             Helper = helper;
             ParserContext = helper.Context;
-            Parent = helper.Context.PropertyDescriptor;
             BuilderFactory = helper.BuilderFactory;
         }
     }

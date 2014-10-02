@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.CodeDom;
 using System.Reflection;
+using Neptuo.Templates.Compilation.CodeObjects;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -17,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="content">Template content part.</param>
         /// <param name="context">Context information.</param>
-        /// <returns>True if succeed.</returns>
-        bool Parse(string content, IValueParserContext context);
+        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        ICodeObject Parse(string content, IValueParserContext context);
     }
 }

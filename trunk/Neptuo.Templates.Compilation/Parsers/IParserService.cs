@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,15 +31,15 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
-        /// <returns>True if any succeed.</returns>
-        bool ProcessContent(string content, IParserServiceContext context);
+        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        ICodeObject ProcessContent(string content, IParserServiceContext context);
 
         /// <summary>
         /// Parsers value using <see cref="ValueParsers"/> and create AST.
         /// </summary>
         /// <param name="value">Template part content.</param>
         /// <param name="context">Context information.</param>
-        /// <returns>Ture if any succeed.</returns>
-        bool ProcessValue(string value, IParserServiceContext context);
+        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        ICodeObject ProcessValue(string value, IParserServiceContext context);
     }
 }

@@ -19,14 +19,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
-        public bool Parse(ITokenBuilderContext context, Token extension)
+        public ICodeObject Parse(ITokenBuilderContext context, Token extension)
         {
             IValueExtensionCodeObject codeObject = CreateCodeObject(context, extension);
-            if (codeObject == null)
-                return false;
+            if (codeObject != null && BindProperties(context, codeObject, extension))
+                return codeObject;
 
-            context.Parent.SetValue(codeObject);
-            return BindProperties(context, codeObject, extension);
+            return null;
         }
 
         protected virtual bool BindProperties(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
@@ -43,13 +42,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if (propertyName == attribute.Name.ToLowerInvariant())
                     {
                         IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                        bool result = context.ParserContext.ParserService.ProcessValue(
+                        ICodeObject valueObject = context.ParserContext.ParserService.ProcessValue(
                             attribute.Value,
-                            new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+                            new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
                         );
 
-                        if (result)
+                        if (valueObject != null)
                         {
+                            propertyDescriptor.SetValue(valueObject);
                             codeObject.Properties.Add(propertyDescriptor);
                             boundProperies.Add(propertyName);
                         }
@@ -62,13 +62,16 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(defaultProperty);
                 if (!String.IsNullOrWhiteSpace(extension.DefaultAttributeValue))
                 {
-                    bool result = context.ParserContext.ParserService.ProcessValue(
+                    ICodeObject valueObject = context.ParserContext.ParserService.ProcessValue(
                         extension.DefaultAttributeValue,
-                        new DefaultParserServiceContext(context.ParserContext.DependencyProvider, propertyDescriptor, context.ParserContext.Errors)
+                        new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
                     );
 
-                    if (result)
+                    if (valueObject != null)
+                    {
+                        propertyDescriptor.SetValue(valueObject);
                         codeObject.Properties.Add(propertyDescriptor);
+                    }
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context information.</param>
         /// <param name="text">Text value to parse.</param>
-        void Parse(IContentBuilderContext context, string text);
+        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        ICodeObject Parse(IContentBuilderContext context, string text);
     }
 }

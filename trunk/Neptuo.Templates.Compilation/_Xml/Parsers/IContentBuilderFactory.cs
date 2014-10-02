@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Factory for <see cref="IComponentBuilder"/>.
+    /// Factory for <see cref="IContentBuilder"/>.
     /// </summary>
-    public interface IComponentBuilderFactory
+    public interface IContentBuilderFactory
     {
         /// <summary>
-        /// Creates <see cref="IComponentBuilder"/> for <paramref name="prefix"/> and <paramref name="tagName"/>.
+        /// Creates <see cref="IContentBuilder"/> for <paramref name="prefix"/> and <paramref name="tagName"/>.
         /// </summary>
         /// <param name="prefix">Component prefix.</param>
         /// <param name="tagName">Component tag name.</param>
-        /// <returns>Creates <see cref="IComponentBuilder"/> for <paramref name="prefix"/> and <paramref name="tagName"/>.</returns>
-        IComponentBuilder CreateBuilder(string prefix, string tagName);
+        /// <returns>Creates <see cref="IContentBuilder"/> for <paramref name="prefix"/> and <paramref name="tagName"/>.</returns>
+        IContentBuilder CreateBuilder(string prefix, string tagName);
     }
 }

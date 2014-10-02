@@ -25,14 +25,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return this;
         }
 
-        public bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context)
+        public bool GeneratedCode(string name, ICodeObject codeObject, ICodeGeneratorServiceContext context)
         {
             Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNull(propertyDescriptor, "propertyDescriptor");
+            Guard.NotNull(codeObject, "codeObject");
             Guard.NotNull(context, "context");
 
             if (generators.ContainsKey(name))
-                return generators[name].ProcessTree(propertyDescriptor, context.CreateGeneratorContext(this));
+                return generators[name].ProcessTree(codeObject, context.CreateGeneratorContext(this));
 
             return false;
         }

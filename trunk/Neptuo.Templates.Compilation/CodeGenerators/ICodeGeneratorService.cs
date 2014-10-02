@@ -22,8 +22,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// Generates code using code generator registered with <paramref name="name"/>.
         /// </summary>
         /// <param name="name">Name of generator.</param>
-        /// <param name="propertyDescriptor">Root property in AST.</param>
+        /// <param name="codeObject">Root object in AST.</param>
         /// <param name="context">Context.</param>
-        bool GeneratedCode(string name, IPropertyDescriptor propertyDescriptor, ICodeGeneratorServiceContext context);
+        bool GeneratedCode(string name, ICodeObject codeObject, ICodeGeneratorServiceContext context);
     }
 }
