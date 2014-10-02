@@ -21,16 +21,15 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public ICodeObject ProcessContent(string content, IParserServiceContext context)
         {
+            Guard.NotNullOrEmpty(content, "content");
+            Guard.NotNull(context, "context");
+
             if (ContentParsers.Count == 0)
                 throw new ArgumentNullException("ContentGenerator");
 
-            IDependencyContainer provider = context.DependencyProvider.CreateChildContainer();
-            //if (provider.Resolve<StorageProvider>() == null) TODO: Solve if is registered!
-            provider.RegisterInstance<StorageProvider>(new StorageProvider());
-
             foreach (IContentParser contentParser in ContentParsers)
             {
-                ICodeObject codeObject = contentParser.Parse(content, new DefaultParserContext(provider, this, context.Errors));
+                ICodeObject codeObject = contentParser.Parse(content, context.CreateContentContext(this));
                 if (codeObject != null)
                     return codeObject;
             }
@@ -40,15 +39,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public ICodeObject ProcessValue(string value, IParserServiceContext context)
         {
-            IDependencyContainer provider = context.DependencyProvider.CreateChildContainer();
-            //if (provider.Resolve<StorageProvider>() == null) TODO: Solve if is registered!
-            provider.RegisterInstance<StorageProvider>(new StorageProvider());
+            Guard.NotNullOrEmpty(value, "value");
+            Guard.NotNull(context, "context");
 
             ICodeObject codeObject = null;
             bool generated = false;
             foreach (IValueParser valueParser in ValueParsers)
             {
-                codeObject = valueParser.Parse(value, new DefaultParserContext(provider, this, context.Errors));
+                codeObject = valueParser.Parse(value, context.CreateValueContext(this));
                 if (codeObject != null)
                 {
                     generated = true;
@@ -61,7 +59,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (DefaultValueParser == null)
                     throw new ArgumentNullException("DefaultValueParser");
 
-                codeObject = DefaultValueParser.Parse(value, new DefaultParserContext(provider, this, context.Errors));
+                codeObject = DefaultValueParser.Parse(value, context.CreateValueContext(this));
             }
 
             return codeObject;

@@ -20,5 +20,12 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         /// List of error messsages.
         /// </summary>
         ICollection<IErrorInfo> Errors { get; }
+
+        /// <summary>
+        /// Factory method for creating <see cref="ICodeCompilerContext"/>.
+        /// </summary>
+        /// <param name="service">Current compiler service.</param>
+        /// <returns><see cref="ICodeCompilerContext"/>.</returns>
+        ICodeCompilerContext CreateCompilerContext(ICodeCompilerService service);
     }
 }

@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.ViewActivators
             Guard.NotNull(context, "context");
             IViewActivator activator;
             if (activators.TryGetValue(name, out activator))
-                return activator.Activate(viewContent, new DefaultViewActivatorContext(this, context));
+                return activator.Activate(viewContent, context.CreateVisitorContext(this));
 
             throw new ArgumentOutOfRangeException("name", String.Format("Requested unregistered view activator named '{0}'.", name));
         }

@@ -20,5 +20,11 @@ namespace Neptuo.Templates.Compilation.ViewActivators
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
         }
+
+        public IViewActivatorContext CreateVisitorContext(IViewActivatorService service)
+        {
+            Guard.NotNull(service, "service");
+            return new DefaultViewActivatorContext(service, this);
+        }
     }
 }
