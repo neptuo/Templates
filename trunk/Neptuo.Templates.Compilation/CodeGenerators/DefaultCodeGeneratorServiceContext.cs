@@ -8,13 +8,13 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     /// <summary>
-    /// Default implementation of <see cref="ICodeGeneratorServiceContext"/>
+    /// Implementation of <see cref="ICodeGeneratorServiceContext"/>
     /// </summary>
     public class DefaultCodeGeneratorServiceContext : ICodeGeneratorServiceContext
     {
-        public TextWriter Output { get; set; }
-        public IDependencyProvider DependencyProvider { get; set; }
-        public ICollection<IErrorInfo> Errors { get; set; }
+        public TextWriter Output { get; private set; }
+        public IDependencyProvider DependencyProvider { get; private set; }
+        public ICollection<IErrorInfo> Errors { get; private set; }
 
         public DefaultCodeGeneratorServiceContext(TextWriter output, IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors = null)
         {
@@ -28,9 +28,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public virtual ICodeGeneratorContext CreateGeneratorContext(ICodeGeneratorService service)
         {
             Guard.NotNull(service, "service");
-            IDependencyContainer provider = DependencyProvider.CreateChildContainer();
-            provider.RegisterInstance<StorageProvider>(new StorageProvider());
-            return new DefaultCodeGeneratorContext(Output, service, provider, Errors);
+            return new DefaultCodeGeneratorContext(Output, service, DependencyProvider, Errors);
         }
     }
 }

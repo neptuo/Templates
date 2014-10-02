@@ -17,15 +17,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public IDependencyProvider DependencyProvider { get; private set; }
         public ICollection<IErrorInfo> Errors { get; private set; }
 
-        public DefaultCodeGeneratorContext(TextWriter output, ICodeGeneratorService generatorService, IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors = null)
+        public DefaultCodeGeneratorContext(TextWriter output, ICodeGeneratorService generatorService, IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors)
         {
             Guard.NotNull(output, "output");
             Guard.NotNull(generatorService, "generatorService");
             Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Guard.NotNull(errors, "errors");
             Output = output;
             CodeGeneratorService = generatorService;
             DependencyProvider = dependencyProvider;
-            Errors = errors ?? new List<IErrorInfo>();
+            Errors = errors;
         }
     }
 }

@@ -7,21 +7,25 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.PreProcessing
 {
     /// <summary>
-    /// Actual implementation of <see cref="IPreProcessorService"/>.
+    /// Implementation of <see cref="IPreProcessorService"/>.
     /// </summary>
     public class DefaultPreProcessorService : IPreProcessorService
     {
-        private HashSet<IVisitor> visitors = new HashSet<IVisitor>();
+        private readonly HashSet<IVisitor> visitors = new HashSet<IVisitor>();
 
         public void AddVisitor(IVisitor visitor)
         {
+            Guard.NotNull(visitor, "visitor");
             visitors.Add(visitor);
         }
 
         public void Process(ICodeObject codeObject, IPreProcessorServiceContext context)
         {
+            Guard.NotNull(codeObject, "codeObject");
+            Guard.NotNull(context, "context");
+
             foreach (IVisitor visitor in visitors)
-                visitor.Visit(codeObject, new DefaultPreProcessorContext(context.DependencyProvider, this));
+                visitor.Visit(codeObject, context.CreateVisitorContext(this));
         }
     }
 }

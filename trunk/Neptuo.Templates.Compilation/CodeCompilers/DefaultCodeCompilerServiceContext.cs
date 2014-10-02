@@ -20,5 +20,11 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
         }
+
+        public ICodeCompilerContext CreateCompilerContext(ICodeCompilerService service)
+        {
+            Guard.NotNull(service, "service");
+            return new DefaultCodeCompilerContext(service, this);
+        }
     }
 }

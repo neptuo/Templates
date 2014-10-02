@@ -8,14 +8,11 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     /// <summary>
-    /// Default implementation of <see cref="ICodeGeneratorService"/>.
+    /// Implementation of <see cref="ICodeGeneratorService"/>.
     /// </summary>
     public class DefaultCodeGeneratorService : ICodeGeneratorService
     {
-        /// <summary>
-        /// Internal storage.
-        /// </summary>
-        private Dictionary<string, ICodeGenerator> generators = new Dictionary<string, ICodeGenerator>();
+        private readonly Dictionary<string, ICodeGenerator> generators = new Dictionary<string, ICodeGenerator>();
 
         public ICodeGeneratorService AddGenerator(string name, ICodeGenerator generator)
         {
@@ -31,10 +28,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             Guard.NotNull(codeObject, "codeObject");
             Guard.NotNull(context, "context");
 
-            if (generators.ContainsKey(name))
-                return generators[name].ProcessTree(codeObject, context.CreateGeneratorContext(this));
+            ICodeGenerator codeGenerator;
+            if (generators.TryGetValue(name, out codeGenerator))
+                return codeGenerator.ProcessTree(codeObject, context.CreateGeneratorContext(this));
 
-            return false;
+            throw new ArgumentOutOfRangeException("name", String.Format("Requested unregistered code generator named '{0}'.", name));
         }
     }
 }

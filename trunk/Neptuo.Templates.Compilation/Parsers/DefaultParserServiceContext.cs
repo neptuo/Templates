@@ -6,6 +6,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Implementation of <see cref="IParserServiceContext"/>.
+    /// </summary>
     public class DefaultParserServiceContext : IParserServiceContext
     {
         public IDependencyProvider DependencyProvider { get; private set; }
@@ -13,8 +16,22 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public DefaultParserServiceContext(IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors = null)
         {
+            Guard.NotNull(dependencyProvider, "dependencyProvider");
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
+        }
+
+
+        public IContentParserContext CreateContentContext(IParserService service)
+        {
+            Guard.NotNull(service, "service");
+            return new DefaultParserContext(service, this);
+        }
+
+        public IValueParserContext CreateValueContext(IParserService service)
+        {
+            Guard.NotNull(service, "service");
+            return new DefaultParserContext(service, this);
         }
     }
 }
