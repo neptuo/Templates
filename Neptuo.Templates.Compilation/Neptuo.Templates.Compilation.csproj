@@ -84,7 +84,6 @@
     <Compile Include="DefaultViewServiceContext.cs" />
     <Compile Include="ErrorInfo.cs" />
     <Compile Include="IErrorInfo.cs" />
-    <Compile Include="IFileProvider.cs" />
     <Compile Include="ISourceCodeException.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="IViewServiceContext.cs" />
