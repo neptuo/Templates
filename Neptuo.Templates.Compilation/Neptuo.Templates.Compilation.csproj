@@ -106,6 +106,7 @@
     <Compile Include="PreProcessing\IPreProcessorServiceContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewActivators\IViewActivatorServiceContext.cs" />
+    <Compile Include="ViewActivators\NullViewActivator.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderFactory.cs" />
