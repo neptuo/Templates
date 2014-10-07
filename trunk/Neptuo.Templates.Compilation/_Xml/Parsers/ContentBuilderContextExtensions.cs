@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -45,6 +46,34 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNull(context, "context");
             context.AddError(new ErrorInfo(line, column, errorText));
+        }
+
+        /// <summary>
+        /// Parses content using <see cref="IParserService"/> and creates AST.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="content">Template content.</param>
+        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        public static ICodeObject ProcessContent(this IContentBuilderContext context, string content)
+        {
+            return context.ParserContext.ParserService.ProcessContent(
+                content,
+                context.ParserContext
+            );
+        }
+
+        /// <summary>
+        /// Parses value using <see cref="IParserService"/> and creates AST.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="content">Template content.</param>
+        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        public static ICodeObject ProcessValue(this IContentBuilderContext context, string value)
+        {
+            return context.ParserContext.ParserService.ProcessValue(
+                value,
+                context.ParserContext
+            );
         }
     }
 }

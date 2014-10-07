@@ -21,7 +21,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             Errors = errors ?? new List<IErrorInfo>();
         }
 
-
         public IContentParserContext CreateContentContext(IParserService service)
         {
             Guard.NotNull(service, "service");
