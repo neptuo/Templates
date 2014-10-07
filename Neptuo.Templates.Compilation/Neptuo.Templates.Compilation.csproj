@@ -112,6 +112,7 @@
     <Compile Include="_Tokens\Parsers\ITokenBuilderFactory.cs" />
     <Compile Include="_Tokens\Parsers\ITokenDescriptor.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
+    <Compile Include="_Tokens\Parsers\TokenBuilderContextExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.Helper.cs" />
