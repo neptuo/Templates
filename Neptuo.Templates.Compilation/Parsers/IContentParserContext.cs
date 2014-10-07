@@ -9,21 +9,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Content parser context.
     /// </summary>
-    public interface IContentParserContext
+    public interface IContentParserContext : IParserServiceContext
     {
-        /// <summary>
-        /// Current dependency provider.
-        /// </summary>
-        IDependencyProvider DependencyProvider { get; }
-
         /// <summary>
         /// Current parser service.
         /// </summary>
         IParserService ParserService { get; }
-
-        /// <summary>
-        /// List of error messages.
-        /// </summary>
-        ICollection<IErrorInfo> Errors { get; }
     }
 }
