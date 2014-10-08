@@ -4,7 +4,7 @@ namespace Neptuo.Templates.Compilation
 {
     public static class VersionInfo
     {
-        internal const string Version = "0.9.6";
+        internal const string Version = "0.9.7";
 
         public static Version GetVersion()
         {
