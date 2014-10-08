@@ -1,0 +1,1520 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Neptuo</name>
+    </assembly>
+    <members>
+        <member name="T:Neptuo.CodeDom.Compiler.CsCodeDomCompiler">
+            <summary>
+            Wraps <see cref="T:System.CodeDom.Compiler.CodeDomProvider"/> and provides some shortcuts in compilation process.
+            </summary>
+        </member>
+        <member name="F:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.provider">
+            <summary>
+            Inner code provider.
+            </summary>
+        </member>
+        <member name="F:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.compilerParameters">
+            <summary>
+            Parameters used by this instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.AddReferencedAssemblies(System.String[])">
+            <summary>
+            Adds assemblies in <paramref name="path"/> as references for compilation.
+            </summary>
+            <param name="path">Paths to add as references.</param>
+        </member>
+        <member name="M:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.AddReferencedFolder(System.String)">
+            <summary>
+            Adds executable and dll files from <paramref name="path"/> as references for compilation.
+            </summary>
+            <param name="path">Path where to look for executables and dll files.</param>
+        </member>
+        <member name="M:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.CompileAssemblyFromFile(System.String,System.String)">
+            <summary>
+            Compiles assembly from file at <paramref name="fileName"/>.
+            </summary>
+            <param name="fileName">Source C# code file path.</param>
+            <param name="output">Output assembly name/path. If not specified, replaces extension from <paramref name="fileName"/>.</param>
+            <returns>Compiler resutls.</returns>
+        </member>
+        <member name="M:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.CompileAssemblyFromSource(System.String,System.String)">
+            <summary>
+            Compiles assembly from source code in <paramref name="source"/>.
+            </summary>
+            <param name="source">C# source code.</param>
+            <param name="output">
+            Output assembly name/path. If not specified, generates in memory when <see cref="P:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.IsGeneratedInMemory"/> is true; 
+            otherwise causes <see cref="T:System.ArgumentOutOfRangeException"/>.
+            </param>
+            <returns>Compiler resutls.</returns>
+        </member>
+        <member name="M:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.CompileAssemblyFromUnit(System.CodeDom.CodeCompileUnit,System.String)">
+            <summary>
+            Compiles assembly from code compile unit.
+            </summary>
+            <param name="unit">Source CodeDom compile unit.</param>
+            <param name="output">
+            Output assembly name/path. If not specified, generates in memory when <see cref="P:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.IsGeneratedInMemory"/> is true; 
+            otherwise causes <see cref="T:System.ArgumentOutOfRangeException"/>.
+            </param>
+            <returns>Compiler results.</returns>
+        </member>
+        <member name="P:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.IsGeneratedInMemory">
+            <summary>
+            Whether assembly/executable should be generated only in memory.
+            </summary>
+        </member>
+        <member name="P:Neptuo.CodeDom.Compiler.CsCodeDomCompiler.IsDebugInformationIncluded">
+            <summary>
+            Whether should compiler generate PDB debug file.
+            </summary>
+        </member>
+        <member name="T:Neptuo.CodeDom.Compiler.ICodeDomCompiler">
+            <summary>
+            Contract for codedom compiler.
+            </summary>
+        </member>
+        <member name="M:Neptuo.CodeDom.Compiler.ICodeDomCompiler.AddReferencedAssemblies(System.String[])">
+            <summary>
+            Adds assemblies in <paramref name="path"/> as references for compilation.
+            </summary>
+            <param name="path">Paths to add as references.</param>
+        </member>
+        <member name="P:Neptuo.CodeDom.Compiler.ICodeDomCompiler.IsGeneratedInMemory">
+            <summary>
+            Whether assembly/executable should be generated only in memory.
+            </summary>
+        </member>
+        <member name="P:Neptuo.CodeDom.Compiler.ICodeDomCompiler.IsDebugInformationIncluded">
+            <summary>
+            Whether should compiler generate PDB debug file.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Collections.ObjectModel.SortableObservableCollection`1.Sort``1(System.Func{`0,``0})">
+            <summary>
+            Sorts the items of the collection in ascending order according to a key.
+            </summary>
+            <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
+            <param name="keySelector">A function to extract a key from an item.</param>
+        </member>
+        <member name="M:Neptuo.Collections.ObjectModel.SortableObservableCollection`1.SortDescending``1(System.Func{`0,``0})">
+            <summary>
+            Sorts the items of the collection in descending order according to a key.
+            </summary>
+            <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
+            <param name="keySelector">A function to extract a key from an item.</param>
+        </member>
+        <member name="M:Neptuo.Collections.ObjectModel.SortableObservableCollection`1.Sort``1(System.Func{`0,``0},System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Sorts the items of the collection in ascending order according to a key.
+            </summary>
+            <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
+            <param name="keySelector">A function to extract a key from an item.</param>
+            <param name="comparer">An <see cref="T:System.Collections.Generic.IComparer`1"/> to compare keys.</param>
+        </member>
+        <member name="M:Neptuo.Collections.ObjectModel.SortableObservableCollection`1.SortDescending``1(System.Func{`0,``0},System.Collections.Generic.IComparer{``0})">
+            <summary>
+            Sorts the items of the collection in descending order according to a key.
+            </summary>
+            <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
+            <param name="keySelector">A function to extract a key from an item.</param>
+            <param name="comparer">An <see cref="T:System.Collections.Generic.IComparer`1"/> to compare keys.</param>
+        </member>
+        <member name="M:Neptuo.Collections.ObjectModel.SortableObservableCollection`1.InternalSort(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Moves the items of the collection so that their orders are the same as those of the items provided.
+            </summary>
+            <param name="sortedItems">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> to provide item orders.</param>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.IKeyValueCollection">
+            <summary>
+            Key/value collection.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection">
+            <summary>
+            Readonly version of keyed collection.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection.TryGet``1(System.String,``0@)">
+            <summary>
+            Tries to get value associated with <paramref name="key"/>.
+            </summary>
+            <typeparam name="T">Required value type.</typeparam>
+            <param name="key">Key which value should be returned.</param>
+            <param name="value">Output value associted with <paramref name="key"/>.</param>
+            <returns><c>true</c> if collection contains value with <paramref name="key"/> as key; <c>false</c> otherwise.</returns>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="key"/> is <c>null</c>.</exception>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.IKeyValueCollection.Set(System.String,System.Object)">
+            <summary>
+            Associates <paramref name="value"/> with <paramref name="key"/> in collection.
+            If collection already contains <paramref name="key"/>, implementation should override current values with <paramref name="value"/>.
+            </summary>
+            <param name="key">Key to associate <paramref name="value"/> with.</param>
+            <param name="value">New value of <paramref name="key"/>.</param>
+            <exception cref="T:System.ArgumentNullException">When <paramref name="key"/> is <c>null</c>.</exception>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.KeyValueCollection">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Collections.Specialized.IKeyValueCollection"/> using <see cref="!:Dictionary"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.NameValueDictionary">
+            <summary>
+            Wraps instance of <see cref="T:System.Collections.Specialized.NameValueCollection"/> as <see cref="!:IReadOnlyDictionary"/>.
+            </summary>
+            <remarks>
+            Only CopyTo is not implemented!
+            </remarks>
+        </member>
+        <member name="F:Neptuo.Collections.Specialized.NameValueDictionary.source">
+            <summary>
+            Source values collection.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Collections.Specialized.NameValueDictionary.allValues">
+            <summary>
+            Cached all source values.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.NameValueDictionary.#ctor(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Creates new instance with <see cref="F:Neptuo.Collections.Specialized.NameValueDictionary.source"/> as source values collection.
+            </summary>
+            <param name="source">Source values collection</param>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.NameValueEnumerator">
+            <summary>
+            Enumerator for <see cref="T:Neptuo.Collections.Specialized.NameValueDictionary"/> or <see cref="T:Neptuo.Collections.Specialized.NameValueReadOnlyDictionary"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.NameValueReadOnlyDictionary">
+            <summary>
+            Wraps instance of <see cref="T:System.Collections.Specialized.NameValueCollection"/> as <see cref="!:IReadOnlyDictionary"/>.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Collections.Specialized.NameValueReadOnlyDictionary.source">
+            <summary>
+            Source values collection.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Collections.Specialized.NameValueReadOnlyDictionary.allValues">
+            <summary>
+            Cached all source values.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.NameValueReadOnlyDictionary.#ctor(System.Collections.Specialized.NameValueCollection)">
+            <summary>
+            Creates new instance with <see cref="F:Neptuo.Collections.Specialized.NameValueReadOnlyDictionary.source"/> as source values collection.
+            </summary>
+            <param name="source">Source values collection</param>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.ProviderKeyValueCollection">
+            <summary>
+            Extensible <see cref="T:Neptuo.Collections.Specialized.IKeyValueCollection"/>.
+            When reading value, which has not been set yet, calls registered provider.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions">
+            <summary>
+            Some common extensions.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String)">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <typeparamref name="T"/>, returns it.
+            Otherwise returns <paramref name="defaultValue"/> (if provided) or throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IKeyValueCollection,System.String,System.Nullable{System.Int32})">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <see cref="T:System.Int32"/>, returns it.
+            Otherwise returns <paramref name="defaultValue"/> (if provided) or throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IKeyValueCollection,System.String,System.String)">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <see cref="T:System.String"/>, returns it.
+            Otherwise returns <paramref name="defaultValue"/> (if provided) or throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IKeyValueCollection,System.String,System.Nullable{System.Boolean})">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <see cref="T:System.Boolean"/>, returns it.
+            Otherwise returns <paramref name="defaultValue"/> (if provided) or throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="T:Neptuo.ComponentModel.Converters.IConverterRepository">
+            <summary>
+            Repository for ceonverters between types.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Converters.IConverterRepository.Add(System.Type,System.Type,Neptuo.ComponentModel.Converters.IConverter)">
+            <summary>
+            Registers <paramref name="converter"/> for conversion from <paramref name="sourceType"/> to <paramref name="targetType"/>.
+            </summary>
+            <param name="sourceType">Source type.</param>
+            <param name="targetType">Target type.</param>
+            <param name="converter">Converter.</param>
+            <returns>Self.</returns>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Converters.IConverterRepository.TryConvert``2(``0,``1@)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> of type <typeparamref name="TSource"/> to target type <typeparamref name="TTarget"/>.
+            </summary>
+            <typeparam name="TSource">Source value type.</typeparam>
+            <typeparam name="TTarget">Target value type.</typeparam>
+            <param name="sourceValue">Source value.</param>
+            <param name="targetValue">Output target value.</param>
+            <returns>True if conversion was successfull.</returns>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Converters.IConverterRepository.TryConvert(System.Type,System.Type,System.Object,System.Object@)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> to target type <paramref name="targetType"/>.
+            </summary>
+            <param name="sourceType">Type of source value.</param>
+            <param name="targetType">Type of target value.</param>
+            <param name="sourceValue">Source value.</param>
+            <param name="targetValue">Output target value.</param>
+            <returns>True if conversion was successfull.</returns>
+        </member>
+        <member name="E:Neptuo.ComponentModel.Converters.IConverterRepository.OnSearchConverter">
+            <summary>
+            Event used to find converter for unregistered pair of source and target type.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.Converters.ConverterSearchDelegate">
+            <summary>
+            Delegate for searching for converter.
+            </summary>
+            <param name="sourceType">Source type.</param>
+            <param name="targetType">Targe type.</param>
+            <returns>Converter for conversion from <paramref name="sourceType"/> to <paramref name="targetType"/>.</returns>
+        </member>
+        <member name="T:Neptuo.ComponentModel.Disposable`1">
+            <summary>
+            Wrapper for <see cref="T:System.IDisposable"/> to <see cref="T:Neptuo.IDisposable"/>.
+            </summary>
+            <typeparam name="T">Target disposable type.</typeparam>
+        </member>
+        <member name="T:Neptuo.ComponentModel.DisposableBase">
+            <summary>
+            Base class for implementing <see cref="T:Neptuo.IDisposable"/>.
+            Provides posibility to distinguish between disposiing managed and unmanaged resources.
+            Provides flag to see if object is already disposed.
+            Once object is dispose, calling <see cref="!:IDisposable.Disponse"/> has no effect.
+            </summary>
+        </member>
+        <member name="T:Neptuo.IDisposable">
+            <summary>
+            Extended <see cref="T:System.IDisposable"/> with flag whether obect is already disposed.
+            </summary>
+        </member>
+        <member name="P:Neptuo.IDisposable.IsDisposed">
+            <summary>
+            <c>true</c> if object is already disposed; <c>false</c> otherwise.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel.DisposableBase.DisposeManagedResources">
+            <summary>
+            Disposes the managed resources.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel.DisposableBase.DisposeUnmanagedResources">
+            <summary>
+            Disposes the unmanaged resources.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Disposable`1.#ctor(`0)">
+            <summary>
+            Creates new instance for <paramref name="target"/>.
+            </summary>
+            <param name="target">Target disposable object.</param>
+        </member>
+        <member name="M:Neptuo.ComponentModel.Disposable`1.DisposeManagedResources">
+            <summary>
+            Dispose weak reference.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.Envelope">
+            <summary>
+            The factory helper for creating envelopes.
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Neptuo.ComponentModel.Envelope.Create``1(``0)" -->
+        <member name="T:Neptuo.ComponentModel.Envelope`1">
+            <summary>
+            The evelope for processing long running operations.
+            Provides access to common metadata.
+            </summary>
+            <typeparam name="T">The type of envelope body.</typeparam>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Neptuo.ComponentModel.Envelope`1.#ctor(`0,System.TimeSpan,System.TimeSpan,System.Guid)" -->
+        <!-- Badly formed XML comment ignored for member "M:Neptuo.ComponentModel.Envelope`1.#ctor(`0,System.TimeSpan,System.TimeSpan)" -->
+        <!-- Badly formed XML comment ignored for member "M:Neptuo.ComponentModel.Envelope`1.#ctor(`0,System.Guid)" -->
+        <!-- Badly formed XML comment ignored for member "M:Neptuo.ComponentModel.Envelope`1.#ctor(`0)" -->
+        <member name="P:Neptuo.ComponentModel.Envelope`1.Body">
+            <summary>
+            The body of the evelope.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.Envelope`1.Delay">
+            <summary>
+            The delay for sending, enqueing or processing the body.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.Envelope`1.TimeToLive">
+            <summary>
+            The time to live for the message in the queue.
+            If not specified, value is <see cref="F:System.TimeSpan.Zero"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.Envelope`1.SourceID">
+            <summary>
+            The source message/envelope ID.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Converts">
+            <summary>
+            Util for converting between types.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Converts.Try``2(``0,``1@)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> of type <typeparamref name="TSource"/> to target type <typeparamref name="TTarget"/>.
+            </summary>
+            <typeparam name="TSource">Source value type.</typeparam>
+            <typeparam name="TTarget">Target value type.</typeparam>
+            <param name="sourceValue">Source value.</param>
+            <param name="targetValue">Output target value.</param>
+            <returns>True if conversion was successfull.</returns>
+        </member>
+        <member name="M:Neptuo.Converts.Try(System.Type,System.Type,System.Object,System.Object@)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> to target type <paramref name="targetType"/>.
+            </summary>
+            <param name="sourceType">Type of source value.</param>
+            <param name="targetType">Type of target value.</param>
+            <param name="sourceValue">Source value.</param>
+            <param name="targetValue">Output target value.</param>
+            <returns>True if conversion was successfull.</returns>
+        </member>
+        <member name="P:Neptuo.Converts.Repository">
+            <summary>
+            Repository containing all registered converters.
+            </summary>
+        </member>
+        <member name="T:Neptuo.IActivator`1">
+            <summary>
+            Activator for <typeparamref name="T"/>
+            </summary>
+            <typeparam name="T">Type of service to create.</typeparam>
+        </member>
+        <member name="M:Neptuo.IActivator`1.Create">
+            <summary>
+            Creates service of type <typeparamref name="T"/>.
+            </summary>
+            <returns>Service of type <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="T:Neptuo.DependencyNamedActivator`1">
+            <summary>
+            <see cref="!:INamedActivator"/> implemented as dependency provider resolver.
+            </summary>
+            <typeparam name="T">Type of service to resolve.</typeparam>
+        </member>
+        <member name="T:Neptuo.INamedActivator`1">
+            <summary>
+            Activator for <typeparamref name="T"/> for named registraions.
+            </summary>
+            <typeparam name="T">Type of service to create.</typeparam>
+        </member>
+        <member name="M:Neptuo.INamedActivator`1.Create(System.String)">
+            <summary>
+            Creates named service of type <typeparamref name="T"/> and name <paramref name="name"/>.
+            </summary>
+            <param name="name">Name (like discriminator).</param>
+            <returns>Named service of type <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="M:Neptuo.DependencyNamedActivator`1.#ctor(Neptuo.IDependencyProvider)">
+            <summary>
+            Creates new instance that uses <paramref name="dependencyProvider"/> as instance resolver.
+            </summary>
+            <param name="dependencyProvider">Instance resolver.</param>
+        </member>
+        <member name="T:Neptuo.Diagnostics.DebugBase">
+            <summary>
+            Provides access for method execution in stopwatch.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugBase.#ctor(Neptuo.Diagnostics.DebugBase.DebugMessageWriter)">
+            <summary>
+            Creates instance and uses <paramref name="innerWriter"/> as writer for measurements.
+            </summary>
+            <param name="innerWriter">Writer for measurements.</param>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugBase.#ctor(System.IO.TextWriter)">
+            <summary>
+            Creates instance and uses <paramref name="innerWriter"/> as writer for measurements.
+            </summary>
+            <param name="innerWriter">Writer for measurements.</param>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugBase.Debug(System.String,System.Action)">
+            <summary>
+            Executes <paramref name="action"/> in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <param name="title">Measurement title.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugBase.DebugIteration(System.String,System.Int32,System.Action)">
+            <summary>
+            Executes <paramref name="action"/> <paramref name="count"/>-times in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <param name="title">Measurement title.</param>
+            <param name="count">Number of exections to run.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugBase.Debug``1(System.String,System.Func{``0})">
+            <summary>
+            Executes <paramref name="action"/> in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <typeparam name="T">Type returned from <paramref name="action"/>.</typeparam>
+            <param name="title">Measurement title.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+            <rereturns>Returns result from <paramref name="action"/>.</rereturns>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugBase.DebugIteration``1(System.String,System.Int32,System.Func{``0})">
+            <summary>
+            Executes <paramref name="action"/> <paramref name="count"/>-times in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <typeparam name="T">Type returned from <paramref name="action"/>.</typeparam>
+            <param name="title">Measurement title.</param>
+            <param name="count">Number of exections to run.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+            <rereturns>Returns result from <paramref name="action"/>.</rereturns>
+        </member>
+        <member name="P:Neptuo.Diagnostics.DebugBase.InnerWriter">
+            <summary>
+            Writer for measurements.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Diagnostics.DebugBase.DebugMessageWriter">
+            <summary>
+            Debug message writer. 
+            Should use <paramref name="format"/> as formatter for <paramref name="parameters"/>.
+            </summary>
+            <param name="format">The message.</param>
+            <param name="parameters">Optional arguments/parameters for <paramref name="format"/>.</param>
+        </member>
+        <member name="T:Neptuo.Diagnostics.DebugHelper">
+            <summary>
+            Provides access for method execution in stopwatch.
+            Output is always written to <see cref="P:System.Console.Out"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugHelper.Debug(System.String,System.Action)">
+            <summary>
+            Executes <paramref name="action"/> in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <param name="title">Measurement title.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugHelper.DebugIteration(System.String,System.Int32,System.Action)">
+            <summary>
+            Executes <paramref name="action"/> <paramref name="count"/>-times in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <param name="title">Measurement title.</param>
+            <param name="count">Number of exections to run.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugHelper.Debug``1(System.String,System.Func{``0})">
+            <summary>
+            Executes <paramref name="action"/> in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <typeparam name="T">Type returned from <paramref name="action"/>.</typeparam>
+            <param name="title">Measurement title.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+            <rereturns>Returns result from <paramref name="action"/>.</rereturns>
+        </member>
+        <member name="M:Neptuo.Diagnostics.DebugHelper.DebugIteration``1(System.String,System.Int32,System.Func{``0})">
+            <summary>
+            Executes <paramref name="action"/> <paramref name="count"/>-times in stopwatch and saves message titled as <paramref name="title"/>.
+            </summary>
+            <typeparam name="T">Type returned from <paramref name="action"/>.</typeparam>
+            <param name="title">Measurement title.</param>
+            <param name="count">Number of exections to run.</param>
+            <param name="action">Action to execute in stopwatch.</param>
+            <rereturns>Returns result from <paramref name="action"/>.</rereturns>
+        </member>
+        <member name="T:Neptuo.Engine">
+            <summary>
+            Container for holding singleton data.
+            </summary>
+        </member>
+        <member name="F:Neptuo.Engine.environmentLock">
+            <summary>
+            Lock object for creating environment.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Engine.RootContainer">
+            <summary>
+            Holds root dependency container for application.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Engine.Environment">
+            <summary>
+            Holds enviroment services.
+            </summary>
+        </member>
+        <member name="T:Neptuo.EngineEnvironment">
+            <summary>
+            Environment container.
+            </summary>
+        </member>
+        <member name="F:Neptuo.EngineEnvironment.storage">
+            <summary>
+            Internal storage.
+            </summary>
+        </member>
+        <member name="M:Neptuo.EngineEnvironment.Use``1(``0,System.String)">
+            <summary>
+            Registers <paramref name="service"/> (with optional <paramref name="name"/>) into environment.
+            </summary>
+            <typeparam name="T">Type of service.</typeparam>
+            <param name="service">Service to register.</param>
+            <param name="name">Optional service name (for registering more services of the same type.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.EngineEnvironment.With``1(System.String)">
+            <summary>
+            Tries to retrieve service of type <typeparamref name="T"/> (with optional <paramref name="name"/>).
+            </summary>
+            <typeparam name="T">Type of service.</typeparam>
+            <param name="name">Optional service name (for registering more services of the same type.</param>
+            <returns>Retrieved service.</returns>
+        </member>
+        <member name="M:Neptuo.EngineEnvironment.Is``1(System.String)">
+            <summary>
+            Returns <c>true</c> if there is registered service of type <typeparamref name="T"/> with optional name <paramref name="name"/>.
+            </summary>
+            <typeparam name="T">Type of service.</typeparam>
+            <param name="name">Optional service name (for registering more services of the same type.</param>
+            <returns><c>true</c> if such a service is registered; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="T:Neptuo.Events.EventManager">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Events.IEventManager"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Events.IEventDispatcher">
+            <summary>
+            Provides ability to publish events.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Events.IEventDispatcher.Publish``1(``0)">
+            <summary>
+            Publishes <paramref name="eventData"/> to event bus.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+            <param name="eventData">Instance of event data.</param>
+        </member>
+        <member name="T:Neptuo.Events.IEventRegistry">
+            <summary>
+            Provides methods for registering and unregistering event handlers.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Events.IEventRegistry.Subscribe``1(Neptuo.Events.Handlers.IEventHandlerFactory{``0})">
+            <summary>
+            Subscribes event handle factor for events of type <typeparamref name="TEvent"/>.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+            <param name="factory">Event handler factory.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Neptuo.Events.IEventRegistry.Subscribe(System.Type,Neptuo.Events.Handlers.IEventHandlerFactory)" -->
+        <member name="M:Neptuo.Events.IEventRegistry.UnSubscribe``1(Neptuo.Events.Handlers.IEventHandlerFactory{``0})">
+            <summary>
+            Unsubscribes event handle factor from events of type <typeparamref name="TEvent"/>.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+            <param name="factory">Event handler factory.</param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:Neptuo.Events.IEventRegistry.UnSubscribe(System.Type,Neptuo.Events.Handlers.IEventHandlerFactory)" -->
+        <member name="M:Neptuo.Events.EventManager.#ctor">
+            <summary>
+            Creates new instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Events.EventManager.SubscribeInternal(System.Type,Neptuo.Events.Handlers.IEventHandlerFactory)">
+            <summary>
+            Subscribes <paramref name="factory"/> for events of type <paramref name="eventDataType"/>.
+            Doesn't provide any type checks!
+            </summary>
+            <param name="eventDataType">Type of event data.</param>
+            <param name="factory">Event handler factory for events of type <paramref name="eventDataType"/>.</param>
+        </member>
+        <member name="M:Neptuo.Events.EventManager.UnSubscribeInternal(System.Type,Neptuo.Events.Handlers.IEventHandlerFactory)">
+            <summary>
+            Unsubscribes <paramref name="factory"/> from events of type <paramref name="eventDataType"/>.
+            Doesn't provide any type checks!
+            </summary>
+            <param name="eventDataType">Type of event data.</param>
+            <param name="factory">Event handler factory for events of type <paramref name="eventDataType"/>.</param>
+        </member>
+        <member name="P:Neptuo.Events.EventManager.Registry">
+            <summary>
+            Internal storage for registrations.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Events.EventDispatcherExtensions.SubscribeDependency``2(Neptuo.Events.IEventRegistry,Neptuo.IDependencyProvider)">
+            <summary>
+            Subscribes <typeparamref name="TEventHandler"/> using dependency handler factory.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+            <typeparam name="TEventHandler">Type of event handler</typeparam>
+            <param name="eventRegistry">Event registry.</param>
+            <param name="dependencyProvider">Dependency provider for resolving .</param>
+            <returns>Created event handler factory.</returns>
+        </member>
+        <member name="T:Neptuo.Events.Handlers.ActionEventHandler`1">
+            <summary>
+            Event handler using delegate method.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+        </member>
+        <member name="T:Neptuo.Events.Handlers.IEventHandler`1">
+            <summary>
+            Handler for events of type <typeparamref name="TEvent"/>.
+            </summary>
+            <typeparam name="TEvent"></typeparam>
+        </member>
+        <member name="M:Neptuo.Events.Handlers.IEventHandler`1.Handle(`0)">
+            <summary>
+            Handles event described by <paramref name="eventData"/>.
+            </summary>
+            <param name="eventData">Instance of event data.</param>
+        </member>
+        <member name="M:Neptuo.Events.Handlers.ActionEventHandler`1.#ctor(System.Action{`0})">
+            <summary>
+            Creates new instance using <paramref name="action"/>.
+            </summary>
+            <param name="action">Degate for handling events.</param>
+        </member>
+        <member name="P:Neptuo.Events.Handlers.ActionEventHandler`1.Action">
+            <summary>
+            Degate for handling events.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Events.Handlers.DependencyEventHandlerFactory`2">
+            <summary>
+            Creates instances of event handler using <see cref="T:Neptuo.IDependencyProvider"/>.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+            <typeparam name="TEventHandler">Type of handler to handle events of type <typeparamref name="TEvent"/>.</typeparam>
+        </member>
+        <member name="T:Neptuo.Events.Handlers.IEventHandlerFactory`1">
+            <summary>
+            Event handler factory for events of type <typeparamref name="TEvent"/>.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+        </member>
+        <member name="T:Neptuo.Events.Handlers.IEventHandlerFactory">
+            <summary>
+            Marker interface for event handler factories.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Events.Handlers.IEventHandlerFactory`1.CreateHandler(`0,Neptuo.Events.IEventManager)">
+            <summary>
+            Creates event handler for <paramref name="eventData"/> of type <typeparamref name="TEvent"/>.
+            </summary>
+            <param name="eventData">Instance of event data.</param>
+            <param name="currentManager">Current event manager that invokes this method.</param>
+            <returns>Event handler for <paramref name="eventData"/>.</returns>
+        </member>
+        <member name="F:Neptuo.Events.Handlers.DependencyEventHandlerFactory`2.dependencyProvider">
+            <summary>
+            Current dependency provider for creating instances of <typeparamref name="TEventHandler" />.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Events.Handlers.DependencyEventHandlerFactory`2.#ctor(Neptuo.IDependencyProvider)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="dependencyProvider">Current dependency provider for creating instances of <typeparamref name="TEventHandler" />.</param>
+        </member>
+        <member name="M:Neptuo.Events.Handlers.DependencyEventHandlerFactory`2.CreateHandler(`0,Neptuo.Events.IEventManager)">
+            <summary>
+            Creates instance of <typeparamref name="TEventHandler"/>.
+            </summary>
+            <param name="eventData">Event to handle.</param>
+            <param name="currentManager">Current event manager.</param>
+            <returns>Instance of <typeparamref name="TEventHandler"/>.</returns>
+        </member>
+        <member name="T:Neptuo.Events.Handlers.GetterEventHandlerFactory`1">
+            <summary>
+            Registers event handler using factory method.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+        </member>
+        <member name="M:Neptuo.Events.Handlers.GetterEventHandlerFactory`1.#ctor(System.Func{Neptuo.Events.Handlers.IEventHandler{`0}})">
+            <summary>
+            Creates new instance using <paramref name="getter"/>.
+            </summary>
+            <param name="getter">Factory method for event handlers.</param>
+        </member>
+        <member name="P:Neptuo.Events.Handlers.GetterEventHandlerFactory`1.Getter">
+            <summary>
+            Factory method for event handlers.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Events.Handlers.SingletonEventHandlerFactory`1">
+            <summary>
+            Single instance event handler factory.
+            </summary>
+            <typeparam name="TEvent">Type of event data.</typeparam>
+        </member>
+        <member name="M:Neptuo.Events.Handlers.SingletonEventHandlerFactory`1.#ctor(Neptuo.Events.Handlers.IEventHandler{`0})">
+            <summary>
+            Creates new instance using <paramref name="handler"/>.
+            </summary>
+            <param name="handler">Singleton event handler.</param>
+        </member>
+        <member name="P:Neptuo.Events.Handlers.SingletonEventHandlerFactory`1.Handler">
+            <summary>
+            Singleton event handler.
+            </summary>
+        </member>
+        <member name="T:Neptuo.FileSystems.FileContentExtensions">
+            <summary>
+            Extensions for reading and writing file content in sync mode.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileContentExtensions.GetContent(Neptuo.FileSystems.IReadOnlyFile)">
+            <summary>
+            Returns file content.
+            </summary>
+            <returns>File content.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileContentExtensions.GetContentAsByteArray(Neptuo.FileSystems.IReadOnlyFile)">
+            <summary>
+            Returns file content as byte array.
+            </summary>
+            <returns>File content as byte array.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileContentExtensions.GetContentAsStream(Neptuo.FileSystems.IReadOnlyFile)">
+            <summary>
+            Returns file content as stream.
+            </summary>
+            <returns>File content as stream.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileContentExtensions.SetContent(Neptuo.FileSystems.IFile,System.String)">
+            <summary>
+            Overrides file content to <paramref name="fileContent"/>.
+            </summary>
+            <param name="fileContent">New file content.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileContentExtensions.SetContentFromByteArray(Neptuo.FileSystems.IFile,System.Byte[])">
+            <summary>
+            Overrides file content to <paramref name="fileContent"/>.
+            </summary>
+            <param name="fileContent">New file content.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileContentExtensions.SetContentFromStream(Neptuo.FileSystems.IFile,System.IO.Stream)">
+            <summary>
+            Overrides file content to <paramref name="fileContent"/>.
+            </summary>
+            <param name="fileContent">New file content.</param>
+        </member>
+        <member name="T:Neptuo.FileSystems.FileSystemException">
+            <summary>
+            Generic exception that can occur in virtual file systems.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileSystemException.#ctor(System.String)">
+            <summary>
+            Create new instance with <paramref name="message"/> as context information.
+            </summary>
+            <param name="message">Context information.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.FileSystemException.#ctor(System.String,System.Exception)">
+            <summary>
+            Create new instance with <paramref name="message"/> as context information 
+            and <paramref name="innerException"/> as inner exception that is the cause of this exception.
+            </summary>
+            <param name="message">Context information.</param>
+            <param name="innerExceptio">Inner exception that is the cause of this exception.</param>
+        </member>
+        <member name="T:Neptuo.FileSystems.IReadOnlyDirectory">
+            <summary>
+            Represents (not updateable) directory in virtual file system.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyDirectory.EnumerateDirectories">
+            <summary>
+            Returns enumeration of all child directories.
+            </summary>
+            <returns>Enumeration of all child directories.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyDirectory.FindDirectories(System.String,System.Boolean)">
+            <summary>
+            Returns enumeration of all child directories.
+            </summary>
+            <param name="searchPattern">Name for filtering.</param>
+            <param name="inAllDescendants">True for not only direct childs.</param>
+            <returns>Enumeration of all child directories.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyDirectory.EnumerateFiles">
+            <summary>
+            Returns enumeration of all child files.
+            </summary>
+            <returns>Enumeration of all child files</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyDirectory.FindFiles(System.String,System.Boolean)">
+            <summary>
+            Returns enumeration of all child files.
+            </summary>
+            <param name="searchPattern">Name for filtering.</param>
+            <param name="inAllDescendants">True for not only direct childs.</param>
+            <returns>Enumeration of all child files.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyDirectory.ContainsDirectoryName(System.String)">
+            <summary>
+            Returns true if this directory contains directory with <paramref name="directoryName"/>.
+            </summary>
+            <param name="directoryName">Directory name to test.</param>
+            <returns>True if this directory contains directory with <paramref name="directoryName"/>.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyDirectory.ContainsFileName(System.String)">
+            <summary>
+            Returns true if this directory contains file with <paramref name="fileName"/>.
+            </summary>
+            <param name="fileName">File name to test.</param>
+            <returns>True if this directory contains file with <paramref name="fileName"/>.</returns>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyDirectory.Name">
+            <summary>
+            Directory name.
+            </summary>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyDirectory.FullPath">
+            <summary>
+            Path from root containing this directory name.
+            </summary>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyDirectory.Parent">
+            <summary>
+            Link to parent directory.
+            </summary>
+        </member>
+        <member name="T:Neptuo.FileSystems.IReadOnlyFile">
+            <summary>
+            Represents (not updateable) file in virtual file system.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyFile.GetContentAsync">
+            <summary>
+            Returns file content.
+            </summary>
+            <returns>File content.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyFile.GetContentAsByteArrayAsync">
+            <summary>
+            Returns file content as byte array.
+            </summary>
+            <returns>File content as byte array.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IReadOnlyFile.GetContentAsStreamAsync">
+            <summary>
+            Returns file content as stream.
+            </summary>
+            <returns>File content as stream.</returns>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyFile.Name">
+            <summary>
+            File name without extension.
+            </summary>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyFile.Extension">
+            <summary>
+            File extension.
+            </summary>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyFile.FullPath">
+            <summary>
+            Path from root containing this file name and extension.
+            </summary>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyFile.Parent">
+            <summary>
+            Link to parent directory.
+            </summary>
+        </member>
+        <member name="P:Neptuo.FileSystems.IReadOnlyFile.FileSize">
+            <summary>
+            Size of file in bytes.
+            </summary>
+        </member>
+        <member name="T:Neptuo.FileSystems.LocalDirectory">
+            <summary>
+            Virtual file system directory implemented as stadart file system directory.
+            </summary>
+        </member>
+        <member name="T:Neptuo.FileSystems.IDirectory">
+            <summary>
+            Represents directory in virtual file system.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.IDirectory.CreateDirectory(System.String)">
+            <summary>
+            Creates new sub directory in this directory.
+            </summary>
+            <param name="directoryName">Name of new directory, must be unique.</param>
+            <returns>Newly create directory.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IDirectory.CreateFile(System.String)">
+            <summary>
+            Creats new empty file with name <paramref name="fileName"/>.
+            </summary>
+            <param name="fileName">New file name.</param>
+            <returns>Newly created file.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalDirectory.#ctor(System.String)">
+            <summary>
+            Creates new instance that points to <paramref name="fullPath"/>.
+            </summary>
+            <param name="fullPath">Standard file system path to directory.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalDirectory.SetDirectoryRelatedProperties(System.String)">
+            <summary>
+            Sets directory related properties from <paramref name="fullPath"/>.
+            </summary>
+            <param name="fullPath">Standard file system path to directory.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalDirectory.GetParentDirectoryFromFullPath(System.String)">
+            <summary>
+            Helper to create parent directory virtual instance.
+            </summary>
+            <param name="fullPath">Standard file system path to directory.</param>
+            <returns>Wrapped parent directory.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalDirectory.EnumerateChildDirectories(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Returns enumeration of directories with this as parent.
+            </summary>
+            <param name="paths">Enumeration of directory paths</param>
+            <returns>Enumeration of directories with this as parent.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalDirectory.EnumerateAllDirectories(System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Returns enumeration of directories without explicit parent.
+            </summary>
+            <param name="paths">Enumeration of directory paths</param>
+            <returns>Enumeration of directories without explicit parent.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalDirectory.GetSearchOption(System.Boolean)">
+            <summary>
+            Returns instance of <see cref="T:System.IO.SearchOption"/> from <paramref name="inAllDescendants"/>.
+            </summary>
+            <param name="inAllDescendants">True for not only direct childs.</param>
+            <returns>Instance of <see cref="T:System.IO.SearchOption"/> from <paramref name="inAllDescendants"/>.</returns>
+        </member>
+        <member name="T:Neptuo.FileSystems.LocalFile">
+            <summary>
+            Virtual file system file implemented as stadart file system file.
+            </summary>
+        </member>
+        <member name="T:Neptuo.FileSystems.IFile">
+            <summary>
+            Represents file in virtual file system.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.IFile.SetContentAsync(System.String)">
+            <summary>
+            Overrides file content to <paramref name="fileContent"/>.
+            </summary>
+            <param name="fileContent">New file content.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.IFile.SetContentFromByteArrayAsync(System.Byte[])">
+            <summary>
+            Overrides file content to <paramref name="fileContent"/>.
+            </summary>
+            <param name="fileContent">New file content.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.IFile.SetContentFromStreamAsync(System.IO.Stream)">
+            <summary>
+            Overrides file content to <paramref name="fileContent"/>.
+            </summary>
+            <param name="fileContent">New file content.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFile.#ctor(System.String)">
+            <summary>
+            Creates new instance that points to <paramref name="fullPath"/>.
+            </summary>
+            <param name="fullPath">Standard file system path to file.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFile.#ctor(Neptuo.FileSystems.IDirectory,System.String)">
+            <summary>
+            Creates new instance that points to <paramref name="fullPath"/> and uses <paramref name="parent"/> as its parent.
+            </summary>
+            <param name="parent">Virtual parent directory.</param>
+            <param name="fullPath">Standard file system path to file.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFile.SetFileRelatedProperties(System.String)">
+            <summary>
+            Sets file related properties from <paramref name="fullPath"/>.
+            </summary>
+            <param name="fullPath">Standard file system path to file.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFile.GetFileSize(System.String)">
+            <summary>
+            Helper to get length of file.
+            </summary>
+            <param name="fullPath">Standard file system path to file.</param>
+            <returns>Length of file.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFile.GetParentDirectoryFromFullPath(System.String)">
+            <summary>
+            Helper to create parent directory virtual instance.
+            </summary>
+            <param name="fullPath">Standard file system path to file.</param>
+            <returns>Wrapped parent directory.</returns>
+        </member>
+        <member name="T:Neptuo.FileSystems.IFileSystem">
+            <summary>
+            Virtual file system.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.IFileSystem.IsWriteable(Neptuo.FileSystems.IDirectory)">
+            <summary>
+            Returns <c>true</c> if <paramref name="directory"/> (from this file system) is writeable.
+            </summary>
+            <param name="directory">Directory to test if writeable.</param>
+            <returns><c>true</c> if <paramref name="directory"/> is wrteable; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.FileSystems.IFileSystem.AsWriteable(Neptuo.FileSystems.IReadOnlyDirectory)">
+            <summary>
+            Returns writeable directory for <paramref name="directory"/>.
+            </summary>
+            <param name="directory">Directory to turn into writeable one.</param>
+            <returns>Writeable directory for <paramref name="directory"/>.</returns>
+            <exception cref="T:Neptuo.FileSystems.FileSystemException">When <paramref name="directory"/> is read only.</exception>
+        </member>
+        <member name="P:Neptuo.FileSystems.IFileSystem.RootDirectory">
+            <summary>
+            File system root directory.
+            </summary>
+        </member>
+        <member name="P:Neptuo.FileSystems.IFileSystem.IsReadOnly">
+            <summary>
+            If <c>true</c>, file system is read only.
+            </summary>
+        </member>
+        <member name="T:Neptuo.FileSystems.LocalFileSystem">
+            <summary>
+            Virtual file system implemented as stadart file system.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFileSystem.#ctor(System.String,System.Boolean)">
+            <summary>
+            Creates new instance with <paramref name="rootPaht"/> as root directory.
+            </summary>
+            <param name="rootPath">Path to root directory.</param>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFileSystem.FromFilePath(System.String)">
+            <summary>
+            Creates static file for <paramref name="filePath"/> of standart file system.
+            </summary>
+            <param name="filePath">Path to existing file.</param>
+            <returns>Static file for <paramref name="filePath"/>.</returns>
+            <exception cref="T:Neptuo.FileSystems.FileSystemException">When <paramref name="filePath"/> doesn't point to existing file.</exception>
+        </member>
+        <member name="M:Neptuo.FileSystems.LocalFileSystem.FromDirectoryPath(System.String)">
+            <summary>
+            Creates static file for <paramref name="directoryPath"/> of standart file system.
+            </summary>
+            <param name="directoryPath">Path to existing directory.</param>
+            <returns>Static file for <paramref name="directoryPath"/>.</returns>
+            <exception cref="T:Neptuo.FileSystems.FileSystemException">When <paramref name="directoryPath"/> doesn't point to existing directory.</exception>
+        </member>
+        <member name="P:Neptuo.FileSystems.LocalFileSystem.RootDirectory">
+            <summary>
+            File system root directory.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Guard">
+            <summary>
+            Helper for throwing exceptions.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Guard.NotNull(System.Object,System.String)">
+            <summary>
+            Throws <see cref="T:System.ArgumentNullException"/> if <paramref name="argument"/> is <code>null</code>.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+        </member>
+        <member name="M:Neptuo.Guard.NotNull(System.Object,System.String,System.String)">
+            <summary>
+            Throws <see cref="T:System.ArgumentException"/> if <paramref name="argument"/> is <code>null</code>.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+            <param name="message">Text description.</param>
+        </member>
+        <member name="M:Neptuo.Guard.NotNullOrEmpty(System.String,System.String)">
+            <summary>
+            Throws <see cref="T:System.ArgumentNullException"/> if <paramref name="argument"/> is null.
+            Throws <see cref="T:System.ArgumentException"/> if <paramref name="argument"/> is equal to <code>String.Empty</code>.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+        </member>
+        <member name="M:Neptuo.Guard.Positive(System.Int32,System.String)">
+            <summary>
+            Throws <see cref="T:System.ArgumentOutOfRangeException"/> if <paramref name="argument"/> is lower or equal to zero.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+        </member>
+        <member name="M:Neptuo.Guard.PositiveOrZero(System.Int32,System.String)">
+            <summary>
+            Throws <see cref="T:System.ArgumentOutOfRangeException"/> if <paramref name="argument"/> is lower than zero.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+        </member>
+        <member name="M:Neptuo.Guard.Negative(System.Int32,System.String)">
+            <summary>
+            Throws <see cref="T:System.ArgumentOutOfRangeException"/> if <paramref name="argument"/> is greater or equal to zero.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+        </member>
+        <member name="M:Neptuo.Guard.NegativeOrZero(System.Int32,System.String)">
+            <summary>
+            Throws <see cref="T:System.ArgumentOutOfRangeException"/> if <paramref name="argument"/> is greater than zero.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+        </member>
+        <member name="M:Neptuo.Guard.NotDisposed(Neptuo.IDisposable,System.String)">
+            <summary>
+            Throws <see cref="T:System.ObjectDisposedException"/> if <paramref name="argument"/> is already disposed.
+            </summary>
+            <param name="argument">Argument to test.</param>
+            <param name="argumentName">Argument name.</param>
+        </member>
+        <member name="T:Neptuo.IGuidProvider">
+            <summary>
+            Provider for unique identifiers.
+            </summary>
+        </member>
+        <member name="M:Neptuo.IGuidProvider.Next">
+            <summary>
+            Generates new unique identifier.
+            </summary>
+            <returns>New unique identifier.</returns>
+        </member>
+        <member name="T:Neptuo.IParametrizedActivator`1">
+            <summary>
+            Activator for <typeparamref name="T"/> with posibility to use parameters for inicialization.
+            </summary>
+            <typeparam name="T">Type of service to create.</typeparam>
+        </member>
+        <member name="M:Neptuo.IParametrizedActivator`1.Create(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection)">
+            <summary>
+            Creates service of type <typeparamref name="T"/> with posibility to use <paramref name="parameters"/> for inicialization.
+            </summary>
+            <param name="parameters">Collection of parameters that can be used for inicialization.</param>
+            <returns>Service of type <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="T:Neptuo.IDependencyContainer">
+            <summary>
+            Service locator with ability to register services.
+            </summary>
+        </member>
+        <member name="T:Neptuo.IDependencyProvider">
+            <summary>
+            Service locator.
+            </summary>
+        </member>
+        <member name="M:Neptuo.IDependencyProvider.CreateChildContainer">
+            <summary>
+            Creates new child container based on this provider.
+            </summary>
+            <returns>New child container based on this provider.</returns>
+        </member>
+        <member name="M:Neptuo.IDependencyProvider.Resolve(System.Type,System.String)">
+            <summary>
+            Resolves instance of <paramref name="requiredType"/>.
+            </summary>
+            <param name="requiredType">Required type.</param>
+            <param name="name">Optional type.</param>
+            <returns>Instance of <paramref name="requiredType"/>.</returns>
+        </member>
+        <member name="M:Neptuo.IDependencyProvider.ResolveAll(System.Type)">
+            <summary>
+            Resolves all instances of <paramref name="requiredType"/>.
+            </summary>
+            <param name="requiredType">Required type.</param>
+            <returns>All instances of <paramref name="requiredType"/>.</returns>
+        </member>
+        <member name="M:Neptuo.IDependencyContainer.RegisterInstance(System.Type,System.String,System.Object)">
+            <summary>
+            Registers singleton instance to this service locator.
+            </summary>
+            <param name="requiredType">Required type.</param>
+            <param name="name">Optional type.</param>
+            <param name="instance">Instance of <paramref name="requiredType"/>.</param>
+            <returns>This (fluently).</returns>
+        </member>
+        <member name="M:Neptuo.IDependencyContainer.RegisterType(System.Type,System.Type,System.String,System.Object)">
+            <summary>
+            Registers mapping from <paramref name="requiredType"/> to <paramref name="implementationType"/>
+            </summary>
+            <param name="requiredType">Required type.</param>
+            <param name="implementationType">Implementation type.</param>
+            <param name="name">Optional type.</param>
+            <param name="lifetime">Instance life time.</param>
+            <returns>This (fluently).</returns>
+        </member>
+        <member name="T:Neptuo.SequenceGuidProvider">
+            <summary>
+            Generates identifiers using specified prefix and integer sequence.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.DependencyValidationDispatcher">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Validators.IValidationDispatcher"/> using <see cref="T:Neptuo.IDependencyProvider"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.IValidationDispatcher">
+            <summary>
+            Front facade for providing validations.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.IValidationDispatcher.Validate``1(``0)">
+            <summary>
+            Validates <paramref name="model"/> and returns validation result.
+            </summary>
+            <typeparam name="TModel">Type of model to validate.</typeparam>
+            <param name="model">Model instance to validate.</param>
+            <returns><see cref="T:Neptuo.Validators.IValidationResult"/> describing succes or validation failure.</returns>
+        </member>
+        <member name="M:Neptuo.Validators.IValidationDispatcher.Validate(System.Object)">
+            <summary>
+            Validates <paramref name="model"/> using runtime type of model.
+            Best for framework code where TModel can't be determined.
+            </summary>
+            <param name="model">Model instance to validate.</param>
+            <returns><see cref="T:Neptuo.Validators.IValidationResult"/> describing succes or validation failure.</returns>
+        </member>
+        <member name="F:Neptuo.Validators.DependencyValidationDispatcher.ValidateMethodName">
+            <summary>
+            Name of <see cref="!:IValidationHandler.Validate"/>.
+            </summary>
+            <remarks>
+            Because of SharpKit can't be defined by <see cref="T:Neptuo.Linq.Expressions.TypeHelper"/>.
+            </remarks>
+        </member>
+        <member name="F:Neptuo.Validators.DependencyValidationDispatcher.dependencyProvider">
+            <summary>
+            Inner provider of validation handlers.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.DependencyValidationDispatcher.#ctor(Neptuo.IDependencyProvider)">
+            <summary>
+            Creates new instance using <paramref name="dependencyProvider"/> for resolving validation handlers.
+            </summary>
+            <param name="dependencyProvider">Resolver of validation handlers.</param>
+        </member>
+        <member name="T:Neptuo.Validators.IValidationResult">
+            <summary>
+            Describes result of validation process.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Validators.IValidationResult.IsValid">
+            <summary>
+            Flag to see if validation was successfull (= model was valid).
+            </summary>
+        </member>
+        <member name="P:Neptuo.Validators.IValidationResult.Messages">
+            <summary>
+            Enumeration of messages created by validation process.
+            Can also contain non-error message (eg. warnings).
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.IValidationMessage">
+            <summary>
+            Describes validation message.
+            Not necessary must be error message.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Validators.IValidationMessage.Key">
+            <summary>
+            Key (or property name) this message is bound to.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Validators.IValidationMessage.Message">
+            <summary>
+            Text representation of message.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.IValidationHandler`1">
+            <summary>
+            Validator for instances of <typeparamref name="TModel"/>.
+            </summary>
+            <typeparam name="TModel">Type of model to validate.</typeparam>
+        </member>
+        <member name="M:Neptuo.Validators.IValidationHandler`1.Validate(`0)">
+            <summary>
+            Validates <paramref name="model"/> and returns validation result.
+            </summary>
+            <param name="model">Model instance to validate.</param>
+            <returns><see cref="T:Neptuo.Validators.IValidationResult"/> describing succes or validation failure.</returns>
+        </member>
+        <member name="T:Neptuo.Validators.PropertyEqualMessage">
+            <summary>
+            Validation message for comparing two properties.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.PropertyValidationMessageBase">
+            <summary>
+            Validation message based of property which is bound to.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.ValidationMessageBase">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Validators.IValidationMessage"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.ValidationMessageBase.#ctor(System.String,System.String)">
+            <summary>
+            Creates new instance for <paramref name="key"/> with message in <paramref name="message"/>.
+            </summary>
+            <param name="key">Validation message key.</param>
+            <param name="message">Text representation of validation message.</param>
+        </member>
+        <member name="M:Neptuo.Validators.ValidationMessageBase.GetTextMessage">
+            <summary>
+            Formats text representation of validation message.
+            Method is called only when message was not passed in ctor.
+            Should be overriden in derivered classes when message parameter in ctor was not used.
+            </summary>
+            <returns>Text representation of validation message.</returns>
+        </member>
+        <member name="M:Neptuo.Validators.PropertyValidationMessageBase.#ctor(System.String,System.String)">
+            <summary>
+            Creates new instance with <paramref name="key"/> as validation message key 
+            that is used as <see cref="P:Neptuo.Validators.PropertyValidationMessageBase.PropertyName"/> is <c>null</c>.
+            </summary>
+            <param name="key">Validation message key.</param>
+            <param name="propertyName">Optional property name when differs from <paramref name="key"/>.</param>
+        </member>
+        <member name="P:Neptuo.Validators.PropertyValidationMessageBase.PropertyName">
+            <summary>
+            Validated property name.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.StringLengthMessage">
+            <summary>
+            Validation message for minimal and maximal string length.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.StringLengthMessage.#ctor(System.String,System.Nullable{System.Int32},System.Nullable{System.Int32},System.String)">
+            <summary>
+            Creates new instance for <paramref name="key"/>.
+            </summary>
+            <param name="key">Validation message key.</param>
+            <param name="minLength">Minimal required string length.</param>
+            <param name="maxLength">Maximal allowed string length.</param>
+            <param name="propertyName">Optional property name when differs from <paramref name="key"/>.</param>
+        </member>
+        <member name="P:Neptuo.Validators.StringLengthMessage.MinLength">
+            <summary>
+            Minimal required string length.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Validators.StringLengthMessage.MaxLength">
+            <summary>
+            Maximal allowed string length.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Validators.StringNullOrEmptyMessage">
+            <summary>
+            Validation message for string not 'null or empty'.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.StringNullOrEmptyMessage.#ctor(System.String,System.String)">
+            <summary>
+            Creates new instance for <paramref name="key"/>.
+            </summary>
+            <param name="key">Validation message key.</param>
+            <param name="propertyName">Optional property name when differs from <paramref name="key"/>.</param>
+        </member>
+        <member name="T:Neptuo.Validators.TextValidationMessage">
+            <summary>
+            Validation message with custom text message.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.TextValidationMessage.#ctor(System.String,System.String)">
+            <summary>
+            Creates new instance for <paramref name="key"/> with message in <paramref name="message"/>.
+            </summary>
+            <param name="key">Validation message key.</param>
+            <param name="message">Text representation of validation message.</param>
+        </member>
+        <member name="T:Neptuo.Validators.ValidationException">
+            <summary>
+            Validation exception.
+            This class should be used for throwing errors in validation.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.ValidationException.#ctor(Neptuo.Validators.IValidationResult)">
+            <summary>
+            Creates new instance with <paramref name="result"/>.
+            </summary>
+            <param name="result">Result of validation process.</param>
+        </member>
+        <member name="T:Neptuo.Validators.ValidationResultBase">
+            <summary>
+            Base implementation of <see cref="T:Neptuo.Validators.IValidationResult"/>.
+            Supports warning messages.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Validators.ValidationResultBase.#ctor(System.Boolean)">
+            <summary>
+            Creates new instance with <paramref name="isValid"/> as validation success/failure flag and empty message collection.
+            </summary>
+            <param name="isValid">Whether validation was successfull.</param>
+        </member>
+        <member name="M:Neptuo.Validators.ValidationResultBase.#ctor(System.Boolean,System.Collections.Generic.IEnumerable{Neptuo.Validators.IValidationMessage})">
+            <summary>
+            Creates new instance with <paramref name="isValid"/> as validation success/failure flag and <paramref name="messages"/> as message collection.
+            </summary>
+            <param name="isValid">Whether validation was successfull.</param>
+            <param name="messages">Collection of validation messages.</param>
+        </member>
+    </members>
+</doc>
