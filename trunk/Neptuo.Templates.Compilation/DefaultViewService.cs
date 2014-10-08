@@ -47,9 +47,8 @@ namespace Neptuo.Templates.Compilation
 
         /// <summary>
         /// Text writer pro simple performance measurements.
-        /// Defaults to <see cref="Console.Out"/>.
         /// </summary>
-        public TextWriter DebugWriter
+        public DebugBase.DebugMessageWriter DebugWriter
         {
             get { return InnerWriter; }
             set
