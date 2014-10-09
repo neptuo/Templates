@@ -26,9 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNullOrEmpty(content, "content");
             Guard.NotNull(context, "context");
-
-            if (ContentParsers.Count == 0)
-                throw new ArgumentNullException("ContentGenerator");
+            Guard.Positive(ContentParsers.Count, "ContentParsers");
 
             foreach (IContentParser contentParser in ContentParsers)
             {
@@ -59,9 +57,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             if (!generated)
             {
-                if (DefaultValueParser == null)
-                    throw new ArgumentNullException("DefaultValueParser");
-
+                Guard.NotNull(DefaultValueParser, "DefaultValueParser");
                 codeObject = DefaultValueParser.Parse(value, context.CreateValueContext(this));
             }
 
