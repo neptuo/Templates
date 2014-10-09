@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// If possible, stores string values as plain strings. If target property requires <see cref="IControl"/>, creates <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">Type of literal control.</typeparam>
-    public class DefaultLiteralControlBuilder<T> : ILiteralBuilder
+    public class DefaultLiteralControlBuilder<T> : LiteralBuilder, ILiteralBuilder
         where T : IControl
     {
         private readonly Type literalControlType;
@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.textProperty = textProperty;
         }
 
-        public ICodeObject Parse(IContentBuilderContext context, string text)
+        public override ICodeObject ParseText(IContentBuilderContext context, string text)
         {
             Guard.NotNull(context, "context");
             return new LiteralCodeObject(literalControlType, textProperty, text);

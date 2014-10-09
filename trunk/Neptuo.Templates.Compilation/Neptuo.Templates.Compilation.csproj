@@ -28,8 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\Neptuo.Templates.Compilation.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Neptuo">
@@ -47,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorContext.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorService.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorServiceContext.cs" />
@@ -124,6 +124,7 @@
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\ContentBuilderContextExtensions.cs" />
+    <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilderFactory.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
     <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="_Xml\Parsers\XmlContentParser.ObserverList.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="_Xml\Parsers\XmlDocumentSupport.cs" />
+    <Compile Include="_Xml\Parsers\XmlExtensions.cs" />
     <Compile Include="_Xml\XmlContentParserException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -12,9 +12,9 @@ namespace Neptuo.Templates.Compilation.PreProcessing
     public interface IVisitor
     {
         /// <summary>
-        /// Visits property in <paramref name="propertyDescriptor"/>.
+        /// Visits object <paramref name="codeObject"/>
         /// </summary>
-        /// <param name="propertyDescriptor">AST property.</param>
+        /// <param name="codeObject">AST code object.</param>
         /// <param name="context">Context information.</param>
         void Visit(ICodeObject codeObject, IVisitorContext context);
     }

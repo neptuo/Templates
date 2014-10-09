@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Neptuo.Templates.Compilation")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Base assembly to support Neptuo Templates compilation.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Neptuo")]
 [assembly: AssemblyProduct("Neptuo.Templates.Compilation")]

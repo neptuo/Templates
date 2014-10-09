@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
         void AddVisitor(IVisitor visitor);
 
         /// <summary>
-        /// Use registered visitors to wall through <see cref="codeObject"/>.
+        /// Use registered visitors to wall through <paramref name="codeObject"/>.
         /// </summary>
         /// <param name="codeObject">Root AST object.</param>
         /// <param name="context">Context information.</param>
