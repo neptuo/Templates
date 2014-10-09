@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
             if (compilers.TryGetValue(name, out compiler))
                 return compiler.Compile(sourceCode, new DefaultCodeCompilerContext(this, context));
 
-            throw new ArgumentOutOfRangeException("name", String.Format("Requested unregistered compiler named '{0}'.", name));
+            throw Guard.Exception.ArgumentOutOfRange("name", "Requested an unregistered compiler named '{0}'.", name);
         }
     }
 }

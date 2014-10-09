@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (generators.TryGetValue(name, out codeGenerator))
                 return codeGenerator.ProcessTree(codeObject, context.CreateGeneratorContext(this));
 
-            throw new ArgumentOutOfRangeException("name", String.Format("Requested unregistered code generator named '{0}'.", name));
+            throw Guard.Exception.ArgumentOutOfRange("name", "Requested an unregistered code generator named '{0}'.", name);
         }
     }
 }

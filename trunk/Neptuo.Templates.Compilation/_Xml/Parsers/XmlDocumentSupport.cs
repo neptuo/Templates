@@ -61,12 +61,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             public XmlNameNode(XmlNodeType nodeType, string name)
                 : base(nodeType)
             {
-                if (String.IsNullOrEmpty(name))
-                    throw new ArgumentNullException("name");
+                Guard.NotNullOrEmpty(name, "name");
 
                 string[] parts = name.Split(NameSeparator);
                 if (parts.Length > 2)
-                    throw new ArgumentOutOfRangeException("name", "Name must in format 'prefix:name' or 'name'!");
+                    throw Guard.Exception.ArgumentOutOfRange("name", "Name must in format 'prefix:name' or 'name'!");
 
                 if (parts.Length == 1)
                 {

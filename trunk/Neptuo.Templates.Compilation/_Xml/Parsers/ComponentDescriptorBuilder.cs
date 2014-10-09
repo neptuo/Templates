@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public override ICodeObject Parse(IContentBuilderContext context, IXmlElement element)
         {
             if (isParsing)
-                throw new InvalidOperationException("ComponentDescriptorBuilder can't be reused! Create new instance for every xml tag.");
+                throw Guard.Exception.InvalidOperation("ComponentDescriptorBuilder can't be reused! Create new instance for every xml tag.");
 
             isParsing = true;
             CodeObject = CreateCodeObject(context, element);
@@ -210,7 +210,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     else
                     {
                         //More elements can't be bound!
-                        throw new ArgumentException("Unbindable property!");
+                        throw Guard.Exception.InvalidOperation("Unbindable property!");
                     }
                 }
                 else

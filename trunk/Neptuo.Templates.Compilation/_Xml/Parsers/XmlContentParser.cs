@@ -73,13 +73,13 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IContentBuilder builder = builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
 
                 if (builder == null)
-                    throw new ArgumentOutOfRangeException(element.Name, "This element doesn't have builder!"); //TODO: Add as error!
+                    throw Guard.Exception.ArgumentOutOfRange(element.Name, "This element doesn't have builder!"); //TODO: Add as error!
 
                 ICodeObject codeObject = builder.Parse(new XmlContentBuilderContext(this, helper, newBuilderRegistry), element);
                 if (codeObject != null)
                     return codeObject;
                 else
-                    throw new Exception(String.Format("Builder was not able to process xml element '{0}'.", element.Name));
+                    throw Guard.Exception.InvalidOperation("Builder was not able to process xml element '{0}'.", element.Name);
                 
                 //}
                 //else if (element.IsEmpty)
@@ -107,7 +107,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
             //FlushContent(helper);
 
-            throw new NotSupportedException("XmlContentParser supports only element, text or comment.");
+            throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
         }
 
         private void FlushContent(Helper helper)
