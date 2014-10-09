@@ -27,10 +27,10 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         bool IsReadOnly { get; }
 
         /// <summary>
-        /// Whether can be assigned type of <see cref="type"/>.
+        /// Whether can be assigned type of <paramref name="type"/>.
         /// </summary>
         /// <param name="type">Type to assign.</param>
-        /// <returns>Whether can be assigned type of <see cref="type"/>.</returns>
+        /// <returns>Whether can be assigned type of <paramref name="type"/>.</returns>
         bool CanAssign(Type type);
     }
 }

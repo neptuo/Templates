@@ -66,7 +66,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Parses value using <see cref="IParserService"/> and creates AST.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="content">Template content.</param>
+        /// <param name="value">Part of template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
         public static ICodeObject ProcessValue(this ITokenBuilderContext context, string value)
         {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Implmenentation of <see cref="ILiteralBuilderFactory"/> which creates instances of <see cref="DefaultLiteralControlBuilder"/>.
+    /// Implmenentation of <see cref="ILiteralBuilderFactory"/> which creates instances of <see cref="LiteralBuilder"/>.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class DefaultLiteralControlBuilderFactory<T> : ILiteralBuilderFactory

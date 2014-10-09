@@ -2,10 +2,20 @@
 
 namespace Neptuo.Templates.Compilation
 {
+    /// <summary>
+    /// Describes version of this library.
+    /// </summary>
     public static class VersionInfo
     {
-        internal const string Version = "0.9.7";
+        /// <summary>
+        /// Internal string version (used in assembly info).
+        /// </summary>
+        internal const string Version = "0.9.9";
 
+        /// <summary>
+        /// Version of this library.
+        /// </summary>
+        /// <returns></returns>
         public static Version GetVersion()
         {
             return new Version(Version);

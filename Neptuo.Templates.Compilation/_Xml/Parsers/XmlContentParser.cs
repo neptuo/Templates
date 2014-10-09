@@ -96,18 +96,18 @@ namespace Neptuo.Templates.Compilation.Parsers
             else if (node.NodeType == XmlNodeType.Text)
             {
                 IXmlText text = (IXmlText)node;
-                return builderRegistry.GetLiteralBuilder().Parse(new XmlContentBuilderContext(this, helper, builderRegistry), text.Text);
+                return builderRegistry.GetLiteralBuilder().ParseText(new XmlContentBuilderContext(this, helper, builderRegistry), text.Text);
                 //helper.Content.Append(text.Text);
             }
             else if (node.NodeType == XmlNodeType.Comment)
             {
                 IXmlText text = (IXmlText)node;
-                return builderRegistry.GetLiteralBuilder().Parse(new XmlContentBuilderContext(this, helper, builderRegistry), "<!--" + text.Text + "-->");
+                return builderRegistry.GetLiteralBuilder().ParseComment(new XmlContentBuilderContext(this, helper, builderRegistry), text.Text);
                 //helper.Content.Append("<!--" + text.Text + "-->");
             }
             //FlushContent(helper);
 
-            throw new NotImplementedException();
+            throw new NotSupportedException("XmlContentParser supports only element, text or comment.");
         }
 
         private void FlushContent(Helper helper)
@@ -122,7 +122,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             //if (String.IsNullOrWhiteSpace(text))
             //    return;
-            builderRegistry.GetLiteralBuilder().Parse(new XmlContentBuilderContext(this, helper, builderRegistry), text);
+            builderRegistry.GetLiteralBuilder().ParseText(new XmlContentBuilderContext(this, helper, builderRegistry), text);
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     public interface IContentParser
     {
         /// <summary>
-        /// Parses <see cref="content"/> and generates AST.
+        /// Parses <paramref name="content"/> and generates AST.
         /// </summary>
         /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>

@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     {
         private object value;
 
-        public object Value
+        public virtual object Value
         {
             get { return value; }
             set

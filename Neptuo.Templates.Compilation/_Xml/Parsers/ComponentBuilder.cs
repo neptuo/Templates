@@ -113,7 +113,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// All inner xml nodes that were not successfully bound using <see cref="ComponentBuilder.TryBindProperty"/> are passed to this method.
         /// </summary>
         /// <param name="context">Context of current build.</param>
-        /// <param name="unboundAttributes">Enumeration of unbound inner xml nodes.</param>
+        /// <param name="unboundNodes">Enumeration of unbound inner xml nodes.</param>
         protected virtual void ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
         { }
     }

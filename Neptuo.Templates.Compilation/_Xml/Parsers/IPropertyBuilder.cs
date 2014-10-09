@@ -24,7 +24,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content);
 
         /// <summary>
-        /// Parses <paramref name="content"/> and creates AST for it.
+        /// Parses <paramref name="attributeValue"/> and creates AST for it.
         /// Value is attribute value.
         /// </summary>
         /// <param name="context">Context inforation.</param>
