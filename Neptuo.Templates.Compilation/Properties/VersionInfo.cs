@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Internal string version (used in assembly info).
         /// </summary>
-        internal const string Version = "0.9.10";
+        internal const string Version = "0.9.11";
 
         /// <summary>
         /// Version of this library.

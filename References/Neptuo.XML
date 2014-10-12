@@ -234,7 +234,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IKeyValueCollection,System.String,System.Nullable{System.Int32})">
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{System.Int32})">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <see cref="T:System.Int32"/>, returns it.
@@ -245,7 +245,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IKeyValueCollection,System.String,System.String)">
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.String)">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <see cref="T:System.String"/>, returns it.
@@ -256,7 +256,7 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
-        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IKeyValueCollection,System.String,System.Nullable{System.Boolean})">
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{System.Boolean})">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <see cref="T:System.Boolean"/>, returns it.
@@ -623,6 +623,44 @@
             <param name="name">Optional service name (for registering more services of the same type.</param>
             <returns><c>true</c> if such a service is registered; <c>false</c> otherwise.</returns>
         </member>
+        <member name="T:Neptuo._GuardArgumentExtensions">
+            <summary>
+            Extensions for argument exceptions.
+            </summary>
+        </member>
+        <member name="M:Neptuo._GuardArgumentExtensions.Argument(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.String,System.Object[])">
+            <summary>
+            Creates exception <see cref="T:System.ArgumentException"/> for argument <paramref name="argumentName"/> 
+            and message formatted from <paramref name="format"/> and <paramref name="formatParameters"/>.
+            </summary>
+            <param name="guard"></param>
+            <param name="argumentName"></param>
+            <param name="format"></param>
+            <param name="formatParameters"></param>
+            <returns><see cref="T:System.ArgumentException"/>.</returns>
+        </member>
+        <member name="M:Neptuo._GuardArgumentExtensions.ArgumentNull(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.String,System.Object[])">
+            <summary>
+            Creates exception <see cref="T:System.ArgumentNullException"/> with argument <paramref name="argumentName"/> 
+            and message formatted from <paramref name="format"/> and <paramref name="formatParameters"/>.
+            </summary>
+            <param name="guard">Exception helper.</param>
+            <param name="argumentName">Argument name.</param>
+            <param name="format">Message or format string.</param>
+            <param name="formatParameters">Optional format string parameters.</param>
+            <returns><see cref="T:System.ArgumentNullException"/>.</returns>
+        </member>
+        <member name="M:Neptuo._GuardArgumentExtensions.ArgumentOutOfRange(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.String,System.Object[])">
+            <summary>
+            Creates exception <see cref="T:System.ArgumentOutOfRangeException"/> with argument <paramref name="argumentName"/> 
+            and message formatted from <paramref name="format"/> and <paramref name="formatParameters"/>.
+            </summary>
+            <param name="guard">Exception helper.</param>
+            <param name="argumentName">Argument name.</param>
+            <param name="format">Message or format string.</param>
+            <param name="formatParameters">Optional format string parameters.</param>
+            <returns><see cref="T:System.ArgumentOutOfRangeException"/>.</returns>
+        </member>
         <member name="T:Neptuo.Events.EventManager">
             <summary>
             Implementation of <see cref="T:Neptuo.Events.IEventManager"/>.
@@ -804,6 +842,49 @@
             <summary>
             Singleton event handler.
             </summary>
+        </member>
+        <member name="T:Neptuo.Exceptions.Helpers.GuardExceptionHelper">
+            <summary>
+            Helper class for defining extension exception method on <see cref="F:Neptuo.Guard.Exception"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo._GuardSystemExtensions">
+            <summary>
+            Extensions for system exceptions.
+            </summary>
+        </member>
+        <member name="M:Neptuo._GuardSystemExtensions.NotImplemented(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.Object[])">
+            <summary>
+            Creates exception <see cref="T:System.NotImplementedException"/> for argument <paramref name="argumentName"/> 
+            and optional message formatted from <paramref name="format"/> and <paramref name="formatParameters"/>.
+            </summary>
+            <param name="guard"></param>
+            <param name="argumentName"></param>
+            <param name="format"></param>
+            <param name="formatParameters"></param>
+            <returns><see cref="T:System.NotImplementedException"/>.</returns>
+        </member>
+        <member name="M:Neptuo._GuardSystemExtensions.NotSupported(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.Object[])">
+            <summary>
+            Creates exception <see cref="T:System.NotSupportedException"/> for argument <paramref name="argumentName"/> 
+            and optional message formatted from <paramref name="format"/> and <paramref name="formatParameters"/>.
+            </summary>
+            <param name="guard"></param>
+            <param name="argumentName"></param>
+            <param name="format"></param>
+            <param name="formatParameters"></param>
+            <returns><see cref="T:System.NotSupportedException"/>.</returns>
+        </member>
+        <member name="M:Neptuo._GuardSystemExtensions.InvalidOperation(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.Object[])">
+            <summary>
+            Creates exception <see cref="T:System.InvalidOperationException"/> for argument <paramref name="argumentName"/> 
+            and message formatted from <paramref name="format"/> and <paramref name="formatParameters"/>.
+            </summary>
+            <param name="guard"></param>
+            <param name="argumentName"></param>
+            <param name="format"></param>
+            <param name="formatParameters"></param>
+            <returns><see cref="T:System.InvalidOperationException"/>.</returns>
         </member>
         <member name="T:Neptuo.FileSystems.FileContentExtensions">
             <summary>
@@ -1162,6 +1243,22 @@
             File system root directory.
             </summary>
         </member>
+        <member name="T:Neptuo.FileSystems._GuardExtensions">
+            <summary>
+            Exceptions extensions on file systems.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FileSystems._GuardExtensions.FileSystem(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.Object[])">
+            <summary>
+            Creates exception <see cref="T:Neptuo.FileSystems.FileSystemException"/> for argument <paramref name="argumentName"/> 
+            and message formatted from <paramref name="format"/> and <paramref name="formatParameters"/>.
+            </summary>
+            <param name="guard"></param>
+            <param name="argumentName"></param>
+            <param name="format"></param>
+            <param name="formatParameters"></param>
+            <returns><see cref="T:Neptuo.FileSystems.FileSystemException"/>.</returns>
+        </member>
         <member name="T:Neptuo.Guard">
             <summary>
             Helper for throwing exceptions.
@@ -1225,12 +1322,22 @@
             <param name="argument">Argument to test.</param>
             <param name="argumentName">Argument name.</param>
         </member>
-        <member name="T:Neptuo.IGuidProvider">
+        <member name="F:Neptuo.Guard.Exception">
+            <summary>
+            Helper for throwing exceptions.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.GuidProvider">
+            <summary>
+            Generates identifiers from <see cref="T:System.Guid"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.IGuidProvider">
             <summary>
             Provider for unique identifiers.
             </summary>
         </member>
-        <member name="M:Neptuo.IGuidProvider.Next">
+        <member name="M:Neptuo.ComponentModel.IGuidProvider.Next">
             <summary>
             Generates new unique identifier.
             </summary>
@@ -1299,9 +1406,262 @@
             <param name="lifetime">Instance life time.</param>
             <returns>This (fluently).</returns>
         </member>
-        <member name="T:Neptuo.SequenceGuidProvider">
+        <member name="T:Neptuo.ComponentModel.SequenceGuidProvider">
             <summary>
             Generates identifiers using specified prefix and integer sequence.
+            </summary>
+        </member>
+        <member name="F:Neptuo.ComponentModel.SequenceGuidProvider.prefix">
+            <summary>
+            Optional string prefix.
+            </summary>
+        </member>
+        <member name="F:Neptuo.ComponentModel.SequenceGuidProvider.offset">
+            <summary>
+            Optional zero offset.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel.SequenceGuidProvider.#ctor(System.String,System.Int32)">
+            <summary>
+            Creates instance with optional string prefix <paramref name="prefix"/> and optional int offset <paramref name="offset"/>.
+            </summary>
+            <param name="prefix">Optional string prefix.</param>
+            <param name="offset">Optional zero offset.</param>
+        </member>
+        <member name="T:Neptuo.Tokens.Token">
+            <summary>
+            Describes parsed token. Name of token is splitted into <see cref="P:Neptuo.Tokens.Token.Prefix"/> and <see cref="P:Neptuo.Tokens.Token.Name"/>, <see cref="P:Neptuo.Tokens.Token.Fullname"/> joins both.
+            Default attributes are in <see cref="P:Neptuo.Tokens.Token.DefaultAttributes"/> collection.
+            Named attributes are in <see cref="P:Neptuo.Tokens.Token.Attributes"/> collection.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Tokens.Token.#ctor">
+            <summary>
+            Creates new empty instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Tokens.Token.ToString">
+            <summary>
+            Formats original token string.
+            </summary>
+            <returns>Original token string.</returns>
+        </member>
+        <member name="P:Neptuo.Tokens.Token.Prefix">
+            <summary>
+            Token prefix. <see cref="P:Neptuo.Tokens.Token.Fullname"/> part before ':'.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.Token.Name">
+            <summary>
+            Token local name. <see cref="P:Neptuo.Tokens.Token.Fullname"/> part after ':'.S
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.Token.Fullname">
+            <summary>
+            Token full name. Joined <see cref="P:Neptuo.Tokens.Token.Prefix"/> and <see cref="P:Neptuo.Tokens.Token.Name"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.Token.Attributes">
+            <summary>
+            Collection of named attributes.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.Token.DefaultAttributes">
+            <summary>
+            Collection of default (not named) attributes.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenAttribute">
+            <summary>
+            Describes named token attribute.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenAttribute.#ctor(System.String,System.String)">
+            <summary>
+            Creates new instance with name <paramref name="name"/> and optional value <paramref name="value"/>.
+            </summary>
+            <param name="name">Attribute name.</param>
+            <param name="value">Attribute value.</param>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenAttribute.Name">
+            <summary>
+            Attribute name.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenAttribute.Value">
+            <summary>
+            Attribute value.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenEventArgs">
+            <summary>
+            When parser finds token, this object describes newly found token, original text value and token position in that text.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenEventArgs.#ctor(System.String,Neptuo.Tokens.Token,System.Int32,System.Int32)">
+            <summary>
+            Creates new instance.
+            </summary>
+            <param name="originalContent">Original text value passed to parser.</param>
+            <param name="token">Parsed token.</param>
+            <param name="startPosition">Token first character index in <paramref name="originalContent"/>.</param>
+            <param name="endPosition">Token last characted index in <paramref name="originalContent"/>.</param>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenEventArgs.OriginalContent">
+            <summary>
+            Original text value passed to parser.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenEventArgs.Token">
+            <summary>
+            Parsed token.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenEventArgs.StartPosition">
+            <summary>
+            Token first character index in <see cref="P:Neptuo.Tokens.TokenEventArgs.OriginalContent"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenEventArgs.EndPosition">
+            <summary>
+            Token last characted index in <see cref="P:Neptuo.Tokens.TokenEventArgs.OriginalContent"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenParser">
+            <summary>
+            Parser for token syntax.
+            Supported features can be se in <see cref="P:Neptuo.Tokens.TokenParser.Configuration"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenParser.#ctor">
+            <summary>
+            Creates new empty instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenParser.Parse(System.String)">
+            <summary>
+            Processes <paramref name="content"/> and fires <see cref="E:Neptuo.Tokens.TokenParser.OnParsedToken"/> when token is found.
+            </summary>
+            <param name="content">Source text.</param>
+            <returns><c>true</c> if parsing was successfull (so <paramref name="content"/> contained token(s) or only plain value).</returns>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenParser.IsSuccessState(Neptuo.Tokens.TokenState)">
+            <summary>
+            Determines if <paramref name="finalState"/> is acceptable in current context (and configuration).
+            </summary>
+            <param name="finalState">Returned state from state machine.</param>
+            <returns><c>true</c> if <paramref name="finalState"/> is acceptable; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenParser.GetStateMachineConfiguration">
+            <summary>
+            Converts parser configuration to state machine configuration.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenParser.Configuration">
+            <summary>
+            Feature configuration.
+            </summary>
+        </member>
+        <member name="E:Neptuo.Tokens.TokenParser.OnParsedToken">
+            <summary>
+            Event fired when token is found in source text.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenParserConfiguration">
+            <summary>
+            Feature configuration of <see cref="T:Neptuo.Tokens.TokenParser"/>.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenParserConfiguration.AllowTextContent">
+            <summary>
+            Whether content can contain text character before, between or after tokens.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenParserConfiguration.AllowEscapeSequence">
+            <summary>
+            Whether escape sequences in format '{{' text '}}' are allowed.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenParserConfiguration.AllowMultipleTokens">
+            <summary>
+            Whether content can contain multiple tokens.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenParserConfiguration.AllowDefaultAttributes">
+            <summary>
+            Whether default attributes are allowed.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenParserConfiguration.AllowAttributes">
+            <summary>
+            Whether named attributes are allowed.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenStateMachine">
+            <summary>
+            Internal token parser realized as state machine.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenEscapeState">
+            <summary>
+            After escape start sequence '{{'.
+            After finding '}}' moves to start state.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenAttributeNameState">
+            <summary>
+            When processing 
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenAttributeValueState">
+            <summary>
+            When processing named attribute value.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenDoneState">
+            <summary>
+            When processing input finished successfully.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenErrorState">
+            <summary>
+            When input was not valid to token.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenWriter">
+            <summary>
+            String formatter using tokens.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenWriter.#ctor(System.String)">
+            <summary>
+            Creates new instance for format string as <paramref name="format"/>.
+            </summary>
+            <param name="format">Format string.</param>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenWriter.Format(System.Func{System.String,System.String})">
+            <summary>
+            For each found token, calles <paramref name="tokenMapper"/> with token name and replaces that token with returned value.
+            </summary>
+            <param name="tokenMapper">Token name to token value replacer.</param>
+            <returns>Formatted string with replaced tokens.</returns>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenWriter.Format(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection)">
+            <summary>
+            For each found token, tries to read string value from <paramref name="tokenMapper"/> and replaces that token with returned value.
+            </summary>
+            <param name="tokenMapper">Token name to token value replacer.</param>
+            <returns>Formatted string with replaced tokens.</returns>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenFormatHelper">
+            <summary>
+            Helper class for initial format parsing process.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Tokens.TokenWriterItem">
+            <summary>
+            Represents part of format string.
+            Is static text value or token.
             </summary>
         </member>
         <member name="T:Neptuo.Validators.DependencyValidationDispatcher">

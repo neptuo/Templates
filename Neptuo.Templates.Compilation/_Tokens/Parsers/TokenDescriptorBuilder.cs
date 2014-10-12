@@ -60,10 +60,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
             {
                 IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(defaultProperty);
-                if (!String.IsNullOrWhiteSpace(extension.DefaultAttributeValue))
+                string defaultAttributeValue = extension.DefaultAttributes.FirstOrDefault();
+                if (!String.IsNullOrEmpty(defaultAttributeValue))
                 {
                     ICodeObject valueObject = context.ParserContext.ParserService.ProcessValue(
-                        extension.DefaultAttributeValue,
+                        defaultAttributeValue,
                         new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
                     );
 
