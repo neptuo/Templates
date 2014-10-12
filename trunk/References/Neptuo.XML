@@ -1428,6 +1428,139 @@
             <param name="prefix">Optional string prefix.</param>
             <param name="offset">Optional zero offset.</param>
         </member>
+        <member name="T:Neptuo.StateMachines.IStateMachineState`2">
+            <summary>
+            Represents single of state machine.
+            </summary>
+            <typeparam name="TItem">State machine item type (whole input is enumeration of this type).</typeparam>
+            <typeparam name="TState">Type of target state.</typeparam>
+        </member>
+        <member name="M:Neptuo.StateMachines.IStateMachineState`2.Accept(`0,System.Int32)">
+            <summary>
+            Processes logic on input <paramref name="item"/> and returns new (or this) state of state machine to move into.
+            </summary>
+            <param name="item">Current input element.</param>
+            <param name="position">Position (index) in whole input.</param>
+            <returns>New (or this) state of state machine to move into.</returns>
+        </member>
+        <member name="T:Neptuo.StateMachines.IStringState`1">
+            <summary>
+            Represents state of state machine which works on enumeration of characters (string).
+            </summary>
+            <typeparam name="TState">Type of target state.</typeparam>
+        </member>
+        <member name="T:Neptuo.StateMachines.StateMachine`2">
+            <summary>
+            Implementation of state machine which works on enumeration of <typeparamref name="TItem"/> and supports states of type <typeparamref name="TState"/>.
+            </summary>
+            <typeparam name="TItem">Type of item (whole input is enumeration of this type).</typeparam>
+            <typeparam name="TState">Type of single state.</typeparam>
+        </member>
+        <member name="M:Neptuo.StateMachines.StateMachine`2.#ctor(`1)">
+            <summary>
+            Creates new instance with initial state <paramref name="initialState"/>.
+            </summary>
+            <param name="initialState">First state of state machine.</param>
+        </member>
+        <member name="M:Neptuo.StateMachines.StateMachine`2.OnEnterConcreteState``1(System.EventHandler{Neptuo.StateMachines.StateMachineEventArgs{``0}})">
+            <summary>
+            Adds <paramref name="handler"/> to listening on event <see cref="!:StateMachine.OnEnterState"/> if entered state is of type <typeparamref name="TConcreteState"/>.
+            </summary>
+            <param name="handler">Handler for processing event.</param>
+        </member>
+        <member name="M:Neptuo.StateMachines.StateMachine`2.OnLeaveConcreteState``1(System.EventHandler{Neptuo.StateMachines.StateMachineEventArgs{``0}})">
+            <summary>
+            Adds <paramref name="handler"/> to listening on event <see cref="!:StateMachine.OnLeaveState"/> if left state is of type <typeparamref name="TConcreteState"/>.
+            </summary>
+            <param name="handler">Handler for processing event.</param>
+        </member>
+        <member name="M:Neptuo.StateMachines.StateMachine`2.Process(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Processes <paramref name="items"/> to returns state in which state machine remains after processing whole input.
+            </summary>
+            <param name="items">Enumeration of input.</param>
+            <returns>State, in which state machine remains after processing whole input.</returns>
+        </member>
+        <member name="P:Neptuo.StateMachines.StateMachine`2.InitialState">
+            <summary>
+            First state of state machine.
+            </summary>
+        </member>
+        <member name="E:Neptuo.StateMachines.StateMachine`2.OnEnterState">
+            <summary>
+            Event fired when entering (before accepting input item) state.
+            </summary>
+        </member>
+        <member name="E:Neptuo.StateMachines.StateMachine`2.OnLeaveState">
+            <summary>
+            Event fired when leaving (after accepting input item) state.
+            </summary>
+        </member>
+        <member name="T:Neptuo.StateMachines.StateMachineEventArgs`1">
+            <summary>
+            Describes context of <see cref="!:StateMachine.OnEnter"/> or <see cref="!:StateMachine.OnLeave"/> event.
+            </summary>
+            <typeparam name="TState">Type of target state.</typeparam>
+        </member>
+        <member name="M:Neptuo.StateMachines.StateMachineEventArgs`1.#ctor(`0)">
+            <summary>
+            Creates new instance with <paramref name="state"/> as current state machine state.
+            </summary>
+            <param name="state">Current state of state machine.</param>
+        </member>
+        <member name="P:Neptuo.StateMachines.StateMachineEventArgs`1.State">
+            <summary>
+            Current state of state machine.
+            </summary>
+        </member>
+        <member name="T:Neptuo.StateMachines.StringState`2">
+            <summary>
+            Base state of state machine which works on enumeration of characters (string).
+            </summary>
+            <typeparam name="TContext">Type of context which is automaticaly shared between state transitions.</typeparam>
+            <typeparam name="TState">Type of targe state.</typeparam>
+        </member>
+        <member name="M:Neptuo.StateMachines.StringState`2.#ctor">
+            <summary>
+            Creates new empty instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.StateMachines.StringState`2.Move``1">
+            <summary>
+            Creates instance of <typeparamref name="TNewState"/> as result of accepting input item.
+            Automatically shares context object.
+            </summary>
+            <typeparam name="TNewState">Type of new state.</typeparam>
+            <returns>Instance of new state with shared context objekt.</returns>
+        </member>
+        <member name="M:Neptuo.StateMachines.StringState`2.GetContextForNewState">
+            <summary>
+            Factory method for context object used in <see cref="!:StringState.Move"/>
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Neptuo.StateMachines.StringState`2.Text">
+            <summary>
+            Placeholder for accumulating input when remaing in the same state.
+            </summary>
+        </member>
+        <member name="P:Neptuo.StateMachines.StringState`2.Context">
+            <summary>
+            Automaticaly shared context object.
+            </summary>
+        </member>
+        <member name="T:Neptuo.StateMachines.StringStateMachine`1">
+            <summary>
+            Implementation of state machine which works on enumeration of characters (string).
+            </summary>
+            <typeparam name="TState">Type of single state.</typeparam>
+        </member>
+        <member name="M:Neptuo.StateMachines.StringStateMachine`1.#ctor(`0)">
+            <summary>
+            Creates new instance with initial state <paramref name="initialState"/>.
+            </summary>
+            <param name="initialState">First state of state machine.</param>
+        </member>
         <member name="T:Neptuo.Tokens.Token">
             <summary>
             Describes parsed token. Name of token is splitted into <see cref="P:Neptuo.Tokens.Token.Prefix"/> and <see cref="P:Neptuo.Tokens.Token.Name"/>, <see cref="P:Neptuo.Tokens.Token.Fullname"/> joins both.
