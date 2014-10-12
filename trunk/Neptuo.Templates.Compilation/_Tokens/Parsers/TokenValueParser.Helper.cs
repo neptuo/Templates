@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 BuilderFactory = builderFactory;
                 Parser = new TokenParser();
                 Parser.Configuration.AllowAttributes = true;
-                Parser.Configuration.AllowDefaultAttribute = true;
+                Parser.Configuration.AllowDefaultAttributes = true;
                 Parser.Configuration.AllowMultipleTokens = false;
                 Parser.Configuration.AllowTextContent = false;
             }
