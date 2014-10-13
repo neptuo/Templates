@@ -28,8 +28,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
+    <DocumentationFile>bin\Release\Neptuo.Templates.Compilation.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Neptuo">
@@ -114,6 +113,7 @@
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContextExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
+    <Compile Include="_Tokens\Parsers\TokenExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.Helper.cs" />
     <Compile Include="_Xml\IContentBuilderRegistry.cs" />
