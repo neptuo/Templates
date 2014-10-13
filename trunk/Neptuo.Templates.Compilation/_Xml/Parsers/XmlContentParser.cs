@@ -71,15 +71,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                 //    FlushContent(helper);
 
                 IContentBuilder builder = builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
-
                 if (builder == null)
-                    throw Guard.Exception.ArgumentOutOfRange(element.Name, "This element doesn't have builder!"); //TODO: Add as error!
+                {
+                    context.AddError(String.Format("Element {0} doesn't have registered builder.", element.Name));
+                    return null;
+                }
 
                 ICodeObject codeObject = builder.Parse(new XmlContentBuilderContext(this, helper, newBuilderRegistry), element);
-                if (codeObject != null)
-                    return codeObject;
-                else
-                    throw Guard.Exception.InvalidOperation("Builder was not able to process xml element '{0}'.", element.Name);
+                return codeObject;
                 
                 //}
                 //else if (element.IsEmpty)
