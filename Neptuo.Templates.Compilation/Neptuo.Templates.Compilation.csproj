@@ -139,6 +139,8 @@
     <Compile Include="_Xml\Parsers\IXmlName.cs" />
     <Compile Include="_Xml\Parsers\IXmlNode.cs" />
     <Compile Include="_Xml\Parsers\IXmlText.cs" />
+    <Compile Include="_Tokens\Parsers\NotSupportedTokenBuilder.cs" />
+    <Compile Include="_Xml\Parsers\NotSupportedContentBuilder.cs" />
     <Compile Include="_Xml\Parsers\ObserverDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
