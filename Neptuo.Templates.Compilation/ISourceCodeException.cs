@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Source code line position (index).
         /// </summary>
-        int LinePosition { get; }
+        int LineIndex { get; }
 
         /// <summary>
         /// Error message.

@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.ComponentModel;
+using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Data;
 using System;
 using System.Collections;
@@ -45,7 +46,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 ISourceCodeException sourceException = e as ISourceCodeException;
                 if (sourceException != null)
-                    context.Errors.Add(new ErrorInfo(sourceException.LineNumber, sourceException.LinePosition, sourceException.Message));
+                    context.Errors.Add(new ErrorInfo(sourceException.LineNumber, sourceException.LineIndex, sourceException.Message));
                 else
                     context.Errors.Add(new ExceptionErrorInfo(e));
             }

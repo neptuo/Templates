@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Line column index in template source where error occured.
         /// </summary>
-        public int LinePosition { get; set; }
+        public int LineIndex { get; set; }
 
         /// <summary>
         /// Create new instance with error described as <paramref name="message"/> on line <paramref name="lineNumber"/> at column <paramref name="linePosition"/>.
@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation
             : base(message)
         {
             LineNumber = lineNumber;
-            LinePosition = linePosition;
+            LineIndex = linePosition;
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Neptuo.Templates.Compilation
             : base(message, inner)
         {
             LineNumber = lineNumber;
-            LinePosition = linePosition;
+            LineIndex = linePosition;
         }
 
         protected SourceCodeException(SerializationInfo info, StreamingContext context)

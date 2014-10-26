@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Neptuo.Templates.Compilation
         /// </summary>
         /// <param name="exception">The exception which caused the error.</param>
         public ExceptionErrorInfo(Exception exception)
-            : base(exception.Message)
+            : base(1, 1, null, exception.Message)
         {
             Guard.NotNull(exception, "exception");
             Exception = exception; 
@@ -34,7 +35,7 @@ namespace Neptuo.Templates.Compilation
         /// <param name="column">Column index of error.</param>
         /// <param name="exception">The exception which caused the error.</param>
         public ExceptionErrorInfo(int line, int column, Exception exception)
-            : base(line, column, exception.Message)
+            : base(line, column, null, exception.Message)
         {
             Guard.NotNull(exception, "exception");
             Exception = exception;

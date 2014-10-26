@@ -1,4 +1,5 @@
-﻿using Neptuo.CodeDom.Compiler;
+﻿using Neptuo.Compilers;
+using Neptuo.ComponentModel;
 using Neptuo.Diagnostics;
 using Neptuo.Linq.Expressions;
 using Neptuo.Security.Cryptography;
@@ -45,6 +46,11 @@ namespace Neptuo.Templates.Compilation
         private SharpKitCodeGenerator javascriptGenerator;
 
         /// <summary>
+        /// Service for compiling c# sources.
+        /// </summary>
+        private CompilerService compilerService;
+
+        /// <summary>
         /// Current debug information, <see cref="CodeDomDebugMode"/>.
         /// </summary>
         public CodeDomDebugMode DebugMode { get; set; }
@@ -87,7 +93,7 @@ namespace Neptuo.Templates.Compilation
             get
             {
                 if (!useDefaultGenerators)
-                    throw new InvalidOperationException("This CodeDomViewService is configured without default CodeDomGenerator.");
+                    throw Guard.Exception.InvalidOperation("This CodeDomViewService is configured without default CodeDomGenerator.");
 
                 return codeDomGenerator;
             }
@@ -101,7 +107,7 @@ namespace Neptuo.Templates.Compilation
             get
             {
                 if (!useDefaultGenerators)
-                    throw new InvalidOperationException("This CodeDomViewService is configured without default JavascriptGenerator.");
+                    throw Guard.Exception.InvalidOperation("This CodeDomViewService is configured without default JavascriptGenerator.");
 
                 return javascriptGenerator;
             }
@@ -142,6 +148,7 @@ namespace Neptuo.Templates.Compilation
             : base(Console.Out)
         {
             this.useDefaultGenerators = useDefaultGenerators;
+            this.compilerService = CompilerService.FromCurrentAppDomain();
 
             ParserService = new DefaultParserService();
             PreProcessorService = new DefaultPreProcessorService();
@@ -267,21 +274,15 @@ namespace Neptuo.Templates.Compilation
 
             DebugHelper.Debug("Compile", () =>
             {
-                CsCodeDomCompiler compiler = new CsCodeDomCompiler();
-                compiler.IsDebugInformationIncluded = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
+                IStaticCompiler compiler = compilerService.Factory.CreateStatic();
+                compiler.IsDebugMode = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
 
                 foreach (string directory in BinDirectories)
-                    compiler.AddReferencedFolder(directory);
+                    compiler.References.AddDirectory(directory);
 
-                CompilerResults cr = compiler.CompileAssemblyFromSource(sourceCode, GetAssemblyPath(naming));
-                if (cr.Errors.Count > 0)
-                {
-                    ICollection<IErrorInfo> errors = new List<IErrorInfo>();
-                    foreach (CompilerError error in cr.Errors)
-                        errors.Add(new ErrorInfo(error.Line, error.Column, error.ErrorText));
-
-                    throw new CodeDomViewServiceException("Error compiling view!", errors, viewContent, sourceCode);
-                }
+                ICompilerResult result = compiler.FromSourceCode(sourceCode, GetAssemblyPath(naming));
+                if (!result.IsSuccess)
+                    throw new CodeDomViewServiceException("Error compiling view!", result.Errors, viewContent, sourceCode);
             });
         }
 

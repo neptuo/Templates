@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.ComponentModel;
+using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static void AddError(this IContentBuilderContext context, string errorText)
         {
             Guard.NotNull(context, "context");
-            context.AddError(new ErrorInfo(errorText));
+            context.AddError(new ErrorInfo(1, 1, errorText));
         }
 
         /// <summary>
