@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeCompilers\DefaultCodeCompilerBase.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorContext.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorService.cs" />

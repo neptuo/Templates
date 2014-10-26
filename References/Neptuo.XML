@@ -1034,8 +1034,8 @@
             Creates exception <see cref="T:System.ArgumentOutOfRangeException"/> with message saying, that file on <paramref name="path"/> doesn't exist.
             </summary>
             <param name="guard">Exception helper.</param>
-            <param name="argumentName">Argument name.</param>
             <param name="path">Path to the not existing file.</param>
+            <param name="argumentName">Argument name.</param>
             <returns><see cref="T:System.ArgumentOutOfRangeException"/>.</returns>
         </member>
         <member name="M:Neptuo._GuardArgumentExtensions.ArgumentDirectoryNotExist(Neptuo.Exceptions.Helpers.GuardExceptionHelper,System.String,System.String)">
@@ -1043,8 +1043,8 @@
             Creates exception <see cref="T:System.ArgumentOutOfRangeException"/> with message saying, that directory on <paramref name="path"/> doesn't exist.
             </summary>
             <param name="guard">Exception helper.</param>
-            <param name="argumentName">Argument name.</param>
             <param name="path">Path to the not existing directory.</param>
+            <param name="argumentName">Argument name.</param>
             <returns><see cref="T:System.ArgumentOutOfRangeException"/>.</returns>
         </member>
         <member name="T:Neptuo.Events.EventManager">
