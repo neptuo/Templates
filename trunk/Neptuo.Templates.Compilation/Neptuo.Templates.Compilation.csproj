@@ -28,7 +28,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Release\Neptuo.Templates.Compilation.XML</DocumentationFile>
+    <DocumentationFile>
+    </DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Neptuo">
@@ -81,8 +82,6 @@
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="DefaultViewService.cs" />
     <Compile Include="DefaultViewServiceContext.cs" />
-    <Compile Include="ErrorInfo.cs" />
-    <Compile Include="IErrorInfo.cs" />
     <Compile Include="ISourceCodeException.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="IViewServiceContext.cs" />
