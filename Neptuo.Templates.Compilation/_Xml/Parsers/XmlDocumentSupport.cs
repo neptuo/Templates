@@ -3,17 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using XXmlDocument = System.Xml.XmlDocument;
-using XXmlNodeList = System.Xml.XmlNodeList;
-using XXmlNode = System.Xml.XmlNode;
-using XXmlNodeType = System.Xml.XmlNodeType;
-using XXmlElement = System.Xml.XmlElement;
-using XXmlAttributeCollection = System.Xml.XmlAttributeCollection;
-using XXmlAttribute = System.Xml.XmlAttribute;
-using XXmlText = System.Xml.XmlText;
-using XXmlWhitespace = System.Xml.XmlWhitespace;
-using XXmlSignificantWhitespace = System.Xml.XmlSignificantWhitespace;
-using XXmlComment = System.Xml.XmlComment;
+using System.Xml;
+using SystemXmlNodeType = System.Xml.XmlNodeType;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -22,26 +13,26 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     internal class XmlDocumentSupport
     {
-        public static XmlElement LoadXml(string xmlContent)
+        public static XmlElementWrapper LoadXml(string xmlContent)
         {
-            XXmlDocument document = new XXmlDocument();
+            XmlDocument document = new XmlDocument();
             document.PreserveWhitespace = true;
             document.LoadXml(xmlContent);
-            return new XmlDocumentSupport.XmlElement(document.DocumentElement);
+            return new XmlDocumentSupport.XmlElementWrapper(document.DocumentElement);
         }
 
-        internal abstract class XmlNode : IXmlNode
+        internal abstract class XmlNodeWrapper : IXmlNode
         {
             public XmlNodeType NodeType { get; private set; }
             public abstract string OuterXml { get; }
 
-            public XmlNode(XmlNodeType nodeType)
+            public XmlNodeWrapper(XmlNodeType nodeType)
             {
                 NodeType = nodeType;
             }
         }
 
-        internal abstract class XmlNameNode : XmlNode, IXmlName
+        internal abstract class XmlNameNodeWrapper : XmlNodeWrapper, IXmlName
         {
             internal const char NameSeparator = ':';
 
@@ -58,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             public string Prefix { get; private set; }
             public string LocalName { get; private set; }
 
-            public XmlNameNode(XmlNodeType nodeType, string name)
+            public XmlNameNodeWrapper(XmlNodeType nodeType, string name)
                 : base(nodeType)
             {
                 Guard.NotNullOrEmpty(name, "name");
@@ -80,7 +71,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        internal class XmlElement : XmlNameNode, IXmlElement
+        internal class XmlElementWrapper : XmlNameNodeWrapper, IXmlElement
         {
             private string outerXml;
 
@@ -89,7 +80,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             public bool IsEmpty { get; private set; }
             public override string OuterXml { get { return outerXml; } }
 
-            public XmlElement(XXmlElement element)
+            public XmlElementWrapper(XmlElement element)
                 : base(XmlNodeType.Element, element.Name)
             {
                 ChildNodes = CreateChildNodes(element.ChildNodes);
@@ -98,42 +89,42 @@ namespace Neptuo.Templates.Compilation.Parsers
                 outerXml = element.OuterXml;
             }
 
-            public static IEnumerable<IXmlNode> CreateChildNodes(XXmlNodeList childNodes)
+            public static IEnumerable<IXmlNode> CreateChildNodes(XmlNodeList childNodes)
             {
                 List<IXmlNode> result = new List<IXmlNode>();
-                foreach (XXmlNode node in childNodes)
+                foreach (XmlNode node in childNodes)
                 {
-                    if (node.NodeType == XXmlNodeType.Element)
-                        result.Add(new XmlElement((XXmlElement)node));
-                    else if (node.NodeType == XXmlNodeType.Text)
-                        result.Add(new XmlText((XXmlText)node));
-                    else if (node.NodeType == XXmlNodeType.Whitespace)
-                        result.Add(new XmlText((XXmlWhitespace)node));
-                    else if (node.NodeType == XXmlNodeType.SignificantWhitespace)
-                        result.Add(new XmlText((XXmlSignificantWhitespace)node));
-                    else if (node.NodeType == XXmlNodeType.Comment)
-                        result.Add(new XmlComment((XXmlComment)node));
+                    if (node.NodeType == SystemXmlNodeType.Element)
+                        result.Add(new XmlElementWrapper((XmlElement)node));
+                    else if (node.NodeType == SystemXmlNodeType.Text)
+                        result.Add(new XmlTextWrapper((XmlText)node));
+                    else if (node.NodeType == SystemXmlNodeType.Whitespace)
+                        result.Add(new XmlTextWrapper((XmlWhitespace)node));
+                    else if (node.NodeType == SystemXmlNodeType.SignificantWhitespace)
+                        result.Add(new XmlTextWrapper((XmlSignificantWhitespace)node));
+                    else if (node.NodeType == SystemXmlNodeType.Comment)
+                        result.Add(new XmlCommentWrapper((XmlComment)node));
                 }
                 return result;
             }
 
-            public static IEnumerable<IXmlAttribute> CreateAttributes(XXmlAttributeCollection attributes, XmlElement ownerElement)
+            public static IEnumerable<IXmlAttribute> CreateAttributes(XmlAttributeCollection attributes, XmlElementWrapper ownerElement)
             {
                 List<IXmlAttribute> result = new List<IXmlAttribute>();
-                foreach (XXmlAttribute attribute in attributes)
-                    result.Add(new XmlAttribute(attribute, ownerElement));
+                foreach (XmlAttribute attribute in attributes)
+                    result.Add(new XmlAttributeWrapper(attribute, ownerElement));
 
                 return result;
             }
         }
 
-        internal class XmlAttribute : XmlNameNode, IXmlAttribute
+        internal class XmlAttributeWrapper : XmlNameNodeWrapper, IXmlAttribute
         {
             public string Value { get; private set; }
             public IXmlElement OwnerElement { get; private set; }
             public override string OuterXml { get { return String.Format("{0}=\"{1}\"", Name, Value); } }
 
-            public XmlAttribute(XXmlAttribute attribute, IXmlElement ownerElement)
+            public XmlAttributeWrapper(XmlAttribute attribute, IXmlElement ownerElement)
                 : base(XmlNodeType.Text, attribute.Name)
             {
                 Value = attribute.Value;
@@ -141,36 +132,36 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        internal class XmlText : XmlNode, IXmlText
+        internal class XmlTextWrapper : XmlNodeWrapper, IXmlText
         {
             public string Text { get; private set; }
             public override string OuterXml { get { return Text; } }
 
-            public XmlText(string text)
+            public XmlTextWrapper(string text)
                 : base(XmlNodeType.Text)
             {
                 Text = text;
             }
 
-            public XmlText(XXmlText text)
+            public XmlTextWrapper(XmlText text)
                 : this(text.InnerText)
             { }
 
-            public XmlText(XXmlWhitespace text)
+            public XmlTextWrapper(XmlWhitespace text)
                 : this(text.InnerText)
             { }
 
-            public XmlText(XXmlSignificantWhitespace text)
+            public XmlTextWrapper(XmlSignificantWhitespace text)
                 : this(text.InnerText)
             { }
         }
 
-        internal class XmlComment : XmlNode, IXmlText
+        internal class XmlCommentWrapper : XmlNodeWrapper, IXmlText
         {
             public string Text { get; private set; }
             public override string OuterXml { get { return Text; } }
 
-            public XmlComment(XXmlComment comment)
+            public XmlCommentWrapper(XmlComment comment)
                 : base(XmlNodeType.Comment)
             {
                 Text = comment.InnerText;

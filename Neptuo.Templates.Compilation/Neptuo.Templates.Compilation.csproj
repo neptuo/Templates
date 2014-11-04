@@ -142,6 +142,7 @@
     <Compile Include="_Tokens\Parsers\NotSupportedTokenBuilder.cs" />
     <Compile Include="_Xml\Parsers\NotSupportedContentBuilder.cs" />
     <Compile Include="_Xml\Parsers\ObserverDescriptorBuilder.cs" />
+    <Compile Include="_Xml\Parsers\XDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.Helper.cs" />
