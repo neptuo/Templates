@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Service for compiling c# sources.
         /// </summary>
-        private CompilerService compilerService;
+        private CompilerFactory compilerFactory;
 
         /// <summary>
         /// Current debug information, <see cref="CodeDomDebugMode"/>.
@@ -148,7 +148,7 @@ namespace Neptuo.Templates.Compilation
             : base(Console.Out)
         {
             this.useDefaultGenerators = useDefaultGenerators;
-            this.compilerService = CompilerService.FromCurrentAppDomain();
+            this.compilerFactory = new CompilerFactory();
 
             ParserService = new DefaultParserService();
             PreProcessorService = new DefaultPreProcessorService();
@@ -274,7 +274,7 @@ namespace Neptuo.Templates.Compilation
 
             DebugHelper.Debug("Compile", () =>
             {
-                IStaticCompiler compiler = compilerService.Factory.CreateStatic();
+                IStaticCompiler compiler = compilerFactory.CreateStatic();
                 compiler.IsDebugMode = DebugMode.HasFlag(CodeDomDebugMode.GeneratePdb);
 
                 foreach (string directory in BinDirectories)

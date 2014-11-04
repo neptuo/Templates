@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
     /// </summary>
     public abstract class DefaultCodeCompilerBase : ICodeCompiler, ICompilerConfiguration
     {
-        private readonly CompilerService compilerService;
+        private readonly CompilerFactory compilerFactory;
         private readonly string tempDirectory;
 
         /// <summary>
@@ -21,8 +21,8 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         /// </summary>
         public bool IsDebugMode
         {
-            get { return compilerService.Factory.IsDebugMode; }
-            set { compilerService.Factory.IsDebugMode = value; }
+            get { return compilerFactory.IsDebugMode; }
+            set { compilerFactory.IsDebugMode = value; }
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         /// </summary>
         public CompilerReferenceCollection References
         {
-            get { return compilerService.Factory.References; }
+            get { return compilerFactory.References; }
         }
 
         /// <summary>
@@ -44,13 +44,13 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
             if (Directory.Exists(tempDirectory))
                 throw Guard.Exception.ArgumentDirectoryNotExist(tempDirectory, "tempDirectory");
 
-            this.compilerService = CompilerService.FromCurrentAppDomain();
+            this.compilerFactory = new CompilerFactory();
             this.tempDirectory = tempDirectory;
         }
 
         public object Compile(TextReader sourceCode, ICodeCompilerContext context)
         {
-            return Compile(compilerService.Factory.CreateStatic(), tempDirectory, sourceCode, context);
+            return Compile(compilerFactory.CreateStatic(), tempDirectory, sourceCode, context);
         }
 
         /// <summary>
