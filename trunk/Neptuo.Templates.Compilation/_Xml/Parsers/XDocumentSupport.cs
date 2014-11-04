@@ -1,0 +1,181 @@
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using SystemXmlNodeType = System.Xml.XmlNodeType;
+
+namespace Neptuo.Templates.Compilation.Parsers
+{
+    /// <summary>
+    /// XML abstraction for System.Xml.Linq
+    /// </summary>
+    internal class XDocumentSupport
+    {
+        public static XElementWrapper LoadXml(string xmlContent)
+        {
+            XDocument document = XDocument.Parse(xmlContent, LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo);
+            return new XElementWrapper(document.Root);
+        }
+
+        internal abstract class XNodeWrapper : IXmlNode
+        {
+            public XmlNodeType NodeType { get; private set; }
+            public abstract string OuterXml { get; }
+
+            public XNodeWrapper(XmlNodeType nodeType)
+            {
+                NodeType = nodeType;
+            }
+        }
+
+        internal abstract class XNameNodeWrapper : XNodeWrapper, IXmlName, IXmlLineInfo
+        {
+            internal const char NameSeparator = ':';
+
+            public string Name
+            {
+                get
+                {
+                    if (String.IsNullOrEmpty(Prefix))
+                        return LocalName;
+
+                    return Prefix + NameSeparator + LocalName;
+                }
+            }
+            public string Prefix { get; private set; }
+            public string LocalName { get; private set; }
+
+            #region IXmlLineInfo
+
+            protected bool IsLineInfoSet { get; set; }
+
+            public bool HasLineInfo()
+            {
+                return IsLineInfoSet;
+            }
+
+            public int LineNumber { get; protected set; }
+            public int LinePosition { get; protected set; }
+
+            #endregion
+
+            public XNameNodeWrapper(XmlNodeType nodeType, string prefix, string localName)
+                : base(nodeType)
+            {
+                Prefix = prefix ?? String.Empty;
+                LocalName = localName;
+            }
+
+            protected void SetLineInfo(IXmlLineInfo lineInfo)
+            {
+                if (lineInfo.HasLineInfo())
+                {
+                    IsLineInfoSet = true;
+                    LineNumber = lineInfo.LineNumber;
+                    LinePosition = lineInfo.LinePosition;
+                }
+            }
+        }
+
+        internal class XElementWrapper : XNameNodeWrapper, IXmlElement
+        {
+            public IEnumerable<IXmlNode> ChildNodes { get; private set; }
+            public IEnumerable<IXmlAttribute> Attributes { get; private set; }
+            public bool IsEmpty { get; private set; }
+            public override string OuterXml { get { throw Guard.Exception.NotImplemented(); } }
+
+            public XElementWrapper(XElement element)
+                : base(XmlNodeType.Element, element.GetPrefixOfNamespace(element.Name.Namespace), element.Name.LocalName)
+            {
+                ChildNodes = CreateChildNodes(element.Nodes());
+                Attributes = CreateAttributes(element.Attributes(), element, this);
+                IsEmpty = element.IsEmpty;
+                SetLineInfo(element);
+            }
+
+            public static IEnumerable<IXmlNode> CreateChildNodes(IEnumerable<XNode> childNodes)
+            {
+                List<IXmlNode> result = new List<IXmlNode>();
+                foreach (XNode node in childNodes)
+                {
+                    if (node.NodeType == SystemXmlNodeType.Element)
+                        result.Add(new XElementWrapper((XElement)node));
+                    else if (node.NodeType == SystemXmlNodeType.Text)
+                        result.Add(new XTextWrapper((XText)node));
+                    else if (node.NodeType == SystemXmlNodeType.Whitespace)
+                        result.Add(new XTextWrapper((XText)node));
+                    else if (node.NodeType == SystemXmlNodeType.SignificantWhitespace)
+                        result.Add(new XTextWrapper((XText)node));
+                    else if (node.NodeType == SystemXmlNodeType.Comment)
+                        result.Add(new XCommentWrapper((XComment)node));
+                }
+                return result;
+            }
+
+            public static IEnumerable<IXmlAttribute> CreateAttributes(IEnumerable<XAttribute> attributes, XElement sourceElement, XElementWrapper ownerElement)
+            {
+                List<IXmlAttribute> result = new List<IXmlAttribute>();
+                foreach (XAttribute attribute in attributes)
+                    result.Add(new XAttributeWrapper(attribute, sourceElement.GetPrefixOfNamespace(sourceElement.Name.Namespace), ownerElement));
+
+                return result;
+            }
+        }
+
+        internal class XAttributeWrapper : XNameNodeWrapper, IXmlAttribute
+        {
+            public string Value { get; private set; }
+            public IXmlElement OwnerElement { get; private set; }
+            public override string OuterXml { get { return String.Format("{0}=\"{1}\"", Name, Value); } }
+
+            public XAttributeWrapper(XAttribute attribute, string prefix, IXmlElement ownerElement)
+                : base(XmlNodeType.Text, prefix, attribute.Name.LocalName)
+            {
+                Value = attribute.Value;
+                OwnerElement = ownerElement;
+                SetLineInfo(attribute);
+            }
+        }
+
+        internal class XTextWrapper : XNodeWrapper, IXmlText
+        {
+            public string Text { get; private set; }
+            public override string OuterXml { get { return Text; } }
+
+            public XTextWrapper(string text)
+                : base(XmlNodeType.Text)
+            {
+                Text = text;
+            }
+
+            public XTextWrapper(XText text)
+                : this(text.Value)
+            { }
+
+            //public XmlTextWrapper(XmlWhitespace text)
+            //    : this(text.InnerText)
+            //{ }
+
+            //public XmlTextWrapper(XmlSignificantWhitespace text)
+            //    : this(text.InnerText)
+            //{ }
+        }
+
+        internal class XCommentWrapper : XNodeWrapper, IXmlText
+        {
+            public string Text { get; private set; }
+            public override string OuterXml { get { return String.Format("<!-- {0} -->", Text); } }
+
+            public XCommentWrapper(XComment comment)
+                : base(XmlNodeType.Comment)
+            {
+                Text = comment.Value;
+            }
+        }
+
+    }
+}

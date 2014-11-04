@@ -122,7 +122,7 @@ namespace Neptuo.Templates.Compilation
                             return null;
 
                         // Compile source code.
-                        compiledView = ExecuteCompilerService(name, new StreamReader(sourceCode.ToString()), context);
+                        compiledView = ExecuteCompilerService(name, new StringReader(sourceCode.ToString()), context);
                     }
                 }
             }
@@ -151,7 +151,7 @@ namespace Neptuo.Templates.Compilation
             return GeneratorService.GeneratedCode(name, codeObject, new DefaultCodeGeneratorServiceContext(sourceCode, context.DependencyProvider, context.Errors));
         }
 
-        private object ExecuteCompilerService(string name, StreamReader sourceCode, IViewServiceContext context)
+        private object ExecuteCompilerService(string name, TextReader sourceCode, IViewServiceContext context)
         {
             return CompilerService.Compile(name, sourceCode, new DefaultCodeCompilerServiceContext(context.DependencyProvider, context.Errors));
         }

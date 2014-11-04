@@ -53,6 +53,7 @@ namespace TestConsoleNG
             registry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new FuncContentBuilderFactory((prefix, name) => new RootContentBuilder()));
 
             CodeDomViewService viewService = new CodeDomViewService(true);
+            viewService.DebugMode = CodeDomDebugMode.AlwaysReGenerate | CodeDomDebugMode.GenerateSourceCode;
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new TokenValueParser(registry));
