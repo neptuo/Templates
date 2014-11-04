@@ -468,42 +468,6 @@
             <param name="errors">Enumeration of compilation errors.</param>
             <param name="output">Raw compiler output.</param>
         </member>
-        <member name="T:Neptuo.Compilers.CompilerService">
-            <summary>
-            Some utilities for compiling and loading code on the fly.
-            </summary>
-        </member>
-        <member name="M:Neptuo.Compilers.CompilerService.#ctor(System.AppDomain)">
-            <summary>
-            Creates instance for <paramref name="appDomain"/>.
-            </summary>
-            <param name="appDomain">Application domain for loading assemblies into.</param>
-        </member>
-        <member name="M:Neptuo.Compilers.CompilerService.LoadAssembly(System.String)">
-            <summary>
-            Loads assembly to current application domain.
-            </summary>
-            <param name="assemblyFile"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Neptuo.Compilers.CompilerService.FromAppDomain(System.AppDomain)">
-            <summary>
-            Creates compiler service for <paramref name="appDomain"/>.
-            </summary>
-            <param name="appDomain">Application domain for loading assemblies into.</param>
-            <returns>Created compiler service.</returns>
-        </member>
-        <member name="M:Neptuo.Compilers.CompilerService.FromCurrentAppDomain">
-            <summary>
-            Creates compiler service for current app domain.
-            </summary>
-            <returns>Created compiler service.</returns>
-        </member>
-        <member name="P:Neptuo.Compilers.CompilerService.Factory">
-            <summary>
-            Current compiler factory.
-            </summary>
-        </member>
         <member name="T:Neptuo.ComponentModel.IErrorInfo">
             <summary>
             Describes error info.
@@ -598,6 +562,11 @@
         <member name="P:Neptuo.IDisposable.IsDisposed">
             <summary>
             <c>true</c> if object is already disposed; <c>false</c> otherwise.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel.DisposableBase.#ctor">
+            <summary>
+            Creates new instance.
             </summary>
         </member>
         <member name="M:Neptuo.ComponentModel.DisposableBase.DisposeManagedResources">
@@ -1800,6 +1769,108 @@
             <param name="output">Ouput parameter.</param>
             <returns>Computed result.</returns>
         </member>
+        <member name="T:Neptuo.Reflection.DefaultReflectionService">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Reflection.IReflectionService"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Reflection.IReflectionService">
+            <summary>
+            Some usefull shortcuts in reflection.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Reflection.IReflectionService.EnumerateAssemblies">
+            <summary>
+            Enumerates assemblies in this application domain.
+            </summary>
+            <returns>Enumeration of assemblies in this application domain.</returns>
+        </member>
+        <member name="M:Neptuo.Reflection.IReflectionService.LoadAssembly(System.String)">
+            <summary>
+            Loads assembly to this application domain.
+            </summary>
+            <param name="assemblyFile"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Neptuo.Reflection.IReflectionService.LoadType(System.String)">
+            <summary>
+            Loads type described by assembly qualified name in <paramref name="typeAssemblyName"/>.
+            </summary>
+            <param name="typeAssemblyName">Assembly qualified name of the type to load.</param>
+            <returns>Type described by assembly qualified name in <paramref name="typeAssemblyName"/></returns>
+        </member>
+        <member name="P:Neptuo.Reflection.IReflectionService.AppDomain">
+            <summary>
+            Application domain on which this service operates.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Reflection.DefaultReflectionService.#ctor(System.AppDomain)">
+            <summary>
+            Creates instance for <paramref name="appDomain"/>.
+            </summary>
+            <param name="appDomain">Application domain for loading assemblies into.</param>
+        </member>
+        <member name="T:Neptuo.Reflection.ReflectionFactory">
+            <summary>
+            Factory for creating reflection services.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Reflection.ReflectionFactory.FromAppDomain(System.AppDomain)">
+            <summary>
+            Creates reflection service for <paramref name="appDomain"/>.
+            </summary>
+            <param name="appDomain">Application domain...</param>
+            <returns>Created reflection service.</returns>
+        </member>
+        <member name="M:Neptuo.Reflection.ReflectionFactory.FromCurrentAppDomain">
+            <summary>
+            Creates reflection service for current app domain.
+            </summary>
+            <returns>Created reflection service.</returns>
+        </member>
+        <member name="T:Neptuo.Security.Cryptography.HashFactory">
+            <summary>
+            Provider for various hashing functions.
+            This class is not thread safe.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Security.Cryptography.HashFactory.EnsureSha1">
+            <summary>
+            Ensures instance of SHA1 hash provider.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Security.Cryptography.HashFactory.EnsureSha256">
+            <summary>
+            Ensures instance of SHA256 hash provider.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Security.Cryptography.HashFactory.CreateProvider(System.Security.Cryptography.HashAlgorithm)">
+            <summary>
+            Creates delegate for computing hashes using <paramref name="algorithm"/>.
+            </summary>
+            <param name="algorithm">Algorithm for compution hashes.</param>
+            <returns></returns>
+        </member>
+        <member name="M:Neptuo.Security.Cryptography.HashFactory.CreateSha1">
+            <summary>
+            Creates delegate for computing SHA1 hashes.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Security.Cryptography.HashFactory.CreateSha256">
+            <summary>
+            Creates delegate for computing SHA256 hashes.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Security.Cryptography.HashFactory.Sha1">
+            <summary>
+            Provides SHA1 hash provider.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Security.Cryptography.HashFactory.Sha256">
+            <summary>
+            Provides SHA256 hash provider.
+            </summary>
+        </member>
         <member name="T:Neptuo.ComponentModel.SequenceGuidProvider">
             <summary>
             Generates identifiers using specified prefix and integer sequence.
@@ -1831,24 +1902,8 @@
         </member>
         <member name="T:Neptuo.Security.Cryptography.HashProvider">
             <summary>
-            Provider for various hashing functions.
-            </summary>
-        </member>
-        <member name="M:Neptuo.Security.Cryptography.HashProvider.CreateProvider(System.Security.Cryptography.HashAlgorithm)">
-            <summary>
-            Creates delegate for computing hashes using <paramref name="algorithm"/>.
-            </summary>
-            <param name="algorithm">Algorithm for compution hashes.</param>
-            <returns></returns>
-        </member>
-        <member name="M:Neptuo.Security.Cryptography.HashProvider.CreateSha1">
-            <summary>
-            Creates delegate for computing SHA1 hashes.
-            </summary>
-        </member>
-        <member name="M:Neptuo.Security.Cryptography.HashProvider.CreateSha256">
-            <summary>
-            Creates delegate for computing SHA256 hashes.
+            Provider for various hashing functions (using static access).
+            Targeted for single hash computing. When computing more hashes, use <see cref="T:Neptuo.Security.Cryptography.HashFactory"/>.
             </summary>
         </member>
         <member name="P:Neptuo.Security.Cryptography.HashProvider.Sha1">
@@ -1858,7 +1913,7 @@
         </member>
         <member name="P:Neptuo.Security.Cryptography.HashProvider.Sha256">
             <summary>
-            Provides SHA256 hash provider.
+            Provides SHA1 hash provider.
             </summary>
         </member>
         <member name="T:Neptuo.StateMachines.IStateMachineState`2">
@@ -1993,6 +2048,80 @@
             Creates new instance with initial state <paramref name="initialState"/>.
             </summary>
             <param name="initialState">First state of state machine.</param>
+        </member>
+        <member name="T:Neptuo.Threading.DisposableLock">
+            <summary>
+            Wrapper for <see cref="T:System.Threading.ReaderWriterLockSlim"/> that can be used in using block.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Threading.DisposableLock.#ctor(System.Threading.ReaderWriterLockSlim)">
+            <summary>
+            Creates new instance and uses WriteLock for exclusive execution.
+            </summary>
+            <param name="slimLock">Inner lock.</param>
+        </member>
+        <member name="E:Neptuo.Threading.DisposableLock.Disposed">
+            <summary>
+            Executed when this object is disposed (after unlocking inner lock).
+            </summary>
+        </member>
+        <member name="T:Neptuo.Threading.LockProvider">
+            <summary>
+            Wrapps <see cref="T:System.Threading.ReaderWriterLockSlim"/> and works like a factory for disposable objects for using block.
+            When disposed, disposes inner lock.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Threading.LockProvider.#ctor">
+            <summary>
+            Creates new instance with self managed inner lock.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Threading.LockProvider.#ctor(System.Threading.ReaderWriterLockSlim)">
+            <summary>
+            Creates new instance and uses WriteLock for exclusive execution.
+            </summary>
+            <param name="slimLock">Inner lock.</param>
+        </member>
+        <member name="M:Neptuo.Threading.LockProvider.Lock">
+            <summary>
+            Locks inner lock for exclusive access.
+            </summary>
+            <returns>Object which is used to exit lock when disposed.</returns>
+        </member>
+        <member name="E:Neptuo.Threading.LockProvider.Disposed">
+            <summary>
+            Executed when objekt from <see cref="M:Neptuo.Threading.LockProvider.Lock"/> is disposed (after unlocking inner lock).
+            </summary>
+        </member>
+        <member name="P:Neptuo.Threading.LockProvider.IsLocked">
+            <summary>
+            Returns <c>true</c> is anybody is waiting on inner lock.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Threading.MultiLockProvider">
+            <summary>
+            Works like <see cref="T:Neptuo.Threading.LockProvider"/>, but supports multiple paralel processes.
+            These processes are distinguished by key parameter to the method <see cref="M:Neptuo.Threading.MultiLockProvider.Lock(System.Object)"/> 
+            (= call with the same keys are executed one by one; but calls with different keys are executed paralelly).
+            </summary>
+        </member>
+        <member name="M:Neptuo.Threading.MultiLockProvider.#ctor">
+            <summary>
+            Creates new instance.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Threading.MultiLockProvider.#ctor(System.Func{System.Object,System.Object})">
+            <summary>
+            Creates new instance with transformation function for input keys.
+            </summary>
+            <param name="keyMapper">Function which transforms input key to keys, which are used internally.</param>
+        </member>
+        <member name="M:Neptuo.Threading.MultiLockProvider.Lock(System.Object)">
+            <summary>
+            Locks inner lock for <paramref name="key"/> for exclusive access.
+            </summary>
+            <param name="key">Key to distinguish different locks/processes.</param>
+            <returns>Object which is used to exit lock when disposed.</returns>
         </member>
         <member name="T:Neptuo.Tokens.Token">
             <summary>
