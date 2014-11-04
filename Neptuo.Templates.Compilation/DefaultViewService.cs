@@ -5,6 +5,7 @@ using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.PreProcessing;
 using Neptuo.Templates.Compilation.ViewActivators;
+using Neptuo.Threading;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -20,6 +21,8 @@ namespace Neptuo.Templates.Compilation
     /// </summary>
     public class DefaultViewService : DebugBase, IViewService
     {
+        private readonly MultiLockProvider lockProvider;
+
         /// <summary>
         /// Service for parsing view content.
         /// </summary>
@@ -46,7 +49,8 @@ namespace Neptuo.Templates.Compilation
         public IViewActivatorService ActivatorService { get; private set; }
 
         /// <summary>
-        /// Text writer pro simple performance measurements.
+        /// Text writer for simple performance measurements.
+        /// Defaults to <see cref="Console.Out.WriteLine"/>.
         /// </summary>
         public DebugBase.DebugMessageWriter DebugWriter
         {
@@ -55,13 +59,19 @@ namespace Neptuo.Templates.Compilation
             {
                 if (value != null)
                     InnerWriter = value;
+                else
+                    InnerWriter = (format, parameters) => { };
             }
         }
 
         /// <summary>
         /// Creates new empty instance.
         /// </summary>
-        public DefaultViewService()
+        /// <param name="keyMapper">
+        /// Function which is used to map keys for <see cref="MultiLockProvider"/>. 
+        /// This provider is used for exclusive template content compilation.
+        /// </param>
+        public DefaultViewService(Func<object, string> keyMapper = null)
             : base(Console.Out)
         {
             ParserService = new DefaultParserService();
@@ -69,6 +79,11 @@ namespace Neptuo.Templates.Compilation
             GeneratorService = new DefaultCodeGeneratorService();
             CompilerService = new DefaultCodeCompilerService();
             ActivatorService = new DefaultViewActivatorService();
+
+            if (keyMapper == null)
+                lockProvider = new MultiLockProvider();
+            else
+                lockProvider = new MultiLockProvider(keyMapper);
         }
 
         public object ProcessContent(string name, string viewContent, IViewServiceContext context)
@@ -78,31 +93,67 @@ namespace Neptuo.Templates.Compilation
             Guard.NotNull(context, "context");
 
             // Try already compiled view.
-            object compiledView = ActivatorService.Activate(name, viewContent, new DefaultViewActivatorServiceContext(context.DependencyProvider, context.Errors));
+            object compiledView = ExecuteActivatorService(name, viewContent, context);
 
             // If instance can't be created (eg. not compiled), try to compile view.
             if (compiledView == null)
             {
-                // Parse view content.
-                ICodeObject codeObject = ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
-                if (codeObject == null)
-                    return null;
+                // Lock view compilation
+                using (lockProvider.Lock(viewContent))
+                {
+                    // Try already compiled view.
+                    compiledView = ExecuteActivatorService(name, viewContent, context);
 
-                // Pre-process AST.
-                PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
+                    // If instance can't be created (eg. not compiled), try to compile view.
+                    if (compiledView == null)
+                    {
+                        // Parse view content.
+                        ICodeObject codeObject = ExecuteParserService(viewContent, context);
+                        if (codeObject == null)
+                            return null;
 
-                // Generate source code.
-                StringWriter sourceCode = new StringWriter();
-                bool codeGenerationResult = GeneratorService.GeneratedCode(name, codeObject, new DefaultCodeGeneratorServiceContext(sourceCode, context.DependencyProvider, context.Errors));
-                if (!codeGenerationResult)
-                    return null;
+                        // Pre-process AST.
+                        ExecutePreProcessorService(codeObject, context);
 
-                // Compile source code.
-                compiledView = CompilerService.Compile(name, new StringReader(sourceCode.ToString()), new DefaultCodeCompilerServiceContext(context.DependencyProvider, context.Errors));
+                        // Generate source code.
+                        StringWriter sourceCode = new StringWriter();
+                        bool codeGenerationResult = ExecuteGeneratorService(sourceCode, name, codeObject, context);
+                        if (!codeGenerationResult)
+                            return null;
+
+                        // Compile source code.
+                        compiledView = ExecuteCompilerService(name, new StreamReader(sourceCode.ToString()), context);
+                    }
+                }
             }
 
             // Return compiled view, if null, compilation was not successfull.
             return compiledView;
+        }
+
+        private object ExecuteActivatorService(string name, string viewContent, IViewServiceContext context)
+        {
+            return ActivatorService.Activate(name, viewContent, new DefaultViewActivatorServiceContext(context.DependencyProvider, context.Errors));
+        }
+
+        private ICodeObject ExecuteParserService(string viewContent, IViewServiceContext context)
+        {
+            return ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
+        }
+
+        private void ExecutePreProcessorService(ICodeObject codeObject, IViewServiceContext context)
+        {
+            PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
+        }
+
+        private bool ExecuteGeneratorService(StringWriter sourceCode, string name, ICodeObject codeObject, IViewServiceContext context)
+        {
+            return GeneratorService.GeneratedCode(name, codeObject, new DefaultCodeGeneratorServiceContext(sourceCode, context.DependencyProvider, context.Errors));
+        }
+
+        private object ExecuteCompilerService(string name, StreamReader sourceCode, IViewServiceContext context)
+        {
+            return CompilerService.Compile(name, sourceCode, new DefaultCodeCompilerServiceContext(context.DependencyProvider, context.Errors));
         }
     }
 }
