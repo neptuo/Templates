@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        internal abstract class XNameNodeWrapper : XNodeWrapper, IXmlName, IXmlLineInfo
+        internal abstract class XNameNodeWrapper : XNodeWrapper, IXmlName, ISourceLineInfo
         {
             internal const char NameSeparator = ':';
 
@@ -49,17 +49,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             public string Prefix { get; private set; }
             public string LocalName { get; private set; }
 
-            #region IXmlLineInfo
-
-            protected bool IsLineInfoSet { get; set; }
-
-            public bool HasLineInfo()
-            {
-                return IsLineInfoSet;
-            }
+            #region ISourceLineInfo
 
             public int LineNumber { get; protected set; }
-            public int LinePosition { get; protected set; }
+            public int ColumnIndex { get; private set; }
 
             #endregion
 
@@ -74,9 +67,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 if (lineInfo.HasLineInfo())
                 {
-                    IsLineInfoSet = true;
                     LineNumber = lineInfo.LineNumber;
-                    LinePosition = lineInfo.LinePosition;
+                    ColumnIndex = lineInfo.LinePosition;
                 }
             }
         }
