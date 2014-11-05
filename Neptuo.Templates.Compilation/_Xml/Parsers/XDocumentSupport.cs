@@ -17,7 +17,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public static XElementWrapper LoadXml(string xmlContent)
         {
-            XDocument document = XDocument.Parse(xmlContent, LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo);
+            XmlReader xmlReader = XmlReader.Create(new StringReader(xmlContent), new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit });
+            XDocument document = XDocument.Load(xmlReader, LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo);
             return new XElementWrapper(document.Root);
         }
 
