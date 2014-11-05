@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     public static class ContentBuilderContextExtensions
     {
         /// <summary>
-        /// Adds error to parser context in context.
+        /// Adds error to the parser context.
         /// </summary>
         /// <param name="context">Builder context.</param>
         /// <param name="errorInfo">Error description.</param>
@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Adds error to parser context in context.
+        /// Adds error to the parser context.
         /// </summary>
         /// <param name="context">Builder context.</param>
         /// <param name="errorText">Description of error.</param>
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Adds error to parser context in context.
+        /// Adds error to the parser context.
         /// </summary>
         /// <param name="context">Builder context.</param>
         /// <param name="line">Source file line number.</param>
@@ -47,6 +47,42 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNull(context, "context");
             context.AddError(new ErrorInfo(line, column, errorText));
+        }
+
+        /// <summary>
+        /// Adds error related to the <paramref name="element"/> described by the <paramref name="errorText"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="element">The element which caused the error.</param>
+        /// <param name="errorText">Text description of the error.</param>
+        public static void AddError(this IContentBuilderContext context, IXmlElement element, string errorText)
+        {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(element, "element");
+
+            ISourceLineInfo lineInfo = element as ISourceLineInfo;
+            if (lineInfo != null)
+                AddError(context, lineInfo.LineNumber, lineInfo.ColumnIndex, errorText);
+            else
+                AddError(context, String.Format("<{0}> -> {1}", element.Name, errorText));
+        }
+
+        /// <summary>
+        /// Adds error related to the <paramref name="attribute"/> described by the <paramref name="errorText"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="element">The element which caused the error.</param>
+        /// <param name="errorText">Text description of the error.</param>
+        public static void AddError(this IContentBuilderContext context, IXmlAttribute attribute, string errorText)
+        {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(attribute, "attribute");
+
+            ISourceLineInfo lineInfo = attribute as ISourceLineInfo;
+            if (lineInfo != null)
+                AddError(context, lineInfo.LineNumber, lineInfo.ColumnIndex, errorText);
+            else
+                AddError(context, String.Format("<{0} {1}> -> {2}", attribute.OwnerElement.Name, attribute.Name, errorText));
         }
 
         /// <summary>
