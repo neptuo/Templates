@@ -24,19 +24,27 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context of current build.</param>
         /// <param name="element">Xml element that is being processed.</param>
-        protected void BindProperties(IContentBuilderContext context, IXmlElement element)
+        protected bool BindProperties(IContentBuilderContext context, IXmlElement element)
         {
             // Bind attributes
-            IEnumerable<IXmlAttribute> unboundAttributes = BindPropertiesFromAttributes(context, element.Attributes);
+            ICollection<IXmlAttribute> unboundAttributes = new List<IXmlAttribute>();
+            if (!BindPropertiesFromAttributes(context, element.Attributes, unboundAttributes))
+                return false;
 
             // Bind inner elements
-            IEnumerable<IXmlNode> unboundNodes = BindProperiesFromNodes(context, element.ChildNodes);
+            ICollection<IXmlNode> unboundNodes = new List<IXmlNode>();
+            if (!BindProperiesFromNodes(context, element.ChildNodes, unboundNodes))
+                return false;
 
             // Process unbound attributes
-            ProcessUnboundAttributes(context, unboundAttributes);
+            if (!ProcessUnboundAttributes(context, unboundAttributes))
+                return false;
 
             // Bind content elements
-            ProcessUnboundNodes(context, unboundNodes);
+            if (!ProcessUnboundNodes(context, unboundNodes))
+                return false;
+
+            return true;
         }
 
         /// <summary>
@@ -44,20 +52,20 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context of current build.</param>
         /// <param name="attributes">Enumeration of defined xml attributes.</param>
-        /// <returns>Enumeration of xml attributes that can't be used as properties.</returns>
-        private IEnumerable<IXmlAttribute> BindPropertiesFromAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes)
+        /// <param name="unboundAttributes">Collection of xml attributes that can't be used as properties.</param>
+        /// <returns>Whether processing was successfull.</returns>
+        private bool BindPropertiesFromAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes, ICollection<IXmlAttribute> unboundAttributes)
         {
-            List<IXmlAttribute> unboundAttributes = new List<IXmlAttribute>();
             foreach (IXmlAttribute attribute in attributes)
             {
                 string prefix = attribute.Prefix.ToLowerInvariant();
-                string name =attribute.Name.ToLowerInvariant();
+                string name = attribute.Name.ToLowerInvariant();
                 ISourceContent value = attribute.GetValue();
                 if (!TryBindProperty(context, prefix, name, value))
                     unboundAttributes.Add(attribute);
             }
 
-            return unboundAttributes;
+            return true;
         }
 
         /// <summary>
@@ -65,22 +73,36 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context of current build.</param>
         /// <param name="childNodes">Enumeration of inner xml nodes.</param>
-        /// <returns>Enumeration of inner xml nodes that can't be used as properties.</returns>
-        private IEnumerable<IXmlNode> BindProperiesFromNodes(IContentBuilderContext context, IEnumerable<IXmlNode> childNodes)
+        /// <param name="unboundNodes">Collection of inner xml nodes that can't be used as properties.</param>
+        /// <returns>Whether processing was successfull.</returns>
+        private bool BindProperiesFromNodes(IContentBuilderContext context, IEnumerable<IXmlNode> childNodes, ICollection<IXmlNode> unboundNodes)
         {
-            List<IXmlNode> unboundNodes = new List<IXmlNode>();
+            bool isPropertyBound = false;
             foreach (IXmlNode childNode in childNodes)
             {
                 if (childNode.NodeType == XmlNodeType.Element)
                 {
                     IXmlElement element = (IXmlElement)childNode;
-                    string childName = element.Name.ToLowerInvariant();
-                    if (!TryBindProperty(context, element.Prefix.ToLowerInvariant(), element.Name.ToLowerInvariant(), element.ChildNodes))
-                        unboundNodes.Add(element);
+                    string prefix = element.Prefix.ToLowerInvariant();
+                    string name = element.Name.ToLowerInvariant();
+                    if (TryBindProperty(context, prefix, name, element.ChildNodes))
+                    {
+                        isPropertyBound = true;
+                        break;
+                    }
                 }
+
+                unboundNodes.Add(childNode);
             }
 
-            return unboundNodes;
+            IXmlNode firstNode = unboundNodes.FirstOrDefault();
+            if (isPropertyBound && firstNode != null)
+            {
+                context.AddError(firstNode, "Oncy the component has defined any property as inner element, event default property must be wrapper in property element.");
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -109,15 +131,53 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context of current build.</param>
         /// <param name="unboundAttributes">Enumeration of unbound attributes.</param>
-        protected virtual void ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
-        { }
+        /// <returns>Whether processing was successfull.</returns>
+        protected virtual bool ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
+        {
+            bool result = true;
+            foreach (IXmlAttribute attribute in unboundAttributes)
+            {
+                if (!ProcessUnboundAttribute(context, attribute))
+                    result = false;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Should process xml attribute that isn't property neither observer.
+        /// </summary>
+        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IXmlAttribute unboundAttribute)
+        {
+            context.AddError(unboundAttribute, "Not recognized attribute.");
+            return false;
+        }
 
         /// <summary>
         /// All inner xml nodes that were not successfully bound using <see cref="ComponentBuilder.TryBindProperty"/> are passed to this method.
         /// </summary>
         /// <param name="context">Context of current build.</param>
         /// <param name="unboundNodes">Enumeration of unbound inner xml nodes.</param>
-        protected virtual void ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
-        { }
+        /// <returns>Whether processing was successfull.</returns>
+        protected virtual bool ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
+        {
+            bool result = true;
+            foreach (IXmlNode node in unboundNodes)
+            {
+                if (!ProcessUnboundNode(context, node))
+                    result = false;
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Should process xml node that isn't property neither observer.
+        /// </summary>
+        protected virtual bool ProcessUnboundNode(IContentBuilderContext context, IXmlNode unboundNode)
+        {
+            context.AddError(unboundNode, "Not recognized node.");
+            return false;
+        }
     }
 }

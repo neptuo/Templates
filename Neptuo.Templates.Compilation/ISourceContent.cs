@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers
+namespace Neptuo.Templates.Compilation
 {
     /// <summary>
-    /// Describes input into <see cref="IParserService"/>.
+    /// Describes input into <see cref="IViewService"/>.
     /// </summary>
     public interface ISourceContent
     {
         /// <summary>
         /// Gets new instance of reader for reading source content.
         /// </summary>
-        TextReader CreateContentReader();
+        string TextContent { get; }
 
         /// <summary>
         /// Gets information about offset in globally processing content.

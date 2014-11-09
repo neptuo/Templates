@@ -27,13 +27,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new TypeDescriptorBase(GetControlType(element));
         }
 
-        protected override void ProcessUnboundAttribute(IContentBuilderContext context, IXmlAttribute attribute)
+        protected override bool ProcessUnboundAttribute(IContentBuilderContext context, IXmlAttribute attribute)
         {
             ITypeCodeObject typeCodeObject = CodeObject as ITypeCodeObject;
             if (typeCodeObject != null)
+            {
                 BuilderBase.BindAttributeCollection(context, typeCodeObject, CodeObject, attribute.LocalName, attribute.GetValue());
-            else
-                throw new NotImplementedException(String.Format("Can't process unbound attributes! Attribute {0} on {1}.", attribute.Name, attribute.OwnerElement.Name));
+                return true;
+            }
+
+            return base.ProcessUnboundAttribute(context, attribute);
         }
 
         protected bool IsCollectionProperty(IPropertyInfo propertyInfo)

@@ -121,6 +121,7 @@
     <Compile Include="Parsers\TypeRegistryHelper.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomAttributeContext.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomAttributeGeneratorBase.cs" />
+    <Compile Include="CodeGenerators\CodeDomCommentGenerator.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomDependencyContext.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomGenerator.Context.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomGenerator.cs" />
