@@ -186,7 +186,7 @@ namespace Neptuo.Templates.Compilation
             Guard.NotNull(context, "context");
 
             EnsureNamingService(context);
-            return ProcessContent(name, content, context, NamingService.FromContent(content.CreateContentReader().ReadToEnd()));
+            return ProcessContent(name, content, context, NamingService.FromContent(content.TextContent));
         }
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace Neptuo.Templates.Compilation
 
                 ICompilerResult result = compiler.FromSourceCode(sourceCode, GetAssemblyPath(naming));
                 if (!result.IsSuccess)
-                    throw new CodeDomViewServiceException("Error compiling view!", result.Errors, content.CreateContentReader().ReadToEnd(), sourceCode);
+                    throw new CodeDomViewServiceException("Error compiling view!", result.Errors, content.TextContent, sourceCode);
             });
         }
 
@@ -330,7 +330,7 @@ namespace Neptuo.Templates.Compilation
             {
                 codeObject = (parserService ?? ParserService).ProcessContent(content, new DefaultParserServiceContext(context.DependencyProvider, errors));
                 if (codeObject == null)
-                    throw new CodeDomViewServiceException("Error parsing view content!", errors, content.CreateContentReader().ReadToEnd());
+                    throw new CodeDomViewServiceException("Error parsing view content!", errors, content.TextContent);
             });
 
             return codeObject;

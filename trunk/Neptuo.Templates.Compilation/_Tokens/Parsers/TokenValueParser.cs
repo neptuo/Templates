@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             Helper helper = new Helper(context, builderFactory);
             helper.Parser.OnParsedToken += (sender, e) => codeObject = GenerateToken(helper, e.Token);
-            helper.Parser.Parse(content.CreateContentReader().ReadToEnd());
+            helper.Parser.Parse(content.TextContent);
 
             return codeObject;
         }

@@ -16,6 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 fieldNameProvider = new SequenceFieldNameProvider();
 
             generator.SetCodeObjectGenerator(typeof(ComponentCodeObject), new CodeDomComponentGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator(typeof(CommentCodeObject), new CodeDomCommentGenerator(fieldNameProvider));
             generator.SetCodeObjectGenerator(typeof(PlainValueCodeObject), new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator(typeof(DependencyCodeObject), new CodeDomDependencyObjectGenerator());
             generator.SetCodeObjectGenerator(typeof(ExtensionCodeObject), new CodeDomExtensionObjectGenerator(fieldNameProvider));

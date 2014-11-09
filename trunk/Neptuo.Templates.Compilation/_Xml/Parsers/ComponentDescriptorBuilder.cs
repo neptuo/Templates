@@ -82,8 +82,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected override void ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
+        protected override bool ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
         {
+            bool result = true;
             List<IXmlAttribute> usedAttributes = new List<IXmlAttribute>();
             XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();
             foreach (IXmlAttribute attribute in unboundAttributes)
@@ -108,26 +109,29 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
 
                 if (!boundAttribute)
-                    ProcessUnboundAttribute(context, attribute);
+                {
+                    if (!ProcessUnboundAttribute(context, attribute))
+                        result = false;
+                }
             }
 
             context.Parser.AttachObservers(context, CodeObject, observers);
+            return result;
         }
 
-        protected override void ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
+        protected override bool ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
         {
-            // Bind content elements
-            if (DefaultProperty != null && !BindContext.BoundProperies.Contains(DefaultProperty.Name.ToLowerInvariant()))
+            if (unboundNodes.Any())
             {
-                if (unboundNodes.Any())
-                    ResolvePropertyValue(context, CodeObject, DefaultProperty, unboundNodes);
-            }
-        }
+                // Bind content elements
+                if (DefaultProperty != null && !BindContext.BoundProperies.Contains(DefaultProperty.Name.ToLowerInvariant()))
+                    return ResolvePropertyValue(context, CodeObject, DefaultProperty, unboundNodes);
 
-        /// <summary>
-        /// Should process xml attribute that isn't property neither observer.
-        /// </summary>
-        protected abstract void ProcessUnboundAttribute(IContentBuilderContext context, IXmlAttribute unboundAttribute);
+                return false;
+            }
+
+            return true;
+        }
 
         /// <summary>
         /// Should create code object for this component.
@@ -147,15 +151,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Some magic logic to create right proproperty descriptors for right property types.
         /// </summary>
-        protected virtual void ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        protected virtual bool ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             if (context.BuilderRegistry.ContainsProperty(propertyInfo))
             {
-                context.BuilderRegistry
+                return context.BuilderRegistry
                     .GetPropertyBuilder(propertyInfo)
                     .Parse(context, codeObject, propertyInfo, content);
-
-                return;
             }
 
             if (typeof(string) == propertyInfo.Type)
@@ -168,11 +170,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
                 codeObject.Properties.Add(propertyDescriptor);
+                return true;
             }
-            else if (typeof(ICollection).IsAssignableFrom(propertyInfo.Type)
-                || typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type)
-                || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()))
-            )
+            else if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type))
             {
                 //Collection item
                 IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
@@ -183,6 +183,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                     ICodeObject valueObject = context.Parser.ProcessNode(context, node);
                     propertyDescriptor.SetValue(valueObject);
                 }
+
+                return true;
             }
             else
             {
@@ -201,11 +203,13 @@ namespace Neptuo.Templates.Compilation.Parsers
                             ICodeObject valueObject = context.Parser.ProcessNode(context, node);
                             propertyDescriptor.SetValue(valueObject);
                         }
+                        return true;
                     }
                     else
                     {
-                        //More elements can't be bound!
-                        throw Guard.Exception.InvalidOperation("Unbindable property!");
+                        IXmlElement element = elements.ElementAt(1);
+                        context.AddError(element, "Property supports only single value.");
+                        return false;
                     }
                 }
                 else
@@ -218,6 +222,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                     propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
                     codeObject.Properties.Add(propertyDescriptor);
+                    return true;
                 }
             }
         }

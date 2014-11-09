@@ -46,9 +46,9 @@
   <ItemGroup>
     <Compile Include="CodeCompilers\DefaultCodeCompilerBase.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
-    <Compile Include="Parsers\DefaultSourceLineInfo.cs" />
-    <Compile Include="Parsers\ISourceContent.cs" />
-    <Compile Include="Parsers\DefaultSourceContent.cs" />
+    <Compile Include="DefaultSourceLineInfo.cs" />
+    <Compile Include="ISourceContent.cs" />
+    <Compile Include="DefaultSourceContent.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorContext.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorService.cs" />
     <Compile Include="ViewActivators\DefaultViewActivatorServiceContext.cs" />

@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public ICodeObject Parse(ISourceContent content, IValueParserContext context)
         {
-            return new PlainValueCodeObject(content.CreateContentReader().ReadToEnd());
+            return new PlainValueCodeObject(content.TextContent);
         }
     }
 }

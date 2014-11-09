@@ -1,4 +1,5 @@
 ﻿using Neptuo.Linq.Expressions;
+using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using System;
@@ -43,7 +44,7 @@ namespace TestConsoleNG.Controls
                     new TypePropertyInfo(
                         typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path))
                     ),
-                    new PlainValueCodeObject(value.CreateContentReader().ReadToEnd())
+                    new PlainValueCodeObject(value.TextContent)
                 )
             );
 
