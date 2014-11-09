@@ -22,11 +22,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         XmlContentParser Parser { get; }
 
         /// <summary>
-        /// XML parser helper.
-        /// </summary>
-        XmlContentParser.Helper Helper { get; }
-
-        /// <summary>
         /// Component builder registry.
         /// </summary>
         IContentBuilderRegistry BuilderRegistry { get; }

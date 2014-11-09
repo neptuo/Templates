@@ -11,18 +11,17 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class XmlContentBuilderContext : IContentBuilderContext
     {
-        public IContentParserContext ParserContext { get { return Helper.Context; } }
-        public XmlContentParser Parser { get; set; }
-        public XmlContentParser.Helper Helper { get; set; }
-        public IContentBuilderRegistry BuilderRegistry { get; set; }
+        public IContentParserContext ParserContext { get; private set; }
+        public XmlContentParser Parser { get; private set; }
+        public IContentBuilderRegistry BuilderRegistry { get; private set; }
 
-        public XmlContentBuilderContext(XmlContentParser parser, XmlContentParser.Helper helper, IContentBuilderRegistry builderRegistry)
+        public XmlContentBuilderContext(IContentParserContext parserContext, XmlContentParser parser, IContentBuilderRegistry builderRegistry)
         {
+            Guard.NotNull(parserContext, "parserContext");
             Guard.NotNull(parser, "parser");
-            Guard.NotNull(helper, "helper");
             Guard.NotNull(builderRegistry, "builderRegistry");
+            ParserContext = parserContext;
             Parser = parser;
-            Helper = helper;
             BuilderRegistry = builderRegistry;
         }
     }
