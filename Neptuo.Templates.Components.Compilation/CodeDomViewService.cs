@@ -180,38 +180,38 @@ namespace Neptuo.Templates.Compilation
         /// <param name="viewContent">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <returns><see cref="GeneratedView"/> for <paramref name="viewContent"/>.</returns>
-        public object ProcessContent(string name, string viewContent, IViewServiceContext context)
+        public object ProcessContent(string name, ISourceContent content, IViewServiceContext context)
         {
-            Guard.NotNullOrEmpty(viewContent, "viewContent");
+            Guard.NotNull(content, "content");
             Guard.NotNull(context, "context");
 
             EnsureNamingService(context);
-            return ProcessContent(name, viewContent, context, NamingService.FromContent(viewContent));
+            return ProcessContent(name, content, context, NamingService.FromContent(content.CreateContentReader().ReadToEnd()));
         }
 
         /// <summary>
         /// Compiles <see cref="viewContent"/> and retuns <see cref="GeneratedView"/>.
         /// </summary>
         /// <param name="name">Name of required process to run.</param>
-        /// <param name="viewContent">Template content.</param>
+        /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <param name="naming">Naming for this template compilation.</param>
-        /// <returns><see cref="GeneratedView"/> for <paramref name="viewContent"/>.</returns>
-        protected virtual object ProcessContent(string name, string viewContent, IViewServiceContext context, INaming naming)
+        /// <returns><see cref="GeneratedView"/> for <paramref name="content"/>.</returns>
+        protected virtual object ProcessContent(string name, ISourceContent content, IViewServiceContext context, INaming naming)
         {
             EnsureFileProvider(context);
             if (name == "CSharp")
             {
                 string assemblyPath = GetAssemblyPath(naming);
                 if (!AssemblyExists(assemblyPath))
-                    CompileView(viewContent, context, naming);
+                    CompileView(content, context, naming);
 
                 return CreateGeneratedView(naming);
             }
             else if (name == "Javascript")
             {
                 ICollection<IErrorInfo> errors = new List<IErrorInfo>();
-                ICodeObject codeObject = ParseViewContent(viewContent, context);
+                ICodeObject codeObject = ParseViewContent(content, context);
 
                 PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
 
@@ -261,12 +261,12 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Compiles view content into assembly.
         /// </summary>
-        /// <param name="viewContent">Template content.</param>
+        /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <param name="naming">Naming for this template compilation.</param>
-        protected virtual void CompileView(string viewContent, IViewServiceContext context, INaming naming)
+        protected virtual void CompileView(ISourceContent content, IViewServiceContext context, INaming naming)
         {
-            string sourceCode = GenerateSourceCodeFromView(viewContent, context, naming);
+            string sourceCode = GenerateSourceCodeFromView(content, context, naming);
 
             // If flag GenerateSourceCode, then safe it into temp
             if (DebugMode.HasFlag(CodeDomDebugMode.GenerateSourceCode))
@@ -282,21 +282,21 @@ namespace Neptuo.Templates.Compilation
 
                 ICompilerResult result = compiler.FromSourceCode(sourceCode, GetAssemblyPath(naming));
                 if (!result.IsSuccess)
-                    throw new CodeDomViewServiceException("Error compiling view!", result.Errors, viewContent, sourceCode);
+                    throw new CodeDomViewServiceException("Error compiling view!", result.Errors, content.CreateContentReader().ReadToEnd(), sourceCode);
             });
         }
 
         /// <summary>
-        /// Generates C# source code from <paramref name="viewContent"/>.
+        /// Generates C# source code from <paramref name="content"/>.
         /// </summary>
-        /// <param name="viewContent">Template content.</param>
+        /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <param name="naming">Naming for this template compilation.</param>
-        /// <returns>Generated C# source code from <paramref name="viewContent"/>.</returns>
-        protected virtual string GenerateSourceCodeFromView(string viewContent, IViewServiceContext context, INaming naming)
+        /// <returns>Generated C# source code from <paramref name="content"/>.</returns>
+        protected virtual string GenerateSourceCodeFromView(ISourceContent content, IViewServiceContext context, INaming naming)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
-            ICodeObject codeObject = ParseViewContent(viewContent, context);
+            ICodeObject codeObject = ParseViewContent(content, context);
 
             PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
             return GenerateSourceCode(codeObject, context, naming);
@@ -316,11 +316,11 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Uses <see cref="IParserService"/> to parse view content and creates AST.
         /// </summary>
-        /// <param name="viewContent">Template content.</param>
+        /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <param name="parserService">Parser service.</param>
         /// <returns>AST.</returns>
-        protected virtual ICodeObject ParseViewContent(string viewContent, IViewServiceContext context, IParserService parserService = null)
+        protected virtual ICodeObject ParseViewContent(ISourceContent content, IViewServiceContext context, IParserService parserService = null)
         {
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             IPropertyDescriptor contentProperty = GetRootPropertyDescriptor(context);
@@ -328,9 +328,9 @@ namespace Neptuo.Templates.Compilation
 
             DebugHelper.Debug("ParseContent", () =>
             {
-                codeObject = (parserService ?? ParserService).ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, errors));
+                codeObject = (parserService ?? ParserService).ProcessContent(content, new DefaultParserServiceContext(context.DependencyProvider, errors));
                 if (codeObject == null)
-                    throw new CodeDomViewServiceException("Error parsing view content!", errors, viewContent);
+                    throw new CodeDomViewServiceException("Error parsing view content!", errors, content.CreateContentReader().ReadToEnd());
             });
 
             return codeObject;

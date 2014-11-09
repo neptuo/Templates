@@ -1,5 +1,6 @@
 ﻿using Neptuo.SharpKit.CodeGenerator;
 using Neptuo.Templates.Compilation;
+using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,20 +15,20 @@ namespace LiveWebUI.Models
             : base(true)
         { }
 
-        public string GenerateSourceCode(string viewContent, IViewServiceContext context, INaming naming)
+        public string GenerateSourceCode(ISourceContent content, IViewServiceContext context, INaming naming)
         {
-            string sourceCode = GenerateSourceCodeFromView(viewContent, context, naming);
+            string sourceCode = GenerateSourceCodeFromView(content, context, naming);
             return sourceCode;
         }
 
-        public void CompileViewContent(string viewContent, IViewServiceContext context, INaming naming)
+        public void CompileViewContent(ISourceContent content, IViewServiceContext context, INaming naming)
         {
-            base.CompileView(viewContent, context, naming);
+            base.CompileView(content, context, naming);
         }
 
-        public string GenerateJavascript(string viewContent, IViewServiceContext context, INaming naming)
+        public string GenerateJavascript(ISourceContent content, IViewServiceContext context, INaming naming)
         {
-            string sourceCode = GenerateSourceCode(viewContent, context, naming);
+            string sourceCode = GenerateSourceCode(content, context, naming);
             sourceCode = sourceCode.Replace("public sealed class ", "[SharpKit.JavaScript.JsType(SharpKit.JavaScript.JsMode.Clr)] public sealed class ");
 
             StringWriter output = new StringWriter();

@@ -104,7 +104,8 @@ namespace TestConsoleNG
 
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
-            GeneratedView view = (GeneratedView)viewService.ProcessContent("CSharp", LocalFileSystem.FromFilePath("Index.html").GetContent(), context);
+            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
+            GeneratedView view = (GeneratedView)viewService.ProcessContent("CSharp", content, context);
             DebugHelper.Debug("Run", () =>
             {
                 view.Setup(new ViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);

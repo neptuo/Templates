@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject ProcessContent(string content, IParserServiceContext context);
+        ICodeObject ProcessContent(ISourceContent content, IParserServiceContext context);
 
         /// <summary>
         /// Parsers value using <see cref="ValueParsers"/> and create AST.
@@ -40,6 +40,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="value">Template part content.</param>
         /// <param name="context">Context information.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject ProcessValue(string value, IParserServiceContext context);
+        ICodeObject ProcessValue(ISourceContent value, IParserServiceContext context);
     }
 }

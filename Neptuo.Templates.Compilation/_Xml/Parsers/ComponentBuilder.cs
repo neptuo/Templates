@@ -50,7 +50,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             List<IXmlAttribute> unboundAttributes = new List<IXmlAttribute>();
             foreach (IXmlAttribute attribute in attributes)
             {
-                if (!TryBindProperty(context, attribute.Prefix.ToLowerInvariant(), attribute.Name.ToLowerInvariant(), attribute.Value))
+                string prefix = attribute.Prefix.ToLowerInvariant();
+                string name =attribute.Name.ToLowerInvariant();
+                ISourceContent value = attribute.GetValue();
+                if (!TryBindProperty(context, prefix, name, value))
                     unboundAttributes.Add(attribute);
             }
 
@@ -89,7 +92,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="name">Attribute name.</param>
         /// <param name="value">Attribute value.</param>
         /// <returns><c>true</c> if bind was successfull; <c>false</c> otherwise.</returns>
-        protected abstract bool TryBindProperty(IContentBuilderContext context, string prefix, string name, string value);
+        protected abstract bool TryBindProperty(IContentBuilderContext context, string prefix, string name, ISourceContent value);
 
         /// <summary>
         /// Should tries to bind property value from inner element named <paramref name="name"/> prefixed with <paramref name="prefix"/> and content of <paramref name="value"/>.

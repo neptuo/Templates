@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,9 +14,9 @@ namespace Neptuo.Templates.Compilation.Parsers
     public interface ISourceContent
     {
         /// <summary>
-        /// Gets reader for reading source content.
+        /// Gets new instance of reader for reading source content.
         /// </summary>
-        TextReader Content { get; }
+        TextReader CreateContentReader();
 
         /// <summary>
         /// Gets information about offset in globally processing content.

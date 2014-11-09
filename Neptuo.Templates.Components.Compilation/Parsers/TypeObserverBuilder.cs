@@ -39,7 +39,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (typeCodeObject != null)
             {
                 foreach (IXmlAttribute attribute in unboundAttributes)
-                    BuilderBase.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.Value);
+                    BuilderBase.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.GetValue());
             }
             else
             {

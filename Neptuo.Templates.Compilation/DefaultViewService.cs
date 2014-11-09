@@ -86,29 +86,29 @@ namespace Neptuo.Templates.Compilation
                 lockProvider = new MultiLockProvider(keyMapper);
         }
 
-        public object ProcessContent(string name, string viewContent, IViewServiceContext context)
+        public object ProcessContent(string name, ISourceContent content, IViewServiceContext context)
         {
             Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNullOrEmpty(viewContent, "viewContent");
+            Guard.NotNull(content, "content");
             Guard.NotNull(context, "context");
 
             // Try already compiled view.
-            object compiledView = ExecuteActivatorService(name, viewContent, context);
+            object compiledView = ExecuteActivatorService(name, content, context);
 
             // If instance can't be created (eg. not compiled), try to compile view.
             if (compiledView == null)
             {
                 // Lock view compilation
-                using (lockProvider.Lock(viewContent))
+                using (lockProvider.Lock(content))
                 {
                     // Try already compiled view.
-                    compiledView = ExecuteActivatorService(name, viewContent, context);
+                    compiledView = ExecuteActivatorService(name, content, context);
 
                     // If instance can't be created (eg. not compiled), try to compile view.
                     if (compiledView == null)
                     {
                         // Parse view content.
-                        ICodeObject codeObject = ExecuteParserService(viewContent, context);
+                        ICodeObject codeObject = ExecuteParserService(content, context);
                         if (codeObject == null)
                             return null;
 
@@ -131,14 +131,14 @@ namespace Neptuo.Templates.Compilation
             return compiledView;
         }
 
-        private object ExecuteActivatorService(string name, string viewContent, IViewServiceContext context)
+        private object ExecuteActivatorService(string name, ISourceContent content, IViewServiceContext context)
         {
-            return ActivatorService.Activate(name, viewContent, new DefaultViewActivatorServiceContext(context.DependencyProvider, context.Errors));
+            return ActivatorService.Activate(name, content, new DefaultViewActivatorServiceContext(context.DependencyProvider, context.Errors));
         }
 
-        private ICodeObject ExecuteParserService(string viewContent, IViewServiceContext context)
+        private ICodeObject ExecuteParserService(ISourceContent content, IViewServiceContext context)
         {
-            return ParserService.ProcessContent(viewContent, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
+            return ParserService.ProcessContent(content, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
         }
 
         private void ExecutePreProcessorService(ICodeObject codeObject, IViewServiceContext context)

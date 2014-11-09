@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.builderRegistry = builderRegistry;
         }
 
-        public ICodeObject Parse(string content, IContentParserContext context)
+        public ICodeObject Parse(ISourceContent content, IContentParserContext context)
         {
 #if !DEBUG
             try

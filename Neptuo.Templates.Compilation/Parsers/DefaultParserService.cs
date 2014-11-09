@@ -22,9 +22,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             ValueParsers = new List<IValueParser>();
         }
 
-        public ICodeObject ProcessContent(string content, IParserServiceContext context)
+        public ICodeObject ProcessContent(ISourceContent content, IParserServiceContext context)
         {
-            Guard.NotNullOrEmpty(content, "content");
+            Guard.NotNull(content, "content");
             Guard.NotNull(context, "context");
             Guard.Positive(ContentParsers.Count, "ContentParsers");
 
@@ -38,9 +38,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return null;
         }
 
-        public ICodeObject ProcessValue(string value, IParserServiceContext context)
+        public ICodeObject ProcessValue(ISourceContent value, IParserServiceContext context)
         {
-            Guard.NotNullOrEmpty(value, "value");
+            Guard.NotNull(value, "value");
             Guard.NotNull(context, "context");
 
             ICodeObject codeObject = null;

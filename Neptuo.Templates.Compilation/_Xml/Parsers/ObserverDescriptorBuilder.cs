@@ -46,10 +46,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
                 {
                     IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                    ICodeObject valueObject = context.ParserContext.ParserService.ProcessValue(
-                        attribute.Value,
-                        new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
-                    );
+                    ICodeObject valueObject = context.ProcessValue(attribute);
 
                     if (valueObject != null)
                     {

@@ -32,6 +32,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="propertyInfo">Target property info.</param>
         /// <param name="attributeValue">Source value.</param>
         /// <returns>True if succeed.</returns>
-        bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, string attributeValue);
+        bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue);
     }
 }

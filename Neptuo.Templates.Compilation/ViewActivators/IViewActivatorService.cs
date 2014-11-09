@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.Parsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,9 +24,9 @@ namespace Neptuo.Templates.Compilation.ViewActivators
         /// Creates instance of view represented by <paramref name="viewContent"/>.
         /// </summary>
         /// <param name="name">Name of activator to use.</param>
-        /// <param name="viewContent">Content of view.</param>
+        /// <param name="content">Content of view.</param>
         /// <param name="context">Context for activation.</param>
         /// <returns>Activated view intance; <c>null</c> of activation was to successfull or compiled view is not accessible.</returns>
-        object Activate(string name, string viewContent, IViewActivatorServiceContext context);
+        object Activate(string name, ISourceContent content, IViewActivatorServiceContext context);
     }
 }

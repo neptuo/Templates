@@ -17,6 +17,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject Parse(string content, IContentParserContext context);
+        ICodeObject Parse(ISourceContent content, IContentParserContext context);
     }
 }
