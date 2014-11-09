@@ -10,12 +10,14 @@ namespace TestConsoleNG.Controls
     public class AnchorControl : BaseContentControl
     {
         public string Url { get; set; }
-        public ICollection<Parameter> Parameters { get; set; }
+        public ICollection<Parameter> Parameters { get; private set; }
         public Security Security { get; set; }
 
         public AnchorControl(IComponentManager componentManager)
             : base(componentManager)
-        { }
+        {
+            Parameters = new List<Parameter>();
+        }
 
         public override void OnInit()
         {

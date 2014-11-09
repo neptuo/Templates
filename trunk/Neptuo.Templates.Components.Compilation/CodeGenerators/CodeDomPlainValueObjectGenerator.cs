@@ -14,6 +14,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
         {
+            if (propertyDescriptor.Property == null || plainValue  == null)
+                return null;
+
+            if (propertyDescriptor.Property.CanAssign(plainValue.Value.GetType()))
+                return new CodePrimitiveExpression(plainValue.Value);
+
             TypeConverter typeConverter = GetTypeConverter(context, plainValue, propertyDescriptor);
             if (typeConverter != null && typeConverter.CanConvertFrom(plainValue.Value.GetType()))
             {

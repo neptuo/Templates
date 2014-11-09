@@ -88,18 +88,28 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if (TryBindProperty(context, prefix, name, element.ChildNodes))
                     {
                         isPropertyBound = true;
-                        break;
+                        continue;
                     }
                 }
 
                 unboundNodes.Add(childNode);
             }
 
-            IXmlNode firstNode = unboundNodes.FirstOrDefault();
-            if (isPropertyBound && firstNode != null)
+            int index = 0;
+            foreach (IXmlNode node in unboundNodes)
             {
-                context.AddError(firstNode, "Oncy the component has defined any property as inner element, event default property must be wrapper in property element.");
-                return false;
+                if (node.NodeType == XmlNodeType.Text)
+                {
+                    // Empty text nodes can be skipped.
+                    IXmlText text = (IXmlText)node;
+                    if (String.IsNullOrEmpty(text.Text) || String.IsNullOrWhiteSpace(text.Text))
+                        continue;
+
+                    if (isPropertyBound)
+                        context.AddError(node, "Once the component has defined any property as inner element, event default property must be wrapper in property element.");
+                }
+
+                index++;
             }
 
             return true;

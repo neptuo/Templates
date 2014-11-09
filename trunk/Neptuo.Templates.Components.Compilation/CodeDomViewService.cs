@@ -298,6 +298,9 @@ namespace Neptuo.Templates.Compilation
             ICollection<IErrorInfo> errors = new List<IErrorInfo>();
             ICodeObject codeObject = ParseViewContent(content, context);
 
+            if (context.Errors.Any())
+                throw new CodeDomViewServiceException("Error parsing view content!", errors, content.TextContent);
+
             PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
             return GenerateSourceCode(codeObject, context, naming);
         }
@@ -329,7 +332,7 @@ namespace Neptuo.Templates.Compilation
             DebugHelper.Debug("ParseContent", () =>
             {
                 codeObject = (parserService ?? ParserService).ProcessContent(content, new DefaultParserServiceContext(context.DependencyProvider, errors));
-                if (codeObject == null)
+                if (codeObject == null || errors.Any())
                     throw new CodeDomViewServiceException("Error parsing view content!", errors, content.TextContent);
             });
 
