@@ -1,15 +1,11 @@
 ﻿<!-- This is a html comment --> 
 <div></div>
-<div data:DataContext="{Binding Address}">
-    <h:panel header="Street:"  ui:visible="{Binding Street, ConverterKey=NullToBool}">
-        <h:textbox name="street" text="{Binding Street}" />
-    </h:panel>
-    <h:panel header="House Number:"> <!-- template="PanelTemplate.html"  -->
-        <h:textbox name="housenumber" text="{Binding HouseNumber}" />
-    </h:panel>
-    <div>
-        <h:panel header="Postal code:">
-            <h:textbox name="postalcode" text="{Binding PostalCode}" />
-        </h:panel>
-    </div>
-</div>     
+
+    <h:Anchor Url="http://google.com">
+        <Parameters>
+            <h:Parameter Name="x" Value="y" />
+        </Parameters>
+        <Content>
+            Hello, World!
+        </Content>
+    </h:Anchor>
