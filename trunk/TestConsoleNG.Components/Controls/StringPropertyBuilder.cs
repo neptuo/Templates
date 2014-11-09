@@ -15,14 +15,10 @@ namespace TestConsoleNG.Controls
             throw new NotImplementedException();
         }
 
-        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, string attributeValue)
+        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
         {
             IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            ICodeObject valueObject = context.ParserContext.ParserService.ProcessValue(
-                attributeValue,
-                new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
-            );
-
+            ICodeObject valueObject = context.ProcessValue(value);
             if (valueObject != null)
             {
                 propertyDescriptor.SetValue(valueObject);

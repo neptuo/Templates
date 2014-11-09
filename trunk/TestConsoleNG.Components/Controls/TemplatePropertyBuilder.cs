@@ -35,7 +35,7 @@ namespace TestConsoleNG.Controls
             return true;
         }
 
-        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, string attributeValue)
+        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
         {
             IComponentCodeObject templateCodeObject = new ComponentCodeObject(typeof(FileTemplate));
             templateCodeObject.Properties.Add(
@@ -43,7 +43,7 @@ namespace TestConsoleNG.Controls
                     new TypePropertyInfo(
                         typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path))
                     ),
-                    new PlainValueCodeObject(attributeValue)
+                    new PlainValueCodeObject(value.CreateContentReader().ReadToEnd())
                 )
             );
 

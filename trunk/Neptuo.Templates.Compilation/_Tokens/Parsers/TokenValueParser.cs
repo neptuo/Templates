@@ -20,13 +20,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.builderFactory = builderFactory;
         }
 
-        public ICodeObject Parse(string content, IValueParserContext context)
+        public ICodeObject Parse(ISourceContent content, IValueParserContext context)
         {
             ICodeObject codeObject = null;
 
             Helper helper = new Helper(context, builderFactory);
             helper.Parser.OnParsedToken += (sender, e) => codeObject = GenerateToken(helper, e.Token);
-            helper.Parser.Parse(content);
+            helper.Parser.Parse(content.CreateContentReader().ReadToEnd());
 
             return codeObject;
         }

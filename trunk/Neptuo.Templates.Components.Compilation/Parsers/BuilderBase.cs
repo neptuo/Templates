@@ -26,20 +26,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Binds attribute <paramref name="name"/> to component of type <see cref="IHasHtmlAttributeCollection"/> and parses <paramref name="value"/> using value parsers.
         /// </summary>
-        public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, string value)
+        public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, ISourceContent value)
         {
             if (typeof(IHasHtmlAttributeCollection).IsAssignableFrom(typeCodeObject.Type))
             {
                 DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(name));
 
-                ICodeObject valueObject = context.ParserContext.ParserService.ProcessValue(
-                    value,
-                    new DefaultParserServiceContext(
-                        context.ParserContext.DependencyProvider, 
-                        context.ParserContext.Errors
-                    )
-                );
+                ICodeObject valueObject = context.ProcessValue(value);
 
                 if (valueObject != null)
                 {

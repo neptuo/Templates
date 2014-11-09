@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,24 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return null;
 
             return attribute.Value;
+        }
+
+        /// <summary>
+        /// Returns value of the <paramref name="attribute"/> with line info updated.
+        /// </summary>
+        /// <param name="attribute">Attribute which value should be returned.</param>
+        /// <returns>Value of the <paramref name="attribute"/> with line info updated.</returns>
+        public static ISourceContent GetValue(this IXmlAttribute attribute)
+        {
+            Guard.NotNull(attribute, "attribute");
+            ISourceLineInfo lineInfo;
+            ISourceLineInfo attributeLineInfo = attribute as ISourceLineInfo;
+            if (attributeLineInfo != null)
+                lineInfo = new DefaultSourceLineInfo(attributeLineInfo.LineIndex, attributeLineInfo.ColumnIndex + attribute.Name.Length + 2);
+            else
+                lineInfo = new DefaultSourceLineInfo(0, 0);
+
+            return new DefaultSourceContent(attribute.Value, lineInfo);
         }
     }
 }

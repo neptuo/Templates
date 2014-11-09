@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             ITypeCodeObject typeCodeObject = CodeObject as ITypeCodeObject;
             if (typeCodeObject != null)
-                BuilderBase.BindAttributeCollection(context, typeCodeObject, CodeObject, attribute.LocalName, attribute.Value);
+                BuilderBase.BindAttributeCollection(context, typeCodeObject, CodeObject, attribute.LocalName, attribute.GetValue());
             else
                 throw new NotImplementedException(String.Format("Can't process unbound attributes! Attribute {0} on {1}.", attribute.Name, attribute.OwnerElement.Name));
         }

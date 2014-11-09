@@ -2,6 +2,7 @@
 using Neptuo;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
+using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,7 +28,7 @@ namespace LiveWebUI.Controllers
 
             StringWriter output = new StringWriter();
 
-            GeneratedView view = (GeneratedView)TemplateHelper.ViewService.ProcessContent("CSharp", viewContent, new DefaultViewServiceContext(TemplateHelper.Container));
+            GeneratedView view = (GeneratedView)TemplateHelper.ViewService.ProcessContent("CSharp", new DefaultSourceContent(viewContent), new DefaultViewServiceContext(TemplateHelper.Container));
             view.Setup(new ViewPage(TemplateHelper.Container.Resolve<IComponentManager>()), TemplateHelper.Container.Resolve<IComponentManager>(), TemplateHelper.Container);
             view.CreateControls();
             view.Init();
@@ -43,7 +44,7 @@ namespace LiveWebUI.Controllers
                 return Content("Missing view content!");
 
             INaming naming = TemplateHelper.ViewService.NamingService.FromContent(viewContent);
-            string javascript = TemplateHelper.ViewService.GenerateJavascript(viewContent, new DefaultViewServiceContext(TemplateHelper.Container), naming);
+            string javascript = TemplateHelper.ViewService.GenerateJavascript(new DefaultSourceContent(viewContent), new DefaultViewServiceContext(TemplateHelper.Container), naming);
             
             return View(new JavascriptModel(javascript, String.Join(".", naming.ClassNamespace, naming.ClassName)));
         }

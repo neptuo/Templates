@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using Neptuo.Templates.Compilation.CodeObjects;
+using System.IO;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
@@ -19,15 +20,18 @@ namespace Neptuo.Templates.Compilation.Parsers
             private IContentBuilderRegistry BuilderRegistry { get; set; }
             public StringBuilder Content { get; protected set; }
 
-            public Helper(string xml, IContentParserContext context, IContentBuilderRegistry builderRegistry)
+            public Helper(ISourceContent content, IContentParserContext context, IContentBuilderRegistry builderRegistry)
             {
                 Context = context;
                 BuilderRegistry = builderRegistry;
                 Content = new StringBuilder();
 
-                if (xml != null)
+                if (content != null)
                 {
-                    DocumentElement = XDocumentSupport.LoadXml(CreateRootElement(xml));
+                    using (TextReader textContent = content.CreateContentReader())
+                    {
+                        DocumentElement = XDocumentSupport.LoadXml(CreateRootElement(textContent.ReadToEnd()));
+                    }
                     //if (DocumentElement.Name == "NeptuoTemplatesRoot" && DocumentElement.ChildNodes.Count() == 1)
                     //    DocumentElement = (IXmlElement)DocumentElement.ChildNodes.First();
                 }

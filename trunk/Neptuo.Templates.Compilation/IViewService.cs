@@ -15,12 +15,12 @@ namespace Neptuo.Templates.Compilation
     public interface IViewService
     {
         /// <summary>
-        /// Compiles <paramref name="viewContent"/> into view and returns it's instance.
+        /// Compiles <paramref name="content"/> into view and returns it's instance.
         /// </summary>
         /// <param name="name">Name of required process to run.</param>
-        /// <param name="viewContent">Template file content.</param>
+        /// <param name="content">Template file content.</param>
         /// <param name="context">Context information.</param>
         /// <returns>Instance of compiled template; <c>null</c> if compilation was not successfull.</returns>
-        object ProcessContent(string name, string viewContent, IViewServiceContext context);
+        object ProcessContent(string name, ISourceContent content, IViewServiceContext context);
     }
 }

@@ -41,5 +41,16 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             return attribute.Value;
         }
+
+        /// <summary>
+        /// Returns value of the <paramref name="attribute"/> with line info updated.
+        /// </summary>
+        /// <param name="attribute">Attribute which value should be returned.</param>
+        /// <returns>Value of the <paramref name="attribute"/> with line info updated.</returns>
+        public static ISourceContent GetValue(this TokenAttribute attribute)
+        {
+            Guard.NotNull(attribute, "attribute");
+            return new DefaultSourceContent(attribute.Value, attribute.OwnerToken);
+        }
     }
 }

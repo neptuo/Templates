@@ -62,7 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             ISourceLineInfo lineInfo = element as ISourceLineInfo;
             if (lineInfo != null)
-                AddError(context, lineInfo.LineNumber, lineInfo.ColumnIndex, errorText);
+                AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
             else
                 AddError(context, String.Format("<{0}> -> {1}", element.Name, errorText));
         }
@@ -80,7 +80,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             ISourceLineInfo lineInfo = attribute as ISourceLineInfo;
             if (lineInfo != null)
-                AddError(context, lineInfo.LineNumber, lineInfo.ColumnIndex, errorText);
+                AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
             else
                 AddError(context, String.Format("<{0} {1}> -> {2}", attribute.OwnerElement.Name, attribute.Name, errorText));
         }
@@ -91,7 +91,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="content">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessContent(this IContentBuilderContext context, string content)
+        public static ICodeObject ProcessContent(this IContentBuilderContext context, ISourceContent content)
         {
             return context.ParserContext.ParserService.ProcessContent(
                 content,
@@ -105,12 +105,35 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="value">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessValue(this IContentBuilderContext context, string value)
+        public static ICodeObject ProcessValue(this IContentBuilderContext context, ISourceContent value)
         {
             return context.ParserContext.ParserService.ProcessValue(
                 value,
                 context.ParserContext
             );
+        }
+
+        /// <summary>
+        /// Parses value using <see cref="IParserService"/> and creates AST.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="attribute">Attribute which to process.</param>
+        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
+        public static ICodeObject ProcessValue(this IContentBuilderContext context, IXmlAttribute attribute)
+        {
+            return context.ParserContext.ParserService.ProcessValue(
+                new DefaultSourceContent(attribute.Value, GetSourceLineInfoOrDefault(attribute)),
+                context.ParserContext
+            );
+        }
+
+        private static ISourceLineInfo GetSourceLineInfoOrDefault(object source)
+        {
+            ISourceLineInfo lineInfo = source as ISourceLineInfo;
+            if (lineInfo != null)
+                return lineInfo;
+
+            return new DefaultSourceLineInfo(0, 0);
         }
     }
 }

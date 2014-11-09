@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return CodeObject;
         }
 
-        protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, string value)
+        protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, ISourceContent value)
         {
             IPropertyInfo propertyInfo;
             if (BindContext.Properties.TryGetValue(name, out propertyInfo))
@@ -55,15 +55,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                     }
                 }
 
-                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-
-                ICodeObject codeObject = context.ParserContext.ParserService.ProcessValue(
-                    value,
-                    new DefaultParserServiceContext(context.ParserContext.DependencyProvider, context.ParserContext.Errors)
-                );
-
-                if (result)
+                ICodeObject codeObject = context.ProcessValue(value);
+                if (codeObject != null)
                 {
+                    IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
                     propertyDescriptor.SetValue(codeObject);
                     CodeObject.Properties.Add(propertyDescriptor);
                     BindContext.BoundProperies.Add(name);

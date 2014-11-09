@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.Parsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,14 +22,14 @@ namespace Neptuo.Templates.Compilation.ViewActivators
             return this;
         }
 
-        public object Activate(string name, string viewContent, IViewActivatorServiceContext context)
+        public object Activate(string name, ISourceContent content, IViewActivatorServiceContext context)
         {
             Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNullOrEmpty(viewContent, "viewContent");
+            Guard.NotNull(content, "content");
             Guard.NotNull(context, "context");
             IViewActivator activator;
             if (activators.TryGetValue(name, out activator))
-                return activator.Activate(viewContent, context.CreateVisitorContext(this));
+                return activator.Activate(content, context.CreateVisitorContext(this));
 
             throw Guard.Exception.ArgumentOutOfRange("name", "Requested an unregistered view activator named '{0}'.", name);
         }

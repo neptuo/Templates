@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="content">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessContent(this ITokenBuilderContext context, string content)
+        public static ICodeObject ProcessContent(this ITokenBuilderContext context, ISourceContent content)
         {
             return context.ParserContext.ParserService.ProcessContent(
                 content,
@@ -69,7 +69,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="value">Part of template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessValue(this ITokenBuilderContext context, string value)
+        public static ICodeObject ProcessValue(this ITokenBuilderContext context, ISourceContent value)
         {
             return context.ParserContext.ParserService.ProcessValue(
                 value,

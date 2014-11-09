@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.Parsers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace Neptuo.Templates.Compilation.ViewActivators
     /// </summary>
     public class NullViewActivator : IViewActivator
     {
-        public object Activate(string viewContent, IViewActivatorContext context)
+        public object Activate(ISourceContent content, IViewActivatorContext context)
         {
             return null;
         }

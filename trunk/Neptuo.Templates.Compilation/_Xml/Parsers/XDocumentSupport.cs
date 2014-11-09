@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.ComponentModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,7 +53,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             #region ISourceLineInfo
 
-            public int LineNumber { get; protected set; }
+            public int LineIndex { get; protected set; }
             public int ColumnIndex { get; private set; }
 
             #endregion
@@ -68,7 +69,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 if (lineInfo.HasLineInfo())
                 {
-                    LineNumber = lineInfo.LineNumber;
+                    LineIndex = lineInfo.LineNumber;
                     ColumnIndex = lineInfo.LinePosition;
                 }
             }
@@ -113,7 +114,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 List<IXmlAttribute> result = new List<IXmlAttribute>();
                 foreach (XAttribute attribute in attributes)
-                    result.Add(new XAttributeWrapper(attribute, sourceElement.GetPrefixOfNamespace(sourceElement.Name.Namespace), ownerElement));
+                    result.Add(new XAttributeWrapper(attribute, sourceElement.GetPrefixOfNamespace(attribute.Name.Namespace), ownerElement));
 
                 return result;
             }
