@@ -14,17 +14,16 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public IValueParserContext ParserContext { get; private set; }
         public TokenValueParser Parser { get; private set; }
-        public TokenValueParser.Helper Helper { get; private set; }
         public ITokenBuilderFactory BuilderFactory { get; private set; }
 
-        public TokenBuilderContext(TokenValueParser parser, TokenValueParser.Helper helper)
+        public TokenBuilderContext(TokenValueParser parser, IValueParserContext parserContext, ITokenBuilderFactory builderFactory)
         {
             Guard.NotNull(parser, "parser");
-            Guard.NotNull(helper, "helper");
+            Guard.NotNull(parserContext, "parserContext");
+            Guard.NotNull(builderFactory, "builderFactory");
             Parser = parser;
-            Helper = helper;
-            ParserContext = helper.Context;
-            BuilderFactory = helper.BuilderFactory;
+            ParserContext = parserContext;
+            BuilderFactory = builderFactory;
         }
     }
 }

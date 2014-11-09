@@ -86,7 +86,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             bool result = true;
             List<IXmlAttribute> usedAttributes = new List<IXmlAttribute>();
-            XmlContentParser.ObserverList observers = new XmlContentParser.ObserverList();
+            ObserverCollection observers = new ObserverCollection();
             foreach (IXmlAttribute attribute in unboundAttributes)
             {
                 bool boundAttribute = false;
@@ -102,7 +102,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                         if (observer.Scope == ObserverBuilderScope.PerElement && observers.ContainsKey(observer))
                             observers[observer].Attributes.Add(attribute);
                         else
-                            observers.Add(new XmlContentParser.ParsedObserver(observer, attribute));
+                            observers.Add(observer, attribute);
 
                         boundAttribute = true;
                     }
