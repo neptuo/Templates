@@ -1,5 +1,6 @@
 ﻿using Neptuo.ComponentModel;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,6 +48,32 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNull(context, "context");
             context.AddError(new ErrorInfo(line, column, errorText));
+        }
+
+        /// <summary>
+        /// Adds error related to the <paramref name="token"/> described by the <paramref name="errorText"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="token">The token which caused the error.</param>
+        /// <param name="errorText">Text description of the error.</param>
+        public static void AddError(this ITokenBuilderContext context, Token token, string errorText)
+        {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(token, "token");
+            AddError(context, token.LineIndex, token.ColumnIndex, errorText);
+        }
+
+        /// <summary>
+        /// Adds error related to the <paramref name="tokenAttribute"/> described by the <paramref name="errorText"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="tokenAttribute">The attribute which caused the error.</param>
+        /// <param name="errorText">Text description of the error.</param>
+        public static void AddError(this ITokenBuilderContext context, TokenAttribute tokenAttribute, string errorText)
+        {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(tokenAttribute, "token");
+            AddError(context, tokenAttribute.OwnerToken.LineIndex, tokenAttribute.OwnerToken.ColumnIndex, errorText);
         }
 
         /// <summary>
