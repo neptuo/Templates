@@ -132,6 +132,13 @@
             <returns><c>true</c> if collection contains value with <paramref name="key"/> as key; <c>false</c> otherwise.</returns>
             <exception cref="T:System.ArgumentNullException">When <paramref name="key"/> is <c>null</c>.</exception>
         </member>
+        <member name="P:Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection.Keys">
+            <summary>
+            Gets enumeration of known key in collection.
+            This probably doesn't return all keys that can be found in collection, 
+            this fact is caused by possible implementations with 'provider pattern'.
+            </summary>
+        </member>
         <member name="M:Neptuo.Collections.Specialized.IKeyValueCollection.Set(System.String,System.Object)">
             <summary>
             Associates <paramref name="value"/> with <paramref name="key"/> in collection.
@@ -229,19 +236,46 @@
             When trying to get value which key is not present, 
             first gets called provider registered with specific key, 
             than those registered without key.
+            This collection also supports set listeners after set value in collection,
+            these listener can be attached to specific key or to any key.
             </summary>
         </member>
-        <member name="F:Neptuo.Collections.Specialized.ProviderKeyValueCollection.storage">
+        <member name="F:Neptuo.Collections.Specialized.ProviderKeyValueCollection.providerStorage">
             <summary>
             Backing storage for providers.
             </summary>
         </member>
+        <member name="F:Neptuo.Collections.Specialized.ProviderKeyValueCollection.listenerStorage">
+            <summary>
+            Backing storage for listeners.
+            </summary>
+        </member>
         <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddProvider(Neptuo.OutFunc{System.String,System.Object,System.Boolean})">
             <summary>
-            Mapps <paramref name="provider"/>.
+            Adds <paramref name="provider"/> for any key.
             This provider will be called after providers registered for specific key.
             </summary>
             <param name="provider">Provider for getting values.</param>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddProvider(System.String,Neptuo.OutFunc{System.String,System.Object,System.Boolean})">
+            <summary>
+            Adds <paramref name="provider"/> for specific key.
+            </summary>
+            <param name="key">Key for which <paramref name="provider"/> will be executed.</param>
+            <param name="provider">Provider for getting values.</param>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddListener(System.Action{System.String,System.Object})">
+            <summary>
+            Adds listener after setting value (with any key).
+            </summary>
+            <param name="listener">Listener executed after setting value.</param>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ProviderKeyValueCollection.AddListener(System.String,System.Action{System.String,System.Object})">
+            <summary>
+            Adds listener after setting value (with any key).
+            </summary>
+            <param name="key">Key for which <paramref name="listener"/> will be executed.</param>
+            <param name="listener">Listener executed after setting value.</param>
         </member>
         <member name="T:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions">
             <summary>
@@ -249,6 +283,28 @@
             </summary>
         </member>
         <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String)">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <typeparamref name="T"/>, returns it.
+            Otherwise throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,System.Nullable{``0})">
+            <summary>
+            Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
+            If value is found and can be converted to <typeparamref name="T"/>, returns it.
+            Otherwise returns <paramref name="defaultValue"/> (if provided) or throws <see cref="T:System.InvalidOperationException"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <param name="defaultValue">Optional default value if is not found or not convertible.</param>
+            <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Collections.Specialized.ReadOnlyKeyValueCollectionExtensions.Get``1(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String,``0)">
             <summary>
             Reads the value of <paramref name="key"/> in <paramref name="collection"/>.
             If value is found and can be converted to <typeparamref name="T"/>, returns it.
@@ -626,6 +682,37 @@
         <member name="P:Neptuo.ComponentModel.Envelope`1.SourceID">
             <summary>
             The source message/envelope ID.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.ISourceLineInfo">
+            <summary>
+            Describes position/offset in source global source content.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.ISourceLineInfo.LineIndex">
+            <summary>
+            Line index.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.ISourceLineInfo.ColumnIndex">
+            <summary>
+            Index at line.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.ISourceRangeLineInfo">
+            <summary>
+            Extends <see cref="T:Neptuo.ComponentModel.ISourceLineInfo"/> with property for end position.
+            So this class models range sub part of source content.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.ISourceRangeLineInfo.EndLineIndex">
+            <summary>
+            Line index of range end.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.ISourceRangeLineInfo.EndColumnIndex">
+            <summary>
+            Index at line of range end.
             </summary>
         </member>
         <member name="T:Neptuo.Converts">
@@ -2135,6 +2222,27 @@
             Creates new empty instance.
             </summary>
         </member>
+        <member name="M:Neptuo.Tokens.Token.SetLineInfo(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Updates source line info.
+            </summary>
+            <param name="lineNumber">Line number.</param>
+            <param name="columnIndex">Index at line.</param>
+            <param name="endLineNumber">Line number of range end.</param>
+            <param name="endColumnIndex">Index at line of range end.</param>
+        </member>
+        <member name="M:Neptuo.Tokens.Token.AddAttribute(Neptuo.Tokens.TokenAttribute)">
+            <summary>
+            Adds named attribute.
+            </summary>
+            <param name="attribute">New named attribute.</param>
+        </member>
+        <member name="M:Neptuo.Tokens.Token.AddDefaultAttribute(System.String)">
+            <summary>
+            Adds default (not named) attribute.
+            </summary>
+            <param name="defaultAttribute">Default (not named) attribute.</param>
+        </member>
         <member name="M:Neptuo.Tokens.Token.ToString">
             <summary>
             Formats original token string.
@@ -2158,12 +2266,12 @@
         </member>
         <member name="P:Neptuo.Tokens.Token.Attributes">
             <summary>
-            Collection of named attributes.
+            Enumeration of named attributes.
             </summary>
         </member>
         <member name="P:Neptuo.Tokens.Token.DefaultAttributes">
             <summary>
-            Collection of default (not named) attributes.
+            Enumeration of default (not named) attributes.
             </summary>
         </member>
         <member name="T:Neptuo.Tokens.TokenAttribute">
@@ -2177,6 +2285,11 @@
             </summary>
             <param name="name">Attribute name.</param>
             <param name="value">Attribute value.</param>
+        </member>
+        <member name="P:Neptuo.Tokens.TokenAttribute.OwnerToken">
+            <summary>
+            The owner of this attribute.
+            </summary>
         </member>
         <member name="P:Neptuo.Tokens.TokenAttribute.Name">
             <summary>
@@ -2239,6 +2352,21 @@
             </summary>
             <param name="content">Source text.</param>
             <returns><c>true</c> if parsing was successfull (so <paramref name="content"/> contained token(s) or only plain value).</returns>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenParser.GetLineInfo(System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            Return line number and column index of <paramref name="foundIndex"/> in <paramref name="newLines"/>.
+            </summary>
+            <param name="newLines">List of indexes of new lines.</param>
+            <param name="foundIndex">Some index.</param>
+            <returns>Line number and column index of <paramref name="foundIndex"/> in <paramref name="newLines"/>.</returns>
+        </member>
+        <member name="M:Neptuo.Tokens.TokenParser.GetNewLineIndexes(System.String)">
+            <summary>
+            Returns list of indexes where new line character is located in <paramref name="content"/>.
+            </summary>
+            <param name="content">String value where to look for new line characters.</param>
+            <returns>List of indexes where new line character is located</returns>
         </member>
         <member name="M:Neptuo.Tokens.TokenParser.IsSuccessState(Neptuo.Tokens.TokenState)">
             <summary>
