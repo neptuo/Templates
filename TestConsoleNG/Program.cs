@@ -10,7 +10,8 @@ namespace TestConsoleNG
     {
         static void Main(string[] args)
         {
-            TestTemplates.Test();
+            //TestTemplates.Test();
+            TestTemplatesNg.Test();
             //TestOnlineSharpkitCompile.Test();
 
             Console.ReadKey(true);

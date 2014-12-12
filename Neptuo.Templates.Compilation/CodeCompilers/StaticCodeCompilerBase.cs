@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
     /// <summary>
     /// Base for default implementation for compiling C# source code to the assemblies.
     /// </summary>
-    public abstract class DefaultCodeCompilerBase : ICodeCompiler, ICompilerConfiguration
+    public abstract class StaticCodeCompilerBase : ICodeCompiler, ICompilerConfiguration
     {
         private readonly CompilerFactory compilerFactory;
         private readonly string tempDirectory;
@@ -37,11 +37,11 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         /// Creates new instance which stores temp files to the <paramref name="tempDirectory"/>.
         /// </summary>
         /// <param name="tempDirectory">Directory for storing temp files (.cs, .dll, .pdb, etc).</param>
-        public DefaultCodeCompilerBase(string tempDirectory)
+        public StaticCodeCompilerBase(string tempDirectory)
         {
             Guard.NotNullOrEmpty(tempDirectory, "tempDirectory");
 
-            if (Directory.Exists(tempDirectory))
+            if (!Directory.Exists(tempDirectory))
                 throw Guard.Exception.ArgumentDirectoryNotExist(tempDirectory, "tempDirectory");
 
             this.compilerFactory = new CompilerFactory();

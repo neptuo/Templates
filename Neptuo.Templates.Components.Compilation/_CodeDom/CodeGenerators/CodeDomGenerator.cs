@@ -197,11 +197,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (BaseStructureGenerator == null)
                 throw new ArgumentNullException("BaseStructureExtension", "Base structure extension not provided!");
 
-            INamingContext namingContext = codeContext as INamingContext;
-            if(namingContext == null)
-                throw new ArgumentNullException("codeContext", "CodeDomGenerator requires INamingContext!");
-
-            context.Structure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, namingContext.Naming));
+            INaming naming = context.CodeGeneratorContext.DependencyProvider.Resolve<INaming>();
+            context.Structure = BaseStructureGenerator.GenerateCode(new CodeDomStructureContext(context, naming));
 
             GenerateCodeObject(
                 new CodeObjectExtensionContext(context, null),

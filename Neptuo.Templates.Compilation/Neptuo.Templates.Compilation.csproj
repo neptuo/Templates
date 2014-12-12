@@ -45,7 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CodeCompilers\DefaultCodeCompilerBase.cs" />
+    <Compile Include="CodeCompilers\StaticCodeCompilerBase.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />
     <Compile Include="ISourceContent.cs" />
@@ -110,6 +110,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewActivators\IViewActivatorServiceContext.cs" />
     <Compile Include="ViewActivators\NullViewActivator.cs" />
+    <Compile Include="_ErrorInfoExtensions.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderFactory.cs" />

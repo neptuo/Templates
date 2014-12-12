@@ -54,7 +54,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.parentRegistry = parentRegistry;
         }
 
-        #region Get
+        #region Get component
 
         public IContentBuilder GetComponentBuilder(string prefix, string name)
         {
