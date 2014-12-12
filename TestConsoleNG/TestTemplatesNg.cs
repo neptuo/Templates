@@ -9,6 +9,7 @@ using Neptuo.Templates.Compilation.CodeCompilers;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
+using Neptuo.Templates.Compilation.ViewActivators;
 using Neptuo.Templates.Controls;
 using System;
 using System.Collections.Generic;
@@ -64,12 +65,11 @@ namespace TestConsoleNG
             codeCompiler.References.AddDirectory(Environment.CurrentDirectory);
 
             DefaultViewService viewService = new DefaultViewService();
-
             viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new TokenValueParser(builderRegistry));
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
-            viewService.ActivatorService.AddActivator("CodeDom", codeCompiler);
+            viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());
             viewService.CompilerService.AddCompiler("CodeDom", codeCompiler);
 
 
