@@ -1,12 +1,15 @@
 ﻿using Neptuo;
+using Neptuo.ComponentModel;
 using Neptuo.Diagnostics;
 using Neptuo.FileSystems;
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
+using Neptuo.Templates.Compilation.CodeCompilers;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
+using Neptuo.Templates.Compilation.ViewActivators;
 using Neptuo.Templates.Controls;
 using System;
 using System.Collections.Generic;
@@ -39,36 +42,46 @@ namespace TestConsoleNG
 
         public static void Test()
         {
-            TypeBuilderRegistry registry = new TypeBuilderRegistry(
+            TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
                 new TypeBuilderRegistryConfiguration(container),//.AddComponentSuffix("presenter"),
-                new DefaultLiteralControlBuilderFactory<LiteralControl>(c => c.Text), 
+                new DefaultLiteralControlBuilderFactory<LiteralControl>(c => c.Text),
                 new FuncContentBuilderFactory((prefix, name) => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName))
             );
-            registry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));
-            registry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG.Components"));
-            registry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
-            registry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
-            registry.RegisterPropertyBuilder(typeof(string), new DefaultPropertyBuilderFactory<StringPropertyBuilder>());
-            registry.RegisterPropertyBuilder(typeof(ITemplate), new DefaultPropertyBuilderFactory<TemplatePropertyBuilder>());
-            registry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new FuncContentBuilderFactory((prefix, name) => new RootContentBuilder()));
-
-            CodeDomViewService viewService = new CodeDomViewService(true);
-            viewService.DebugMode = CodeDomDebugMode.AlwaysReGenerate | CodeDomDebugMode.GenerateSourceCode;
-            viewService.ParserService.ContentParsers.Add(new XmlContentParser(registry));
-            viewService.ParserService.DefaultValueParser = new PlainValueParser();
-            viewService.ParserService.ValueParsers.Add(new TokenValueParser(registry));
-            viewService.NamingService = new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
-            //viewService.DebugMode = true; 
-            viewService.TempDirectory = Environment.CurrentDirectory;
-            viewService.BinDirectories.Add(Environment.CurrentDirectory);
-
-            viewService.JavascriptGenerator.TempDirectory = Environment.CurrentDirectory;
-            viewService.JavascriptGenerator.BinDirectories.Add(Environment.CurrentDirectory);
+            builderRegistry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));
+            builderRegistry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG.Components"));
+            builderRegistry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
+            builderRegistry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
+            builderRegistry.RegisterPropertyBuilder(typeof(string), new DefaultPropertyBuilderFactory<StringPropertyBuilder>());
+            builderRegistry.RegisterPropertyBuilder(typeof(ITemplate), new DefaultPropertyBuilderFactory<TemplatePropertyBuilder>());
+            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new FuncContentBuilderFactory((prefix, name) => new RootContentBuilder()));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
-            viewService.CodeDomGenerator.RegisterStandartCodeGenerators(fieldNameProvider);
-            viewService.CodeDomGenerator.SetCodeObjectGenerator(typeof(TemplateCodeObject), new CodeDomTemplateGenerator(fieldNameProvider));
-            viewService.CodeDomGenerator.SetCodeObjectGenerator(typeof(MethodReferenceCodeObject), new CodeDomMethodReferenceGenerator());
+            CodeDomGenerator codeGenerator = new CodeDomGenerator();
+            codeGenerator.RegisterStandartCodeGenerators(fieldNameProvider);
+            codeGenerator.SetCodeObjectGenerator(typeof(TemplateCodeObject), new CodeDomTemplateGenerator(fieldNameProvider));
+            codeGenerator.SetCodeObjectGenerator(typeof(MethodReferenceCodeObject), new CodeDomMethodReferenceGenerator());
+
+            CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);
+            codeCompiler.References.AddDirectory(Environment.CurrentDirectory);
+
+            DefaultViewService viewService = new DefaultViewService();
+            viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry));
+            viewService.ParserService.DefaultValueParser = new PlainValueParser();
+            viewService.ParserService.ValueParsers.Add(new TokenValueParser(builderRegistry));
+            viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
+            viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());
+            viewService.CompilerService.AddCompiler("CodeDom", codeCompiler);
+
+
+
+
+
+            //CodeDomViewService viewService = new CodeDomViewService(true);
+            //viewService.DebugMode = CodeDomDebugMode.AlwaysReGenerate | CodeDomDebugMode.GenerateSourceCode;
+            //viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry));
+            //viewService.ParserService.DefaultValueParser = new PlainValueParser();
+            //viewService.ParserService.ValueParsers.Add(new TokenValueParser(builderRegistry));
+            //viewService.NamingService = new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
 
             container.RegisterInstance<IViewService>(viewService);
             container.RegisterInstance<IComponentManager>(new ComponentManager());
@@ -104,17 +117,30 @@ namespace TestConsoleNG
 
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
-            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
-            GeneratedView view = (GeneratedView)viewService.ProcessContent("CSharp", content, context);
-            DebugHelper.Debug("Run", () =>
-            {
-                view.Setup(new ViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
-                view.CreateControls();
-                view.Init();
-                view.Render(new HtmlTextWriter(output));
-                view.Dispose();
-            });
 
+            container.RegisterInstance<INaming>(new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory))).FromFile("Index.html"));
+
+            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
+            GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
+            if (view == null)
+            {
+                Console.WriteLine("Unable to compile view...");
+
+                foreach (IErrorInfo errorInfo in context.Errors)
+                    Console.WriteLine("{0}:{1} -> {2}", errorInfo.LineNumber, errorInfo.ColumnIndex, errorInfo.ErrorText);
+            }
+            else
+            {
+                DebugHelper.Debug("Run", () =>
+                {
+                    view.Setup(new ViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
+                    view.CreateControls();
+                    view.Init();
+                    view.Render(new HtmlTextWriter(output));
+                    view.Dispose();
+                });
+
+            }
             stopwatch.Stop();
             //}
             //catch (CodeDomViewServiceException e)

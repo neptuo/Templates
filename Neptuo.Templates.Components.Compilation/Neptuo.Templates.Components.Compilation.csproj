@@ -55,12 +55,8 @@
     <Compile Include="Parsers\RootComponentDescriptor.cs" />
     <Compile Include="NamingServiceBase.cs" />
     <Compile Include="BuilderAttribute.cs" />
-    <Compile Include="CodeDomDebugMode.cs" />
     <Compile Include="CodeGenerators\CodeDomDictionaryAddPropertyGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomGeneratorServiceContext.cs" />
-    <Compile Include="CodeDomViewService.cs" />
-    <Compile Include="CodeDomViewServiceException.cs" />
-    <Compile Include="CodeDomViewServiceExtensions.cs" />
     <Compile Include="CodeGenerators\CodeTypeMemberCollectionExtensions.cs" />
     <Compile Include="CodeGenerators\IFieldNameProvider.cs" />
     <Compile Include="CodeGenerators\SequenceFieldNameProvider.cs" />
