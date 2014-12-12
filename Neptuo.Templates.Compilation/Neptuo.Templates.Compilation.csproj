@@ -125,7 +125,6 @@
     <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\ContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
-    <Compile Include="_Xml\Parsers\IContentBuilderFactory.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
     <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilderContext.cs" />
@@ -135,7 +134,6 @@
     <Compile Include="_Xml\Parsers\IObserverDescriptor.cs" />
     <Compile Include="_Xml\Parsers\IObserverRegistration.cs" />
     <Compile Include="_Xml\Parsers\IPropertyBuilder.cs" />
-    <Compile Include="_Xml\Parsers\IPropertyBuilderFactory.cs" />
     <Compile Include="_Xml\Parsers\IXmlAttribute.cs" />
     <Compile Include="_Xml\Parsers\IXmlElement.cs" />
     <Compile Include="_Xml\Parsers\IXmlName.cs" />

@@ -79,13 +79,9 @@
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="ComponentAttribute.cs" />
     <Compile Include="Parsers\DefaultLiteralControlBuilderFactory.cs" />
-    <Compile Include="Parsers\DependencyPropertyBuilderFactory.cs" />
-    <Compile Include="Parsers\FuncContentBuilderFactory.cs" />
-    <Compile Include="Parsers\FuncPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\BuilderBase.cs" />
     <Compile Include="Parsers\DefaultTokenBuilder.cs" />
     <Compile Include="Parsers\DefaultTokenBuilderFactory.cs" />
-    <Compile Include="Parsers\DefaultPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverRegistration.cs" />
     <Compile Include="Parsers\IObserverBuilderFactory.cs" />

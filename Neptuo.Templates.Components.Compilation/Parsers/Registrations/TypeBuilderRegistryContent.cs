@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public SpecialDictionary<string, Dictionary<string, IContentBuilder>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> Tokens { get; protected set; }
-        public Dictionary<Type, IPropertyBuilderFactory> Properties { get; protected set; }
+        public Dictionary<Type, IPropertyBuilder> Properties { get; protected set; }
 
         public TypeBuilderRegistryContent()
             : this(null, null, null, null, null, null, null)
@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             SpecialDictionary<string, Dictionary<string, IContentBuilder>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
             SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> tokens,
-            Dictionary<Type, IPropertyBuilderFactory> properties,
+            Dictionary<Type, IPropertyBuilder> properties,
             ILiteralBuilderFactory literalBuilderFactory,
             IContentBuilderFactory genericContentBuilderFactory)
         {
@@ -58,7 +58,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>();
 
             if (properties == null)
-                Properties = new Dictionary<Type, IPropertyBuilderFactory>();
+                Properties = new Dictionary<Type, IPropertyBuilder>();
             else
                 Properties = properties;
 

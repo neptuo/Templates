@@ -138,8 +138,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return null;
             }
 
-            IPropertyBuilderFactory factory = Content.Properties[propertyInfo.Type];
-            return factory.CreateBuilder(propertyInfo);
+            return Content.Properties[propertyInfo.Type];
         }
 
         #endregion
@@ -220,7 +219,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             RegisterObserver(prefix, attributeName, factory);
         }
 
-        public void RegisterPropertyBuilder(Type propertyType, IPropertyBuilderFactory factory)
+        public void RegisterPropertyBuilder(Type propertyType, IPropertyBuilder factory)
         {
             Content.Properties[propertyType] = factory;
         }
