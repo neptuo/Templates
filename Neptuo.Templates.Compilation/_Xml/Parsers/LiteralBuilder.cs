@@ -14,13 +14,13 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class LiteralBuilder : ILiteralBuilder
     {
-        public virtual ICodeObject ParseText(IContentBuilderContext context, string text)
+        public virtual ICodeObject TryParseText(IContentBuilderContext context, string text)
         {
             Guard.NotNull(context, "context");
             return new PlainValueCodeObject(text);
         }
 
-        public virtual ICodeObject ParseComment(IContentBuilderContext context, string commentText)
+        public virtual ICodeObject TryParseComment(IContentBuilderContext context, string commentText)
         {
             Guard.NotNull(context, "context");
             return new CommentCodeObject(commentText);

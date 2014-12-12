@@ -9,6 +9,10 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class RootContentBuilder : ComponentDescriptorBuilder
     {
+        public RootContentBuilder(IPropertyBuilder propertyFactory)
+            : base(propertyFactory)
+        { }
+
         protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             return new RootCodeObject();

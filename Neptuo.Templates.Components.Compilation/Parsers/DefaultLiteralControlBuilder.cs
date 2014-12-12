@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.textProperty = textProperty;
         }
 
-        public override ICodeObject ParseText(IContentBuilderContext context, string text)
+        public override ICodeObject TryParseText(IContentBuilderContext context, string text)
         {
             Guard.NotNull(context, "context");
             return new LiteralCodeObject(literalControlType, textProperty, text);

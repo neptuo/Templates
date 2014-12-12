@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="ITokenBuilderFactory"/>.
     /// </summary>
-    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilderRegistry, ITokenBuilderFactory
+    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilder, ITokenBuilderFactory
     {
         private readonly TypeBuilderRegistry parentRegistry;
 
@@ -56,6 +56,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region Get component
 
+        public ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
+        {
+            return GetComponentBuilder(element.Prefix, element.Name).TryParse(context, element);
+        }
+
         public IContentBuilder GetComponentBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
@@ -63,8 +68,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             if (Content.Components[prefix].ContainsKey(name))
             {
-                IContentBuilderFactory factory = Content.Components[prefix][name];
-                return factory.CreateBuilder(prefix, name);
+                IContentBuilder factory = Content.Components[prefix][name];
+                return factory;
             }
 
             if (parentRegistry != null && parentRegistry.ContainsComponent(prefix, name))
@@ -123,14 +128,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             return Content.LiteralBuilderFactory.CreateBuilder();
         }
 
-        public IEnumerable<NamespaceDeclaration> GetRegisteredNamespaces()
-        {
-            if (parentRegistry != null)
-                return Enumerable.Concat(Content.Namespaces.Values, parentRegistry.GetRegisteredNamespaces());
-
-            return Content.Namespaces.Values;
-        }
-
         public IPropertyBuilder GetPropertyBuilder(IPropertyInfo propertyInfo)
         {
             if (!Content.Properties.ContainsKey(propertyInfo.Type))
@@ -171,14 +168,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region Registration
 
-        protected void RegisterNamespaceInternal(NamespaceDeclaration namespaceDeclaration)
+        protected void RegisterNamespaceInternal(string prefix, string clrNamespace)
         {
-            string prefix = PreparePrefix(namespaceDeclaration.Prefix);
+            prefix = PreparePrefix(prefix);
             if (!Content.Namespaces.ContainsKey(prefix))
-                Content.Namespaces[prefix] = namespaceDeclaration;
+                Content.Namespaces[prefix] = new NamespaceDeclaration() { Prefix = prefix, Namespace = clrNamespace };
         }
 
-        protected void RegisterComponent(string prefix, string tagName, IContentBuilderFactory factory)
+        protected void RegisterComponent(string prefix, string tagName, IContentBuilder factory)
         {
             prefix = PreparePrefix(prefix);
             tagName = PrepareName(tagName, Configuration.ComponentSuffix);
@@ -199,27 +196,27 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.Observers[prefix][tagName] = factory;
         }
 
-        public void RegisterNamespace(NamespaceDeclaration namespaceDeclaration)
+        public void RegisterNamespace(string prefix, string clrNamespace)
         {
-            RegisterNamespaceInternal(namespaceDeclaration);
-            TypeScanner.Scan(namespaceDeclaration.Prefix, namespaceDeclaration.Namespace);
+            RegisterNamespaceInternal(prefix, clrNamespace);
+            TypeScanner.Scan(prefix, clrNamespace);
         }
 
-        public void RegisterComponentBuilder(string prefix, string tagName, IContentBuilderFactory factory)
+        public void RegisterComponentBuilder(string prefix, string tagName, IContentBuilder factory)
         {
-            RegisterNamespaceInternal(new NamespaceDeclaration(prefix, tagName));
+            RegisterNamespaceInternal(prefix, tagName);
             RegisterComponent(prefix, tagName, factory);
         }
 
         public void RegisterExtensionBuilder(string prefix, string tagName, ITokenBuilderFactory factory)
         {
-            RegisterNamespaceInternal(new NamespaceDeclaration(prefix, tagName));
+            RegisterNamespaceInternal(prefix, tagName);
             RegisterToken(prefix, tagName, factory);
         }
 
         public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilderFactory factory)
         {
-            RegisterNamespaceInternal(new NamespaceDeclaration(prefix, attributeName));
+            RegisterNamespaceInternal(prefix, attributeName);
             RegisterObserver(prefix, attributeName, factory);
         }
 
@@ -229,11 +226,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         #endregion
-
-        public IContentBuilderRegistry CreateChildRegistry()
-        {
-            return new TypeBuilderRegistry(this);
-        }
 
         #region Contains
 

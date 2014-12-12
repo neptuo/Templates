@@ -120,8 +120,6 @@
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
     <Compile Include="_Tokens\Parsers\TokenExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
-    <Compile Include="_Xml\IContentBuilderRegistry.cs" />
-    <Compile Include="_Xml\NamespaceDeclaration.cs" />
     <Compile Include="_Xml\Parsers\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />

@@ -46,8 +46,8 @@ namespace TestConsoleNG
                 new DefaultLiteralControlBuilderFactory<LiteralControl>(c => c.Text),
                 new FuncContentBuilderFactory((prefix, name) => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName))
             );
-            builderRegistry.RegisterNamespace(new NamespaceDeclaration("h", "TestConsoleNG.Controls, TestConsoleNG.Components"));
-            builderRegistry.RegisterNamespace(new NamespaceDeclaration(null, "TestConsoleNG.Extensions, TestConsoleNG.Components"));
+            builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components");
+            builderRegistry.RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components");
             builderRegistry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
             builderRegistry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
             builderRegistry.RegisterPropertyBuilder(typeof(string), new DefaultPropertyBuilderFactory<StringPropertyBuilder>());

@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (CanBeUsedInMarkup(type, false))
                 {
                     string name = GetComponentName(type, Configuration.ComponentSuffix);
-                    Content.Components[prefix][name] = CreateFactory<IContentBuilderFactory>(type, CreateDefaultComponentBuilderFactory);
+                    Content.Components[prefix][name] = CreateFactory<IContentBuilder>(type, CreateDefaultComponentBuilderFactory);
                 }
             }
         }
@@ -81,9 +81,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return defaultFactory(type);
         }
 
-        protected virtual IContentBuilderFactory CreateDefaultComponentBuilderFactory(Type type)
+        protected virtual IContentBuilder CreateDefaultComponentBuilderFactory(Type type)
         {
-            return new DefaultTypeComponentBuilderFactory(type);
+            return new DefaultTypeComponentBuilder(type, Configuration.PropertyFactory);
         }
 
         protected virtual ITokenBuilderFactory CreateDefaultTokenBuilderFactory(Type type)

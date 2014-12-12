@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context information.</param>
         /// <param name="text">Text value to parse.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject ParseText(IContentBuilderContext context, string text);
+        ICodeObject TryParseText(IContentBuilderContext context, string text);
 
         /// <summary>
         /// Parses <paramref name="commentText"/> and creates AST for it.
@@ -26,6 +26,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Content information.</param>
         /// <param name="commentText">Text value of comment.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject ParseComment(IContentBuilderContext context, string commentText);
+        ICodeObject TryParseComment(IContentBuilderContext context, string commentText);
     }
 }

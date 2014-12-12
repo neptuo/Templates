@@ -18,13 +18,17 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public partial class XmlContentParser : IContentParser
     {
-        private IContentBuilderRegistry builderRegistry;
+        private readonly IContentBuilder componentFactory;
+        private readonly ILiteralBuilder literalFactory;
 
         public bool UseLinqApi { get; set; }
 
-        public XmlContentParser(IContentBuilderRegistry builderRegistry)
+        public XmlContentParser(IContentBuilder componentFactory, ILiteralBuilder literalFactory)
         {
-            this.builderRegistry = builderRegistry;
+            Guard.NotNull(componentFactory, "componentFactory");
+            Guard.NotNull(literalFactory, "literalFactory");
+            this.componentFactory = componentFactory;
+            this.literalFactory = literalFactory;
         }
 
         public ICodeObject Parse(ISourceContent content, IContentParserContext context)
@@ -34,7 +38,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
 #endif
             IXmlElement documentElement = CreateDocumentRoot(content);
-            ICodeObject codeObject = ProcessNode(new XmlContentBuilderContext(context, this, builderRegistry), documentElement);
+            ICodeObject codeObject = TryProcessNode(new XmlContentBuilderContext(context, this), documentElement);
             //FlushContent(helper); - doesn't respect current parent
 
             return codeObject;
@@ -62,60 +66,28 @@ namespace Neptuo.Templates.Compilation.Parsers
                 observer.Observer.CreateBuilder().Parse(context, codeObject, observer.Attributes);
         }
 
-        public ICodeObject ProcessNode(IContentBuilderContext context, IXmlNode node)
+        public ICodeObject TryProcessNode(IContentBuilderContext context, IXmlNode node)
         {
             if (node.NodeType == XmlNodeType.Element)
             {
                 IXmlElement element = (IXmlElement)node;
-                IContentBuilderRegistry newBuilderRegistry = Utils.CreateChildRegistry(builderRegistry, Utils.GetXmlNsNamespace(element));
-                //if (Utils.NeedsServerProcessing(helper, newBuilderRegistry, element))
-                //{
-                //    FlushContent(helper);
-
-                IContentBuilder builder = builderRegistry.GetComponentBuilder(element.Prefix, element.LocalName);
-                if (builder == null)
-                {
-                    context.AddError(String.Format("Element {0} doesn't have registered builder.", element.Name));
-                    return null;
-                }
-
-                ICodeObject codeObject = builder.Parse(new XmlContentBuilderContext(context.ParserContext, this, newBuilderRegistry), element);
-                return codeObject;
-
-                //}
-                //else if (element.IsEmpty)
-                //{
-                //    helper.FormatEmptyElement(element);
-                //}
-                //else
-                //{
-                //    helper.FormatStartElement(element);
-                //    GenerateRecursive(helper, builderRegistry, element.ChildNodes);
-                //    helper.FormatEndElement(element);
-                //}
+                return componentFactory.TryParse(context, element);
             }
             else if (node.NodeType == XmlNodeType.Text)
             {
                 IXmlText text = (IXmlText)node;
-                return builderRegistry.GetLiteralBuilder().ParseText(new XmlContentBuilderContext(context.ParserContext, this, builderRegistry), text.Text);
+                return literalFactory.TryParseText(context, text.Text);
                 //helper.Content.Append(text.Text);
             }
             else if (node.NodeType == XmlNodeType.Comment)
             {
                 IXmlText text = (IXmlText)node;
-                return builderRegistry.GetLiteralBuilder().ParseComment(new XmlContentBuilderContext(context.ParserContext, this, builderRegistry), text.Text);
+                return literalFactory.TryParseComment(context, text.Text);
                 //helper.Content.Append("<!--" + text.Text + "-->");
             }
             //FlushContent(helper);
 
             throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
-        }
-
-        private void AppendPlainText(string text, IContentBuilderContext context)
-        {
-            //if (String.IsNullOrWhiteSpace(text))
-            //    return;
-            builderRegistry.GetLiteralBuilder().ParseText(new XmlContentBuilderContext(context.ParserContext, this, builderRegistry), text);
         }
 
         #region Creating document
@@ -144,17 +116,17 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             result.Append("<?xml version=\"1.0\" ?>");
             result.Append("<NeptuoTemplatesRoot");
-            foreach (NamespaceDeclaration entry in builderRegistry.GetRegisteredNamespaces())
-            {
-                if (usedPrefixes.Add(entry.Prefix))
-                {
-                    result.AppendFormat(
-                        " xmlns{0}=\"clr-namespace:{1}\"",
-                        String.IsNullOrEmpty(entry.Prefix) ? String.Empty : String.Format(":{0}", entry.Prefix),
-                        entry.Namespace
-                    );
-                }
-            }
+            //foreach (NamespaceDeclaration entry in Enumerable.Empty<NamespaceDeclaration>()) //TODO: Move this to "View Normalizer".
+            //{
+            //    if (usedPrefixes.Add(entry.Prefix))
+            //    {
+            //        result.AppendFormat(
+            //            " xmlns{0}=\"clr-namespace:{1}\"",
+            //            String.IsNullOrEmpty(entry.Prefix) ? String.Empty : String.Format(":{0}", entry.Prefix),
+            //            entry.Namespace
+            //        );
+            //    }
+            //}
             result.Append(">");
             result.Append(content);
             result.Append("</NeptuoTemplatesRoot>");

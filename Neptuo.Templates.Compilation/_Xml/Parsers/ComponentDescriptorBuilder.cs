@@ -19,8 +19,15 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected IComponentDescriptor ComponentDefinition { get; private set; }
         protected IPropertyInfo DefaultProperty { get; private set; }
         protected BindPropertiesContext BindContext { get; private set; }
+        protected IPropertyBuilder PropertyFactory { get; private set; }
 
-        public override ICodeObject Parse(IContentBuilderContext context, IXmlElement element)
+        public ComponentDescriptorBuilder(IPropertyBuilder propertyFactory)
+        {
+            Guard.NotNull(propertyFactory, "propertyFactory");
+            PropertyFactory = propertyFactory;
+        }
+
+        public override ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
         {
             if (isParsing)
                 throw Guard.Exception.InvalidOperation("ComponentDescriptorBuilder can't be reused! Create new instance for every xml tag.");
@@ -41,20 +48,14 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (BindContext.Properties.TryGetValue(name, out propertyInfo))
             {
-                bool result = false;
-                if (context.BuilderRegistry.ContainsProperty(propertyInfo))
+                bool result = PropertyFactory.Parse(context, CodeObject, propertyInfo, value);
+                if (result)
                 {
-                    result = context.BuilderRegistry
-                        .GetPropertyBuilder(propertyInfo)
-                        .Parse(context, CodeObject, propertyInfo, value);
-
-                    if (result)
-                    {
-                        BindContext.BoundProperies.Add(name);
-                        return true;
-                    }
+                    BindContext.BoundProperies.Add(name);
+                    return true;
                 }
 
+                // TODO: All properties through IPropertyBuilder.
                 ICodeObject codeObject = context.ProcessValue(value);
                 if (codeObject != null)
                 {
@@ -96,16 +97,17 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 if (!boundAttribute)
                 {
-                    IObserverRegistration observer = context.BuilderRegistry.GetObserverBuilder(attribute.Prefix, attribute.LocalName);
-                    if (observer != null)
-                    {
-                        if (observer.Scope == ObserverBuilderScope.PerElement && observers.ContainsKey(observer))
-                            observers[observer].Attributes.Add(attribute);
-                        else
-                            observers.Add(observer, attribute);
+                    //TODO: Observers...
+                    //IObserverRegistration observer = context.BuilderRegistry.GetObserverBuilder(attribute.Prefix, attribute.LocalName);
+                    //if (observer != null)
+                    //{
+                    //    if (observer.Scope == ObserverBuilderScope.PerElement && observers.ContainsKey(observer))
+                    //        observers[observer].Attributes.Add(attribute);
+                    //    else
+                    //        observers.Add(observer, attribute);
 
-                        boundAttribute = true;
-                    }
+                    //    boundAttribute = true;
+                    //}
                 }
 
                 if (!boundAttribute)
@@ -153,13 +155,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         protected virtual bool ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
-            if (context.BuilderRegistry.ContainsProperty(propertyInfo))
-            {
-                return context.BuilderRegistry
-                    .GetPropertyBuilder(propertyInfo)
-                    .Parse(context, codeObject, propertyInfo, content);
-            }
+            bool result = PropertyFactory.Parse(context, codeObject, propertyInfo, content);
+            if (result)
+                return true;
 
+            // TODO: All properties through IPropertyBuilder.
             if (typeof(string) == propertyInfo.Type)
             {
                 //Get string and add as plain value
@@ -180,7 +180,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 foreach (IXmlNode node in content)
                 {
-                    ICodeObject valueObject = context.Parser.ProcessNode(context, node);
+                    ICodeObject valueObject = context.Parser.TryProcessNode(context, node);
                     propertyDescriptor.SetValue(valueObject);
                 }
 
@@ -200,7 +200,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                         foreach (IXmlElement node in elements)
                         {
-                            ICodeObject valueObject = context.Parser.ProcessNode(context, node);
+                            ICodeObject valueObject = context.Parser.TryProcessNode(context, node);
                             propertyDescriptor.SetValue(valueObject);
                         }
                         return true;

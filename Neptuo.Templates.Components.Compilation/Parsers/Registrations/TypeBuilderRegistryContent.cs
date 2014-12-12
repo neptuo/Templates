@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public IContentBuilderFactory GenericContentBuilderFactory { get; set; }
 
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
-        public SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>> Components { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, IContentBuilder>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> Tokens { get; protected set; }
         public Dictionary<Type, IPropertyBuilderFactory> Properties { get; protected set; }
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public TypeBuilderRegistryContent(
             Dictionary<string, NamespaceDeclaration> namespaces,
-            SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>> controls,
+            SpecialDictionary<string, Dictionary<string, IContentBuilder>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
             SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> tokens,
             Dictionary<Type, IPropertyBuilderFactory> properties,
@@ -43,9 +43,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Namespaces = new Dictionary<string, NamespaceDeclaration>();
 
             if (controls != null)
-                Components = new SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>>(controls);
+                Components = new SpecialDictionary<string, Dictionary<string, IContentBuilder>>(controls);
             else
-                Components = new SpecialDictionary<string, Dictionary<string, IContentBuilderFactory>>();
+                Components = new SpecialDictionary<string, Dictionary<string, IContentBuilder>>();
 
             if (observers != null)
                 Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>(observers);
@@ -88,5 +88,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                 : base(dictionary)
             { }
         }
+    }
+
+    public class NamespaceDeclaration
+    {
+        public string Prefix { get; set; }
+        public string Namespace { get; set; }
     }
 }

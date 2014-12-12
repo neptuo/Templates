@@ -28,7 +28,7 @@ namespace TestConsoleNG.Controls
 
             foreach (IXmlNode node in content)
             {
-                ICodeObject valueObject = context.Parser.ProcessNode(context, node);
+                ICodeObject valueObject = context.Parser.TryProcessNode(context, node);
                 propertyDescriptor.SetValue(valueObject);
             }
 
