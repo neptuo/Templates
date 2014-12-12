@@ -13,7 +13,7 @@ namespace TestConsoleNG.Controls
     /// <summary>
     /// Controls extends this class support tag name specified in <see cref="ComponentAttribute"/>.
     /// </summary>
-    public abstract class BaseControl : IControl, IHasHtmlAttributeCollection
+    public abstract class BaseControl : IControl, IHtmlAttributeCollectionAware
     {
         private string tagName;
         private bool? isSelfClosing;

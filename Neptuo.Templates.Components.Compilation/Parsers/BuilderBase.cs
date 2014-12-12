@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public static class BuilderBase
     {
-        private static string htmlAttributesPropertyName = TypeHelper.PropertyName<IHasHtmlAttributeCollection, HtmlAttributeCollection>(c => c.HtmlAttributes);
+        private static string htmlAttributesPropertyName = TypeHelper.PropertyName<IHtmlAttributeCollectionAware, HtmlAttributeCollection>(c => c.HtmlAttributes);
 
         private static DictionaryAddPropertyDescriptor CreatePropertyDescriptor(ITypeCodeObject typeCodeObject)
         {
@@ -24,11 +24,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Binds attribute <paramref name="name"/> to component of type <see cref="IHasHtmlAttributeCollection"/> and parses <paramref name="value"/> using value parsers.
+        /// Binds attribute <paramref name="name"/> to component of type <see cref="IHtmlAttributeCollectionAware"/> and parses <paramref name="value"/> using value parsers.
         /// </summary>
         public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, ISourceContent value)
         {
-            if (typeof(IHasHtmlAttributeCollection).IsAssignableFrom(typeCodeObject.Type))
+            if (typeof(IHtmlAttributeCollectionAware).IsAssignableFrom(typeCodeObject.Type))
             {
                 DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(name));
@@ -46,11 +46,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Binds attribute <paramref name="name"/> to component of type <see cref="IHasHtmlAttributeCollection"/> and parses <paramref name="value"/>.
+        /// Binds attribute <paramref name="name"/> to component of type <see cref="IHtmlAttributeCollectionAware"/> and parses <paramref name="value"/>.
         /// </summary>
         public static bool BindAttributeCollection(IContentBuilderContext context, ITypeCodeObject typeCodeObject, IPropertiesCodeObject propertiesCodeObject, string name, ICodeObject value)
         {
-            if (typeof(IHasHtmlAttributeCollection).IsAssignableFrom(typeCodeObject.Type))
+            if (typeof(IHtmlAttributeCollectionAware).IsAssignableFrom(typeCodeObject.Type))
             {
                 DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(name));

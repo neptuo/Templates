@@ -8,7 +8,7 @@ namespace Neptuo.Templates
     /// <summary>
     /// Enables setting attributes.
     /// </summary>
-    public interface IHasHtmlAttributeCollection
+    public interface IHtmlAttributeCollectionAware
     {
         /// <summary>
         /// Collection of custom HTML attibutes.

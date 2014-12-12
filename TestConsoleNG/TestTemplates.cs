@@ -34,7 +34,6 @@ namespace TestConsoleNG
         static TestTemplates()
         {
             container = new UnityDependencyContainer();
-            container.RegisterInstance<IFileProvider>(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
             container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
             container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
             container.RegisterType<IViewServiceContext, DefaultViewServiceContext>();
@@ -118,7 +117,7 @@ namespace TestConsoleNG
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
-            container.RegisterInstance<INaming>(new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory))).FromFile("Index.html"));
+            container.RegisterInstance<INaming>(new DefaultNaming("Index.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Index", "Index.dll"));
 
             ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);

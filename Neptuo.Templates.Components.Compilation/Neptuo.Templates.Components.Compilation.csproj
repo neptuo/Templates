@@ -51,12 +51,9 @@
     <Compile Include="CodeGenerators\CodeDomRootGenerator.cs" />
     <Compile Include="CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="CodeObjects\RootCodeObject.cs" />
-    <Compile Include="IFileProvider.cs" />
     <Compile Include="Parsers\RootComponentDescriptor.cs" />
-    <Compile Include="NamingServiceBase.cs" />
     <Compile Include="BuilderAttribute.cs" />
     <Compile Include="CodeGenerators\CodeDomDictionaryAddPropertyGenerator.cs" />
-    <Compile Include="CodeGenerators\CodeDomGeneratorServiceContext.cs" />
     <Compile Include="CodeGenerators\CodeTypeMemberCollectionExtensions.cs" />
     <Compile Include="CodeGenerators\IFieldNameProvider.cs" />
     <Compile Include="CodeGenerators\SequenceFieldNameProvider.cs" />
@@ -81,8 +78,6 @@
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="ComponentAttribute.cs" />
-    <Compile Include="FileProvider.cs" />
-    <Compile Include="NotifyList.cs" />
     <Compile Include="Parsers\DefaultLiteralControlBuilderFactory.cs" />
     <Compile Include="Parsers\DependencyPropertyBuilderFactory.cs" />
     <Compile Include="Parsers\FuncContentBuilderFactory.cs" />
@@ -102,7 +97,6 @@
     <Compile Include="Parsers\TypeBuilderRegistryContent.cs" />
     <Compile Include="Parsers\TypeBuilderRegistryException.cs" />
     <Compile Include="Parsers\TypeScanner.cs" />
-    <Compile Include="HashNamingService.cs" />
     <Compile Include="Parsers\TypeBuilderRegistry.cs" />
     <Compile Include="Parsers\TypeComponentBuilder.cs" />
     <Compile Include="Parsers\TypeObserverBuilder.cs" />
@@ -122,7 +116,6 @@
     <Compile Include="_CodeDom\CodeGenerators\CodeDomDependencyContext.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomGenerator.Context.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomGenerator.cs" />
-    <Compile Include="_CodeDom\CodeGenerators\CodeDomGeneratorContext.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomObjectGeneratorBase.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomPropertyContext.cs" />
     <Compile Include="_CodeDom\CodeGenerators\CodeDomPropertyGeneratorBase.cs" />
@@ -137,9 +130,7 @@
     <Compile Include="_CodeDom\CodeGenerators\ICodeDomPropertyTypeGenerator.cs" />
     <Compile Include="_CodeDom\CodeGenerators\ICodeDomStructureGenerator.cs" />
     <Compile Include="_CodeDom\DefaultNaming.cs" />
-    <Compile Include="_CodeDom\IINaming.cs" />
-    <Compile Include="_CodeDom\INamingContext.cs" />
-    <Compile Include="_CodeDom\INamingService.cs" />
+    <Compile Include="_CodeDom\INaming.cs" />
     <Compile Include="_CodeDom\PostProcessing\CodeDomVisitorContext.cs" />
     <Compile Include="_CodeDom\PostProcessing\ICodeDomVisitor.cs" />
     <Compile Include="_CodeDom\PostProcessing\ICodeDomVisitorContext.cs" />

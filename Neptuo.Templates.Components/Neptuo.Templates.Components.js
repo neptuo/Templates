@@ -871,15 +871,15 @@ var Neptuo$Templates$HtmlTextWriterException = {
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$HtmlTextWriterException);
-var Neptuo$Templates$IHasHtmlAttributeCollection = {
-    fullname: "Neptuo.Templates.IHasHtmlAttributeCollection",
+var Neptuo$Templates$IHtmlAttributeCollectionAware = {
+    fullname: "Neptuo.Templates.IHtmlAttributeCollectionAware",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Interface",
     ctors: [],
     IsAbstract: true
 };
-JsTypes.push(Neptuo$Templates$IHasHtmlAttributeCollection);
+JsTypes.push(Neptuo$Templates$IHtmlAttributeCollectionAware);
 var Neptuo$Templates$Controls$IContentControl = {
     fullname: "Neptuo.Templates.Controls.IContentControl",
     baseTypeName: "System.Object",

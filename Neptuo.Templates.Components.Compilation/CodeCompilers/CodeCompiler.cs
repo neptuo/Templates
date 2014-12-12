@@ -62,6 +62,9 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
             Assembly assembly = ReflectionFactory.FromCurrentAppDomain().LoadAssembly(assemblyFile);
             Type generatedType = assembly.GetType(typeFullName);
 
+            if (generatedType == null)
+                return null;
+
             object instance = Activator.CreateInstance(generatedType);
             return instance;
         }

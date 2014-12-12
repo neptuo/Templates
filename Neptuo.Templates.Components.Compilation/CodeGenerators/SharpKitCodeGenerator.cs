@@ -29,27 +29,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public bool ProcessTree(ICodeObject codeObject, ICodeGeneratorContext context)
         {
             StringWriter innerOutput = new StringWriter();
-            ICodeGeneratorContext innerContext = null;
-            INamingContext namingContext = context as INamingContext;
-            if (namingContext != null)
-            {
-                innerContext = new CodeDomGeneratorContext(
-                    namingContext.Naming,
-                    innerOutput,
-                    context.CodeGeneratorService,
-                    context.DependencyProvider,
-                    context.Errors
-                );
-            }
-            else
-            {
-                innerContext = new DefaultCodeGeneratorContext(
-                    innerOutput,
-                    context.CodeGeneratorService,
-                    context.DependencyProvider,
-                    context.Errors
-                );
-            }
+            ICodeGeneratorContext innerContext = new DefaultCodeGeneratorContext(
+                innerOutput,
+                context.CodeGeneratorService,
+                context.DependencyProvider,
+                context.Errors
+            );
 
             if (!InnerGenerator.ProcessTree(codeObject, innerContext))
                 return false;
