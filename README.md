@@ -9,4 +9,4 @@ The framework is composed from three projects:
 
 **Neptuo.Templates.Components** is one of possible implementations for the structure of compiled template. In these implementation every xml element is compiled to registered class and this class is instantiated by the framework.
 
-**Neptuo.Templates.Components.Compilation** is backing project for support of **Neptuo.Templates.Components**.
+**Neptuo.Templates.Components.Compilation** is backing project for support of *Neptuo.Templates.Components*.
