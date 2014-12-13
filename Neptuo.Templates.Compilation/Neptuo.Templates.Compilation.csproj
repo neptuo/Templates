@@ -121,16 +121,16 @@
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
     <Compile Include="_Xml\Parsers\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\ComponentDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\ContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\IComponentDescriptor.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverBuilder.cs" />
-    <Compile Include="_Xml\Parsers\IObserverDescriptor.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\IObserverDescriptor.cs" />
     <Compile Include="_Xml\Parsers\IPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\IXmlAttribute.cs" />
     <Compile Include="_Xml\Parsers\IXmlElement.cs" />
@@ -139,7 +139,7 @@
     <Compile Include="_Xml\Parsers\IXmlText.cs" />
     <Compile Include="_Tokens\Parsers\NotSupportedTokenBuilder.cs" />
     <Compile Include="_Xml\Parsers\NotSupportedContentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\ObserverDescriptorBuilder.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\ObserverDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\XDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
@@ -148,9 +148,7 @@
     <Compile Include="_Xml\Parsers\XmlExtensions.cs" />
     <Compile Include="_Xml\XmlContentParserException.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="_Xml\Parsers\Descriptors\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
