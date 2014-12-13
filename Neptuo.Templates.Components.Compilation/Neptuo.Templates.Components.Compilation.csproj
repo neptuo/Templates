@@ -82,7 +82,6 @@
     <Compile Include="Parsers\DefaultTokenBuilder.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilderFactory.cs" />
     <Compile Include="Parsers\DefaultTypeObserverRegistration.cs" />
-    <Compile Include="Parsers\IObserverBuilderFactory.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyInfo.cs" />
     <Compile Include="Parsers\DefaultLiteralControlBuilder.cs" />
     <Compile Include="Parsers\RootContentBuilder.cs" />

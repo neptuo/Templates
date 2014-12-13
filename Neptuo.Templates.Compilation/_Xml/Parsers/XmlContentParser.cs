@@ -60,12 +60,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 #endif
         }
 
-        public void AttachObservers(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<ObserverCollection.ItemValue> observers)
-        {
-            foreach (ObserverCollection.ItemValue observer in observers)
-                observer.Observer.CreateBuilder().Parse(context, codeObject, observer.Attributes);
-        }
-
         public ICodeObject TryProcessNode(IContentBuilderContext context, IXmlNode node)
         {
             if (node.NodeType == XmlNodeType.Element)

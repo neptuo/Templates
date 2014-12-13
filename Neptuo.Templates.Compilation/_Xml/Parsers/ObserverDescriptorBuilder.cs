@@ -7,37 +7,81 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    public enum ObserverBuilderScope
+    {
+        /// <summary>
+        /// One instance per attribute.
+        /// </summary>
+        PerAttribute,
+
+        /// <summary>
+        /// One instance per all attributes on component.
+        /// </summary>
+        PerElement,
+
+        /// <summary>
+        /// Singleton per document.
+        /// </summary>
+        PerDocument
+    }
+
     /// <summary>
     /// Base builder for observer which operates on <see cref="IObserverDescriptor"/>.
     /// </summary>
     public abstract class ObserverDescriptorBuilder : IObserverBuilder
     {
-        public void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
-        {
-            IObserverCodeObject observerObject = CreateCodeObject(context, attributes);
-            IObserverDescriptor observerDefinition = GetObserverDefinition(context, codeObject, attributes);
-            codeObject.Observers.Add(observerObject);
+        protected ObserverBuilderScope Scope { get; private set; }
+        protected IPropertyBuilder PropertyFactory { get; private set; }
 
-            BindProperties(context, new BindPropertiesContext(observerDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant())), observerObject, attributes);
+        public ObserverDescriptorBuilder(ObserverBuilderScope scope, IPropertyBuilder propertyFactory)
+        {
+            Guard.NotNull(propertyFactory, "propertyFactory");
+            Scope = scope;
+            PropertyFactory = propertyFactory;
         }
 
-        protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes);
-        protected abstract IObserverDescriptor GetObserverDefinition(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
+        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        {
+            switch (Scope)
+            {
+                case ObserverBuilderScope.PerAttribute:
+                case ObserverBuilderScope.PerDocument:
+                    // Just append observer.
+                    break;
+                case ObserverBuilderScope.PerElement:
+                    // Check to update existing or append.
+                    break;
+            }
 
-        protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
-        protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
+            //IObserverCodeObject observerObject = CreateCodeObject(context, attribute);
+            //IObserverDescriptor observerDefinition = GetObserverDescriptor(context, codeObject, attribute);
+            //codeObject.Observers.Add(observerObject);
 
-        protected virtual void BindProperties(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
+            //TryBindProperties(context, new BindPropertiesContext(observerDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant())), observerObject, attribute);
+            return false;
+        }
+
+        protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
+        protected abstract IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
+
+        protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
+
+        protected virtual bool TryBindProperties(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
             // Bind attributes
-            BindAttributes(context, bindContext, codeObject, attributes);
+            if (!TryBindAttributes(context, bindContext, codeObject, attributes))
+                return false;
 
             // Process unbound attributes
-            ProcessUnboundAttributes(context, codeObject, bindContext.UnboundAttributes);
+            if (!ProcessUnboundAttributes(context, codeObject, bindContext.UnboundAttributes))
+                return false;
+
+            return true;
         }
 
-        protected virtual void BindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
+        protected virtual bool TryBindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
         {
+            bool result = true;
             // Bind attributes
             foreach (IXmlAttribute attribute in attributes)
             {
@@ -45,27 +89,30 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo propertyInfo;
                 if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
                 {
-                    IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                    ICodeObject valueObject = context.ProcessValue(attribute);
-
-                    if (valueObject != null)
+                    bool boundAttribute = PropertyFactory.TryParse(context, codeObject, propertyInfo, attribute.GetValue());
+                    if (boundAttribute)
                     {
-                        propertyDescriptor.SetValue(valueObject);
-                        codeObject.Properties.Add(propertyDescriptor);
                         bindContext.BoundProperies.Add(attributeName);
+                        continue;
                     }
-                    else
+
+                    if (!boundAttribute)
                     {
                         bindContext.UnboundAttributes.Add(attribute);
+                        result = false;
                     }
                 }
                 else
                 {
                     bindContext.UnboundAttributes.Add(attribute);
+                    return false;
                 }
             }
+
+            return result;
         }
 
-        protected abstract void ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<IXmlAttribute> unboundAttributes);
+        protected abstract bool ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<IXmlAttribute> unboundAttributes);
+
     }
 }

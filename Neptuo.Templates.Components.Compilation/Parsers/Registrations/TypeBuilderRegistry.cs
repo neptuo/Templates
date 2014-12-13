@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="ITokenBuilderFactory"/>.
     /// </summary>
-    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilder, ILiteralBuilder, ITokenBuilder, IPropertyBuilder
+    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilder, ILiteralBuilder, ITokenBuilder, IPropertyBuilder, IObserverBuilder
     {
         private readonly TypeBuilderRegistry parentRegistry;
 
@@ -95,30 +95,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             return GetGenericContentBuilder(name);
         }
 
-        public IObserverRegistration GetObserverBuilder(string prefix, string name)
-        {
-            prefix = PreparePrefix(prefix);
-            name = PrepareName(name, Configuration.ComponentSuffix);
-
-            if (!Content.Observers.ContainsKey(prefix))
-                return null;
-
-            IObserverBuilderFactory factory = null;
-
-            if (Content.Observers[prefix].ContainsKey(name))
-                factory = Content.Observers[prefix][name];
-            else if (Content.Observers[prefix].ContainsKey(Configuration.ObserverWildcard))
-                factory = Content.Observers[prefix][Configuration.ObserverWildcard];
-
-            if (factory != null)
-                return factory.CreateBuilder(prefix, name);
-
-            if (parentRegistry != null)
-                return parentRegistry.GetObserverBuilder(prefix, name);
-
-            return null;
-        }
-
         public IContentBuilder GetGenericContentBuilder(string name)
         {
             if (Content.GenericContentBuilderFactory == null)
@@ -130,6 +106,43 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
 
             return Content.GenericContentBuilderFactory;
+        }
+
+        #endregion
+
+        #region IObserverBuilder
+
+        bool IObserverBuilder.TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        {
+            IObserverBuilder observerBuilder = GetObserverBuilder(attribute.Prefix, attribute.LocalName);
+            if (observerBuilder == null)
+                return false;
+
+            return observerBuilder.TryParse(context, codeObject, attribute);
+        }
+
+        public IObserverBuilder GetObserverBuilder(string prefix, string name)
+        {
+            prefix = PreparePrefix(prefix);
+            name = PrepareName(name, Configuration.ComponentSuffix);
+
+            if (!Content.Observers.ContainsKey(prefix))
+                return null;
+
+            IObserverBuilder factory = null;
+
+            if (Content.Observers[prefix].ContainsKey(name))
+                factory = Content.Observers[prefix][name];
+            else if (Content.Observers[prefix].ContainsKey(Configuration.ObserverWildcard))
+                factory = Content.Observers[prefix][Configuration.ObserverWildcard];
+
+            if (factory != null)
+                return factory;
+
+            if (parentRegistry != null)
+                return parentRegistry.GetObserverBuilder(prefix, name);
+
+            return null;
         }
 
         #endregion
@@ -345,8 +358,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             return new TypeScanner(Configuration, Content, this);
         }
-
-
     }
 
 }

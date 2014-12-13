@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IContentBuilder>> Components { get; protected set; }
-        public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, IObserverBuilder>> Observers { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, ITokenBuilder>> Tokens { get; protected set; }
         public Dictionary<Type, IPropertyBuilder> Properties { get; protected set; }
 
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public TypeBuilderRegistryContent(
             Dictionary<string, NamespaceDeclaration> namespaces,
             SpecialDictionary<string, Dictionary<string, IContentBuilder>> controls,
-            SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
+            SpecialDictionary<string, Dictionary<string, IObserverBuilder>> observers,
             SpecialDictionary<string, Dictionary<string, ITokenBuilder>> tokens,
             Dictionary<Type, IPropertyBuilder> properties,
             ILiteralBuilder literalBuilderFactory,
@@ -48,9 +48,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Components = new SpecialDictionary<string, Dictionary<string, IContentBuilder>>();
 
             if (observers != null)
-                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>(observers);
+                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilder>>(observers);
             else
-                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>();
+                Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilder>>();
 
             if (tokens != null)
                 Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilder>>(tokens);

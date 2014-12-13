@@ -20,11 +20,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected IPropertyInfo DefaultProperty { get; private set; }
         protected BindPropertiesContext BindContext { get; private set; }
         protected IPropertyBuilder PropertyFactory { get; private set; }
+        protected IObserverBuilder ObserverFactory { get; private set; }
 
-        public ComponentDescriptorBuilder(IPropertyBuilder propertyFactory)
+        public ComponentDescriptorBuilder(IPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
         {
             Guard.NotNull(propertyFactory, "propertyFactory");
+            Guard.NotNull(observerFactory, "observerFactory");
             PropertyFactory = propertyFactory;
+            ObserverFactory = observerFactory;
         }
 
         public override ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
@@ -76,7 +79,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             bool result = true;
             List<IXmlAttribute> usedAttributes = new List<IXmlAttribute>();
-            ObserverCollection observers = new ObserverCollection();
             foreach (IXmlAttribute attribute in unboundAttributes)
             {
                 bool boundAttribute = false;
@@ -86,28 +88,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                     boundAttribute = true;
 
                 // Try process as observer.
-                if (!boundAttribute)
-                {
-                    //TODO: Observers...
-                    //IObserverRegistration observer = context.BuilderRegistry.GetObserverBuilder(attribute.Prefix, attribute.LocalName);
-                    //if (observer != null)
-                    //{
-                    //    if (observer.Scope == ObserverBuilderScope.PerElement && observers.ContainsKey(observer))
-                    //        observers[observer].Attributes.Add(attribute);
-                    //    else
-                    //        observers.Add(observer, attribute);
+                if (!boundAttribute && ObserverFactory.TryParse(context, CodeObject, attribute))
+                    boundAttribute = true;
 
-                    //    boundAttribute = true;
-                    //}
-                }
-
-                // Call be if attribute was not bound.
+                // Call base if attribute was not bound.
                 if (!boundAttribute && !ProcessUnboundAttribute(context, attribute))
                     result = false;
             }
 
-            // Process created observers.
-            context.Parser.AttachObservers(context, CodeObject, observers);
             return result;
         }
 

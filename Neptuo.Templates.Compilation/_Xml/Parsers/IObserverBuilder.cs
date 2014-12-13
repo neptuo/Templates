@@ -16,28 +16,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context information.</param>
         /// <param name="codeObject">Target component.</param>
-        /// <param name="attributes">List attributes for observer.</param>
-        void Parse(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
-    }
-
-    /// <summary>
-    /// Observer instance scope.
-    /// </summary>
-    public enum ObserverBuilderScope
-    {
-        /// <summary>
-        /// One instance per attribute.
-        /// </summary>
-        PerAttribute, 
-        
-        /// <summary>
-        /// One instance per all attributes on component.
-        /// </summary>
-        PerElement, 
-       
-        /// <summary>
-        /// Singleton per document.
-        /// </summary>
-        PerDocument
+        /// <param name="attributes">Attribute to be processed by this builder.</param>
+        /// <returns><c>true</c> if processing was successfull; <c>false</c> otherwise.</returns>
+        bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
     }
 }

@@ -131,7 +131,6 @@
     <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverDescriptor.cs" />
-    <Compile Include="_Xml\Parsers\IObserverRegistration.cs" />
     <Compile Include="_Xml\Parsers\IPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\IXmlAttribute.cs" />
     <Compile Include="_Xml\Parsers\IXmlElement.cs" />
@@ -144,11 +143,13 @@
     <Compile Include="_Xml\Parsers\XDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
-    <Compile Include="_Xml\Parsers\ObserverList.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="_Xml\Parsers\XmlDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlExtensions.cs" />
     <Compile Include="_Xml\XmlContentParserException.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="_Xml\Parsers\Descriptors\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
