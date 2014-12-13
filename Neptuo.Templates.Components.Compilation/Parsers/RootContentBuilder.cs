@@ -23,11 +23,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new RootComponentDescriptor();
         }
 
-        protected override IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo)
-        {
-            return new ListAddPropertyDescriptor(ComponentDefinition.GetDefaultProperty());
-        }
-
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
             return base.TryBindProperty(context, prefix, name, value);

@@ -54,17 +54,6 @@ namespace Neptuo.Templates.Compilation.Parsers
                     BindContext.BoundProperies.Add(name);
                     return true;
                 }
-
-                // TODO: All properties through IPropertyBuilder.
-                ICodeObject codeObject = context.ProcessValue(value);
-                if (codeObject != null)
-                {
-                    IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                    propertyDescriptor.SetValue(codeObject);
-                    CodeObject.Properties.Add(propertyDescriptor);
-                    BindContext.BoundProperies.Add(name);
-                    return true;
-                }
             }
 
             return false;
@@ -92,9 +81,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 bool boundAttribute = false;
 
+                // TODO: Process xmlns registration.
                 if (attribute.Prefix.ToLowerInvariant() == "xmlns")
                     boundAttribute = true;
 
+                // Try process as observer.
                 if (!boundAttribute)
                 {
                     //TODO: Observers...
@@ -110,13 +101,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                     //}
                 }
 
-                if (!boundAttribute)
-                {
-                    if (!ProcessUnboundAttribute(context, attribute))
-                        result = false;
-                }
+                // Call be if attribute was not bound.
+                if (!boundAttribute && !ProcessUnboundAttribute(context, attribute))
+                    result = false;
             }
 
+            // Process created observers.
             context.Parser.AttachObservers(context, CodeObject, observers);
             return result;
         }
@@ -145,86 +135,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
 
-        /// <summary>
-        /// Should create property descriptor for <paramref name="propertyInfo"/>.
-        /// </summary>
-        protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
-
-        /// <summary>
-        /// Some magic logic to create right proproperty descriptors for right property types.
-        /// </summary>
         protected virtual bool ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             bool result = PropertyFactory.TryParse(context, codeObject, propertyInfo, content);
             if (result)
                 return true;
 
-            // TODO: All properties through IPropertyBuilder.
-            if (typeof(string) == propertyInfo.Type)
-            {
-                //Get string and add as plain value
-                StringBuilder contentValue = new StringBuilder();
-                foreach (IXmlNode node in content)
-                    contentValue.Append(node.OuterXml);
-
-                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
-                codeObject.Properties.Add(propertyDescriptor);
-                return true;
-            }
-            else if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type))
-            {
-                //Collection item
-                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                codeObject.Properties.Add(propertyDescriptor);
-
-                foreach (IXmlNode node in content)
-                {
-                    ICodeObject valueObject = context.Parser.TryProcessNode(context, node);
-                    propertyDescriptor.SetValue(valueObject);
-                }
-
-                return true;
-            }
-            else
-            {
-                // Count elements
-                IEnumerable<IXmlElement> elements = content.OfType<IXmlElement>();
-                if (elements.Any())
-                {
-                    // One IXmlElement is ok
-                    if (elements.Count() == 1)
-                    {
-                        IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                        codeObject.Properties.Add(propertyDescriptor);
-
-                        foreach (IXmlElement node in elements)
-                        {
-                            ICodeObject valueObject = context.Parser.TryProcessNode(context, node);
-                            propertyDescriptor.SetValue(valueObject);
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        IXmlElement element = elements.ElementAt(1);
-                        context.AddError(element, "Property supports only single value.");
-                        return false;
-                    }
-                }
-                else
-                {
-                    //Get string and add as plain value
-                    StringBuilder contentValue = new StringBuilder();
-                    foreach (IXmlNode node in content)
-                        contentValue.Append(node.OuterXml);
-
-                    IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                    propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
-                    codeObject.Properties.Add(propertyDescriptor);
-                    return true;
-                }
-            }
+            return false;
         }
     }
 }

@@ -167,7 +167,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             IPropertyBuilder propertyBuilder = GetPropertyBuilder(propertyInfo);
             if (propertyBuilder == null)
-                return false;
+                propertyBuilder = new TypeDefaultPropertyBuilder();
 
             return propertyBuilder.TryParse(context, codeObject, propertyInfo, content);
         }

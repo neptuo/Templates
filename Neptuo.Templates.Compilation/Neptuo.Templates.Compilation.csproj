@@ -123,6 +123,7 @@
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\ComponentDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\ContentBuilderContextExtensions.cs" />
+    <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
     <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />

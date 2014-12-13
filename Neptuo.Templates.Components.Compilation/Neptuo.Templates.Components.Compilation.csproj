@@ -92,6 +92,7 @@
     <Compile Include="Parsers\Registrations\TypeScanner.cs" />
     <Compile Include="Parsers\Registrations\TypeBuilderRegistry.cs" />
     <Compile Include="Parsers\TypeComponentBuilder.cs" />
+    <Compile Include="Parsers\TypeDefaultPropertyBuilder.cs" />
     <Compile Include="Parsers\TypeObserverBuilder.cs" />
     <Compile Include="Parsers\DefaultTypeComponentBuilder.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilder.cs" />
