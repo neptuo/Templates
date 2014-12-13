@@ -18,6 +18,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
 using TestConsoleNG.Controls;
 using TestConsoleNG.Data;
 using TestConsoleNG.Extensions;
@@ -27,6 +29,18 @@ using TestConsoleNG.Unity;
 
 namespace TestConsoleNG
 {
+    public class MyXmlNamespaceManager : XmlNamespaceManager
+    {
+        public MyXmlNamespaceManager()
+            : base(new NameTable())
+        { }
+
+        public override string LookupNamespace(string prefix)
+        {
+            return "template-" + prefix;
+        }
+    }
+
     public static class TestTemplates
     {
         private static IDependencyContainer container;
@@ -41,6 +55,26 @@ namespace TestConsoleNG
 
         public static void Test()
         {
+            string xml = @"<?xml version='1.0'?>
+<div><x:root></x:root></div>";
+
+            XmlNamespaceManager mgr = new MyXmlNamespaceManager();
+
+            XmlParserContext ctx = new XmlParserContext(null, mgr, null, XmlSpace.Preserve);
+            using (XmlReader reader = XmlReader.Create(new StringReader(xml), null, ctx))
+            {
+                XDocument document = XDocument.Load(reader);
+                Console.WriteLine(document);
+                //XmlDocument doc = new XmlDocument();
+                //doc.Load(reader);
+            }
+
+
+
+
+
+
+
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
                 new TypeBuilderRegistryConfiguration(container, null),//.AddComponentSuffix("presenter"),
                 new DefaultLiteralControlBuilderFactory<LiteralControl>(c => c.Text),
