@@ -67,9 +67,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (!BindContext.BoundProperies.Contains(name) && BindContext.Properties.TryGetValue(name, out propertyInfo))
             {
-                ResolvePropertyValue(context, CodeObject, propertyInfo, value);
-                BindContext.BoundProperies.Add(name);
-                return true;
+                bool result = PropertyFactory.TryParse(context, CodeObject, propertyInfo, value);
+                if (result)
+                {
+                    BindContext.BoundProperies.Add(name);
+                    BindContext.IsBoundFromContent = true;
+                    return true;
+                }
             }
 
             return false;
@@ -103,9 +107,23 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             if (unboundNodes.Any())
             {
+                // If at least one property was bound from content element, default property is not supported.
+                if (BindContext.IsBoundFromContent)
+                {
+                    context.AddError(unboundNodes.First(), "If at least one property was bound from content element, default property is not supported.");
+                    return false;
+                }
+
                 // Bind content elements
                 if (DefaultProperty != null && !BindContext.BoundProperies.Contains(DefaultProperty.Name.ToLowerInvariant()))
-                    return ResolvePropertyValue(context, CodeObject, DefaultProperty, unboundNodes);
+                {
+                    bool result = PropertyFactory.TryParse(context, CodeObject, DefaultProperty, unboundNodes);
+                    if (result)
+                    {
+                        BindContext.BoundProperies.Add(DefaultProperty.Name);
+                        return true;
+                    }
+                }
 
                 return false;
             }
@@ -122,14 +140,5 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Gets current component definition.
         /// </summary>
         protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
-
-        protected virtual bool ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
-        {
-            bool result = PropertyFactory.TryParse(context, codeObject, propertyInfo, content);
-            if (result)
-                return true;
-
-            return false;
-        }
     }
 }

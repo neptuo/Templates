@@ -36,6 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ITypeCodeObject typeCodeObject = CodeObject as ITypeCodeObject;
             if (typeCodeObject != null)
             {
+                //TODO: Realize using observer!
                 BuilderBase.BindAttributeCollection(context, typeCodeObject, CodeObject, attribute.LocalName, attribute.GetValue());
                 return true;
             }

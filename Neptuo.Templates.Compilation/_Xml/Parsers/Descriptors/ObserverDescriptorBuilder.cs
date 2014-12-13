@@ -64,55 +64,38 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
         protected abstract IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
 
-        protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
-
-        protected virtual bool TryBindProperties(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
+        protected virtual bool TryBindProperty(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
-            // Bind attributes
-            if (!TryBindAttributes(context, bindContext, codeObject, attributes))
+            // Bind attribute
+            if (!TryBindAttribute(context, bindContext, codeObject, attribute))
                 return false;
 
-            // Process unbound attributes
-            if (!ProcessUnboundAttributes(context, codeObject, bindContext.UnboundAttributes))
+            // Process unbound attribute
+            if (!ProcessUnboundAttribute(context, codeObject, attribute))
                 return false;
 
             return true;
         }
 
-        protected virtual bool TryBindAttributes(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
+        protected virtual bool TryBindAttribute(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
-            bool result = true;
-            // Bind attributes
-            foreach (IXmlAttribute attribute in attributes)
+            string attributeName = attribute.LocalName.ToLowerInvariant();
+            IPropertyInfo propertyInfo;
+            if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
             {
-                string attributeName = attribute.LocalName.ToLowerInvariant();
-                IPropertyInfo propertyInfo;
-                if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
+                bool boundAttribute = PropertyFactory.TryParse(context, codeObject, propertyInfo, attribute.GetValue());
+                if (boundAttribute)
                 {
-                    bool boundAttribute = PropertyFactory.TryParse(context, codeObject, propertyInfo, attribute.GetValue());
-                    if (boundAttribute)
-                    {
-                        bindContext.BoundProperies.Add(attributeName);
-                        continue;
-                    }
+                    bindContext.BoundProperies.Add(attributeName);
+                    return true;
+                }
 
-                    if (!boundAttribute)
-                    {
-                        bindContext.UnboundAttributes.Add(attribute);
-                        result = false;
-                    }
-                }
-                else
-                {
-                    bindContext.UnboundAttributes.Add(attribute);
-                    return false;
-                }
             }
 
-            return result;
+            bindContext.UnboundAttributes.Add(attribute);
+            return false;
         }
 
-        protected abstract bool ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<IXmlAttribute> unboundAttributes);
-
+        protected abstract bool ProcessUnboundAttribute(IContentBuilderContext context, IObserverCodeObject codeObject, IXmlAttribute unboundAttribute);
     }
 }

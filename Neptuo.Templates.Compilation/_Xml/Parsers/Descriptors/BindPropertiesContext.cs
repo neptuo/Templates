@@ -28,6 +28,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         public List<IXmlAttribute> UnboundAttributes { get; private set; }
 
         /// <summary>
+        /// Whether at least one property was bound from content element.
+        /// </summary>
+        public bool IsBoundFromContent { get; set; }
+
+        /// <summary>
         /// Creates new instance with <paramref name="properties"/> as list of all available properties.
         /// </summary>
         /// <param name="properties">List of all properties keyed by its name.</param>

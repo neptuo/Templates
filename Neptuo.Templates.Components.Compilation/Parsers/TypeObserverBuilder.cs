@@ -23,22 +23,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new TypeDescriptorBase(GetObserverType(attributes));
         }
 
-        protected override IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo)
-        {
-            return new SetPropertyDescriptor(propertyInfo);
-        }
-
-        protected override IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo)
-        {
-            return new ListAddPropertyDescriptor(propertyInfo);
-        }
-
         protected override void ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<IXmlAttribute> unboundAttributes)
         {
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject != null)
             {
                 foreach (IXmlAttribute attribute in unboundAttributes)
+                    //TODO: Realize using observer!
                     BuilderBase.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.GetValue());
             }
             else

@@ -9,6 +9,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    //TODO: Realize using observer!
+
+
+
     /// <summary>
     /// Shared builder helper.
     /// </summary>

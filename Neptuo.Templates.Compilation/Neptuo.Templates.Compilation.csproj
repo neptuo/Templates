@@ -119,7 +119,7 @@
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
     <Compile Include="_Tokens\Parsers\TokenExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
-    <Compile Include="_Xml\Parsers\BindPropertiesContext.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\ComponentDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\ContentBuilderContextExtensions.cs" />
