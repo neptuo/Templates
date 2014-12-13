@@ -11,12 +11,12 @@ namespace TestConsoleNG.Controls
 {
     public class StringPropertyBuilder : IPropertyBuilder
     {
-        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             throw new NotImplementedException();
         }
 
-        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
+        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
         {
             IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
             ICodeObject valueObject = context.ProcessValue(value);

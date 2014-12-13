@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
-        public ICodeObject Parse(ITokenBuilderContext context, Token extension)
+        public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
             IValueExtensionCodeObject codeObject = CreateCodeObject(context, extension);
             if (codeObject != null && BindProperties(context, codeObject, extension))

@@ -17,8 +17,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Parses markup extension and creates AST.
         /// </summary>
         /// <param name="context">Context information.</param>
-        /// <param name="extension">Token describing markup extension.</param>
+        /// <param name="token">Token describing markup extension.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject Parse(ITokenBuilderContext context, Token extension);
+        ICodeObject TryParse(ITokenBuilderContext context, Token token);
     }
 }

@@ -1,28 +1,29 @@
 ﻿<!-- This is a html comment -->
-<div data:datacontext="{Binding Address}">
-    <h:panel header="Street:" ui:visible="{Binding Street, ConverterKey=NullToBool}">
-        <h:textbox name="street" text="{Binding Street}" />
-    </h:panel>
-    <h:panel header="House Number:">
-        <!-- template="PanelTemplate.html"  -->
-        <h:textbox name="housenumber" text="{Binding HouseNumber}" />
-    </h:panel>
-    <h:panel header="ZZZZ:" content="XXXX" />
-    <h:panel header="City:">
-        <template>
-            Hello, World!
-
-            <h:anchor url="http://www.google.com" target="_blank">
-                <parameters>
-                    <h:parameter name="q" value="{Binding Firstname}" />
-                </parameters>
-            </h:anchor>
-        </template>
-        <h:textbox name="city" text="{Binding City}" />
-    </h:panel>
+<html xmlns:h="web-controls" xmlns:data="data" xmlns:ui="ui-controls">
     <div>
-        <h:panel header="Postal code:">
-            <h:textbox name="postalcode" text="{Binding PostalCode}" />
+        <h:panel header="Street:">
+            <h:textbox name="street" text="{Binding Street}" />
         </h:panel>
+        <h:panel header="House Number:">
+            <!-- template="PanelTemplate.html"  -->
+            <h:textbox name="housenumber" text="{Binding HouseNumber}" />
+        </h:panel>
+        <h:panel header="City:">
+            <template>
+                Hello, World!
+
+                <h:anchor url="http://www.google.com" target="_blank">
+                    <parameters>
+                        <h:parameter name="q" value="{Binding Firstname}" />
+                    </parameters>
+                </h:anchor>
+            </template>
+            <h:textbox name="city" text="{Binding City}" />
+        </h:panel>
+        <div>
+            <h:panel header="Postal code:">
+                <h:textbox name="postalcode" text="{Binding PostalCode}" />
+            </h:panel>
+        </div>
     </div>
-</div> 
+</html>

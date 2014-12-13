@@ -11,13 +11,13 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class TypeBuilderRegistryContent
     {
-        public ILiteralBuilderFactory LiteralBuilderFactory { get; set; }
+        public ILiteralBuilder LiteralBuilderFactory { get; set; }
         public IContentBuilder GenericContentBuilderFactory { get; set; }
 
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IContentBuilder>> Components { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> Observers { get; protected set; }
-        public SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> Tokens { get; protected set; }
+        public SpecialDictionary<string, Dictionary<string, ITokenBuilder>> Tokens { get; protected set; }
         public Dictionary<Type, IPropertyBuilder> Properties { get; protected set; }
 
         public TypeBuilderRegistryContent()
@@ -32,9 +32,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             Dictionary<string, NamespaceDeclaration> namespaces,
             SpecialDictionary<string, Dictionary<string, IContentBuilder>> controls,
             SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>> observers,
-            SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> tokens,
+            SpecialDictionary<string, Dictionary<string, ITokenBuilder>> tokens,
             Dictionary<Type, IPropertyBuilder> properties,
-            ILiteralBuilderFactory literalBuilderFactory,
+            ILiteralBuilder literalBuilderFactory,
             IContentBuilder genericContentBuilderFactory)
         {
             if (namespaces != null)
@@ -53,9 +53,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Observers = new SpecialDictionary<string, Dictionary<string, IObserverBuilderFactory>>();
 
             if (tokens != null)
-                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>(tokens);
+                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilder>>(tokens);
             else
-                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>>();
+                Tokens = new SpecialDictionary<string, Dictionary<string, ITokenBuilder>>();
 
             if (properties == null)
                 Properties = new Dictionary<Type, IPropertyBuilder>();

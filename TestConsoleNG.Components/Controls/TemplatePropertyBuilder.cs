@@ -12,7 +12,7 @@ namespace TestConsoleNG.Controls
 {
     public class TemplatePropertyBuilder : IPropertyBuilder
     {
-        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             IComponentCodeObject templateCodeObject = new TemplateCodeObject(typeof(ContentTemplate));
             codeObject.Properties.Add(new SetPropertyDescriptor(propertyInfo, templateCodeObject));
@@ -36,7 +36,7 @@ namespace TestConsoleNG.Controls
             return true;
         }
 
-        public bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
+        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
         {
             IComponentCodeObject templateCodeObject = new ComponentCodeObject(typeof(FileTemplate));
             templateCodeObject.Properties.Add(

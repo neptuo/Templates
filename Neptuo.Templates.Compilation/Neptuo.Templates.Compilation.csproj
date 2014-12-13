@@ -113,7 +113,6 @@
     <Compile Include="_ErrorInfoExtensions.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
-    <Compile Include="_Tokens\Parsers\ITokenBuilderFactory.cs" />
     <Compile Include="_Tokens\Parsers\ITokenDescriptor.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContextExtensions.cs" />
@@ -128,7 +127,6 @@
     <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
     <Compile Include="_Xml\Parsers\IComponentDescriptor.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilderContext.cs" />
-    <Compile Include="_Xml\Parsers\ILiteralBuilderFactory.cs" />
     <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverDescriptor.cs" />

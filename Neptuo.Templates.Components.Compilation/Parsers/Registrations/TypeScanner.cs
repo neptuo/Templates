@@ -1,4 +1,5 @@
 ﻿using Neptuo.Reflection;
+using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Controls;
 using Neptuo.Templates.Extensions;
 using Neptuo.Templates.Observers;
@@ -16,9 +17,13 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class TypeScanner : TypeRegistryHelper
     {
-        public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content)
+        private readonly IPropertyBuilder propertyBuilder;
+
+        public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content, IPropertyBuilder propertyBuilder)
             : base(configuration, content)
-        { }
+        {
+            this.propertyBuilder = propertyBuilder;
+        }
 
         public void Scan(string prefix, string namespaceName)
         {
@@ -48,7 +53,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (CanBeUsedInMarkup(type, false) && ImplementsInterface<IValueExtension>(type))
                 {
                     string name = GetComponentName(type, Configuration.ExtensionSuffix);
-                    Content.Tokens[prefix][name] = CreateFactory<ITokenBuilderFactory>(type, CreateDefaultTokenBuilderFactory);
+                    Content.Tokens[prefix][name] = CreateFactory<ITokenBuilder>(type, CreateDefaultTokenBuilderFactory);
                 }
             }
         }
@@ -83,12 +88,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual IContentBuilder CreateDefaultComponentBuilderFactory(Type type)
         {
-            return new DefaultTypeComponentBuilder(type, Configuration.PropertyFactory);
+            return new TransientComponentBuilder(() => new DefaultTypeComponentBuilder(type, propertyBuilder));
         }
 
-        protected virtual ITokenBuilderFactory CreateDefaultTokenBuilderFactory(Type type)
+        protected virtual ITokenBuilder CreateDefaultTokenBuilderFactory(Type type)
         {
-            return new DefaultTokenBuilderFactory(type);
+            return new DefaultTokenBuilder(type);
         }
 
         protected virtual List<Type> GetTypesInNamespace(string namespaceName)
@@ -123,5 +128,21 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             return typeof(T).IsAssignableFrom(type);
         }
+
+        public class TransientComponentBuilder : IContentBuilder
+        {
+            private readonly Func<IContentBuilder> factory;
+
+            public TransientComponentBuilder(Func<IContentBuilder> factory)
+            {
+                this.factory = factory;
+            }
+
+            public ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
+            {
+                return factory().TryParse(context, element);
+            }
+        }
+
     }
 }

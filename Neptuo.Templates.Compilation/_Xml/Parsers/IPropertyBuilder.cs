@@ -20,8 +20,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Targe code object.</param>
         /// <param name="propertyInfo">Target property info.</param>
         /// <param name="content">Source value.</param>
-        /// <returns>True if succeed.</returns>
-        bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content);
+        /// <returns>True if succeeded.</returns>
+        bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content);
 
         /// <summary>
         /// Parses <paramref name="attributeValue"/> and creates AST for it.
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Targe code object.</param>
         /// <param name="propertyInfo">Target property info.</param>
         /// <param name="attributeValue">Source value.</param>
-        /// <returns>True if succeed.</returns>
-        bool Parse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue);
+        /// <returns>True if succeeded.</returns>
+        bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue);
     }
 }

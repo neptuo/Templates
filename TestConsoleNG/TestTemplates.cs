@@ -55,19 +55,19 @@ namespace TestConsoleNG
 
         public static void Test()
         {
-            string xml = @"<?xml version='1.0'?>
-<div><x:root></x:root></div>";
+//            string xml = @"<?xml version='1.0'?>
+//<div><x:root></x:root></div>";
 
-            XmlNamespaceManager mgr = new MyXmlNamespaceManager();
+//            XmlNamespaceManager mgr = new MyXmlNamespaceManager();
 
-            XmlParserContext ctx = new XmlParserContext(null, mgr, null, XmlSpace.Preserve);
-            using (XmlReader reader = XmlReader.Create(new StringReader(xml), null, ctx))
-            {
-                XDocument document = XDocument.Load(reader);
-                Console.WriteLine(document);
-                //XmlDocument doc = new XmlDocument();
-                //doc.Load(reader);
-            }
+//            XmlParserContext ctx = new XmlParserContext(null, mgr, null, XmlSpace.Preserve);
+//            using (XmlReader reader = XmlReader.Create(new StringReader(xml), null, ctx))
+//            {
+//                XDocument document = XDocument.Load(reader);
+//                Console.WriteLine(document);
+//                //XmlDocument doc = new XmlDocument();
+//                //doc.Load(reader);
+//            }
 
 
 
@@ -76,17 +76,17 @@ namespace TestConsoleNG
 
 
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container, null),//.AddComponentSuffix("presenter"),
-                new DefaultLiteralControlBuilderFactory<LiteralControl>(c => c.Text),
-                new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, null)
+                new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
+            builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
+            builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry));
             builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components");
             builderRegistry.RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components");
             builderRegistry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
             builderRegistry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
             builderRegistry.RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder());
             builderRegistry.RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder());
-            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(null));
+            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(builderRegistry));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator();
@@ -95,6 +95,7 @@ namespace TestConsoleNG
             codeGenerator.SetCodeObjectGenerator(typeof(MethodReferenceCodeObject), new CodeDomMethodReferenceGenerator());
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);
+            codeCompiler.IsDebugMode = true;
             codeCompiler.References.AddDirectory(Environment.CurrentDirectory);
 
             DefaultViewService viewService = new DefaultViewService();

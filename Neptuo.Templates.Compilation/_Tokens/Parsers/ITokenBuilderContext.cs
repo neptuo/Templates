@@ -21,10 +21,5 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Current parser.
         /// </summary>
         TokenValueParser Parser { get; }
-        
-        /// <summary>
-        /// List of registration of <see cref="ITokenBuilder"/>.
-        /// </summary>
-        ITokenBuilderFactory BuilderFactory { get; }
     }
 }

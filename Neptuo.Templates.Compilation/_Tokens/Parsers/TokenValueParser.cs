@@ -12,9 +12,9 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public partial class TokenValueParser : IValueParser
     {
-        private readonly ITokenBuilderFactory builderFactory;
+        private readonly ITokenBuilder builderFactory;
 
-        public TokenValueParser(ITokenBuilderFactory builderFactory)
+        public TokenValueParser(ITokenBuilder builderFactory)
         {
             Guard.NotNull(builderFactory, "builderFactory");
             this.builderFactory = builderFactory;
@@ -33,11 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         private ICodeObject GenerateToken(IValueParserContext context, Token token)
         {
-            ITokenBuilder builder = builderFactory.CreateBuilder(token.Prefix, token.Name);
-            if (builder == null)
-                return null;
-
-            ICodeObject codeObject = builder.Parse(new TokenBuilderContext(this, context, builderFactory), token);
+            ICodeObject codeObject = builderFactory.TryParse(new TokenBuilderContext(this, context), token);
             return codeObject;
         }
 

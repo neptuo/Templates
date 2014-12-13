@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class NotSupportedTokenBuilder : ITokenBuilder
     {
-        public ICodeObject Parse(ITokenBuilderContext context, Token token)
+        public ICodeObject TryParse(ITokenBuilderContext context, Token token)
         {
             context.AddError(String.Format("Token '{0}' is not supported.", token.Fullname));
             return null;

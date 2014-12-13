@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (BindContext.Properties.TryGetValue(name, out propertyInfo))
             {
-                bool result = PropertyFactory.Parse(context, CodeObject, propertyInfo, value);
+                bool result = PropertyFactory.TryParse(context, CodeObject, propertyInfo, value);
                 if (result)
                 {
                     BindContext.BoundProperies.Add(name);
@@ -155,7 +155,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         protected virtual bool ResolvePropertyValue(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
-            bool result = PropertyFactory.Parse(context, codeObject, propertyInfo, content);
+            bool result = PropertyFactory.TryParse(context, codeObject, propertyInfo, content);
             if (result)
                 return true;
 

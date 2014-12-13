@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Implementation of <see cref="IContentBuilderRegistry"/> and <see cref="ITokenBuilderFactory"/>.
     /// </summary>
-    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilder, ITokenBuilderFactory
+    public class TypeBuilderRegistry : TypeRegistryHelper, IContentBuilder, ILiteralBuilder, ITokenBuilder, IPropertyBuilder
     {
         private readonly TypeBuilderRegistry parentRegistry;
 
@@ -38,7 +39,23 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilderFactory literalBuilderFactory, IContentBuilder genericContentBuilderFactory)
+        public ILiteralBuilder LiteralBuilder
+        {
+            get { return Content.LiteralBuilderFactory; }
+            set { Content.LiteralBuilderFactory = value; }
+        }
+
+        public IContentBuilder GenericContentBuilder
+        {
+            get { return Content.GenericContentBuilderFactory; }
+            set { Content.GenericContentBuilderFactory = value; }
+        }
+
+        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration)
+            : base(configuration, new TypeBuilderRegistryContent())
+        { }
+
+        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilder literalBuilderFactory, IContentBuilder genericContentBuilderFactory)
             : base(configuration, new TypeBuilderRegistryContent())
         {
             Guard.NotNull(literalBuilderFactory, "literalBuilderFactory");
@@ -54,11 +71,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.parentRegistry = parentRegistry;
         }
 
-        #region Get component
+        #region IContentBuilder
 
-        public ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
+        ICodeObject IContentBuilder.TryParse(IContentBuilderContext context, IXmlElement element)
         {
-            return GetComponentBuilder(element.Prefix, element.Name).TryParse(context, element);
+            return GetComponentBuilder(element.Prefix, element.LocalName).TryParse(context, element);
         }
 
         public IContentBuilder GetComponentBuilder(string prefix, string name)
@@ -115,6 +132,20 @@ namespace Neptuo.Templates.Compilation.Parsers
             return Content.GenericContentBuilderFactory;
         }
 
+        #endregion
+
+        #region ILiteralBuilder
+
+        ICodeObject ILiteralBuilder.TryParseText(IContentBuilderContext context, string text)
+        {
+            throw new NotImplementedException();
+        }
+
+        ICodeObject ILiteralBuilder.TryParseComment(IContentBuilderContext context, string commentText)
+        {
+            throw new NotImplementedException();
+        }
+
         public ILiteralBuilder GetLiteralBuilder()
         {
             if (Content.LiteralBuilderFactory == null)
@@ -125,7 +156,29 @@ namespace Neptuo.Templates.Compilation.Parsers
                 throw new TypeBuilderRegistryException("Registry doesn't contain literal builder.");
             }
 
-            return Content.LiteralBuilderFactory.CreateBuilder();
+            return Content.LiteralBuilderFactory;
+        }
+
+        #endregion
+
+        #region IPropertyBuilder
+
+        bool IPropertyBuilder.TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        {
+            IPropertyBuilder propertyBuilder = GetPropertyBuilder(propertyInfo);
+            if (propertyBuilder == null)
+                return false;
+
+            return propertyBuilder.TryParse(context, codeObject, propertyInfo, content);
+        }
+
+        bool IPropertyBuilder.TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
+        {
+            IPropertyBuilder propertyBuilder = GetPropertyBuilder(propertyInfo);
+            if (propertyBuilder == null)
+                return false;
+
+            return propertyBuilder.TryParse(context, codeObject, propertyInfo, attributeValue);
         }
 
         public IPropertyBuilder GetPropertyBuilder(IPropertyInfo propertyInfo)
@@ -143,22 +196,31 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        #region Get token
+        #region ITokenBuilder
 
-        public ITokenBuilder CreateBuilder(string prefix, string name)
+        ICodeObject ITokenBuilder.TryParse(ITokenBuilderContext context, Token token)
+        {
+            ITokenBuilder tokenBuilder = GetTokenBuilder(token.Prefix, token.Name);
+            if (tokenBuilder != null)
+                return tokenBuilder.TryParse(context, token);
+
+            return null;
+        }
+
+        public ITokenBuilder GetTokenBuilder(string prefix, string name)
         {
             prefix = PreparePrefix(prefix);
             name = PrepareName(name, Configuration.ExtensionSuffix);
 
             if (Content.Tokens[prefix].ContainsKey(name))
             {
-                ITokenBuilderFactory factory = Content.Tokens[prefix][name];
-                if (factory != null)
-                    return factory.CreateBuilder(prefix, name);
+                ITokenBuilder tokenBuilder = Content.Tokens[prefix][name];
+                if (tokenBuilder != null)
+                    return tokenBuilder;
             }
 
             if (parentRegistry != null)
-                return parentRegistry.CreateBuilder(prefix, name);
+                return parentRegistry.GetTokenBuilder(prefix, name);
 
             return null;
         }
@@ -174,18 +236,18 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Content.Namespaces[prefix] = new NamespaceDeclaration() { Prefix = prefix, Namespace = clrNamespace };
         }
 
+        public void RegisterNamespace(string prefix, string clrNamespace)
+        {
+            RegisterNamespaceInternal(prefix, clrNamespace);
+            TypeScanner.Scan(prefix, clrNamespace);
+        }
+
+
         protected void RegisterComponent(string prefix, string tagName, IContentBuilder factory)
         {
             prefix = PreparePrefix(prefix);
             tagName = PrepareName(tagName, Configuration.ComponentSuffix);
             Content.Components[prefix][tagName] = factory;
-        }
-
-        protected void RegisterToken(string prefix, string tagName, ITokenBuilderFactory factory)
-        {
-            prefix = PreparePrefix(prefix);
-            tagName = PrepareName(tagName, Configuration.ExtensionSuffix);
-            Content.Tokens[prefix][tagName] = factory;
         }
 
         protected void RegisterObserver(string prefix, string tagName, IObserverBuilderFactory factory)
@@ -195,23 +257,26 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.Observers[prefix][tagName] = factory;
         }
 
-        public void RegisterNamespace(string prefix, string clrNamespace)
-        {
-            RegisterNamespaceInternal(prefix, clrNamespace);
-            TypeScanner.Scan(prefix, clrNamespace);
-        }
-
         public void RegisterComponentBuilder(string prefix, string tagName, IContentBuilder factory)
         {
             RegisterNamespaceInternal(prefix, tagName);
             RegisterComponent(prefix, tagName, factory);
         }
 
-        public void RegisterExtensionBuilder(string prefix, string tagName, ITokenBuilderFactory factory)
+
+        protected void RegisterTokenInternal(string prefix, string tagName, ITokenBuilder factory)
+        {
+            prefix = PreparePrefix(prefix);
+            tagName = PrepareName(tagName, Configuration.ExtensionSuffix);
+            Content.Tokens[prefix][tagName] = factory;
+        }
+
+        public void RegisterTokenBuilder(string prefix, string tagName, ITokenBuilder factory)
         {
             RegisterNamespaceInternal(prefix, tagName);
-            RegisterToken(prefix, tagName, factory);
+            RegisterTokenInternal(prefix, tagName, factory);
         }
+
 
         public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilderFactory factory)
         {
@@ -278,8 +343,10 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual TypeScanner CreateTypeScanner()
         {
-            return new TypeScanner(Configuration, Content);
+            return new TypeScanner(Configuration, Content, this);
         }
+
+
     }
 
 }
