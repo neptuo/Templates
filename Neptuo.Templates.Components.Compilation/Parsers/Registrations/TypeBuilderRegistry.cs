@@ -38,7 +38,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilderFactory literalBuilderFactory, IContentBuilderFactory genericContentBuilderFactory)
+        public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration, ILiteralBuilderFactory literalBuilderFactory, IContentBuilder genericContentBuilderFactory)
             : base(configuration, new TypeBuilderRegistryContent())
         {
             Guard.NotNull(literalBuilderFactory, "literalBuilderFactory");
@@ -112,7 +112,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 throw new TypeBuilderRegistryException("Registry doesn't contain generic content builder.");
             }
 
-            return Content.GenericContentBuilderFactory.CreateBuilder(String.Empty, name);
+            return Content.GenericContentBuilderFactory;
         }
 
         public ILiteralBuilder GetLiteralBuilder()

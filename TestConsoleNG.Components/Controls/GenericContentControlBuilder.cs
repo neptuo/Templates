@@ -18,8 +18,8 @@ namespace TestConsoleNG.Controls
     {
         private readonly string tagNameProperty;
 
-        public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty)
-            : base(typeof(T))
+        public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty, IPropertyBuilder propertyFactory)
+            : base(typeof(T), propertyFactory)
         {
             this.tagNameProperty = TypeHelper.PropertyName(tagNameProperty);
         }

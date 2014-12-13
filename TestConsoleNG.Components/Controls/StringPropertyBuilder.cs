@@ -31,12 +31,4 @@ namespace TestConsoleNG.Controls
         }
     }
 
-    public class StringPropertyBuilderFactory : IPropertyBuilderFactory
-    {
-        public IPropertyBuilder CreateBuilder(IPropertyInfo propertyInfo)
-        {
-            return new StringPropertyBuilder();
-        }
-    }
-
 }

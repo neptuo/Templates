@@ -42,17 +42,17 @@ namespace TestConsoleNG
         public static void Test()
         {
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container),//.AddComponentSuffix("presenter"),
+                new TypeBuilderRegistryConfiguration(container, null),//.AddComponentSuffix("presenter"),
                 new DefaultLiteralControlBuilderFactory<LiteralControl>(c => c.Text),
-                new FuncContentBuilderFactory((prefix, name) => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName))
+                new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, null)
             );
             builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components");
             builderRegistry.RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components");
             builderRegistry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
             builderRegistry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
-            builderRegistry.RegisterPropertyBuilder(typeof(string), new DefaultPropertyBuilderFactory<StringPropertyBuilder>());
-            builderRegistry.RegisterPropertyBuilder(typeof(ITemplate), new DefaultPropertyBuilderFactory<TemplatePropertyBuilder>());
-            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new FuncContentBuilderFactory((prefix, name) => new RootContentBuilder()));
+            builderRegistry.RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder());
+            builderRegistry.RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder());
+            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(null));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator();
@@ -64,7 +64,7 @@ namespace TestConsoleNG
             codeCompiler.References.AddDirectory(Environment.CurrentDirectory);
 
             DefaultViewService viewService = new DefaultViewService();
-            viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry));
+            viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry, builderRegistry.GetLiteralBuilder()));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new TokenValueParser(builderRegistry));
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);

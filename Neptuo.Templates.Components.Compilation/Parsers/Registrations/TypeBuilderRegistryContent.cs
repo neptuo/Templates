@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class TypeBuilderRegistryContent
     {
         public ILiteralBuilderFactory LiteralBuilderFactory { get; set; }
-        public IContentBuilderFactory GenericContentBuilderFactory { get; set; }
+        public IContentBuilder GenericContentBuilderFactory { get; set; }
 
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IContentBuilder>> Components { get; protected set; }
@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             SpecialDictionary<string, Dictionary<string, ITokenBuilderFactory>> tokens,
             Dictionary<Type, IPropertyBuilder> properties,
             ILiteralBuilderFactory literalBuilderFactory,
-            IContentBuilderFactory genericContentBuilderFactory)
+            IContentBuilder genericContentBuilderFactory)
         {
             if (namespaces != null)
                 Namespaces = new Dictionary<string, NamespaceDeclaration>(namespaces);
