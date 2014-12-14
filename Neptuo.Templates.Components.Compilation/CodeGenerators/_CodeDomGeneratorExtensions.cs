@@ -10,29 +10,65 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public static class _CodeDomGeneratorExtensions
     {
-        public static void RegisterStandartCodeGenerators(this CodeDomGenerator generator, IFieldNameProvider fieldNameProvider = null)
+        public static CodeDomGenerator SetCodeObjectGenerator<T>(this CodeDomGenerator generator, ICodeDomComponentGenerator componentGenerator)
+        {
+            Guard.NotNull(generator, "generator");
+            Guard.NotNull(componentGenerator, "codeObjectGenerator");
+            generator.SetCodeObjectGenerator(typeof(T), componentGenerator);
+            return generator;
+        }
+
+        public static CodeDomGenerator SetPropertyDescriptorGenerator<T>(this CodeDomGenerator generator, ICodeDomPropertyGenerator propertyGenerator)
+        {
+            Guard.NotNull(generator, "generator");
+            Guard.NotNull(propertyGenerator, "propertyGenerator");
+            generator.SetPropertyDescriptorGenerator(typeof(T), propertyGenerator);
+            return generator;
+        }
+
+        public static CodeDomGenerator SetDependencyProviderGenerator<T>(this CodeDomGenerator generator, ICodeDomDependencyGenerator dependencyGenerator)
+        {
+            Guard.NotNull(generator, "generator");
+            Guard.NotNull(dependencyGenerator, "dependencyGenerator");
+            generator.SetDependencyProviderGenerator(typeof(T), dependencyGenerator);
+            return generator;
+        }
+
+        public static CodeDomGenerator SetAttributeGenerator<T>(this CodeDomGenerator generator, ICodeDomAttributeGenerator attributeGenerator)
+        {
+            Guard.NotNull(generator, "generator");
+            Guard.NotNull(attributeGenerator, "attributeGenerator");
+            generator.SetAttributeGenerator(typeof(T), attributeGenerator);
+            return generator;
+        }
+
+        public static CodeDomGenerator SetStandartGenerators(this CodeDomGenerator generator, IFieldNameProvider fieldNameProvider = null)
         {
             if (fieldNameProvider == null)
                 fieldNameProvider = new SequenceFieldNameProvider();
 
-            generator.SetCodeObjectGenerator(typeof(ComponentCodeObject), new CodeDomComponentGenerator(fieldNameProvider));
-            generator.SetCodeObjectGenerator(typeof(CommentCodeObject), new CodeDomCommentGenerator(fieldNameProvider));
-            generator.SetCodeObjectGenerator(typeof(PlainValueCodeObject), new CodeDomPlainValueObjectGenerator());
-            generator.SetCodeObjectGenerator(typeof(DependencyCodeObject), new CodeDomDependencyObjectGenerator());
-            generator.SetCodeObjectGenerator(typeof(ExtensionCodeObject), new CodeDomExtensionObjectGenerator(fieldNameProvider));
-            generator.SetCodeObjectGenerator(typeof(LiteralCodeObject), new CodeDomPlainValueObjectGenerator());
-            generator.SetCodeObjectGenerator(typeof(RootCodeObject), new CodeDomRootGenerator());
+            // Component generators.
+            generator.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomComponentGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator<CommentCodeObject>(new CodeDomCommentGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator<PlainValueCodeObject>(new CodeDomPlainValueObjectGenerator());
+            generator.SetCodeObjectGenerator<DependencyCodeObject>(new CodeDomDependencyObjectGenerator());
+            generator.SetCodeObjectGenerator<ExtensionCodeObject>(new CodeDomExtensionObjectGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator<LiteralCodeObject>(new CodeDomPlainValueObjectGenerator());
+            generator.SetCodeObjectGenerator<RootCodeObject>(new CodeDomRootGenerator());
 
-            generator.SetPropertyDescriptorGenerator(typeof(ListAddPropertyDescriptor), new CodeDomListAddPropertyGenerator());
-            generator.SetPropertyDescriptorGenerator(typeof(DictionaryAddPropertyDescriptor), new CodeDomDictionaryAddPropertyGenerator());
-            generator.SetPropertyDescriptorGenerator(typeof(SetPropertyDescriptor), new CodeDomSetPropertyGenerator());
-            generator.SetPropertyDescriptorGenerator(typeof(MethodInvokePropertyDescriptor), new CodeDomMethodPropertyGenerator());
+            // Property generators.
+            generator.SetPropertyDescriptorGenerator<ListAddPropertyDescriptor>(new CodeDomListAddPropertyGenerator());
+            generator.SetPropertyDescriptorGenerator<DictionaryAddPropertyDescriptor>(new CodeDomDictionaryAddPropertyGenerator());
+            generator.SetPropertyDescriptorGenerator<SetPropertyDescriptor>(new CodeDomSetPropertyGenerator());
+            generator.SetPropertyDescriptorGenerator<MethodInvokePropertyDescriptor>(new CodeDomMethodPropertyGenerator());
 
+            // Dependency generators.
+            generator.SetDependencyProviderGenerator<object>(new CodeDomDependencyGenerator());
 
-            generator.SetDependencyProviderGenerator(typeof(object), new CodeDomDependencyGenerator());
-
-
+            // Base structure generator.
             generator.SetBaseStructureGenerator(new CodeDomStructureGenerator());
+
+            return generator;
         }
     }
 }

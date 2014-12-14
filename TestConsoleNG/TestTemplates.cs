@@ -91,10 +91,10 @@ namespace TestConsoleNG
             builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(builderRegistry, builderRegistry));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
-            CodeDomGenerator codeGenerator = new CodeDomGenerator();
-            codeGenerator.RegisterStandartCodeGenerators(fieldNameProvider);
-            codeGenerator.SetCodeObjectGenerator(typeof(TemplateCodeObject), new CodeDomTemplateGenerator(fieldNameProvider));
-            codeGenerator.SetCodeObjectGenerator(typeof(MethodReferenceCodeObject), new CodeDomMethodReferenceGenerator());
+            CodeDomGenerator codeGenerator = new CodeDomGenerator()
+                .SetStandartGenerators(fieldNameProvider)
+                .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider))
+                .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);
             codeCompiler.IsDebugMode = true;
