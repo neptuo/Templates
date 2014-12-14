@@ -97,7 +97,7 @@
     <Compile Include="Parsers\PropertyDescriptorPropertyInfo.cs" />
     <Compile Include="Parsers\TypeDescriptorBase.cs" />
     <Compile Include="Parsers\TypePropertyInfo.cs" />
-    <Compile Include="PreProcessing\BaseVisitor.cs" />
+    <Compile Include="PreProcessing\VisitorBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PropertyAttribute.cs" />
     <Compile Include="StringConverter.cs" />

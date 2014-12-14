@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
     /// <summary>
     /// Base implementation of <see cref="IVisitor"/> which does through nodes of AST.
     /// </summary>
-    public abstract class BaseVisitor : IVisitor
+    public abstract class VisitorBase : IVisitor
     {
         /// <summary>
         /// Context inforation.
@@ -41,13 +41,39 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         protected void Visit(IPropertyDescriptor propertyDescriptor)
         {
-            if (propertyDescriptor is ListAddPropertyDescriptor)
-                Visit((ListAddPropertyDescriptor)propertyDescriptor);
-            else if (propertyDescriptor is SetPropertyDescriptor)
-                Visit((SetPropertyDescriptor)propertyDescriptor);
-            else if (propertyDescriptor is MethodInvokePropertyDescriptor)
-                Visit((MethodInvokePropertyDescriptor)propertyDescriptor);
+            ListAddPropertyDescriptor listAdd = propertyDescriptor as ListAddPropertyDescriptor;
+            if (listAdd != null)
+            {
+                Visit(listAdd);
+                return;
+            }
+
+            SetPropertyDescriptor set = propertyDescriptor as SetPropertyDescriptor;
+            if (set != null)
+            {
+                Visit(set);
+                return;
+            }
+
+            MethodInvokePropertyDescriptor methodInvoke = propertyDescriptor as MethodInvokePropertyDescriptor;
+            if (methodInvoke != null)
+            {
+                Visit(methodInvoke);
+                return;
+            }
+
+            DictionaryAddPropertyDescriptor dictionaryAdd = propertyDescriptor as DictionaryAddPropertyDescriptor;
+            if (dictionaryAdd != null)
+            {
+                Visit(dictionaryAdd);
+                return;
+            }
+
+            VisitUnknown(propertyDescriptor);
         }
+
+        protected virtual void VisitUnknown(IPropertyDescriptor propertyDescriptor)
+        { }
 
         /// <summary>
         /// Visits code object.
@@ -70,6 +96,15 @@ namespace Neptuo.Templates.Compilation.PreProcessing
         {
             foreach (ICodeObject codeObject in propertyDescriptor.Parameters)
                 Visit(codeObject);
+        }
+
+        protected virtual void Visit(DictionaryAddPropertyDescriptor propertyDescriptor)
+        {
+            foreach (KeyValuePair<ICodeObject, ICodeObject> item in propertyDescriptor.Values)
+            {
+                Visit(item.Key);
+                Visit(item.Value);
+            }
         }
     }
 }
