@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates
+namespace Neptuo.Templates.Runtime
 {
     /// <summary>
     /// EventArgs used in registeration of init complete event.

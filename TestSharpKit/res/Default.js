@@ -7,10 +7,10 @@ function btnTest_click(e){
     var container = new TestConsoleNG.SimpleContainer.SimpleObjectBuilder.ctor();
     Neptuo.DependencyContainerExtensions.RegisterInstance$1(TestConsoleNG.Data.DataStorage.ctor, container, new TestConsoleNG.Data.DataStorage.ctor(new TestConsoleNG.PersonModel.ctor("Jon", "Doe", new TestConsoleNG.AddressModel.ctor("Dlouhá street", 23, "Prague", 10001))));
     Neptuo.DependencyContainerExtensions.RegisterInstance$1(TestConsoleNG.Extensions.IValueConverterService.ctor, container, new TestConsoleNG.Extensions.ValueConverterService.ctor().SetConverter("NullToBool", new TestConsoleNG.Extensions.NullToBoolValueConverter.ctor()));
-    Neptuo.DependencyContainerExtensions.RegisterInstance$1(Neptuo.Templates.IComponentManager.ctor, container, new Neptuo.Templates.ComponentManager.ctor());
+    Neptuo.DependencyContainerExtensions.RegisterInstance$1(Neptuo.Templates.Runtime.IComponentManager.ctor, container, new Neptuo.Templates.Runtime.ComponentManager.ctor());
     var writer = new System.IO.StringWriter.ctor();
     var view = new Neptuo.Templates.View_38422005C8911AD1E3131BF96B087D39DBA789AA.ctor();
-    view.Setup(new Neptuo.Templates.ViewPage.ctor(Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.IComponentManager.ctor, container)), Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.IComponentManager.ctor, container), container);
+    view.Setup(new Neptuo.Templates.ViewPage.ctor(Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.Runtime.IComponentManager.ctor, container)), Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.Runtime.IComponentManager.ctor, container), container);
     view.CreateControls();
     view.Init();
     view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(writer));

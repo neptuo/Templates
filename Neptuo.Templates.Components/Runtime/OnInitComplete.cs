@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates
+namespace Neptuo.Templates.Runtime
 {
     /// <summary>
     /// Delegate for init complete event.

@@ -46,8 +46,8 @@ if (typeof($CreateDelegate)=='undefined'){
 
 if (typeof(JsTypes) == "undefined")
     var JsTypes = [];
-var Neptuo$Templates$ControlInitCompleteEventArgs = {
-    fullname: "Neptuo.Templates.ControlInitCompleteEventArgs",
+var Neptuo$Templates$Runtime$ControlInitCompleteEventArgs = {
+    fullname: "Neptuo.Templates.Runtime.ControlInitCompleteEventArgs",
     baseTypeName: "System.EventArgs",
     staticDefinition: {
         cctor: function (){
@@ -77,7 +77,7 @@ var Neptuo$Templates$ControlInitCompleteEventArgs = {
     ],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$ControlInitCompleteEventArgs);
+JsTypes.push(Neptuo$Templates$Runtime$ControlInitCompleteEventArgs);
 var Neptuo$Templates$HtmlAttributeCollection = {
     fullname: "Neptuo.Templates.HtmlAttributeCollection",
     baseTypeName: "System.Collections.Generic.Dictionary$2",
@@ -177,7 +177,7 @@ var Neptuo$Templates$ViewPage = {
             this.set_ComponentManager(componentManager);
             this.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
         },
-        ComponentManager$$: "Neptuo.Templates.IComponentManager",
+        ComponentManager$$: "Neptuo.Templates.Runtime.IComponentManager",
         get_ComponentManager: function (){
             return this._ComponentManager;
         },
@@ -217,27 +217,27 @@ var Neptuo$Templates$ViewPage = {
     },
     ctors: [{
         name: "ctor",
-        parameters: ["Neptuo.Templates.IComponentManager"]
+        parameters: ["Neptuo.Templates.Runtime.IComponentManager"]
     }
     ],
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$ViewPage);
-var Neptuo$Templates$ComponentManager = {
-    fullname: "Neptuo.Templates.ComponentManager",
+var Neptuo$Templates$Runtime$ComponentManager = {
+    fullname: "Neptuo.Templates.Runtime.ComponentManager",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
-    interfaceNames: ["Neptuo.Templates.IComponentManager"],
+    interfaceNames: ["Neptuo.Templates.Runtime.IComponentManager"],
     Kind: "Class",
     definition: {
         ctor: function (){
-            this.entries = new System.Collections.Generic.Dictionary$2.ctor(System.Object.ctor, Neptuo.Templates.ComponentManager.ComponentEntryBase.ctor);
+            this.entries = new System.Collections.Generic.Dictionary$2.ctor(System.Object.ctor, Neptuo.Templates.Runtime.ComponentManager.ComponentEntryBase.ctor);
             System.Object.ctor.call(this);
         },
         AddComponent$1: function (T, component, propertyBinder){
             Neptuo.Guard.NotNull$$Object$$String(component, "component");
             var entry = (function (){
-                var $v1 = new Neptuo.Templates.ComponentManager.ComponentEntry$1.ctor(T);
+                var $v1 = new Neptuo.Templates.Runtime.ComponentManager.ComponentEntry$1.ctor(T);
                 $v1.set_Control(component);
                 $v1.set_ArePropertiesBound(System.MulticastDelegate.op_Equality$$MulticastDelegate$$MulticastDelegate(propertyBinder, null));
                 $v1.set_PropertyBinder(propertyBinder);
@@ -250,7 +250,7 @@ var Neptuo$Templates$ComponentManager = {
             Neptuo.Guard.NotNull$$Object$$String(observer, "observer");
             if (!this.entries.ContainsKey(control))
                 return;
-            this.entries.get_Item$$TKey(control).get_Observers().Add(new Neptuo.Templates.ComponentManager.ObserverInfo$1.ctor(T, observer, propertyBinder));
+            this.entries.get_Item$$TKey(control).get_Observers().Add(new Neptuo.Templates.Runtime.ComponentManager.ObserverInfo$1.ctor(T, observer, propertyBinder));
         },
         AttachInitComplete: function (control, handler){
             Neptuo.Guard.NotNull$$Object$$String(control, "control");
@@ -287,7 +287,7 @@ var Neptuo$Templates$ComponentManager = {
             if (this.ExecuteObservers(entry))
                 target.OnInit();
             if (entry.get_InitComplete().get_Count() > 0){
-                var args = new Neptuo.Templates.ControlInitCompleteEventArgs.ctor(target);
+                var args = new Neptuo.Templates.Runtime.ControlInitCompleteEventArgs.ctor(target);
                 var $it4 = entry.get_InitComplete().GetEnumerator();
                 while ($it4.MoveNext()){
                     var handler = $it4.get_Current();
@@ -401,9 +401,9 @@ var Neptuo$Templates$ComponentManager = {
     ],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$ComponentManager);
-var Neptuo$Templates$ComponentManager$ComponentEntryBase = {
-    fullname: "Neptuo.Templates.ComponentManager.ComponentEntryBase",
+JsTypes.push(Neptuo$Templates$Runtime$ComponentManager);
+var Neptuo$Templates$Runtime$ComponentManager$ComponentEntryBase = {
+    fullname: "Neptuo.Templates.Runtime.ComponentManager.ComponentEntryBase",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Class",
@@ -417,8 +417,8 @@ var Neptuo$Templates$ComponentManager$ComponentEntryBase = {
             this._IsInited = false;
             this._IsDisposed = false;
             System.Object.ctor.call(this);
-            this.set_Observers(new System.Collections.Generic.List$1.ctor(Neptuo.Templates.ComponentManager.ObserverInfo.ctor));
-            this.set_InitComplete(new System.Collections.Generic.List$1.ctor(Neptuo.Templates.OnInitComplete.ctor));
+            this.set_Observers(new System.Collections.Generic.List$1.ctor(Neptuo.Templates.Runtime.ComponentManager.ObserverInfo.ctor));
+            this.set_InitComplete(new System.Collections.Generic.List$1.ctor(Neptuo.Templates.Runtime.OnInitComplete.ctor));
         },
         Control$$: "System.Object",
         get_Control: function (){
@@ -434,14 +434,14 @@ var Neptuo$Templates$ComponentManager$ComponentEntryBase = {
         set_PropertyBinder: function (value){
             this._PropertyBinder = value;
         },
-        Observers$$: "System.Collections.Generic.List`1[[Neptuo.Templates.ComponentManager+ObserverInfo]]",
+        Observers$$: "System.Collections.Generic.List`1[[Neptuo.Templates.Runtime.ComponentManager+ObserverInfo]]",
         get_Observers: function (){
             return this._Observers;
         },
         set_Observers: function (value){
             this._Observers = value;
         },
-        InitComplete$$: "System.Collections.Generic.List`1[[Neptuo.Templates.OnInitComplete]]",
+        InitComplete$$: "System.Collections.Generic.List`1[[Neptuo.Templates.Runtime.OnInitComplete]]",
         get_InitComplete: function (){
             return this._InitComplete;
         },
@@ -477,10 +477,10 @@ var Neptuo$Templates$ComponentManager$ComponentEntryBase = {
     ],
     IsAbstract: true
 };
-JsTypes.push(Neptuo$Templates$ComponentManager$ComponentEntryBase);
-var Neptuo$Templates$ComponentManager$ComponentEntry$1 = {
-    fullname: "Neptuo.Templates.ComponentManager.ComponentEntry$1",
-    baseTypeName: "Neptuo.Templates.ComponentManager.ComponentEntryBase",
+JsTypes.push(Neptuo$Templates$Runtime$ComponentManager$ComponentEntryBase);
+var Neptuo$Templates$Runtime$ComponentManager$ComponentEntry$1 = {
+    fullname: "Neptuo.Templates.Runtime.ComponentManager.ComponentEntry$1",
+    baseTypeName: "Neptuo.Templates.Runtime.ComponentManager.ComponentEntryBase",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Class",
     definition: {
@@ -488,7 +488,7 @@ var Neptuo$Templates$ComponentManager$ComponentEntry$1 = {
             this.T = T;
             this.control = null;
             this.propertyBinder = null;
-            Neptuo.Templates.ComponentManager.ComponentEntryBase.ctor.call(this);
+            Neptuo.Templates.Runtime.ComponentManager.ComponentEntryBase.ctor.call(this);
         },
         Control$$: "System.Object",
         get_Control: function (){
@@ -518,9 +518,9 @@ var Neptuo$Templates$ComponentManager$ComponentEntry$1 = {
     ],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$ComponentManager$ComponentEntry$1);
-var Neptuo$Templates$ComponentManager$ObserverInfo = {
-    fullname: "Neptuo.Templates.ComponentManager.ObserverInfo",
+JsTypes.push(Neptuo$Templates$Runtime$ComponentManager$ComponentEntry$1);
+var Neptuo$Templates$Runtime$ComponentManager$ObserverInfo = {
+    fullname: "Neptuo.Templates.Runtime.ComponentManager.ObserverInfo",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Class",
@@ -563,10 +563,10 @@ var Neptuo$Templates$ComponentManager$ObserverInfo = {
     ],
     IsAbstract: true
 };
-JsTypes.push(Neptuo$Templates$ComponentManager$ObserverInfo);
-var Neptuo$Templates$ComponentManager$ObserverInfo$1 = {
-    fullname: "Neptuo.Templates.ComponentManager.ObserverInfo$1",
-    baseTypeName: "Neptuo.Templates.ComponentManager.ObserverInfo",
+JsTypes.push(Neptuo$Templates$Runtime$ComponentManager$ObserverInfo);
+var Neptuo$Templates$Runtime$ComponentManager$ObserverInfo$1 = {
+    fullname: "Neptuo.Templates.Runtime.ComponentManager.ObserverInfo$1",
+    baseTypeName: "Neptuo.Templates.Runtime.ComponentManager.ObserverInfo",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Class",
     definition: {
@@ -574,7 +574,7 @@ var Neptuo$Templates$ComponentManager$ObserverInfo$1 = {
             this.T = T;
             this.observer = null;
             this.propertyBinder = null;
-            Neptuo.Templates.ComponentManager.ObserverInfo.ctor.call(this, observer, propertyBinder);
+            Neptuo.Templates.Runtime.ComponentManager.ObserverInfo.ctor.call(this, observer, propertyBinder);
         },
         Observer$$: "Neptuo.Templates.Observers.IObserver",
         get_Observer: function (){
@@ -604,7 +604,7 @@ var Neptuo$Templates$ComponentManager$ObserverInfo$1 = {
     ],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$ComponentManager$ObserverInfo$1);
+JsTypes.push(Neptuo$Templates$Runtime$ComponentManager$ObserverInfo$1);
 var Neptuo$Templates$Extensions$DefaultExtensionContext = {
     fullname: "Neptuo.Templates.Extensions.DefaultExtensionContext",
     baseTypeName: "System.Object",
@@ -926,15 +926,15 @@ var Neptuo$Templates$IHtmlWriter = {
     IsAbstract: true
 };
 JsTypes.push(Neptuo$Templates$IHtmlWriter);
-var Neptuo$Templates$IComponentManager = {
-    fullname: "Neptuo.Templates.IComponentManager",
+var Neptuo$Templates$Runtime$IComponentManager = {
+    fullname: "Neptuo.Templates.Runtime.IComponentManager",
     baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
     Kind: "Interface",
     ctors: [],
     IsAbstract: true
 };
-JsTypes.push(Neptuo$Templates$IComponentManager);
+JsTypes.push(Neptuo$Templates$Runtime$IComponentManager);
 var Neptuo$Templates$IViewPage = {
     fullname: "Neptuo.Templates.IViewPage",
     baseTypeName: "System.Object",
@@ -1044,8 +1044,8 @@ var Neptuo$Templates$Observers$ObserverEventArgs = {
     IsAbstract: false
 };
 JsTypes.push(Neptuo$Templates$Observers$ObserverEventArgs);
-var Neptuo$Templates$OnInitComplete = {
-    fullname: "Neptuo.Templates.OnInitComplete",
+var Neptuo$Templates$Runtime$OnInitComplete = {
+    fullname: "Neptuo.Templates.Runtime.OnInitComplete",
     Kind: "Delegate",
     definition: {
         ctor: function (obj, func){
@@ -1059,7 +1059,7 @@ var Neptuo$Templates$OnInitComplete = {
     ],
     IsAbstract: false
 };
-JsTypes.push(Neptuo$Templates$OnInitComplete);
+JsTypes.push(Neptuo$Templates$Runtime$OnInitComplete);
 var Neptuo$Templates$Components$VersionInfo = {
     fullname: "Neptuo.Templates.Components.VersionInfo",
     baseTypeName: "System.Object",

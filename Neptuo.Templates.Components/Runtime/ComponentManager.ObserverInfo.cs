@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates
+namespace Neptuo.Templates.Runtime
 {
     partial class ComponentManager
     {

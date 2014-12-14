@@ -11,6 +11,7 @@ using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.ViewActivators;
 using Neptuo.Templates.Controls;
+using Neptuo.Templates.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

@@ -7,6 +7,7 @@ using System.IO;
 using System.Collections;
 using Neptuo.Templates.Controls;
 using Neptuo.Templates;
+using Neptuo.Templates.Runtime;
 
 namespace TestConsoleNG.Controls
 {

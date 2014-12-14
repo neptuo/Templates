@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates
+namespace Neptuo.Templates.Runtime
 {
     /// <summary>
     /// Standart implementation of <see cref="IComponentManager"/>.

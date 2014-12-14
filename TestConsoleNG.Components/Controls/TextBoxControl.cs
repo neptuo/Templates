@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using Neptuo.Templates;
+using Neptuo.Templates.Runtime;
 
 namespace TestConsoleNG.Controls
 {
