@@ -60,7 +60,7 @@
     <Compile Include="CodeGenerators\SequenceFieldNameProvider.cs" />
     <Compile Include="CodeGenerators\SharpKitCodeGenerator.cs" />
     <Compile Include="CodeGenerators\TypeCodeDomObjectGenerator.cs" />
-    <Compile Include="CodeGenerators\CODEDOMREGISTEREXTENSIONS.cs" />
+    <Compile Include="CodeGenerators\_CodeDomGeneratorExtensions.cs" />
     <Compile Include="CodeGenerators\CodeDomComponentGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomStructureGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomDependencyGenerator.cs" />

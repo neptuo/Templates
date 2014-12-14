@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public static class CODEDOMREGISTEREXTENSIONS
+    public static class _CodeDomGeneratorExtensions
     {
         public static void RegisterStandartCodeGenerators(this CodeDomGenerator generator, IFieldNameProvider fieldNameProvider = null)
         {
