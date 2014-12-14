@@ -1,28 +1,37 @@
 ﻿<!-- This is a html comment -->
 <html xmlns:h="web-controls" xmlns:data="data" xmlns:ui="ui-controls">
     <body>
-        <h:panel header="Street:">
-            <h:textbox name="street" text="{Binding Address.Street}" />
-        </h:panel>
-        <h:panel header="House Number:">
-            <!-- template="PanelTemplate.html"  -->
-            <h:textbox name="housenumber" text="{Binding Address.HouseNumber}" />
-        </h:panel>
-        <h:panel header="City:">
-            <template>
-                Hello, World!
+        <div class="address" data:datacontext="{Binding Address}">
+            <h:panel header="Street:">
+                <h:textbox name="street" text="{Binding Street}" />
+            </h:panel>
+            <h:panel header="House Number:">
+                <!-- template="PanelTemplate.html"  -->
+                <h:textbox name="housenumber" text="{Binding HouseNumber}" />
+            </h:panel>
+            <h:panel header="City:">
+                <h:textbox name="city" text="{Binding City}" />
+            </h:panel>
+            <div>
+                <h:panel header="Postal code:">
+                    <h:textbox name="postalcode" text="{Binding PostalCode}" />
+                </h:panel>
+            </div>
+        </div>
+        <div class="person-links">
+            <h:panel>
+                <template>
+                    Hello, World!
 
-                <h:anchor url="http://www.google.com" target="_blank">
-                    <parameters>
-                        <h:parameter name="q" value="{Binding Address.Firstname}" />
-                    </parameters>
-                </h:anchor>
-            </template>
-            <h:textbox name="city" text="{Binding Address.City}" />
-        </h:panel>
-        <div>
-            <h:panel header="Postal code:">
-                <h:textbox name="postalcode" text="{Binding Address.PostalCode}" />
+                    <h:anchor url="http://www.google.com" target="_blank">
+                        <parameters>
+                            <h:parameter name="q" value="{Binding Firstname}" />
+                        </parameters>
+                    </h:anchor>
+                </template>
+                <content>
+                    Person
+                </content>
             </h:panel>
         </div>
     </body>

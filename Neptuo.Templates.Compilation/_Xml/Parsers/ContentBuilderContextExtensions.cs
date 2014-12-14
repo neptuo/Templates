@@ -76,7 +76,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static void AddError(this IContentBuilderContext context, IXmlNode node, string errorText)
         {
             Guard.NotNull(context, "context");
-            Guard.NotNull(node, "element");
+            Guard.NotNull(node, "node");
 
             if (node.NodeType == XmlNodeType.Element)
             {

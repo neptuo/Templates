@@ -79,14 +79,15 @@ namespace TestConsoleNG
                 new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry));
+            builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
             builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components");
             builderRegistry.RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components");
-            builderRegistry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilderFactory(typeof(DataContextObserver)));
-            builderRegistry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilderFactory(typeof(VisibleObserver)));
+            builderRegistry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), ObserverBuilderScope.PerElement, builderRegistry));
+            builderRegistry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), ObserverBuilderScope.PerElement, builderRegistry));
+            builderRegistry.RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder());
             builderRegistry.RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder());
             builderRegistry.RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder());
-            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(builderRegistry));
+            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(builderRegistry, builderRegistry));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator();
@@ -156,7 +157,7 @@ namespace TestConsoleNG
 
             ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
-            if (view == null)
+            if (view == null || context.Errors.Any())
             {
                 Console.WriteLine("Unable to compile view...");
 

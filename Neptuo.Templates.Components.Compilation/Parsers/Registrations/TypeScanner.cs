@@ -18,11 +18,13 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class TypeScanner : TypeRegistryHelper
     {
         private readonly IPropertyBuilder propertyBuilder;
+        private readonly IObserverBuilder observerFactory;
 
-        public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content, IPropertyBuilder propertyBuilder)
+        public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content, IPropertyBuilder propertyBuilder, IObserverBuilder observerFactory)
             : base(configuration, content)
         {
             this.propertyBuilder = propertyBuilder;
+            this.observerFactory = observerFactory;
         }
 
         public void Scan(string prefix, string namespaceName)
@@ -88,7 +90,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual IContentBuilder CreateDefaultComponentBuilderFactory(Type type)
         {
-            return new TransientComponentBuilder(() => new DefaultTypeComponentBuilder(type, propertyBuilder));
+            return new TransientComponentBuilder(() => new DefaultTypeComponentBuilder(type, propertyBuilder, observerFactory));
         }
 
         protected virtual ITokenBuilder CreateDefaultTokenBuilderFactory(Type type)

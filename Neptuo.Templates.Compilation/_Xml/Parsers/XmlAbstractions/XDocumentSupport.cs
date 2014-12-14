@@ -23,18 +23,34 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new XElementWrapper(document.Root);
         }
 
-        internal abstract class XNodeWrapper : IXmlNode
+        internal abstract class XNodeWrapper : IXmlNode, ISourceLineInfo
         {
             public XmlNodeType NodeType { get; private set; }
             public abstract string OuterXml { get; }
+
+            #region ISourceLineInfo
+
+            public int LineIndex { get; protected set; }
+            public int ColumnIndex { get; private set; }
+
+            #endregion
 
             public XNodeWrapper(XmlNodeType nodeType)
             {
                 NodeType = nodeType;
             }
+
+            protected void SetLineInfo(IXmlLineInfo lineInfo)
+            {
+                if (lineInfo.HasLineInfo())
+                {
+                    LineIndex = lineInfo.LineNumber;
+                    ColumnIndex = lineInfo.LinePosition;
+                }
+            }
         }
 
-        internal abstract class XNameNodeWrapper : XNodeWrapper, IXmlName, ISourceLineInfo
+        internal abstract class XNameNodeWrapper : XNodeWrapper, IXmlName
         {
             internal const char NameSeparator = ':';
 
@@ -51,27 +67,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             public string Prefix { get; private set; }
             public string LocalName { get; private set; }
 
-            #region ISourceLineInfo
-
-            public int LineIndex { get; protected set; }
-            public int ColumnIndex { get; private set; }
-
-            #endregion
-
             public XNameNodeWrapper(XmlNodeType nodeType, string prefix, string localName)
                 : base(nodeType)
             {
                 Prefix = prefix ?? String.Empty;
                 LocalName = localName;
-            }
-
-            protected void SetLineInfo(IXmlLineInfo lineInfo)
-            {
-                if (lineInfo.HasLineInfo())
-                {
-                    LineIndex = lineInfo.LineNumber;
-                    ColumnIndex = lineInfo.LinePosition;
-                }
             }
         }
 
@@ -135,7 +135,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        internal class XTextWrapper : XNodeWrapper, IXmlText
+        internal class XTextWrapper : XNodeWrapper, IXmlText, ISourceLineInfo
         {
             public string Text { get; private set; }
             public override string OuterXml { get { return Text; } }
@@ -148,7 +148,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             public XTextWrapper(XText text)
                 : this(text.Value)
-            { }
+            {
+                SetLineInfo(text);
+            }
 
             //public XmlTextWrapper(XmlWhitespace text)
             //    : this(text.InnerText)
@@ -159,7 +161,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             //{ }
         }
 
-        internal class XCommentWrapper : XNodeWrapper, IXmlText
+        internal class XCommentWrapper : XNodeWrapper, IXmlText, ISourceLineInfo
         {
             public string Text { get; private set; }
             public override string OuterXml { get { return String.Format("<!-- {0} -->", Text); } }
@@ -168,8 +170,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                 : base(XmlNodeType.Comment)
             {
                 Text = comment.Value;
+                SetLineInfo(comment);
             }
         }
-
     }
 }

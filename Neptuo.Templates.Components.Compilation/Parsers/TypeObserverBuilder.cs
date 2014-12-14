@@ -10,32 +10,41 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class TypeObserverBuilder : ObserverDescriptorBuilder
     {
-        protected abstract Type GetObserverType(IEnumerable<IXmlAttribute> attributes);
-        protected abstract ObserverLivecycle GetObserverScope(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes);
+        public TypeObserverBuilder(ObserverBuilderScope scope, IPropertyBuilder propertyFactory)
+            : base(scope, propertyFactory)
+        { }
 
-        protected override IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes)
+        protected abstract Type GetObserverType(IXmlAttribute attribute);
+
+        protected ObserverLivecycle GetObserverScope(IContentBuilderContext context, IXmlAttribute attribute)
         {
-            return new ObserverCodeObject(GetObserverType(attributes), GetObserverScope(context, attributes));
+            switch (Scope)
+            {
+                case ObserverBuilderScope.PerAttribute:
+                    return ObserverLivecycle.PerAttribute;
+                case ObserverBuilderScope.PerElement:
+                    return ObserverLivecycle.PerControl;
+                case ObserverBuilderScope.PerDocument:
+                    return ObserverLivecycle.PerPage;
+                default:
+                    throw new NotSupportedException(Scope.ToString());
+            }
         }
 
-        protected override IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes)
+        protected override IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)
         {
-            return new TypeDescriptorBase(GetObserverType(attributes));
+            return new ObserverCodeObject(GetObserverType(attribute), GetObserverScope(context, attribute));
         }
 
-        protected override void ProcessUnboundAttributes(IContentBuilderContext context, IObserverCodeObject codeObject, List<IXmlAttribute> unboundAttributes)
+        protected override IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
-            ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
-            if (typeCodeObject != null)
-            {
-                foreach (IXmlAttribute attribute in unboundAttributes)
-                    //TODO: Realize using observer!
-                    BuilderBase.BindAttributeCollection(context, typeCodeObject, codeObject, attribute.LocalName, attribute.GetValue());
-            }
-            else
-            {
-                throw new NotImplementedException("Can't process unbound attributes!");
-            }
+            return new TypeDescriptorBase(GetObserverType(attribute));
+        }
+
+        protected override IObserverCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        {
+            Type observerType = GetObserverType(attribute);
+            return codeObject.Observers.FirstOrDefault(o => o.Type == observerType);
         }
     }
 }

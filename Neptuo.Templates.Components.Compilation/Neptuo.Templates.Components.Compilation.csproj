@@ -51,6 +51,7 @@
     <Compile Include="CodeGenerators\CodeDomRootGenerator.cs" />
     <Compile Include="CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="CodeObjects\RootCodeObject.cs" />
+    <Compile Include="Parsers\HtmlAttributeObserverBuilder.cs" />
     <Compile Include="Parsers\RootComponentDescriptor.cs" />
     <Compile Include="BuilderAttribute.cs" />
     <Compile Include="CodeGenerators\CodeDomDictionaryAddPropertyGenerator.cs" />
@@ -80,8 +81,6 @@
     <Compile Include="ComponentAttribute.cs" />
     <Compile Include="Parsers\BuilderBase.cs" />
     <Compile Include="Parsers\DefaultTokenBuilder.cs" />
-    <Compile Include="Parsers\DefaultTypeObserverBuilderFactory.cs" />
-    <Compile Include="Parsers\DefaultTypeObserverRegistration.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyInfo.cs" />
     <Compile Include="Parsers\DefaultLiteralControlBuilder.cs" />
     <Compile Include="Parsers\RootContentBuilder.cs" />

@@ -189,7 +189,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             IPropertyBuilder propertyBuilder = GetPropertyBuilder(propertyInfo);
             if (propertyBuilder == null)
-                return false;
+                propertyBuilder = new TypeDefaultPropertyBuilder();
 
             return propertyBuilder.TryParse(context, codeObject, propertyInfo, attributeValue);
         }
@@ -263,7 +263,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.Components[prefix][tagName] = factory;
         }
 
-        protected void RegisterObserver(string prefix, string tagName, IObserverBuilderFactory factory)
+        protected void RegisterObserver(string prefix, string tagName, IObserverBuilder factory)
         {
             prefix = PreparePrefix(prefix);
             tagName = PrepareName(tagName, Configuration.ObserverSuffix);
@@ -291,7 +291,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
 
-        public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilderFactory factory)
+        public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilder factory)
         {
             RegisterNamespaceInternal(prefix, attributeName);
             RegisterObserver(prefix, attributeName, factory);
@@ -356,7 +356,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual TypeScanner CreateTypeScanner()
         {
-            return new TypeScanner(Configuration, Content, this);
+            return new TypeScanner(Configuration, Content, this, this);
         }
     }
 

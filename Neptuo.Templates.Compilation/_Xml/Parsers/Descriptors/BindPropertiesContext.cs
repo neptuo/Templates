@@ -43,5 +43,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             BoundProperies = new HashSet<string>();
             UnboundAttributes = new List<IXmlAttribute>();
         }
+
+        public BindPropertiesContext(IObserverDescriptor observerDescriptor)
+            : this(observerDescriptor.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()))
+        { }
+
+        public BindPropertiesContext(IObserverDescriptor observerDescriptor, IObserverCodeObject codeObject)
+        {
+            Guard.NotNull(codeObject, "codeObject");
+            foreach (IPropertyDescriptor propertyDescriptor in codeObject.Properties)
+                BoundProperies.Add(propertyDescriptor.Property.Name);
+        }
     }
 }

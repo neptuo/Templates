@@ -10,22 +10,16 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class DefaultTypeObserverBuilder : TypeObserverBuilder
     {
         protected Type Type { get; private set; }
-        protected ObserverLivecycle Scope { get; private set; }
 
-        public DefaultTypeObserverBuilder(Type type, ObserverLivecycle scope)
+        public DefaultTypeObserverBuilder(Type type, ObserverBuilderScope scope, IPropertyBuilder propertyFactory)
+            : base(scope, propertyFactory)
         {
             Type = type;
-            Scope = scope;
         }
 
-        protected override Type GetObserverType(IEnumerable<IXmlAttribute> attributes)
+        protected override Type GetObserverType(IXmlAttribute attribute)
         {
             return Type;
-        }
-
-        protected override ObserverLivecycle GetObserverScope(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes)
-        {
-            return Scope;
         }
     }
 }

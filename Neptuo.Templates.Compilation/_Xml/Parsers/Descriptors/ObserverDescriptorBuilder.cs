@@ -40,41 +40,54 @@ namespace Neptuo.Templates.Compilation.Parsers
             PropertyFactory = propertyFactory;
         }
 
+        protected abstract IObserverCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+
         public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
-            switch (Scope)
+            if (Scope == ObserverBuilderScope.PerElement)
             {
-                case ObserverBuilderScope.PerAttribute:
-                case ObserverBuilderScope.PerDocument:
-                    // Just append observer.
-                    break;
-                case ObserverBuilderScope.PerElement:
-                    // Check to update existing or append.
-                    break;
+                IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
+                if (observerObject != null)
+                    return TryUpdateObserver(context, codeObject, observerObject, attribute);
+                else
+                    return TryAppendNewObserver(context, codeObject, attribute);
             }
 
-            //IObserverCodeObject observerObject = CreateCodeObject(context, attribute);
-            //IObserverDescriptor observerDefinition = GetObserverDescriptor(context, codeObject, attribute);
-            //codeObject.Observers.Add(observerObject);
+            if (Scope == ObserverBuilderScope.PerAttribute || Scope == ObserverBuilderScope.PerDocument)
+                return TryAppendNewObserver(context, codeObject, attribute);
 
-            //TryBindProperties(context, new BindPropertiesContext(observerDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant())), observerObject, attribute);
-            return false;
+            throw new NotSupportedException(Scope.ToString());
         }
 
         protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
-        protected abstract IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IEnumerable<IXmlAttribute> attributes);
+
+        protected bool TryAppendNewObserver(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        {
+            IObserverCodeObject observerObject = CreateCodeObject(context, attribute);
+            IObserverDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
+            codeObject.Observers.Add(observerObject);
+            return TryBindProperty(context, new BindPropertiesContext(observerDescriptor), observerObject, attribute);
+        }
+
+        protected bool TryUpdateObserver(IContentBuilderContext context, IComponentCodeObject codeObject, IObserverCodeObject observerObject, IXmlAttribute attribute)
+        {
+            IObserverDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
+            return TryBindProperty(context, new BindPropertiesContext(observerDescriptor, observerObject), observerObject, attribute);
+        }
+
+        protected abstract IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
 
         protected virtual bool TryBindProperty(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
             // Bind attribute
-            if (!TryBindAttribute(context, bindContext, codeObject, attribute))
-                return false;
+            if (TryBindAttribute(context, bindContext, codeObject, attribute))
+                return true;
 
             // Process unbound attribute
-            if (!ProcessUnboundAttribute(context, codeObject, attribute))
-                return false;
+            if (ProcessUnboundAttribute(context, codeObject, attribute))
+                return true;
 
-            return true;
+            return false;
         }
 
         protected virtual bool TryBindAttribute(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
@@ -96,6 +109,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected abstract bool ProcessUnboundAttribute(IContentBuilderContext context, IObserverCodeObject codeObject, IXmlAttribute unboundAttribute);
+        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IObserverCodeObject codeObject, IXmlAttribute unboundAttribute)
+        {
+            context.AddError(unboundAttribute, "Unnable to attach attribute to observer.");
+            return false;
+        }
     }
 }

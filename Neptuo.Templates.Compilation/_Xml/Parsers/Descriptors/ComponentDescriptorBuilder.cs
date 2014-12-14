@@ -110,8 +110,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                 // If at least one property was bound from content element, default property is not supported.
                 if (BindContext.IsBoundFromContent)
                 {
-                    context.AddError(unboundNodes.First(), "If at least one property was bound from content element, default property is not supported.");
-                    return false;
+                    IXmlNode node = FindFirstSignificantNode(unboundNodes);
+                    if (node != null)
+                    {
+                        context.AddError(node, "If at least one property was bound from content element, default property is not supported.");
+                        return false;
+                    }
+
+                    return true;
                 }
 
                 // Bind content elements
@@ -129,6 +135,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
 
             return true;
+        }
+
+        protected IXmlNode FindFirstSignificantNode(IEnumerable<IXmlNode> nodes)
+        {
+            IXmlNode node = nodes.FirstOrDefault(n => n.NodeType == XmlNodeType.Element);
+            if (node == null)
+                node = nodes.OfType<IXmlText>().FirstOrDefault(t => !String.IsNullOrEmpty(t.Text) && !String.IsNullOrWhiteSpace(t.Text));
+
+            return node;
         }
 
         /// <summary>
