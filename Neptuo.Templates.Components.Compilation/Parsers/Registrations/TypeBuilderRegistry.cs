@@ -249,10 +249,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Content.Namespaces[prefix] = new NamespaceDeclaration() { Prefix = prefix, Namespace = clrNamespace };
         }
 
-        public void RegisterNamespace(string prefix, string clrNamespace)
+        public TypeBuilderRegistry RegisterNamespace(string prefix, string clrNamespace)
         {
             RegisterNamespaceInternal(prefix, clrNamespace);
             TypeScanner.Scan(prefix, clrNamespace);
+            return this;
         }
 
 
@@ -270,10 +271,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.Observers[prefix][tagName] = factory;
         }
 
-        public void RegisterComponentBuilder(string prefix, string tagName, IContentBuilder factory)
+        public TypeBuilderRegistry RegisterComponentBuilder(string prefix, string tagName, IContentBuilder factory)
         {
             RegisterNamespaceInternal(prefix, tagName);
             RegisterComponent(prefix, tagName, factory);
+            return this;
         }
 
 
@@ -284,22 +286,25 @@ namespace Neptuo.Templates.Compilation.Parsers
             Content.Tokens[prefix][tagName] = factory;
         }
 
-        public void RegisterTokenBuilder(string prefix, string tagName, ITokenBuilder factory)
+        public TypeBuilderRegistry RegisterTokenBuilder(string prefix, string tagName, ITokenBuilder factory)
         {
             RegisterNamespaceInternal(prefix, tagName);
             RegisterTokenInternal(prefix, tagName, factory);
+            return this;
         }
 
 
-        public void RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilder factory)
+        public TypeBuilderRegistry RegisterObserverBuilder(string prefix, string attributeName, IObserverBuilder factory)
         {
             RegisterNamespaceInternal(prefix, attributeName);
             RegisterObserver(prefix, attributeName, factory);
+            return this;
         }
 
-        public void RegisterPropertyBuilder(Type propertyType, IPropertyBuilder factory)
+        public TypeBuilderRegistry RegisterPropertyBuilder(Type propertyType, IPropertyBuilder factory)
         {
             Content.Properties[propertyType] = factory;
+            return this;
         }
 
         #endregion

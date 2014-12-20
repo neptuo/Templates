@@ -81,14 +81,14 @@ namespace TestConsoleNG
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
-            builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components");
-            builderRegistry.RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components");
-            builderRegistry.RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), ObserverBuilderScope.PerElement, builderRegistry));
-            builderRegistry.RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), ObserverBuilderScope.PerElement, builderRegistry));
-            builderRegistry.RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder());
-            builderRegistry.RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder());
-            builderRegistry.RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder());
-            builderRegistry.RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(builderRegistry, builderRegistry));
+            builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components")
+                .RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components")
+                .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), ObserverBuilderScope.PerElement, builderRegistry))
+                .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), ObserverBuilderScope.PerElement, builderRegistry))
+                .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder())
+                .RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder())
+                .RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder())
+                .RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(builderRegistry, builderRegistry));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()
