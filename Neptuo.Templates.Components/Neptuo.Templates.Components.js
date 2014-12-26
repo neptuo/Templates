@@ -945,56 +945,6 @@ var Neptuo$Templates$IViewPage = {
     IsAbstract: true
 };
 JsTypes.push(Neptuo$Templates$IViewPage);
-var Neptuo$Templates$ObserverAttribute = {
-    fullname: "Neptuo.Templates.ObserverAttribute",
-    baseTypeName: "System.Attribute",
-    assemblyName: "Neptuo.Templates.Components",
-    Kind: "Class",
-    definition: {
-        ctor: function (){
-            this._Livecycle = Neptuo.Templates.ObserverLivecycle.PerAttribute;
-            Neptuo.Templates.ObserverAttribute.ctor$$ObserverLivecycle.call(this, Neptuo.Templates.ObserverLivecycle.PerControl);
-        },
-        Livecycle$$: "Neptuo.Templates.ObserverLivecycle",
-        get_Livecycle: function (){
-            return this._Livecycle;
-        },
-        set_Livecycle: function (value){
-            this._Livecycle = value;
-        },
-        ctor$$ObserverLivecycle: function (livecycle){
-            this._Livecycle = Neptuo.Templates.ObserverLivecycle.PerAttribute;
-            System.Attribute.ctor.call(this);
-            this.set_Livecycle(livecycle);
-        }
-    },
-    ctors: [{
-        name: "ctor",
-        parameters: []
-    }, {
-        name: "ctor$$ObserverLivecycle",
-        parameters: ["Neptuo.Templates.ObserverLivecycle"]
-    }
-    ],
-    IsAbstract: false
-};
-JsTypes.push(Neptuo$Templates$ObserverAttribute);
-var Neptuo$Templates$ObserverLivecycle = {
-    fullname: "Neptuo.Templates.ObserverLivecycle",
-    staticDefinition: {
-        PerAttribute: 0,
-        PerControl: 1,
-        PerPage: 2
-    },
-    Kind: "Enum",
-    ctors: [{
-        name: "ctor",
-        parameters: []
-    }
-    ],
-    IsAbstract: false
-};
-JsTypes.push(Neptuo$Templates$ObserverLivecycle);
 var Neptuo$Templates$Observers$IObserver = {
     fullname: "Neptuo.Templates.Observers.IObserver",
     baseTypeName: "System.Object",

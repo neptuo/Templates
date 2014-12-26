@@ -83,8 +83,8 @@ namespace TestConsoleNG
             builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
             builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components")
                 .RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components")
-                .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), ObserverBuilderScope.PerElement, builderRegistry))
-                .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), ObserverBuilderScope.PerElement, builderRegistry))
+                .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), builderRegistry))
+                .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), builderRegistry))
                 .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder())
                 .RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder())
                 .RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder())

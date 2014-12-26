@@ -10,7 +10,6 @@ using TestConsoleNG.Data;
 
 namespace TestConsoleNG.Observers
 {
-    [Observer(ObserverLivecycle.PerControl)]
     public class DataContextObserver : IObserver
     {
         private IComponentManager componentManager;

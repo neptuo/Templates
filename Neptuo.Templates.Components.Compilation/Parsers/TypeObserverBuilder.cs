@@ -10,30 +10,15 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class TypeObserverBuilder : ObserverDescriptorBuilder
     {
-        public TypeObserverBuilder(ObserverBuilderScope scope, IPropertyBuilder propertyFactory)
-            : base(scope, propertyFactory)
+        public TypeObserverBuilder(IPropertyBuilder propertyFactory)
+            : base(propertyFactory)
         { }
 
         protected abstract Type GetObserverType(IXmlAttribute attribute);
 
-        protected ObserverLivecycle GetObserverScope(IContentBuilderContext context, IXmlAttribute attribute)
-        {
-            switch (Scope)
-            {
-                case ObserverBuilderScope.PerAttribute:
-                    return ObserverLivecycle.PerAttribute;
-                case ObserverBuilderScope.PerElement:
-                    return ObserverLivecycle.PerControl;
-                case ObserverBuilderScope.PerDocument:
-                    return ObserverLivecycle.PerPage;
-                default:
-                    throw new NotSupportedException(Scope.ToString());
-            }
-        }
-
         protected override IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)
         {
-            return new ObserverCodeObject(GetObserverType(attribute), GetObserverScope(context, attribute));
+            return new ObserverCodeObject(GetObserverType(attribute));
         }
 
         protected override IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)

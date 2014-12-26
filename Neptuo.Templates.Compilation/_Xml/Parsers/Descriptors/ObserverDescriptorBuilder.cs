@@ -7,36 +7,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public enum ObserverBuilderScope
-    {
-        /// <summary>
-        /// One instance per attribute.
-        /// </summary>
-        PerAttribute,
-
-        /// <summary>
-        /// One instance per all attributes on component.
-        /// </summary>
-        PerElement,
-
-        /// <summary>
-        /// Singleton per document.
-        /// </summary>
-        PerDocument
-    }
-
     /// <summary>
     /// Base builder for observer which operates on <see cref="IObserverDescriptor"/>.
     /// </summary>
     public abstract class ObserverDescriptorBuilder : IObserverBuilder
     {
-        protected ObserverBuilderScope Scope { get; private set; }
         protected IPropertyBuilder PropertyFactory { get; private set; }
 
-        public ObserverDescriptorBuilder(ObserverBuilderScope scope, IPropertyBuilder propertyFactory)
+        public ObserverDescriptorBuilder(IPropertyBuilder propertyFactory)
         {
             Guard.NotNull(propertyFactory, "propertyFactory");
-            Scope = scope;
             PropertyFactory = propertyFactory;
         }
 
@@ -44,19 +24,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
-            if (Scope == ObserverBuilderScope.PerElement)
-            {
-                IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
-                if (observerObject != null)
-                    return TryUpdateObserver(context, codeObject, observerObject, attribute);
-                else
-                    return TryAppendNewObserver(context, codeObject, attribute);
-            }
-
-            if (Scope == ObserverBuilderScope.PerAttribute || Scope == ObserverBuilderScope.PerDocument)
+            IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
+            if (observerObject != null)
+                return TryUpdateObserver(context, codeObject, observerObject, attribute);
+            else
                 return TryAppendNewObserver(context, codeObject, attribute);
-
-            throw new NotSupportedException(Scope.ToString());
         }
 
         protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
