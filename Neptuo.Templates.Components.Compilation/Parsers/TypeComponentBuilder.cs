@@ -30,18 +30,5 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             return new TypeDescriptorBase(GetControlType(element));
         }
-
-        protected override bool ProcessUnboundAttribute(IContentBuilderContext context, IXmlAttribute attribute)
-        {
-            ITypeCodeObject typeCodeObject = CodeObject as ITypeCodeObject;
-            if (typeCodeObject != null)
-            {
-                //TODO: Realize using observer!
-                BuilderBase.BindAttributeCollection(context, typeCodeObject, CodeObject, attribute.LocalName, attribute.GetValue());
-                return true;
-            }
-
-            return base.ProcessUnboundAttribute(context, attribute);
-        }
     }
 }

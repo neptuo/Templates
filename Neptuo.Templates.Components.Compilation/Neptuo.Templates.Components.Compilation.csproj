@@ -79,7 +79,6 @@
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\SetPropertyDescriptor.cs" />
     <Compile Include="ComponentAttribute.cs" />
-    <Compile Include="Parsers\BuilderBase.cs" />
     <Compile Include="Parsers\DefaultTokenBuilder.cs" />
     <Compile Include="CodeObjects\MethodInvokePropertyInfo.cs" />
     <Compile Include="Parsers\DefaultLiteralControlBuilder.cs" />
