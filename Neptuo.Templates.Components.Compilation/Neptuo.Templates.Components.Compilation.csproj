@@ -52,6 +52,7 @@
     <Compile Include="CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="CodeObjects\RootCodeObject.cs" />
     <Compile Include="Parsers\HtmlAttributeObserverBuilder.cs" />
+    <Compile Include="Parsers\Registrations\_TypeBuilderRegistryExtensions.cs" />
     <Compile Include="Parsers\RootComponentDescriptor.cs" />
     <Compile Include="BuilderAttribute.cs" />
     <Compile Include="CodeGenerators\CodeDomDictionaryAddPropertyGenerator.cs" />

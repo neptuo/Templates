@@ -81,14 +81,15 @@ namespace TestConsoleNG
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
-            builderRegistry.RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components")
-                .RegisterNamespace(null, "TestConsoleNG.Extensions, TestConsoleNG.Components")
+            builderRegistry
+                .RegisterDefaultNamespace("TestConsoleNG.Extensions, TestConsoleNG.Components")
+                .RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components")
                 .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), builderRegistry))
                 .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), builderRegistry))
                 .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder())
-                .RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder())
-                .RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder())
-                .RegisterComponentBuilder(null, XmlContentParser.FakeRootElementName, new RootContentBuilder(builderRegistry, builderRegistry));
+                .RegisterPropertyBuilder<string>(new StringPropertyBuilder())
+                .RegisterPropertyBuilder<ITemplate>(new TemplatePropertyBuilder())
+                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()
