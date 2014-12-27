@@ -88,7 +88,7 @@ namespace TestConsoleNG
                 .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder())
                 .RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder())
                 .RegisterPropertyBuilder(typeof(ITemplate), new TemplatePropertyBuilder())
-                .RegisterComponentBuilder(null, "NeptuoTemplatesRoot", new RootContentBuilder(builderRegistry, builderRegistry));
+                .RegisterComponentBuilder(null, XmlContentParser.FakeRootElementName, new RootContentBuilder(builderRegistry, builderRegistry));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()

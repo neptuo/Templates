@@ -18,6 +18,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public partial class XmlContentParser : IContentParser
     {
+        public static string FakeRootElementName = "NeptuoTemplatesRoot";
+
         private readonly IContentBuilder componentFactory;
         private readonly ILiteralBuilder literalFactory;
 
@@ -109,7 +111,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             StringBuilder result = new StringBuilder();
 
             result.Append("<?xml version=\"1.0\" ?>");
-            result.Append("<NeptuoTemplatesRoot");
+            result.Append("<" + FakeRootElementName);
             //foreach (NamespaceDeclaration entry in Enumerable.Empty<NamespaceDeclaration>()) //TODO: Move this to "View Normalizer".
             //{
             //    if (usedPrefixes.Add(entry.Prefix))
@@ -123,7 +125,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             //}
             result.Append(">");
             result.Append(content);
-            result.Append("</NeptuoTemplatesRoot>");
+            result.Append("</" + FakeRootElementName + ">");
 
             return result.ToString();
         }
