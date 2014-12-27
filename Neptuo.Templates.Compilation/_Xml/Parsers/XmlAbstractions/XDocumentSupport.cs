@@ -48,6 +48,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                     ColumnIndex = lineInfo.LinePosition;
                 }
             }
+
+            public override string ToString()
+            {
+                return OuterXml;
+            }
         }
 
         internal abstract class XNameNodeWrapper : XNodeWrapper, IXmlName
@@ -89,6 +94,16 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Attributes = CreateAttributes(element.Attributes(), element, this);
                 IsEmpty = element.IsEmpty;
                 SetLineInfo(element);
+            }
+
+            public override string ToString()
+            {
+                return String.Format(
+                    "<{0} {1}{2}",
+                    Name,
+                    String.Join(" ", Attributes.OfType<XAttributeWrapper>().Select(a => a.OuterXml)),
+                    ChildNodes.Any() ? ">..." : " />"
+                );
             }
 
             public static IEnumerable<IXmlNode> CreateChildNodes(IEnumerable<XNode> childNodes)
