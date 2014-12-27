@@ -106,7 +106,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                         continue;
 
                     if (isPropertyBound)
-                        context.AddError(node, "Once the component has defined any property as inner element, event default property must be wrapper in property element.");
+                    {
+                        context.AddError(node, "Once the component has defined any property as inner element, even default property must be wrapper in property element.");
+                        return false;
+                    }
                 }
 
                 index++;
