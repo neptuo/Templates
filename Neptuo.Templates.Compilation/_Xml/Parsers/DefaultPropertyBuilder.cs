@@ -20,7 +20,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
-            // TODO: All properties through IPropertyBuilder.
             if (typeof(string) == propertyInfo.Type)
             {
                 //Get string and add as plain value
@@ -65,6 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                             IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context, node);
                             if (values != null)
                             {
+                                //TODO: Here MUST be only one value!
                                 propertyDescriptor.SetRangeValue(values); 
                                 codeObject.Properties.Add(propertyDescriptor);
                             }
