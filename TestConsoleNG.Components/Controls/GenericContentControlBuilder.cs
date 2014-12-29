@@ -46,14 +46,15 @@ namespace TestConsoleNG.Controls
                 if (value == null)
                     return null;
 
-                // Is contains extension.
-                ExtensionCodeObject extension = value as ExtensionCodeObject;
-                if (extension != null)
+                // Is not plain value code object.
+                IPlainValueCodeObject plainValue = value as IPlainValueCodeObject;
+                if(plainValue == null)
                 {
                     isComponentRequired = true;
                     break;
                 }
 
+                // Is observer.
                 if (ObserverFactory.TryParse(context, codeObject, attribute))
                 {
                     isComponentRequired = true;
