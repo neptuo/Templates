@@ -41,8 +41,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 foreach (IXmlNode node in content)
                 {
-                    ICodeObject valueObject = context.Parser.TryProcessNode(context, node);
-                    propertyDescriptor.SetValue(valueObject);
+                    IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context, node);
+                    if (values != null)
+                    {
+                        propertyDescriptor.SetRangeValue(values);
+                    }
                 }
 
                 return true;
@@ -57,12 +60,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if (elements.Count() == 1)
                     {
                         IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                        codeObject.Properties.Add(propertyDescriptor);
-
                         foreach (IXmlElement node in elements)
                         {
-                            ICodeObject valueObject = context.Parser.TryProcessNode(context, node);
-                            propertyDescriptor.SetValue(valueObject);
+                            IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context, node);
+                            if (values != null)
+                            {
+                                propertyDescriptor.SetRangeValue(values); 
+                                codeObject.Properties.Add(propertyDescriptor);
+                            }
                         }
                         return true;
                     }
@@ -90,7 +95,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
         {
-            ICodeObject propertyValue = context.ProcessValue(attributeValue);
+            ICodeObject propertyValue = context.TryProcessValue(attributeValue);
             if (propertyValue != null)
             {
                 IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);

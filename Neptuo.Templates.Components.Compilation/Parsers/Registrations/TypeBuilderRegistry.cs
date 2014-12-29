@@ -73,7 +73,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region IContentBuilder
 
-        ICodeObject IContentBuilder.TryParse(IContentBuilderContext context, IXmlElement element)
+        IEnumerable<ICodeObject> IContentBuilder.TryParse(IContentBuilderContext context, IXmlElement element)
         {
             return GetComponentBuilder(element.Prefix, element.LocalName).TryParse(context, element);
         }
@@ -149,12 +149,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region ILiteralBuilder
 
-        ICodeObject ILiteralBuilder.TryParseText(IContentBuilderContext context, string text)
+        IEnumerable<ICodeObject> ILiteralBuilder.TryParseText(IContentBuilderContext context, string text)
         {
             throw new NotImplementedException();
         }
 
-        ICodeObject ILiteralBuilder.TryParseComment(IContentBuilderContext context, string commentText)
+        IEnumerable<ICodeObject> ILiteralBuilder.TryParseComment(IContentBuilderContext context, string commentText)
         {
             throw new NotImplementedException();
         }

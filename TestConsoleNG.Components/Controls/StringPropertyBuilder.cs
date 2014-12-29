@@ -19,7 +19,7 @@ namespace TestConsoleNG.Controls
         public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
         {
             IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            ICodeObject valueObject = context.ProcessValue(value);
+            ICodeObject valueObject = context.TryProcessValue(value);
             if (valueObject != null)
             {
                 propertyDescriptor.SetValue(valueObject);

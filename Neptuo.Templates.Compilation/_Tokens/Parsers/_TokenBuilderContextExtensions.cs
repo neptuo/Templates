@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Some common extensions for <see cref="ITokenBuilderContext"/>.
     /// </summary>
-    public static class TokenBuilderContextExtensions
+    public static class _TokenBuilderContextExtensions
     {
         /// <summary>
         /// Adds error to parser context in context.
@@ -82,7 +82,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="content">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessContent(this ITokenBuilderContext context, ISourceContent content)
+        public static ICodeObject TryProcessContent(this ITokenBuilderContext context, ISourceContent content)
         {
             return context.ParserContext.ParserService.ProcessContent(
                 content,
@@ -96,7 +96,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="value">Part of template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessValue(this ITokenBuilderContext context, ISourceContent value)
+        public static ICodeObject TryProcessValue(this ITokenBuilderContext context, ISourceContent value)
         {
             return context.ParserContext.ParserService.ProcessValue(
                 value,

@@ -140,7 +140,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 this.factory = factory;
             }
 
-            public ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
+            public IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
             {
                 return factory().TryParse(context, element);
             }

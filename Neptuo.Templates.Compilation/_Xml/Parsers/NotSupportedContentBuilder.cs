@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class NotSupportedContentBuilder : IContentBuilder
     {
-        public ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
+        public IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
             context.AddError(String.Format("Xml element '{0}' is not supported.", element.Name));
             return null;

@@ -42,7 +42,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if (propertyName == attribute.Name.ToLowerInvariant())
                     {
                         IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                        ICodeObject valueObject = context.ProcessValue(attribute.GetValue());
+                        ICodeObject valueObject = context.TryProcessValue(attribute.GetValue());
 
                         if (valueObject != null)
                         {
@@ -60,7 +60,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 string defaultAttributeValue = token.DefaultAttributes.FirstOrDefault();
                 if (!String.IsNullOrEmpty(defaultAttributeValue))
                 {
-                    ICodeObject valueObject = context.ProcessValue(new DefaultSourceContent(defaultAttributeValue, token));
+                    ICodeObject valueObject = context.TryProcessValue(new DefaultSourceContent(defaultAttributeValue, token));
                     if (valueObject != null)
                     {
                         propertyDescriptor.SetValue(valueObject);
