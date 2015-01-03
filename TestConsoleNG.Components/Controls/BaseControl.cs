@@ -8,6 +8,7 @@ using Neptuo.Templates;
 using Neptuo.Templates.Controls;
 using Neptuo.Reflection;
 using Neptuo.Templates.Runtime;
+using Neptuo;
 
 namespace TestConsoleNG.Controls
 {
@@ -70,13 +71,16 @@ namespace TestConsoleNG.Controls
             set { defaultPropertyName = value; }
         }
 
-        public BaseControl(IComponentManager componentManager)
+        public BaseControl()
         {
-            ComponentManager = componentManager;
             HtmlAttributes = new HtmlAttributeCollection();
         }
 
-        public virtual void OnInit() { }
+        public virtual void OnInit(IComponentManager componentManager)
+        {
+            Guard.NotNull(componentManager, "componentManager");
+            ComponentManager = componentManager;
+        }
 
         public virtual void Render(IHtmlWriter writer)
         {

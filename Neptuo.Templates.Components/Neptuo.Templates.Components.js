@@ -112,19 +112,17 @@ var Neptuo$Templates$GeneratedView = {
         get_Content: function (){
             return this.viewPage.get_Content();
         },
-        Setup: function (viewPage, componentManager, dependencyProvider){
+        Setup: function (viewPage, dependencyProvider){
             Neptuo.Guard.NotNull$$Object$$String(viewPage, "viewPage");
-            Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
             Neptuo.Guard.NotNull$$Object$$String(dependencyProvider, "dependencyProvider");
             this.viewPage = viewPage;
-            this.componentManager = componentManager;
             this.dependencyProvider = dependencyProvider;
         },
-        CreateControls: function (){
-            this.componentManager.AddComponent$1(Neptuo.Templates.IViewPage.ctor, this.viewPage, $CreateDelegate(this, this.CreateViewPageControls));
-        },
-        Init: function (){
-            this.componentManager.Init(this.viewPage);
+        Init: function (componentManager){
+            Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
+            this.componentManager = componentManager;
+            componentManager.AddComponent$1(Neptuo.Templates.IViewPage.ctor, this.viewPage, $CreateDelegate(this, this.CreateViewPageControls));
+            componentManager.Init(this.viewPage);
         },
         Render: function (writer){
             Neptuo.Guard.NotNull$$Object$$String(writer, "writer");
@@ -169,12 +167,10 @@ var Neptuo$Templates$ViewPage = {
     interfaceNames: ["Neptuo.Templates.IViewPage"],
     Kind: "Class",
     definition: {
-        ctor: function (componentManager){
+        ctor: function (){
             this._ComponentManager = null;
             this._Content = null;
             Neptuo.ComponentModel.DisposableBase.ctor.call(this);
-            Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
-            this.set_ComponentManager(componentManager);
             this.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
         },
         ComponentManager$$: "Neptuo.Templates.Runtime.IComponentManager",
@@ -191,7 +187,9 @@ var Neptuo$Templates$ViewPage = {
         set_Content: function (value){
             this._Content = value;
         },
-        OnInit: function (){
+        OnInit: function (componentManager){
+            Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
+            this.set_ComponentManager(componentManager);
             var $it1 = this.get_Content().GetEnumerator();
             while ($it1.MoveNext()){
                 var item = $it1.get_Current();
@@ -217,7 +215,7 @@ var Neptuo$Templates$ViewPage = {
     },
     ctors: [{
         name: "ctor",
-        parameters: ["Neptuo.Templates.Runtime.IComponentManager"]
+        parameters: []
     }
     ],
     IsAbstract: false
@@ -266,7 +264,7 @@ var Neptuo$Templates$Runtime$ComponentManager = {
                 var targetControl = As(control, Neptuo.Templates.Controls.IControl.ctor);
                 if (targetControl != null){
                     this.BeforeInitControl(targetControl);
-                    targetControl.OnInit();
+                    targetControl.OnInit(this);
                 }
                 return;
             }
@@ -285,7 +283,7 @@ var Neptuo$Templates$Runtime$ComponentManager = {
             if (target == null)
                 return;
             if (this.ExecuteObservers(entry))
-                target.OnInit();
+                target.OnInit(this);
             if (entry.get_InitComplete().get_Count() > 0){
                 var args = new Neptuo.Templates.Runtime.ControlInitCompleteEventArgs.ctor(target);
                 var $it4 = entry.get_InitComplete().GetEnumerator();

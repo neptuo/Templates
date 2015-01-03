@@ -22,12 +22,6 @@ namespace TestConsoleNG.Controls
         //    TagName = tagName;
         //}
 
-        public GenericContentControl(IComponentManager componentManager)
-            : base(componentManager)
-        { 
-            //IsSelfClosing = false;
-        }
-
         public override void Render(IHtmlWriter writer)
         {
             if (!String.IsNullOrEmpty(TagName))

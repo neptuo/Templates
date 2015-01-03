@@ -14,10 +14,6 @@ namespace TestConsoleNG.Controls
     {
         public string Text { get; set; }
 
-        public LiteralControl(IComponentManager componentManager)
-            : base(componentManager)
-        { }
-
         protected override void RenderBody(IHtmlWriter writer)
         {
             writer.Content(Text);

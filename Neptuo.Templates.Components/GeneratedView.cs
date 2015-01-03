@@ -34,22 +34,12 @@ namespace Neptuo.Templates
         /// <param name="viewPage">View page for current view.</param>
         /// <param name="componentManager">Component manager for current view.</param>
         /// <param name="dependencyProvider">Dependency provider for current view.</param>
-        public void Setup(IViewPage viewPage, IComponentManager componentManager, IDependencyProvider dependencyProvider)
+        public void Setup(IViewPage viewPage, IDependencyProvider dependencyProvider)
         {
             Guard.NotNull(viewPage, "viewPage");
-            Guard.NotNull(componentManager, "componentManager");
             Guard.NotNull(dependencyProvider, "dependencyProvider");
             this.viewPage = viewPage;
-            this.componentManager = componentManager;
             this.dependencyProvider = dependencyProvider;
-        }
-
-        /// <summary>
-        /// Registers controls in component manager.
-        /// </summary>
-        public void CreateControls()
-        {
-            componentManager.AddComponent(viewPage, CreateViewPageControls);
         }
 
         /// <summary>
@@ -61,8 +51,11 @@ namespace Neptuo.Templates
         /// <summary>
         /// Starts init phase of this view.
         /// </summary>
-        public void Init()
+        public void Init(IComponentManager componentManager)
         {
+            Guard.NotNull(componentManager, "componentManager");
+            this.componentManager = componentManager;
+            componentManager.AddComponent(viewPage, CreateViewPageControls);
             componentManager.Init(viewPage);
         }
 

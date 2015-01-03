@@ -27,13 +27,9 @@ namespace TestConsoleNG.Controls
 
         public ICollection<object> Content { get; set; }
 
-        public BaseContentControl(IComponentManager componentManager)
-            : base(componentManager)
-        { }
-
-        public override void OnInit()
+        public override void OnInit(IComponentManager componentManager)
         {
-            base.OnInit();
+            base.OnInit(componentManager);
 
             if (Content != null)
             {

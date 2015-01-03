@@ -67,7 +67,7 @@ namespace Neptuo.Templates.Runtime
                 if (targetControl != null)
                 {
                     BeforeInitControl(targetControl);
-                    targetControl.OnInit();
+                    targetControl.OnInit(this);
                 }
                 return;
             }
@@ -96,7 +96,7 @@ namespace Neptuo.Templates.Runtime
                 return;
 
             if (ExecuteObservers(entry))
-                target.OnInit();
+                target.OnInit(this);
 
             if (entry.InitComplete.Count > 0)
             {

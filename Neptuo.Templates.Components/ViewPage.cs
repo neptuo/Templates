@@ -12,9 +12,6 @@ namespace Neptuo.Templates
     /// </summary>
     public class ViewPage : DisposableBase, IViewPage
     {
-        /// <summary>
-        /// Current component manager.
-        /// </summary>
         public IComponentManager ComponentManager { get; set; }
 
         /// <summary>
@@ -22,18 +19,20 @@ namespace Neptuo.Templates
         /// </summary>
         public ICollection<object> Content { get; set; }
 
-        public ViewPage(IComponentManager componentManager)
+        public ViewPage()
         {
-            Guard.NotNull(componentManager, "componentManager");
-            ComponentManager = componentManager;
             Content = new List<object>();
         }
 
         /// <summary>
         /// Initializes <see cref="Content"/>.
         /// </summary>
-        public void OnInit()
+        /// <param name="componentManager">Current component manager.</param>
+        public void OnInit(IComponentManager componentManager)
         {
+            Guard.NotNull(componentManager, "componentManager");
+            ComponentManager = componentManager;
+
             foreach (object item in Content)
                 ComponentManager.Init(item);
         }

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates;
+using Neptuo.Templates.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,9 @@ namespace TestConsoleNG.Controls
             View = view;
         }
 
-        public void OnInit()
+        public void OnInit(IComponentManager componentManager)
         {
-            View.Init();
+            View.Init(componentManager);
         }
 
         public void Render(IHtmlWriter writer)

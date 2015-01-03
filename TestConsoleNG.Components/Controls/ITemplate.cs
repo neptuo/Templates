@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Runtime;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace TestConsoleNG.Controls
 {
     public interface ITemplate : IDisposable
     {
-        ITemplateContent CreateInstance();
+        ITemplateContent CreateInstance(IComponentManager componentManager);
     }
 }

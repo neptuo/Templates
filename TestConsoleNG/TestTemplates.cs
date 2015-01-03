@@ -170,9 +170,8 @@ namespace TestConsoleNG
             {
                 DebugHelper.Debug("Run", () =>
                 {
-                    view.Setup(new ViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
-                    view.CreateControls();
-                    view.Init();
+                    view.Setup(new ViewPage(), container);
+                    view.Init(container.Resolve<IComponentManager>());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });
