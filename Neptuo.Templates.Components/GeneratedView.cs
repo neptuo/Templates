@@ -1,4 +1,5 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.Templates.Controls;
 using Neptuo.Templates.Extensions;
 using Neptuo.Templates.Runtime;
 using System;
@@ -16,7 +17,7 @@ namespace Neptuo.Templates
     /// </summary>
     public abstract class GeneratedView : DisposableBase
     {
-        protected IViewPage viewPage;
+        protected IContentControl rootContainer;
         protected IComponentManager componentManager;
         protected IDependencyProvider dependencyProvider;
 
@@ -25,28 +26,28 @@ namespace Neptuo.Templates
         /// </summary>
         public ICollection<object> Content
         {
-            get { return viewPage.Content; }
+            get { return rootContainer.Content; }
         }
 
         /// <summary>
         /// Setups view page, component manager and depedency provider for this view.
         /// </summary>
-        /// <param name="viewPage">View page for current view.</param>
+        /// <param name="rootContainer">Root content control for current view.</param>
         /// <param name="componentManager">Component manager for current view.</param>
         /// <param name="dependencyProvider">Dependency provider for current view.</param>
-        public void Setup(IViewPage viewPage, IDependencyProvider dependencyProvider)
+        public void Setup(IContentControl rootContainer, IDependencyProvider dependencyProvider)
         {
-            Guard.NotNull(viewPage, "viewPage");
+            Guard.NotNull(rootContainer, "rootContainer");
             Guard.NotNull(dependencyProvider, "dependencyProvider");
-            this.viewPage = viewPage;
+            this.rootContainer = rootContainer;
             this.dependencyProvider = dependencyProvider;
         }
 
         /// <summary>
         /// Method where to setup root controls.
         /// </summary>
-        /// <param name="viewPage">View page.</param>
-        protected abstract void CreateViewPageControls(IViewPage viewPage);
+        /// <param name="rootContainer">Root content control for current view.</param>
+        protected abstract void CreateViewPageControls(IContentControl rootContainer);
 
         /// <summary>
         /// Starts init phase of this view.
@@ -55,8 +56,8 @@ namespace Neptuo.Templates
         {
             Guard.NotNull(componentManager, "componentManager");
             this.componentManager = componentManager;
-            componentManager.AddComponent(viewPage, CreateViewPageControls);
-            componentManager.Init(viewPage);
+            componentManager.AddComponent(rootContainer, CreateViewPageControls);
+            componentManager.Init(rootContainer);
         }
 
         /// <summary>
@@ -66,7 +67,7 @@ namespace Neptuo.Templates
         public void Render(IHtmlWriter writer)
         {
             Guard.NotNull(writer, "writer");
-            viewPage.Render(writer);
+            rootContainer.Render(writer);
         }
 
         /// <summary>
@@ -75,7 +76,7 @@ namespace Neptuo.Templates
         protected override void DisposeManagedResources()
         {
             base.DisposeManagedResources();
-            viewPage.Dispose();
+            componentManager.DisposeAll();
         }
 
         /// <summary>

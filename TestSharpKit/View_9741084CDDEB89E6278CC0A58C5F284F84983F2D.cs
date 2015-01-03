@@ -14,7 +14,7 @@ namespace Neptuo.Templates
     [JsType(JsMode.Clr, Filename = "res/View.js")]
     public sealed class View_9741084CDDEB89E6278CC0A58C5F284F84983F2D : Neptuo.Templates.GeneratedView, System.IDisposable
     {
-        protected override void CreateViewPageControls(Neptuo.Templates.IViewPage viewPage)
+        protected override void CreateViewPageControls(Neptuo.Templates.Controls.IContentControl viewPage)
         {
             this.Content.Add("<div>");
             this.Content.Add(this.field1_Create());

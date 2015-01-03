@@ -103,34 +103,34 @@ var Neptuo$Templates$GeneratedView = {
     Kind: "Class",
     definition: {
         ctor: function (){
-            this.viewPage = null;
+            this.rootContainer = null;
             this.componentManager = null;
             this.dependencyProvider = null;
             Neptuo.ComponentModel.DisposableBase.ctor.call(this);
         },
         Content$$: "System.Collections.Generic.ICollection`1[[System.Object]]",
         get_Content: function (){
-            return this.viewPage.get_Content();
+            return this.rootContainer.get_Content();
         },
-        Setup: function (viewPage, dependencyProvider){
-            Neptuo.Guard.NotNull$$Object$$String(viewPage, "viewPage");
+        Setup: function (rootContainer, dependencyProvider){
+            Neptuo.Guard.NotNull$$Object$$String(rootContainer, "rootContainer");
             Neptuo.Guard.NotNull$$Object$$String(dependencyProvider, "dependencyProvider");
-            this.viewPage = viewPage;
+            this.rootContainer = rootContainer;
             this.dependencyProvider = dependencyProvider;
         },
         Init: function (componentManager){
             Neptuo.Guard.NotNull$$Object$$String(componentManager, "componentManager");
             this.componentManager = componentManager;
-            componentManager.AddComponent$1(Neptuo.Templates.IViewPage.ctor, this.viewPage, $CreateDelegate(this, this.CreateViewPageControls));
-            componentManager.Init(this.viewPage);
+            componentManager.AddComponent$1(Neptuo.Templates.Controls.IContentControl.ctor, this.rootContainer, $CreateDelegate(this, this.CreateViewPageControls));
+            componentManager.Init(this.rootContainer);
         },
         Render: function (writer){
             Neptuo.Guard.NotNull$$Object$$String(writer, "writer");
-            this.viewPage.Render(writer);
+            this.rootContainer.Render(writer);
         },
         DisposeManagedResources: function (){
             Neptuo.ComponentModel.DisposableBase.commonPrototype.DisposeManagedResources.call(this);
-            this.viewPage.Dispose();
+            this.componentManager.DisposeAll();
         },
         CreateValueExtensionContext: function (targetObject, targetProperty){
             Neptuo.Guard.NotNull$$Object$$String(targetObject, "targetObject");
@@ -162,15 +162,15 @@ var Neptuo$Templates$GeneratedView = {
 JsTypes.push(Neptuo$Templates$GeneratedView);
 var Neptuo$Templates$ViewPage = {
     fullname: "Neptuo.Templates.ViewPage",
-    baseTypeName: "Neptuo.ComponentModel.DisposableBase",
+    baseTypeName: "System.Object",
     assemblyName: "Neptuo.Templates.Components",
-    interfaceNames: ["Neptuo.Templates.IViewPage"],
+    interfaceNames: ["Neptuo.Templates.Controls.IContentControl"],
     Kind: "Class",
     definition: {
         ctor: function (){
             this._ComponentManager = null;
             this._Content = null;
-            Neptuo.ComponentModel.DisposableBase.ctor.call(this);
+            System.Object.ctor.call(this);
             this.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
         },
         ComponentManager$$: "Neptuo.Templates.Runtime.IComponentManager",
@@ -202,14 +202,6 @@ var Neptuo$Templates$ViewPage = {
             while ($it2.MoveNext()){
                 var item = $it2.get_Current();
                 this.get_ComponentManager().Render(item, writer);
-            }
-        },
-        DisposeManagedResources: function (){
-            Neptuo.ComponentModel.DisposableBase.commonPrototype.DisposeManagedResources.call(this);
-            var $it3 = this.get_Content().GetEnumerator();
-            while ($it3.MoveNext()){
-                var item = $it3.get_Current();
-                this.get_ComponentManager().Dispose(item);
             }
         }
     },
@@ -286,9 +278,9 @@ var Neptuo$Templates$Runtime$ComponentManager = {
                 target.OnInit(this);
             if (entry.get_InitComplete().get_Count() > 0){
                 var args = new Neptuo.Templates.Runtime.ControlInitCompleteEventArgs.ctor(target);
-                var $it4 = entry.get_InitComplete().GetEnumerator();
-                while ($it4.MoveNext()){
-                    var handler = $it4.get_Current();
+                var $it3 = entry.get_InitComplete().GetEnumerator();
+                while ($it3.MoveNext()){
+                    var handler = $it3.get_Current();
                     handler(args);
                 }
             }
@@ -298,9 +290,9 @@ var Neptuo$Templates$Runtime$ComponentManager = {
             var canInit = true;
             if (entry.get_Observers().get_Count() > 0){
                 var args = new Neptuo.Templates.Observers.ObserverEventArgs.ctor(As(entry.get_Control(), Neptuo.Templates.Controls.IControl.ctor));
-                var $it5 = entry.get_Observers().GetEnumerator();
-                while ($it5.MoveNext()){
-                    var info = $it5.get_Current();
+                var $it4 = entry.get_Observers().GetEnumerator();
+                while ($it4.MoveNext()){
+                    var info = $it4.get_Current();
                     if (!info.get_ArePropertiesBound()){
                         info.BindProperties();
                         info.set_ArePropertiesBound(true);
@@ -348,9 +340,9 @@ var Neptuo$Templates$Runtime$ComponentManager = {
             var canRender = true;
             if (entry.get_Observers().get_Count() > 0){
                 var args = new Neptuo.Templates.Observers.ObserverEventArgs.ctor(target);
-                var $it6 = entry.get_Observers().GetEnumerator();
-                while ($it6.MoveNext()){
-                    var info = $it6.get_Current();
+                var $it5 = entry.get_Observers().GetEnumerator();
+                while ($it5.MoveNext()){
+                    var info = $it5.get_Current();
                     if (!info.get_ArePropertiesBound()){
                         info.BindProperties();
                         info.set_ArePropertiesBound(true);
@@ -372,6 +364,13 @@ var Neptuo$Templates$Runtime$ComponentManager = {
             control.Render(writer);
         },
         AfterRenderControl: function (control, writer){
+        },
+        DisposeAll: function (){
+            var $it6 = this.entries.get_Keys().GetEnumerator();
+            while ($it6.MoveNext()){
+                var entry = $it6.get_Current();
+                this.Dispose(entry);
+            }
         },
         Dispose: function (component){
             if (!this.entries.ContainsKey(component))
@@ -933,16 +932,6 @@ var Neptuo$Templates$Runtime$IComponentManager = {
     IsAbstract: true
 };
 JsTypes.push(Neptuo$Templates$Runtime$IComponentManager);
-var Neptuo$Templates$IViewPage = {
-    fullname: "Neptuo.Templates.IViewPage",
-    baseTypeName: "System.Object",
-    assemblyName: "Neptuo.Templates.Components",
-    interfaceNames: ["Neptuo.Templates.Controls.IContentControl", "Neptuo.IDisposable"],
-    Kind: "Interface",
-    ctors: [],
-    IsAbstract: true
-};
-JsTypes.push(Neptuo$Templates$IViewPage);
 var Neptuo$Templates$Observers$IObserver = {
     fullname: "Neptuo.Templates.Observers.IObserver",
     baseTypeName: "System.Object",

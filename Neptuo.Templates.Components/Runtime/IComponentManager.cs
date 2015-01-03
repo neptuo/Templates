@@ -56,5 +56,10 @@ namespace Neptuo.Templates.Runtime
         /// </summary>
         /// <param name="component">Target object to dispose.</param>
         void Dispose(object component);
+
+        /// <summary>
+        /// Disposes all registered and not already disposed components.
+        /// </summary>
+        void DisposeAll();
     }
 }

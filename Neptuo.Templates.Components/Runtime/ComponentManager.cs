@@ -259,6 +259,12 @@ namespace Neptuo.Templates.Runtime
         protected virtual void AfterRenderControl(IControl control, IHtmlWriter writer)
         { }
 
+        public void DisposeAll()
+        {
+            foreach (object entry in entries.Keys)
+                Dispose(entry);
+        }
+
         public void Dispose(object component)
         {
             // if not registered, continue on processing view.

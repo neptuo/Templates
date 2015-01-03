@@ -1,5 +1,6 @@
 ﻿using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Controls;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -63,7 +64,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 Name = Names.CreateViewPageControlsMethod,
                 Attributes = MemberAttributes.Override | MemberAttributes.Family
             };
-            structure.EntryPointMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(IViewPage), "viewPage"));
+            structure.EntryPointMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(IContentControl), "rootContainer"));
             structure.Class.Members.Add(structure.EntryPointMethod);
         }
     }

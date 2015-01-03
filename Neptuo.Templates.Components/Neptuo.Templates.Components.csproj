@@ -62,7 +62,6 @@
     <Compile Include="Extensions\IValueExtensionContext.cs" />
     <Compile Include="IHtmlWriter.cs" />
     <Compile Include="Runtime\IComponentManager.cs" />
-    <Compile Include="IViewPage.cs" />
     <Compile Include="Observers\IObserver.cs" />
     <Compile Include="Observers\ObserverEventArgs.cs" />
     <Compile Include="Runtime\OnInitComplete.cs" />

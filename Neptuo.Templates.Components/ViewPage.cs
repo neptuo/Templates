@@ -1,4 +1,5 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.Templates.Controls;
 using Neptuo.Templates.Runtime;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace Neptuo.Templates
     /// <summary>
     /// Base implmenetation of <see cref="IViewPage"/>.
     /// </summary>
-    public class ViewPage : DisposableBase, IViewPage
+    public class ViewPage : IContentControl
     {
         public IComponentManager ComponentManager { get; set; }
 
@@ -47,17 +48,6 @@ namespace Neptuo.Templates
 
             foreach (object item in Content)
                 ComponentManager.Render(item, writer);
-        }
-
-        /// <summary>
-        /// Disposes this view.
-        /// </summary>
-        protected override void DisposeManagedResources()
-        {
-            base.DisposeManagedResources();
-
-            foreach (object item in Content)
-                ComponentManager.Dispose(item);
         }
     }
 }
