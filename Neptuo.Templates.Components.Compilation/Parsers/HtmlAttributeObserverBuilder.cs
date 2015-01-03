@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(attribute.Name));
 
-                ICodeObject value = context.ProcessValue(attribute.GetValue());
+                ICodeObject value = context.TryProcessValue(attribute.GetValue());
                 if (value != null)
                 {
                     propertyDescriptor.SetValue(value);

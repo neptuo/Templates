@@ -40,10 +40,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
 #endif
             IXmlElement documentElement = CreateDocumentRoot(content);
-            ICodeObject codeObject = TryProcessNode(new XmlContentBuilderContext(context, this), documentElement);
+            IEnumerable<ICodeObject> codeObject = TryProcessNode(new XmlContentBuilderContext(context, this), documentElement);
             //FlushContent(helper); - doesn't respect current parent
 
-            return codeObject;
+            if (codeObject.Count() > 1)
+            {
+                context.Errors.Add(new ErrorInfo(0, 0, "Root of AST can contain only single item."));
+                return null;
+            }
+
+            return codeObject.FirstOrDefault();
 #if !DEBUG
             }
             catch (XmlException e)
@@ -62,7 +68,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 #endif
         }
 
-        public ICodeObject TryProcessNode(IContentBuilderContext context, IXmlNode node)
+        public IEnumerable<ICodeObject> TryProcessNode(IContentBuilderContext context, IXmlNode node)
         {
             if (node.NodeType == XmlNodeType.Element)
             {
@@ -73,15 +79,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 IXmlText text = (IXmlText)node;
                 return literalFactory.TryParseText(context, text.Text);
-                //helper.Content.Append(text.Text);
             }
             else if (node.NodeType == XmlNodeType.Comment)
             {
                 IXmlText text = (IXmlText)node;
                 return literalFactory.TryParseComment(context, text.Text);
-                //helper.Content.Append("<!--" + text.Text + "-->");
             }
-            //FlushContent(helper);
 
             throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
         }

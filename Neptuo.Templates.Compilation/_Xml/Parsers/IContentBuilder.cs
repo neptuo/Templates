@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Context information.</param>
         /// <param name="element">Source XML tag to parse.</param>
-        /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject TryParse(IContentBuilderContext context, IXmlElement element);
+        /// <returns>Parsed code objects; <c>null</c> otherwise.</returns>
+        IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element);
     }
 }

@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Process <paramref name="element"/>.
         /// </summary>
-        public abstract ICodeObject TryParse(IContentBuilderContext context, IXmlElement element);
+        public abstract IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element);
 
         /// <summary>
         /// Binds attributes and inner elements of <paramref name="element"/>.

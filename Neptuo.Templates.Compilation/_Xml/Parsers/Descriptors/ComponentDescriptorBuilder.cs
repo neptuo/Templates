@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ObserverFactory = observerFactory;
         }
 
-        public override ICodeObject TryParse(IContentBuilderContext context, IXmlElement element)
+        public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
             if (isParsing)
                 throw Guard.Exception.InvalidOperation("ComponentDescriptorBuilder can't be reused! Create new instance for every xml tag.");
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             BindProperties(context, element);
             isParsing = false;
-            return CodeObject;
+            return new List<ICodeObject> { CodeObject };
         }
 
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, ISourceContent value)

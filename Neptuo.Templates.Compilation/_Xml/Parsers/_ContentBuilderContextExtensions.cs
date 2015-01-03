@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Some common extensions for <see cref="IContentBuilderContext"/>.
     /// </summary>
-    public static class ContentBuilderContextExtensions
+    public static class _ContentBuilderContextExtensions
     {
         /// <summary>
         /// Adds error to the parser context.
@@ -115,12 +115,37 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="content">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessContent(this IContentBuilderContext context, ISourceContent content)
+        public static ICodeObject TryProcessContent(this IContentBuilderContext context, ISourceContent content)
         {
+            Guard.NotNull(context, "context");
             return context.ParserContext.ParserService.ProcessContent(
                 content,
                 context.ParserContext
             );
+        }
+
+        /// <summary>
+        /// Parses content using <see cref="XmlContentParser"/> and creates AST for <paramref name="nodes"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="nodes">Enumeration of XML nodes to process.</param>
+        /// <returns>Parser code objects; <c>null</c> otherwise.</returns>
+        public static IEnumerable<ICodeObject> TryProcessContentNodes(this IContentBuilderContext context, IEnumerable<IXmlNode> nodes)
+        {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(nodes, "nodes");
+
+            CodeObjectList result = new CodeObjectList();
+            foreach (IXmlNode node in nodes)
+            {
+                IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context, node);
+                if (values == null)
+                    return null;
+
+                result.AddRange(values);
+            }
+
+            return result;
         }
 
         /// <summary>
@@ -129,8 +154,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="value">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessValue(this IContentBuilderContext context, ISourceContent value)
+        public static ICodeObject TryProcessValue(this IContentBuilderContext context, ISourceContent value)
         {
+            Guard.NotNull(context, "context");
+
             return context.ParserContext.ParserService.ProcessValue(
                 value,
                 context.ParserContext
@@ -143,7 +170,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="attribute">Attribute which to process.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject ProcessValue(this IContentBuilderContext context, IXmlAttribute attribute)
+        public static ICodeObject TryProcessValue(this IContentBuilderContext context, IXmlAttribute attribute)
         {
             return context.ParserContext.ParserService.ProcessValue(
                 new DefaultSourceContent(attribute.Value, GetSourceLineInfoOrDefault(attribute)),

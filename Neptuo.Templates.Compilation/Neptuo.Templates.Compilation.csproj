@@ -46,7 +46,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeCompilers\StaticCodeCompilerBase.cs" />
+    <Compile Include="CodeObjects\CodeObjectList.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
+    <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
+    <Compile Include="CodeObjects\_IPropertyDescriptorExtensions.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />
     <Compile Include="ISourceContent.cs" />
     <Compile Include="DefaultSourceContent.cs" />
@@ -115,14 +118,14 @@
     <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\ITokenDescriptor.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
-    <Compile Include="_Tokens\Parsers\TokenBuilderContextExtensions.cs" />
+    <Compile Include="_Tokens\Parsers\_TokenBuilderContextExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
     <Compile Include="_Tokens\Parsers\TokenExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\ComponentDescriptorBuilder.cs" />
-    <Compile Include="_Xml\Parsers\ContentBuilderContextExtensions.cs" />
+    <Compile Include="_Xml\Parsers\_ContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
