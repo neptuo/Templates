@@ -1,5 +1,4 @@
 ﻿using Neptuo.Linq.Expressions;
-using Neptuo.Templates.Runtime;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -13,9 +12,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         public CodeExpression GenerateCode(CodeDomDependencyContext context, Type type)
         {
-            if (type == typeof(IComponentManager))
-                return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.ComponentManagerField);
-            
             if (type == typeof(IDependencyProvider))
                 return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.DependencyProviderField);
             

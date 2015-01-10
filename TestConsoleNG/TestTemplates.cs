@@ -11,6 +11,7 @@ using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.ViewActivators;
 using Neptuo.Templates.Controls;
+using Neptuo.Templates.Extensions;
 using Neptuo.Templates.Runtime;
 using System;
 using System.Collections.Generic;
@@ -77,7 +78,7 @@ namespace TestConsoleNG
 
 
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
+                new TypeBuilderRegistryConfiguration(container, typeof(IValueExtension))//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
@@ -89,11 +90,11 @@ namespace TestConsoleNG
                 .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder())
                 .RegisterPropertyBuilder<string>(new StringPropertyBuilder())
                 .RegisterPropertyBuilder<ITemplate>(new TemplatePropertyBuilder())
-                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry));
+                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry, new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView, ICollection<object>>(v => v.Content)))));
 
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()
-                .SetStandartGenerators(fieldNameProvider)
+                .SetStandartGenerators(typeof(GeneratedView), fieldNameProvider)
                 .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider))
                 .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
 
@@ -170,8 +171,8 @@ namespace TestConsoleNG
             {
                 DebugHelper.Debug("Run", () =>
                 {
-                    view.Setup(new ViewPage(), container);
-                    view.Init(container.Resolve<IComponentManager>());
+                    view.Setup(container);
+                    view.OnInit(container.Resolve<IComponentManager>());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });

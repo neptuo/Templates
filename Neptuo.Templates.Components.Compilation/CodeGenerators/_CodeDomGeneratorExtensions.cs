@@ -42,7 +42,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static CodeDomGenerator SetStandartGenerators(this CodeDomGenerator generator, IFieldNameProvider fieldNameProvider = null)
+        public static CodeDomGenerator SetStandartGenerators(this CodeDomGenerator generator, Type generatedViewBaseType, IFieldNameProvider fieldNameProvider = null)
         {
             if (fieldNameProvider == null)
                 fieldNameProvider = new SequenceFieldNameProvider();
@@ -66,8 +66,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             generator.SetDependencyProviderGenerator<object>(new CodeDomDependencyGenerator());
 
             // Base structure generator.
-            generator.SetBaseStructureGenerator(new CodeDomStructureGenerator());
+            CodeDomStructureGenerator structure = new CodeDomStructureGenerator();
+            if (generatedViewBaseType != null)
+                structure.BaseType = generatedViewBaseType;
 
+            generator.SetBaseStructureGenerator(structure);
             return generator;
         }
     }

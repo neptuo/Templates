@@ -1,4 +1,4 @@
-﻿using Neptuo.Templates.Components;
+﻿using Neptuo.Templates.Compilation;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;

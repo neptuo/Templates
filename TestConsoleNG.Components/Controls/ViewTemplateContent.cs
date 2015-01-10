@@ -19,7 +19,7 @@ namespace TestConsoleNG.Controls
 
         public void OnInit(IComponentManager componentManager)
         {
-            View.Init(componentManager);
+            View.OnInit(componentManager);
         }
 
         public void Render(IHtmlWriter writer)

@@ -47,7 +47,6 @@
     <Compile Include="Runtime\ControlInitCompleteEventArgs.cs" />
     <Compile Include="HtmlAttributeCollection.cs" />
     <Compile Include="GeneratedView.cs" />
-    <Compile Include="ViewPage.cs" />
     <Compile Include="Runtime\ComponentManager.ComponentEntry.cs" />
     <Compile Include="Runtime\ComponentManager.cs" />
     <Compile Include="Runtime\ComponentManager.ObserverInfo.cs" />

@@ -17,47 +17,40 @@ namespace Neptuo.Templates
     /// </summary>
     public abstract class GeneratedView : DisposableBase
     {
-        protected IContentControl rootContainer;
         protected IComponentManager componentManager;
         protected IDependencyProvider dependencyProvider;
 
         /// <summary>
         /// View content.
         /// </summary>
-        public ICollection<object> Content
-        {
-            get { return rootContainer.Content; }
-        }
+        public ICollection<object> Content { get; private set; }
 
         /// <summary>
         /// Setups view page, component manager and depedency provider for this view.
         /// </summary>
-        /// <param name="rootContainer">Root content control for current view.</param>
         /// <param name="componentManager">Component manager for current view.</param>
         /// <param name="dependencyProvider">Dependency provider for current view.</param>
-        public void Setup(IContentControl rootContainer, IDependencyProvider dependencyProvider)
+        public void Setup(IDependencyProvider dependencyProvider)
         {
-            Guard.NotNull(rootContainer, "rootContainer");
             Guard.NotNull(dependencyProvider, "dependencyProvider");
-            this.rootContainer = rootContainer;
             this.dependencyProvider = dependencyProvider;
         }
 
         /// <summary>
         /// Method where to setup root controls.
         /// </summary>
-        /// <param name="rootContainer">Root content control for current view.</param>
-        protected abstract void CreateViewPageControls(IContentControl rootContainer);
+        /// <param name="view">Generated view instance to bind.</param>
+        protected abstract void BindView(GeneratedView view);
 
         /// <summary>
         /// Starts init phase of this view.
         /// </summary>
-        public void Init(IComponentManager componentManager)
+        public void OnInit(IComponentManager componentManager)
         {
             Guard.NotNull(componentManager, "componentManager");
             this.componentManager = componentManager;
-            componentManager.AddComponent(rootContainer, CreateViewPageControls);
-            componentManager.Init(rootContainer);
+            componentManager.AddComponent(this, BindView);
+            componentManager.Init(this);
         }
 
         /// <summary>
@@ -67,7 +60,9 @@ namespace Neptuo.Templates
         public void Render(IHtmlWriter writer)
         {
             Guard.NotNull(writer, "writer");
-            rootContainer.Render(writer);
+
+            foreach (object item in Content)
+                componentManager.Render(item, writer);
         }
 
         /// <summary>

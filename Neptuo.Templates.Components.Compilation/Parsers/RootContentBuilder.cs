@@ -9,9 +9,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class RootContentBuilder : ComponentDescriptorBuilder
     {
-        public RootContentBuilder(IPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
+        private readonly IPropertyInfo defaultProperty;
+
+        public RootContentBuilder(IPropertyBuilder propertyFactory, IObserverBuilder observerFactory, IPropertyInfo defaultProperty)
             : base(propertyFactory, observerFactory)
-        { }
+        {
+            Guard.NotNull(defaultProperty, "defaultProperty");
+            this.defaultProperty = defaultProperty;
+        }
 
         protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
@@ -20,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
-            return new RootComponentDescriptor();
+            return new RootComponentDescriptor(defaultProperty);
         }
 
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)

@@ -1,6 +1,5 @@
 ﻿using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +15,6 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     /// <typeparam name="T">Type of literal control.</typeparam>
     public class DefaultLiteralControlBuilder<T> : LiteralBuilder, ILiteralBuilder
-        where T : IControl
     {
         private readonly Type literalControlType;
         private readonly string textProperty;

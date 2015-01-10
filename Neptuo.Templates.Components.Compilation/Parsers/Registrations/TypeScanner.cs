@@ -1,8 +1,5 @@
 ﻿using Neptuo.Reflection;
 using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Controls;
-using Neptuo.Templates.Extensions;
-using Neptuo.Templates.Observers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             foreach (Type type in types)
             {
-                if (CanBeUsedInMarkup(type, false) && ImplementsInterface<IValueExtension>(type))
+                if (CanBeUsedInMarkup(type, false) && ImplementsInterface(Configuration.ExtensionType, type))
                 {
                     string name = GetComponentName(type, Configuration.ExtensionSuffix);
                     Content.Tokens[prefix][name] = CreateFactory<ITokenBuilder>(type, CreateDefaultTokenBuilderFactory);
@@ -126,9 +123,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return true;
         }
 
-        protected bool ImplementsInterface<T>(Type type)
+        protected bool ImplementsInterface(Type requiredInterface, Type type)
         {
-            return typeof(T).IsAssignableFrom(type);
+            return requiredInterface.IsAssignableFrom(type);
         }
 
         public class TransientComponentBuilder : IContentBuilder
