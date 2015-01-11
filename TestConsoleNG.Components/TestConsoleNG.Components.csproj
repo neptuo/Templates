@@ -82,10 +82,6 @@
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.Components.Compilation\Neptuo.Templates.Components.Compilation.csproj">
-      <Project>{dc76c1f9-02f2-4d91-a0e3-225a7290cb5f}</Project>
-      <Name>Neptuo.Templates.Components.Compilation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Components\Neptuo.Templates.Components.csproj">
       <Project>{4c85862f-5d28-4907-ab59-e54375dc9d81}</Project>
       <Name>Neptuo.Templates.Components</Name>

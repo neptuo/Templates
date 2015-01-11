@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public static class _CodeObjectListExtensions
+    public static class _ComponentsCodeObjectListExtensions
     {
         /// <summary>
         /// Adds <see cref="LiteralCodeObject"/>.
