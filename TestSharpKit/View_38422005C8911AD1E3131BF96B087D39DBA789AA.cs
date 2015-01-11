@@ -20,7 +20,7 @@ namespace Neptuo.Templates
         }
 
         private TestConsoleNG.Observers.DataContextObserver field2;
-        protected override void CreateViewPageControls(Neptuo.Templates.Controls.IContentControl viewPage)
+        protected override void BindView(GeneratedView view)
         {
             this.Content.Add("<!-- This is a html comment -->\r\n");
             this.Content.Add(this.field1_Create());

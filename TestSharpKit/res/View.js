@@ -140,7 +140,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
         CastValueTo$1: function (T, value){
             return value.toString();
         },
-        CreateViewPageControls: function (viewPage){
+        BindView: function (view){
             this.get_Content().Add("<!-- This is a html comment -->\r\n");
             this.get_Content().Add(this.field1_Create());
         },
@@ -310,7 +310,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
         ctor: function (){
             Neptuo.Templates.GeneratedView.ctor.call(this);
         },
-        CreateViewPageControls: function (viewPage){
+        BindView: function (view){
             this.get_Content().Add("<div>");
             this.get_Content().Add(this.field1_Create());
             this.get_Content().Add(this.field4_Create());
@@ -427,7 +427,7 @@ var Neptuo$Templates$View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55 = {
         ctor: function (){
             Neptuo.Templates.GeneratedView.ctor.call(this);
         },
-        CreateViewPageControls: function (viewPage){
+        BindView: function (view){
             this.get_Content().Add("<div><h:panel> \r\n        Street: \r\n        <h:textbox name=\"street\" />");
             this.get_Content().Add("</h:panel>");
             this.get_Content().Add("</div>");
