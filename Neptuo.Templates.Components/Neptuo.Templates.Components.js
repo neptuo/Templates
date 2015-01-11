@@ -107,6 +107,7 @@ var Neptuo$Templates$GeneratedView = {
             this.dependencyProvider = null;
             this._Content = null;
             Neptuo.ComponentModel.DisposableBase.ctor.call(this);
+            this.set_Content(new System.Collections.Generic.List$1.ctor(System.Object.ctor));
         },
         Content$$: "System.Collections.Generic.ICollection`1[[System.Object]]",
         get_Content: function (){
@@ -334,8 +335,8 @@ var Neptuo$Templates$Runtime$ComponentManager = {
                 return;
             var target = As(entry.get_Control(), Neptuo.IDisposable.ctor);
             if (target != null){
-                target.Dispose();
                 entry.set_IsDisposed(true);
+                target.Dispose();
             }
         },
         BeforeDisposeComponent: function (component){

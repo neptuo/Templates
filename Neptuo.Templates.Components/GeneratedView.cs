@@ -25,6 +25,11 @@ namespace Neptuo.Templates
         /// </summary>
         public ICollection<object> Content { get; private set; }
 
+        public GeneratedView()
+        {
+            Content = new List<object>();
+        }
+
         /// <summary>
         /// Setups view page, component manager and depedency provider for this view.
         /// </summary>

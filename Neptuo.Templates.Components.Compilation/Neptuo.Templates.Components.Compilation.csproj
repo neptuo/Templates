@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="CodeCompilers\CodeCompiler.cs" />
     <Compile Include="CodeGenerators\CodeDomRootGenerator.cs" />
+    <Compile Include="CodeGenerators\ComponentManagerDescriptor.cs" />
     <Compile Include="CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="CodeObjects\RootCodeObject.cs" />
     <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />

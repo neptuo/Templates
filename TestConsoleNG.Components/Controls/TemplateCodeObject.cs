@@ -20,8 +20,8 @@ namespace TestConsoleNG.Controls
 
     public class CodeDomTemplateGenerator : CodeDomComponentGenerator
     {
-        public CodeDomTemplateGenerator(IFieldNameProvider fieldNameProvider)
-            : base(fieldNameProvider)
+        public CodeDomTemplateGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
+            : base(fieldNameProvider, componentManager)
         { }
 
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)

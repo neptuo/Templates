@@ -284,8 +284,8 @@ namespace Neptuo.Templates.Runtime
             IDisposable target = entry.Control as IDisposable;
             if (target != null)
             {
-                target.Dispose();
                 entry.IsDisposed = true;
+                target.Dispose();
             }
         }
 

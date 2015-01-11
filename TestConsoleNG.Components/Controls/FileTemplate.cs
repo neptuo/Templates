@@ -28,7 +28,7 @@ namespace TestConsoleNG.Controls
         {
             ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath(Path).GetContent());
             GeneratedView view = (GeneratedView)ViewService.ProcessContent("CSharp", content, new DefaultViewServiceContext(DependencyProvider));
-            view.Setup(new ViewPage(), DependencyProvider);
+            view.Setup(DependencyProvider);
 
             ViewTemplateContent templateContent = new ViewTemplateContent(view);
             componentManager.AddComponent(templateContent, null);
