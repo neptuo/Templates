@@ -14,15 +14,14 @@ namespace TestConsoleNG.Controls
         public ICollection<Parameter> Parameters { get; private set; }
         public Security Security { get; set; }
 
-        public AnchorControl(IComponentManager componentManager)
-            : base(componentManager)
+        public AnchorControl()
         {
             Parameters = new List<Parameter>();
         }
 
-        public override void OnInit()
+        public override void OnInit(IComponentManager componentManager)
         {
-            base.OnInit();
+            base.OnInit(componentManager);
 
             Init(Security);
             if (Security != null)

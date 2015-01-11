@@ -1,6 +1,7 @@
 ﻿using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -42,17 +43,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static CodeDomGenerator SetStandartGenerators(this CodeDomGenerator generator, IFieldNameProvider fieldNameProvider = null)
+        public static CodeDomGenerator SetStandartGenerators(this CodeDomGenerator generator, Type generatedViewBaseType, ComponentManagerDescriptor componentManager, IFieldNameProvider fieldNameProvider = null)
         {
             if (fieldNameProvider == null)
                 fieldNameProvider = new SequenceFieldNameProvider();
 
             // Component generators.
-            generator.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomComponentGenerator(fieldNameProvider));
-            generator.SetCodeObjectGenerator<CommentCodeObject>(new CodeDomCommentGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomComponentGenerator(fieldNameProvider, componentManager));
+            generator.SetCodeObjectGenerator<CommentCodeObject>(new CodeDomCommentGenerator(fieldNameProvider, componentManager));
             generator.SetCodeObjectGenerator<PlainValueCodeObject>(new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator<DependencyCodeObject>(new CodeDomDependencyObjectGenerator());
-            generator.SetCodeObjectGenerator<ExtensionCodeObject>(new CodeDomExtensionObjectGenerator(fieldNameProvider));
+            generator.SetCodeObjectGenerator<ExtensionCodeObject>(new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManager));
             generator.SetCodeObjectGenerator<LiteralCodeObject>(new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator<RootCodeObject>(new CodeDomRootGenerator());
 
@@ -66,8 +67,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             generator.SetDependencyProviderGenerator<object>(new CodeDomDependencyGenerator());
 
             // Base structure generator.
-            generator.SetBaseStructureGenerator(new CodeDomStructureGenerator());
+            CodeDomStructureGenerator structure = new CodeDomStructureGenerator();
+            if (generatedViewBaseType != null)
+                structure.BaseType = new CodeTypeReference(generatedViewBaseType);
 
+            generator.SetBaseStructureGenerator(structure);
             return generator;
         }
     }

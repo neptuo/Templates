@@ -2,9 +2,6 @@
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Data;
-using Neptuo.Templates.Controls;
-using Neptuo.Templates.Observers;
-using Neptuo.Templates.Runtime;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -17,8 +14,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         private Dictionary<Type, Dictionary<IComponentCodeObject, ComponentMethodInfo>> perControl;
 
-        public CodeDomComponentGenerator(IFieldNameProvider fieldNameProvider)
-            : base(fieldNameProvider)
+        public CodeDomComponentGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
+            : base(fieldNameProvider, componentManager)
         { }
 
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
@@ -67,7 +64,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         new CodeThisReferenceExpression(),
                         CodeDomStructureGenerator.Names.ComponentManagerField
                     ),
-                    TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action<IObserver>>(m => m.AttachObserver),
+                    ComponentManager.AttachObserverMethodName,
                     new CodeFieldReferenceExpression(
                         null,
                         createMethod.FieldName

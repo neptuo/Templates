@@ -13,11 +13,20 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class HtmlAttributeObserverBuilder : IObserverBuilder
     {
-        private static string htmlAttributesPropertyName = TypeHelper.PropertyName<IHtmlAttributeCollectionAware, HtmlAttributeCollection>(c => c.HtmlAttributes);
+        private readonly Type requiredInterface;
+        private readonly string methodName;
 
-        private static DictionaryAddPropertyDescriptor CreatePropertyDescriptor(ITypeCodeObject typeCodeObject)
+        public HtmlAttributeObserverBuilder(Type requiredInterface, string methodName)
         {
-            TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(htmlAttributesPropertyName));
+            Guard.NotNull(requiredInterface, "requiredInterface");
+            Guard.NotNullOrEmpty(methodName, "methodName");
+            this.requiredInterface = requiredInterface;
+            this.methodName = methodName;
+        }
+
+        private DictionaryAddPropertyDescriptor CreatePropertyDescriptor(ITypeCodeObject typeCodeObject)
+        {
+            TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(methodName));
             DictionaryAddPropertyDescriptor propertyDescriptor = new DictionaryAddPropertyDescriptor(propertyInfo);
             return propertyDescriptor;
         }
@@ -28,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (typeCodeObject == null)
                 return false;
 
-            if (typeof(IHtmlAttributeCollectionAware).IsAssignableFrom(typeCodeObject.Type))
+            if (requiredInterface.IsAssignableFrom(typeCodeObject.Type))
             {
                 DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
                 propertyDescriptor.SetValue(new PlainValueCodeObject(attribute.Name));

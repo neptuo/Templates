@@ -29,9 +29,8 @@ namespace TestSharpKit
             StringWriter writer = new StringWriter();
 
             var view = new View_38422005C8911AD1E3131BF96B087D39DBA789AA();
-            view.Setup(new ViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
-            view.CreateControls();
-            view.Init();
+            view.Setup(container);
+            view.OnInit(container.Resolve<IComponentManager>());
             view.Render(new HtmlTextWriter(writer));
             view.Dispose();
 

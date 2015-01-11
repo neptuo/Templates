@@ -16,11 +16,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             public const string CodeNamespace = "Neptuo.Templates";
             public const string ComponentManagerField = "componentManager";
             public const string DependencyProviderField = "dependencyProvider";
+            public const string EntryPointFieldName = "view";
 
-            public const string CreateViewPageControlsMethod = "CreateViewPageControls";
+            public const string CreateViewPageControlsMethod = "BindView";
             public const string CreateValueExtensionContextMethod = "CreateValueExtensionContext";
             public const string CastValueToMethod = "CastValueTo";
         }
+
+        public CodeTypeReference BaseType { get; set; }
 
         public CodeDomStructure GenerateCode(CodeDomStructureContext context)
         {
@@ -52,7 +55,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected virtual void SetBaseTypes(CodeTypeDeclaration typeDeclaration)
         {
-            typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(GeneratedView)));
+            typeDeclaration.BaseTypes.Add(BaseType);
             typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
         }
 
@@ -63,9 +66,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 Name = Names.CreateViewPageControlsMethod,
                 Attributes = MemberAttributes.Override | MemberAttributes.Family
             };
-            structure.EntryPointMethod.Parameters.Add(new CodeParameterDeclarationExpression(typeof(IViewPage), "viewPage"));
+            structure.EntryPointMethod.Parameters.Add(new CodeParameterDeclarationExpression(BaseType, Names.EntryPointFieldName));
             structure.Class.Members.Add(structure.EntryPointMethod);
         }
     }
-
 }

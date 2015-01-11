@@ -140,12 +140,12 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
         CastValueTo$1: function (T, value){
             return value.toString();
         },
-        CreateViewPageControls: function (viewPage){
+        BindView: function (view){
             this.get_Content().Add("<!-- This is a html comment -->\r\n");
             this.get_Content().Add(this.field1_Create());
         },
         field1_Create: function (){
-            var field1 = new TestConsoleNG.Controls.GenericContentControl.ctor(this.componentManager);
+            var field1 = new TestConsoleNG.Controls.GenericContentControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.GenericContentControl.ctor, field1, $CreateDelegate(this, this.field1_Bind));
             this.componentManager.AttachObserver$1(TestConsoleNG.Observers.DataContextObserver.ctor, field1, this.field2_Create(), $CreateDelegate(this, this.field2_Bind));
             return field1;
@@ -179,7 +179,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             field1.get_Content().Add("\r\n");
         },
         field4_Create: function (){
-            var field4 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field4 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field4, $CreateDelegate(this, this.field4_Bind));
             this.componentManager.AttachObserver$1(TestConsoleNG.Observers.VisibleObserver.ctor, field4, this.field5_Create(), $CreateDelegate(this, this.field5_Bind));
             return field4;
@@ -206,7 +206,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             field4.get_Content().Add("\r\n    ");
         },
         field7_Create: function (){
-            var field7 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field7 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field7, $CreateDelegate(this, this.field7_Bind));
             return field7;
         },
@@ -220,7 +220,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             return field8;
         },
         field9_Create: function (){
-            var field9 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field9 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field9, $CreateDelegate(this, this.field9_Bind));
             return field9;
         },
@@ -232,7 +232,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             field9.get_Content().Add("\r\n    ");
         },
         field10_Create: function (){
-            var field10 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field10 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field10, $CreateDelegate(this, this.field10_Bind));
             return field10;
         },
@@ -246,7 +246,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             return field11;
         },
         field12_Create: function (){
-            var field12 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field12 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field12, $CreateDelegate(this, this.field12_Bind));
             return field12;
         },
@@ -258,7 +258,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             field12.get_Content().Add("\r\n    ");
         },
         field13_Create: function (){
-            var field13 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field13 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field13, $CreateDelegate(this, this.field13_Bind));
             return field13;
         },
@@ -272,7 +272,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             return field14;
         },
         field15_Create: function (){
-            var field15 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field15 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field15, $CreateDelegate(this, this.field15_Bind));
             return field15;
         },
@@ -284,7 +284,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
             field15.get_Content().Add("\r\n    ");
         },
         field16_Create: function (){
-            var field16 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field16 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field16, $CreateDelegate(this, this.field16_Bind));
             return field16;
         },
@@ -310,7 +310,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
         ctor: function (){
             Neptuo.Templates.GeneratedView.ctor.call(this);
         },
-        CreateViewPageControls: function (viewPage){
+        BindView: function (view){
             this.get_Content().Add("<div>");
             this.get_Content().Add(this.field1_Create());
             this.get_Content().Add(this.field4_Create());
@@ -319,7 +319,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             this.get_Content().Add("</div>");
         },
         field1_Create: function (){
-            var field1 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field1 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field1, $CreateDelegate(this, this.field1_Bind));
             return field1;
         },
@@ -329,7 +329,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             field1.get_Content().Add(this.field2_Create());
         },
         field2_Create: function (){
-            var field2 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field2 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field2, $CreateDelegate(this, this.field2_Bind));
             return field2;
         },
@@ -343,7 +343,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             return field3;
         },
         field4_Create: function (){
-            var field4 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field4 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field4, $CreateDelegate(this, this.field4_Bind));
             return field4;
         },
@@ -353,7 +353,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             field4.get_Content().Add(this.field5_Create());
         },
         field5_Create: function (){
-            var field5 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field5 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field5, $CreateDelegate(this, this.field5_Bind));
             return field5;
         },
@@ -367,7 +367,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             return field6;
         },
         field7_Create: function (){
-            var field7 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field7 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field7, $CreateDelegate(this, this.field7_Bind));
             return field7;
         },
@@ -377,7 +377,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             field7.get_Content().Add(this.field8_Create());
         },
         field8_Create: function (){
-            var field8 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field8 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field8, $CreateDelegate(this, this.field8_Bind));
             return field8;
         },
@@ -391,7 +391,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             return field9;
         },
         field10_Create: function (){
-            var field10 = new TestConsoleNG.Controls.PanelControl.ctor(this.componentManager);
+            var field10 = new TestConsoleNG.Controls.PanelControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.PanelControl.ctor, field10, $CreateDelegate(this, this.field10_Bind));
             return field10;
         },
@@ -401,7 +401,7 @@ var Neptuo$Templates$View_9741084CDDEB89E6278CC0A58C5F284F84983F2D = {
             field10.get_Content().Add(this.field11_Create());
         },
         field11_Create: function (){
-            var field11 = new TestConsoleNG.Controls.TextBoxControl.ctor(this.componentManager);
+            var field11 = new TestConsoleNG.Controls.TextBoxControl.ctor();
             this.componentManager.AddComponent$1(TestConsoleNG.Controls.TextBoxControl.ctor, field11, $CreateDelegate(this, this.field11_Bind));
             return field11;
         },
@@ -427,7 +427,7 @@ var Neptuo$Templates$View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55 = {
         ctor: function (){
             Neptuo.Templates.GeneratedView.ctor.call(this);
         },
-        CreateViewPageControls: function (viewPage){
+        BindView: function (view){
             this.get_Content().Add("<div><h:panel> \r\n        Street: \r\n        <h:textbox name=\"street\" />");
             this.get_Content().Add("</h:panel>");
             this.get_Content().Add("</div>");

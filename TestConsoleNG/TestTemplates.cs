@@ -11,6 +11,8 @@ using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.ViewActivators;
 using Neptuo.Templates.Controls;
+using Neptuo.Templates.Extensions;
+using Neptuo.Templates.Observers;
 using Neptuo.Templates.Runtime;
 using System;
 using System.Collections.Generic;
@@ -77,7 +79,7 @@ namespace TestConsoleNG
 
 
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
+                new TypeBuilderRegistryConfiguration(container, typeof(IValueExtension))//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
@@ -86,15 +88,20 @@ namespace TestConsoleNG
                 .RegisterNamespace("h", "TestConsoleNG.Controls, TestConsoleNG.Components")
                 .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), builderRegistry))
                 .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), builderRegistry))
-                .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder())
+                .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder(typeof(IHtmlAttributeCollectionAware), TypeHelper.PropertyName<IHtmlAttributeCollectionAware, HtmlAttributeCollection>(c => c.HtmlAttributes)))
                 .RegisterPropertyBuilder<string>(new StringPropertyBuilder())
                 .RegisterPropertyBuilder<ITemplate>(new TemplatePropertyBuilder())
-                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry));
+                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry, new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView, ICollection<object>>(v => v.Content)))));
 
+            ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
+                TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
+                TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action<IObserver>>(m => m.AttachObserver),
+                TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue)
+            );
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()
-                .SetStandartGenerators(fieldNameProvider)
-                .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider))
+                .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, fieldNameProvider)
+                .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
                 .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);
@@ -170,9 +177,8 @@ namespace TestConsoleNG
             {
                 DebugHelper.Debug("Run", () =>
                 {
-                    view.Setup(new ViewPage(container.Resolve<IComponentManager>()), container.Resolve<IComponentManager>(), container);
-                    view.CreateControls();
-                    view.Init();
+                    view.Setup(container);
+                    view.OnInit(container.Resolve<IComponentManager>());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });

@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates;
+﻿using Neptuo;
+using Neptuo.Templates;
 using Neptuo.Templates.Runtime;
 using System;
 using System.Collections.Generic;
@@ -10,18 +11,12 @@ namespace TestConsoleNG.Controls
 {
     public class ContentTemplate : ITemplate
     {
-        protected IComponentManager ComponentManager { get; private set; }
         public Action<ContentTemplateContent> BindMethod { get; set; }
 
-        public ContentTemplate(IComponentManager componentManager)
+        public ITemplateContent CreateInstance(IComponentManager componentManager)
         {
-            ComponentManager = componentManager;
-        }
-
-        public ITemplateContent CreateInstance()
-        {
-            ContentTemplateContent templateContent = new ContentTemplateContent(ComponentManager);
-            ComponentManager.AddComponent(templateContent, BindMethod);
+            ContentTemplateContent templateContent = new ContentTemplateContent();
+            componentManager.AddComponent(templateContent, BindMethod);
             return templateContent;
         }
 
@@ -34,13 +29,11 @@ namespace TestConsoleNG.Controls
         protected IComponentManager ComponentManager { get; private set; }
         public ICollection<object> Content { get; set; }
 
-        public ContentTemplateContent(IComponentManager componentManager)
+        public void OnInit(IComponentManager componentManager)
         {
+            Guard.NotNull(componentManager, "componentManager");
             ComponentManager = componentManager;
-        }
 
-        public void OnInit()
-        {
             if (Content != null)
             {
                 foreach (object item in Content)

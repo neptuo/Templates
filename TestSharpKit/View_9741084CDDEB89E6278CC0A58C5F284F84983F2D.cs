@@ -14,7 +14,7 @@ namespace Neptuo.Templates
     [JsType(JsMode.Clr, Filename = "res/View.js")]
     public sealed class View_9741084CDDEB89E6278CC0A58C5F284F84983F2D : Neptuo.Templates.GeneratedView, System.IDisposable
     {
-        protected override void CreateViewPageControls(Neptuo.Templates.IViewPage viewPage)
+        protected override void BindView(GeneratedView view)
         {
             this.Content.Add("<div>");
             this.Content.Add(this.field1_Create());
@@ -25,7 +25,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.PanelControl field1_Create()
         {
-            TestConsoleNG.Controls.PanelControl field1 = new TestConsoleNG.Controls.PanelControl(this.componentManager);
+            TestConsoleNG.Controls.PanelControl field1 = new TestConsoleNG.Controls.PanelControl();
             this.componentManager.AddComponent(field1, this.field1_Bind);
             return field1;
         }
@@ -37,7 +37,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.TextBoxControl field2_Create()
         {
-            TestConsoleNG.Controls.TextBoxControl field2 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field2 = new TestConsoleNG.Controls.TextBoxControl();
             this.componentManager.AddComponent(field2, this.field2_Bind);
             return field2;
         }
@@ -54,7 +54,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.PanelControl field4_Create()
         {
-            TestConsoleNG.Controls.PanelControl field4 = new TestConsoleNG.Controls.PanelControl(this.componentManager);
+            TestConsoleNG.Controls.PanelControl field4 = new TestConsoleNG.Controls.PanelControl();
             this.componentManager.AddComponent(field4, this.field4_Bind);
             return field4;
         }
@@ -66,7 +66,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.TextBoxControl field5_Create()
         {
-            TestConsoleNG.Controls.TextBoxControl field5 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field5 = new TestConsoleNG.Controls.TextBoxControl();
             this.componentManager.AddComponent(field5, this.field5_Bind);
             return field5;
         }
@@ -83,7 +83,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.PanelControl field7_Create()
         {
-            TestConsoleNG.Controls.PanelControl field7 = new TestConsoleNG.Controls.PanelControl(this.componentManager);
+            TestConsoleNG.Controls.PanelControl field7 = new TestConsoleNG.Controls.PanelControl();
             this.componentManager.AddComponent(field7, this.field7_Bind);
             return field7;
         }
@@ -95,7 +95,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.TextBoxControl field8_Create()
         {
-            TestConsoleNG.Controls.TextBoxControl field8 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field8 = new TestConsoleNG.Controls.TextBoxControl();
             this.componentManager.AddComponent(field8, this.field8_Bind);
             return field8;
         }
@@ -112,7 +112,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.PanelControl field10_Create()
         {
-            TestConsoleNG.Controls.PanelControl field10 = new TestConsoleNG.Controls.PanelControl(this.componentManager);
+            TestConsoleNG.Controls.PanelControl field10 = new TestConsoleNG.Controls.PanelControl();
             this.componentManager.AddComponent(field10, this.field10_Bind);
             return field10;
         }
@@ -124,7 +124,7 @@ namespace Neptuo.Templates
         }
         private TestConsoleNG.Controls.TextBoxControl field11_Create()
         {
-            TestConsoleNG.Controls.TextBoxControl field11 = new TestConsoleNG.Controls.TextBoxControl(this.componentManager);
+            TestConsoleNG.Controls.TextBoxControl field11 = new TestConsoleNG.Controls.TextBoxControl();
             this.componentManager.AddComponent(field11, this.field11_Bind);
             return field11;
         }

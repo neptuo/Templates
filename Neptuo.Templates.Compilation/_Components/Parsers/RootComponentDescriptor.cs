@@ -13,9 +13,9 @@ namespace Neptuo.Templates.Compilation.Parsers
         IPropertyInfo defaultProperty;
         List<IPropertyInfo> properties;
 
-        public RootComponentDescriptor()
+        public RootComponentDescriptor(IPropertyInfo defaultProperty)
         {
-            defaultProperty = new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView, ICollection<object>>(v => v.Content)));
+            this.defaultProperty = defaultProperty;
             properties = new List<IPropertyInfo>() 
             { 
                 defaultProperty 

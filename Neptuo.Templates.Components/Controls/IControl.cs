@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using Neptuo.Templates.Runtime;
 
 namespace Neptuo.Templates.Controls
 {
@@ -18,7 +19,7 @@ namespace Neptuo.Templates.Controls
         /// Method invoked in init phase.
         /// Place any inicialization code here.
         /// </summary>
-        void OnInit();
+        void OnInit(IComponentManager componentManager);
 
         /// <summary>
         /// Renders output to <paramref name="writer"/>.

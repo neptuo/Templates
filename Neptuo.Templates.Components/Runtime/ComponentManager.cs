@@ -67,7 +67,7 @@ namespace Neptuo.Templates.Runtime
                 if (targetControl != null)
                 {
                     BeforeInitControl(targetControl);
-                    targetControl.OnInit();
+                    targetControl.OnInit(this);
                 }
                 return;
             }
@@ -96,7 +96,7 @@ namespace Neptuo.Templates.Runtime
                 return;
 
             if (ExecuteObservers(entry))
-                target.OnInit();
+                target.OnInit(this);
 
             if (entry.InitComplete.Count > 0)
             {
@@ -259,6 +259,12 @@ namespace Neptuo.Templates.Runtime
         protected virtual void AfterRenderControl(IControl control, IHtmlWriter writer)
         { }
 
+        public void DisposeAll()
+        {
+            foreach (object entry in entries.Keys)
+                Dispose(entry);
+        }
+
         public void Dispose(object component)
         {
             // if not registered, continue on processing view.
@@ -278,8 +284,8 @@ namespace Neptuo.Templates.Runtime
             IDisposable target = entry.Control as IDisposable;
             if (target != null)
             {
-                target.Dispose();
                 entry.IsDisposed = true;
+                target.Dispose();
             }
         }
 

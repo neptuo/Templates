@@ -15,26 +15,23 @@ namespace TestConsoleNG.Controls
     public class FileTemplate : ITemplate
     {
         protected IDependencyProvider DependencyProvider { get; private set; }
-        protected IComponentManager ComponentManager { get; private set; }
         protected IViewService ViewService { get; private set; }
         public string Path { get; set; }
 
-        public FileTemplate(IDependencyProvider dependencyProvider, IComponentManager componentManager, IViewService viewService)
+        public FileTemplate(IDependencyProvider dependencyProvider, IViewService viewService)
         {
             DependencyProvider = dependencyProvider;
-            ComponentManager = componentManager;
             ViewService = viewService;
         }
 
-        public ITemplateContent CreateInstance()
+        public ITemplateContent CreateInstance(IComponentManager componentManager)
         {
             ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath(Path).GetContent());
             GeneratedView view = (GeneratedView)ViewService.ProcessContent("CSharp", content, new DefaultViewServiceContext(DependencyProvider));
-            view.Setup(new ViewPage(DependencyProvider.Resolve<IComponentManager>()), DependencyProvider.Resolve<IComponentManager>(), DependencyProvider);
-            view.CreateControls();
+            view.Setup(DependencyProvider);
 
             ViewTemplateContent templateContent = new ViewTemplateContent(view);
-            ComponentManager.AddComponent(templateContent, null);
+            componentManager.AddComponent(templateContent, null);
             return templateContent;
         }
 

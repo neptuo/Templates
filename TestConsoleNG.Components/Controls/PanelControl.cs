@@ -13,13 +13,9 @@ namespace TestConsoleNG.Controls
         public string Header { get; set; }
         public ITemplate Template { get; set; }
 
-        public PanelControl(IComponentManager componentManager)
-            : base(componentManager)
-        { }
-
-        public override void OnInit()
+        public override void OnInit(IComponentManager componentManager)
         {
-            base.OnInit();
+            base.OnInit(componentManager);
 
             if (Template != null)
             {
@@ -27,7 +23,7 @@ namespace TestConsoleNG.Controls
 
                 for (int i = 0; i < 5; i++)
                 {
-                    ITemplateContent templateContent = Template.CreateInstance();
+                    ITemplateContent templateContent = Template.CreateInstance(componentManager);
                     ComponentManager.Init(templateContent);
                     Content.Add(templateContent);
                 }

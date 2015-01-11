@@ -2,7 +2,6 @@
 using Neptuo.Linq.Expressions;
 using Neptuo.Reflection;
 using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Extensions;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -14,8 +13,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomExtensionObjectGenerator : TypeCodeDomObjectGenerator<ExtensionCodeObject>
     {
-        public CodeDomExtensionObjectGenerator(IFieldNameProvider fieldNameProvider)
-            : base(fieldNameProvider)
+        public CodeDomExtensionObjectGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
+            : base(fieldNameProvider, componentManager)
         { }
 
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ExtensionCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
@@ -24,7 +23,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             
             CodeExpression result = new CodeMethodInvokeExpression(
                 field,
-                TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue),
+                ComponentManager.ProvideValeExtensionMethodName,
                 CreateTokenContext(context, codeObject, propertyDescriptor)
             );
 

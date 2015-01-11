@@ -14,7 +14,7 @@ namespace Neptuo.Templates
     [JsType(JsMode.Clr, Filename = "res/View.js")]
     public sealed class View_C612CAF502A06BAAC6171B58D1EA2F61EC9D6D55 : Neptuo.Templates.GeneratedView, System.IDisposable
     {
-        protected override void CreateViewPageControls(Neptuo.Templates.IViewPage viewPage)
+        protected override void BindView(GeneratedView view)
         {
             this.Content.Add("<div><h:panel> \r\n        Street: \r\n        <h:textbox name=\"street\" />");
             this.Content.Add("</h:panel>");

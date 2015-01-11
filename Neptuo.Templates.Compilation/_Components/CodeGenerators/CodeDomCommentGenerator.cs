@@ -10,8 +10,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomCommentGenerator : TypeCodeDomObjectGenerator<CommentCodeObject>
     {
-        public CodeDomCommentGenerator(IFieldNameProvider fieldNameProvider)
-            : base(fieldNameProvider)
+        public CodeDomCommentGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
+            : base(fieldNameProvider, componentManager)
         { }
 
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, CommentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)

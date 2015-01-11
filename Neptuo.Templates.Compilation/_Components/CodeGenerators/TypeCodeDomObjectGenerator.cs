@@ -1,7 +1,6 @@
 ﻿using Neptuo.Linq.Expressions;
 using Neptuo.Reflection;
 using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Runtime;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -19,6 +18,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public abstract class TypeCodeDomObjectGenerator<T> : CodeDomObjectGeneratorBase<T>
         where T : ICodeObject
     {
+        protected ComponentManagerDescriptor ComponentManager { get; private set; }
+
         #region Name helpers
 
         protected IFieldNameProvider FieldNameProvider { get; private set; }
@@ -40,9 +41,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #endregion
 
-        public TypeCodeDomObjectGenerator(IFieldNameProvider fieldNameProvider)
+        public TypeCodeDomObjectGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
         {
+            Guard.NotNull(componentManager, "componentManager");
             FieldNameProvider = fieldNameProvider;
+            ComponentManager = componentManager;
         }
 
         /// <summary>
@@ -174,7 +177,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         new CodeThisReferenceExpression(),
                         CodeDomStructureGenerator.Names.ComponentManagerField
                     ),
-                    TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
+                    ComponentManager.AddComponentMethodName,
                     new CodeFieldReferenceExpression(
                         null,
                         createMethod.FieldName

@@ -24,13 +24,9 @@ namespace TestConsoleNG.Controls
             set { HtmlAttributes["value"] = value; }
         }
 
-        public TextBoxControl(IComponentManager componentManager)
-            : base(componentManager)
-        { }
-
-        public override void OnInit()
+        public override void OnInit(IComponentManager componentManager)
         {
-            base.OnInit();
+            base.OnInit(componentManager);
 
             HtmlAttributes["type"] = "text";
         }
