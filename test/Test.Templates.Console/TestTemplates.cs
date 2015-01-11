@@ -84,8 +84,8 @@ namespace Test.Templates
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
             builderRegistry
-                .RegisterDefaultNamespace("TestConsoleNG.Extensions, Test.Templates.Implementation")
-                .RegisterNamespace("h", "TestConsoleNG.Controls, Test.Templates.Implementation")
+                .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
+                .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
                 .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), builderRegistry))
                 .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), builderRegistry))
                 .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder(typeof(IHtmlAttributeCollectionAware), TypeHelper.PropertyName<IHtmlAttributeCollectionAware, HtmlAttributeCollection>(c => c.HtmlAttributes)))
