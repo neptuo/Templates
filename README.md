@@ -1,12 +1,9 @@
 Templates
+
 =========
 
 Base framework for creating UI templates that are compiled for running both on server-side and client-side (in javascript).
 
-The framework is composed from three projects:
+Example template can be found in [Index.html](test/Test.Templates.Console/Index.html). Not prefixed html tags are outputed as they are, those with prefix are instantiated and processess dynamicly. Beside html tags, also syntax in form {Binding Abc} is processed dynamicly. And special meaning has also prefixed html attributes, which are processed as extensions (or observers) on the original html tag.
 
-**Neptuo.Templates.Compilation** is base project for processing, compiling and executing templates.
-
-**Neptuo.Templates.Components** is one of possible implementations for the structure of compiled template. In these implementation every xml element is compiled to registered class and this class is instantiated by the framework.
-
-**Neptuo.Templates.Components.Compilation** is backing project for support of *Neptuo.Templates.Components*.
+More details about template processing can be found on our [WIKI](https://github.com/neptuo/Templates/wiki)
