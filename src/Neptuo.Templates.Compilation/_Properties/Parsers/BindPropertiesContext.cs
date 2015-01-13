@@ -47,8 +47,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             : this(componentDescriptor)
         {
             Guard.NotNull(codeObject, "codeObject");
-            foreach (IPropertyDescriptor propertyDescriptor in codeObject.Properties)
-                BoundProperties.Add(propertyDescriptor.Property.Name);
+            foreach (ICodeProperty codeProperty in codeObject.Properties)
+                BoundProperties.Add(codeProperty.Property.Name);
         }
     }
 }

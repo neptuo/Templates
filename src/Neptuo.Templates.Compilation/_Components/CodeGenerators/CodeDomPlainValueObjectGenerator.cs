@@ -12,15 +12,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomPlainValueObjectGenerator : CodeDomObjectGeneratorBase<IPlainValueCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, ICodeProperty codeProperty)
         {
-            if (propertyDescriptor.Property == null || plainValue  == null)
+            if (codeProperty.Property == null || plainValue  == null)
                 return null;
 
-            if (propertyDescriptor.Property.CanAssign(plainValue.Value.GetType()))
+            if (codeProperty.Property.CanAssign(plainValue.Value.GetType()))
                 return new CodePrimitiveExpression(plainValue.Value);
 
-            TypeConverter typeConverter = GetTypeConverter(context, plainValue, propertyDescriptor);
+            TypeConverter typeConverter = GetTypeConverter(context, plainValue, codeProperty);
             if (typeConverter != null && typeConverter.CanConvertFrom(plainValue.Value.GetType()))
             {
                 object value = typeConverter.ConvertFrom(plainValue.Value);
@@ -37,9 +37,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
                 return new CodePrimitiveExpression(value);
             }
-            else if (propertyDescriptor.Property != null && StringConverter.CanConvert(propertyDescriptor.Property.Type))
+            else if (codeProperty.Property != null && StringConverter.CanConvert(codeProperty.Property.Type))
             {
-                return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), propertyDescriptor.Property.Type));
+                return new CodePrimitiveExpression(StringConverter.Convert(plainValue.Value.ToString(), codeProperty.Property.Type));
             }
 
             if (plainValue.Value is string)
@@ -61,7 +61,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             //);
         }
 
-        protected TypeConverter GetTypeConverter(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, IPropertyDescriptor propertyDescriptor)
+        protected TypeConverter GetTypeConverter(CodeObjectExtensionContext context, IPlainValueCodeObject plainValue, ICodeProperty codeProperty)
         {
             //TypeConverter typeConverter = null;
             //TypeConverterAttribute attribute = ReflectionHelper.GetAttribute<TypeConverterAttribute>();
@@ -81,10 +81,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             //        )
             //    );
             //}
-            if (propertyDescriptor.Property == null)
+            if (codeProperty.Property == null)
                 return null;
 
-            return TypeDescriptor.GetConverter(propertyDescriptor.Property.Type);
+            return TypeDescriptor.GetConverter(codeProperty.Property.Type);
         }
     }
 }

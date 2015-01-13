@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             : base(fieldNameProvider, componentManager)
         { }
 
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, CommentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, CommentCodeObject codeObject, ICodeProperty codeProperty)
         {
             return null;
         }

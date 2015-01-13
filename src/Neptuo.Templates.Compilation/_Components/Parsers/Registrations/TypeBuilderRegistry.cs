@@ -176,7 +176,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region IPropertyBuilder
 
-        IEnumerable<IPropertyDescriptor> IPropertyBuilder.TryParse(IPropertyBuilderContext context, ISourceContent value)
+        IEnumerable<ICodeProperty> IPropertyBuilder.TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             IPropertyBuilder propertyBuilder = GetPropertyBuilder(context.PropertyInfo);
             if (propertyBuilder == null)
@@ -185,7 +185,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return propertyBuilder.TryParse(context, value);
         }
 
-        IEnumerable<IPropertyDescriptor> IContentPropertyBuilder.TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
+        IEnumerable<ICodeProperty> IContentPropertyBuilder.TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
             IContentPropertyBuilder propertyBuilder = GetContentPropertyBuilder(context.PropertyInfo);
             if (propertyBuilder == null)

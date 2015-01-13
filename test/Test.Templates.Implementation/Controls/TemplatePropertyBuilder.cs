@@ -12,7 +12,7 @@ namespace Test.Templates.Controls
 {
     public class TemplatePropertyBuilder : IContentPropertyBuilder, IPropertyBuilder
     {
-        public IEnumerable<IPropertyDescriptor> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
+        public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
             IComponentCodeObject templateCodeObject = new TemplateCodeObject(typeof(ContentTemplate));
             IPropertyInfo targetProperty = new TypePropertyInfo(
@@ -22,21 +22,21 @@ namespace Test.Templates.Controls
             );
 
             //Collection item
-            IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(targetProperty);
+            ICodeProperty codeProperty = new ListAddCodeProperty(targetProperty);
             IEnumerable<ICodeObject> values = context.BuilderContext.TryProcessContentNodes(content);
             if (values == null)
                 return null;
 
-            propertyDescriptor.SetRangeValue(values);
-            templateCodeObject.Properties.Add(propertyDescriptor);
-            return new PropertyDescriptorList(new SetPropertyDescriptor(context.PropertyInfo, templateCodeObject));
+            codeProperty.SetRangeValue(values);
+            templateCodeObject.Properties.Add(codeProperty);
+            return new CodePropertyList(new SetCodeProperty(context.PropertyInfo, templateCodeObject));
         }
 
-        public IEnumerable<IPropertyDescriptor> TryParse(IPropertyBuilderContext context, ISourceContent value)
+        public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             IComponentCodeObject templateCodeObject = new ComponentCodeObject(typeof(FileTemplate));
             templateCodeObject.Properties.Add(
-                new SetPropertyDescriptor(
+                new SetCodeProperty(
                     new TypePropertyInfo(
                         typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path))
                     ),
@@ -44,9 +44,9 @@ namespace Test.Templates.Controls
                 )
             );
 
-            IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(context.PropertyInfo);
-            propertyDescriptor.SetValue(templateCodeObject);
-            return new PropertyDescriptorList(propertyDescriptor);
+            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo);
+            codeProperty.SetValue(templateCodeObject);
+            return new CodePropertyList(codeProperty);
         }
     }
 }

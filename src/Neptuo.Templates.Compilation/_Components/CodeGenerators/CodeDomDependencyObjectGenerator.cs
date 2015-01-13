@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomDependencyObjectGenerator : CodeDomObjectGeneratorBase<DependencyCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, DependencyCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, DependencyCodeObject codeObject, ICodeProperty codeProperty)
         {
             return new CodeCastExpression(
                 new CodeTypeReference(codeObject.TargetType),

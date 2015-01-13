@@ -44,10 +44,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
-                if (propertyDescriptors != null)
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                if (codeProperties != null)
                 {
-                    context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);
+                    context.ComponentCodeObject().Properties.AddRange(codeProperties);
                     context.BindPropertiesContext().BoundProperties.Add(name);
                     return true;
                 }
@@ -61,10 +61,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
-                if (propertyDescriptors != null)
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                if (codeProperties != null)
                 {
-                    context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);
+                    context.ComponentCodeObject().Properties.AddRange(codeProperties);
                     context.BindPropertiesContext().BoundProperties.Add(name);
                     context.BindPropertiesContext().IsBoundFromContent = true;
                     return true;
@@ -119,10 +119,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo defaultProperty = context.DefaultProperty();
                 if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(defaultProperty.Name.ToLowerInvariant()))
                 {
-                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, defaultProperty, unboundNodes);
-                    if (propertyDescriptors != null)
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, defaultProperty, unboundNodes);
+                    if (codeProperties != null)
                     {
-                        context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);
+                        context.ComponentCodeObject().Properties.AddRange(codeProperties);
                         context.BindPropertiesContext().BoundProperties.Add(context.DefaultProperty().Name);
                         return true;
                     }

@@ -17,8 +17,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         /// <param name="context">Context for code generation.</param>
         /// <param name="codeObject">Code object to evaluate.</param>
-        /// <param name="propertyDescriptor">Parent property descriptor holds <paramref name="codeObject"/>.</param>
+        /// <param name="codeProperty">Parent property descriptor holds <paramref name="codeObject"/>.</param>
         /// <returns>Generated property value assignment code.</returns>
-        CodeExpression GenerateCode(CodeObjectExtensionContext context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor);
+        CodeExpression GenerateCode(CodeObjectExtensionContext context, ICodeObject codeObject, ICodeProperty codeProperty);
     }
 }

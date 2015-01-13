@@ -195,7 +195,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="propertyInfo">Property to build.</param>
         /// <param name="value">Value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<IPropertyDescriptor> TryProcessProperty(this IContentBuilderContext context, IPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, ISourceContent value)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, ISourceContent value)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(propertyFactory, "propertyFactory");
@@ -210,7 +210,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="propertyInfo">Property to build.</param>
         /// <param name="value">Value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<IPropertyDescriptor> TryProcessProperty(this IContentBuilderContext context, IContentPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IContentPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(propertyFactory, "propertyFactory");

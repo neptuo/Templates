@@ -144,7 +144,7 @@ namespace Test.Templates
 
 
             //IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
-            //IPropertyDescriptor contentProperty= new ListAddPropertyDescriptor(propertyInfo);
+            //IPropertyDescriptor codeProperty= new ListAddPropertyDescriptor(propertyInfo);
             //StringWriter javascriptOutput = new StringWriter();
 
             //viewService.ParserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(container, contentProperty));

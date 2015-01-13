@@ -17,30 +17,30 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             : base(fieldNameProvider, componentManager)
         { }
 
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject codeObject, ICodeProperty codeProperty)
         {
             CodeExpression field = GenerateCompoment(context, codeObject);
             
             CodeExpression result = new CodeMethodInvokeExpression(
                 field,
                 ComponentManager.ProvideValeExtensionMethodName,
-                CreateExtensionContext(context, codeObject, propertyDescriptor)
+                CreateExtensionContext(context, codeObject, codeProperty)
             );
 
-            if (RequiredConverter(codeObject, propertyDescriptor))
+            if (RequiredConverter(codeObject, codeProperty))
             {
                 result = new CodeMethodInvokeExpression(
                     new CodeMethodReferenceExpression(
                         new CodeThisReferenceExpression(),
                         CodeDomStructureGenerator.Names.CastValueToMethod,
-                        new CodeTypeReference(propertyDescriptor.Property.Type)
+                        new CodeTypeReference(codeProperty.Property.Type)
                     ),
                     result
                 );
             }
             else
             {
-                result = new CodeCastExpression(propertyDescriptor.Property.Type, result);
+                result = new CodeCastExpression(codeProperty.Property.Type, result);
             }
 
             return result;
@@ -62,23 +62,23 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected override void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
         { }
 
-        protected bool RequiredConverter(ComponentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected bool RequiredConverter(ComponentCodeObject codeObject, ICodeProperty codeProperty)
         {
-            if (propertyDescriptor.Property.Type.IsAssignableFrom(typeof(object)))
+            if (codeProperty.Property.Type.IsAssignableFrom(typeof(object)))
                 return false;
 
             ReturnTypeAttribute attribute = ReflectionHelper.GetAttribute<ReturnTypeAttribute>(codeObject.Type);
             if (attribute != null)
-                return !propertyDescriptor.Property.Type.IsAssignableFrom(attribute.Type);
+                return !codeProperty.Property.Type.IsAssignableFrom(attribute.Type);
 
             return true;
         }
 
-        protected CodeExpression CreateExtensionContext(CodeObjectExtensionContext context, ComponentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected CodeExpression CreateExtensionContext(CodeObjectExtensionContext context, ComponentCodeObject codeObject, ICodeProperty codeProperty)
         {
             CodePrimitiveExpression propertyExpression = null;
-            if (propertyDescriptor.Property != null)
-                propertyExpression = new CodePrimitiveExpression(propertyDescriptor.Property.Name);
+            if (codeProperty.Property != null)
+                propertyExpression = new CodePrimitiveExpression(codeProperty.Property.Name);
             else
                 propertyExpression = new CodePrimitiveExpression(null);
 

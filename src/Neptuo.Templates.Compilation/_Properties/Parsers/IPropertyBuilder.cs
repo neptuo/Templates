@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context information.</param>
         /// <param name="value">Source value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        IEnumerable<IPropertyDescriptor> TryParse(IPropertyBuilderContext context, ISourceContent value);
+        IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value);
     }
 }

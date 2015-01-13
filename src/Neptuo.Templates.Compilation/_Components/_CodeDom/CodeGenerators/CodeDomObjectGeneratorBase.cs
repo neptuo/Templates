@@ -14,11 +14,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public abstract class CodeDomObjectGeneratorBase<T> : ICodeDomComponentGenerator
         where T : ICodeObject
     {
-        public CodeExpression GenerateCode(CodeObjectExtensionContext context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        public CodeExpression GenerateCode(CodeObjectExtensionContext context, ICodeObject codeObject, ICodeProperty codeProperty)
         {
-            return GenerateCode(context, (T)codeObject, propertyDescriptor);
+            return GenerateCode(context, (T)codeObject, codeProperty);
         }
 
-        protected abstract CodeExpression GenerateCode(CodeObjectExtensionContext context, T codeObject, IPropertyDescriptor propertyDescriptor);
+        protected abstract CodeExpression GenerateCode(CodeObjectExtensionContext context, T codeObject, ICodeProperty codeProperty);
     }
 }

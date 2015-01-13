@@ -6,19 +6,19 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class ListAddPropertyDescriptor : IPropertyDescriptor
+    public class ListAddCodeProperty : ICodeProperty
     {
         public IPropertyInfo Property { get; set; }
         public List<ICodeObject> Values { get; set; }
         public bool IsDefaultValue { get; set; }
 
-        public ListAddPropertyDescriptor(IPropertyInfo property)
+        public ListAddCodeProperty(IPropertyInfo property)
         {
             Property = property;
             Values = new List<ICodeObject>();
         }
 
-        public ListAddPropertyDescriptor(IPropertyInfo property, params ICodeObject[] values)
+        public ListAddCodeProperty(IPropertyInfo property, params ICodeObject[] values)
         {
             Property = property;
             Values = new List<ICodeObject>(values);

@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context inforation.</param>
         /// <param name="content">Source value.</param>
         /// <returns>True if succeeded.</returns>
-        IEnumerable<IPropertyDescriptor> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content);
+        IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content);
     }
 }

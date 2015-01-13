@@ -18,15 +18,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             //    || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()));
         }
 
-        protected override IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo)
+        protected override ICodeProperty CreateCodeProperty(IPropertyInfo propertyInfo)
         {
-            IPropertyDescriptor propertyDescriptor = null;
+            ICodeProperty codeProperty = null;
             if (IsCollectionProperty(propertyInfo))
-                propertyDescriptor = new ListAddPropertyDescriptor(propertyInfo);
+                codeProperty = new ListAddCodeProperty(propertyInfo);
             else
-                propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
+                codeProperty = new SetCodeProperty(propertyInfo);
 
-            return propertyDescriptor;
+            return codeProperty;
         }
     }
 }

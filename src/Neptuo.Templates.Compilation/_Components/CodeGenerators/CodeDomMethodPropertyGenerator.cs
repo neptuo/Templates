@@ -7,9 +7,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomMethodPropertyGenerator : CodeDomPropertyGeneratorBase<MethodInvokePropertyDescriptor>
+    public class CodeDomMethodPropertyGenerator : CodeDomPropertyGeneratorBase<MethodInvokeCodeProperty>
     {
-        protected override void GenerateProperty(CodeDomPropertyContext context, MethodInvokePropertyDescriptor propertyDescriptor)
+        protected override void GenerateProperty(CodeDomPropertyContext context, MethodInvokeCodeProperty codeProperty)
         {
             context.Statements.Add(
                 new CodeMethodInvokeExpression(
@@ -17,10 +17,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         null,
                         context.FieldName
                     ),
-                    propertyDescriptor.Method.Name,
-                    propertyDescriptor.Parameters.Select(
+                    codeProperty.Method.Name,
+                    codeProperty.Parameters.Select(
                         p => context.CodeGenerator.GenerateCodeObject(
-                            new CodeObjectExtensionContext(context.Context, context.FieldName), p, propertyDescriptor
+                            new CodeObjectExtensionContext(context.Context, context.FieldName), p, codeProperty
                         )
                     ).Where(p => p != null).ToArray()
                 )

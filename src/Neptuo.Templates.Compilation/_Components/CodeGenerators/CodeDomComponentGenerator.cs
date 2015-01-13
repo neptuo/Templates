@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             : base(fieldNameProvider, componentManager)
         { }
 
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, ICodeProperty codeProperty)
         {
             StorageProvider storage = context.CodeDomContext.CodeGeneratorContext.DependencyProvider.Resolve<StorageProvider>();
             context.ObserverDictionary(storage.Create<ObserverDictionary>("PerControl"));

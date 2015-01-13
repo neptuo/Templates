@@ -11,30 +11,30 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// Implementation of list of property descriptors.
     /// With support for extension methods.
     /// </summary>
-    public class PropertyDescriptorList : Collection<IPropertyDescriptor>, IEnumerable<IPropertyDescriptor>
+    public class CodePropertyList : Collection<ICodeProperty>, IEnumerable<ICodeProperty>
     {
-        public PropertyDescriptorList(params IPropertyDescriptor[] values)
+        public CodePropertyList(params ICodeProperty[] values)
         {
             AddRange(values);
         }
 
-        public new PropertyDescriptorList Add(IPropertyDescriptor value)
+        public new CodePropertyList Add(ICodeProperty value)
         {
             base.Add(value);
             return this;
         }
 
-        public PropertyDescriptorList AddRange(IEnumerable<IPropertyDescriptor> values)
+        public CodePropertyList AddRange(IEnumerable<ICodeProperty> values)
         {
             Guard.NotNull(values, "values");
 
-            foreach (IPropertyDescriptor value in values)
+            foreach (ICodeProperty value in values)
                 Add(value);
 
             return this;
         }
 
-        protected override void InsertItem(int index, IPropertyDescriptor item)
+        protected override void InsertItem(int index, ICodeProperty item)
         {
             Guard.NotNull(item, "item");
             base.InsertItem(index, item);

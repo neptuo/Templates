@@ -12,14 +12,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     /// <typeparam name="T">Type of property descriptor that is supported.</typeparam>
     public abstract class CodeDomPropertyGeneratorBase<T> : ICodeDomPropertyGenerator
-        where T : IPropertyDescriptor
+        where T : ICodeProperty
     {
-        public void GenerateProperty(CodeDomPropertyContext context, IPropertyDescriptor propertyDescriptor)
+        public void GenerateProperty(CodeDomPropertyContext context, ICodeProperty codeProperty)
         {
-            GenerateProperty(context, (T)propertyDescriptor);
+            GenerateProperty(context, (T)codeProperty);
         }
 
-        protected abstract void GenerateProperty(CodeDomPropertyContext context, T propertyDescriptor);
+        protected abstract void GenerateProperty(CodeDomPropertyContext context, T codeProperty);
 
         /// <summary>
         /// Creates expression that can be used to set value of property described in <paramref name="context"/>.

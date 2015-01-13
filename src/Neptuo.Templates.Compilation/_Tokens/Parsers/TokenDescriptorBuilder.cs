@@ -48,10 +48,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo propertyInfo;
                 if (bindContext.Properties.TryGetValue(name, out propertyInfo))
                 {
-                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, new DefaultSourceContent(attribute.Value, token));
-                    if(propertyDescriptors != null) 
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, new DefaultSourceContent(attribute.Value, token));
+                    if(codeProperties != null) 
                     {
-                        codeObject.Properties.AddRange(propertyDescriptors);
+                        codeObject.Properties.AddRange(codeProperties);
                         bindContext.BoundProperties.Add(name);
                         continue;
                     }
@@ -66,10 +66,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 string defaultAttributeValue = token.DefaultAttributes.FirstOrDefault();
                 if (!String.IsNullOrEmpty(defaultAttributeValue))
                 {
-                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
-                    if(propertyDescriptors != null)
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
+                    if(codeProperties != null)
                     {
-                        codeObject.Properties.AddRange(propertyDescriptors);
+                        codeObject.Properties.AddRange(codeProperties);
                         bindContext.BoundProperties.Add(defaultProperty.Name.ToLowerInvariant());
                     }
                     else

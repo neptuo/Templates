@@ -24,11 +24,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.methodName = methodName;
         }
 
-        private DictionaryAddPropertyDescriptor CreatePropertyDescriptor(ITypeCodeObject typeCodeObject)
+        private DictionaryAddCodeProperty CreateCodeProperty(ITypeCodeObject typeCodeObject)
         {
             TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(methodName));
-            DictionaryAddPropertyDescriptor propertyDescriptor = new DictionaryAddPropertyDescriptor(propertyInfo);
-            return propertyDescriptor;
+            DictionaryAddCodeProperty codeProperty = new DictionaryAddCodeProperty(propertyInfo);
+            return codeProperty;
         }
 
         public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
@@ -39,14 +39,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             if (requiredInterface.IsAssignableFrom(typeCodeObject.Type))
             {
-                DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
-                propertyDescriptor.SetValue(new PlainValueCodeObject(attribute.Name));
+                DictionaryAddCodeProperty codeProperty = CreateCodeProperty(typeCodeObject);
+                codeProperty.SetValue(new PlainValueCodeObject(attribute.Name));
 
                 ICodeObject value = context.TryProcessValue(attribute.GetValue());
                 if (value != null)
                 {
-                    propertyDescriptor.SetValue(value);
-                    codeObject.Properties.Add(propertyDescriptor);
+                    codeProperty.SetValue(value);
+                    codeObject.Properties.Add(codeProperty);
                     return true;
                 }
             }

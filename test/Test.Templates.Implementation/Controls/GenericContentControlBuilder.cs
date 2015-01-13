@@ -29,7 +29,7 @@ namespace Test.Templates.Controls
         protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             IComponentCodeObject codeObject = base.CreateCodeObject(context, element);
-            codeObject.Properties.Add(new SetPropertyDescriptor(new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), new PlainValueCodeObject(element.Name)));
+            codeObject.Properties.Add(new SetCodeProperty(new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), new PlainValueCodeObject(element.Name)));
             return codeObject;
         }
 

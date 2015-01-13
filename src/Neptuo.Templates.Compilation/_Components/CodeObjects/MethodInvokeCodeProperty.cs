@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class MethodInvokePropertyDescriptor : IPropertyDescriptor
+    public class MethodInvokeCodeProperty : ICodeProperty
     {
         private MethodInvokePropertyInfo property;
 
@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         }
         public List<ICodeObject> Parameters { get; protected set; }
 
-        public MethodInvokePropertyDescriptor(MethodInfo methodInfo)
+        public MethodInvokeCodeProperty(MethodInfo methodInfo)
         {
             Method = methodInfo;
             Parameters = new List<ICodeObject>();

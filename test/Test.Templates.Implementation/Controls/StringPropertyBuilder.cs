@@ -11,14 +11,14 @@ namespace Test.Templates.Controls
 {
     public class StringPropertyBuilder : IPropertyBuilder
     {
-        public IEnumerable<IPropertyDescriptor> TryParse(IPropertyBuilderContext context, ISourceContent value)
+        public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(context.PropertyInfo);
+            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo);
             ICodeObject valueObject = context.ParserService.ProcessValue(value, context.CreateValueContext(context.ParserService));
             if (valueObject != null)
             {
-                propertyDescriptor.SetValue(valueObject);
-                return new PropertyDescriptorList(propertyDescriptor);
+                codeProperty.SetValue(valueObject);
+                return new CodePropertyList(codeProperty);
             }
 
             return null;
