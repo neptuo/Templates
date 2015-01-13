@@ -83,7 +83,6 @@
     <Compile Include="CodeObjects\IPropertyDescriptor.cs" />
     <Compile Include="CodeObjects\IPropertyInfo.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
-    <Compile Include="CodeObjects\IValueExtensionCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="Data\StorageProvider.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />
@@ -137,7 +136,6 @@
     <Compile Include="_Components\CodeObjects\ComponentCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DependencyCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DictionaryAddPropertyDescriptor.cs" />
-    <Compile Include="_Components\CodeObjects\ExtensionCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\ListAddPropertyDescriptor.cs" />
     <Compile Include="_Components\CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokePropertyDescriptor.cs" />

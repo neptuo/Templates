@@ -45,12 +45,17 @@ namespace Test.Templates.Controls
             }
             HtmlAttributes["href"] = Url;
         }
+
+        public override void Render(IHtmlWriter writer)
+        {
+            base.Render(writer);
+        }
     }
 
     public class Parameter
     {
         public string Name { get; set; }
-        public string Value { get; set; }
+        public object Value { get; set; }
     }
 
     public class Security

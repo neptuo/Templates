@@ -13,22 +13,22 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public abstract class TokenDescriptorBuilder : ITokenBuilder
     {
-        protected abstract IValueExtensionCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
-        protected abstract ITokenDescriptor GetTokenDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension);
+        protected abstract IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
+        protected abstract ITokenDescriptor GetTokenDefinition(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension);
 
         protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
         protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
 
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
-            IValueExtensionCodeObject codeObject = CreateCodeObject(context, extension);
+            IComponentCodeObject codeObject = CreateCodeObject(context, extension);
             if (codeObject != null && BindProperties(context, codeObject, extension))
                 return codeObject;
 
             return null;
         }
 
-        protected virtual bool BindProperties(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token token)
+        protected virtual bool BindProperties(ITokenBuilderContext context, IComponentCodeObject codeObject, Token token)
         {
             HashSet<string> boundProperies = new HashSet<string>();
             ITokenDescriptor extensionDefinition = GetTokenDefinition(context, codeObject, token);

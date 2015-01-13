@@ -18,12 +18,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             Type = type;
         }
 
-        protected override IValueExtensionCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension)
+        protected override IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension)
         {
-            return new ExtensionCodeObject(Type);
+            return new ComponentCodeObject(Type);
         }
 
-        protected override ITokenDescriptor GetTokenDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension)
+        protected override ITokenDescriptor GetTokenDefinition(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension)
         {
             return new TypeDescriptorBase(Type);
         }

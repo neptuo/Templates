@@ -2,6 +2,7 @@
 using Neptuo.Linq.Expressions;
 using Neptuo.Reflection;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Extensions;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -11,56 +12,78 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomExtensionObjectGenerator : TypeCodeDomObjectGenerator<ComponentCodeObject>
+    public class CodeDomExtendedComponentObjectGenerator : CodeDomComponentGenerator
     {
-        public CodeDomExtensionObjectGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
+        public CodeDomExtendedComponentObjectGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
             : base(fieldNameProvider, componentManager)
         { }
 
+        private bool IsExtension(ComponentCodeObject codeObject)
+        {
+            return typeof(IValueExtension).IsAssignableFrom(codeObject.Type);
+        }
+
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
-            CodeExpression field = GenerateCompoment(context, codeObject);
-            
-            CodeExpression result = new CodeMethodInvokeExpression(
-                field,
-                ComponentManager.ProvideValeExtensionMethodName,
-                CreateExtensionContext(context, codeObject, propertyDescriptor)
-            );
+            CodeExpression field = base.GenerateCode(context, codeObject, propertyDescriptor);
 
-            if (RequiredConverter(codeObject, propertyDescriptor))
+            if (IsExtension(codeObject))
             {
-                result = new CodeMethodInvokeExpression(
-                    new CodeMethodReferenceExpression(
-                        new CodeThisReferenceExpression(),
-                        CodeDomStructureGenerator.Names.CastValueToMethod,
-                        new CodeTypeReference(propertyDescriptor.Property.Type)
-                    ),
-                    result
+                CodeExpression result = new CodeMethodInvokeExpression(
+                    field,
+                    ComponentManager.ProvideValeExtensionMethodName,
+                    CreateExtensionContext(context, codeObject, propertyDescriptor)
                 );
-            }
-            else
-            {
-                result = new CodeCastExpression(propertyDescriptor.Property.Type, result);
+
+                if (RequiredConverter(codeObject, propertyDescriptor))
+                {
+                    result = new CodeMethodInvokeExpression(
+                        new CodeMethodReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            CodeDomStructureGenerator.Names.CastValueToMethod,
+                            new CodeTypeReference(propertyDescriptor.Property.Type)
+                        ),
+                        result
+                    );
+                }
+                else
+                {
+                    result = new CodeCastExpression(propertyDescriptor.Property.Type, result);
+                }
+
+                return result;
             }
 
-            return result;
+            return field;
         }
 
         protected override CodeExpression GenerateCompoment<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
         {
-            string fieldName = GenerateFieldName();
-            ComponentMethodInfo createMethod = GenerateCreateMethod(context, codeObject, fieldName);
-            return GenerateComponentReturnExpression(context, codeObject, createMethod);
+            if (IsExtension(codeObject as ComponentCodeObject))
+            {
+                string fieldName = GenerateFieldName();
+                ComponentMethodInfo createMethod = GenerateCreateMethod(context, codeObject, fieldName);
+                return GenerateComponentReturnExpression(context, codeObject, createMethod);
+            }
+
+            return base.GenerateCompoment(context, codeObject);
         }
 
         protected override void AppendToCreateMethod<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
         {
             base.AppendToCreateMethod<TCodeObject>(context, codeObject, createMethod);
-            GenerateBindMethodStatements(context, codeObject, createMethod);
+
+            if (IsExtension(codeObject as ComponentCodeObject))
+                GenerateBindMethodStatements(context, codeObject, createMethod);
         }
 
         protected override void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
-        { }
+        {
+            if (IsExtension(codeObject as ComponentCodeObject))
+                return;
+
+            base.AppendToComponentManager(context, codeObject, createMethod);
+        }
 
         protected bool RequiredConverter(ComponentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {

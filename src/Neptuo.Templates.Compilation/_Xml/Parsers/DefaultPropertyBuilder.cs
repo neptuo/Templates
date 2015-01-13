@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
 
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public virtual bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             if (typeof(string) == propertyInfo.Type)
             {
@@ -93,7 +93,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
+        public virtual bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
         {
             ICodeObject propertyValue = context.TryProcessValue(attributeValue);
             if (propertyValue != null)

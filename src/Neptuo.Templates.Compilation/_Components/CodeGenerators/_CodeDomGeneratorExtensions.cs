@@ -53,7 +53,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             generator.SetCodeObjectGenerator<CommentCodeObject>(new CodeDomCommentGenerator(fieldNameProvider, componentManager));
             generator.SetCodeObjectGenerator<PlainValueCodeObject>(new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator<DependencyCodeObject>(new CodeDomDependencyObjectGenerator());
-            generator.SetCodeObjectGenerator<ExtensionCodeObject>(new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManager));
+            //generator.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManager));
             generator.SetCodeObjectGenerator<LiteralCodeObject>(new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator<RootCodeObject>(new CodeDomRootGenerator());
 

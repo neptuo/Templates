@@ -101,6 +101,7 @@ namespace Test.Templates
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()
                 .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, fieldNameProvider)
+                .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(fieldNameProvider, componentManagerDescriptor))
                 .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
                 .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
 
@@ -162,9 +163,9 @@ namespace Test.Templates
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
-            container.RegisterInstance<INaming>(new DefaultNaming("Index.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Index", "Index.dll"));
+            container.RegisterInstance<INaming>(new DefaultNaming("Test1.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Test1", "Test1.dll"));
 
-            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
+            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Test1.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
             if (view == null || context.Errors.Any())
             {

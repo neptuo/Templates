@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             foreach (Type type in types)
             {
-                if (CanBeUsedInMarkup(type, false) && ImplementsInterface(Configuration.ExtensionType, type))
+                if (CanBeUsedInMarkup(type, false)) // && ImplementsInterface(Configuration.ExtensionType, type)
                 {
                     string name = GetComponentName(type, Configuration.ExtensionSuffix);
                     Content.Tokens[prefix][name] = CreateFactory<ITokenBuilder>(type, CreateDefaultTokenBuilderFactory);

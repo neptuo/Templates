@@ -9,17 +9,12 @@ using System.Threading.Tasks;
 
 namespace Test.Templates.Controls
 {
-    public class StringPropertyBuilder : IPropertyBuilder
+    public class StringPropertyBuilder : TypeDefaultPropertyBuilder
     {
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
+        public override bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
         {
             IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            ICodeObject valueObject = context.TryProcessValue(value);
+            ICodeObject valueObject = context.TryProcessValue(attributeValue);
             if (valueObject != null)
             {
                 propertyDescriptor.SetValue(valueObject);
