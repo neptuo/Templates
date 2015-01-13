@@ -203,6 +203,7 @@
     <Compile Include="_Xml\Parsers\Descriptors\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\ComponentDescriptorBuilder.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\_IContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\_ContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />

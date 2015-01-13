@@ -82,7 +82,7 @@ namespace Test.Templates
                 new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
+            builderRegistry.GenericContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
                 .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
                 .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
@@ -129,7 +129,6 @@ namespace Test.Templates
             //viewService.NamingService = new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
 
             container.RegisterInstance<IViewService>(viewService);
-            container.RegisterInstance<IComponentManager>(new ComponentManager());
 
             StringWriter output = new StringWriter();
             Stopwatch stopwatch = new Stopwatch();
@@ -163,9 +162,9 @@ namespace Test.Templates
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
-            container.RegisterInstance<INaming>(new DefaultNaming("Index.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Index", "Index.dll"));
+            container.RegisterInstance<INaming>(new DefaultNaming("Test1.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Test1", "Test1.dll"));
 
-            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
+            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Test1.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
             if (view == null || context.Errors.Any())
             {
@@ -179,7 +178,7 @@ namespace Test.Templates
                 DebugHelper.Debug("Run", () =>
                 {
                     view.Setup(container);
-                    view.OnInit(container.Resolve<IComponentManager>());
+                    view.OnInit(new ComponentManager());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });

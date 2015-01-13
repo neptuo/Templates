@@ -87,7 +87,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual IContentBuilder CreateDefaultComponentBuilderFactory(Type type)
         {
-            return new TransientComponentBuilder(() => new DefaultTypeComponentBuilder(type, propertyBuilder, observerFactory));
+            return new DefaultTypeComponentBuilder(type, propertyBuilder, observerFactory);
         }
 
         protected virtual ITokenBuilder CreateDefaultTokenBuilderFactory(Type type)
@@ -126,21 +126,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected bool ImplementsInterface(Type requiredInterface, Type type)
         {
             return requiredInterface.IsAssignableFrom(type);
-        }
-
-        public class TransientComponentBuilder : IContentBuilder
-        {
-            private readonly Func<IContentBuilder> factory;
-
-            public TransientComponentBuilder(Func<IContentBuilder> factory)
-            {
-                this.factory = factory;
-            }
-
-            public IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
-            {
-                return factory().TryParse(context, element);
-            }
         }
 
     }
