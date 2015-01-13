@@ -82,7 +82,7 @@ namespace Test.Templates
                 new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
+            builderRegistry.GenericContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
                 .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
                 .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
@@ -129,7 +129,6 @@ namespace Test.Templates
             //viewService.NamingService = new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
 
             container.RegisterInstance<IViewService>(viewService);
-            container.RegisterInstance<IComponentManager>(new ComponentManager());
 
             StringWriter output = new StringWriter();
             Stopwatch stopwatch = new Stopwatch();
@@ -179,7 +178,7 @@ namespace Test.Templates
                 DebugHelper.Debug("Run", () =>
                 {
                     view.Setup(container);
-                    view.OnInit(container.Resolve<IComponentManager>());
+                    view.OnInit(new ComponentManager());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });

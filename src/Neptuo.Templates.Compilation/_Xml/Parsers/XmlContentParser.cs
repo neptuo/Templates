@@ -73,17 +73,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (node.NodeType == XmlNodeType.Element)
             {
                 IXmlElement element = (IXmlElement)node;
-                return componentFactory.TryParse(context, element);
+                return componentFactory.TryParse(new XmlContentBuilderContext(context), element);
             }
             else if (node.NodeType == XmlNodeType.Text)
             {
                 IXmlText text = (IXmlText)node;
-                return literalFactory.TryParseText(context, text.Text);
+                return literalFactory.TryParseText(new XmlContentBuilderContext(context), text.Text);
             }
             else if (node.NodeType == XmlNodeType.Comment)
             {
                 IXmlText text = (IXmlText)node;
-                return literalFactory.TryParseComment(context, text.Text);
+                return literalFactory.TryParseComment(new XmlContentBuilderContext(context), text.Text);
             }
 
             throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");

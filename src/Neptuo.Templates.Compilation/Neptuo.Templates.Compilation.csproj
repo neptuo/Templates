@@ -128,11 +128,14 @@
     <Compile Include="_Components\CodeGenerators\CodeDomStructureGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\CodeTypeMemberCollectionExtensions.cs" />
     <Compile Include="_Components\CodeGenerators\ComponentManagerDescriptor.cs" />
+    <Compile Include="_Components\CodeGenerators\ComponentMethodInfo.cs" />
     <Compile Include="_Components\CodeGenerators\IFieldNameProvider.cs" />
+    <Compile Include="_Components\CodeGenerators\ObserverDictionary.cs" />
     <Compile Include="_Components\CodeGenerators\SequenceFieldNameProvider.cs" />
     <Compile Include="_Components\CodeGenerators\SharpKitCodeGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\TypeCodeDomObjectGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\_CodeDomGeneratorExtensions.cs" />
+    <Compile Include="_Components\CodeGenerators\_CodeObjectExtensionContextExtensions.cs" />
     <Compile Include="_Components\CodeObjects\ComponentCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DependencyCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DictionaryAddPropertyDescriptor.cs" />
@@ -203,6 +206,7 @@
     <Compile Include="_Xml\Parsers\Descriptors\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\ComponentDescriptorBuilder.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\_IContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\_ContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
