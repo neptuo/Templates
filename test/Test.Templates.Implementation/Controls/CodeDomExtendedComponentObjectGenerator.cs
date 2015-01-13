@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     CreateExtensionContext(context, codeObject, propertyDescriptor)
                 );
 
-                if (RequiredConverter(codeObject, propertyDescriptor))
+                if (IsConverterRequired(codeObject, propertyDescriptor))
                 {
                     result = new CodeMethodInvokeExpression(
                         new CodeMethodReferenceExpression(
@@ -85,7 +85,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             base.AppendToComponentManager(context, codeObject, createMethod);
         }
 
-        protected bool RequiredConverter(ComponentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected bool IsConverterRequired(ComponentCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
         {
             if (propertyDescriptor.Property.Type.IsAssignableFrom(typeof(object)))
                 return false;

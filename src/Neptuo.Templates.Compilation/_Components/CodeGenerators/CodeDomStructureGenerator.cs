@@ -43,6 +43,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeNamespace codeNamespace = new CodeNamespace(Names.CodeNamespace);
             //codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
+            //codeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo"));
             //codeNamespace.Imports.Add(new CodeNamespaceImport("Neptuo.Templates"));
             structure.Unit.Namespaces.Add(codeNamespace);
 
