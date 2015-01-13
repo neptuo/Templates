@@ -13,17 +13,14 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public abstract class ComponentDescriptorBuilder : ComponentBuilder
     {
-        protected IPropertyBuilder PropertyFactory { get; private set; }
-        protected IContentPropertyBuilder ContentPropertyFactory { get; private set; }
+        protected IContentPropertyBuilder PropertyFactory { get; private set; }
         protected IObserverBuilder ObserverFactory { get; private set; }
 
-        public ComponentDescriptorBuilder(IPropertyBuilder propertyFactory, IContentPropertyBuilder contentPropertyFactory, IObserverBuilder observerFactory)
+        public ComponentDescriptorBuilder(IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
         {
             Guard.NotNull(propertyFactory, "propertyFactory");
-            Guard.NotNull(contentPropertyFactory, "contentPropertyFactory");
             Guard.NotNull(observerFactory, "observerFactory");
             PropertyFactory = propertyFactory;
-            ContentPropertyFactory = contentPropertyFactory;
             ObserverFactory = observerFactory;
         }
 
@@ -64,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(ContentPropertyFactory, propertyInfo, value);
+                IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
                 if (propertyDescriptors != null)
                 {
                     context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);
@@ -122,7 +119,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo defaultProperty = context.DefaultProperty();
                 if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(defaultProperty.Name.ToLowerInvariant()))
                 {
-                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(ContentPropertyFactory, defaultProperty, unboundNodes);
+                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, defaultProperty, unboundNodes);
                     if (propertyDescriptors != null)
                     {
                         context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);

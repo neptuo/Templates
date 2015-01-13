@@ -17,8 +17,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected abstract Type GetControlType(IXmlElement element);
 
-        public TypeComponentBuilder(IPropertyBuilder propertyFactory, IContentPropertyBuilder contentPropertyFactory, IObserverBuilder observerFactory)
-            : base(propertyFactory, contentPropertyFactory, observerFactory)
+        public TypeComponentBuilder(IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
+            : base(propertyFactory, observerFactory)
         { }
 
         protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)

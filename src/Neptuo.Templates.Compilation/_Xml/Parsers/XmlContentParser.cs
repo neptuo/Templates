@@ -25,12 +25,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool UseLinqApi { get; set; }
 
-        public XmlContentParser(IContentBuilder componentFactory, ILiteralBuilder literalFactory)
+        public XmlContentParser(IContentBuilder componentFactory, ILiteralBuilder literalFactory, bool useLinqApi = false)
         {
             Guard.NotNull(componentFactory, "componentFactory");
             Guard.NotNull(literalFactory, "literalFactory");
             this.componentFactory = componentFactory;
             this.literalFactory = literalFactory;
+            UseLinqApi = useLinqApi;
         }
 
         public ICodeObject Parse(ISourceContent content, IContentParserContext context)
@@ -98,7 +99,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (UseLinqApi)
                 documentElement = XDocumentSupport.LoadXml(preparedXml);
             else
-                documentElement = XDocumentSupport.LoadXml(preparedXml);
+                documentElement = XmlDocumentSupport.LoadXml(preparedXml);
 
             return documentElement;
         }

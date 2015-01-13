@@ -380,7 +380,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual TypeScanner CreateTypeScanner()
         {
-            return new TypeScanner(Configuration, Content, this, this, this);
+            return new TypeScanner(Configuration, Content, this, this);
         }
     }
 
