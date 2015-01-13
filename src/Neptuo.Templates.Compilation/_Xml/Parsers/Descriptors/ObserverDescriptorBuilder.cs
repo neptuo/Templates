@@ -68,10 +68,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
             {
-                IContentParserContext propertyContext = context.ParserContext.CreateContentContext(context.ParserContext.ParserService);
-                bool boundAttribute = PropertyFactory.TryParse(propertyContext, codeObject, propertyInfo, attribute.GetValue());
-                if (boundAttribute)
+                IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, attribute.GetValue());
+                if(propertyDescriptors != null)
                 {
+                    codeObject.Properties.AddRange(propertyDescriptors);
                     bindContext.BoundProperies.Add(attributeName);
                     return true;
                 }

@@ -36,7 +36,7 @@ namespace Neptuo.Templates
         {
             if ((this.field2 == null))
             {
-                this.field2 = new Test.Templates.Observers.DataContextObserver(this.componentManager, ((Test.Templates.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(Test.Templates.Data.DataStorage), null))));
+                this.field2 = new Test.Templates.Observers.DataContextObserver(((Test.Templates.Data.DataStorage)(this.dependencyProvider.Resolve(typeof(Test.Templates.Data.DataStorage), null))));
                 this.componentManager.AddComponent(field2, this.field2_Bind);
             }
             return this.field2;

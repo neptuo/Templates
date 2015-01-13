@@ -19,13 +19,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         public SpecialDictionary<string, Dictionary<string, IObserverBuilder>> Observers { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, ITokenBuilder>> Tokens { get; protected set; }
         public Dictionary<Type, IPropertyBuilder> Properties { get; protected set; }
+        public Dictionary<Type, IContentPropertyBuilder> ContentProperties { get; protected set; }
 
         public TypeBuilderRegistryContent()
-            : this(null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null)
         { }
 
         public TypeBuilderRegistryContent(TypeBuilderRegistryContent content)
-            : this(content.Namespaces, content.Components, content.Observers, content.Tokens, content.Properties, content.LiteralBuilderFactory, content.GenericContentBuilderFactory)
+            : this(content.Namespaces, content.Components, content.Observers, content.Tokens, content.Properties, content.ContentProperties, content.LiteralBuilderFactory, content.GenericContentBuilderFactory)
         { }
 
         public TypeBuilderRegistryContent(
@@ -34,6 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             SpecialDictionary<string, Dictionary<string, IObserverBuilder>> observers,
             SpecialDictionary<string, Dictionary<string, ITokenBuilder>> tokens,
             Dictionary<Type, IPropertyBuilder> properties,
+            Dictionary<Type, IContentPropertyBuilder> contentProperties,
             ILiteralBuilder literalBuilderFactory,
             IContentBuilder genericContentBuilderFactory)
         {
@@ -61,6 +63,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                 Properties = new Dictionary<Type, IPropertyBuilder>();
             else
                 Properties = properties;
+
+            if (contentProperties == null)
+                ContentProperties = new Dictionary<Type, IContentPropertyBuilder>();
+            else
+                ContentProperties = contentProperties;
 
             LiteralBuilderFactory = literalBuilderFactory;
             GenericContentBuilderFactory = genericContentBuilderFactory;

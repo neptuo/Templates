@@ -9,20 +9,19 @@ using System.Threading.Tasks;
 
 namespace Test.Templates.Controls
 {
-    public class StringPropertyBuilder : TypeDefaultPropertyBuilder
+    public class StringPropertyBuilder : IPropertyBuilder
     {
-        public override bool TryParse(IContentParserContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
+        public IEnumerable<IPropertyDescriptor> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            ICodeObject valueObject = context.ParserService.ProcessValue(attributeValue, context.CreateValueContext(context.ParserService));
+            IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(context.PropertyInfo);
+            ICodeObject valueObject = context.ParserService.ProcessValue(value, context.CreateValueContext(context.ParserService));
             if (valueObject != null)
             {
                 propertyDescriptor.SetValue(valueObject);
-                codeObject.Properties.Add(propertyDescriptor);
-                return true;
+                return new PropertyDescriptorList(propertyDescriptor);
             }
 
-            return false;
+            return null;
         }
     }
 

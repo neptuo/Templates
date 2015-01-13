@@ -49,7 +49,8 @@
     <Compile Include="CodeObjects\CodeObjectList.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
-    <Compile Include="CodeObjects\_IPropertyDescriptorExtensions.cs" />
+    <Compile Include="_Properties\CodeObjects\PropertyDescriptorList.cs" />
+    <Compile Include="_Properties\CodeObjects\_IPropertyDescriptorExtensions.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />
     <Compile Include="ISourceContent.cs" />
     <Compile Include="DefaultSourceContent.cs" />
@@ -80,8 +81,8 @@
     <Compile Include="CodeObjects\IObserversCodeObject.cs" />
     <Compile Include="CodeObjects\IPlainValueCodeObject.cs" />
     <Compile Include="CodeObjects\IPropertiesCodeObject.cs" />
-    <Compile Include="CodeObjects\IPropertyDescriptor.cs" />
-    <Compile Include="CodeObjects\IPropertyInfo.cs" />
+    <Compile Include="_Properties\CodeObjects\IPropertyDescriptor.cs" />
+    <Compile Include="_Properties\CodeObjects\IPropertyInfo.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="Data\StorageProvider.cs" />
@@ -195,6 +196,8 @@
     <Compile Include="_Components\_CodeDom\PostProcessing\ICodeDomVisitor.cs" />
     <Compile Include="_Components\_CodeDom\PostProcessing\ICodeDomVisitorContext.cs" />
     <Compile Include="_ErrorInfoExtensions.cs" />
+    <Compile Include="_Properties\Parsers\IPropertyBuilderContext.cs" />
+    <Compile Include="_Properties\Parsers\PropertyBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
@@ -202,10 +205,13 @@
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
     <Compile Include="_Tokens\Parsers\TokenExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
+    <Compile Include="_Xml\Parsers\ContentPropertyBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\BindPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\ComponentDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\_IContentBuilderContextExtensions.cs" />
+    <Compile Include="_Xml\Parsers\IContentPropertyBuilderContext.cs" />
+    <Compile Include="_Xml\Parsers\IContentPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\_ContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
@@ -215,7 +221,7 @@
     <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IObserverBuilder.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\IObserverDescriptor.cs" />
-    <Compile Include="_Xml\Parsers\IPropertyBuilder.cs" />
+    <Compile Include="_Properties\Parsers\IPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlAttribute.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlElement.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlName.cs" />
@@ -230,6 +236,8 @@
     <Compile Include="_Xml\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlExtensions.cs" />
+    <Compile Include="_Properties\Parsers\_PropertyBuilderContextExtensions.cs" />
+    <Compile Include="_Xml\Parsers\_ContentPropertyBuilderContextExtensions.cs" />
     <Compile Include="_Xml\XmlContentParserException.cs" />
   </ItemGroup>
   <ItemGroup />
