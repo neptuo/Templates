@@ -36,20 +36,20 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected bool TryAppendNewObserver(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             IObserverCodeObject observerObject = CreateCodeObject(context, attribute);
-            IObserverDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
+            IComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
             codeObject.Observers.Add(observerObject);
-            return TryBindProperty(context, new BindPropertiesContext(observerDescriptor), observerObject, attribute);
+            return TryBindProperty(context, new BindContentPropertiesContext(observerDescriptor), observerObject, attribute);
         }
 
         protected bool TryUpdateObserver(IContentBuilderContext context, IComponentCodeObject codeObject, IObserverCodeObject observerObject, IXmlAttribute attribute)
         {
-            IObserverDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
-            return TryBindProperty(context, new BindPropertiesContext(observerDescriptor, observerObject), observerObject, attribute);
+            IComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
+            return TryBindProperty(context, new BindContentPropertiesContext(observerDescriptor, observerObject), observerObject, attribute);
         }
 
-        protected abstract IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
 
-        protected virtual bool TryBindProperty(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
+        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
             // Bind attribute
             if (TryBindAttribute(context, bindContext, codeObject, attribute))
@@ -62,7 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected virtual bool TryBindAttribute(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
+        protected virtual bool TryBindAttribute(IContentBuilderContext context, BindContentPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
             string attributeName = attribute.LocalName.ToLowerInvariant();
             IPropertyInfo propertyInfo;
@@ -72,7 +72,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if(propertyDescriptors != null)
                 {
                     codeObject.Properties.AddRange(propertyDescriptors);
-                    bindContext.BoundProperies.Add(attributeName);
+                    bindContext.BoundProperties.Add(attributeName);
                     return true;
                 }
 

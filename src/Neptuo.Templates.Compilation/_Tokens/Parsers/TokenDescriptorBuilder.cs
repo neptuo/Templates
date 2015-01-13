@@ -40,20 +40,19 @@ namespace Neptuo.Templates.Compilation.Parsers
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
 
-            Dictionary<string, IPropertyInfo> properties = componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant());
-            HashSet<string> boundProperties = new HashSet<string>();
+            BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition);
             foreach (TokenAttribute attribute in token.Attributes)
             {
                 string name = attribute.Name.ToLowerInvariant();
 
                 IPropertyInfo propertyInfo;
-                if (properties.TryGetValue(name, out propertyInfo))
+                if (bindContext.Properties.TryGetValue(name, out propertyInfo))
                 {
                     IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, new DefaultSourceContent(attribute.Value, token));
                     if(propertyDescriptors != null) 
                     {
                         codeObject.Properties.AddRange(propertyDescriptors);
-                        boundProperties.Add(name);
+                        bindContext.BoundProperties.Add(name);
                         continue;
                     }
                 }
@@ -71,7 +70,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if(propertyDescriptors != null)
                     {
                         codeObject.Properties.AddRange(propertyDescriptors);
-                        boundProperties.Add(defaultProperty.Name.ToLowerInvariant());
+                        bindContext.BoundProperties.Add(defaultProperty.Name.ToLowerInvariant());
                     }
                     else
                     {
