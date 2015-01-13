@@ -45,13 +45,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region BindPropertiesContext
 
-        public static BindPropertiesContext BindPropertiesContext(this IContentBuilderContext context)
+        public static BindContentPropertiesContext BindPropertiesContext(this IContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
-            return (BindPropertiesContext)context.CustomValues["BindPropertiesContext"];
+            return (BindContentPropertiesContext)context.CustomValues["BindPropertiesContext"];
         }
 
-        public static IContentBuilderContext BindPropertiesContext(this IContentBuilderContext context, BindPropertiesContext bindPropertiesContext)
+        public static IContentBuilderContext BindPropertiesContext(this IContentBuilderContext context, BindContentPropertiesContext bindPropertiesContext)
         {
             Guard.NotNull(context, "context");
             context.CustomValues["BindPropertiesContext"] = bindPropertiesContext;

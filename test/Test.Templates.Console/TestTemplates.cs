@@ -82,16 +82,16 @@ namespace Test.Templates
                 new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.GenericContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
+            builderRegistry.GenericContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry, builderRegistry);
             builderRegistry
                 .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
                 .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
                 .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), builderRegistry))
                 .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), builderRegistry))
                 .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder(typeof(IHtmlAttributeCollectionAware), TypeHelper.PropertyName<IHtmlAttributeCollectionAware, HtmlAttributeCollection>(c => c.HtmlAttributes)))
-                .RegisterPropertyBuilder<string>(new StringPropertyBuilder())
-                .RegisterPropertyBuilder<ITemplate>(new TemplatePropertyBuilder())
-                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry, new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView, ICollection<object>>(v => v.Content)))));
+                .RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder())
+                .RegisterPropertyBuilder<ITemplate, TemplatePropertyBuilder>(new TemplatePropertyBuilder())
+                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry, builderRegistry, new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView, ICollection<object>>(v => v.Content)))));
 
             ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
                 TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),

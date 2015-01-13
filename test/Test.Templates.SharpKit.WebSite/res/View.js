@@ -152,7 +152,7 @@ var Neptuo$Templates$View_38422005C8911AD1E3131BF96B087D39DBA789AA = {
         },
         field2_Create: function (){
             if ((this.field2 == null)){
-                this.field2 = new Test.Templates.Observers.DataContextObserver.ctor(this.componentManager, (Cast((this.dependencyProvider.Resolve(Typeof(Test.Templates.Data.DataStorage.ctor), null)), Test.Templates.Data.DataStorage.ctor)));
+                this.field2 = new Test.Templates.Observers.DataContextObserver.ctor((Cast((this.dependencyProvider.Resolve(Typeof(Test.Templates.Data.DataStorage.ctor), null)), Test.Templates.Data.DataStorage.ctor)));
                 this.componentManager.AddComponent$1(Test.Templates.Observers.DataContextObserver.ctor, this.field2, $CreateDelegate(this, this.field2_Bind));
             }
             return this.field2;

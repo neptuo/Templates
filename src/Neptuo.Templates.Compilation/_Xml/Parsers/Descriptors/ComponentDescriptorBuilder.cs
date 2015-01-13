@@ -14,13 +14,16 @@ namespace Neptuo.Templates.Compilation.Parsers
     public abstract class ComponentDescriptorBuilder : ComponentBuilder
     {
         protected IPropertyBuilder PropertyFactory { get; private set; }
+        protected IContentPropertyBuilder ContentPropertyFactory { get; private set; }
         protected IObserverBuilder ObserverFactory { get; private set; }
 
-        public ComponentDescriptorBuilder(IPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
+        public ComponentDescriptorBuilder(IPropertyBuilder propertyFactory, IContentPropertyBuilder contentPropertyFactory, IObserverBuilder observerFactory)
         {
             Guard.NotNull(propertyFactory, "propertyFactory");
+            Guard.NotNull(contentPropertyFactory, "contentPropertyFactory");
             Guard.NotNull(observerFactory, "observerFactory");
             PropertyFactory = propertyFactory;
+            ContentPropertyFactory = contentPropertyFactory;
             ObserverFactory = observerFactory;
         }
 
@@ -29,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IComponentCodeObject codeObject = CreateCodeObject(context, element);
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
-            BindPropertiesContext bindContext = new BindPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
+            BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
             context.ComponentCodeObject(codeObject);
             context.ComponentDescriptor(componentDefinition);
             context.BindPropertiesContext(bindContext);
@@ -44,10 +47,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                bool result = PropertyFactory.TryParse(context, context.ComponentCodeObject(), propertyInfo, value);
-                if (result)
+                IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                if (propertyDescriptors != null)
                 {
-                    context.BindPropertiesContext().BoundProperies.Add(name);
+                    context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);
+                    context.BindPropertiesContext().BoundProperties.Add(name);
                     return true;
                 }
             }
@@ -58,12 +62,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
             IPropertyInfo propertyInfo;
-            if (!context.BindPropertiesContext().BoundProperies.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
+            if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                bool result = PropertyFactory.TryParse(context, context.ComponentCodeObject(), propertyInfo, value);
-                if (result)
+                IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(ContentPropertyFactory, propertyInfo, value);
+                if (propertyDescriptors != null)
                 {
-                    context.BindPropertiesContext().BoundProperies.Add(name);
+                    context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);
+                    context.BindPropertiesContext().BoundProperties.Add(name);
                     context.BindPropertiesContext().IsBoundFromContent = true;
                     return true;
                 }
@@ -115,12 +120,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 // Bind content elements
                 IPropertyInfo defaultProperty = context.DefaultProperty();
-                if (defaultProperty != null && !context.BindPropertiesContext().BoundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
+                if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(defaultProperty.Name.ToLowerInvariant()))
                 {
-                    bool result = PropertyFactory.TryParse(context, context.ComponentCodeObject(), defaultProperty, unboundNodes);
-                    if (result)
+                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(ContentPropertyFactory, defaultProperty, unboundNodes);
+                    if (propertyDescriptors != null)
                     {
-                        context.BindPropertiesContext().BoundProperies.Add(context.DefaultProperty().Name);
+                        context.ComponentCodeObject().Properties.AddRange(propertyDescriptors);
+                        context.BindPropertiesContext().BoundProperties.Add(context.DefaultProperty().Name);
                         return true;
                     }
                 }

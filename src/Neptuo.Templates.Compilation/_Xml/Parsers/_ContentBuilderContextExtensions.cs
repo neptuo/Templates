@@ -186,5 +186,35 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             return new DefaultSourceLineInfo(0, 0);
         }
+
+        /// <summary>
+        /// Parses value use <paramref name="propertyFactory"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="propertyFactory">Property builder factory.</param>
+        /// <param name="propertyInfo">Property to build.</param>
+        /// <param name="value">Value.</param>
+        /// <returns>Parsed property descriptors.</returns>
+        public static IEnumerable<IPropertyDescriptor> TryProcessProperty(this IContentBuilderContext context, IPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, ISourceContent value)
+        {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(propertyFactory, "propertyFactory");
+            return propertyFactory.TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
+        }
+
+        /// <summary>
+        /// Parses value use <paramref name="propertyFactory"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="propertyFactory">Property builder factory.</param>
+        /// <param name="propertyInfo">Property to build.</param>
+        /// <param name="value">Value.</param>
+        /// <returns>Parsed property descriptors.</returns>
+        public static IEnumerable<IPropertyDescriptor> TryProcessProperty(this IContentBuilderContext context, IContentPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(propertyFactory, "propertyFactory");
+            return propertyFactory.TryParse(new ContentPropertyBuilderContext(context, propertyInfo), content);
+        }
     }
 }

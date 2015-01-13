@@ -12,7 +12,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected Type Type { get; private set; }
 
-        public DefaultTokenBuilder(Type type)
+        public DefaultTokenBuilder(Type type, IPropertyBuilder propertyFactory)
+            : base(propertyFactory)
         {
             Guard.NotNull(type, "type");
             Type = type;
@@ -23,19 +24,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ComponentCodeObject(Type);
         }
 
-        protected override ITokenDescriptor GetTokenDefinition(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension)
+        protected override IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension)
         {
             return new TypeDescriptorBase(Type);
-        }
-
-        protected override IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo)
-        {
-            return new SetPropertyDescriptor(propertyInfo);
-        }
-
-        protected override IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo)
-        {
-            return new ListAddPropertyDescriptor(propertyInfo);
         }
     }
 }

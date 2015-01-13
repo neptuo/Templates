@@ -20,8 +20,8 @@ namespace Test.Templates.Controls
     {
         private readonly string tagNameProperty;
 
-        public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty, IPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
-            : base(typeof(T), propertyFactory, observerFactory)
+        public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty, IPropertyBuilder propertyFactory, IContentPropertyBuilder contentPropertyFactory, IObserverBuilder observerFactory)
+            : base(typeof(T), propertyFactory, contentPropertyFactory, observerFactory)
         {
             this.tagNameProperty = TypeHelper.PropertyName(tagNameProperty);
         }

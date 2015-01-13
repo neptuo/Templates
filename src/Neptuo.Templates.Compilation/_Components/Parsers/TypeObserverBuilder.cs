@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ObserverCodeObject(GetObserverType(attribute));
         }
 
-        protected override IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        protected override IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             return new TypeDescriptorBase(GetObserverType(attribute));
         }

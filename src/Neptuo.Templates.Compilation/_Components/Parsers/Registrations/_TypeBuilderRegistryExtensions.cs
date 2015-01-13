@@ -21,10 +21,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             return builderRegistry.RegisterComponentBuilder(null, XmlContentParser.FakeRootElementName, rootBuilder);
         }
 
-        public static TypeBuilderRegistry RegisterPropertyBuilder<T>(this TypeBuilderRegistry builderRegistry, IPropertyBuilder propertyBuilder)
+        public static TypeBuilderRegistry RegisterPropertyBuilder<TPropertyType, TPropertyBuilderType>(this TypeBuilderRegistry builderRegistry, TPropertyBuilderType propertyBuilder)
+            where TPropertyBuilderType : IPropertyBuilder, IContentPropertyBuilder
         {
             Guard.NotNull(builderRegistry, "builderRegistry");
-            return builderRegistry.RegisterPropertyBuilder(typeof(T), propertyBuilder);
+            builderRegistry.RegisterPropertyBuilder(typeof(TPropertyType), (IPropertyBuilder)propertyBuilder);
+            return builderRegistry.RegisterPropertyBuilder(typeof(TPropertyType), (IContentPropertyBuilder)propertyBuilder);
         }
     }
 }

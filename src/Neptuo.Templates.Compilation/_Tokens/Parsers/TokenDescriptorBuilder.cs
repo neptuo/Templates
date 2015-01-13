@@ -14,10 +14,15 @@ namespace Neptuo.Templates.Compilation.Parsers
     public abstract class TokenDescriptorBuilder : ITokenBuilder
     {
         protected abstract IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
-        protected abstract ITokenDescriptor GetTokenDefinition(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension);
+        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension);
+        
+        protected IPropertyBuilder PropertyFactory { get; private set; }
 
-        protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
-        protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
+        public TokenDescriptorBuilder(IPropertyBuilder propertyFactory)
+        {
+            Guard.NotNull(propertyFactory, "propertyFactory");
+            PropertyFactory = propertyFactory;
+        }
 
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
@@ -30,46 +35,52 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual bool BindProperties(ITokenBuilderContext context, IComponentCodeObject codeObject, Token token)
         {
+            bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();
-            ITokenDescriptor extensionDefinition = GetTokenDefinition(context, codeObject, token);
-            IPropertyInfo defaultProperty = extensionDefinition.GetDefaultProperty();
+            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
+            IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
 
-            foreach (IPropertyInfo propertyInfo in extensionDefinition.GetProperties())
+            BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition);
+            foreach (TokenAttribute attribute in token.Attributes)
             {
-                string propertyName = propertyInfo.Name.ToLowerInvariant();
-                foreach (TokenAttribute attribute in token.Attributes)
-                {
-                    if (propertyName == attribute.Name.ToLowerInvariant())
-                    {
-                        IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                        ICodeObject valueObject = context.TryProcessValue(attribute.GetValue());
+                string name = attribute.Name.ToLowerInvariant();
 
-                        if (valueObject != null)
-                        {
-                            propertyDescriptor.SetValue(valueObject);
-                            codeObject.Properties.Add(propertyDescriptor);
-                            boundProperies.Add(propertyName);
-                        }
+                IPropertyInfo propertyInfo;
+                if (bindContext.Properties.TryGetValue(name, out propertyInfo))
+                {
+                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, propertyInfo, new DefaultSourceContent(attribute.Value, token));
+                    if(propertyDescriptors != null) 
+                    {
+                        codeObject.Properties.AddRange(propertyDescriptors);
+                        bindContext.BoundProperties.Add(name);
+                        continue;
                     }
                 }
+
+                context.AddError(token, String.Format("Unnable to bind attribute '{0}'.", attribute.Name));
+                result = false;
             }
 
             if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
             {
-                IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(defaultProperty);
                 string defaultAttributeValue = token.DefaultAttributes.FirstOrDefault();
                 if (!String.IsNullOrEmpty(defaultAttributeValue))
                 {
-                    ICodeObject valueObject = context.TryProcessValue(new DefaultSourceContent(defaultAttributeValue, token));
-                    if (valueObject != null)
+                    IEnumerable<IPropertyDescriptor> propertyDescriptors = context.TryProcessProperty(PropertyFactory, defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
+                    if(propertyDescriptors != null)
                     {
-                        propertyDescriptor.SetValue(valueObject);
-                        codeObject.Properties.Add(propertyDescriptor);
+                        codeObject.Properties.AddRange(propertyDescriptors);
+                        bindContext.BoundProperties.Add(defaultProperty.Name.ToLowerInvariant());
+                    }
+                    else
+                    {
+                        context.AddError(token, "Unnable to bind default attribute.");
+                        result = false;
                     }
                 }
             }
 
-            return true;
+            return result;
         }
     }
 }

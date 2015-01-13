@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines <see cref="IComponentInfo"/>, <see cref="ITokenDescriptor"/> and <see cref="IObserverInfo"/> using class.
     /// </summary>
-    public class TypeDescriptorBase : IComponentDescriptor, ITokenDescriptor, IObserverDescriptor
+    public class TypeDescriptorBase : IComponentDescriptor
     {
         private Type type;
 
