@@ -93,9 +93,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        public virtual bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
+        public virtual bool TryParse(IContentParserContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
         {
-            ICodeObject propertyValue = context.TryProcessValue(attributeValue);
+            ICodeObject propertyValue = context.ParserService.ProcessValue(attributeValue, context);
             if (propertyValue != null)
             {
                 IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);

@@ -197,7 +197,6 @@
     <Compile Include="_ErrorInfoExtensions.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
     <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
-    <Compile Include="_Tokens\Parsers\ITokenDescriptor.cs" />
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\_TokenBuilderContextExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />

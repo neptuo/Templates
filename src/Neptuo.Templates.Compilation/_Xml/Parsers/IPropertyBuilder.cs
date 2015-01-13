@@ -27,11 +27,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Parses <paramref name="attributeValue"/> and creates AST for it.
         /// Value is attribute value.
         /// </summary>
-        /// <param name="context">Context inforation.</param>
+        /// <param name="context">Context information.</param>
         /// <param name="codeObject">Targe code object.</param>
         /// <param name="propertyInfo">Target property info.</param>
         /// <param name="attributeValue">Source value.</param>
         /// <returns>True if succeeded.</returns>
-        bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue);
+        bool TryParse(IContentParserContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue);
     }
 }

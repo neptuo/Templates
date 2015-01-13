@@ -185,7 +185,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return propertyBuilder.TryParse(context, codeObject, propertyInfo, content);
         }
 
-        bool IPropertyBuilder.TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
+        bool IPropertyBuilder.TryParse(IContentParserContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
         {
             IPropertyBuilder propertyBuilder = GetPropertyBuilder(propertyInfo);
             if (propertyBuilder == null)

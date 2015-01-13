@@ -11,10 +11,10 @@ namespace Test.Templates.Controls
 {
     public class StringPropertyBuilder : TypeDefaultPropertyBuilder
     {
-        public override bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
+        public override bool TryParse(IContentParserContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
         {
             IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            ICodeObject valueObject = context.TryProcessValue(attributeValue);
+            ICodeObject valueObject = context.ParserService.ProcessValue(attributeValue, context.CreateValueContext(context.ParserService));
             if (valueObject != null)
             {
                 propertyDescriptor.SetValue(valueObject);

@@ -92,7 +92,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual ITokenBuilder CreateDefaultTokenBuilderFactory(Type type)
         {
-            return new DefaultTokenBuilder(type);
+            return new DefaultTokenBuilder(type, propertyBuilder);
         }
 
         protected virtual List<Type> GetTypesInNamespace(string namespaceName)
