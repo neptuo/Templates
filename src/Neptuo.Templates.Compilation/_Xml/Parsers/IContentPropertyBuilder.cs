@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines builder properties of type.
     /// </summary>
-    public interface IContentPropertyBuilder
+    public interface IContentPropertyBuilder : IPropertyBuilder
     {
         /// <summary>
         /// Parses <paramref name="content"/> and creates AST for it.
