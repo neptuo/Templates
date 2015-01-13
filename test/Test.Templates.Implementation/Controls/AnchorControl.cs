@@ -45,11 +45,6 @@ namespace Test.Templates.Controls
             }
             HtmlAttributes["href"] = Url;
         }
-
-        public override void Render(IHtmlWriter writer)
-        {
-            base.Render(writer);
-        }
     }
 
     public class Parameter

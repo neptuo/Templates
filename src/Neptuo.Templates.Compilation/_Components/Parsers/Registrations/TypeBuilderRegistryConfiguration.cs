@@ -20,14 +20,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         public List<string> ExtensionSuffix { get; private set; }
 
         public IDependencyProvider DependencyProvider { get; private set; }
-        public Type ExtensionType { get; private set; }
 
-        public TypeBuilderRegistryConfiguration(IDependencyProvider dependencyProvider, Type extensionType)
+        public TypeBuilderRegistryConfiguration(IDependencyProvider dependencyProvider)
         {
             Guard.NotNull(dependencyProvider, "dependencyProvider");
-            Guard.NotNull(extensionType, "extensionType");
             DependencyProvider = dependencyProvider;
-            ExtensionType = extensionType;
             ComponentSuffix = new List<string> { DefaultComponentSuffix };
             ObserverSuffix = new List<string> { DefaultObserverSuffix };
             ObserverWildcard = DefaultObserverWildcard;

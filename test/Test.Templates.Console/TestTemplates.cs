@@ -79,7 +79,7 @@ namespace Test.Templates
 
 
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container, typeof(IValueExtension))//.AddComponentSuffix("presenter"),
+                new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
