@@ -163,9 +163,9 @@ namespace Test.Templates
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
-            container.RegisterInstance<INaming>(new DefaultNaming("Test1.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Test1", "Test1.dll"));
+            container.RegisterInstance<INaming>(new DefaultNaming("Index.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Index", "Index.dll"));
 
-            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Test1.html").GetContent());
+            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
             if (view == null || context.Errors.Any())
             {

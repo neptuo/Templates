@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             : base(fieldNameProvider, componentManager)
         { }
 
-        private bool IsExtension(ComponentCodeObject codeObject)
+        private bool IsExtension(ITypeCodeObject codeObject)
         {
             return typeof(IValueExtension).IsAssignableFrom(codeObject.Type);
         }
@@ -73,13 +73,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             base.AppendToCreateMethod<TCodeObject>(context, codeObject, createMethod);
 
-            if (IsExtension(codeObject as ComponentCodeObject))
+            if (IsExtension(codeObject as ITypeCodeObject))
                 GenerateBindMethodStatements(context, codeObject, createMethod);
         }
 
         protected override void AppendToComponentManager<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject, ComponentMethodInfo createMethod)
         {
-            if (IsExtension(codeObject as ComponentCodeObject))
+            if (IsExtension(codeObject as ITypeCodeObject))
                 return;
 
             base.AppendToComponentManager(context, codeObject, createMethod);
