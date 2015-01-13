@@ -108,16 +108,16 @@ namespace Neptuo.Templates.Compilation
                     if (compiledView == null)
                     {
                         // Parse view content.
-                        ICodeObject codeObject = ExecuteParserService(content, context);
+                        ICodeObject codeObject = ExecuteParserService(name, content, context);
                         if (codeObject == null)
                             return null;
 
                         // Pre-process AST.
-                        ExecutePreProcessorService(codeObject, context);
+                        ExecutePreProcessorService(name, codeObject, context);
 
                         // Generate source code.
                         StringWriter sourceCode = new StringWriter();
-                        bool codeGenerationResult = ExecuteGeneratorService(sourceCode, name, codeObject, context);
+                        bool codeGenerationResult = ExecuteGeneratorService(name, sourceCode, codeObject, context);
                         if (!codeGenerationResult)
                             return null;
 
@@ -136,17 +136,17 @@ namespace Neptuo.Templates.Compilation
             return ActivatorService.Activate(name, content, new DefaultViewActivatorServiceContext(context.DependencyProvider, context.Errors));
         }
 
-        private ICodeObject ExecuteParserService(ISourceContent content, IViewServiceContext context)
+        private ICodeObject ExecuteParserService(string name, ISourceContent content, IViewServiceContext context)
         {
             return ParserService.ProcessContent(content, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
         }
 
-        private void ExecutePreProcessorService(ICodeObject codeObject, IViewServiceContext context)
+        private void ExecutePreProcessorService(string name, ICodeObject codeObject, IViewServiceContext context)
         {
             PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
         }
 
-        private bool ExecuteGeneratorService(StringWriter sourceCode, string name, ICodeObject codeObject, IViewServiceContext context)
+        private bool ExecuteGeneratorService(string name, TextWriter sourceCode, ICodeObject codeObject, IViewServiceContext context)
         {
             return GeneratorService.GeneratedCode(name, codeObject, new DefaultCodeGeneratorServiceContext(sourceCode, context.DependencyProvider, context.Errors));
         }
