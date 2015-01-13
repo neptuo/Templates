@@ -118,7 +118,7 @@ namespace Neptuo.Templates.Runtime
             bool canInit = true;
             if (entry.Observers.Count > 0)
             {
-                ObserverEventArgs args = new ObserverEventArgs(entry.Control as IControl);
+                ObserverEventArgs args = new ObserverEventArgs(entry.Control as IControl, this);
                 foreach (ObserverInfo info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)
@@ -204,7 +204,7 @@ namespace Neptuo.Templates.Runtime
             bool canRender = true;
             if (entry.Observers.Count > 0)
             {
-                ObserverEventArgs args = new ObserverEventArgs(target);
+                ObserverEventArgs args = new ObserverEventArgs(target, this);
                 foreach (ObserverInfo info in entry.Observers)
                 {
                     if (!info.ArePropertiesBound)

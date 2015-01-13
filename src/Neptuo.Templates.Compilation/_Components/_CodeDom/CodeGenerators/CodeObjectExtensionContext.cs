@@ -27,6 +27,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomStructure BaseStructure { get { return CodeDomContext.Structure; } }
 
         /// <summary>
+        /// Custom values (transient) storage.
+        /// </summary>
+        public Dictionary<string, object> CustomValues { get; private set; }
+
+        /// <summary>
         /// Parent of current field.
         /// </summary>
         public string ParentFieldName { get; private set; }
@@ -36,6 +41,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             Guard.NotNull(codeDomContext, "codeDomContext");
             CodeDomContext = codeDomContext;
             CodeGenerator = codeDomContext.CodeGenerator;
+            CustomValues = new Dictionary<string, object>();
             ParentFieldName = parentFieldName;
         }
     }
