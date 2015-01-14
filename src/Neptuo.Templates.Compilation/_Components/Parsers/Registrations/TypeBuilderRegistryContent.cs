@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class TypeBuilderRegistryContent
     {
         public ILiteralBuilder LiteralBuilderFactory { get; set; }
-        public IContentBuilder GenericContentBuilderFactory { get; set; }
+        public IContentBuilder DefaultContentBuilderFactory { get; set; }
 
         public Dictionary<string, NamespaceDeclaration> Namespaces { get; protected set; }
         public SpecialDictionary<string, Dictionary<string, IContentBuilder>> Components { get; protected set; }
@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         { }
 
         public TypeBuilderRegistryContent(TypeBuilderRegistryContent content)
-            : this(content.Namespaces, content.Components, content.Observers, content.Tokens, content.Properties, content.ContentProperties, content.LiteralBuilderFactory, content.GenericContentBuilderFactory)
+            : this(content.Namespaces, content.Components, content.Observers, content.Tokens, content.Properties, content.ContentProperties, content.LiteralBuilderFactory, content.DefaultContentBuilderFactory)
         { }
 
         public TypeBuilderRegistryContent(
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Dictionary<Type, IPropertyBuilder> properties,
             Dictionary<Type, IContentPropertyBuilder> contentProperties,
             ILiteralBuilder literalBuilderFactory,
-            IContentBuilder genericContentBuilderFactory)
+            IContentBuilder defaultContentBuilderFactory)
         {
             if (namespaces != null)
                 Namespaces = new Dictionary<string, NamespaceDeclaration>(namespaces);
@@ -70,7 +70,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 ContentProperties = contentProperties;
 
             LiteralBuilderFactory = literalBuilderFactory;
-            GenericContentBuilderFactory = genericContentBuilderFactory;
+            DefaultContentBuilderFactory = defaultContentBuilderFactory;
         }
 
         public class SpecialDictionary<TKey, TValue> : Dictionary<TKey, TValue>

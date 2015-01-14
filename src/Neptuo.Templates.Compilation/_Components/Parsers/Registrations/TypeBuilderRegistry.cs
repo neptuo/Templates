@@ -45,10 +45,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             set { Content.LiteralBuilderFactory = value; }
         }
 
-        public IContentBuilder GenericContentBuilder
+        public IContentBuilder DefaultContentBuilder
         {
-            get { return Content.GenericContentBuilderFactory; }
-            set { Content.GenericContentBuilderFactory = value; }
+            get { return Content.DefaultContentBuilderFactory; }
+            set { Content.DefaultContentBuilderFactory = value; }
         }
 
         public TypeBuilderRegistry(TypeBuilderRegistryConfiguration configuration)
@@ -61,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Guard.NotNull(literalBuilderFactory, "literalBuilderFactory");
             Guard.NotNull(genericContentBuilderFactory, "genericContentBuilder");
             Content.LiteralBuilderFactory = literalBuilderFactory;
-            Content.GenericContentBuilderFactory = genericContentBuilderFactory;
+            Content.DefaultContentBuilderFactory = genericContentBuilderFactory;
         }
 
         protected TypeBuilderRegistry(TypeBuilderRegistry parentRegistry)
@@ -92,20 +92,20 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (parentRegistry != null && parentRegistry.ContainsComponent(prefix, name))
                 return parentRegistry.GetComponentBuilder(prefix, name);
 
-            return GetGenericContentBuilder(name);
+            return GetDefaultContentBuilder(prefix, name);
         }
 
-        public IContentBuilder GetGenericContentBuilder(string name)
+        public IContentBuilder GetDefaultContentBuilder(string prefix, string name)
         {
-            if (Content.GenericContentBuilderFactory == null)
+            if (Content.DefaultContentBuilderFactory == null)
             {
                 if (parentRegistry != null)
-                    return parentRegistry.GetGenericContentBuilder(name);
+                    return parentRegistry.GetDefaultContentBuilder(prefix, name);
 
-                throw new TypeBuilderRegistryException("Registry doesn't contain generic content builder.");
+                throw new TypeBuilderRegistryException("Registry doesn't contain default content builder.");
             }
 
-            return Content.GenericContentBuilderFactory;
+            return Content.DefaultContentBuilderFactory;
         }
 
         #endregion
@@ -174,11 +174,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        #region IPropertyBuilder
+        #region IPropertyBuilder & IContentPropertyBuilder
 
         IEnumerable<ICodeProperty> IPropertyBuilder.TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             IPropertyBuilder propertyBuilder = GetPropertyBuilder(context.PropertyInfo);
+            if (propertyBuilder == null)
+                propertyBuilder = GetContentPropertyBuilder(context.PropertyInfo);
+
             if (propertyBuilder == null)
                 propertyBuilder = new TypeDefaultPropertyBuilder();
 

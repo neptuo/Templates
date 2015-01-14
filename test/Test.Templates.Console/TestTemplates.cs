@@ -82,7 +82,7 @@ namespace Test.Templates
                 new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.GenericContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
+            builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
                 .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
                 .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
