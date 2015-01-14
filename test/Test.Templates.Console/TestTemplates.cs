@@ -101,8 +101,11 @@ namespace Test.Templates
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()
                 .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, fieldNameProvider)
-                .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
-                //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(new CodeDomComponentGenerator(fieldNameProvider, componentManagerDescriptor), new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManagerDescriptor)))
+                //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
+                .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(
+                    new CodeDomComponentGenerator(fieldNameProvider, componentManagerDescriptor), 
+                    new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManagerDescriptor)
+                ))
                 .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
                 .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
 
