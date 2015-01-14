@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly IPropertyInfo defaultProperty;
 
-        public RootContentBuilder(IPropertyBuilder propertyFactory, IObserverBuilder observerFactory, IPropertyInfo defaultProperty)
+        public RootContentBuilder(IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory, IPropertyInfo defaultProperty)
             : base(propertyFactory, observerFactory)
         {
             Guard.NotNull(defaultProperty, "defaultProperty");

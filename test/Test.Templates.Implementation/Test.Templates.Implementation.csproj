@@ -46,10 +46,10 @@
     <Compile Include="Controls\AnchorControl.cs" />
     <Compile Include="Controls\BaseContentControl.cs" />
     <Compile Include="Controls\BaseControl.cs" />
+    <Compile Include="Controls\CodeDomExtendedComponentObjectGenerator.cs" />
     <Compile Include="Controls\ContentTemplate.cs" />
     <Compile Include="Controls\FileTemplate.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
-    <Compile Include="Controls\GenericContentControlBuilder.cs" />
     <Compile Include="Controls\ITemplate.cs" />
     <Compile Include="Controls\ITemplateContent.cs" />
     <Compile Include="Controls\LiteralControl.cs" />

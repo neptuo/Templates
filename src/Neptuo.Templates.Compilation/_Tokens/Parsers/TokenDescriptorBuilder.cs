@@ -13,63 +13,74 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public abstract class TokenDescriptorBuilder : ITokenBuilder
     {
-        protected abstract IValueExtensionCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
-        protected abstract ITokenDescriptor GetTokenDefinition(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token extension);
+        protected abstract IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
+        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension);
+        
+        protected IPropertyBuilder PropertyFactory { get; private set; }
 
-        protected abstract IPropertyDescriptor CreateSetPropertyDescriptor(IPropertyInfo propertyInfo);
-        protected abstract IPropertyDescriptor CreateListAddPropertyDescriptor(IPropertyInfo propertyInfo);
+        public TokenDescriptorBuilder(IPropertyBuilder propertyFactory)
+        {
+            Guard.NotNull(propertyFactory, "propertyFactory");
+            PropertyFactory = propertyFactory;
+        }
 
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
-            IValueExtensionCodeObject codeObject = CreateCodeObject(context, extension);
+            IComponentCodeObject codeObject = CreateCodeObject(context, extension);
             if (codeObject != null && BindProperties(context, codeObject, extension))
                 return codeObject;
 
             return null;
         }
 
-        protected virtual bool BindProperties(ITokenBuilderContext context, IValueExtensionCodeObject codeObject, Token token)
+        protected virtual bool BindProperties(ITokenBuilderContext context, IComponentCodeObject codeObject, Token token)
         {
+            bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();
-            ITokenDescriptor extensionDefinition = GetTokenDefinition(context, codeObject, token);
-            IPropertyInfo defaultProperty = extensionDefinition.GetDefaultProperty();
+            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
+            IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
 
-            foreach (IPropertyInfo propertyInfo in extensionDefinition.GetProperties())
+            BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition);
+            foreach (TokenAttribute attribute in token.Attributes)
             {
-                string propertyName = propertyInfo.Name.ToLowerInvariant();
-                foreach (TokenAttribute attribute in token.Attributes)
-                {
-                    if (propertyName == attribute.Name.ToLowerInvariant())
-                    {
-                        IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(propertyInfo);
-                        ICodeObject valueObject = context.TryProcessValue(attribute.GetValue());
+                string name = attribute.Name.ToLowerInvariant();
 
-                        if (valueObject != null)
-                        {
-                            propertyDescriptor.SetValue(valueObject);
-                            codeObject.Properties.Add(propertyDescriptor);
-                            boundProperies.Add(propertyName);
-                        }
+                IPropertyInfo propertyInfo;
+                if (bindContext.Properties.TryGetValue(name, out propertyInfo))
+                {
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, new DefaultSourceContent(attribute.Value, token));
+                    if(codeProperties != null) 
+                    {
+                        codeObject.Properties.AddRange(codeProperties);
+                        bindContext.BoundProperties.Add(name);
+                        continue;
                     }
                 }
+
+                context.AddError(token, String.Format("Unnable to bind attribute '{0}'.", attribute.Name));
+                result = false;
             }
 
             if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
             {
-                IPropertyDescriptor propertyDescriptor = CreateSetPropertyDescriptor(defaultProperty);
                 string defaultAttributeValue = token.DefaultAttributes.FirstOrDefault();
                 if (!String.IsNullOrEmpty(defaultAttributeValue))
                 {
-                    ICodeObject valueObject = context.TryProcessValue(new DefaultSourceContent(defaultAttributeValue, token));
-                    if (valueObject != null)
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
+                    if(codeProperties != null)
                     {
-                        propertyDescriptor.SetValue(valueObject);
-                        codeObject.Properties.Add(propertyDescriptor);
+                        codeObject.Properties.AddRange(codeProperties);
+                        bindContext.BoundProperties.Add(defaultProperty.Name.ToLowerInvariant());
+                    }
+                    else
+                    {
+                        context.AddError(token, "Unnable to bind default attribute.");
+                        result = false;
                     }
                 }
             }
 
-            return true;
+            return result;
         }
     }
 }

@@ -79,19 +79,19 @@ namespace Test.Templates
 
 
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container, typeof(IValueExtension))//.AddComponentSuffix("presenter"),
+                new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.GenericContentBuilder = new TypeScanner.TransientComponentBuilder(() => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry));
+            builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
                 .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
                 .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
-                .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), builderRegistry))
-                .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), builderRegistry))
-                .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder(typeof(IHtmlAttributeCollectionAware), TypeHelper.PropertyName<IHtmlAttributeCollectionAware, HtmlAttributeCollection>(c => c.HtmlAttributes)))
-                .RegisterPropertyBuilder<string>(new StringPropertyBuilder())
-                .RegisterPropertyBuilder<ITemplate>(new TemplatePropertyBuilder())
-                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry, new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView, ICollection<object>>(v => v.Content)))));
+                .RegisterObserverBuilder<DataContextObserver>("data", "*")
+                .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
+                .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
+                .RegisterPropertyBuilder<string, StringPropertyBuilder>()
+                .RegisterPropertyBuilder<ITemplate, TemplatePropertyBuilder>(new TemplatePropertyBuilder())
+                .RegisterRootBuilder<GeneratedView>(v => v.Content);
 
             ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
                 TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
@@ -101,6 +101,7 @@ namespace Test.Templates
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             CodeDomGenerator codeGenerator = new CodeDomGenerator()
                 .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, fieldNameProvider)
+                .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(fieldNameProvider, componentManagerDescriptor))
                 .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
                 .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
 
@@ -109,7 +110,7 @@ namespace Test.Templates
             codeCompiler.References.AddDirectory(Environment.CurrentDirectory);
 
             DefaultViewService viewService = new DefaultViewService();
-            viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry, builderRegistry.GetLiteralBuilder()));
+            viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry, builderRegistry.GetLiteralBuilder(), true));
             viewService.ParserService.DefaultValueParser = new PlainValueParser();
             viewService.ParserService.ValueParsers.Add(new TokenValueParser(builderRegistry));
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
@@ -128,7 +129,6 @@ namespace Test.Templates
             //viewService.NamingService = new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
 
             container.RegisterInstance<IViewService>(viewService);
-            container.RegisterInstance<IComponentManager>(new ComponentManager());
 
             StringWriter output = new StringWriter();
             Stopwatch stopwatch = new Stopwatch();
@@ -144,7 +144,7 @@ namespace Test.Templates
 
 
             //IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
-            //IPropertyDescriptor contentProperty= new ListAddPropertyDescriptor(propertyInfo);
+            //IPropertyDescriptor codeProperty= new ListAddPropertyDescriptor(propertyInfo);
             //StringWriter javascriptOutput = new StringWriter();
 
             //viewService.ParserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(container, contentProperty));
@@ -178,7 +178,7 @@ namespace Test.Templates
                 DebugHelper.Debug("Run", () =>
                 {
                     view.Setup(container);
-                    view.OnInit(container.Resolve<IComponentManager>());
+                    view.OnInit(new ComponentManager());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });

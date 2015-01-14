@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class DictionaryAddPropertyDescriptor : IPropertyDescriptor
+    public class DictionaryAddCodeProperty : ICodeProperty
     {
         public IPropertyInfo Property { get; set; }
         public Dictionary<ICodeObject, ICodeObject> Values { get; set; }
 
         public ICodeObject CurrentKey { get; set; }
 
-        public DictionaryAddPropertyDescriptor(IPropertyInfo property)
+        public DictionaryAddCodeProperty(IPropertyInfo property)
         {
             Guard.NotNull(property, "property");
             Property = property;

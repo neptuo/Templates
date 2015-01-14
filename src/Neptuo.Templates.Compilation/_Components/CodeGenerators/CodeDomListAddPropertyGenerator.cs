@@ -10,31 +10,31 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddPropertyDescriptor>
+    public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddCodeProperty>
     {
-        protected override void GenerateProperty(CodeDomPropertyContext context, ListAddPropertyDescriptor propertyDescriptor)
+        protected override void GenerateProperty(CodeDomPropertyContext context, ListAddCodeProperty codeProperty)
         {
-            bool generic = propertyDescriptor.Property.Type.IsGenericType;
+            bool generic = codeProperty.Property.Type.IsGenericType;
             bool requiresCasting = false;
-            bool createInstance = !propertyDescriptor.Property.IsReadOnly;
+            bool createInstance = !codeProperty.Property.IsReadOnly;
             Type targetType = null;
             string addMethodName = null;
 
             CodeExpression targetField = GetPropertyTarget(context);
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
                 targetField,
-                propertyDescriptor.Property.Name
+                codeProperty.Property.Name
             );
 
-            if (typeof(IEnumerable).IsAssignableFrom(propertyDescriptor.Property.Type))
+            if (typeof(IEnumerable).IsAssignableFrom(codeProperty.Property.Type))
             {
                 requiresCasting = true;
                 if (generic)
                 {
-                    targetType = typeof(List<>).MakeGenericType(propertyDescriptor.Property.Type.GetGenericArguments()[0]);
+                    targetType = typeof(List<>).MakeGenericType(codeProperty.Property.Type.GetGenericArguments()[0]);
                     addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
 
-                    if (typeof(ICollection<>).IsAssignableFrom(propertyDescriptor.Property.Type.GetGenericTypeDefinition()))
+                    if (typeof(ICollection<>).IsAssignableFrom(codeProperty.Property.Type.GetGenericTypeDefinition()))
                         requiresCasting = false;
                 }
                 else
@@ -57,12 +57,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (requiresCasting)
                 codePropertyReference = new CodeCastExpression(targetType, codePropertyReference);
 
-            foreach (ICodeObject propertyValue in propertyDescriptor.Values)
+            foreach (ICodeObject propertyValue in codeProperty.Values)
             {
                 CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(
                     new CodeObjectExtensionContext(context.Context, context.FieldName), 
                     propertyValue, 
-                    propertyDescriptor
+                    codeProperty
                 );
                 if (codeExpression != null)
                 {

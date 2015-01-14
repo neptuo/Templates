@@ -17,6 +17,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         IContentParserContext ParserContext { get; }
 
         /// <summary>
+        /// Custom values (transient) storage.
+        /// </summary>
+        Dictionary<string, object> CustomValues { get; }
+
+        /// <summary>
         /// XML parser.
         /// </summary>
         XmlContentParser Parser { get; }

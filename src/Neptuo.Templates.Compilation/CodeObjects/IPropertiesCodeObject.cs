@@ -13,6 +13,6 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <summary>
         /// List of assigned properties.
         /// </summary>
-        List<IPropertyDescriptor> Properties { get; set; }
+        List<ICodeProperty> Properties { get; set; }
     }
 }

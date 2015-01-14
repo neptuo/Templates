@@ -19,11 +19,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static CodeDomGenerator SetPropertyDescriptorGenerator<T>(this CodeDomGenerator generator, ICodeDomPropertyGenerator propertyGenerator)
+        public static CodeDomGenerator SetCodePropertyGenerator<T>(this CodeDomGenerator generator, ICodeDomPropertyGenerator propertyGenerator)
         {
             Guard.NotNull(generator, "generator");
             Guard.NotNull(propertyGenerator, "propertyGenerator");
-            generator.SetPropertyDescriptorGenerator(typeof(T), propertyGenerator);
+            generator.SetCodePropertyGenerator(typeof(T), propertyGenerator);
             return generator;
         }
 
@@ -53,15 +53,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             generator.SetCodeObjectGenerator<CommentCodeObject>(new CodeDomCommentGenerator(fieldNameProvider, componentManager));
             generator.SetCodeObjectGenerator<PlainValueCodeObject>(new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator<DependencyCodeObject>(new CodeDomDependencyObjectGenerator());
-            generator.SetCodeObjectGenerator<ExtensionCodeObject>(new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManager));
+            //generator.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManager));
             generator.SetCodeObjectGenerator<LiteralCodeObject>(new CodeDomPlainValueObjectGenerator());
             generator.SetCodeObjectGenerator<RootCodeObject>(new CodeDomRootGenerator());
 
             // Property generators.
-            generator.SetPropertyDescriptorGenerator<ListAddPropertyDescriptor>(new CodeDomListAddPropertyGenerator());
-            generator.SetPropertyDescriptorGenerator<DictionaryAddPropertyDescriptor>(new CodeDomDictionaryAddPropertyGenerator());
-            generator.SetPropertyDescriptorGenerator<SetPropertyDescriptor>(new CodeDomSetPropertyGenerator());
-            generator.SetPropertyDescriptorGenerator<MethodInvokePropertyDescriptor>(new CodeDomMethodPropertyGenerator());
+            generator.SetCodePropertyGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator());
+            generator.SetCodePropertyGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator());
+            generator.SetCodePropertyGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator());
+            generator.SetCodePropertyGenerator<MethodInvokeCodeProperty>(new CodeDomMethodPropertyGenerator());
 
             // Dependency generators.
             generator.SetDependencyProviderGenerator<object>(new CodeDomDependencyGenerator());

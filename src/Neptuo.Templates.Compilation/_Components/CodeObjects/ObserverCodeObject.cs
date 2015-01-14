@@ -11,13 +11,13 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     public class ObserverCodeObject : IObserverCodeObject
     {
         public Type Type { get; set; }
-        public List<IPropertyDescriptor> Properties { get; set; }
+        public List<ICodeProperty> Properties { get; set; }
         public bool IsNew { get; set; }
 
         public ObserverCodeObject(Type type)
         {
             Type = type;
-            Properties = new List<IPropertyDescriptor>();
+            Properties = new List<ICodeProperty>();
         }
     }
 }

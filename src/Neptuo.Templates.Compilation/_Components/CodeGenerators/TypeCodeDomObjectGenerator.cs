@@ -276,7 +276,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="bindMethod">Bind method info.</param>
         protected void GenerateBindMethodStatements(CodeObjectExtensionContext context, IPropertiesCodeObject codeObject, ComponentMethodInfo bindMethod)
         {
-            foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
+            foreach (ICodeProperty propertyDesc in codeObject.Properties)
             {
                 context.CodeGenerator.GenerateProperty(
                     new CodeDomPropertyContext(context.CodeDomContext, bindMethod.FieldName, bindMethod.Statements),

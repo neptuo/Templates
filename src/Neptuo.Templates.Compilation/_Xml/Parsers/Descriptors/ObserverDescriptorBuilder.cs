@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base builder for observer which operates on <see cref="IObserverDescriptor"/>.
+    /// Base builder for observer which operates on <see cref="IComponentDescriptor"/>.
     /// </summary>
     public abstract class ObserverDescriptorBuilder : IObserverBuilder
     {
@@ -20,58 +20,63 @@ namespace Neptuo.Templates.Compilation.Parsers
             PropertyFactory = propertyFactory;
         }
 
+        /// <summary>
+        /// Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
+        /// If returns <c>null</c>, new observer will be created and attached.
+        /// </summary>
+        /// <param name="context">Current building context.</param>
+        /// <param name="codeObject">Observer source component.</param>
+        /// <param name="attribute">Attribute to process.</param>
+        /// <returns>
+        /// Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
+        /// If returns <c>null</c>, new observer will be created and attached.
+        /// </returns>
         protected abstract IObserverCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
-
-        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
-        {
-            IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
-            if (observerObject != null)
-                return TryUpdateObserver(context, codeObject, observerObject, attribute);
-            else
-                return TryAppendNewObserver(context, codeObject, attribute);
-        }
 
         protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
 
-        protected bool TryAppendNewObserver(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
-        {
-            IObserverCodeObject observerObject = CreateCodeObject(context, attribute);
-            IObserverDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
-            codeObject.Observers.Add(observerObject);
-            return TryBindProperty(context, new BindPropertiesContext(observerDescriptor), observerObject, attribute);
-        }
+        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
 
-        protected bool TryUpdateObserver(IContentBuilderContext context, IComponentCodeObject codeObject, IObserverCodeObject observerObject, IXmlAttribute attribute)
+        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
-            IObserverDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
-            return TryBindProperty(context, new BindPropertiesContext(observerDescriptor, observerObject), observerObject, attribute);
-        }
+            BindContentPropertiesContext bindContext;
+            IComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
 
-        protected abstract IObserverDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+            // Create new observer or update existing?
+            IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
+            if (observerObject != null)
+            {
+                observerObject = CreateCodeObject(context, attribute);
+                codeObject.Observers.Add(observerObject);
+                bindContext = new BindContentPropertiesContext(observerDescriptor);
+            }
+            else
+            {
+                bindContext = new BindContentPropertiesContext(observerDescriptor, observerObject);
+            }
 
-        protected virtual bool TryBindProperty(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
-        {
             // Bind attribute
-            if (TryBindAttribute(context, bindContext, codeObject, attribute))
+            if (TryBindProperty(context, bindContext, observerObject, attribute))
                 return true;
 
             // Process unbound attribute
-            if (ProcessUnboundAttribute(context, codeObject, attribute))
+            if (ProcessUnboundAttribute(context, observerObject, attribute))
                 return true;
 
             return false;
         }
 
-        protected virtual bool TryBindAttribute(IContentBuilderContext context, BindPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
+        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
             string attributeName = attribute.LocalName.ToLowerInvariant();
             IPropertyInfo propertyInfo;
             if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
             {
-                bool boundAttribute = PropertyFactory.TryParse(context, codeObject, propertyInfo, attribute.GetValue());
-                if (boundAttribute)
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, attribute.GetValue());
+                if(codeProperties != null)
                 {
-                    bindContext.BoundProperies.Add(attributeName);
+                    codeObject.Properties.AddRange(codeProperties);
+                    bindContext.BoundProperties.Add(attributeName);
                     return true;
                 }
 

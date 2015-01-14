@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Describes property.
     /// </summary>
-    public interface IPropertyDescriptor
+    public interface ICodeProperty
     {
         /// <summary>
         /// Property info.

@@ -25,12 +25,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool UseLinqApi { get; set; }
 
-        public XmlContentParser(IContentBuilder componentFactory, ILiteralBuilder literalFactory)
+        public XmlContentParser(IContentBuilder componentFactory, ILiteralBuilder literalFactory, bool useLinqApi = false)
         {
             Guard.NotNull(componentFactory, "componentFactory");
             Guard.NotNull(literalFactory, "literalFactory");
             this.componentFactory = componentFactory;
             this.literalFactory = literalFactory;
+            UseLinqApi = useLinqApi;
         }
 
         public ICodeObject Parse(ISourceContent content, IContentParserContext context)
@@ -73,17 +74,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (node.NodeType == XmlNodeType.Element)
             {
                 IXmlElement element = (IXmlElement)node;
-                return componentFactory.TryParse(context, element);
+                return componentFactory.TryParse(new XmlContentBuilderContext(context), element);
             }
             else if (node.NodeType == XmlNodeType.Text)
             {
                 IXmlText text = (IXmlText)node;
-                return literalFactory.TryParseText(context, text.Text);
+                return literalFactory.TryParseText(new XmlContentBuilderContext(context), text.Text);
             }
             else if (node.NodeType == XmlNodeType.Comment)
             {
                 IXmlText text = (IXmlText)node;
-                return literalFactory.TryParseComment(context, text.Text);
+                return literalFactory.TryParseComment(new XmlContentBuilderContext(context), text.Text);
             }
 
             throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
@@ -98,7 +99,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (UseLinqApi)
                 documentElement = XDocumentSupport.LoadXml(preparedXml);
             else
-                documentElement = XDocumentSupport.LoadXml(preparedXml);
+                documentElement = XmlDocumentSupport.LoadXml(preparedXml);
 
             return documentElement;
         }

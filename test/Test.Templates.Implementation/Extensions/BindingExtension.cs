@@ -26,7 +26,8 @@ namespace Test.Templates.Extensions
 
         public object ProvideValue(IValueExtensionContext context)
         {
-            object data = BindingManager.GetValue(Expression, dataStorage.Peek());
+            object data = dataStorage.Peek();
+            data = BindingManager.GetValue(Expression, data);
 
             if (!String.IsNullOrEmpty(ConverterKey))
                 data = valueConverterService.GetConverter(ConverterKey).ConvertTo(data);

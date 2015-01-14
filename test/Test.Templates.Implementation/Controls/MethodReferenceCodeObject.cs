@@ -24,7 +24,7 @@ namespace Test.Templates.Controls
     [JsType(Export = false)]
     public class CodeDomMethodReferenceGenerator : CodeDomObjectGeneratorBase<MethodReferenceCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, MethodReferenceCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, MethodReferenceCodeObject codeObject, ICodeProperty codeProperty)
         {
             CodeMemberMethod method = context.BaseStructure.Class.Members.FindMethod(codeObject.MethodName);
             if(method == null)

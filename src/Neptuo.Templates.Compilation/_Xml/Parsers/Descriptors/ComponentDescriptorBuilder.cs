@@ -10,19 +10,20 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
     /// Base component builder including logic for processing XML elements as properties and inner values.
+    /// 
     /// </summary>
     public abstract class ComponentDescriptorBuilder : ComponentBuilder
     {
-        private bool isParsing;
-
-        protected IComponentCodeObject CodeObject { get; private set; }
-        protected IComponentDescriptor ComponentDefinition { get; private set; }
-        protected IPropertyInfo DefaultProperty { get; private set; }
-        protected BindPropertiesContext BindContext { get; private set; }
-        protected IPropertyBuilder PropertyFactory { get; private set; }
+        protected IContentPropertyBuilder PropertyFactory { get; private set; }
         protected IObserverBuilder ObserverFactory { get; private set; }
 
-        public ComponentDescriptorBuilder(IPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
+        /// <summary>
+        /// Creates new instance with <paramref name="propertyFactory"/> as builder for resolving property values 
+        /// and <paramref name="observerFactory"/> as builder for resolving observers.
+        /// </summary>
+        /// <param name="propertyFactory">Builder for resolving property values.</param>
+        /// <param name="observerFactory">Builder for resolving observers.</param>
+        public ComponentDescriptorBuilder(IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
         {
             Guard.NotNull(propertyFactory, "propertyFactory");
             Guard.NotNull(observerFactory, "observerFactory");
@@ -32,29 +33,29 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
-            if (isParsing)
-                throw Guard.Exception.InvalidOperation("ComponentDescriptorBuilder can't be reused! Create new instance for every xml tag.");
-
-            isParsing = true;
-            CodeObject = CreateCodeObject(context, element);
-            ComponentDefinition = GetComponentDescriptor(context, CodeObject, element);
-            DefaultProperty = ComponentDefinition.GetDefaultProperty();
-            BindContext = new BindPropertiesContext(ComponentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
+            IComponentCodeObject codeObject = CreateCodeObject(context, element);
+            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
+            IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
+            BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
+            context.ComponentCodeObject(codeObject);
+            context.ComponentDescriptor(componentDefinition);
+            context.BindPropertiesContext(bindContext);
+            context.DefaultProperty(defaultProperty);
 
             BindProperties(context, element);
-            isParsing = false;
-            return new List<ICodeObject> { CodeObject };
+            return new List<ICodeObject> { codeObject };
         }
 
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, ISourceContent value)
         {
             IPropertyInfo propertyInfo;
-            if (BindContext.Properties.TryGetValue(name, out propertyInfo))
+            if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                bool result = PropertyFactory.TryParse(context, CodeObject, propertyInfo, value);
-                if (result)
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                if (codeProperties != null)
                 {
-                    BindContext.BoundProperies.Add(name);
+                    context.ComponentCodeObject().Properties.AddRange(codeProperties);
+                    context.BindPropertiesContext().BoundProperties.Add(name);
                     return true;
                 }
             }
@@ -62,16 +63,20 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
+        /// <summary>
+        /// Tries to find property named <paramref name="prefix"/> + <paramref name="name"/> and delegates parsing it's value to property factory.
+        /// </summary>
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
             IPropertyInfo propertyInfo;
-            if (!BindContext.BoundProperies.Contains(name) && BindContext.Properties.TryGetValue(name, out propertyInfo))
+            if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                bool result = PropertyFactory.TryParse(context, CodeObject, propertyInfo, value);
-                if (result)
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                if (codeProperties != null)
                 {
-                    BindContext.BoundProperies.Add(name);
-                    BindContext.IsBoundFromContent = true;
+                    context.ComponentCodeObject().Properties.AddRange(codeProperties);
+                    context.BindPropertiesContext().BoundProperties.Add(name);
+                    context.BindPropertiesContext().IsBoundFromContent = true;
                     return true;
                 }
             }
@@ -79,6 +84,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
+        /// <summary>
+        /// Skips xmlns definitions, other attributes tries to parse as observers; otherwise marks those as errors.
+        /// </summary>
         protected override bool ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
         {
             bool result = true;
@@ -92,7 +100,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     boundAttribute = true;
 
                 // Try process as observer.
-                if (!boundAttribute && ObserverFactory.TryParse(context, CodeObject, attribute))
+                if (!boundAttribute && ObserverFactory.TryParse(context, context.ComponentCodeObject(), attribute))
                     boundAttribute = true;
 
                 // Call base if attribute was not bound.
@@ -103,12 +111,15 @@ namespace Neptuo.Templates.Compilation.Parsers
             return result;
         }
 
+        /// <summary>
+        /// Tries to bind default property from <paramref name="unboundNodes"/>.
+        /// </summary>
         protected override bool ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
         {
             if (unboundNodes.Any())
             {
                 // If at least one property was bound from content element, default property is not supported.
-                if (BindContext.IsBoundFromContent)
+                if (context.BindPropertiesContext().IsBoundFromContent)
                 {
                     IXmlNode node = FindFirstSignificantNode(unboundNodes);
                     if (node != null)
@@ -121,12 +132,14 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
 
                 // Bind content elements
-                if (DefaultProperty != null && !BindContext.BoundProperies.Contains(DefaultProperty.Name.ToLowerInvariant()))
+                IPropertyInfo defaultProperty = context.DefaultProperty();
+                if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(defaultProperty.Name.ToLowerInvariant()))
                 {
-                    bool result = PropertyFactory.TryParse(context, CodeObject, DefaultProperty, unboundNodes);
-                    if (result)
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, defaultProperty, unboundNodes);
+                    if (codeProperties != null)
                     {
-                        BindContext.BoundProperies.Add(DefaultProperty.Name);
+                        context.ComponentCodeObject().Properties.AddRange(codeProperties);
+                        context.BindPropertiesContext().BoundProperties.Add(context.DefaultProperty().Name);
                         return true;
                     }
                 }
@@ -137,6 +150,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             return true;
         }
 
+        /// <summary>
+        /// Returns first not white space node from <paramref name="nodes"/>; otherwise <c>null</c>;
+        /// </summary>
+        /// <param name="nodes">Enumeration of nodes to search.</param>
+        /// <returns>First not white space node from <paramref name="nodes"/>; otherwise <c>null</c>;</returns>
         protected IXmlNode FindFirstSignificantNode(IEnumerable<IXmlNode> nodes)
         {
             IXmlNode node = nodes.FirstOrDefault(n => n.NodeType == XmlNodeType.Element);

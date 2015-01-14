@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public ICodeObject TryParse(ITokenBuilderContext context, Token token)
         {
-            context.AddError(String.Format("Token '{0}' is not supported.", token.Fullname));
+            context.AddError(token, String.Format("Token '{0}' is not supported.", token.Fullname));
             return null;
         }
     }

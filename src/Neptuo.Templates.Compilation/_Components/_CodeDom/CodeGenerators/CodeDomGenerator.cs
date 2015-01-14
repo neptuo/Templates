@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomGenerator()
         {
             CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
-            PropertyDescriptorGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
+            CodePropertyGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
             DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
             AttributeGenerators = new Dictionary<Type, ICodeDomAttributeGenerator>();
             PropertyTypeGenerators = new Dictionary<Type, ICodeDomPropertyTypeGenerator>();
@@ -40,11 +40,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomPropertyGenerator
 
-        protected Dictionary<Type, ICodeDomPropertyGenerator> PropertyDescriptorGenerators { get; private set; }
+        protected Dictionary<Type, ICodeDomPropertyGenerator> CodePropertyGenerators { get; private set; }
 
-        public void SetPropertyDescriptorGenerator(Type type, ICodeDomPropertyGenerator generator)
+        public void SetCodePropertyGenerator(Type type, ICodeDomPropertyGenerator generator)
         {
-            PropertyDescriptorGenerators[type] = generator;
+            CodePropertyGenerators[type] = generator;
         }
 
         #endregion
@@ -116,26 +116,26 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region Code generation
 
-        public CodeExpression GenerateCodeObject(CodeObjectExtensionContext context, ICodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        public CodeExpression GenerateCodeObject(CodeObjectExtensionContext context, ICodeObject codeObject, ICodeProperty codeProperty)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(codeObject, "codeObject");
             foreach (KeyValuePair<Type, ICodeDomComponentGenerator> item in CodeObjectGenerators)
             {
                 if (item.Key == codeObject.GetType())
-                    return item.Value.GenerateCode(context, codeObject, propertyDescriptor);
+                    return item.Value.GenerateCode(context, codeObject, codeProperty);
             }
 
             throw new NotImplementedException(String.Format("Not supported code object of type '{0}'", codeObject.GetType()));
         }
 
-        public void GenerateProperty(CodeDomPropertyContext context, IPropertyDescriptor propertyDescriptor)
+        public void GenerateProperty(CodeDomPropertyContext context, ICodeProperty codeProperty)
         {
-            foreach (KeyValuePair<Type, ICodeDomPropertyGenerator> item in PropertyDescriptorGenerators)
+            foreach (KeyValuePair<Type, ICodeDomPropertyGenerator> item in CodePropertyGenerators)
             {
-                if (item.Key == propertyDescriptor.GetType())
+                if (item.Key == codeProperty.GetType())
                 {
-                    item.Value.GenerateProperty(context, propertyDescriptor);
+                    item.Value.GenerateProperty(context, codeProperty);
                     return;
                 }
             }

@@ -14,10 +14,10 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class TypeScanner : TypeRegistryHelper
     {
-        private readonly IPropertyBuilder propertyBuilder;
+        private readonly IContentPropertyBuilder propertyBuilder;
         private readonly IObserverBuilder observerFactory;
 
-        public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content, IPropertyBuilder propertyBuilder, IObserverBuilder observerFactory)
+        public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content, IContentPropertyBuilder propertyBuilder, IObserverBuilder observerFactory)
             : base(configuration, content)
         {
             this.propertyBuilder = propertyBuilder;
@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             foreach (Type type in types)
             {
-                if (CanBeUsedInMarkup(type, false) && ImplementsInterface(Configuration.ExtensionType, type))
+                if (CanBeUsedInMarkup(type, false)) // && ImplementsInterface(Configuration.ExtensionType, type)
                 {
                     string name = GetComponentName(type, Configuration.ExtensionSuffix);
                     Content.Tokens[prefix][name] = CreateFactory<ITokenBuilder>(type, CreateDefaultTokenBuilderFactory);
@@ -87,12 +87,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual IContentBuilder CreateDefaultComponentBuilderFactory(Type type)
         {
-            return new TransientComponentBuilder(() => new DefaultTypeComponentBuilder(type, propertyBuilder, observerFactory));
+            return new DefaultTypeComponentBuilder(type, propertyBuilder, observerFactory);
         }
 
         protected virtual ITokenBuilder CreateDefaultTokenBuilderFactory(Type type)
         {
-            return new DefaultTokenBuilder(type);
+            return new DefaultTokenBuilder(type, propertyBuilder);
         }
 
         protected virtual List<Type> GetTypesInNamespace(string namespaceName)
@@ -126,21 +126,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected bool ImplementsInterface(Type requiredInterface, Type type)
         {
             return requiredInterface.IsAssignableFrom(type);
-        }
-
-        public class TransientComponentBuilder : IContentBuilder
-        {
-            private readonly Func<IContentBuilder> factory;
-
-            public TransientComponentBuilder(Func<IContentBuilder> factory)
-            {
-                this.factory = factory;
-            }
-
-            public IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
-            {
-                return factory().TryParse(context, element);
-            }
         }
 
     }

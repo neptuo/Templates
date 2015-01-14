@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<DictionaryAddPropertyDescriptor>
+    public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<DictionaryAddCodeProperty>
     {
         private static string addMethodName = TypeHelper.MethodName<IDictionary<string, string>, string, string>(d => d.Add);
 
-        protected override void GenerateProperty(CodeDomPropertyContext context, DictionaryAddPropertyDescriptor propertyDescriptor)
+        protected override void GenerateProperty(CodeDomPropertyContext context, DictionaryAddCodeProperty codeProperty)
         {
-            bool createInstance = !propertyDescriptor.Property.IsReadOnly;
+            bool createInstance = !codeProperty.Property.IsReadOnly;
 
             CodeExpression targetField = GetPropertyTarget(context);
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
                 targetField,
-                propertyDescriptor.Property.Name
+                codeProperty.Property.Name
             );
 
             if (createInstance)
@@ -28,22 +28,22 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 context.Statements.Add(
                     new CodeAssignStatement(
                         codePropertyReference,
-                        new CodeObjectCreateExpression(propertyDescriptor.Property.Type)
+                        new CodeObjectCreateExpression(codeProperty.Property.Type)
                     )
                 );
             }
 
-            foreach (KeyValuePair<ICodeObject, ICodeObject> propertyValue in propertyDescriptor.Values)
+            foreach (KeyValuePair<ICodeObject, ICodeObject> propertyValue in codeProperty.Values)
             {
                 CodeExpression keyCodeExpression = context.CodeGenerator.GenerateCodeObject(
                     new CodeObjectExtensionContext(context.Context, context.FieldName),
                     propertyValue.Key,
-                    propertyDescriptor
+                    codeProperty
                 );
                 CodeExpression valueCodeExpression = context.CodeGenerator.GenerateCodeObject(
                     new CodeObjectExtensionContext(context.Context, context.FieldName),
                     propertyValue.Value,
-                    propertyDescriptor
+                    codeProperty
                 );
                 if (keyCodeExpression != null && valueCodeExpression != null)
                 {

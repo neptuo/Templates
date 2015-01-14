@@ -15,17 +15,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (type == typeof(IDependencyProvider))
                 return new CodeFieldReferenceExpression(new CodeThisReferenceExpression(), CodeDomStructureGenerator.Names.DependencyProviderField);
             
-            return new CodeCastExpression(
-                new CodeTypeReference(type),
-                new CodeMethodInvokeExpression(
-                new CodeFieldReferenceExpression(
-                    new CodeThisReferenceExpression(),
-                    CodeDomStructureGenerator.Names.DependencyProviderField
-                ),
-                TypeHelper.MethodName<IDependencyProvider, Type, string, object>(p => p.Resolve),
-                new CodeTypeOfExpression(new CodeTypeReference(type)),
-                new CodePrimitiveExpression(null)
-            ));
+            return new CodeMethodInvokeExpression(
+                new CodeMethodReferenceExpression(
+                    new CodeFieldReferenceExpression(
+                        new CodeThisReferenceExpression(),
+                        CodeDomStructureGenerator.Names.DependencyProviderField
+                    ),
+                    TypeHelper.MethodName<IDependencyProvider, Type, object>(p => p.Resolve),
+                    new CodeTypeReference(type)
+                )
+            );
         }
     }
 }

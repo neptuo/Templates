@@ -10,13 +10,11 @@ using System.Threading.Tasks;
 
 namespace Test.Templates.Controls
 {
-    public class TemplatePropertyBuilder : IPropertyBuilder
+    public class TemplatePropertyBuilder : IContentPropertyBuilder, IPropertyBuilder
     {
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
             IComponentCodeObject templateCodeObject = new TemplateCodeObject(typeof(ContentTemplate));
-            codeObject.Properties.Add(new SetPropertyDescriptor(propertyInfo, templateCodeObject));
-
             IPropertyInfo targetProperty = new TypePropertyInfo(
                 typeof(ContentTemplateContent).GetProperty(
                     TypeHelper.PropertyName<ContentTemplateContent, object>(t => t.Content)
@@ -24,21 +22,21 @@ namespace Test.Templates.Controls
             );
 
             //Collection item
-            IPropertyDescriptor propertyDescriptor = new ListAddPropertyDescriptor(targetProperty);
-            IEnumerable<ICodeObject> values = context.TryProcessContentNodes(content);
+            ICodeProperty codeProperty = new ListAddCodeProperty(targetProperty);
+            IEnumerable<ICodeObject> values = context.BuilderContext.TryProcessContentNodes(content);
             if (values == null)
-                return false;
+                return null;
 
-            propertyDescriptor.SetRangeValue(values);
-            templateCodeObject.Properties.Add(propertyDescriptor);
-            return true;
+            codeProperty.SetRangeValue(values);
+            templateCodeObject.Properties.Add(codeProperty);
+            return new CodePropertyList(new SetCodeProperty(context.PropertyInfo, templateCodeObject));
         }
 
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
+        public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             IComponentCodeObject templateCodeObject = new ComponentCodeObject(typeof(FileTemplate));
             templateCodeObject.Properties.Add(
-                new SetPropertyDescriptor(
+                new SetCodeProperty(
                     new TypePropertyInfo(
                         typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path))
                     ),
@@ -46,11 +44,9 @@ namespace Test.Templates.Controls
                 )
             );
 
-            IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            propertyDescriptor.SetValue(templateCodeObject);
-            codeObject.Properties.Add(propertyDescriptor);
-
-            return true;
+            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo);
+            codeProperty.SetValue(templateCodeObject);
+            return new CodePropertyList(codeProperty);
         }
     }
 }

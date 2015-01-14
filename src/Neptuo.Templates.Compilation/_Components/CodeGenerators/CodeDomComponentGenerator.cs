@@ -12,16 +12,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomComponentGenerator : TypeCodeDomObjectGenerator<ComponentCodeObject>
     {
-        private Dictionary<Type, Dictionary<IComponentCodeObject, ComponentMethodInfo>> perControl;
-
         public CodeDomComponentGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
             : base(fieldNameProvider, componentManager)
         { }
 
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, ICodeProperty codeProperty)
         {
             StorageProvider storage = context.CodeDomContext.CodeGeneratorContext.DependencyProvider.Resolve<StorageProvider>();
-            perControl = storage.Create<Dictionary<Type, Dictionary<IComponentCodeObject, ComponentMethodInfo>>>("PerControl");
+            context.ObserverDictionary(storage.Create<ObserverDictionary>("PerControl"));
 
             CodeExpression field = GenerateCompoment(context, component);
             return field;
@@ -47,6 +45,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             bool newObserver = false;
             ComponentMethodInfo observerMethodInfo = null;
 
+            ObserverDictionary perControl = context.ObserverDictionary();
             if (!perControl.ContainsKey(observer.Type))
                 perControl.Add(observer.Type, new Dictionary<IComponentCodeObject, ComponentMethodInfo>());
 

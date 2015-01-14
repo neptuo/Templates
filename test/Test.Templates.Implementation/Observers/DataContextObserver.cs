@@ -12,20 +12,18 @@ namespace Test.Templates.Observers
 {
     public class DataContextObserver : IObserver
     {
-        private IComponentManager componentManager;
         private DataStorage dataStorage;
         
         public object DataContext { get; set; }
 
-        public DataContextObserver(IComponentManager componentManager, DataStorage dataStorage)
+        public DataContextObserver(DataStorage dataStorage)
         {
-            this.componentManager = componentManager;
             this.dataStorage = dataStorage;
         }
 
         public void OnInit(ObserverEventArgs e)
         {
-            componentManager.AttachInitComplete(e.Target, OnInitComplete);
+            e.ComponentManager.AttachInitComplete(e.Target, OnInitComplete);
             dataStorage.Push(DataContext);
         }
 

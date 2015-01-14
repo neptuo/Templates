@@ -24,10 +24,10 @@ namespace Test.Templates.Controls
             : base(fieldNameProvider, componentManager)
         { }
 
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, ICodeProperty codeProperty)
         {
             // Remove all properties
-            List<IPropertyDescriptor> properties = new List<IPropertyDescriptor>(component.Properties);
+            List<ICodeProperty> properties = new List<ICodeProperty>(component.Properties);
             component.Properties.Clear();
 
             // Generate Bind method for ContentTemplateContent
@@ -39,7 +39,7 @@ namespace Test.Templates.Controls
 
             // Add bind method to properties
             component.Properties.Add(
-                new SetPropertyDescriptor(
+                new SetCodeProperty(
                     new TypePropertyInfo(
                         component.Type.GetProperty(TypeHelper.PropertyName<ContentTemplate, object>(t => t.BindMethod))
                     ),
@@ -48,7 +48,7 @@ namespace Test.Templates.Controls
             );
 
             // Generate component
-            return base.GenerateCode(context, component, propertyDescriptor);
+            return base.GenerateCode(context, component, codeProperty);
         }
     }
 }

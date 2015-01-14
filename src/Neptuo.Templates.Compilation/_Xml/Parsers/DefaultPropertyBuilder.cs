@@ -11,43 +11,38 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Some magic logic to create right proproperty descriptors for right property types.
     /// </summary>
-    public abstract class DefaultPropertyBuilder : IPropertyBuilder
+    public abstract class DefaultPropertyBuilder : IContentPropertyBuilder, IPropertyBuilder
     {
         /// <summary>
         /// Should create property descriptor for <paramref name="propertyInfo"/>.
         /// </summary>
-        protected abstract IPropertyDescriptor CreatePropertyDescriptor(IPropertyInfo propertyInfo);
+        protected abstract ICodeProperty CreateCodeProperty(IPropertyInfo propertyInfo);
 
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
-            if (typeof(string) == propertyInfo.Type)
+            if (typeof(string) == context.PropertyInfo.Type)
             {
                 //Get string and add as plain value
                 StringBuilder contentValue = new StringBuilder();
                 foreach (IXmlNode node in content)
                     contentValue.Append(node.OuterXml);
 
-                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
-                codeObject.Properties.Add(propertyDescriptor);
-                return true;
+                ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                codeProperty.SetValue(new PlainValueCodeObject(contentValue.ToString()));
+                return new CodePropertyList(codeProperty);
             }
-            else if (typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type))
+            else if (typeof(IEnumerable).IsAssignableFrom(context.PropertyInfo.Type))
             {
                 //Collection item
-                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                codeObject.Properties.Add(propertyDescriptor);
-
+                ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
                 foreach (IXmlNode node in content)
                 {
-                    IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context, node);
+                    IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context.BuilderContext, node);
                     if (values != null)
-                    {
-                        propertyDescriptor.SetRangeValue(values);
-                    }
+                        codeProperty.SetRangeValue(values);
                 }
 
-                return true;
+                return new CodePropertyList(codeProperty);
             }
             else
             {
@@ -58,24 +53,24 @@ namespace Neptuo.Templates.Compilation.Parsers
                     // One IXmlElement is ok
                     if (elements.Count() == 1)
                     {
-                        IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
+                        ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
                         foreach (IXmlElement node in elements)
                         {
-                            IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context, node);
+                            IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context.BuilderContext, node);
                             if (values != null)
                             {
                                 //TODO: Here MUST be only one value!
-                                propertyDescriptor.SetRangeValue(values); 
-                                codeObject.Properties.Add(propertyDescriptor);
+                                codeProperty.SetRangeValue(values);
+                                return new CodePropertyList().Add(codeProperty);
                             }
                         }
-                        return true;
+                        return null;
                     }
                     else
                     {
                         IXmlElement element = elements.ElementAt(1);
                         context.AddError(element, "Property supports only single value.");
-                        return false;
+                        return null;
                     }
                 }
                 else
@@ -85,26 +80,24 @@ namespace Neptuo.Templates.Compilation.Parsers
                     foreach (IXmlNode node in content)
                         contentValue.Append(node.OuterXml);
 
-                    IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                    propertyDescriptor.SetValue(new PlainValueCodeObject(contentValue.ToString()));
-                    codeObject.Properties.Add(propertyDescriptor);
-                    return true;
+                    ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                    codeProperty.SetValue(new PlainValueCodeObject(contentValue.ToString()));
+                    return new CodePropertyList(codeProperty);
                 }
             }
         }
 
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent attributeValue)
+        public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            ICodeObject propertyValue = context.TryProcessValue(attributeValue);
+            ICodeObject propertyValue = context.ParserService.ProcessValue(value, context);
             if (propertyValue != null)
             {
-                IPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(propertyInfo);
-                propertyDescriptor.SetValue(propertyValue);
-                codeObject.Properties.Add(propertyDescriptor);
-                return true;
+                ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                codeProperty.SetValue(propertyValue);
+                return new CodePropertyList(codeProperty);
             }
 
-            return false;
+            return null;
         }
     }
 }

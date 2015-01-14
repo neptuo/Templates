@@ -10,9 +10,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomRootGenerator : CodeDomObjectGeneratorBase<RootCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, RootCodeObject codeObject, IPropertyDescriptor propertyDescriptor)
+        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, RootCodeObject codeObject, ICodeProperty codeProperty)
         {
-            foreach (IPropertyDescriptor propertyDesc in codeObject.Properties)
+            foreach (ICodeProperty propertyDesc in codeObject.Properties)
             {
                 context.CodeGenerator.GenerateProperty(
                     new CodeDomPropertyContext(

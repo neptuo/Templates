@@ -7,14 +7,14 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomSetPropertyGenerator : CodeDomPropertyGeneratorBase<SetPropertyDescriptor>
+    public class CodeDomSetPropertyGenerator : CodeDomPropertyGeneratorBase<SetCodeProperty>
     {
-        protected override void GenerateProperty(CodeDomPropertyContext context, SetPropertyDescriptor propertyDescriptor)
+        protected override void GenerateProperty(CodeDomPropertyContext context, SetCodeProperty codeProperty)
         {
             CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(
                 new CodeObjectExtensionContext(context.Context, context.FieldName), 
-                propertyDescriptor.Value, 
-                propertyDescriptor
+                codeProperty.Value, 
+                codeProperty
             );
             if (codeExpression != null)
             {
@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     new CodeAssignStatement(
                         new CodePropertyReferenceExpression(
                             GetPropertyTarget(context),
-                            propertyDescriptor.Property.Name
+                            codeProperty.Property.Name
                         ),
                         codeExpression
                     )

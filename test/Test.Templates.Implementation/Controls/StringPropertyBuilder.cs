@@ -11,23 +11,17 @@ namespace Test.Templates.Controls
 {
     public class StringPropertyBuilder : IPropertyBuilder
     {
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool TryParse(IContentBuilderContext context, IPropertiesCodeObject codeObject, IPropertyInfo propertyInfo, ISourceContent value)
-        {
-            IPropertyDescriptor propertyDescriptor = new SetPropertyDescriptor(propertyInfo);
-            ICodeObject valueObject = context.TryProcessValue(value);
+            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo);
+            ICodeObject valueObject = context.ParserService.ProcessValue(value, context.CreateValueContext(context.ParserService));
             if (valueObject != null)
             {
-                propertyDescriptor.SetValue(valueObject);
-                codeObject.Properties.Add(propertyDescriptor);
-                return true;
+                codeProperty.SetValue(valueObject);
+                return new CodePropertyList(codeProperty);
             }
 
-            return false;
+            return null;
         }
     }
 

@@ -14,21 +14,27 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class HtmlAttributeObserverBuilder : IObserverBuilder
     {
         private readonly Type requiredInterface;
-        private readonly string methodName;
+        private readonly string propertyName;
 
-        public HtmlAttributeObserverBuilder(Type requiredInterface, string methodName)
+        /// <summary>
+        /// Creates new instance for required interface <paramref name="requiredInterface"/> 
+        /// and <paramref name="propertyName"/> as <see cref="Dictionary<string, string>"/> property to set HTML attributes to.
+        /// </summary>
+        /// <param name="requiredInterface">Required interface on type code object.</param>
+        /// <param name="propertyName"><see cref="Dictionary<string, string>"/> property to set HTML attributes to.</param>
+        public HtmlAttributeObserverBuilder(Type requiredInterface, string propertyName)
         {
             Guard.NotNull(requiredInterface, "requiredInterface");
-            Guard.NotNullOrEmpty(methodName, "methodName");
+            Guard.NotNullOrEmpty(propertyName, "propertyName");
             this.requiredInterface = requiredInterface;
-            this.methodName = methodName;
+            this.propertyName = propertyName;
         }
 
-        private DictionaryAddPropertyDescriptor CreatePropertyDescriptor(ITypeCodeObject typeCodeObject)
+        private DictionaryAddCodeProperty CreateCodeProperty(ITypeCodeObject typeCodeObject)
         {
-            TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(methodName));
-            DictionaryAddPropertyDescriptor propertyDescriptor = new DictionaryAddPropertyDescriptor(propertyInfo);
-            return propertyDescriptor;
+            TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(propertyName));
+            DictionaryAddCodeProperty codeProperty = new DictionaryAddCodeProperty(propertyInfo);
+            return codeProperty;
         }
 
         public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
@@ -39,14 +45,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             if (requiredInterface.IsAssignableFrom(typeCodeObject.Type))
             {
-                DictionaryAddPropertyDescriptor propertyDescriptor = CreatePropertyDescriptor(typeCodeObject);
-                propertyDescriptor.SetValue(new PlainValueCodeObject(attribute.Name));
+                DictionaryAddCodeProperty codeProperty = CreateCodeProperty(typeCodeObject);
+                codeProperty.SetValue(new PlainValueCodeObject(attribute.Name));
 
                 ICodeObject value = context.TryProcessValue(attribute.GetValue());
                 if (value != null)
                 {
-                    propertyDescriptor.SetValue(value);
-                    codeObject.Properties.Add(propertyDescriptor);
+                    codeProperty.SetValue(value);
+                    codeObject.Properties.Add(codeProperty);
                     return true;
                 }
             }

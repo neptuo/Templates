@@ -17,12 +17,12 @@ namespace Neptuo.Templates.Compilation.PreProcessing
         /// </summary>
         protected IVisitorContext Context { get; private set; }
 
-        public void Visit(IPropertyDescriptor propertyDescriptor, IVisitorContext context)
+        public void Visit(ICodeProperty codeProperty, IVisitorContext context)
         {
-            Guard.NotNull(propertyDescriptor, "propertyDescriptor");
+            Guard.NotNull(codeProperty, "codeProperty");
             Guard.NotNull(context, "context");
             Context = context;
-            Visit(propertyDescriptor);
+            Visit(codeProperty);
         }
 
         public void Visit(ICodeObject codeObject, IVisitorContext context)
@@ -33,46 +33,46 @@ namespace Neptuo.Templates.Compilation.PreProcessing
             Visit(codeObject);
         }
 
-        protected void Visit(IEnumerable<IPropertyDescriptor> properties)
+        protected void Visit(IEnumerable<ICodeProperty> codeProperties)
         {
-            foreach (IPropertyDescriptor propertyDescriptor in properties)
-                Visit(propertyDescriptor);
+            foreach (ICodeProperty codeProperty in codeProperties)
+                Visit(codeProperty);
         }
 
-        protected void Visit(IPropertyDescriptor propertyDescriptor)
+        protected void Visit(ICodeProperty codeProperty)
         {
-            ListAddPropertyDescriptor listAdd = propertyDescriptor as ListAddPropertyDescriptor;
+            ListAddCodeProperty listAdd = codeProperty as ListAddCodeProperty;
             if (listAdd != null)
             {
                 Visit(listAdd);
                 return;
             }
 
-            SetPropertyDescriptor set = propertyDescriptor as SetPropertyDescriptor;
+            SetCodeProperty set = codeProperty as SetCodeProperty;
             if (set != null)
             {
                 Visit(set);
                 return;
             }
 
-            MethodInvokePropertyDescriptor methodInvoke = propertyDescriptor as MethodInvokePropertyDescriptor;
+            MethodInvokeCodeProperty methodInvoke = codeProperty as MethodInvokeCodeProperty;
             if (methodInvoke != null)
             {
                 Visit(methodInvoke);
                 return;
             }
 
-            DictionaryAddPropertyDescriptor dictionaryAdd = propertyDescriptor as DictionaryAddPropertyDescriptor;
+            DictionaryAddCodeProperty dictionaryAdd = codeProperty as DictionaryAddCodeProperty;
             if (dictionaryAdd != null)
             {
                 Visit(dictionaryAdd);
                 return;
             }
 
-            VisitUnknown(propertyDescriptor);
+            VisitUnknown(codeProperty);
         }
 
-        protected virtual void VisitUnknown(IPropertyDescriptor propertyDescriptor)
+        protected virtual void VisitUnknown(ICodeProperty codeProperty)
         { }
 
         /// <summary>
@@ -81,26 +81,26 @@ namespace Neptuo.Templates.Compilation.PreProcessing
         /// <param name="codeObject">Code object to visit.</param>
         protected abstract void Visit(ICodeObject codeObject);
 
-        protected virtual void Visit(ListAddPropertyDescriptor propertyDescriptor)
+        protected virtual void Visit(ListAddCodeProperty codeProperty)
         {
-            foreach (ICodeObject codeObject in propertyDescriptor.Values)
+            foreach (ICodeObject codeObject in codeProperty.Values)
                 Visit(codeObject);
         }
 
-        protected virtual void Visit(SetPropertyDescriptor propertyDescriptor)
+        protected virtual void Visit(SetCodeProperty codeProperty)
         {
-            Visit(propertyDescriptor.Value);
+            Visit(codeProperty.Value);
         }
 
-        protected virtual void Visit(MethodInvokePropertyDescriptor propertyDescriptor)
+        protected virtual void Visit(MethodInvokeCodeProperty codeProperty)
         {
-            foreach (ICodeObject codeObject in propertyDescriptor.Parameters)
+            foreach (ICodeObject codeObject in codeProperty.Parameters)
                 Visit(codeObject);
         }
 
-        protected virtual void Visit(DictionaryAddPropertyDescriptor propertyDescriptor)
+        protected virtual void Visit(DictionaryAddCodeProperty codeProperty)
         {
-            foreach (KeyValuePair<ICodeObject, ICodeObject> item in propertyDescriptor.Values)
+            foreach (KeyValuePair<ICodeObject, ICodeObject> item in codeProperty.Values)
             {
                 Visit(item.Key);
                 Visit(item.Value);
