@@ -10,12 +10,19 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
     /// Base component builder including logic for processing XML elements as properties and inner values.
+    /// 
     /// </summary>
     public abstract class ComponentDescriptorBuilder : ComponentBuilder
     {
         protected IContentPropertyBuilder PropertyFactory { get; private set; }
         protected IObserverBuilder ObserverFactory { get; private set; }
 
+        /// <summary>
+        /// Creates new instance with <paramref name="propertyFactory"/> as builder for resolving property values 
+        /// and <paramref name="observerFactory"/> as builder for resolving observers.
+        /// </summary>
+        /// <param name="propertyFactory">Builder for resolving property values.</param>
+        /// <param name="observerFactory">Builder for resolving observers.</param>
         public ComponentDescriptorBuilder(IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
         {
             Guard.NotNull(propertyFactory, "propertyFactory");
@@ -56,6 +63,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
+        /// <summary>
+        /// Tries to find property named <paramref name="prefix"/> + <paramref name="name"/> and delegates parsing it's value to property factory.
+        /// </summary>
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
             IPropertyInfo propertyInfo;
@@ -74,6 +84,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
+        /// <summary>
+        /// Skips xmlns definitions, other attributes tries to parse as observers; otherwise marks those as errors.
+        /// </summary>
         protected override bool ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
         {
             bool result = true;
@@ -98,6 +111,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return result;
         }
 
+        /// <summary>
+        /// Tries to bind default property from <paramref name="unboundNodes"/>.
+        /// </summary>
         protected override bool ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
         {
             if (unboundNodes.Any())
@@ -134,6 +150,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             return true;
         }
 
+        /// <summary>
+        /// Returns first not white space node from <paramref name="nodes"/>; otherwise <c>null</c>;
+        /// </summary>
+        /// <param name="nodes">Enumeration of nodes to search.</param>
+        /// <returns>First not white space node from <paramref name="nodes"/>; otherwise <c>null</c>;</returns>
         protected IXmlNode FindFirstSignificantNode(IEnumerable<IXmlNode> nodes)
         {
             IXmlNode node = nodes.FirstOrDefault(n => n.NodeType == XmlNodeType.Element);

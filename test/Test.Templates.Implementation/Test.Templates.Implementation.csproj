@@ -50,7 +50,6 @@
     <Compile Include="Controls\ContentTemplate.cs" />
     <Compile Include="Controls\FileTemplate.cs" />
     <Compile Include="Controls\GenericContentControl.cs" />
-    <Compile Include="Controls\GenericContentControlBuilder.cs" />
     <Compile Include="Controls\ITemplate.cs" />
     <Compile Include="Controls\ITemplateContent.cs" />
     <Compile Include="Controls\LiteralControl.cs" />

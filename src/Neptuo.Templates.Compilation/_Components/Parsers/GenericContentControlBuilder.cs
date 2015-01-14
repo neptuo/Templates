@@ -3,8 +3,6 @@ using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
-using Neptuo.Templates.Controls;
-using SharpKit.JavaScript;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +12,22 @@ using System.Threading.Tasks;
 
 namespace Test.Templates.Controls
 {
-    [JsType(Export = false)]
+    /// <summary>
+    /// Content builder that can handle any XML element. 
+    /// Must have defined property, where XML element name is set.
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class GenericContentControlBuilder<T> : DefaultTypeComponentBuilder
-        where T : IControl
     {
         private readonly string tagNameProperty;
 
+        /// <summary>
+        /// Creates new instance, where <typeparamref name="T"/> is the control to create and <paramref name="tagNameProperty"/> is expression
+        /// to the property, where XML element name should be set.
+        /// </summary>
+        /// <param name="tagNameProperty">Expression to the property, where XML element name should be set.</param>
+        /// <param name="propertyFactory"></param>
+        /// <param name="observerFactory"></param>
         public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty, IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
             : base(typeof(T), propertyFactory, observerFactory)
         {
@@ -33,7 +41,7 @@ namespace Test.Templates.Controls
             return codeObject;
         }
 
-        public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
+        protected bool IsComponentRequired(IContentBuilderContext context, IXmlElement element)
         {
             ComponentCodeObject codeObject = new ComponentCodeObject(typeof(T));
 
@@ -44,11 +52,11 @@ namespace Test.Templates.Controls
 
                 // Error in parsing.
                 if (value == null)
-                    return null;
+                    return true;
 
                 // Is not plain value code object.
                 IPlainValueCodeObject plainValue = value as IPlainValueCodeObject;
-                if(plainValue == null)
+                if (plainValue == null)
                 {
                     isComponentRequired = true;
                     break;
@@ -62,7 +70,12 @@ namespace Test.Templates.Controls
                 }
             }
 
-            if (isComponentRequired)
+            return isComponentRequired;
+        }
+
+        public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
+        {
+            if (IsComponentRequired(context, element))
                 return base.TryParse(context, element);
             else
                 return ProcessAsTextXmlTag(context, element);
@@ -71,9 +84,21 @@ namespace Test.Templates.Controls
         protected IEnumerable<ICodeObject> ProcessAsTextXmlTag(IContentBuilderContext context, IXmlElement element)
         {
             CodeObjectList result = new CodeObjectList();
-            result.AddPlainValue(String.Format("<{0} {1}>", element.Name, String.Join(" ", element.Attributes)));
-            result.AddRange(context.TryProcessContentNodes(element.ChildNodes));
-            result.AddPlainValue(String.Format("</{0}>", element.Name));
+            if (element.ChildNodes.Any())
+            {
+                if (element.Attributes.Any())
+                    result.AddPlainValue(String.Format("<{0} {1}>", element.Name, String.Join(" ", element.Attributes)));
+                else
+                    result.AddPlainValue(String.Format("<{0}>", element.Name));
+
+                result.AddRange(context.TryProcessContentNodes(element.ChildNodes));
+                result.AddPlainValue(String.Format("</{0}>", element.Name));
+            }
+            else
+            {
+                result.AddPlainValue(String.Format("<{0} />", element.Name));
+            }
+
             return result;
         }
     }
