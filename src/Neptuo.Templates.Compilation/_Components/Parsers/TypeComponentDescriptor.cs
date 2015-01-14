@@ -11,11 +11,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines <see cref="IComponentInfo"/>, <see cref="ITokenDescriptor"/> and <see cref="IObserverInfo"/> using class.
     /// </summary>
-    public class TypeDescriptorBase : IComponentDescriptor
+    public class TypeComponentDescriptor : IComponentDescriptor
     {
-        private Type type;
+        private readonly Type type;
 
-        public TypeDescriptorBase(Type type)
+        public TypeComponentDescriptor(Type type)
         {
             Guard.NotNull(type, "type");
             this.type = type;

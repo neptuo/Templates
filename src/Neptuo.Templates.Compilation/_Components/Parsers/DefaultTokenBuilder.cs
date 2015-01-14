@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension)
         {
-            return new TypeDescriptorBase(Type);
+            return new TypeComponentDescriptor(Type);
         }
     }
 }

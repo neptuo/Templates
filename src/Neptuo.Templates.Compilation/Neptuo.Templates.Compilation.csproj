@@ -167,7 +167,7 @@
     <Compile Include="_Components\Parsers\RootContentBuilder.cs" />
     <Compile Include="_Components\Parsers\TypeComponentBuilder.cs" />
     <Compile Include="_Components\Parsers\TypeDefaultPropertyBuilder.cs" />
-    <Compile Include="_Components\Parsers\TypeDescriptorBase.cs" />
+    <Compile Include="_Components\Parsers\TypeComponentDescriptor.cs" />
     <Compile Include="_Components\Parsers\TypeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\TypePropertyInfo.cs" />
     <Compile Include="_Components\PreProcessing\VisitorBase.cs" />
@@ -236,7 +236,7 @@
     <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlDocumentSupport.cs" />
-    <Compile Include="_Xml\Parsers\XmlExtensions.cs" />
+    <Compile Include="_Xml\Parsers\XmlAbstractions\XmlExtensions.cs" />
     <Compile Include="_Properties\Parsers\_PropertyBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\_ContentPropertyBuilderContextExtensions.cs" />
     <Compile Include="_Xml\XmlContentParserException.cs" />

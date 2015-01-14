@@ -14,19 +14,25 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class HtmlAttributeObserverBuilder : IObserverBuilder
     {
         private readonly Type requiredInterface;
-        private readonly string methodName;
+        private readonly string propertyName;
 
-        public HtmlAttributeObserverBuilder(Type requiredInterface, string methodName)
+        /// <summary>
+        /// Creates new instance for required interface <paramref name="requiredInterface"/> 
+        /// and <paramref name="propertyName"/> as <see cref="Dictionary<string, string>"/> property to set HTML attributes to.
+        /// </summary>
+        /// <param name="requiredInterface">Required interface on type code object.</param>
+        /// <param name="propertyName"><see cref="Dictionary<string, string>"/> property to set HTML attributes to.</param>
+        public HtmlAttributeObserverBuilder(Type requiredInterface, string propertyName)
         {
             Guard.NotNull(requiredInterface, "requiredInterface");
-            Guard.NotNullOrEmpty(methodName, "methodName");
+            Guard.NotNullOrEmpty(propertyName, "propertyName");
             this.requiredInterface = requiredInterface;
-            this.methodName = methodName;
+            this.propertyName = propertyName;
         }
 
         private DictionaryAddCodeProperty CreateCodeProperty(ITypeCodeObject typeCodeObject)
         {
-            TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(methodName));
+            TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(propertyName));
             DictionaryAddCodeProperty codeProperty = new DictionaryAddCodeProperty(propertyInfo);
             return codeProperty;
         }

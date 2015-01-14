@@ -86,12 +86,12 @@ namespace Test.Templates
             builderRegistry
                 .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
                 .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
-                .RegisterObserverBuilder("data", "*", new DefaultTypeObserverBuilder(typeof(DataContextObserver), builderRegistry))
-                .RegisterObserverBuilder("ui", "Visible", new DefaultTypeObserverBuilder(typeof(VisibleObserver), builderRegistry))
-                .RegisterObserverBuilder(null, "*", new HtmlAttributeObserverBuilder(typeof(IHtmlAttributeCollectionAware), TypeHelper.PropertyName<IHtmlAttributeCollectionAware, HtmlAttributeCollection>(c => c.HtmlAttributes)))
-                .RegisterPropertyBuilder(typeof(string), new StringPropertyBuilder())
+                .RegisterObserverBuilder<DataContextObserver>("data", "*")
+                .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
+                .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
+                .RegisterPropertyBuilder<string, StringPropertyBuilder>()
                 .RegisterPropertyBuilder<ITemplate, TemplatePropertyBuilder>(new TemplatePropertyBuilder())
-                .RegisterRootBuilder(new RootContentBuilder(builderRegistry, builderRegistry, new TypePropertyInfo(typeof(GeneratedView).GetProperty(TypeHelper.PropertyName<GeneratedView, ICollection<object>>(v => v.Content)))));
+                .RegisterRootBuilder<GeneratedView>(v => v.Content);
 
             ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
                 TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),

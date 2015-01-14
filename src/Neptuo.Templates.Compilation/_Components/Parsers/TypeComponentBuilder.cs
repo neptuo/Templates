@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
         {
-            return new TypeDescriptorBase(GetControlType(element));
+            return new TypeComponentDescriptor(GetControlType(element));
         }
     }
 }
