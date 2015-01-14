@@ -46,13 +46,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
             if (observerObject != null)
             {
-                observerObject = CreateCodeObject(context, attribute);
-                codeObject.Observers.Add(observerObject);
-                bindContext = new BindContentPropertiesContext(observerDescriptor);
+                bindContext = new BindContentPropertiesContext(observerDescriptor, observerObject);
             }
             else
             {
-                bindContext = new BindContentPropertiesContext(observerDescriptor, observerObject);
+                observerObject = CreateCodeObject(context, attribute);
+                codeObject.Observers.Add(observerObject);
+                bindContext = new BindContentPropertiesContext(observerDescriptor);
             }
 
             // Bind attribute

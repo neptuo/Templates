@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.ComponentModel;
+using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Tokens;
 using System;
@@ -25,14 +26,23 @@ namespace Neptuo.Templates.Compilation.Parsers
             ICodeObject codeObject = null;
 
             TokenParser parser = CreateTokenParser();
-            parser.OnParsedToken += (sender, e) => codeObject = GenerateToken(context, e.Token);
+            parser.OnParsedToken += (sender, e) => codeObject = GenerateToken(context, e.Token, content.GlobalSourceInfo);
             parser.Parse(content.TextContent);
 
             return codeObject;
         }
 
-        private ICodeObject GenerateToken(IValueParserContext context, Token token)
+        private ICodeObject GenerateToken(IValueParserContext context, Token token, ISourceLineInfo globalSourceInfo)
         {
+            // Update line info according to global source info.
+            token.SetLineInfo(
+                globalSourceInfo.LineIndex + token.LineIndex, 
+                globalSourceInfo.ColumnIndex + token.ColumnIndex, 
+                globalSourceInfo.LineIndex + token.EndLineIndex, 
+                globalSourceInfo.ColumnIndex + token.EndColumnIndex
+            );
+
+            // Build token.
             ICodeObject codeObject = builderFactory.TryParse(new TokenBuilderContext(this, context), token);
             return codeObject;
         }

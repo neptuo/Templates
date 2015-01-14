@@ -12,9 +12,36 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomExtendedComponentObjectGenerator : CodeDomComponentGenerator
+    public class CodeDomExtendedComponentObjectGenerator : ICodeDomComponentGenerator
     {
-        public CodeDomExtendedComponentObjectGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
+        private readonly ICodeDomComponentGenerator componentGenerator;
+        private readonly ICodeDomComponentGenerator extensionGenerator;
+
+        public CodeDomExtendedComponentObjectGenerator(ICodeDomComponentGenerator componentGenerator, ICodeDomComponentGenerator extensionGenerator)
+        {
+            Guard.NotNull(componentGenerator, "componentGenerator");
+            Guard.NotNull(extensionGenerator, "extensionGenerator");
+            this.componentGenerator = componentGenerator;
+            this.extensionGenerator = extensionGenerator;
+        }
+
+        private bool IsExtension(ITypeCodeObject codeObject)
+        {
+            return typeof(IValueExtension).IsAssignableFrom(codeObject.Type);
+        }
+
+        public CodeExpression GenerateCode(CodeObjectExtensionContext context, ICodeObject codeObject, ICodeProperty codeProperty)
+        {
+            if (IsExtension(codeObject as ITypeCodeObject))
+                return extensionGenerator.GenerateCode(context, codeObject, codeProperty);
+            else
+                return componentGenerator.GenerateCode(context, codeObject, codeProperty);
+        }
+    }
+
+    public class CodeDomExtendedComponentObjectGenerator2 : CodeDomComponentGenerator
+    {
+        public CodeDomExtendedComponentObjectGenerator2(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
             : base(fieldNameProvider, componentManager)
         { }
 
