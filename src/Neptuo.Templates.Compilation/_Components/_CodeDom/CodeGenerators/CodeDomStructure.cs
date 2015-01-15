@@ -23,6 +23,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeTypeDeclaration Class { get; set; }
 
         /// <summary>
+        /// Base type of <see cref="CodeDomStructure.Class"/>
+        /// </summary>
+        public CodeTypeReference BaseType { get { return Class.BaseTypes.OfType<CodeTypeReference>().FirstOrDefault(); } }
+
+        /// <summary>
         /// Entry method.
         /// </summary>
         public CodeMemberMethod EntryPointMethod { get; set; }

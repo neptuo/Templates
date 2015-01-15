@@ -9,6 +9,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomMethodPropertyGenerator : CodeDomPropertyGeneratorBase<MethodInvokeCodeProperty>
     {
+        public CodeDomMethodPropertyGenerator(Type requiredComponentType)
+            : base(requiredComponentType)
+        { }
+
         protected override void GenerateProperty(CodeDomPropertyContext context, MethodInvokeCodeProperty codeProperty)
         {
             context.Statements.Add(

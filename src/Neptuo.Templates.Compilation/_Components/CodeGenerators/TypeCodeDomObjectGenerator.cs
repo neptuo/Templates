@@ -71,7 +71,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             );
         }
 
-        protected virtual bool RequiresGlobalField<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
+        protected virtual bool IsGlobalFieldRequired<TCodeObject>(CodeObjectExtensionContext context, TCodeObject codeObject)
             where TCodeObject : ITypeCodeObject, IPropertiesCodeObject
         {
             return false;
@@ -95,7 +95,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             context.BaseStructure.Class.Members.Add(createMethod);
 
             ComponentMethodInfo createMethodInfo = null;
-            bool requiresGlobalField = RequiresGlobalField(context, codeObject);
+            bool requiresGlobalField = IsGlobalFieldRequired(context, codeObject);
             if (requiresGlobalField)
             {
                 context.BaseStructure.Class.Members.Add(
@@ -276,10 +276,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="bindMethod">Bind method info.</param>
         protected void GenerateBindMethodStatements(CodeObjectExtensionContext context, IPropertiesCodeObject codeObject, ComponentMethodInfo bindMethod)
         {
+            Type componentType = null;
+            ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
+            if(typeCodeObject != null)
+                componentType = typeCodeObject.Type;
+
             foreach (ICodeProperty propertyDesc in codeObject.Properties)
             {
                 context.CodeGenerator.GenerateProperty(
-                    new CodeDomPropertyContext(context.CodeDomContext, bindMethod.FieldName, bindMethod.Statements),
+                    new CodeDomPropertyContext(context.CodeDomContext, bindMethod.FieldName, componentType, bindMethod.Statements),
                     propertyDesc
                 );
             }
