@@ -12,6 +12,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddCodeProperty>
     {
+        public CodeDomListAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
+            : base(requiredComponentType, componentManagerDescriptor)
+        { }
+
         protected override void GenerateProperty(CodeDomPropertyContext context, ListAddCodeProperty codeProperty)
         {
             bool generic = codeProperty.Property.Type.IsGenericType;

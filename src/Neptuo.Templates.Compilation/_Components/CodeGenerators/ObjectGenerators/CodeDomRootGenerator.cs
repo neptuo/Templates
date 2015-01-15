@@ -18,6 +18,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     new CodeDomPropertyContext(
                         context.CodeDomContext, 
                         CodeDomStructureGenerator.Names.EntryPointFieldName, 
+                        null,
                         context.BaseStructure.EntryPointMethod.Statements
                     ),
                     propertyDesc

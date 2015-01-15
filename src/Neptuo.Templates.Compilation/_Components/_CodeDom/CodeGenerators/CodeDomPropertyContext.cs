@@ -28,16 +28,22 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public string FieldName { get; private set; }
 
         /// <summary>
+        /// Type of <see cref="CodeDomPropertyContext.FieldName"/>.
+        /// </summary>
+        public Type FieldType { get; private set; }
+
+        /// <summary>
         /// Collection of statements in current method.
         /// </summary>
         public CodeStatementCollection Statements { get; private set; }
 
-        public CodeDomPropertyContext(CodeDomGenerator.Context context, string fieldName, CodeStatementCollection statements)
+        public CodeDomPropertyContext(CodeDomGenerator.Context context, string fieldName, Type fieldType, CodeStatementCollection statements)
         {
             Guard.NotNull(context, "context");
             CodeGenerator = context.CodeGenerator;
             Context = context;
             FieldName = fieldName;
+            FieldType = fieldType;
             Statements = statements;
         }
     }

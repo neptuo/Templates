@@ -14,9 +14,37 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public abstract class CodeDomPropertyGeneratorBase<T> : ICodeDomPropertyGenerator
         where T : ICodeProperty
     {
+        private readonly Type requiredComponentType;
+        private readonly ComponentManagerDescriptor componentManagerDescriptor;
+
+        public CodeDomPropertyGeneratorBase(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
+        {
+            Guard.NotNull(requiredComponentType, "requiredComponentType");
+            Guard.NotNull(componentManagerDescriptor, "componentManagerDescriptor");
+            this.requiredComponentType = requiredComponentType;
+            this.componentManagerDescriptor = componentManagerDescriptor;
+        }
+
         public void GenerateProperty(CodeDomPropertyContext context, ICodeProperty codeProperty)
         {
             GenerateProperty(context, (T)codeProperty);
+
+            if (context.FieldType != null && !requiredComponentType.IsAssignableFrom(context.FieldType))
+            {
+                context.Statements.Add(
+                    new CodeMethodInvokeExpression(
+                        new CodeFieldReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            CodeDomStructureGenerator.Names.ComponentManagerField
+                        ),
+                        componentManagerDescriptor.InitMethodName,
+                        new CodePropertyReferenceExpression(
+                            GetPropertyTarget(context),
+                            codeProperty.Property.Name
+                        )
+                    )
+                );
+            }
         }
 
         protected abstract void GenerateProperty(CodeDomPropertyContext context, T codeProperty);

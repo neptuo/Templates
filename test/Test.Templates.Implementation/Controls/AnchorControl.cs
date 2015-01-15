@@ -51,10 +51,15 @@ namespace Test.Templates.Controls
     {
         public string Name { get; set; }
         public object Value { get; set; }
+
+        public override string ToString()
+        {
+            return "{'Name':'" + Name + "','Value':'" + Value + "'}";
+        }
     }
 
     public class Security
     {
-        public string Identifier { get; set; }
+        public Parameter Identifier { get; set; }
     }
 }

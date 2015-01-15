@@ -13,6 +13,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         private static string addMethodName = TypeHelper.MethodName<IDictionary<string, string>, string, string>(d => d.Add);
 
+        public CodeDomDictionaryAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
+            : base(requiredComponentType, componentManagerDescriptor)
+        { }
+
         protected override void GenerateProperty(CodeDomPropertyContext context, DictionaryAddCodeProperty codeProperty)
         {
             bool createInstance = !codeProperty.Property.IsReadOnly;
