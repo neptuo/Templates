@@ -95,6 +95,7 @@ namespace Test.Templates
 
             ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
                 TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
+                TypeHelper.MethodName<IComponentManager, object>(m => m.Init),
                 TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action<IObserver>>(m => m.AttachObserver),
                 TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue)
             );

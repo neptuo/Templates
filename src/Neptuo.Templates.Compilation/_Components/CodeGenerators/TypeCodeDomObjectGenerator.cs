@@ -281,11 +281,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if(typeCodeObject != null)
                 componentType = typeCodeObject.Type;
 
-            foreach (ICodeProperty propertyDesc in codeObject.Properties)
+            foreach (ICodeProperty codeProperty in codeObject.Properties)
             {
                 context.CodeGenerator.GenerateProperty(
                     new CodeDomPropertyContext(context.CodeDomContext, bindMethod.FieldName, componentType, bindMethod.Statements),
-                    propertyDesc
+                    codeProperty
                 );
             }
         }

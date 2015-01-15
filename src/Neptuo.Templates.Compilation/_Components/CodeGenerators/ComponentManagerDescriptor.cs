@@ -14,6 +14,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public string AddComponentMethodName { get; private set; }
 
         /// <summary>
+        /// Name of the method which takes one argument, the object to initialize.
+        /// </summary>
+        public string InitMethodName { get; private set; }
+
+        /// <summary>
         /// Name of the method which takes component manager and observer to register observer of component.
         /// </summary>
         public string AttachObserverMethodName { get; private set; }
@@ -35,12 +40,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="provideValeExtensionMethodName">
         /// Name of the method which on value extension provides value of the extension.
         /// </param>
-        public ComponentManagerDescriptor(string addComponentMethodName, string attachObserverMethodName, string provideValeExtensionMethodName)
+        public ComponentManagerDescriptor(string addComponentMethodName, string initMethodName, string attachObserverMethodName, string provideValeExtensionMethodName)
         {
             Guard.NotNullOrEmpty(addComponentMethodName, "addComponentMethodName");
+            Guard.NotNullOrEmpty(initMethodName, "initMethodName");
             Guard.NotNullOrEmpty(attachObserverMethodName, "attachObserverMethodName");
             Guard.NotNullOrEmpty(provideValeExtensionMethodName, "provideValeExtensionMethodName");
             AddComponentMethodName = addComponentMethodName;
+            InitMethodName = initMethodName;
             AttachObserverMethodName = attachObserverMethodName;
             ProvideValeExtensionMethodName = provideValeExtensionMethodName;
         }
