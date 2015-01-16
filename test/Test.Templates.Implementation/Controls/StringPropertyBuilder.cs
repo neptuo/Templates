@@ -14,7 +14,7 @@ namespace Test.Templates.Controls
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo);
-            ICodeObject valueObject = context.ParserService.ProcessValue(value, context.CreateValueContext(context.ParserService));
+            ICodeObject valueObject = context.ParserService.ProcessValue(context.Name, value, context.CreateValueContext(context.Name, context.ParserService));
             if (valueObject != null)
             {
                 codeProperty.SetValue(valueObject);

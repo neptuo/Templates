@@ -89,7 +89,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            ICodeObject propertyValue = context.ParserService.ProcessValue(value, context);
+            ICodeObject propertyValue = context.ParserService.ProcessValue(context.Name, value, context);
             if (propertyValue != null)
             {
                 ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);

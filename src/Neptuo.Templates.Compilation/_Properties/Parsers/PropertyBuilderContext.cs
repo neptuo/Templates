@@ -15,29 +15,32 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly IParserServiceContext context;
 
+        public string Name { get; private set; }
         public IParserService ParserService { get; private set; }
         public IPropertyInfo PropertyInfo { get; private set; }
         public IDependencyProvider DependencyProvider { get { return context.DependencyProvider; } }
         public ICollection<IErrorInfo> Errors { get { return context.Errors; } }
 
-        public PropertyBuilderContext(IParserServiceContext context, IParserService parserService, IPropertyInfo propertyInfo)
+        public PropertyBuilderContext(string name, IParserServiceContext context, IParserService parserService, IPropertyInfo propertyInfo)
         {
+            Guard.NotNull(name, "name");
             Guard.NotNull(context, "context");
             Guard.NotNull(parserService, "parserService");
             Guard.NotNull(propertyInfo, "propertyInfo");
             this.context = context;
+            Name = name;
             ParserService = parserService;
             PropertyInfo = propertyInfo;
         }
 
-        public IContentParserContext CreateContentContext(IParserService service)
+        public IContentParserContext CreateContentContext(string name, IParserService service)
         {
-            return context.CreateContentContext(service);
+            return context.CreateContentContext(name, service);
         }
 
-        public IValueParserContext CreateValueContext(IParserService service)
+        public IValueParserContext CreateValueContext(string name, IParserService service)
         {
-            return context.CreateValueContext(service);
+            return context.CreateValueContext(name, service);
         }
     }
 }

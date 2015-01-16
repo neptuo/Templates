@@ -10,6 +10,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     public interface IPropertyBuilderContext : IParserServiceContext
     {
         /// <summary>
+        /// Name of parsers to use.
+        /// </summary>
+        string Name { get; }
+
+        /// <summary>
         /// Current parser service.
         /// </summary>
         IParserService ParserService { get; }

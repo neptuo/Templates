@@ -12,19 +12,24 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class DefaultParserContext : DefaultParserServiceContext, IContentParserContext, IValueParserContext
     {
+        public string Name { get; private set; }
         public IParserService ParserService { get; private set; }
 
-        public DefaultParserContext(IParserService parserService, IParserServiceContext context)
+        public DefaultParserContext(string name, IParserService parserService, IParserServiceContext context)
             : base(context.DependencyProvider, context.Errors)
         {
+            Guard.NotNull(name, "name");
             Guard.NotNull(parserService, "parserService");
+            Name = name;
             ParserService = parserService;
         }
 
-        public DefaultParserContext(IDependencyProvider dependencyProvider, IParserService parserService, ICollection<IErrorInfo> errors)
+        public DefaultParserContext(string name, IDependencyProvider dependencyProvider, IParserService parserService, ICollection<IErrorInfo> errors)
             : base(dependencyProvider, errors)
         {
+            Guard.NotNull(name, "name");
             Guard.NotNull(parserService, "parserService");
+            Name = name;
             ParserService = parserService;
         }
     }

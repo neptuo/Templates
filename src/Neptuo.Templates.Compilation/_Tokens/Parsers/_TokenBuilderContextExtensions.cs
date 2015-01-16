@@ -85,6 +85,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static ICodeObject TryProcessContent(this ITokenBuilderContext context, ISourceContent content)
         {
             return context.ParserContext.ParserService.ProcessContent(
+                context.ParserContext.Name,
                 content,
                 context.ParserContext
             );
@@ -99,6 +100,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static ICodeObject TryProcessValue(this ITokenBuilderContext context, ISourceContent value)
         {
             return context.ParserContext.ParserService.ProcessValue(
+                context.ParserContext.Name,
                 value,
                 context.ParserContext
             );
@@ -116,7 +118,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(propertyFactory, "propertyFactory");
-            return propertyFactory.TryParse(new PropertyBuilderContext(context.ParserContext, context.ParserContext.ParserService, propertyInfo), value);
+            return propertyFactory.TryParse(new PropertyBuilderContext(context.ParserContext.Name, context.ParserContext, context.ParserContext.ParserService, propertyInfo), value);
         }
     }
 }
