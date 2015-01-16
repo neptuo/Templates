@@ -10,24 +10,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class DefaultCodeDomStructureGenerator : ICodeDomStructureGenerator
     {
-        public static partial class Names
-        {
-            public const string CodeNamespace = "Neptuo.Templates";
-            public const string ComponentManagerField = "componentManager";
-            public const string DependencyProviderField = "dependencyProvider";
-            public const string EntryPointFieldName = "view";
-
-            public const string CreateViewPageControlsMethod = "BindView";
-            public const string CreateValueExtensionContextMethod = "CreateValueExtensionContext";
-            public const string CastValueToMethod = "CastValueTo";
-        }
-
         public CodeTypeReference BaseType { get; set; }
         public IList<CodeTypeReference> ImplementedInterfaces { get; private set; }
+
+        public string EntryPointName { get; set; }
+        public IList<CodeParameterDeclarationExpression> EntryPointParameters { get; private set; }
 
         public DefaultCodeDomStructureGenerator()
         {
             ImplementedInterfaces = new List<CodeTypeReference>();
+            EntryPointParameters = new List<CodeParameterDeclarationExpression>();
         }
 
         public ICodeDomStructure Generate(ICodeGeneratorContext context)
@@ -76,12 +68,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected virtual CodeMemberMethod CreateEntryPoint(ICodeDomNaming naming, ICodeGeneratorContext context)
         {
+            if (String.IsNullOrEmpty(EntryPointName))
+                throw Guard.Exception.NotImplemented("Provide entry point method name of override CreateEntryPoint method.");
+
             CodeMemberMethod entryPoint = new CodeMemberMethod
             {
-                Name = Names.CreateViewPageControlsMethod,
+                Name = EntryPointName,
                 Attributes = MemberAttributes.Override | MemberAttributes.Family
             };
-            entryPoint.Parameters.Add(new CodeParameterDeclarationExpression(BaseType, Names.EntryPointFieldName));
+
+            foreach (CodeParameterDeclarationExpression parameter in EntryPointParameters)
+                entryPoint.Parameters.Add(parameter);
+
             return entryPoint;
         }
     }

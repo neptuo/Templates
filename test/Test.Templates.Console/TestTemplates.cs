@@ -115,8 +115,10 @@ namespace Test.Templates
                 .AddRegistry<ICodeDomObjectGenerator>(new CodeDomObjectGeneratorRegistry())
                 .AddRegistry<ICodeDomPropertyGenerator>(new CodeDomPropertyGeneratorRegistry())
                 .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator()
-                    .AddBaseType<GeneratedView>()
+                    .SetBaseType<GeneratedView>()
                     .AddInterface<Neptuo.IDisposable>()
+                    .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
+                    .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
                 )
             );
 
@@ -184,7 +186,7 @@ namespace Test.Templates
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
             if (view == null || context.Errors.Any())
             {
-                Console.WriteLine("Unable to compile view...");
+                Console.WriteLine("Unnable to compile view...");
 
                 foreach (IErrorInfo errorInfo in context.Errors)
                     Console.WriteLine("{0}:{1} -> {2}", errorInfo.LineNumber, errorInfo.ColumnIndex, errorInfo.ErrorText);
