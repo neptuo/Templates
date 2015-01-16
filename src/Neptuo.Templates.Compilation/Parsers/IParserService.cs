@@ -12,34 +12,37 @@ namespace Neptuo.Templates.Compilation.Parsers
     public interface IParserService
     {
         /// <summary>
-        /// List of registered content parsers.
+        /// Returns list of content parsers registered to name <paramref name="name"/>.
+        /// Never returns <c>null</c>, always at least empty list to insert new parsers into.
         /// </summary>
-        IList<IContentParser> ContentParsers { get; }
+        /// <param name="name">Name of parsers.</param>
+        /// <returns>List of content parsers registered to name <paramref name="name"/>.</returns>
+        IList<IContentParser> GetContentParsers(string name);
 
         /// <summary>
-        /// List of registered value parsers.
+        /// Returns list of value parsers registered to name <paramref name="name"/>.
+        /// Never returns <c>null</c>, always at least empty list to insert new parsers into.
         /// </summary>
-        IList<IValueParser> ValueParsers { get; }
-
-        /// <summary>
-        /// Default value parser if non of <see cref="ValueParsers"/> succeed.
-        /// </summary>
-        IValueParser DefaultValueParser { get; set; }
+        /// <param name="name">Name of parsers.</param>
+        /// <returns>List of value parsers registered to name <paramref name="name"/>.</returns>
+        IList<IValueParser> GetValueParsers(string name);
 
         /// <summary>
         /// Parses content using <see cref="ContentParsers"/> and creates AST.
         /// </summary>
+        /// <param name="name">Name of parsers to use.</param>
         /// <param name="content">Template content.</param>
         /// <param name="context">Context information.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject ProcessContent(ISourceContent content, IParserServiceContext context);
+        ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context);
 
         /// <summary>
         /// Parsers value using <see cref="ValueParsers"/> and create AST.
         /// </summary>
+        /// <param name="name">Name of parsers to use.</param>
         /// <param name="value">Template part content.</param>
         /// <param name="context">Context information.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject ProcessValue(ISourceContent value, IParserServiceContext context);
+        ICodeObject ProcessValue(string name, ISourceContent value, IParserServiceContext context);
     }
 }

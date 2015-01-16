@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.ComponentModel;
+using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Data;
 using System;
 using System.Collections.Generic;
@@ -12,25 +13,52 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class DefaultParserService : IParserService
     {
-        public IList<IContentParser> ContentParsers { get; private set; }
-        public IList<IValueParser> ValueParsers { get; private set; }
-        public IValueParser DefaultValueParser { get; set; }
+        private readonly Dictionary<string, List<IContentParser>> contentParsers;
+        private readonly Dictionary<string, List<IValueParser>> valueParsers;
 
         public DefaultParserService()
         {
-            ContentParsers = new List<IContentParser>();
-            ValueParsers = new List<IValueParser>();
+            contentParsers = new Dictionary<string, List<IContentParser>>();
+            valueParsers = new Dictionary<string, List<IValueParser>>();
         }
 
-        public ICodeObject ProcessContent(ISourceContent content, IParserServiceContext context)
+        public IList<IContentParser> GetContentParsers(string name)
+        {
+            Guard.NotNull(name, "name");
+
+            List<IContentParser> namedParsers;
+            if (!contentParsers.TryGetValue(name, out namedParsers))
+                namedParsers = contentParsers[name] = new List<IContentParser>();
+            
+            return namedParsers;
+        }
+
+        public IList<IValueParser> GetValueParsers(string name)
+        {
+            Guard.NotNull(name, "name");
+
+            List<IValueParser> namedParsers;
+            if (!valueParsers.TryGetValue(name, out namedParsers))
+                namedParsers = valueParsers[name] = new List<IValueParser>();
+
+            return namedParsers;
+        }
+
+        public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
         {
             Guard.NotNull(content, "content");
             Guard.NotNull(context, "context");
-            Guard.Positive(ContentParsers.Count, "ContentParsers");
 
-            foreach (IContentParser contentParser in ContentParsers)
+            List<IContentParser> namedParsers;
+            if (!contentParsers.TryGetValue(name, out namedParsers))
             {
-                ICodeObject codeObject = contentParser.Parse(content, context.CreateContentContext(this));
+                context.Errors.Add(new ErrorInfo(0, 0, String.Format("Unnable to parse content using name '{0}'.", name)));
+                return null;
+            }
+
+            foreach (IContentParser contentParser in namedParsers)
+            {
+                ICodeObject codeObject = contentParser.Parse(content, context.CreateContentContext(name, this));
                 if (codeObject != null)
                     return codeObject;
             }
@@ -38,30 +66,26 @@ namespace Neptuo.Templates.Compilation.Parsers
             return null;
         }
 
-        public ICodeObject ProcessValue(ISourceContent value, IParserServiceContext context)
+        public ICodeObject ProcessValue(string name, ISourceContent value, IParserServiceContext context)
         {
             Guard.NotNull(value, "value");
             Guard.NotNull(context, "context");
 
-            ICodeObject codeObject = null;
-            bool generated = false;
-            foreach (IValueParser valueParser in ValueParsers)
+            List<IValueParser> namedParsers;
+            if (!valueParsers.TryGetValue(name, out namedParsers))
             {
-                codeObject = valueParser.Parse(value, context.CreateValueContext(this));
+                context.Errors.Add(new ErrorInfo(0, 0, String.Format("Unnable to parse value using name '{0}'.", name)));
+                return null;
+            }
+
+            foreach (IValueParser valueParser in namedParsers)
+            {
+                ICodeObject codeObject = valueParser.Parse(value, context.CreateValueContext(name, this));
                 if (codeObject != null)
-                {
-                    generated = true;
-                    break;
-                }
+                    return codeObject;
             }
 
-            if (!generated)
-            {
-                Guard.NotNull(DefaultValueParser, "DefaultValueParser");
-                codeObject = DefaultValueParser.Parse(value, context.CreateValueContext(this));
-            }
-
-            return codeObject;
+            return null;
         }
     }
 }

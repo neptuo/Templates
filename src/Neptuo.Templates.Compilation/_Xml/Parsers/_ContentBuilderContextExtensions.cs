@@ -119,6 +119,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNull(context, "context");
             return context.ParserContext.ParserService.ProcessContent(
+                context.ParserContext.Name,
                 content,
                 context.ParserContext
             );
@@ -159,6 +160,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Guard.NotNull(context, "context");
 
             return context.ParserContext.ParserService.ProcessValue(
+                context.ParserContext.Name,
                 value,
                 context.ParserContext
             );
@@ -173,6 +175,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static ICodeObject TryProcessValue(this IContentBuilderContext context, IXmlAttribute attribute)
         {
             return context.ParserContext.ParserService.ProcessValue(
+                context.ParserContext.Name,
                 new DefaultSourceContent(attribute.Value, GetSourceLineInfoOrDefault(attribute)),
                 context.ParserContext
             );

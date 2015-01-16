@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public XmlContentParser Parser { get { return BuilderContext.Parser; } }
 
         public ContentPropertyBuilderContext(IContentBuilderContext builderContext, IPropertyInfo propertyInfo)
-            : base(builderContext.ParserContext, builderContext.ParserContext.ParserService, propertyInfo)
+            : base(builderContext.ParserContext.Name, builderContext.ParserContext, builderContext.ParserContext.ParserService, propertyInfo)
         {
             Guard.NotNull(builderContext, "builderContext");
             BuilderContext = builderContext;

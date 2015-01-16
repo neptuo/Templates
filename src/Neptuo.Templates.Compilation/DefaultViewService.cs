@@ -138,7 +138,7 @@ namespace Neptuo.Templates.Compilation
 
         private ICodeObject ExecuteParserService(string name, ISourceContent content, IViewServiceContext context)
         {
-            return ParserService.ProcessContent(content, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
+            return ParserService.ProcessContent(name, content, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
         }
 
         private void ExecutePreProcessorService(string name, ICodeObject codeObject, IViewServiceContext context)

@@ -27,13 +27,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="service">Current parser service.</param>
         /// <returns><see cref="IContentParserContext"/>.</returns>
-        IContentParserContext CreateContentContext(IParserService service);
+        IContentParserContext CreateContentContext(string name, IParserService service);
 
         /// <summary>
         /// Factory method for creating <see cref="IValueParserContext"/>.
         /// </summary>
         /// <param name="service">Current parser service.</param>
         /// <returns><see cref="IValueParserContext"/>.</returns>
-        IValueParserContext CreateValueContext(IParserService service);
+        IValueParserContext CreateValueContext(string name, IParserService service);
     }
 }
