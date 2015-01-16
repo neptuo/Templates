@@ -12,14 +12,14 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public partial class CodeDomGenerator : ICodeGenerator
+    public partial class XCodeDomGenerator : ICodeGenerator
     {
         public bool IsDirectObjectResolve { get; set; }
 
-        public CodeDomGenerator()
+        public XCodeDomGenerator()
         {
             CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
-            CodePropertyGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
+            CodePropertyGenerators = new Dictionary<Type, XICodeDomPropertyGenerator>();
             DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
             AttributeGenerators = new Dictionary<Type, ICodeDomAttributeGenerator>();
             PropertyTypeGenerators = new Dictionary<Type, ICodeDomPropertyTypeGenerator>();
@@ -40,9 +40,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomPropertyGenerator
 
-        protected Dictionary<Type, ICodeDomPropertyGenerator> CodePropertyGenerators { get; private set; }
+        protected Dictionary<Type, XICodeDomPropertyGenerator> CodePropertyGenerators { get; private set; }
 
-        public void SetCodePropertyGenerator(Type type, ICodeDomPropertyGenerator generator)
+        public void SetCodePropertyGenerator(Type type, XICodeDomPropertyGenerator generator)
         {
             CodePropertyGenerators[type] = generator;
         }
@@ -131,7 +131,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public void GenerateProperty(CodeDomPropertyContext context, ICodeProperty codeProperty)
         {
-            foreach (KeyValuePair<Type, ICodeDomPropertyGenerator> item in CodePropertyGenerators)
+            foreach (KeyValuePair<Type, XICodeDomPropertyGenerator> item in CodePropertyGenerators)
             {
                 if (item.Key == codeProperty.GetType())
                 {

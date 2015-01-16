@@ -9,11 +9,11 @@ namespace Neptuo.Templates.Compilation.PostProcessing
 {
     public class CodeDomVisitorContext : ICodeDomVisitorContext
     {
-        public CodeDomGenerator.Context GeneratorContext { get; private set; }
-        public CodeDomGenerator CodeDomGenerator { get { return GeneratorContext.CodeGenerator; } }
+        public XCodeDomGenerator.Context GeneratorContext { get; private set; }
+        public XCodeDomGenerator CodeDomGenerator { get { return GeneratorContext.CodeGenerator; } }
         public CodeDomStructure Structure { get { return GeneratorContext.Structure; } }
 
-        public CodeDomVisitorContext(CodeDomGenerator.Context generatorContext)
+        public CodeDomVisitorContext(XCodeDomGenerator.Context generatorContext)
         {
             if (generatorContext == null)
                 throw new ArgumentNullException("generatorContext");

@@ -14,12 +14,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <summary>
         /// Inner code dom generator context.
         /// </summary>
-        public CodeDomGenerator.Context CodeDomContext { get; private set; }
+        public XCodeDomGenerator.Context CodeDomContext { get; private set; }
 
         /// <summary>
         /// Current instance of code dom generator.
         /// </summary>
-        public CodeDomGenerator CodeGenerator { get; private set; }
+        public XCodeDomGenerator CodeGenerator { get; private set; }
 
         /// <summary>
         /// Used base generated class structure.
@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         public string ParentFieldName { get; private set; }
 
-        public CodeObjectExtensionContext(CodeDomGenerator.Context codeDomContext, string parentFieldName)
+        public CodeObjectExtensionContext(XCodeDomGenerator.Context codeDomContext, string parentFieldName)
         {
             Guard.NotNull(codeDomContext, "codeDomContext");
             CodeDomContext = codeDomContext;

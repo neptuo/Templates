@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.CodeObjects
 {
     public class CodeDomObjectPropertyGenerator
     {
-        public void GenerateCode(CodeDomGenerator.Context context, IPropertiesCodeObject codeObject, string fieldName, CodeStatementCollection statements)
+        public void GenerateCode(XCodeDomGenerator.Context context, IPropertiesCodeObject codeObject, string fieldName, CodeStatementCollection statements)
         {
             Type componentType = null;
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;

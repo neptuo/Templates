@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public static class _CodeDomGeneratorExtensions
     {
-        public static CodeDomGenerator SetCodeObjectGenerator<T>(this CodeDomGenerator generator, ICodeDomComponentGenerator componentGenerator)
+        public static XCodeDomGenerator SetCodeObjectGenerator<T>(this XCodeDomGenerator generator, ICodeDomComponentGenerator componentGenerator)
         {
             Guard.NotNull(generator, "generator");
             Guard.NotNull(componentGenerator, "codeObjectGenerator");
@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static CodeDomGenerator SetCodePropertyGenerator<T>(this CodeDomGenerator generator, ICodeDomPropertyGenerator propertyGenerator)
+        public static XCodeDomGenerator SetCodePropertyGenerator<T>(this XCodeDomGenerator generator, XICodeDomPropertyGenerator propertyGenerator)
         {
             Guard.NotNull(generator, "generator");
             Guard.NotNull(propertyGenerator, "propertyGenerator");
@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static CodeDomGenerator SetDependencyProviderGenerator<T>(this CodeDomGenerator generator, ICodeDomDependencyGenerator dependencyGenerator)
+        public static XCodeDomGenerator SetDependencyProviderGenerator<T>(this XCodeDomGenerator generator, ICodeDomDependencyGenerator dependencyGenerator)
         {
             Guard.NotNull(generator, "generator");
             Guard.NotNull(dependencyGenerator, "dependencyGenerator");
@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static CodeDomGenerator SetAttributeGenerator<T>(this CodeDomGenerator generator, ICodeDomAttributeGenerator attributeGenerator)
+        public static XCodeDomGenerator SetAttributeGenerator<T>(this XCodeDomGenerator generator, ICodeDomAttributeGenerator attributeGenerator)
         {
             Guard.NotNull(generator, "generator");
             Guard.NotNull(attributeGenerator, "attributeGenerator");
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static CodeDomGenerator SetStandartGenerators(this CodeDomGenerator generator, Type generatedViewBaseType, ComponentManagerDescriptor componentManagerDescriptor, Type requiredComponentType, IFieldNameProvider fieldNameProvider = null)
+        public static XCodeDomGenerator SetStandartGenerators(this XCodeDomGenerator generator, Type generatedViewBaseType, ComponentManagerDescriptor componentManagerDescriptor, Type requiredComponentType, IFieldNameProvider fieldNameProvider = null)
         {
             if (fieldNameProvider == null)
                 fieldNameProvider = new SequenceFieldNameProvider();

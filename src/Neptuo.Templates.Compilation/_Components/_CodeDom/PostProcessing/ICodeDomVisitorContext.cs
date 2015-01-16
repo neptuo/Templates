@@ -9,8 +9,8 @@ namespace Neptuo.Templates.Compilation.PostProcessing
 {
     public interface ICodeDomVisitorContext
     {
-        CodeDomGenerator CodeDomGenerator { get; }
-        CodeDomGenerator.Context GeneratorContext { get; }
+        XCodeDomGenerator CodeDomGenerator { get; }
+        XCodeDomGenerator.Context GeneratorContext { get; }
         CodeDomStructure Structure { get; }
     }
 }

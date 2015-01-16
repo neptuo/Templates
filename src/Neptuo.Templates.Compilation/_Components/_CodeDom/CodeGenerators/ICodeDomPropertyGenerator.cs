@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public interface ICodeDomPropertyGenerator
+    public interface XICodeDomPropertyGenerator
     {
         void GenerateProperty(CodeDomPropertyContext context, ICodeProperty codeProperty);
     }

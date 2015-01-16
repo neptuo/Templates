@@ -14,10 +14,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return registry.With<ICodeDomObjectGenerator>();
         }
 
-        public static ICodeDomPropertyGenerator WithPropertyGenerator(this ICodeDomRegistry registry)
+        public static XICodeDomPropertyGenerator WithPropertyGenerator(this ICodeDomRegistry registry)
         {
             Guard.NotNull(registry, "registry");
-            return registry.With<ICodeDomPropertyGenerator>();
+            return registry.With<XICodeDomPropertyGenerator>();
         }
 
         public static ICodeDomStructureGenerator WithStructureGenerator(this ICodeDomRegistry registry)

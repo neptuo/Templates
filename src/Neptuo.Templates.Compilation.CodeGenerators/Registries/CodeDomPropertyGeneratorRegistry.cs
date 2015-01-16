@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     /// <summary>
-    /// Registry for <see cref="ICodeDomPropertyGenerator"/> by type of code object.
+    /// Registry for <see cref="XICodeDomPropertyGenerator"/> by type of code object.
     /// </summary>
     public class CodeDomPropertyGeneratorRegistry : ICodeDomPropertyGenerator
     {

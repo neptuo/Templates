@@ -100,7 +100,7 @@ namespace Test.Templates
                 TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue)
             );
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
-            CodeDomGenerator codeGenerator = new CodeDomGenerator()
+            XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
                 .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)
                 //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
                 .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(

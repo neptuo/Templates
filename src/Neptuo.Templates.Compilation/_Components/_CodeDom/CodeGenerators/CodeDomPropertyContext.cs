@@ -14,12 +14,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <summary>
         /// Innner context of code dom generator.
         /// </summary>
-        public CodeDomGenerator.Context Context { get; private set; }
+        public XCodeDomGenerator.Context Context { get; private set; }
 
         /// <summary>
         /// Current instance of code dom generator.
         /// </summary>
-        public CodeDomGenerator CodeGenerator { get; private set; }
+        public XCodeDomGenerator CodeGenerator { get; private set; }
 
         /// <summary>
         /// Field name where property descriptor comes from.
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         public CodeStatementCollection Statements { get; private set; }
 
-        public CodeDomPropertyContext(CodeDomGenerator.Context context, string fieldName, Type fieldType, CodeStatementCollection statements)
+        public CodeDomPropertyContext(XCodeDomGenerator.Context context, string fieldName, Type fieldType, CodeStatementCollection statements)
         {
             Guard.NotNull(context, "context");
             CodeGenerator = context.CodeGenerator;

@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.CodeObjects
 {
     public class CodeDomObjectInstanceGenerator
     {
-        public CodeExpression GenerateCode(CodeDomGenerator.Context context, Type type, CodeStatementCollection statements)
+        public CodeExpression GenerateCode(XCodeDomGenerator.Context context, Type type, CodeStatementCollection statements)
         {
             if (context.IsDirectObjectResolve)
             {
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.CodeObjects
         /// <param name="context">Current context.</param>
         /// <param name="type">Target control type to resolve.</param>
         /// <returns>Generated code expressions.</returns>
-        protected CodeExpression[] ResolveConstructorParameters(CodeDomGenerator.Context context, Type type)
+        protected CodeExpression[] ResolveConstructorParameters(XCodeDomGenerator.Context context, Type type)
         {
             List<CodeExpression> result = new List<CodeExpression>();
             ConstructorInfo ctor = type.GetConstructors().OrderBy(c => c.GetParameters().Count()).FirstOrDefault();

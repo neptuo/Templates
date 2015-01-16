@@ -14,14 +14,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <summary>
         /// Inner context of code dom generator.
         /// </summary>
-        public CodeDomGenerator.Context GeneratorContext { get; private set; }
+        public XCodeDomGenerator.Context GeneratorContext { get; private set; }
 
         /// <summary>
         /// Current class naming strategy.
         /// </summary>
         public INaming Naming { get; private set; }
 
-        public CodeDomStructureContext(CodeDomGenerator.Context generatorContext, INaming naming)
+        public CodeDomStructureContext(XCodeDomGenerator.Context generatorContext, INaming naming)
         {
             Guard.NotNull(generatorContext, "generatorContext");
             Guard.NotNull(naming, "naming");
