@@ -49,6 +49,8 @@
     <Compile Include="CodeObjects\CodeObjectList.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
+    <Compile Include="_Components\CodeGenerators\CodeObjects\CodeDomObjectInstanceGenerator.cs" />
+    <Compile Include="_Components\CodeGenerators\CodeObjects\CodeDomObjectPropertyGenerator.cs" />
     <Compile Include="_Components\Parsers\GenericContentControlBuilder.cs" />
     <Compile Include="_Properties\CodeObjects\CodePropertyList.cs" />
     <Compile Include="_Properties\CodeObjects\_CodePropertyExtensions.cs" />
