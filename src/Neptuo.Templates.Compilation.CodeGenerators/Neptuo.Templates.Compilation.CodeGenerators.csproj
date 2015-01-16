@@ -42,10 +42,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ICodeDomContext.cs" />
+    <Compile Include="DefaultCodeDomContext.cs" />
+    <Compile Include="Structure\DefaultCodeDomStructure.cs" />
+    <Compile Include="Structure\ICodeDomStructure.cs" />
+    <Compile Include="Structure\ICodeDomStructureGenerator.cs" />
+    <Compile Include="Registries\CodeDomPropertyGeneratorRegistry.cs" />
+    <Compile Include="Registries\CodeDomObjectGeneratorRegistry.cs" />
+    <Compile Include="SubGenerators\ICodeDomContext.cs" />
     <Compile Include="CodeDomGenerator.cs" />
-    <Compile Include="ICodeDomRegistry.cs" />
+    <Compile Include="SubGenerators\ICodeDomObjectGenerator.cs" />
+    <Compile Include="SubGenerators\ICodeDomPropertyGenerator.cs" />
+    <Compile Include="Registries\ICodeDomRegistry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Registries\_CodeDomRegistryExtensions.cs" />
+    <Compile Include="SubGenerators\_CodeDomContextExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">

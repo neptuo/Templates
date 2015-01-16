@@ -17,8 +17,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         ICodeGeneratorContext GeneratorContext { get; }
 
         /// <summary>
+        /// Base structure for generated code.
+        /// </summary>
+        ICodeDomStructure Structure { get; }
+
+        /// <summary>
         /// Extensible registry for generators.
         /// </summary>
-        ICodeDomRegistry GeneratorRegistry { get; }
+        ICodeDomRegistry Registry { get; }
     }
 }
