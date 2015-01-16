@@ -52,6 +52,7 @@
     <Compile Include="Structure\ICodeDomStructureGenerator.cs" />
     <Compile Include="Registries\CodeDomPropertyGeneratorRegistry.cs" />
     <Compile Include="Registries\CodeDomObjectGeneratorRegistry.cs" />
+    <Compile Include="Structure\_DefaultCodeDomStructureGeneratorExtensions.cs" />
     <Compile Include="SubGenerators\ICodeDomContext.cs" />
     <Compile Include="CodeDomGenerator.cs" />
     <Compile Include="SubGenerators\ICodeDomObjectGenerator.cs" />

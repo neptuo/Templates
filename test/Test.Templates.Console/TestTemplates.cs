@@ -114,7 +114,10 @@ namespace Test.Templates
             CodeDomGenerator codeGenerator = new CodeDomGenerator(new DefaultCodeDomRegistry()
                 .AddRegistry<ICodeDomObjectGenerator>(new CodeDomObjectGeneratorRegistry())
                 .AddRegistry<ICodeDomPropertyGenerator>(new CodeDomPropertyGeneratorRegistry())
-                .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator() { BaseType = new CodeTypeReference(typeof(GeneratedView)) })
+                .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator()
+                    .AddBaseType<GeneratedView>()
+                    .AddInterface<Neptuo.IDisposable>()
+                )
             );
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);

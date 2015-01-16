@@ -23,6 +23,12 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         }
 
         public CodeTypeReference BaseType { get; set; }
+        public IList<CodeTypeReference> ImplementedInterfaces { get; private set; }
+
+        public DefaultCodeDomStructureGenerator()
+        {
+            ImplementedInterfaces = new List<CodeTypeReference>();
+        }
 
         public ICodeDomStructure Generate(ICodeGeneratorContext context)
         {
@@ -56,10 +62,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected virtual void SetBaseTypes(CodeTypeDeclaration typeDeclaration)
         {
             if (BaseType != null)
-            {
                 typeDeclaration.BaseTypes.Add(BaseType);
-                typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
-            }
+
+            foreach (CodeTypeReference implementedInterface in ImplementedInterfaces)
+                typeDeclaration.BaseTypes.Add(implementedInterface);
         }
 
         protected virtual void CreateCodeMethods(DefaultCodeDomStructure structure, ICodeGeneratorContext context)
