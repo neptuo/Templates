@@ -12,12 +12,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     public class DefaultCodeDomStructure : ICodeDomStructure
     {
-        public CodeCompileUnit Unit { get; private set; }
-        public CodeTypeDeclaration Class { get; private set; }
-        public CodeConstructor Constructor { get; private set; }
-        public CodeEntryPointMethod EntryPoint { get; private set; }
+        public ICodeDomNaming Naming { get; set; }
+        public CodeCompileUnit Unit { get; set; }
+        public CodeTypeDeclaration Class { get; set; }
+        public CodeConstructor Constructor { get; set; }
+        public CodeMemberMethod EntryPoint { get; set; }
 
-        public DefaultCodeDomStructure(CodeCompileUnit unit, CodeTypeDeclaration classDeclaration, CodeConstructor constructor, CodeEntryPointMethod entryPoint)
+        public DefaultCodeDomStructure(ICodeDomNaming naming)
+        {
+            Guard.NotNull(naming, "naming");
+            Naming = naming;
+        }
+
+        public DefaultCodeDomStructure(ICodeDomNaming naming, CodeCompileUnit unit, CodeTypeDeclaration classDeclaration, CodeConstructor constructor, CodeEntryPointMethod entryPoint)
+            : this(naming)
         {
             Guard.NotNull(unit, "unit");
             Guard.NotNull(classDeclaration, "classDeclaration");

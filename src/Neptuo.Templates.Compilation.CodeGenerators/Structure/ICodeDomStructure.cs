@@ -13,6 +13,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public interface ICodeDomStructure
     {
         /// <summary>
+        /// Naming conventions for this template.
+        /// </summary>
+        ICodeDomNaming Naming { get; }
+
+        /// <summary>
         /// Whole compilation unit.
         /// </summary>
         CodeCompileUnit Unit { get; }
@@ -30,6 +35,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <summary>
         /// Entry point method/template root.
         /// </summary>
-        CodeEntryPointMethod EntryPoint { get; }
+        CodeMemberMethod EntryPoint { get; }
     }
 }
