@@ -84,9 +84,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomBaseStructureExtension
 
-        public ICodeDomStructureGenerator BaseStructureGenerator { get; private set; }
+        public XICodeDomStructureGenerator BaseStructureGenerator { get; private set; }
 
-        public void SetBaseStructureGenerator(ICodeDomStructureGenerator generator)
+        public void SetBaseStructureGenerator(XICodeDomStructureGenerator generator)
         {
             BaseStructureGenerator = generator;
         }

@@ -1,7 +1,9 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.CodeDom;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +29,37 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             ICodeDomStructure structure = registry.WithStructureGenerator().Generate(context);
 
             // 2) User ObjectGenerator to generate code for codeObject tree.
-            CodeExpression expression = registry.WithObjectGenerator().Generate(new DefaultCodeDomContext(context, structure, registry), codeObject);
+            CodeExpression expression = registry
+                .WithObjectGenerator()
+                .Generate(new DefaultCodeDomContext(context, structure, registry), codeObject);
 
-            throw Guard.Exception.NotImplemented();
+            if (expression == null)
+                return false;
+
+            // 3) Append generated expression to entry point method.
+            structure.EntryPoint.Statements.Add(expression);
+
+            // 4) Run CodeDom visitors.
+
+            // 5) Generate source code.
+            //TODO: Using come registered component.
+            WriteOutput(structure.Unit, context.Output);
+
+            return true;
+            //throw Guard.Exception.NotImplemented();
+        }
+
+        private void WriteOutput(CodeCompileUnit unit, TextWriter writer)
+        {
+            CodeDomProvider provider = CodeDomProvider.CreateProvider("CSharp");
+            CodeGeneratorOptions options = new CodeGeneratorOptions
+            {
+                BracingStyle = "C",
+                BlankLinesBetweenMembers = false,
+                VerbatimOrder = false
+            };
+
+            provider.GenerateCodeFromCompileUnit(unit, writer, options);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Generator for base structure of generated class/unit.
     /// </summary>
-    public interface ICodeDomStructureGenerator
+    public interface XICodeDomStructureGenerator
     {
         /// <summary>
         /// Generates code for base structure of generated class/unit.

@@ -43,6 +43,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DefaultCodeDomContext.cs" />
+    <Compile Include="Registries\DefaultCodeDomRegistry.cs" />
+    <Compile Include="Structure\DefaultCodeDomNaming.cs" />
     <Compile Include="Structure\DefaultCodeDomStructure.cs" />
     <Compile Include="Structure\DefaultCodeDomStructureGenerator.cs" />
     <Compile Include="Structure\ICodeDomNaming.cs" />

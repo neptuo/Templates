@@ -15,6 +15,7 @@ using Neptuo.Templates.Extensions;
 using Neptuo.Templates.Observers;
 using Neptuo.Templates.Runtime;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -100,15 +101,21 @@ namespace Test.Templates
                 TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue)
             );
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
-            XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
-                .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)
-                //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
-                .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(
-                    new CodeDomComponentGenerator(fieldNameProvider, componentManagerDescriptor), 
-                    new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManagerDescriptor)
-                ))
-                .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
-                .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
+            //XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
+            //    .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)
+            //    //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
+            //    .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(
+            //        new CodeDomComponentGenerator(fieldNameProvider, componentManagerDescriptor), 
+            //        new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManagerDescriptor)
+            //    ))
+            //    .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
+            //    .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
+
+            CodeDomGenerator codeGenerator = new CodeDomGenerator(new DefaultCodeDomRegistry()
+                .AddRegistry<ICodeDomObjectGenerator>(new CodeDomObjectGeneratorRegistry())
+                .AddRegistry<ICodeDomPropertyGenerator>(new CodeDomPropertyGeneratorRegistry())
+                .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator() { BaseType = new CodeTypeReference(typeof(GeneratedView)) })
+            );
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);
             codeCompiler.IsDebugMode = true;
@@ -168,6 +175,7 @@ namespace Test.Templates
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
             container.RegisterInstance<INaming>(new DefaultNaming("Index.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Index", "Index.dll"));
+            container.RegisterInstance<ICodeDomNaming>(new DefaultCodeDomNaming("Generated", "Index"));
 
             ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);

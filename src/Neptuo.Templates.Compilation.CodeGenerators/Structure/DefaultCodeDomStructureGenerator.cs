@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.Structure
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class DefaultCodeDomStructureGenerator : ICodeDomStructureGenerator
     {
@@ -55,8 +55,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.Structure
 
         protected virtual void SetBaseTypes(CodeTypeDeclaration typeDeclaration)
         {
-            typeDeclaration.BaseTypes.Add(BaseType);
-            typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
+            if (BaseType != null)
+            {
+                typeDeclaration.BaseTypes.Add(BaseType);
+                typeDeclaration.BaseTypes.Add(new CodeTypeReference(typeof(IDisposable)));
+            }
         }
 
         protected virtual void CreateCodeMethods(DefaultCodeDomStructure structure, ICodeGeneratorContext context)

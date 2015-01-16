@@ -29,11 +29,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <summary>
         /// Assembly file name.
         /// </summary>
-        string AssemblyFileName { get; }
+        //string AssemblyFileName { get; }
 
         /// <summary>
         /// Source code file name.
         /// </summary>
-        string SourceCodeFileName { get; }
+        //string SourceCodeFileName { get; }
     }
 }
