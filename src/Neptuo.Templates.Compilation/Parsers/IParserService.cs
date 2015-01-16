@@ -12,20 +12,20 @@ namespace Neptuo.Templates.Compilation.Parsers
     public interface IParserService
     {
         /// <summary>
-        /// Registers <paramref name="contentParser"/> with <paramref name="name"/>.
-        /// This parser will be inserted to the index 0.
+        /// Returns list of content parsers registered to name <paramref name="name"/>.
+        /// Never returns <c>null</c>, always at least empty list to insert new parsers into.
         /// </summary>
-        /// <param name="name">Name of parser.</param>
-        /// <param name="contentParser">Content parser.</param>
-        IParserService AddContentParser(string name, IContentParser contentParser);
+        /// <param name="name">Name of parsers.</param>
+        /// <returns>List of content parsers registered to name <paramref name="name"/>.</returns>
+        IList<IContentParser> GetContentParsers(string name);
 
         /// <summary>
-        /// Registers <paramref name="valueParser"/> with <paramref name="name"/>.
-        /// This parser will be inserted to the index 0.
+        /// Returns list of value parsers registered to name <paramref name="name"/>.
+        /// Never returns <c>null</c>, always at least empty list to insert new parsers into.
         /// </summary>
-        /// <param name="name">Name of parser.</param>
-        /// <param name="valueParser">Value parser.</param>
-        IParserService AddValueParser(string name, IValueParser valueParser);
+        /// <param name="name">Name of parsers.</param>
+        /// <returns>List of value parsers registered to name <paramref name="name"/>.</returns>
+        IList<IValueParser> GetValueParsers(string name);
 
         /// <summary>
         /// Parses content using <see cref="ContentParsers"/> and creates AST.

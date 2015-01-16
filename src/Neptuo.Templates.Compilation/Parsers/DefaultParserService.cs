@@ -22,30 +22,26 @@ namespace Neptuo.Templates.Compilation.Parsers
             valueParsers = new Dictionary<string, List<IValueParser>>();
         }
 
-        public IParserService AddContentParser(string name, IContentParser contentParser)
+        public IList<IContentParser> GetContentParsers(string name)
         {
             Guard.NotNull(name, "name");
-            Guard.NotNull(contentParser, "contentParser");
 
             List<IContentParser> namedParsers;
             if (!contentParsers.TryGetValue(name, out namedParsers))
                 namedParsers = contentParsers[name] = new List<IContentParser>();
-
-            namedParsers.Insert(0, contentParser);
-            return this;
+            
+            return namedParsers;
         }
 
-        public IParserService AddValueParser(string name, IValueParser valueParser)
+        public IList<IValueParser> GetValueParsers(string name)
         {
             Guard.NotNull(name, "name");
-            Guard.NotNull(valueParser, "valueParser");
 
             List<IValueParser> namedParsers;
             if (!valueParsers.TryGetValue(name, out namedParsers))
                 namedParsers = valueParsers[name] = new List<IValueParser>();
 
-            namedParsers.Insert(0, valueParser);
-            return this;
+            return namedParsers;
         }
 
         public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
