@@ -14,6 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomObjectGeneratorRegistry : ICodeDomObjectGenerator
     {
         private readonly Dictionary<Type, ICodeDomObjectGenerator> storage = new Dictionary<Type, ICodeDomObjectGenerator>();
+        private Func<Type, ICodeDomObjectGenerator> onSearchGenerator = o => new NullGenerator();
 
         /// <summary>
         /// Maps <paramref name="generator"/> to process code objects of type <paramref name="codeObjectType"/>.
@@ -28,20 +29,38 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return this;
         }
 
-        public CodeExpression Generate(ICodeDomContext context, ICodeObject codeObject)
+        /// <summary>
+        /// Adds <paramref name="searchHandler"/> to be executed when generator was not found.
+        /// </summary>
+        /// <param name="searchHandler">Generator provider method.</param>
+        public CodeDomObjectGeneratorRegistry AddSearchHandler(Func<Type, ICodeDomObjectGenerator> searchHandler)
+        {
+            Guard.NotNull(searchHandler, "searchHandler");
+            onSearchGenerator += searchHandler;
+            return this;
+        }
+
+        public ICodeDomObjectResult Generate(ICodeDomContext context, ICodeObject codeObject)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(codeObject, "codeObject");
             Type codeObjectType = codeObject.GetType();
 
             ICodeDomObjectGenerator generator;
-            if(!storage.TryGetValue(codeObjectType, out generator))
+            if (!storage.TryGetValue(codeObjectType, out generator))
+                generator = onSearchGenerator(codeObjectType);
+
+            return generator.Generate(context, codeObject);
+        }
+
+        private class NullGenerator : ICodeDomObjectGenerator
+        {
+            public ICodeDomObjectResult Generate(ICodeDomContext context, ICodeObject codeObject)
             {
+                Type codeObjectType = codeObject.GetType();
                 context.AddError("Missing generator for code object of type '{0}'.", codeObjectType.FullName);
                 return null;
             }
-
-            return generator.Generate(context, codeObject);
         }
     }
 }

@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static XCodeDomGenerator SetDependencyProviderGenerator<T>(this XCodeDomGenerator generator, ICodeDomDependencyGenerator dependencyGenerator)
+        public static XCodeDomGenerator SetDependencyProviderGenerator<T>(this XCodeDomGenerator generator, XICodeDomDependencyGenerator dependencyGenerator)
         {
             Guard.NotNull(generator, "generator");
             Guard.NotNull(dependencyGenerator, "dependencyGenerator");

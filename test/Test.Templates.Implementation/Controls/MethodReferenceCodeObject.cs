@@ -22,7 +22,7 @@ namespace Test.Templates.Controls
     }
 
     [JsType(Export = false)]
-    public class CodeDomMethodReferenceGenerator : CodeDomObjectGeneratorBase<MethodReferenceCodeObject>
+    public class CodeDomMethodReferenceGenerator : XCodeDomObjectGeneratorBase<MethodReferenceCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, MethodReferenceCodeObject codeObject, ICodeProperty codeProperty)
         {

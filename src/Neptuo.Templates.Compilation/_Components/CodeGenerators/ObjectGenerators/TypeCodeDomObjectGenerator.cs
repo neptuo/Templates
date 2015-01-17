@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// Base codeDom generator for generating class based components.
     /// </summary>
     /// <typeparam name="T">Type of code object.</typeparam>
-    public abstract class TypeCodeDomObjectGenerator<T> : CodeDomObjectGeneratorBase<T>
+    public abstract class TypeCodeDomObjectGenerator<T> : XCodeDomObjectGeneratorBase<T>
         where T : ICodeObject
     {
         protected ComponentManagerDescriptor ComponentManager { get; private set; }

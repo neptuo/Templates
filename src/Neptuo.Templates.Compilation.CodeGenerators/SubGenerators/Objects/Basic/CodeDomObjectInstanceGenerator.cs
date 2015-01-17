@@ -6,13 +6,13 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.CodeObjects
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class XCodeDomObjectInstanceGenerator
+    public class CodeDomObjectInstanceGenerator
     {
-        public CodeExpression GenerateCode(XCodeDomGenerator.Context context, Type type, CodeStatementCollection statements)
+        public CodeExpression GenerateCode(ICodeDomContext context, Type type, CodeStatementCollection statements)
         {
-            if (context.IsDirectObjectResolve)
+            if (context.Configuration.IsDirectObjectResolve())
             {
                 return context.CodeGenerator.GenerateDependency(context, type);
             }
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators.CodeObjects
         /// <param name="context">Current context.</param>
         /// <param name="type">Target control type to resolve.</param>
         /// <returns>Generated code expressions.</returns>
-        protected CodeExpression[] ResolveConstructorParameters(XCodeDomGenerator.Context context, Type type)
+        protected CodeExpression[] ResolveConstructorParameters(ICodeDomContext context, Type type)
         {
             List<CodeExpression> result = new List<CodeExpression>();
             ConstructorInfo ctor = type.GetConstructors().OrderBy(c => c.GetParameters().Count()).FirstOrDefault();

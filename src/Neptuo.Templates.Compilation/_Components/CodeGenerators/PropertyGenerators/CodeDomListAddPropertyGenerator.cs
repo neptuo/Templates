@@ -10,7 +10,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddCodeProperty>
+    public class CodeDomListAddPropertyGenerator : XCodeDomPropertyGeneratorBase<ListAddCodeProperty>
     {
         public CodeDomListAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
             : base(requiredComponentType, componentManagerDescriptor)

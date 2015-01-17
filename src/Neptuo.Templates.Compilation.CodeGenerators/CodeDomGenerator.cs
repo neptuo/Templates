@@ -16,11 +16,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomGenerator : ICodeGenerator
     {
         private readonly ICodeDomRegistry registry;
+        private readonly ICodeDomConfiguration configuration;
 
-        public CodeDomGenerator(ICodeDomRegistry registry)
+        public CodeDomGenerator(ICodeDomRegistry registry, ICodeDomConfiguration configuration)
         {
             Guard.NotNull(registry, "registry");
+            Guard.NotNull(configuration, "configuration");
             this.registry = registry;
+            this.configuration = configuration;
         }
 
         public bool ProcessTree(ICodeObject codeObject, ICodeGeneratorContext context)
@@ -29,15 +32,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             ICodeDomStructure structure = registry.WithStructureGenerator().Generate(context);
 
             // 2) User ObjectGenerator to generate code for codeObject tree.
-            CodeExpression expression = registry
+            ICodeDomObjectResult result = registry
                 .WithObjectGenerator()
-                .Generate(new DefaultCodeDomContext(context, structure, registry), codeObject);
+                .Generate(new DefaultCodeDomContext(context, configuration, structure, registry), codeObject);
 
-            if (expression == null)
+            if (result == null)
                 return false;
 
             // 3) Append generated expression to entry point method.
-            structure.EntryPoint.Statements.Add(expression);
+            structure.EntryPoint.Statements.Add(result.Expression);
 
             // 4) Run CodeDom visitors.
 

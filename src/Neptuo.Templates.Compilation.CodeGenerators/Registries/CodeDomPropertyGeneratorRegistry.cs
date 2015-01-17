@@ -14,6 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomPropertyGeneratorRegistry : ICodeDomPropertyGenerator
     {
         private readonly Dictionary<Type, ICodeDomPropertyGenerator> storage = new Dictionary<Type, ICodeDomPropertyGenerator>();
+        private Func<Type, ICodeDomPropertyGenerator> onSearchGenerator = o => new NullGenerator();
 
         /// <summary>
         /// Maps <paramref name="generator"/> to process code properties of type <paramref name="codeObjectType"/>.
@@ -28,7 +29,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return this;
         }
 
-        public CodeExpression Generate(ICodeDomContext context, ICodeProperty codeProperty)
+        /// <summary>
+        /// Adds <paramref name="searchHandler"/> to be executed when generator was not found.
+        /// </summary>
+        /// <param name="searchHandler">Generator provider method.</param>
+        public CodeDomPropertyGeneratorRegistry AddSearchHandler(Func<Type, ICodeDomPropertyGenerator> searchHandler)
+        {
+            Guard.NotNull(searchHandler, "searchHandler");
+            onSearchGenerator += searchHandler;
+            return this;
+        }
+
+        public CodeStatement Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(codeProperty, "codeProperty");
@@ -37,11 +49,19 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             ICodeDomPropertyGenerator generator;
             if(!storage.TryGetValue(codePropertyType, out generator))
             {
-                context.AddError("Missing generator for code property of type '{0}'.", codePropertyType.FullName);
-                return null;
             }
 
             return generator.Generate(context, codeProperty);
+        }
+
+        private class NullGenerator : ICodeDomPropertyGenerator
+        {
+            public CodeStatement Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
+            {
+                Type codePropertyType = codeProperty.GetType();
+                context.AddError("Missing generator for code property of type '{0}'.", codePropertyType.FullName);
+                return null;
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomRootGenerator : CodeDomObjectGeneratorBase<RootCodeObject>
+    public class CodeDomRootGenerator : XCodeDomObjectGeneratorBase<RootCodeObject>
     {
         protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, RootCodeObject codeObject, ICodeProperty codeProperty)
         {

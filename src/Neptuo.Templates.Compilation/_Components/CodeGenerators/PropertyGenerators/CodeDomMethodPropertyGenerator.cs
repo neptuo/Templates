@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomMethodPropertyGenerator : CodeDomPropertyGeneratorBase<MethodInvokeCodeProperty>
+    public class CodeDomMethodPropertyGenerator : XCodeDomPropertyGeneratorBase<MethodInvokeCodeProperty>
     {
         public CodeDomMethodPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
             : base(requiredComponentType, componentManagerDescriptor)

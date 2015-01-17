@@ -11,13 +11,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// Base implementation of <see cref="XICodeDomPropertyGenerator"/> which casts input property descriptor to <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">Type of property descriptor that is supported.</typeparam>
-    public abstract class CodeDomPropertyGeneratorBase<T> : XICodeDomPropertyGenerator
+    public abstract class XCodeDomPropertyGeneratorBase<T> : XICodeDomPropertyGenerator
         where T : ICodeProperty
     {
         private readonly Type requiredComponentType;
         private readonly ComponentManagerDescriptor componentManagerDescriptor;
 
-        public CodeDomPropertyGeneratorBase(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
+        public XCodeDomPropertyGeneratorBase(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
         {
             Guard.NotNull(requiredComponentType, "requiredComponentType");
             Guard.NotNull(componentManagerDescriptor, "componentManagerDescriptor");

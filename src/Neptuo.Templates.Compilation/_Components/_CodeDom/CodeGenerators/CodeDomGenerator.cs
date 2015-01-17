@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
             CodePropertyGenerators = new Dictionary<Type, XICodeDomPropertyGenerator>();
-            DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
+            DependencyProviderGenerators = new Dictionary<Type, XICodeDomDependencyGenerator>();
             AttributeGenerators = new Dictionary<Type, ICodeDomAttributeGenerator>();
             PropertyTypeGenerators = new Dictionary<Type, ICodeDomPropertyTypeGenerator>();
             CodeDomVisitors = new HashSet<ICodeDomVisitor>();
@@ -51,9 +51,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomDependencyGenerator
 
-        protected Dictionary<Type, ICodeDomDependencyGenerator> DependencyProviderGenerators { get; private set; }
+        protected Dictionary<Type, XICodeDomDependencyGenerator> DependencyProviderGenerators { get; private set; }
 
-        public void SetDependencyProviderGenerator(Type type, ICodeDomDependencyGenerator generator)
+        public void SetDependencyProviderGenerator(Type type, XICodeDomDependencyGenerator generator)
         {
             DependencyProviderGenerators[type] = generator;
         }
@@ -145,7 +145,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeExpression GenerateDependency(Context context, Type type)
         {
-            foreach (KeyValuePair<Type, ICodeDomDependencyGenerator> item in DependencyProviderGenerators)
+            foreach (KeyValuePair<Type, XICodeDomDependencyGenerator> item in DependencyProviderGenerators)
             {
                 if (item.Key.IsAssignableFrom(type))
                 {

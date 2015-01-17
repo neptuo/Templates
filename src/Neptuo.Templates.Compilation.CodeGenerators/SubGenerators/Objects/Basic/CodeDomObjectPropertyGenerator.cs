@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.CodeGenerators.CodeObjects
+namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class XCodeDomObjectPropertyGenerator
+    public class CodeDomObjectPropertyGenerator
     {
         public void GenerateCode(XCodeDomGenerator.Context context, IPropertiesCodeObject codeObject, string fieldName, CodeStatementCollection statements)
         {
