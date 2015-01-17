@@ -60,6 +60,7 @@
     <Compile Include="SubGenerators\Objects\Basic\CodeDomObjectInstanceGenerator.cs" />
     <Compile Include="SubGenerators\Objects\Basic\CodeDomObjectPropertyGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomComponentObjectGenerator.cs" />
+    <Compile Include="SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomObjectGeneratorBase.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomRootObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\_CodeDomObjectResultExtensions.cs" />
