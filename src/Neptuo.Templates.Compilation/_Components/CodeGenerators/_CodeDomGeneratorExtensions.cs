@@ -58,7 +58,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             generator.SetCodeObjectGenerator<RootCodeObject>(new CodeDomRootGenerator());
 
             // Property generators.
-            generator.SetCodePropertyGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator(requiredComponentType, componentManagerDescriptor));
+            generator.SetCodePropertyGenerator<ListAddCodeProperty>(new XCodeDomListAddPropertyGenerator(requiredComponentType, componentManagerDescriptor));
             generator.SetCodePropertyGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator(requiredComponentType, componentManagerDescriptor));
             generator.SetCodePropertyGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator(requiredComponentType, componentManagerDescriptor));
             generator.SetCodePropertyGenerator<MethodInvokeCodeProperty>(new CodeDomMethodPropertyGenerator(requiredComponentType, componentManagerDescriptor));

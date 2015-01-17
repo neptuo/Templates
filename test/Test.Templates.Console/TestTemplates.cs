@@ -111,15 +111,25 @@ namespace Test.Templates
             //    .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
             //    .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
 
-            CodeDomGenerator codeGenerator = new CodeDomGenerator(new DefaultCodeDomRegistry()
-                .AddRegistry<ICodeDomObjectGenerator>(new CodeDomObjectGeneratorRegistry())
-                .AddRegistry<ICodeDomPropertyGenerator>(new CodeDomPropertyGeneratorRegistry())
-                .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator()
-                    .SetBaseType<GeneratedView>()
-                    .AddInterface<Neptuo.IDisposable>()
-                    .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
-                    .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
-                )
+            CodeDomGenerator codeGenerator = new CodeDomGenerator(
+                new DefaultCodeDomRegistry()
+                    .AddRegistry<ICodeDomObjectGenerator>(
+                        new CodeDomObjectGeneratorRegistry()
+                            .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
+                    )
+                    .AddRegistry<ICodeDomPropertyGenerator>(
+                        new CodeDomPropertyGeneratorRegistry()
+                            .AddGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator())
+                    )
+                    .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator()
+                        .SetBaseType<GeneratedView>()
+                        .AddInterface<Neptuo.IDisposable>()
+                        .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
+                        .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
+                    )
+                ,
+                new DefaultCodeDomConfiguration()
+                    .IsDirectObjectResolve(false)
             );
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);

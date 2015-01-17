@@ -9,10 +9,21 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public static class CodeDomConfigurationExtensions
     {
+        #region IsDirectObjectResolve
+
         public static bool IsDirectObjectResolve(this ICodeDomConfiguration configuration)
         {
             Guard.NotNull(configuration, "configuration");
             return configuration.Get("IsDirectObjectResolve", (bool?)true);
         }
+
+        public static DefaultCodeDomConfiguration IsDirectObjectResolve(this DefaultCodeDomConfiguration configuration, bool value)
+        {
+            Guard.NotNull(configuration, "configuration");
+            configuration.Set("IsDirectObjectResolve", value);
+            return configuration;
+        }
+
+        #endregion
     }
 }

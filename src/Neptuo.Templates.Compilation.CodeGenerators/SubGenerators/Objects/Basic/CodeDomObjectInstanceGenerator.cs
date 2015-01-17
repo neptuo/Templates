@@ -8,21 +8,26 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
+    /// <summary>
+    /// Generator for creating instances of types.
+    /// </summary>
     public class CodeDomObjectInstanceGenerator
     {
-        public CodeExpression GenerateCode(ICodeDomContext context, Type type, CodeStatementCollection statements)
+        /// <summary>
+        /// Generates expression for creating instance of type <paramref name="type"/>.
+        /// </summary>
+        /// <param name="context">Generator context.</param>
+        /// <param name="type">Type to create instance of.</param>
+        /// <returns>Expression for creating instance of type <paramref name="type"/>.</returns>
+        public CodeExpression GenerateCode(ICodeDomContext context, Type type)
         {
+            Guard.NotNull(context, "context");
+            Guard.NotNull(type, "type");
+
             if (context.Configuration.IsDirectObjectResolve())
-            {
-                return context.CodeGenerator.GenerateDependency(context, type);
-            }
+                return context.Registry.WithDependencyGenerator().Generate(context, type);
             else
-            {
-                return new CodeObjectCreateExpression(
-                    type,
-                    ResolveConstructorParameters(context, type)
-                );
-            }
+                return new CodeObjectCreateExpression(type, ResolveConstructorParameters(context, type));
         }
 
         /// <summary>
@@ -39,7 +44,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 foreach (ParameterInfo parameter in ctor.GetParameters())
                 {
-                    CodeExpression parameterExpression = context.CodeGenerator.GenerateDependency(context, parameter.ParameterType);
+                    CodeExpression parameterExpression = context.Registry.WithDependencyGenerator().Generate(context, parameter.ParameterType);
                     if (parameterExpression != null)
                         result.Add(parameterExpression);
                     else

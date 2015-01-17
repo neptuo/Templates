@@ -40,23 +40,22 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return this;
         }
 
-        public CodeStatement Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
+        public ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(codeProperty, "codeProperty");
             Type codePropertyType = codeProperty.GetType();
 
             ICodeDomPropertyGenerator generator;
-            if(!storage.TryGetValue(codePropertyType, out generator))
-            {
-            }
+            if (!storage.TryGetValue(codePropertyType, out generator))
+                generator = onSearchGenerator(codePropertyType);
 
             return generator.Generate(context, codeProperty);
         }
 
         private class NullGenerator : ICodeDomPropertyGenerator
         {
-            public CodeStatement Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
+            public ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
             {
                 Type codePropertyType = codeProperty.GetType();
                 context.AddError("Missing generator for code property of type '{0}'.", codePropertyType.FullName);

@@ -61,6 +61,11 @@
     <Compile Include="SubGenerators\Objects\Basic\CodeDomObjectPropertyGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomComponentObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomObjectGeneratorBase.cs" />
+    <Compile Include="SubGenerators\Objects\CodeDomRootObjectGenerator.cs" />
+    <Compile Include="SubGenerators\Objects\_CodeDomObjectResultExtensions.cs" />
+    <Compile Include="SubGenerators\Properties\CodeDomListAddPropertyGenerator.cs" />
+    <Compile Include="SubGenerators\Properties\DefaultCodeDomPropertyContext.cs" />
+    <Compile Include="SubGenerators\Properties\DefaultCodeDomPropertyResult.cs" />
     <Compile Include="SubGenerators\Properties\ICodeDomPropertyContext.cs" />
     <Compile Include="SubGenerators\Properties\CodeDomPropertyGeneratorBase.cs" />
     <Compile Include="SubGenerators\Properties\CodeDomSetPropertyGenerator.cs" />
@@ -73,7 +78,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Registries\_CodeDomRegistryExtensions.cs" />
     <Compile Include="SubGenerators\Objects\ICodeDomObjectResult.cs" />
+    <Compile Include="SubGenerators\Properties\ICodeDomPropertyResult.cs" />
+    <Compile Include="SubGenerators\Properties\_CodeDomObjectPropertyExtensions.cs" />
     <Compile Include="SubGenerators\_CodeDomContextExtensions.cs" />
+    <Compile Include="_CodeDomExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">

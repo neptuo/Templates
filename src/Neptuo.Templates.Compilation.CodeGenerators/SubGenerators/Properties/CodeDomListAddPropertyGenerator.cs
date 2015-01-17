@@ -1,22 +1,18 @@
 ﻿using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.CodeDom;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class XCodeDomListAddPropertyGenerator : XCodeDomPropertyGeneratorBase<ListAddCodeProperty>
+    public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddCodeProperty>
     {
-        public XCodeDomListAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
-            : base(requiredComponentType, componentManagerDescriptor)
-        { }
-
-        protected override void GenerateProperty(CodeDomPropertyContext context, ListAddCodeProperty codeProperty)
+        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ListAddCodeProperty codeProperty)
         {
             bool generic = codeProperty.Property.Type.IsGenericType;
             bool requiresCasting = false;
@@ -24,12 +20,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             Type targetType = null;
             string addMethodName = null;
 
-            CodeExpression targetField = GetPropertyTarget(context);
+            CodeExpression targetField = context.PropertyTarget;
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
                 targetField,
                 codeProperty.Property.Name
             );
 
+            List<CodeStatement> statements = new List<CodeStatement>();
             if (typeof(IEnumerable).IsAssignableFrom(codeProperty.Property.Type))
             {
                 requiresCasting = true;
@@ -50,7 +47,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             if (createInstance)
             {
-                context.Statements.Add(
+                statements.Add(
                     new CodeAssignStatement(
                         codePropertyReference,
                         new CodeObjectCreateExpression(targetType)
@@ -63,23 +60,30 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             foreach (ICodeObject propertyValue in codeProperty.Values)
             {
-                CodeExpression codeExpression = context.CodeGenerator.GenerateCodeObject(
-                    new CodeObjectExtensionContext(context.Context, context.FieldName), 
-                    propertyValue, 
-                    codeProperty
+                ICodeDomObjectResult result = context.Registry.WithObjectGenerator().Generate(
+                    context,
+                    propertyValue
                 );
-                if (codeExpression != null)
+
+                if (result == null)
+                    return null;
+
+                if (result.HasExpression())
                 {
-                    context.Statements.Add(
-                        new CodeMethodInvokeExpression(
-                            codePropertyReference,
-                            addMethodName,
-                            codeExpression
+                    statements.Add(
+                        new CodeExpressionStatement(
+                            new CodeMethodInvokeExpression(
+                                codePropertyReference,
+                                addMethodName,
+                                result.Expression
+                            )
                         )
                     );
                 }
                 //TODO: Other bindable ways
             }
+
+            return new DefaultCodeDomPropertyResult(statements);
         }
     }
 }

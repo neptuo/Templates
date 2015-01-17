@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomSetPropertyGenerator : CodeDomPropertyGeneratorBase<SetCodeProperty>
     {
-        protected override CodeStatement Generate(ICodeDomPropertyContext context, SetCodeProperty codeProperty)
+        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, SetCodeProperty codeProperty)
         {
             ICodeDomObjectResult valueResult = context.Registry.WithObjectGenerator().Generate(
                 context,
@@ -18,12 +18,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             );
             if (valueResult != null)
             {
-                return new CodeAssignStatement(
-                    new CodePropertyReferenceExpression(
-                        context.PropertyTarget,
-                        codeProperty.Property.Name
-                    ),
-                    valueResult.Expression
+                return new DefaultCodeDomPropertyResult(
+                    new CodeAssignStatement(
+                        new CodePropertyReferenceExpression(
+                            context.PropertyTarget,
+                            codeProperty.Property.Name
+                        ),
+                        valueResult.Expression
+                    )
                 );
             }
 

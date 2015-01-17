@@ -18,6 +18,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="context">Generator context.</param>
         /// <param name="type">Type to resolve.</param>
         /// <returns>Expression for dependency resolve of type <paramref name="type"/>.</returns>
-        CodeExpression GenerateCode(ICodeDomContext context, Type type);
+        CodeExpression Generate(ICodeDomContext context, Type type);
     }
 }

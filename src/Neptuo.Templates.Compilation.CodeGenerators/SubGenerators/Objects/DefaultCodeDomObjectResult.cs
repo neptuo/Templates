@@ -14,11 +14,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         public CodeExpression Expression { get; private set; }
         public Type ExpressionReturnType { get; private set; }
+        
+        public DefaultCodeDomObjectResult()
+        { }
 
         public DefaultCodeDomObjectResult(CodeExpression expression, Type expressionReturnType)
         {
             Guard.NotNull(expression, "expression");
-            Guard.NotNull(expressionReturnType, "expressionReturnType");
+            Guard.NotNull(expressionReturnType, "expressionReturnType"); 
             Expression = expression;
             ExpressionReturnType = expressionReturnType;
         }

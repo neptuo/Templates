@@ -10,20 +10,29 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomObjectPropertyGenerator
     {
-        public void GenerateCode(XCodeDomGenerator.Context context, IPropertiesCodeObject codeObject, string fieldName, CodeStatementCollection statements)
+        public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IPropertiesCodeObject codeObject, string variableName)
         {
             Type componentType = null;
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject != null)
                 componentType = typeCodeObject.Type;
 
+            List<CodeStatement> statements = new List<CodeStatement>();
+            CodeExpression variableExpression = new CodeVariableReferenceExpression(variableName);
             foreach (ICodeProperty codeProperty in codeObject.Properties)
             {
-                context.CodeGenerator.GenerateProperty(
-                    new CodeDomPropertyContext(context, fieldName, componentType, statements),
+                ICodeDomPropertyResult result = context.Registry.WithPropertyGenerator().Generate(
+                    new DefaultCodeDomPropertyContext(context, variableExpression),
                     codeProperty
                 );
+
+                if (result == null)
+                    return null;
+
+                statements.AddRange(result.Statements);
             }
+
+            return statements;
         }
     }
 }

@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <param name="codeProperty">Code object to process.</param>
-        /// <returns><see cref="CodeExpression"/> for <paramref name="codeProperty"/>.</returns>
-        CodeStatement Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty);
+        /// <returns>.</returns>
+        ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty);
     }
 }

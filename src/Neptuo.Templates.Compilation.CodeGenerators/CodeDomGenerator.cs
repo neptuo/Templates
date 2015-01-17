@@ -40,12 +40,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 return false;
 
             // 3) Append generated expression to entry point method.
-            structure.EntryPoint.Statements.Add(result.Expression);
+            if (result.HasExpression())
+                structure.EntryPoint.Statements.Add(result.Expression);
 
             // 4) Run CodeDom visitors.
+            //TODO: Run CodeDom visitors.
 
             // 5) Generate source code.
-            //TODO: Using come registered component.
+            //TODO: Using some registered component.
             WriteOutput(structure.Unit, context.Output);
 
             return true;

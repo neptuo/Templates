@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public abstract class CodeDomPropertyGeneratorBase<T> : ICodeDomPropertyGenerator
         where T : ICodeProperty
     {
-        public CodeStatement Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
+        public ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
         {
             return Generate(context, (T)codeProperty);
 
@@ -33,6 +33,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             //}
         }
 
-        protected abstract CodeStatement Generate(ICodeDomPropertyContext context, T codeProperty);
+        protected abstract ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, T codeProperty);
     }
 }
