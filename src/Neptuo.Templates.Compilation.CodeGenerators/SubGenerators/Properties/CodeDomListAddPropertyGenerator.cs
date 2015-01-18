@@ -14,9 +14,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ListAddCodeProperty codeProperty)
         {
-            bool generic = codeProperty.Property.Type.IsGenericType;
-            bool requiresCasting = false;
-            bool createInstance = !codeProperty.Property.IsReadOnly;
+            bool isGenericProperty = codeProperty.Property.Type.IsGenericType;
+            bool isCastingRequired = false;
+            bool isWriteable = !codeProperty.Property.IsReadOnly;
             Type targetType = null;
             string addMethodName = null;
 
@@ -29,14 +29,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             List<CodeStatement> statements = new List<CodeStatement>();
             if (typeof(IEnumerable).IsAssignableFrom(codeProperty.Property.Type))
             {
-                requiresCasting = true;
-                if (generic)
+                isCastingRequired = true;
+                if (isGenericProperty)
                 {
                     targetType = typeof(List<>).MakeGenericType(codeProperty.Property.Type.GetGenericArguments()[0]);
                     addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
 
                     if (typeof(ICollection<>).IsAssignableFrom(codeProperty.Property.Type.GetGenericTypeDefinition()))
-                        requiresCasting = false;
+                        isCastingRequired = false;
                 }
                 else
                 {
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 }
             }
 
-            if (createInstance)
+            if (isWriteable)
             {
                 statements.Add(
                     new CodeAssignStatement(
@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 );
             }
 
-            if (requiresCasting)
+            if (isCastingRequired)
                 codePropertyReference = new CodeCastExpression(targetType, codePropertyReference);
 
             foreach (ICodeObject propertyValue in codeProperty.Values)
