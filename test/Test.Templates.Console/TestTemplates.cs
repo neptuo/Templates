@@ -111,12 +111,13 @@ namespace Test.Templates
             //    ))
             //    .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
             //    .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
+            IUniqueNameProvider nameProvider = new SequenceUniqueNameProvider("field", 1);
 
             CodeDomGenerator codeGenerator = new CodeDomGenerator(
                 new DefaultCodeDomRegistry()
                     .AddRegistry<ICodeDomObjectGenerator>(
                         new CodeDomObjectGeneratorRegistry()
-                            .AddGenerator<ComponentCodeObject>(new CodeDomComponentObjectGenerator())
+                            .AddGenerator<ComponentCodeObject>(new CodeDomComponentObjectGenerator(nameProvider))
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
                             .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())
@@ -210,8 +211,7 @@ namespace Test.Templates
             {
                 DebugHelper.Debug("Run", () =>
                 {
-                    view.Setup(container);
-                    view.OnInit(new ComponentManager());
+                    view.Init(container, new ComponentManager());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });

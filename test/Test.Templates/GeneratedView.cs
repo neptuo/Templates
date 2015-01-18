@@ -15,7 +15,7 @@ namespace Neptuo.Templates
     /// <summary>
     /// Base class for generated views.
     /// </summary>
-    public abstract class GeneratedView : DisposableBase
+    public abstract class GeneratedView : DisposableBase, IControl
     {
         protected IComponentManager componentManager;
         protected IDependencyProvider dependencyProvider;
@@ -31,17 +31,6 @@ namespace Neptuo.Templates
         }
 
         /// <summary>
-        /// Setups view page, component manager and depedency provider for this view.
-        /// </summary>
-        /// <param name="componentManager">Component manager for current view.</param>
-        /// <param name="dependencyProvider">Dependency provider for current view.</param>
-        public void Setup(IDependencyProvider dependencyProvider)
-        {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
-            this.dependencyProvider = dependencyProvider;
-        }
-
-        /// <summary>
         /// Method where to setup root controls.
         /// </summary>
         /// <param name="view">Generated view instance to bind.</param>
@@ -50,12 +39,22 @@ namespace Neptuo.Templates
         /// <summary>
         /// Starts init phase of this view.
         /// </summary>
-        public void OnInit(IComponentManager componentManager)
+        public void Init(IDependencyProvider dependencyProvider, IComponentManager componentManager)
         {
+            Guard.NotNull(dependencyProvider, "dependencyProvider");
             Guard.NotNull(componentManager, "componentManager");
+            this.dependencyProvider = dependencyProvider;
             this.componentManager = componentManager;
             componentManager.AddComponent(this, BindView);
             componentManager.Init(this);
+        }
+
+        public void OnInit(IComponentManager componentManager)
+        {
+            Guard.NotNull(componentManager, "componentManager");
+
+            foreach (object item in Content)
+                componentManager.Init(item);
         }
 
         /// <summary>

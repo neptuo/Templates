@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates;
+﻿using Neptuo;
+using Neptuo.Templates;
 using Neptuo.Templates.Runtime;
 using System;
 using System.Collections.Generic;
@@ -12,14 +13,17 @@ namespace Test.Templates.Controls
     {
         public GeneratedView View { get; private set; }
 
-        public ViewTemplateContent(GeneratedView view)
+        private readonly IDependencyProvider dependencyProvider;
+
+        public ViewTemplateContent(GeneratedView view, IDependencyProvider dependencyProvider)
         {
             View = view;
+            this.dependencyProvider = dependencyProvider;
         }
 
         public void OnInit(IComponentManager componentManager)
         {
-            View.OnInit(componentManager);
+            View.Init(dependencyProvider, componentManager);
         }
 
         public void Render(IHtmlWriter writer)
