@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using System.Xml.Schema;
 using SystemXmlNodeType = System.Xml.XmlNodeType;
 
 namespace Neptuo.Templates.Compilation.Parsers
@@ -16,11 +17,29 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     internal class XDocumentSupport
     {
+        private class FakeXmlNamespaceManager : XmlNamespaceManager
+        {
+
+            public FakeXmlNamespaceManager()
+                : base(new NameTable())
+            { }
+
+            public override string LookupNamespace(string prefix)
+            {
+                return "template-" + prefix;
+            }
+        }
+
         public static XElementWrapper LoadXml(string xmlContent)
         {
-            XmlReader xmlReader = XmlReader.Create(new StringReader(xmlContent), new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit });
-            XDocument document = XDocument.Load(xmlReader, LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo);
-            return new XElementWrapper(document.Root);
+            //XmlNamespaceManager namespaceManager = new FakeXmlNamespaceManager();
+            //XmlParserContext parserContext = new XmlParserContext(null, namespaceManager, null, XmlSpace.Preserve);
+            XmlReaderSettings readerSettings = new XmlReaderSettings { DtdProcessing = DtdProcessing.Prohibit, ValidationFlags = XmlSchemaValidationFlags.AllowXmlAttributes };
+            using (XmlReader reader = XmlReader.Create(new StringReader(xmlContent), readerSettings))
+            {
+                XDocument document = XDocument.Load(reader, LoadOptions.PreserveWhitespace | LoadOptions.SetLineInfo);
+                return new XElementWrapper(document.Root);
+            }
         }
 
         internal abstract class XNodeWrapper : IXmlNode, ISourceLineInfo

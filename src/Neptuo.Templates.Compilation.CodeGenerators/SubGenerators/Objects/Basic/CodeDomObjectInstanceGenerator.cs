@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="context">Generator context.</param>
         /// <param name="type">Type to create instance of.</param>
         /// <returns>Expression for creating instance of type <paramref name="type"/>.</returns>
-        public CodeExpression GenerateCode(ICodeDomContext context, Type type)
+        public CodeExpression Generate(ICodeDomContext context, Type type)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(type, "type");
