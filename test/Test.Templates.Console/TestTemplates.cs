@@ -119,6 +119,7 @@ namespace Test.Templates
                             .AddGenerator<ComponentCodeObject>(new CodeDomComponentObjectGenerator())
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
+                            .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())
                     )
                     .AddRegistry<ICodeDomPropertyGenerator>(
                         new CodeDomPropertyGeneratorRegistry()
