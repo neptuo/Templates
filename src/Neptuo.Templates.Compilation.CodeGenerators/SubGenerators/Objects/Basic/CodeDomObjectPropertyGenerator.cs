@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             foreach (ICodeProperty codeProperty in codeObject.Properties)
             {
                 ICodeDomPropertyResult result = context.Registry.WithPropertyGenerator().Generate(
-                    new DefaultCodeDomPropertyContext(context, variableExpression),
+                    context.CreatePropertyContext(variableExpression),
                     codeProperty
                 );
 
