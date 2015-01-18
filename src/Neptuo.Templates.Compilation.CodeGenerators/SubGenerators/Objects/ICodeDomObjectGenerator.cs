@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="context">Generator context.</param>
         /// <param name="codeObject">Code object to process.</param>
         /// <returns>.</returns>
-        ICodeDomObjectResult Generate(ICodeDomContext context, ICodeObject codeObject);
+        ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject);
     }
 }

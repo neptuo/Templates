@@ -40,7 +40,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return this;
         }
 
-        public ICodeDomObjectResult Generate(ICodeDomContext context, ICodeObject codeObject)
+        public ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(codeObject, "codeObject");
@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         private class NullGenerator : ICodeDomObjectGenerator
         {
-            public ICodeDomObjectResult Generate(ICodeDomContext context, ICodeObject codeObject)
+            public ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
             {
                 Type codeObjectType = codeObject.GetType();
                 context.AddError("Missing generator for code object of type '{0}'.", codeObjectType.FullName);

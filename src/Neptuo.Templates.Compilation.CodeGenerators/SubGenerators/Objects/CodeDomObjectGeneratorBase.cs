@@ -10,11 +10,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public abstract class CodeDomObjectGeneratorBase<T> : ICodeDomObjectGenerator
         where T : ICodeObject
     {
-        public ICodeDomObjectResult Generate(ICodeDomContext context, ICodeObject codeObject)
+        public ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
         {
             return Generate(context, (T)codeObject);
         }
 
-        protected abstract ICodeDomObjectResult Generate(ICodeDomContext context, T codeObject);
+        protected abstract ICodeDomObjectResult Generate(ICodeDomObjectContext context, T codeObject);
     }
 }

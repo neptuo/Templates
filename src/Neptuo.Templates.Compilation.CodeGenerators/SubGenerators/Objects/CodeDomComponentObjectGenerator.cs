@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomComponentObjectGenerator : CodeDomObjectGeneratorBase<ComponentCodeObject>
     {
-        protected override ICodeDomObjectResult Generate(ICodeDomContext context, ComponentCodeObject codeObject)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject)
         {
             throw new NotImplementedException();
         }

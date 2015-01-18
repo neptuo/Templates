@@ -63,6 +63,9 @@
     <Compile Include="SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomObjectGeneratorBase.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomRootObjectGenerator.cs" />
+    <Compile Include="SubGenerators\Objects\DefaultCodeDomObjectContext.cs" />
+    <Compile Include="SubGenerators\Objects\ICodeDomObjectContext.cs" />
+    <Compile Include="SubGenerators\Objects\_CodeDomObjectContextExtensions.cs" />
     <Compile Include="SubGenerators\Objects\_CodeDomObjectResultExtensions.cs" />
     <Compile Include="SubGenerators\Properties\CodeDomListAddPropertyGenerator.cs" />
     <Compile Include="SubGenerators\Properties\DefaultCodeDomPropertyContext.cs" />

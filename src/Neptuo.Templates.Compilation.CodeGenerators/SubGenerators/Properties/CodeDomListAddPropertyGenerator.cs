@@ -61,7 +61,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             foreach (ICodeObject propertyValue in codeProperty.Values)
             {
                 ICodeDomObjectResult result = context.Registry.WithObjectGenerator().Generate(
-                    context,
+                    context.CreateObjectContext().AddCodeProperty(codeProperty),
                     propertyValue
                 );
 

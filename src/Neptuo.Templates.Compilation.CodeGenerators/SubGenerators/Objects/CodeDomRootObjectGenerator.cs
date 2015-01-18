@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             this.variableName = variableName;
         }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomContext context, RootCodeObject codeObject)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, RootCodeObject codeObject)
         {
             CodeDomObjectPropertyGenerator generator = new CodeDomObjectPropertyGenerator();
             IEnumerable<CodeStatement> statements = generator.Generate(context, codeObject, "view");

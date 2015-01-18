@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, SetCodeProperty codeProperty)
         {
             ICodeDomObjectResult valueResult = context.Registry.WithObjectGenerator().Generate(
-                context,
+                context.CreateObjectContext(),
                 codeProperty.Value
             );
             if (valueResult != null)
