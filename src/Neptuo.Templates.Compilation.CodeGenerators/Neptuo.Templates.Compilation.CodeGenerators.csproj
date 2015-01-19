@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Include="Configuration\CodeDomConfigurationExtensions.cs" />
     <Compile Include="Configuration\DefaultCodeDomConfiguration.cs" />
+    <Compile Include="Converters\DefaultCodeDomTypeConvertionGenerator.cs" />
+    <Compile Include="Converters\ICodeDomTypeConversionGenerator.cs" />
     <Compile Include="SubGenerators\DefaultCodeDomContext.cs" />
     <Compile Include="Configuration\ICodeDomConfiguration.cs" />
     <Compile Include="Registries\DefaultCodeDomRegistry.cs" />

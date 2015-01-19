@@ -767,6 +767,16 @@
             <param name="targetValue">Output target value.</param>
             <returns>True if conversion was successfull.</returns>
         </member>
+        <member name="M:Neptuo.Converts.To``2(``0)">
+            <summary>
+            Tries to convert <paramref name="sourceValue"/> of type <typeparamref name="TSource"/> to target type <typeparamref name="TTarget"/>.
+            If conversion is not possible, throws exception <see cref="T:System.ArgumentOutOfRangeException"/>.
+            </summary>
+            <typeparam name="TSource">Source value type.</typeparam>
+            <typeparam name="TTarget">Target value type.</typeparam>
+            <param name="sourceValue">Source value.</param>
+            <returns>Value <paramref name="sourceValue"/> converted to type <typeparamref name="TTarget"/></returns>
+        </member>
         <member name="P:Neptuo.Converts.Repository">
             <summary>
             Repository containing all registered converters.
