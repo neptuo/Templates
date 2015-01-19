@@ -22,21 +22,21 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="context">Generator context.</param>
         /// <param name="propertyTarget">Object where property generator should set value.</param>
         /// <returns><see cref="ICodeDomPropertyContext"/> from <paramref name="context"/> and <paramref name="propertyTarget"/>.</returns>
-        public static DefaultCodeDomPropertyContext CreatePropertyContext(this ICodeDomContext context, CodeExpression propertyTarget)
+        public static CodeDomDefaultPropertyContext CreatePropertyContext(this ICodeDomContext context, CodeExpression propertyTarget)
         {
             Guard.NotNull(context, "context");
-            return new DefaultCodeDomPropertyContext(context, propertyTarget);
+            return new CodeDomDefaultPropertyContext(context, propertyTarget);
         }
 
         /// <summary>
-        /// Creates <see cref="DefaultCodeDomObjectContext"/> from <paramref name="context"/>.
+        /// Creates <see cref="CodeDomDefaultObjectContext"/> from <paramref name="context"/>.
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <returns><see cref="ICodeDomObjectContext"/> from <paramref name="context"/>.</returns>
-        public static DefaultCodeDomObjectContext CreateObjectContext(this ICodeDomContext context)
+        public static CodeDomDefaultObjectContext CreateObjectContext(this ICodeDomContext context)
         {
             Guard.NotNull(context, "context");
-            return new DefaultCodeDomObjectContext(context);
+            return new CodeDomDefaultObjectContext(context);
         }
     }
 }

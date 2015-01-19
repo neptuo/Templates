@@ -114,7 +114,7 @@ namespace Test.Templates
             IUniqueNameProvider nameProvider = new SequenceUniqueNameProvider("field", 1);
 
             CodeDomGenerator codeGenerator = new CodeDomGenerator(
-                new DefaultCodeDomRegistry()
+                new CodeDomDefaultRegistry()
                     .AddRegistry<ICodeDomObjectGenerator>(
                         new CodeDomObjectGeneratorRegistry()
                             .AddGenerator<ComponentCodeObject>(new CodeDomComponentObjectGenerator(nameProvider))
@@ -134,9 +134,9 @@ namespace Test.Templates
                         .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
                         .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
                     )
-                    .AddRegistry<ICodeDomTypeConversionGenerator>(new DefaultCodeDomTypeConvertionGenerator())
+                    .AddRegistry<ICodeDomTypeConversionGenerator>(new CodeDomDefaultTypeConvertionGenerator())
                 ,
-                new DefaultCodeDomConfiguration()
+                new CodeDomDefaultConfiguration()
                     .IsDirectObjectResolve(false)
             );
 

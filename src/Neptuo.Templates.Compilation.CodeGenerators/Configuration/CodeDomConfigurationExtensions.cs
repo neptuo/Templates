@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return configuration.Get("IsDirectObjectResolve", (bool?)true);
         }
 
-        public static DefaultCodeDomConfiguration IsDirectObjectResolve(this DefaultCodeDomConfiguration configuration, bool value)
+        public static CodeDomDefaultConfiguration IsDirectObjectResolve(this CodeDomDefaultConfiguration configuration, bool value)
         {
             Guard.NotNull(configuration, "configuration");
             configuration.Set("IsDirectObjectResolve", value);

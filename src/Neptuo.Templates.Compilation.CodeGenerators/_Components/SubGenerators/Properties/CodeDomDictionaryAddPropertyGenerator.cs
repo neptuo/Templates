@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, DictionaryAddCodeProperty codeProperty)
         {
-            DefaultCodeDomPropertyResult statements = new DefaultCodeDomPropertyResult();
+            CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
             bool isWriteable = !codeProperty.Property.IsReadOnly;
             Type targetKeyItemType = typeof(object);

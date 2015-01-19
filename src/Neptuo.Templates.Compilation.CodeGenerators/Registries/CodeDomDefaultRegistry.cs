@@ -9,11 +9,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implementation of <see cref="ICodeDomRegistry"/>.
     /// </summary>
-    public class DefaultCodeDomRegistry : ICodeDomRegistry
+    public class CodeDomDefaultRegistry : ICodeDomRegistry
     {
         private readonly Dictionary<Type, object> storage = new Dictionary<Type, object>();
 
-        public DefaultCodeDomRegistry AddRegistry<T>(T generator)
+        public CodeDomDefaultRegistry AddRegistry<T>(T generator)
         {
             Guard.NotNull(generator, "generator");
             storage[typeof(T)] = generator;

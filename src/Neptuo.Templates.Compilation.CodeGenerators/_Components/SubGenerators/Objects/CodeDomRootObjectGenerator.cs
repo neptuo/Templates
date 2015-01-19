@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 return null;
 
             context.Structure.EntryPoint.Statements.AddRange(statements);
-            return new DefaultCodeDomObjectResult();
+            return new CodeDomDefaultObjectResult();
         }
     }
 }

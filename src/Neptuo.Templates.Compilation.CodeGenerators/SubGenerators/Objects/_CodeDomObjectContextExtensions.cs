@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         #region CodeProperty
 
-        public static DefaultCodeDomObjectContext AddCodeProperty(this DefaultCodeDomObjectContext context, ICodeProperty codeProperty)
+        public static CodeDomDefaultObjectContext AddCodeProperty(this CodeDomDefaultObjectContext context, ICodeProperty codeProperty)
         {
             Guard.NotNull(context, "context");
             return context.AddCustomValue("CodeProperty", codeProperty);

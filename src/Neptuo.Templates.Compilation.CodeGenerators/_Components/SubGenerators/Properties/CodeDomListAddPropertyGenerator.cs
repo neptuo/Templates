@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ListAddCodeProperty codeProperty)
         {
-            DefaultCodeDomPropertyResult statements = new DefaultCodeDomPropertyResult();
+            CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
             bool isGenericProperty = codeProperty.Property.Type.IsGenericType;
             bool isCastingRequired = false;

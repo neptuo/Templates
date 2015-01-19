@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, SetCodeProperty codeProperty)
         {
-            DefaultCodeDomPropertyResult statements = new DefaultCodeDomPropertyResult();
+            CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
             bool isWriteable = !codeProperty.Property.IsReadOnly;
             Type targetItemType = codeProperty.Property.Type;

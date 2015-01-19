@@ -10,11 +10,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implementation of <see cref="ICodeDomTypeConversionGenerator"/> which uses <see cref="Converts"/>.
     /// </summary>
-    public class DefaultCodeDomTypeConvertionGenerator : ICodeDomTypeConversionGenerator
+    public class CodeDomDefaultTypeConvertionGenerator : ICodeDomTypeConversionGenerator
     {
         /// <summary>
-        /// If <paramref name="expression"/> is primitive, calls <see cref="DefaultCodeDomTypeConvertionGenerator.GenerateCompileTimeConversion"/>;
-        /// otherwise calls <see cref="DefaultCodeDomTypeConvertionGenerator.GenerateRuntimeConversion"/>.
+        /// If <paramref name="expression"/> is primitive, calls <see cref="CodeDomDefaultTypeConvertionGenerator.GenerateCompileTimeConversion"/>;
+        /// otherwise calls <see cref="CodeDomDefaultTypeConvertionGenerator.GenerateRuntimeConversion"/>.
         /// </summary>
         /// <param name="context"></param>
         /// <param name="requiredType"></param>

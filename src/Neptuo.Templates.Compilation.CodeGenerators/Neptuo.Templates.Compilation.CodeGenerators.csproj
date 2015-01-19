@@ -43,12 +43,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configuration\CodeDomConfigurationExtensions.cs" />
-    <Compile Include="Configuration\DefaultCodeDomConfiguration.cs" />
-    <Compile Include="Converters\DefaultCodeDomTypeConvertionGenerator.cs" />
+    <Compile Include="Configuration\CodeDomDefaultConfiguration.cs" />
+    <Compile Include="Converters\CodeDomDefaultTypeConvertionGenerator.cs" />
     <Compile Include="Converters\ICodeDomTypeConversionGenerator.cs" />
-    <Compile Include="SubGenerators\DefaultCodeDomContext.cs" />
+    <Compile Include="SubGenerators\CodeDomDefaultContext.cs" />
     <Compile Include="Configuration\ICodeDomConfiguration.cs" />
-    <Compile Include="Registries\DefaultCodeDomRegistry.cs" />
+    <Compile Include="Registries\CodeDomDefaultRegistry.cs" />
     <Compile Include="Structure\DefaultCodeDomNaming.cs" />
     <Compile Include="Structure\DefaultCodeDomStructure.cs" />
     <Compile Include="Structure\DefaultCodeDomStructureGenerator.cs" />
@@ -65,18 +65,18 @@
     <Compile Include="_Components\SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomObjectGeneratorBase.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomRootObjectGenerator.cs" />
-    <Compile Include="SubGenerators\Objects\DefaultCodeDomObjectContext.cs" />
+    <Compile Include="SubGenerators\Objects\CodeDomDefaultObjectContext.cs" />
     <Compile Include="SubGenerators\Objects\ICodeDomObjectContext.cs" />
     <Compile Include="SubGenerators\Objects\_CodeDomObjectContextExtensions.cs" />
     <Compile Include="SubGenerators\Objects\_CodeDomObjectResultExtensions.cs" />
     <Compile Include="_Components\SubGenerators\Properties\CodeDomDictionaryAddPropertyGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Properties\CodeDomListAddPropertyGenerator.cs" />
-    <Compile Include="SubGenerators\Properties\DefaultCodeDomPropertyContext.cs" />
-    <Compile Include="SubGenerators\Properties\DefaultCodeDomPropertyResult.cs" />
+    <Compile Include="SubGenerators\Properties\CodeDomDefaultPropertyContext.cs" />
+    <Compile Include="SubGenerators\Properties\CodeDomDefaultPropertyResult.cs" />
     <Compile Include="SubGenerators\Properties\ICodeDomPropertyContext.cs" />
     <Compile Include="SubGenerators\Properties\CodeDomPropertyGeneratorBase.cs" />
     <Compile Include="_Components\SubGenerators\Properties\CodeDomSetPropertyGenerator.cs" />
-    <Compile Include="SubGenerators\Objects\DefaultCodeDomObjectResult.cs" />
+    <Compile Include="SubGenerators\Objects\CodeDomDefaultObjectResult.cs" />
     <Compile Include="SubGenerators\ICodeDomContext.cs" />
     <Compile Include="CodeDomGenerator.cs" />
     <Compile Include="SubGenerators\Objects\ICodeDomObjectGenerator.cs" />

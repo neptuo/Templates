@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             context.Structure.Class.Members.Add(createMethod);
 
-            return new DefaultCodeDomObjectResult(
+            return new CodeDomDefaultObjectResult(
                 new CodeMethodInvokeExpression(
                     new CodeThisReferenceExpression(),
                     createMethod.Name

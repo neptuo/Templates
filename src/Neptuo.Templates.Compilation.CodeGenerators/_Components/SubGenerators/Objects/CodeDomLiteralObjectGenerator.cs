@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if(value != null)
                 returnType = codeObject.Value.GetType();
 
-            return new DefaultCodeDomObjectResult(new CodePrimitiveExpression(value), returnType);
+            return new CodeDomDefaultObjectResult(new CodePrimitiveExpression(value), returnType);
         }
     }
 }

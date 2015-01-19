@@ -10,17 +10,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implementation of <see cref="ICodeDomObjectContext"/>.
     /// </summary>
-    public class DefaultCodeDomObjectContext : DefaultCodeDomContext, ICodeDomObjectContext
+    public class CodeDomDefaultObjectContext : CodeDomDefaultContext, ICodeDomObjectContext
     {
         private readonly IKeyValueCollection customValues;
 
         public IReadOnlyKeyValueCollection CustomValues { get { return customValues; } }
 
-        public DefaultCodeDomObjectContext(ICodeGeneratorContext generatorContext, ICodeDomConfiguration configuration, ICodeDomStructure structure, ICodeDomRegistry registry)
+        public CodeDomDefaultObjectContext(ICodeGeneratorContext generatorContext, ICodeDomConfiguration configuration, ICodeDomStructure structure, ICodeDomRegistry registry)
             : base(generatorContext, configuration, structure, registry)
         { }
 
-        public DefaultCodeDomObjectContext(ICodeDomContext context)
+        public CodeDomDefaultObjectContext(ICodeDomContext context)
             : base(context.GeneratorContext, context.Configuration, context.Structure, context.Registry)
         {
             customValues = new KeyValueCollection();
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         /// <param name="key">Key to set.</param>
         /// <param name="value">Value to associate with <paramref name="key"/>.</param>
-        public DefaultCodeDomObjectContext AddCustomValue(string key, object value)
+        public CodeDomDefaultObjectContext AddCustomValue(string key, object value)
         {
             customValues.Set(key, value);
             return this;

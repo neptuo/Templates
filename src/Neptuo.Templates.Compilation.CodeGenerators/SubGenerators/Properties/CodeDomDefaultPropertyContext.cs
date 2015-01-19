@@ -10,11 +10,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implementation of <see cref="ICodeDomPropertyContext"/>.
     /// </summary>
-    public class DefaultCodeDomPropertyContext : DefaultCodeDomContext, ICodeDomPropertyContext
+    public class CodeDomDefaultPropertyContext : CodeDomDefaultContext, ICodeDomPropertyContext
     {
         public CodeExpression PropertyTarget { get; private set; }
 
-        public DefaultCodeDomPropertyContext(ICodeDomContext context, CodeExpression propertyTarget)
+        public CodeDomDefaultPropertyContext(ICodeDomContext context, CodeExpression propertyTarget)
             : base(context.GeneratorContext, context.Configuration, context.Structure, context.Registry)
         {
             Guard.NotNull(propertyTarget, "propertyTarget");

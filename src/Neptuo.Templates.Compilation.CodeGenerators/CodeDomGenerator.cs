@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             // 2) User ObjectGenerator to generate code for codeObject tree.
             ICodeDomObjectResult result = registry
                 .WithObjectGenerator()
-                .Generate(new DefaultCodeDomObjectContext(context, configuration, structure, registry), codeObject);
+                .Generate(new CodeDomDefaultObjectContext(context, configuration, structure, registry), codeObject);
 
             if (result == null)
                 return false;

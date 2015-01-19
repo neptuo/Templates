@@ -10,6 +10,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implementation of <see cref="ICodeDomConfiguration"/>.
     /// </summary>
-    public class DefaultCodeDomConfiguration : KeyValueCollection, ICodeDomConfiguration
+    public class CodeDomDefaultConfiguration : KeyValueCollection, ICodeDomConfiguration
     { }
 }

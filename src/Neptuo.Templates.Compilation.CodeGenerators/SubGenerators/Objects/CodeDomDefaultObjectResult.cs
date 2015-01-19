@@ -10,15 +10,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implmentation of <see cref="ICodeDomObjectResult"/>.
     /// </summary>
-    public class DefaultCodeDomObjectResult : ICodeDomObjectResult
+    public class CodeDomDefaultObjectResult : ICodeDomObjectResult
     {
         public CodeExpression Expression { get; private set; }
         public Type ExpressionReturnType { get; private set; }
         
-        public DefaultCodeDomObjectResult()
+        public CodeDomDefaultObjectResult()
         { }
 
-        public DefaultCodeDomObjectResult(CodeExpression expression, Type expressionReturnType)
+        public CodeDomDefaultObjectResult(CodeExpression expression, Type expressionReturnType)
         {
             Guard.NotNull(expression, "expression");
             Guard.NotNull(expressionReturnType, "expressionReturnType"); 
