@@ -153,7 +153,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         /// <summary>
         /// Provides enumeration of statements for default properties defined on type of <paramref name="codeObject"/>.
-        /// Currently uses <see cref="CodeDomPropertyAttributeFeature"/> to generate default value based on attributes.
+        /// Currently uses <see cref="CodeDomPropertyDefaultValueFeature"/> to generate default value based on attributes.
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <param name="codeObject">Code object to process.</param>
@@ -162,7 +162,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected IEnumerable<CodeStatement> GenerateDefaultPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             List<CodeStatement> statements = new List<CodeStatement>();
-            CodeDomPropertyAttributeFeature generator = new CodeDomPropertyAttributeFeature();
+            CodeDomPropertyDefaultValueFeature generator = new CodeDomPropertyDefaultValueFeature();
 
             HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Select(p => p.Property.Name));
             foreach (PropertyInfo propertyInfo in codeObject.Type.GetProperties())

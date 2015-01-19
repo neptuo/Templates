@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Property value generator based on used attributes.
     /// </summary>
-    public class CodeDomPropertyAttributeFeature
+    public class CodeDomPropertyDefaultValueFeature
     {
         /// <summary>
         /// Tries to generate <paramref name="expression"/> based on attributes used on <paramref name="propertyInfo"/>.
