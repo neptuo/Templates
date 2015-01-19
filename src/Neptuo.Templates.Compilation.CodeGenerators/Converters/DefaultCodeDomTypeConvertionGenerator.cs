@@ -12,23 +12,65 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     public class DefaultCodeDomTypeConvertionGenerator : ICodeDomTypeConversionGenerator
     {
+        /// <summary>
+        /// If <paramref name="expression"/> is primitive, calls <see cref="DefaultCodeDomTypeConvertionGenerator.GenerateCompileTimeConversion"/>;
+        /// otherwise calls <see cref="DefaultCodeDomTypeConvertionGenerator.GenerateRuntimeConversion"/>.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="requiredType"></param>
+        /// <param name="expression"></param>
+        /// <param name="expressionReturnType"></param>
+        /// <returns></returns>
         public CodeExpression Generate(ICodeDomContext context, Type requiredType, CodeExpression expression, Type expressionReturnType)
         {
+            // If current expression provides assignable value, simply return it.
             if (requiredType.IsAssignableFrom(expressionReturnType))
                 return expression;
 
-            return GenerateConversion(context, requiredType, expression, expressionReturnType);
+            // If expression is primitive, do compile time conversion.
+            CodePrimitiveExpression primitiveExpression = expression as CodePrimitiveExpression;
+            if (primitiveExpression != null)
+            {
+                // If null, return it.
+                if (primitiveExpression.Value == null)
+                    return primitiveExpression;
+
+                // Do compile time conversion.
+                return GenerateCompileTimeConversion(context, requiredType, primitiveExpression.Value, expressionReturnType);
+            }
+
+            // Otherwise do runtime conversion.
+            return GenerateRuntimeConversion(context, requiredType, expression, expressionReturnType);
         }
 
         /// <summary>
-        /// Invoked when conversion is really needed (types are not assignable).
+        /// Generates conversion from constant at compile time.
+        /// </summary>
+        /// <param name="context">Generator context.</param>
+        /// <param name="targetType">Target type.</param>
+        /// <param name="sourceValue">Source contant value.</param>
+        /// <returns>Converted expression which returns object of type <paramref name="targetType"/>.</returns>
+        protected virtual CodeExpression GenerateCompileTimeConversion(ICodeDomContext context, Type targetType, object sourceValue, Type sourceType)
+        {
+            object targetValue;
+            if (!Converts.Try(sourceType, targetType, sourceValue, out targetValue))
+            {
+                context.AddError("Target type ('{0}') can't constructed from value '{1}'.", targetType.FullName, sourceValue);
+                return null;
+            }
+
+            return new CodePrimitiveExpression(targetValue);
+        }
+
+        /// <summary>
+        /// Generates conversion from expression at runtime.
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <param name="requiredType">Target type.</param>
         /// <param name="expression">Expression which provides object of type <paramref name="expressionReturnType"/>.</param>
         /// <param name="expressionReturnType">Source type.</param>
         /// <returns>Converted expression which returns object of type <paramref name="requiredType"/>.</returns>
-        protected virtual CodeExpression GenerateConversion(ICodeDomContext context, Type requiredType, CodeExpression expression, Type expressionReturnType)
+        protected virtual CodeExpression GenerateRuntimeConversion(ICodeDomContext context, Type requiredType, CodeExpression expression, Type expressionReturnType)
         {
             return new CodeMethodInvokeExpression(
                 new CodeMethodReferenceExpression(

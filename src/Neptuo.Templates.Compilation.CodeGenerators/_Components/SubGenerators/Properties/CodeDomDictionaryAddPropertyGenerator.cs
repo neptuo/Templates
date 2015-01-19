@@ -88,6 +88,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         valueResult.ExpressionReturnType
                     );
 
+                    if (keyExpression == null || valueExpression == null)
+                        return null;
+
                     // Add statement to the collection.
                     statements.AddStatement(
                         new CodeExpressionStatement(

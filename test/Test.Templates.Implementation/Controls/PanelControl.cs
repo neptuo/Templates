@@ -12,6 +12,7 @@ namespace Test.Templates.Controls
     {
         public string Header { get; set; }
         public ITemplate Template { get; set; }
+        public int Count { get; set; }
 
         public override void OnInit(IComponentManager componentManager)
         {
