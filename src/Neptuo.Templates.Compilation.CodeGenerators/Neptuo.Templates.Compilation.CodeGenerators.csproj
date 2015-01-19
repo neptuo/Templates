@@ -59,8 +59,8 @@
     <Compile Include="Registries\CodeDomObjectGeneratorRegistry.cs" />
     <Compile Include="Structure\_DefaultCodeDomStructureGeneratorExtensions.cs" />
     <Compile Include="SubGenerators\ICodeDomDependencyGenerator.cs" />
-    <Compile Include="SubGenerators\Objects\Basic\CodeDomObjectInstanceGenerator.cs" />
-    <Compile Include="SubGenerators\Objects\Basic\CodeDomObjectPropertyGenerator.cs" />
+    <Compile Include="SubGenerators\Objects\Features\CodeDomObjectInstanceGenerator.cs" />
+    <Compile Include="SubGenerators\Objects\Features\CodeDomObjectPropertyGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomComponentObjectGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomObjectGeneratorBase.cs" />
