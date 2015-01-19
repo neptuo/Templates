@@ -12,13 +12,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddCodeProperty>
     {
+        private static string addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
+
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ListAddCodeProperty codeProperty)
         {
             bool isGenericProperty = codeProperty.Property.Type.IsGenericType;
             bool isCastingRequired = false;
             bool isWriteable = !codeProperty.Property.IsReadOnly;
             Type targetType = null;
-            string addMethodName = null;
 
             CodeExpression targetField = context.PropertyTarget;
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
@@ -33,7 +34,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 if (isGenericProperty)
                 {
                     targetType = typeof(List<>).MakeGenericType(codeProperty.Property.Type.GetGenericArguments()[0]);
-                    addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
 
                     if (typeof(ICollection<>).IsAssignableFrom(codeProperty.Property.Type.GetGenericTypeDefinition()))
                         isCastingRequired = false;
@@ -41,7 +41,6 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 else
                 {
                     targetType = typeof(List<object>);
-                    addMethodName = TypeHelper.MethodName<List<object>, object>(c => c.Add);
                 }
             }
 

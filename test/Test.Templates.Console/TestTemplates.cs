@@ -126,6 +126,7 @@ namespace Test.Templates
                         new CodeDomPropertyGeneratorRegistry()
                             .AddGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator())
                             .AddGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator())
+                            .AddGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
                     )
                     .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator()
                         .SetBaseType<GeneratedView>()

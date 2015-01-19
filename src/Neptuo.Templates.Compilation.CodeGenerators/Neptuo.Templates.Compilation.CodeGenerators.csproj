@@ -67,6 +67,7 @@
     <Compile Include="SubGenerators\Objects\ICodeDomObjectContext.cs" />
     <Compile Include="SubGenerators\Objects\_CodeDomObjectContextExtensions.cs" />
     <Compile Include="SubGenerators\Objects\_CodeDomObjectResultExtensions.cs" />
+    <Compile Include="_Components\SubGenerators\Properties\CodeDomDictionaryAddPropertyGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Properties\CodeDomListAddPropertyGenerator.cs" />
     <Compile Include="SubGenerators\Properties\DefaultCodeDomPropertyContext.cs" />
     <Compile Include="SubGenerators\Properties\DefaultCodeDomPropertyResult.cs" />
