@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public static class _CodeDomObjectPropertyExtensions
+    public static class _CodeDomObjectPropertyResultExtensions
     {
         /// <summary>
         /// Returns <c>true</c> if <paramref name="result"/> has statement; otherwise returns <c>false</c>.

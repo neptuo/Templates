@@ -12,23 +12,36 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     public class DefaultCodeDomPropertyResult : ICodeDomPropertyResult
     {
-        public IEnumerable<CodeStatement> Statements { get; private set; }
+        private List<CodeStatement> statements;
+
+        public IEnumerable<CodeStatement> Statements { get { return statements; } }
 
         public DefaultCodeDomPropertyResult()
         {
-            Statements = new List<CodeStatement>();
+            this.statements = new List<CodeStatement>();
         }
 
         public DefaultCodeDomPropertyResult(IEnumerable<CodeStatement> statements)
         {
             Guard.NotNull(statements, "statements");
-            Statements = statements;
+            this.statements = new List<CodeStatement>(statements);
         }
 
         public DefaultCodeDomPropertyResult(params CodeStatement[] statements)
         {
             Guard.NotNull(statements, "statements");
-            Statements = statements;
+            this.statements = new List<CodeStatement>(statements);
+        }
+
+        /// <summary>
+        /// Adds statement to the collection and returns self.
+        /// </summary>
+        /// <param name="statement">New statement to add to the collection.</param>
+        public DefaultCodeDomPropertyResult AddStatement(CodeStatement statement)
+        {
+            Guard.NotNull(statement, "statement");
+            statements.Add(statement);
+            return this;
         }
     }
 }
