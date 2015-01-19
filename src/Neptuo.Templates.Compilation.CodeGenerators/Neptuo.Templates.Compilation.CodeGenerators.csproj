@@ -46,7 +46,9 @@
     <Compile Include="Configuration\CodeDomDefaultConfiguration.cs" />
     <Compile Include="Converters\CodeDomDefaultTypeConvertionGenerator.cs" />
     <Compile Include="Converters\ICodeDomTypeConversionGenerator.cs" />
+    <Compile Include="PostProcessing\ICodeDomVisitor.cs" />
     <Compile Include="Registries\CodeDomAttributeGeneratorRegistry.cs" />
+    <Compile Include="Registries\CodeDomVisitorRegistry.cs" />
     <Compile Include="SubGenerators\CodeDomDefaultValueAttributeGenerator.cs" />
     <Compile Include="SubGenerators\CodeDomAttributeGeneratorBase.cs" />
     <Compile Include="SubGenerators\CodeDomDefaultAttributeResult.cs" />

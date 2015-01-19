@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     /// <summary>
-    /// Describes result of <see cref="XICodeDomAttributeGenerator"/>.
+    /// Describes result of <see cref="ICodeDomAttributeGenerator"/>.
     /// </summary>
     public interface ICodeDomAttributeResult
     {

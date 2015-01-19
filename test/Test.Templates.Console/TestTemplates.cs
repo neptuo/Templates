@@ -115,29 +115,30 @@ namespace Test.Templates
 
             CodeDomGenerator codeGenerator = new CodeDomGenerator(
                 new CodeDomDefaultRegistry()
-                    .AddRegistry<ICodeDomObjectGenerator>(
+                    .AddObjectGenerator(
                         new CodeDomObjectGeneratorRegistry()
                             .AddGenerator<ComponentCodeObject>(new CodeDomComponentObjectGenerator(nameProvider))
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
                             .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())
                     )
-                    .AddRegistry<ICodeDomPropertyGenerator>(
+                    .AddPropertyGenerator(
                         new CodeDomPropertyGeneratorRegistry()
                             .AddGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator())
                             .AddGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator())
                             .AddGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
                     )
-                    .AddRegistry<ICodeDomStructureGenerator>(new CodeDomDefaultStructureGenerator()
+                    .AddStructureGenerator(new CodeDomDefaultStructureGenerator()
                         .SetBaseType<GeneratedView>()
                         .AddInterface<IDisposable>()
                         .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
                         .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
                     )
-                    .AddRegistry<ICodeDomAttributeGenerator>(new CodeDomAttributeGeneratorRegistry()
+                    .AddAttributeGenerator(new CodeDomAttributeGeneratorRegistry()
                         .AddDefaultValueGenerator()
                     )
-                    .AddRegistry<ICodeDomTypeConversionGenerator>(new CodeDomDefaultTypeConvertionGenerator())
+                    .AddTypeConversionGenerator(new CodeDomDefaultTypeConvertionGenerator())
+                    .AddVisitor(new CodeDomVisitorRegistry())
                 ,
                 new CodeDomDefaultConfiguration()
                     .IsDirectObjectResolve(false)

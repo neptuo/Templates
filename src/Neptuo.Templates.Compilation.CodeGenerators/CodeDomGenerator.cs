@@ -30,23 +30,26 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             // 1) Use StructureGenerator to generate base structure.
             ICodeDomStructure structure = registry.WithStructureGenerator().Generate(context);
+            
+            // 2) Super context.
+            CodeDomDefaultContext superContext = new CodeDomDefaultContext(context, configuration, structure, registry);
 
-            // 2) User ObjectGenerator to generate code for codeObject tree.
+            // 3) User ObjectGenerator to generate code for codeObject tree.
             ICodeDomObjectResult result = registry
                 .WithObjectGenerator()
-                .Generate(new CodeDomDefaultObjectContext(context, configuration, structure, registry), codeObject);
+                .Generate(superContext.CreateObjectContext(), codeObject);
 
             if (result == null)
                 return false;
 
-            // 3) Append generated expression to entry point method.
+            // 4) Append generated expression to entry point method.
             if (result.HasExpression())
                 structure.EntryPoint.Statements.Add(result.Expression);
 
-            // 4) Run CodeDom visitors.
-            //TODO: Run CodeDom visitors.
+            // 5) Run CodeDom visitors.
+            registry.WithVisitor().Visit(superContext);
 
-            // 5) Generate source code.
+            // 6) Generate source code.
             //TODO: Using some registered component.
             WriteOutput(structure.Unit, context.Output);
 
