@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Generator for creating instances of types.
     /// </summary>
-    public class CodeDomObjectInstanceGenerator
+    public class CodeDomNewInstanceFeature
     {
         /// <summary>
         /// Generates expression for creating instance of type <paramref name="type"/>.

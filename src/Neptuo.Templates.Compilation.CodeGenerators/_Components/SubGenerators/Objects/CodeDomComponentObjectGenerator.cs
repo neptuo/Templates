@@ -136,7 +136,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns>Enumeration of statements for creating instance of type represented by <paramref name="codeObject"/>.</returns>
         protected IEnumerable<CodeStatement> GenerateInstanceCreation(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
-            CodeDomObjectInstanceGenerator instanceGenerator = new CodeDomObjectInstanceGenerator();
+            CodeDomNewInstanceFeature instanceGenerator = new CodeDomNewInstanceFeature();
             CodeExpression instanceExpression = instanceGenerator.Generate(context, codeObject.Type);
             if (instanceExpression == null)
                 return null;
@@ -153,7 +153,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         /// <summary>
         /// Provides enumeration of statements for default properties defined on type of <paramref name="codeObject"/>.
-        /// Currently uses <see cref="CodeDomPropertyAttributeFeatureGenerator"/> to generate default value based on attributes.
+        /// Currently uses <see cref="CodeDomPropertyAttributeFeature"/> to generate default value based on attributes.
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <param name="codeObject">Code object to process.</param>
@@ -162,7 +162,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected IEnumerable<CodeStatement> GenerateDefaultPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             List<CodeStatement> statements = new List<CodeStatement>();
-            CodeDomPropertyAttributeFeatureGenerator generator = new CodeDomPropertyAttributeFeatureGenerator();
+            CodeDomPropertyAttributeFeature generator = new CodeDomPropertyAttributeFeature();
 
             HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Select(p => p.Property.Name));
             foreach (PropertyInfo propertyInfo in codeObject.Type.GetProperties())
@@ -198,7 +198,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns>Enumeration of statements for properties set on <paramref name="codeObject"/>.</returns>
         protected IEnumerable<CodeStatement> GeneratePropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
-            CodeDomObjectPropertyGenerator propertyGenerator = new CodeDomObjectPropertyGenerator();
+            CodeDomAstPropertyFeature propertyGenerator = new CodeDomAstPropertyFeature();
             IEnumerable<CodeStatement> statements = propertyGenerator.Generate(context, codeObject, fieldName);
             return statements;
         }

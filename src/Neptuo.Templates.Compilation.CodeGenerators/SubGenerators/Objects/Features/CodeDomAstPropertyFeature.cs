@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomObjectPropertyGenerator
+    public class CodeDomAstPropertyFeature
     {
         public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IPropertiesCodeObject codeObject, string variableName)
         {

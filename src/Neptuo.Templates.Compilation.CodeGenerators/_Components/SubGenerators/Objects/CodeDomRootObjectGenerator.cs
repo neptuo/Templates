@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, RootCodeObject codeObject)
         {
-            CodeDomObjectPropertyGenerator generator = new CodeDomObjectPropertyGenerator();
+            CodeDomAstPropertyFeature generator = new CodeDomAstPropertyFeature();
             IEnumerable<CodeStatement> statements = generator.Generate(context, codeObject, "view");
             if (statements == null)
                 return null;

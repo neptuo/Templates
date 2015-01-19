@@ -65,9 +65,9 @@
     <Compile Include="SubGenerators\ICodeDomAttributeGenerator.cs" />
     <Compile Include="SubGenerators\ICodeDomAttributeResult.cs" />
     <Compile Include="SubGenerators\ICodeDomDependencyGenerator.cs" />
-    <Compile Include="SubGenerators\Objects\Features\CodeDomObjectInstanceGenerator.cs" />
-    <Compile Include="SubGenerators\Objects\Features\CodeDomObjectPropertyGenerator.cs" />
-    <Compile Include="SubGenerators\Objects\Features\CodeDomPropertyAttributeFeatureGenerator.cs" />
+    <Compile Include="SubGenerators\Objects\Features\CodeDomNewInstanceFeature.cs" />
+    <Compile Include="SubGenerators\Objects\Features\CodeDomAstPropertyFeature.cs" />
+    <Compile Include="SubGenerators\Objects\Features\CodeDomPropertyAttributeFeature.cs" />
     <Compile Include="SubGenerators\_CodeDomAttributeResultExtensions.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomComponentObjectGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
