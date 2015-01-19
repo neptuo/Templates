@@ -13,11 +13,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public interface ICodeDomAttributeGenerator
     {
         /// <summary>
-        /// Generates expression for 
+        /// Generates expression for <paramref name="attribute"/>.
         /// </summary>
-        /// <param name="context"></param>
-        /// <param name="attribute"></param>
-        /// <returns></returns>
+        /// <param name="context">Generator context.</param>
+        /// <param name="attribute">Attribute to process.</param>
+        /// <returns>Expression for <paramref name="attribute"/>.</returns>
         ICodeDomAttributeResult Generate(ICodeDomContext context, Attribute attribute);
     }
 }

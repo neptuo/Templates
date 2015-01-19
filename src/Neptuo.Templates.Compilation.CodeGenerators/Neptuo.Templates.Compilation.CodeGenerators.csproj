@@ -42,12 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Configuration\CodeDomConfigurationExtensions.cs" />
+    <Compile Include="Configuration\_CodeDomConfigurationExtensions.cs" />
     <Compile Include="Configuration\CodeDomDefaultConfiguration.cs" />
     <Compile Include="Converters\CodeDomDefaultTypeConvertionGenerator.cs" />
     <Compile Include="Converters\ICodeDomTypeConversionGenerator.cs" />
     <Compile Include="PostProcessing\ICodeDomVisitor.cs" />
+    <Compile Include="PropertyDefaults\CodeDomDefaultPropertyTypeResult.cs" />
+    <Compile Include="PropertyDefaults\ICodeDomPropertyTypeGenerator.cs" />
+    <Compile Include="PropertyDefaults\ICodeDomPropertyTypeResult.cs" />
+    <Compile Include="PropertyDefaults\_CodeDomPropertyTypeResultExtensions.cs" />
     <Compile Include="Registries\CodeDomAttributeGeneratorRegistry.cs" />
+    <Compile Include="Registries\CodeDomPropertyTypeGeneratorRegistry.cs" />
     <Compile Include="Registries\CodeDomVisitorRegistry.cs" />
     <Compile Include="_Components\PropertyDefaults\CodeDomDefaultValueAttributeGenerator.cs" />
     <Compile Include="PropertyDefaults\CodeDomAttributeGeneratorBase.cs" />

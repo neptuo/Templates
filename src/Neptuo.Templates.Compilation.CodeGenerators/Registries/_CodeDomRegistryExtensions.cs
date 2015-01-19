@@ -191,5 +191,28 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         }
 
         #endregion
+
+        #region ICodeDomPropertyTypeGenerator
+
+        /// <summary>
+        /// Registers <see cref="ICodeDomVisitor"/> to the <paramref name="registry"/>.
+        /// One of suggested instances here are <see cref="CodeDomVisitorRegistry"/>.
+        /// </summary>
+        /// <param name="registry">Extensible registry for generators.</param>
+        /// <param name="generator">Generator for processing all unbound properties of concrete type.</param>
+        /// <returns><paramref name="registry"/>.</returns>
+        public static CodeDomDefaultRegistry AddUnboundPropertyTypeGenerator(this CodeDomDefaultRegistry registry, ICodeDomPropertyTypeGenerator generator)
+        {
+            Guard.NotNull(registry, "visitor");
+            return registry.AddRegistry<ICodeDomPropertyTypeGenerator>(generator);
+        }
+
+        public static ICodeDomPropertyTypeGenerator WithUnboundPropertyType(this ICodeDomRegistry registry)
+        {
+            Guard.NotNull(registry, "registry");
+            return registry.With<ICodeDomPropertyTypeGenerator>();
+        }
+
+        #endregion
     }
 }

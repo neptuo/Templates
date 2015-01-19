@@ -14,6 +14,18 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomPropertyDefaultValueFeature
     {
         /// <summary>
+        /// If <c>true</c>, <see cref="CodeDomPropertyDefaultValueFeature.TryGenerate"/> tries to use attribute generators.
+        /// This value overrides <see cref="ICodeDomConfiguration.IsAttributeDefaultEnabled"/>.
+        /// </summary>
+        public bool? IsAttributeDefaultEnabled { get; set; }
+
+        /// <summary>
+        /// If <c>true</c>, <see cref="CodeDomPropertyDefaultValueFeature.TryGenerate"/> tries to use unbound property typy generators.
+        /// This value overrides <see cref="ICodeDomConfiguration.IsPropertyTypeDefaultEnabled"/>.
+        /// </summary>
+        public bool? IsPropertyTypeDefaultEnabled { get; set; }
+
+        /// <summary>
         /// Tries to generate <paramref name="expression"/> based on attributes used on <paramref name="propertyInfo"/>.
         /// If processing has no error, returns <c>true</c>; otherwise returns <c>false</c>.
         /// <paramref name="expression"/> is set, if any attribute provided expression.
@@ -25,23 +37,42 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><c>true</c> if processing has no error; otherwise <c>false</c>.</returns>
         public bool TryGenerate(ICodeDomContext context, PropertyInfo propertyInfo, out CodeExpression expression)
         {
-            foreach (Attribute attribute in propertyInfo.GetCustomAttributes())
-            {
-                ICodeDomAttributeResult result = context.Registry.WithAttributeGenerator().Generate(context, attribute);
-                if (result == null)
-                {
-                    expression = null;
-                    return false;
-                }
+            expression = null;
 
-                if (result.HasExpression())
+            // If configuration enables it...
+            if (IsAttributeDefaultEnabled ?? context.Configuration.IsAttributeDefaultEnabled())
+            {
+                // ... try process attributes.
+                foreach (Attribute attribute in propertyInfo.GetCustomAttributes())
                 {
-                    expression = result.Expression;
+                    ICodeDomAttributeResult attributeResult = context.Registry.WithAttributeGenerator().Generate(context, attribute);
+                    if (attributeResult == null)
+                        return false;
+
+                    if (attributeResult.HasExpression())
+                    {
+                        expression = attributeResult.Expression;
+                        return true;
+                    }
+                }
+            }
+
+            // If configuration enables it...
+            if (IsPropertyTypeDefaultEnabled ?? context.Configuration.IsPropertyTypeDefaultEnabled())
+            {
+                // ... try process unbound property by property type.
+                ICodeDomPropertyTypeResult propertyResult = context.Registry.WithUnboundPropertyType().Generate(context, propertyInfo);
+                if (propertyResult == null)
+                    return false;
+
+                if (propertyResult.HasExpression())
+                {
+                    expression = propertyResult.Expression;
                     return true;
                 }
             }
 
-            expression = null;
+            // No error, no expression.
             return true;
         }
     }
