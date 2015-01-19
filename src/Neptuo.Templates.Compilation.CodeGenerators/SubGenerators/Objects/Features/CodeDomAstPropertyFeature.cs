@@ -8,8 +8,18 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
+    /// <summary>
+    /// Generator for processing properties set on <see cref="IPropertiesCodeObject"/>.
+    /// </summary>
     public class CodeDomAstPropertyFeature
     {
+        /// <summary>
+        /// For each property on <paramref name="codeObject"/>, generates code statement using property registry in <paramref name="context"/>.
+        /// </summary>
+        /// <param name="context">Generator context.</param>
+        /// <param name="codeObject">Code object to process.</param>
+        /// <param name="variableName">Name of the variable for <paramref name="codeObject"/>.</param>
+        /// <returns>Enumeration of statements for properties on <paramref name="codeObject"/>.</returns>
         public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IPropertiesCodeObject codeObject, string variableName)
         {
             Type componentType = null;
