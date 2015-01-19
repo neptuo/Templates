@@ -12,24 +12,27 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, SetCodeProperty codeProperty)
         {
+            DefaultCodeDomPropertyResult statements = null;
             ICodeDomObjectResult valueResult = context.Registry.WithObjectGenerator().Generate(
                 context.CreateObjectContext(),
                 codeProperty.Value
             );
             if (valueResult != null)
             {
-                return new DefaultCodeDomPropertyResult(
-                    new CodeAssignStatement(
+                statements = new DefaultCodeDomPropertyResult();
+                if(valueResult.HasExpression())
+                {
+                    statements.AddStatement(new CodeAssignStatement(
                         new CodePropertyReferenceExpression(
                             context.PropertyTarget,
                             codeProperty.Property.Name
                         ),
                         valueResult.Expression
-                    )
-                );
+                    ));
+                }
             }
 
-            return null;
+            return statements;
         }
     }
 }

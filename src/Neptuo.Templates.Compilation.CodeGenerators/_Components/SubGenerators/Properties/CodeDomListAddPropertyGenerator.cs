@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 codeProperty.Property.Name
             );
 
-            List<CodeStatement> statements = new List<CodeStatement>();
+            DefaultCodeDomPropertyResult statements = new DefaultCodeDomPropertyResult();
             if (typeof(IEnumerable).IsAssignableFrom(codeProperty.Property.Type))
             {
                 isCastingRequired = true;
@@ -47,7 +47,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             if (isWriteable)
             {
-                statements.Add(
+                statements.AddStatement(
                     new CodeAssignStatement(
                         codePropertyReference,
                         new CodeObjectCreateExpression(targetType)
@@ -70,7 +70,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
                 if (result.HasExpression())
                 {
-                    statements.Add(
+                    statements.AddStatement(
                         new CodeExpressionStatement(
                             new CodeMethodInvokeExpression(
                                 codePropertyReference,
@@ -83,7 +83,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 //TODO: Other bindable ways
             }
 
-            return new DefaultCodeDomPropertyResult(statements);
+            return statements;
         }
     }
 }
