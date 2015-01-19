@@ -46,6 +46,10 @@
     <Compile Include="Configuration\CodeDomDefaultConfiguration.cs" />
     <Compile Include="Converters\CodeDomDefaultTypeConvertionGenerator.cs" />
     <Compile Include="Converters\ICodeDomTypeConversionGenerator.cs" />
+    <Compile Include="Registries\CodeDomAttributeGeneratorRegistry.cs" />
+    <Compile Include="SubGenerators\CodeDomDefaultValueAttributeGenerator.cs" />
+    <Compile Include="SubGenerators\CodeDomAttributeGeneratorBase.cs" />
+    <Compile Include="SubGenerators\CodeDomDefaultAttributeResult.cs" />
     <Compile Include="SubGenerators\CodeDomDefaultContext.cs" />
     <Compile Include="Configuration\ICodeDomConfiguration.cs" />
     <Compile Include="Registries\CodeDomDefaultRegistry.cs" />
@@ -58,9 +62,13 @@
     <Compile Include="Registries\CodeDomPropertyGeneratorRegistry.cs" />
     <Compile Include="Registries\CodeDomObjectGeneratorRegistry.cs" />
     <Compile Include="Structure\_DefaultCodeDomStructureGeneratorExtensions.cs" />
+    <Compile Include="SubGenerators\ICodeDomAttributeGenerator.cs" />
+    <Compile Include="SubGenerators\ICodeDomAttributeResult.cs" />
     <Compile Include="SubGenerators\ICodeDomDependencyGenerator.cs" />
     <Compile Include="SubGenerators\Objects\Features\CodeDomObjectInstanceGenerator.cs" />
     <Compile Include="SubGenerators\Objects\Features\CodeDomObjectPropertyGenerator.cs" />
+    <Compile Include="SubGenerators\Objects\Features\CodeDomPropertyAttributeFeatureGenerator.cs" />
+    <Compile Include="SubGenerators\_CodeDomAttributeResultExtensions.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomComponentObjectGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomObjectGeneratorBase.cs" />

@@ -4,6 +4,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -152,6 +153,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         /// <summary>
         /// Provides enumeration of statements for default properties defined on type of <paramref name="codeObject"/>.
+        /// Currently uses <see cref="CodeDomPropertyAttributeFeatureGenerator"/> to generate default value based on attributes.
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <param name="codeObject">Code object to process.</param>
@@ -159,7 +161,32 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns>Enumeration of statements for default properties defined on type of <paramref name="codeObject"/>.</returns>
         protected IEnumerable<CodeStatement> GenerateDefaultPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
-            return Enumerable.Empty<CodeStatement>();
+            List<CodeStatement> statements = new List<CodeStatement>();
+            CodeDomPropertyAttributeFeatureGenerator generator = new CodeDomPropertyAttributeFeatureGenerator();
+
+            HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Select(p => p.Property.Name));
+            foreach (PropertyInfo propertyInfo in codeObject.Type.GetProperties())
+            {
+                if (!boundProperties.Contains(propertyInfo.Name))
+                {
+                    CodeExpression expression;
+                    if (!generator.TryGenerate(context, propertyInfo, out expression))
+                        return null;
+
+                    if (expression != null)
+                    {
+                        statements.Add(new CodeAssignStatement(
+                            new CodePropertyReferenceExpression(
+                                new CodeVariableReferenceExpression(fieldName),
+                                propertyInfo.Name
+                            ),
+                            expression
+                        ));
+                    }
+                }
+            }
+
+            return statements;
         }
 
         /// <summary>

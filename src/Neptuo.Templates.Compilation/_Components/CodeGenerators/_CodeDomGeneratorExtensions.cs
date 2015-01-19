@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             return generator;
         }
 
-        public static XCodeDomGenerator SetAttributeGenerator<T>(this XCodeDomGenerator generator, ICodeDomAttributeGenerator attributeGenerator)
+        public static XCodeDomGenerator SetAttributeGenerator<T>(this XCodeDomGenerator generator, XICodeDomAttributeGenerator attributeGenerator)
         {
             Guard.NotNull(generator, "generator");
             Guard.NotNull(attributeGenerator, "attributeGenerator");
