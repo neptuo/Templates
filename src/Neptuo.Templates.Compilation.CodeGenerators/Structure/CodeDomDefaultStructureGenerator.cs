@@ -8,7 +8,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class DefaultCodeDomStructureGenerator : ICodeDomStructureGenerator
+    /// <summary>
+    /// Default implementation of <see cref="ICodeDomStructureGenerator"/>
+    /// </summary>
+    public class CodeDomDefaultStructureGenerator : ICodeDomStructureGenerator
     {
         public CodeTypeReference BaseType { get; set; }
         public IList<CodeTypeReference> ImplementedInterfaces { get; private set; }
@@ -16,7 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public string EntryPointName { get; set; }
         public IList<CodeParameterDeclarationExpression> EntryPointParameters { get; private set; }
 
-        public DefaultCodeDomStructureGenerator()
+        public CodeDomDefaultStructureGenerator()
         {
             ImplementedInterfaces = new List<CodeTypeReference>();
             EntryPointParameters = new List<CodeParameterDeclarationExpression>();
@@ -24,19 +27,19 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public ICodeDomStructure Generate(ICodeGeneratorContext context)
         {
-            DefaultCodeDomStructure structure = new DefaultCodeDomStructure(context.DependencyProvider.Resolve<ICodeDomNaming>());
+            CodeDomDefaultStructure structure = new CodeDomDefaultStructure(context.DependencyProvider.Resolve<ICodeDomNaming>());
             CreateCodeUnit(structure, context);
             CreateCodeClass(structure, context);
             CreateCodeMethods(structure, context);
             return structure;
         }
 
-        protected virtual void CreateCodeUnit(DefaultCodeDomStructure structure, ICodeGeneratorContext context)
+        protected virtual void CreateCodeUnit(CodeDomDefaultStructure structure, ICodeGeneratorContext context)
         {
             structure.Unit = new CodeCompileUnit();
         }
 
-        protected virtual void CreateCodeClass(DefaultCodeDomStructure structure, ICodeGeneratorContext context)
+        protected virtual void CreateCodeClass(CodeDomDefaultStructure structure, ICodeGeneratorContext context)
         {
             CodeNamespace codeNamespace = new CodeNamespace(structure.Naming.NamespaceName);
             //codeNamespace.Imports.Add(new CodeNamespaceImport("System"));
@@ -60,7 +63,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 typeDeclaration.BaseTypes.Add(implementedInterface);
         }
 
-        protected virtual void CreateCodeMethods(DefaultCodeDomStructure structure, ICodeGeneratorContext context)
+        protected virtual void CreateCodeMethods(CodeDomDefaultStructure structure, ICodeGeneratorContext context)
         {
             structure.EntryPoint = CreateEntryPoint(structure.Naming, context);
             structure.Class.Members.Add(structure.EntryPoint);

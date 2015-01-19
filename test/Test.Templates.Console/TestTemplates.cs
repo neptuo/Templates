@@ -128,7 +128,7 @@ namespace Test.Templates
                             .AddGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator())
                             .AddGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
                     )
-                    .AddRegistry<ICodeDomStructureGenerator>(new DefaultCodeDomStructureGenerator()
+                    .AddRegistry<ICodeDomStructureGenerator>(new CodeDomDefaultStructureGenerator()
                         .SetBaseType<GeneratedView>()
                         .AddInterface<IDisposable>()
                         .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
@@ -201,7 +201,7 @@ namespace Test.Templates
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
             container.RegisterInstance<INaming>(new DefaultNaming("Test1.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Test1", "Test1.dll"));
-            container.RegisterInstance<ICodeDomNaming>(new DefaultCodeDomNaming("Neptuo.Templates", "Test1"));
+            container.RegisterInstance<ICodeDomNaming>(new CodeDomDefaultNaming("Neptuo.Templates", "Test1"));
 
             ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Test1.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);

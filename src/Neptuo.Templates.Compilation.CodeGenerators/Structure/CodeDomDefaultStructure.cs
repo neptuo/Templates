@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implementation of <see cref="ICodeDomStructure"/>
     /// </summary>
-    public class DefaultCodeDomStructure : ICodeDomStructure
+    public class CodeDomDefaultStructure : ICodeDomStructure
     {
         public ICodeDomNaming Naming { get; set; }
         public CodeCompileUnit Unit { get; set; }
@@ -18,13 +18,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeConstructor Constructor { get; set; }
         public CodeMemberMethod EntryPoint { get; set; }
 
-        public DefaultCodeDomStructure(ICodeDomNaming naming)
+        public CodeDomDefaultStructure(ICodeDomNaming naming)
         {
             Guard.NotNull(naming, "naming");
             Naming = naming;
         }
 
-        public DefaultCodeDomStructure(ICodeDomNaming naming, CodeCompileUnit unit, CodeTypeDeclaration classDeclaration, CodeConstructor constructor, CodeEntryPointMethod entryPoint)
+        public CodeDomDefaultStructure(ICodeDomNaming naming, CodeCompileUnit unit, CodeTypeDeclaration classDeclaration, CodeConstructor constructor, CodeEntryPointMethod entryPoint)
             : this(naming)
         {
             Guard.NotNull(unit, "unit");

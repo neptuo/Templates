@@ -9,13 +9,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Default implementation of <see cref="ICodeDomNaming"/>.
     /// </summary>
-    public class DefaultCodeDomNaming : ICodeDomNaming
+    public class CodeDomDefaultNaming : ICodeDomNaming
     {
         public string NamespaceName { get; private set; }
         public string ClassName { get; private set; }
         public string FullClassName { get; private set; }
 
-        public DefaultCodeDomNaming(string namespaceName, string className)
+        public CodeDomDefaultNaming(string namespaceName, string className)
         {
             Guard.NotNullOrEmpty(className, "className");
             NamespaceName = namespaceName;
