@@ -54,5 +54,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             Guard.NotNull(registry, "registry");
             return registry.With<ICodeDomDependencyGenerator>();
         }
+
+        public static ICodeDomTypeConversionGenerator WithConversionGenerator(this ICodeDomRegistry registry)
+        {
+            Guard.NotNull(registry, "registry");
+            return registry.With<ICodeDomTypeConversionGenerator>();
+        }
     }
 }

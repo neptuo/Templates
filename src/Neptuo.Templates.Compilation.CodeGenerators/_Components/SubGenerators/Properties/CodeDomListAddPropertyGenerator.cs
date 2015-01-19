@@ -16,24 +16,29 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ListAddCodeProperty codeProperty)
         {
+            DefaultCodeDomPropertyResult statements = new DefaultCodeDomPropertyResult();
+
             bool isGenericProperty = codeProperty.Property.Type.IsGenericType;
             bool isCastingRequired = false;
             bool isWriteable = !codeProperty.Property.IsReadOnly;
             Type targetType = null;
+            Type targetItemType = typeof(object);
 
+            // Expression for accessing target property.
             CodeExpression targetField = context.PropertyTarget;
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
                 targetField,
                 codeProperty.Property.Name
             );
 
-            DefaultCodeDomPropertyResult statements = new DefaultCodeDomPropertyResult();
+            // Try to get target property type.
             if (typeof(IEnumerable).IsAssignableFrom(codeProperty.Property.Type))
             {
                 isCastingRequired = true;
                 if (isGenericProperty)
                 {
-                    targetType = typeof(List<>).MakeGenericType(codeProperty.Property.Type.GetGenericArguments()[0]);
+                    targetItemType = codeProperty.Property.Type.GetGenericArguments()[0];
+                    targetType = typeof(List<>).MakeGenericType(targetItemType);
 
                     if (typeof(ICollection<>).IsAssignableFrom(codeProperty.Property.Type.GetGenericTypeDefinition()))
                         isCastingRequired = false;
@@ -44,6 +49,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 }
             }
 
+            // If writeable, create new instance.
             if (isWriteable)
             {
                 statements.AddStatement(
@@ -54,34 +60,48 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 );
             }
 
+            // Is adding items will required casting (eg.: we created instance of type List<T>, but property is of type IEnumerable<T>).
             if (isCastingRequired)
                 codePropertyReference = new CodeCastExpression(targetType, codePropertyReference);
 
+            // Foreach property value...
             foreach (ICodeObject propertyValue in codeProperty.Values)
             {
+                // Resolve code object value.
                 ICodeDomObjectResult result = context.Registry.WithObjectGenerator().Generate(
                     context.CreateObjectContext().AddCodeProperty(codeProperty),
                     propertyValue
                 );
 
+                // If result is null, something wrong.
                 if (result == null)
                     return null;
 
+                // If result has expression...
                 if (result.HasExpression())
                 {
+                    // Try to convert to collection type.
+                    CodeExpression expression = context.Registry.WithConversionGenerator().Generate(
+                        context, 
+                        targetItemType, 
+                        result.Expression, 
+                        result.ExpressionReturnType
+                    );
+
+                    // Add statement to the collection.
                     statements.AddStatement(
                         new CodeExpressionStatement(
                             new CodeMethodInvokeExpression(
                                 codePropertyReference,
                                 addMethodName,
-                                result.Expression
+                                expression
                             )
                         )
                     );
                 }
-                //TODO: Other bindable ways
             }
 
+            // Return statements.
             return statements;
         }
     }

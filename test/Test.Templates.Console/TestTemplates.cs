@@ -134,6 +134,7 @@ namespace Test.Templates
                         .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
                         .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
                     )
+                    .AddRegistry<ICodeDomTypeConversionGenerator>(new DefaultCodeDomTypeConvertionGenerator())
                 ,
                 new DefaultCodeDomConfiguration()
                     .IsDirectObjectResolve(false)
