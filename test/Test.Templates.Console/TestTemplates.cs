@@ -10,7 +10,6 @@ using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.ViewActivators;
-using Neptuo.Templates.Runtime;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -23,11 +22,11 @@ using System.Xml;
 using System.Xml.Linq;
 using Test.Templates.Compilation.Parsers;
 using Test.Templates.Controls;
-using Test.Templates.Data;
-using Test.Templates.Extensions;
-using Test.Templates.Observers;
 using Test.Templates.Runtime;
-using Test.Templates.SimpleContainer;
+using Test.Templates.UI;
+using Test.Templates.UI.Converters;
+using Test.Templates.UI.Data;
+using Test.Templates.UI.Models;
 using Test.Templates.Unity;
 using IDisposable = Neptuo.IDisposable;
 
@@ -85,8 +84,7 @@ namespace Test.Templates
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
-                .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
-                .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
+                .RegisterDefaultNamespace("Test.Templates.UI, Test.Templates")
                 .RegisterObserverBuilder<DataContextObserver>("data", "*")
                 .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
                 .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)

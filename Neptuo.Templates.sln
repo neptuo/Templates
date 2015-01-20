@@ -24,9 +24,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.Console", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates", "test\Test.Templates\Test.Templates.csproj", "{5C3E3B99-79BD-4A53-A07C-0B9B03CE52D3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.Implementation", "test\Test.Templates.Implementation\Test.Templates.Implementation.csproj", "{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.CodeGenerators", "src\Neptuo.Templates.Compilation.CodeGenerators\Neptuo.Templates.Compilation.CodeGenerators.csproj", "{8635A5DC-10A6-40BE-B78A-54E6A78705D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.Compilation", "test\Test.Templates.Compilation\Test.Templates.Compilation.csproj", "{BC762024-B072-4030-B33E-7900493AC41D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,16 +88,6 @@ Global
 		{5C3E3B99-79BD-4A53-A07C-0B9B03CE52D3}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{5C3E3B99-79BD-4A53-A07C-0B9B03CE52D3}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{5C3E3B99-79BD-4A53-A07C-0B9B03CE52D3}.Release|x86.ActiveCfg = Release|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD}.Release|x86.ActiveCfg = Release|Any CPU
 		{8635A5DC-10A6-40BE-B78A-54E6A78705D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8635A5DC-10A6-40BE-B78A-54E6A78705D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8635A5DC-10A6-40BE-B78A-54E6A78705D1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -108,6 +98,16 @@ Global
 		{8635A5DC-10A6-40BE-B78A-54E6A78705D1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{8635A5DC-10A6-40BE-B78A-54E6A78705D1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{8635A5DC-10A6-40BE-B78A-54E6A78705D1}.Release|x86.ActiveCfg = Release|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{BC762024-B072-4030-B33E-7900493AC41D}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -117,10 +117,10 @@ Global
 		{C6F71A8A-1673-464A-9C88-F598D2DD5D6C} = {0DBB3903-441E-4395-94D4-F0E3E319ED13}
 		{52A35B4D-EECC-43A0-80FD-3EDE2A06E17C} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{5C3E3B99-79BD-4A53-A07C-0B9B03CE52D3} = {6B93C14C-2672-4935-AE18-C28432632F46}
-		{D74A050E-5AF5-40D2-812A-BC2B83D7ACDD} = {6B93C14C-2672-4935-AE18-C28432632F46}
+		{BC762024-B072-4030-B33E-7900493AC41D} = {6B93C14C-2672-4935-AE18-C28432632F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

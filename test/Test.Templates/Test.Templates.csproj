@@ -62,8 +62,40 @@
     <Compile Include="Runtime\ComponentManager.cs" />
     <Compile Include="Runtime\ComponentManager.ObserverInfo.cs" />
     <Compile Include="IComponentManager.cs" />
+    <Compile Include="UI\AnchorControl.cs" />
+    <Compile Include="UI\BaseContentControl.cs" />
+    <Compile Include="UI\BaseControl.cs" />
+    <Compile Include="UI\BindingExtension.cs" />
+    <Compile Include="UI\ContentTemplate.cs" />
+    <Compile Include="UI\Converters\IValueConverter.cs" />
+    <Compile Include="UI\Converters\IValueConverterService.cs" />
+    <Compile Include="UI\Converters\NullToBoolValueConverter.cs" />
+    <Compile Include="UI\Converters\ValueConverterService.cs" />
+    <Compile Include="UI\DataContextObserver.cs" />
+    <Compile Include="UI\Data\BindingManager.cs" />
+    <Compile Include="UI\Data\DataStorage.cs" />
+    <Compile Include="UI\FileTemplate.cs" />
+    <Compile Include="UI\GenericContentControl.cs" />
+    <Compile Include="UI\ITemplate.cs" />
+    <Compile Include="UI\ITemplateContent.cs" />
+    <Compile Include="UI\LiteralControl.cs" />
+    <Compile Include="UI\Models\PersonModel.cs" />
+    <Compile Include="UI\PanelControl.cs" />
+    <Compile Include="UI\SimpleContainer\SimpleObjectBuilder.cs" />
+    <Compile Include="UI\TextBoxControl.cs" />
+    <Compile Include="UI\ViewTemplateContent.cs" />
+    <Compile Include="UI\VisibleObserver.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.CodeGenerators\Neptuo.Templates.Compilation.CodeGenerators.csproj">
+      <Project>{8635a5dc-10a6-40be-b78a-54e6a78705d1}</Project>
+      <Name>Neptuo.Templates.Compilation.CodeGenerators</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
