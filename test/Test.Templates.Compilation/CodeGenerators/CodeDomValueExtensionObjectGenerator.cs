@@ -31,7 +31,7 @@ namespace Test.Templates.Compilation.CodeGenerators
                 CodeExpression expression = new CodeMethodInvokeExpression(
                     result.Expression,
                     TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(e => e.ProvideValue),
-                    new CodePrimitiveExpression(null)
+                    GenerateValueExtensionContext(context, codeObject, fieldName)
                 );
 
                 if(returnType != typeof(object))
@@ -55,6 +55,43 @@ namespace Test.Templates.Compilation.CodeGenerators
                 return attribute.Type;
 
             return typeof(object);
+        }
+
+        protected CodeExpression GenerateValueExtensionContext(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        {
+            CodeExpression propertyTarget = null;
+            context.TryGetPropertyTarget(out propertyTarget);
+            
+            CodeExpression propertyInfo = new CodePrimitiveExpression(null);
+            ICodeProperty codeProperty;
+            if(context.TryGetCodeProperty(out codeProperty)) 
+            {
+                if (propertyTarget != null)
+                {
+                    propertyInfo = new CodeMethodInvokeExpression(
+                        new CodeMethodInvokeExpression(
+                            propertyTarget,
+                            TypeHelper.MethodName<Type, Type>(t => t.GetType)
+                        ),
+                        TypeHelper.MethodName<Type, string, PropertyInfo>(t => t.GetProperty),
+                        new CodePrimitiveExpression(codeProperty.Property.Name)
+                    );
+                }
+                else
+                {
+                    propertyTarget = new CodePrimitiveExpression(null);
+                }
+            }
+
+            return new CodeObjectCreateExpression(
+                new CodeTypeReference(typeof(DefaultValueExtensionContext)),
+                propertyTarget,
+                propertyInfo,
+                new CodeFieldReferenceExpression(
+                    new CodeThisReferenceExpression(),
+                    "dependencyProvider"
+                )
+            );
         }
     }
 }
