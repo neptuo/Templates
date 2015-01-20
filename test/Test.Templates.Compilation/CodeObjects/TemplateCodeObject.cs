@@ -1,4 +1,5 @@
-﻿using Neptuo.Linq.Expressions;
+﻿using Neptuo.ComponentModel;
+using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
@@ -20,37 +21,10 @@ namespace Test.Templates.Compilation.CodeObjects
         { }
     }
 
-    public class CodeDomTemplateGenerator : CodeDomComponentGenerator
+    public class CodeDomTemplateGenerator : CodeDomComponentObjectGenerator
     {
-        public CodeDomTemplateGenerator(IFieldNameProvider fieldNameProvider, ComponentManagerDescriptor componentManager)
-            : base(fieldNameProvider, componentManager)
+        public CodeDomTemplateGenerator(IUniqueNameProvider nameProvider)
+            : base(nameProvider)
         { }
-
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, ComponentCodeObject component, ICodeProperty codeProperty)
-        {
-            // Remove all properties
-            List<ICodeProperty> properties = new List<ICodeProperty>(component.Properties);
-            component.Properties.Clear();
-
-            // Generate Bind method for ContentTemplateContent
-            ComponentCodeObject templateContent = new ComponentCodeObject(typeof(ContentTemplateContent));
-            templateContent.Properties.AddRange(properties);
-            
-            string fieldName = GenerateFieldName();
-            GenerateBindMethod(context, templateContent, fieldName);
-
-            // Add bind method to properties
-            component.Properties.Add(
-                new SetCodeProperty(
-                    new TypePropertyInfo(
-                        component.Type.GetProperty(TypeHelper.PropertyName<ContentTemplate, object>(t => t.BindMethod))
-                    ),
-                    new MethodReferenceCodeObject(FormatBindMethod(fieldName))
-                )
-            );
-
-            // Generate component
-            return base.GenerateCode(context, component, codeProperty);
-        }
     }
 }

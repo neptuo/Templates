@@ -37,4 +37,4 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyInformationalVersion(VersionInfo.Version)]
 [assembly: AssemblyFileVersion(VersionInfo.Version)]
 
-[assembly: InternalsVisibleTo("Neptuo.Templates.Components.Compilation")]
+[assembly: InternalsVisibleTo("Neptuo.Templates.Compilation.CodeGenerators")]

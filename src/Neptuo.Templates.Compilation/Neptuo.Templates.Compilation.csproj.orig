@@ -49,7 +49,10 @@
     <Compile Include="CodeObjects\CodeObjectList.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
+<<<<<<< Updated upstream
+=======
     <Compile Include="Parsers\_ParserServiceExtensions.cs" />
+>>>>>>> Stashed changes
     <Compile Include="_Components\CodeGenerators\CodeDomStructureGenerator.cs" />
     <Compile Include="_Components\Parsers\GenericContentControlBuilder.cs" />
     <Compile Include="_Components\_CodeDom\DefaultNaming.cs" />
