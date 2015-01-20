@@ -16,19 +16,23 @@ namespace Test.Templates.Compilation.CodeGenerators
     {
         private readonly ICodeDomObjectGenerator controlGenerator;
         private readonly ICodeDomObjectGenerator extensionGenerator;
+        private readonly ICodeDomObjectGenerator objectGenerator;
 
         public CodeDomDelegatingObjectGenerator(IUniqueNameProvider nameProvider)
         {
             controlGenerator = new CodeDomControlObjectGenerator(nameProvider);
             extensionGenerator = new CodeDomValueExtensionObjectGenerator(nameProvider);
+            objectGenerator = new CodeDomComponentObjectGenerator(nameProvider);
         }
 
         protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ITypeCodeObject codeObject)
         {
             if (typeof(IValueExtension).IsAssignableFrom(codeObject.Type))
                 return extensionGenerator.Generate(context, codeObject);
-            else
+            else if (typeof(IControl).IsAssignableFrom(codeObject.Type))
                 return controlGenerator.Generate(context, codeObject);
+            else
+                return objectGenerator.Generate(context, codeObject);
         }
     }
 }

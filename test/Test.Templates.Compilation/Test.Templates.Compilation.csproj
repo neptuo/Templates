@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="CodeGenerators\CodeDomDelegatingObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomControlObjectGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeDomDependencyProviderGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomValueExtensionObjectGenerator.cs" />
     <Compile Include="CodeObjects\MethodReferenceCodeObject.cs" />
     <Compile Include="CodeObjects\TemplateCodeObject.cs" />

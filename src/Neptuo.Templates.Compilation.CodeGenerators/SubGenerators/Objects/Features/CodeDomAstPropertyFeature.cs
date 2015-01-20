@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             foreach (ICodeProperty codeProperty in codeObject.Properties)
             {
                 ICodeDomPropertyResult result = context.Registry.WithPropertyGenerator().Generate(
-                    context.CreatePropertyContext(variableExpression),
+                    context.CreatePropertyContext(variableExpression).AddFieldType(componentType),
                     codeProperty
                 );
 

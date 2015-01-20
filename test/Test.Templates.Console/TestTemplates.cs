@@ -85,7 +85,7 @@ namespace Test.Templates
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
-                .RegisterDefaultNamespace("Test.Templates.UI, Test.Templates")
+                .RegisterNamespace("ui", "Test.Templates.UI, Test.Templates")
                 .RegisterObserverBuilder<DataContextObserver>("data", "*")
                 .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
                 .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
@@ -137,6 +137,7 @@ namespace Test.Templates
                     )
                     .AddTypeConversionGenerator(new CodeDomDefaultTypeConvertionGenerator())
                     .AddVisitor(new CodeDomVisitorRegistry())
+                    .AddDependencyGenerator(new CodeDomDependencyProviderGenerator())
                 ,
                 new CodeDomDefaultConfiguration()
                     .IsDirectObjectResolve(false)
@@ -201,10 +202,10 @@ namespace Test.Templates
 
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
-            container.RegisterInstance<INaming>(new DefaultNaming("Test1.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Test1", "Test1.dll"));
-            container.RegisterInstance<ICodeDomNaming>(new CodeDomDefaultNaming("Neptuo.Templates", "Test1"));
+            container.RegisterInstance<INaming>(new DefaultNaming("Index.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Index", "Index.dll"));
+            container.RegisterInstance<ICodeDomNaming>(new CodeDomDefaultNaming("Neptuo.Templates", "Index"));
 
-            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Test1.html").GetContent());
+            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
             if (view == null || context.Errors.Any())
             {

@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             object targetValue;
             if (!Converts.Try(sourceType, targetType, sourceValue, out targetValue))
             {
-                context.AddError("Target type ('{0}') can't constructed from value '{1}'.", targetType.FullName, sourceValue);
+                context.AddError("Target type ('{0}') can't be constructed from value '{1}'.", targetType.FullName, sourceValue);
                 return null;
             }
 
@@ -72,14 +72,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns>Converted expression which returns object of type <paramref name="requiredType"/>.</returns>
         protected virtual CodeExpression GenerateRuntimeConversion(ICodeDomContext context, Type requiredType, CodeExpression expression, Type expressionReturnType)
         {
-            return new CodeMethodInvokeExpression(
-                new CodeMethodReferenceExpression(
+            return new CodeCastExpression(
+                new CodeTypeReference(requiredType),
+                new CodeMethodInvokeExpression(
                     new CodeTypeReferenceExpression(typeof(Converts)),
                     "To",
-                    new CodeTypeReference(expressionReturnType),
-                    new CodeTypeReference(requiredType)
-                ),
-                expression
+                    new CodeTypeOfExpression(requiredType),
+                    expression
+                )
             );
         }
     }
