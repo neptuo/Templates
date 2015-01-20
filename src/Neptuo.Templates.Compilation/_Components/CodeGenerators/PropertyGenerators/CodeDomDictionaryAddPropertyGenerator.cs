@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<DictionaryAddCodeProperty>
+    public class XCodeDomDictionaryAddPropertyGenerator : XCodeDomPropertyGeneratorBase<DictionaryAddCodeProperty>
     {
         private static string addMethodName = TypeHelper.MethodName<IDictionary<string, string>, string, string>(d => d.Add);
 
-        public CodeDomDictionaryAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
+        public XCodeDomDictionaryAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
             : base(requiredComponentType, componentManagerDescriptor)
         { }
 
         protected override void GenerateProperty(CodeDomPropertyContext context, DictionaryAddCodeProperty codeProperty)
         {
-            bool createInstance = !codeProperty.Property.IsReadOnly;
+            bool isWriteable = !codeProperty.Property.IsReadOnly;
 
             CodeExpression targetField = GetPropertyTarget(context);
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 codeProperty.Property.Name
             );
 
-            if (createInstance)
+            if (isWriteable)
             {
                 context.Statements.Add(
                     new CodeAssignStatement(

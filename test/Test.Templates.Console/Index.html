@@ -1,38 +1,27 @@
-﻿<!-- This is a html comment -->
-<html xmlns:h="web-controls" xmlns:data="data" xmlns:ui="ui-controls">
+﻿<html xmlns:h="web-controls" xmlns:data="data" xmlns:ui="ui-controls">
     <body>
-        <div class="address" data:datacontext="{Binding Address}">
-            <h:panel header="Street:">
-                <h:textbox name="street" text="{Binding Street}" />
-            </h:panel>
-            <h:panel header="House Number:">
-                <!-- template="PanelTemplate.html"  -->
-                <h:textbox name="housenumber" text="{Binding HouseNumber}" />
-            </h:panel>
-            <h:panel header="City:">
-                <h:textbox name="city" text="{Binding City}" />
-            </h:panel>
+        <div class="address" data:datacontext="{ui:Binding Address}">
+            <ui:panel header="Street:">
+                <ui:textbox name="street" text="{ui:Binding Address.Street}" />
+            </ui:panel>
+            <ui:panel header="House Number:">
+                <ui:textbox name="housenumber" text="{ui:Binding Address.HouseNumber}" />
+            </ui:panel>
+            <ui:panel header="City:">
+                <ui:textbox name="city" text="{ui:Binding Address.City}" />
+            </ui:panel>
             <div>
-                <h:panel header="Postal code:">
-                    <h:textbox name="postalcode" text="{Binding PostalCode}" class="textbox" />
-                </h:panel>
+                <ui:panel header="Postal code:">
+                    <ui:textbox name="postalcode" text="{ui:Binding Address.PostalCode}" class="textbox" />
+                </ui:panel>
             </div>
         </div>
         <div class="person-links">
-            <h:panel>
-                <template>
-                    Hello, World!
-
-                    <h:anchor url="http://www.google.com" target="_blank" security="{h:Security Identifier={h:Parameter Name=F, Value=X}}">
-                        <parameters>
-                            <h:parameter name="q" value="{Binding Firstname}" />
-                        </parameters>
-                    </h:anchor>
-                </template>
-                <content>
-                    Person
-                </content>
-            </h:panel>
+            <ui:anchor url="http://www.google.com" target="_blank" security="{ui:Security Identifier={ui:Parameter Name=F, Value=X}}">
+                <parameters>
+                    <ui:parameter name="q" value="{ui:Binding Firstname}" />
+                </parameters>
+            </ui:anchor>
         </div>
     </body>
 </html>

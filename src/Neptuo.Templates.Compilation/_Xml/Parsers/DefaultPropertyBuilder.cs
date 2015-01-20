@@ -35,8 +35,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 //Collection item
                 ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                bool isTextAssignable = codeProperty.Property.CanAssign(typeof(string));
                 foreach (IXmlNode node in content)
                 {
+                    if (!isTextAssignable && node.NodeType == XmlNodeType.Text)
+                    {
+                        string textValue = ((IXmlText)node).Text;
+                        if (String.IsNullOrEmpty(textValue) || String.IsNullOrWhiteSpace(textValue))
+                            continue;
+                    }
+
                     IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context.BuilderContext, node);
                     if (values != null)
                         codeProperty.SetRangeValue(values);

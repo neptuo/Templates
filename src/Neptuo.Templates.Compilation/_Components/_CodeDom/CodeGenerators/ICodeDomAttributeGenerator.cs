@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Generates code for properties decorated with attribute, but without assigned value.
     /// </summary>
-    public interface ICodeDomAttributeGenerator
+    public interface XICodeDomAttributeGenerator
     {
         /// <summary>
         /// Generates code for properties decorated with <paramref name="attribute"/>, but without assigned value.

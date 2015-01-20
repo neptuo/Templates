@@ -2,7 +2,7 @@
 using System.Runtime;
 using System.Text;
 
-namespace Neptuo.Templates
+namespace Test.Templates
 {
     /// <summary>
     /// Output writer.

@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Neptuo;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates
+namespace Test.Templates
 {
     /// <summary>
     /// Implementation of <see cref="IHtmlWriter"/> for writing html.

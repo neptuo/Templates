@@ -8,9 +8,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     public class CodeDomPropertyTypeGeneratorContext
     {
-        public CodeDomGenerator.Context Context { get; private set; }
+        public XCodeDomGenerator.Context Context { get; private set; }
 
-        public CodeDomPropertyTypeGeneratorContext(CodeDomGenerator.Context context)
+        public CodeDomPropertyTypeGeneratorContext(XCodeDomGenerator.Context context)
         {
             Context = context;
         }

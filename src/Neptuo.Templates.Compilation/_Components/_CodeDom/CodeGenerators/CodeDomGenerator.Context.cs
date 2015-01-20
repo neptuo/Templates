@@ -7,16 +7,16 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    partial class CodeDomGenerator
+    partial class XCodeDomGenerator
     {
         public class Context
         {
             public ICodeGeneratorContext CodeGeneratorContext { get; private set; }
-            public CodeDomGenerator CodeGenerator { get; private set; }
+            public XCodeDomGenerator CodeGenerator { get; private set; }
             public CodeDomStructure Structure { get; set; }
             public bool IsDirectObjectResolve { get; private set; }
 
-            public Context(ICodeGeneratorContext codeGeneratorContext, CodeDomGenerator codeGenerator, bool isDirectObjectResolve)
+            public Context(ICodeGeneratorContext codeGeneratorContext, XCodeDomGenerator codeGenerator, bool isDirectObjectResolve)
             {
                 CodeGeneratorContext = codeGeneratorContext;
                 CodeGenerator = codeGenerator;

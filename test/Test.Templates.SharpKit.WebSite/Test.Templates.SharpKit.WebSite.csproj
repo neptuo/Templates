@@ -107,10 +107,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Test.Templates.Implementation\Test.Templates.Implementation.csproj">
-      <Project>{d74a050e-5af5-40d2-812a-bc2b83d7acdd}</Project>
-      <Name>Test.Templates.Implementation</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Test.Templates\Test.Templates.csproj">
       <Project>{5c3e3b99-79bd-4a53-a07c-0b9b03ce52d3}</Project>
       <Name>Test.Templates</Name>

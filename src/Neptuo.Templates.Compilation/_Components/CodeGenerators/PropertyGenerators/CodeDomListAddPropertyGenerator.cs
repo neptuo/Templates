@@ -10,9 +10,9 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddCodeProperty>
+    public class XCodeDomListAddPropertyGenerator : XCodeDomPropertyGeneratorBase<ListAddCodeProperty>
     {
-        public CodeDomListAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
+        public XCodeDomListAddPropertyGenerator(Type requiredComponentType, ComponentManagerDescriptor componentManagerDescriptor)
             : base(requiredComponentType, componentManagerDescriptor)
         { }
 

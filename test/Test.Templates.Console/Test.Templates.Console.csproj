@@ -76,13 +76,17 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.CodeGenerators\Neptuo.Templates.Compilation.CodeGenerators.csproj">
+      <Project>{8635a5dc-10a6-40be-b78a-54e6a78705d1}</Project>
+      <Name>Neptuo.Templates.Compilation.CodeGenerators</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Test.Templates.Implementation\Test.Templates.Implementation.csproj">
-      <Project>{d74a050e-5af5-40d2-812a-bc2b83d7acdd}</Project>
-      <Name>Test.Templates.Implementation</Name>
+    <ProjectReference Include="..\Test.Templates.Compilation\Test.Templates.Compilation.csproj">
+      <Project>{bc762024-b072-4030-b33e-7900493ac41d}</Project>
+      <Name>Test.Templates.Compilation</Name>
     </ProjectReference>
     <ProjectReference Include="..\Test.Templates\Test.Templates.csproj">
       <Project>{5c3e3b99-79bd-4a53-a07c-0b9b03ce52d3}</Project>

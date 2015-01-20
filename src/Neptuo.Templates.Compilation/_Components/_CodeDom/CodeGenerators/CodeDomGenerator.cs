@@ -12,17 +12,17 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public partial class CodeDomGenerator : ICodeGenerator
+    public partial class XCodeDomGenerator : ICodeGenerator
     {
         public bool IsDirectObjectResolve { get; set; }
 
-        public CodeDomGenerator()
+        public XCodeDomGenerator()
         {
             CodeObjectGenerators = new Dictionary<Type, ICodeDomComponentGenerator>();
-            CodePropertyGenerators = new Dictionary<Type, ICodeDomPropertyGenerator>();
-            DependencyProviderGenerators = new Dictionary<Type, ICodeDomDependencyGenerator>();
-            AttributeGenerators = new Dictionary<Type, ICodeDomAttributeGenerator>();
-            PropertyTypeGenerators = new Dictionary<Type, ICodeDomPropertyTypeGenerator>();
+            CodePropertyGenerators = new Dictionary<Type, XICodeDomPropertyGenerator>();
+            DependencyProviderGenerators = new Dictionary<Type, XICodeDomDependencyGenerator>();
+            AttributeGenerators = new Dictionary<Type, XICodeDomAttributeGenerator>();
+            PropertyTypeGenerators = new Dictionary<Type, XICodeDomPropertyTypeGenerator>();
             CodeDomVisitors = new HashSet<ICodeDomVisitor>();
         }
 
@@ -40,9 +40,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomPropertyGenerator
 
-        protected Dictionary<Type, ICodeDomPropertyGenerator> CodePropertyGenerators { get; private set; }
+        protected Dictionary<Type, XICodeDomPropertyGenerator> CodePropertyGenerators { get; private set; }
 
-        public void SetCodePropertyGenerator(Type type, ICodeDomPropertyGenerator generator)
+        public void SetCodePropertyGenerator(Type type, XICodeDomPropertyGenerator generator)
         {
             CodePropertyGenerators[type] = generator;
         }
@@ -51,9 +51,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomDependencyGenerator
 
-        protected Dictionary<Type, ICodeDomDependencyGenerator> DependencyProviderGenerators { get; private set; }
+        protected Dictionary<Type, XICodeDomDependencyGenerator> DependencyProviderGenerators { get; private set; }
 
-        public void SetDependencyProviderGenerator(Type type, ICodeDomDependencyGenerator generator)
+        public void SetDependencyProviderGenerator(Type type, XICodeDomDependencyGenerator generator)
         {
             DependencyProviderGenerators[type] = generator;
         }
@@ -62,9 +62,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomAttributeGenerator
 
-        protected Dictionary<Type, ICodeDomAttributeGenerator> AttributeGenerators { get; private set; }
+        protected Dictionary<Type, XICodeDomAttributeGenerator> AttributeGenerators { get; private set; }
 
-        public void SetAttributeGenerator(Type type, ICodeDomAttributeGenerator generator)
+        public void SetAttributeGenerator(Type type, XICodeDomAttributeGenerator generator)
         {
             AttributeGenerators[type] = generator;
         }
@@ -73,9 +73,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomPropertyTypeGenerator
 
-        protected Dictionary<Type, ICodeDomPropertyTypeGenerator> PropertyTypeGenerators { get; private set; }
+        protected Dictionary<Type, XICodeDomPropertyTypeGenerator> PropertyTypeGenerators { get; private set; }
 
-        public void SetPropertyTypeGenerator(Type type, ICodeDomPropertyTypeGenerator generator)
+        public void SetPropertyTypeGenerator(Type type, XICodeDomPropertyTypeGenerator generator)
         {
             PropertyTypeGenerators[type] = generator;
         }
@@ -84,9 +84,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         #region ICodeDomBaseStructureExtension
 
-        public ICodeDomStructureGenerator BaseStructureGenerator { get; private set; }
+        public XICodeDomStructureGenerator BaseStructureGenerator { get; private set; }
 
-        public void SetBaseStructureGenerator(ICodeDomStructureGenerator generator)
+        public void SetBaseStructureGenerator(XICodeDomStructureGenerator generator)
         {
             BaseStructureGenerator = generator;
         }
@@ -131,7 +131,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public void GenerateProperty(CodeDomPropertyContext context, ICodeProperty codeProperty)
         {
-            foreach (KeyValuePair<Type, ICodeDomPropertyGenerator> item in CodePropertyGenerators)
+            foreach (KeyValuePair<Type, XICodeDomPropertyGenerator> item in CodePropertyGenerators)
             {
                 if (item.Key == codeProperty.GetType())
                 {
@@ -145,7 +145,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeExpression GenerateDependency(Context context, Type type)
         {
-            foreach (KeyValuePair<Type, ICodeDomDependencyGenerator> item in DependencyProviderGenerators)
+            foreach (KeyValuePair<Type, XICodeDomDependencyGenerator> item in DependencyProviderGenerators)
             {
                 if (item.Key.IsAssignableFrom(type))
                 {
@@ -160,7 +160,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeExpression GenerateAttribute(Context context, PropertyInfo propertyInfo, Attribute attribute)
         {
-            foreach (KeyValuePair<Type, ICodeDomAttributeGenerator> item in AttributeGenerators)
+            foreach (KeyValuePair<Type, XICodeDomAttributeGenerator> item in AttributeGenerators)
             {
                 if (item.Key.IsAssignableFrom(attribute.GetType()))
                 {
@@ -174,7 +174,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeExpression GeneratePropertyType(Context context, Type type, PropertyInfo propertyInfo)
         {
-            foreach (KeyValuePair<Type, ICodeDomPropertyTypeGenerator> item in PropertyTypeGenerators)
+            foreach (KeyValuePair<Type, XICodeDomPropertyTypeGenerator> item in PropertyTypeGenerators)
             {
                 if (item.Key.IsAssignableFrom(propertyInfo.PropertyType))
                 {

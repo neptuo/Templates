@@ -9,7 +9,7 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomStructureGenerator : ICodeDomStructureGenerator
+    public class CodeDomStructureGenerator : XICodeDomStructureGenerator
     {
         public static partial class Names
         {

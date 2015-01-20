@@ -10,11 +10,8 @@ using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.ViewActivators;
-using Neptuo.Templates.Controls;
-using Neptuo.Templates.Extensions;
-using Neptuo.Templates.Observers;
-using Neptuo.Templates.Runtime;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -23,12 +20,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Test.Templates.Compilation.CodeGenerators;
+using Test.Templates.Compilation.Parsers;
 using Test.Templates.Controls;
-using Test.Templates.Data;
-using Test.Templates.Extensions;
-using Test.Templates.Observers;
-using Test.Templates.SimpleContainer;
+using Test.Templates.Runtime;
+using Test.Templates.UI;
+using Test.Templates.UI.Converters;
+using Test.Templates.UI.Data;
+using Test.Templates.UI.Models;
 using Test.Templates.Unity;
+using IDisposable = Neptuo.IDisposable;
 
 namespace Test.Templates
 {
@@ -84,8 +85,7 @@ namespace Test.Templates
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
-                .RegisterDefaultNamespace("Test.Templates.Extensions, Test.Templates.Implementation")
-                .RegisterNamespace("h", "Test.Templates.Controls, Test.Templates.Implementation")
+                .RegisterNamespace("ui", "Test.Templates.UI, Test.Templates")
                 .RegisterObserverBuilder<DataContextObserver>("data", "*")
                 .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
                 .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
@@ -96,19 +96,54 @@ namespace Test.Templates
             ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
                 TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
                 TypeHelper.MethodName<IComponentManager, object>(m => m.Init),
-                TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action<IObserver>>(m => m.AttachObserver),
+                TypeHelper.MethodName<IComponentManager, IControl, IControlObserver, Action<IControlObserver>>(m => m.AttachObserver),
                 TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue)
             );
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
-            CodeDomGenerator codeGenerator = new CodeDomGenerator()
-                .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)
-                //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
-                .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(
-                    new CodeDomComponentGenerator(fieldNameProvider, componentManagerDescriptor), 
-                    new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManagerDescriptor)
-                ))
-                .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
-                .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
+            //XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
+            //    .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)
+            //    //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
+            //    .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(
+            //        new CodeDomComponentGenerator(fieldNameProvider, componentManagerDescriptor), 
+            //        new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManagerDescriptor)
+            //    ))
+            //    .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
+            //    .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
+            IUniqueNameProvider nameProvider = new SequenceUniqueNameProvider("field", 1);
+
+            CodeDomGenerator codeGenerator = new CodeDomGenerator(
+                new CodeDomDefaultRegistry()
+                    .AddObjectGenerator(
+                        new CodeDomObjectGeneratorRegistry()
+                            .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
+                            .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
+                            .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
+                            .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())
+                    )
+                    .AddPropertyGenerator(
+                        new CodeDomPropertyGeneratorRegistry()
+                            .AddGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator())
+                            .AddGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator())
+                            .AddGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
+                    )
+                    .AddStructureGenerator(new CodeDomDefaultStructureGenerator()
+                        .SetBaseType<GeneratedView>()
+                        .AddInterface<IDisposable>()
+                        .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
+                        .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
+                    )
+                    .AddAttributeGenerator(new CodeDomAttributeGeneratorRegistry()
+                        .AddDefaultValueGenerator()
+                    )
+                    .AddTypeConversionGenerator(new CodeDomDefaultTypeConvertionGenerator())
+                    .AddVisitor(new CodeDomVisitorRegistry())
+                    .AddDependencyGenerator(new CodeDomDependencyProviderGenerator())
+                ,
+                new CodeDomDefaultConfiguration()
+                    .IsDirectObjectResolve(false)
+                    .IsAttributeDefaultEnabled(false)
+                    .IsPropertyTypeDefaultEnabled(false)
+            );
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);
             codeCompiler.IsDebugMode = true;
@@ -170,12 +205,13 @@ namespace Test.Templates
             //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
 
             container.RegisterInstance<INaming>(new DefaultNaming("Index.cs", CodeDomStructureGenerator.Names.CodeNamespace, "Index", "Index.dll"));
+            container.RegisterInstance<ICodeDomNaming>(new CodeDomDefaultNaming("Neptuo.Templates", "Index"));
 
             ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
             GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
             if (view == null || context.Errors.Any())
             {
-                Console.WriteLine("Unable to compile view...");
+                Console.WriteLine("Unnable to compile view...");
 
                 foreach (IErrorInfo errorInfo in context.Errors)
                     Console.WriteLine("{0}:{1} -> {2}", errorInfo.LineNumber, errorInfo.ColumnIndex, errorInfo.ErrorText);
@@ -184,8 +220,7 @@ namespace Test.Templates
             {
                 DebugHelper.Debug("Run", () =>
                 {
-                    view.Setup(container);
-                    view.OnInit(new ComponentManager());
+                    view.Init(container, new ComponentManager());
                     view.Render(new HtmlTextWriter(output));
                     view.Dispose();
                 });
