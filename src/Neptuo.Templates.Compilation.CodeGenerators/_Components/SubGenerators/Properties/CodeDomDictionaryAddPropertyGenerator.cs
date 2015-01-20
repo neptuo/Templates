@@ -55,13 +55,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 // Resolve key code object value.
                 ICodeDomObjectResult keyResult = context.Registry.WithObjectGenerator().Generate(
-                    context.CreateObjectContext().AddCodeProperty(codeProperty),
+                    context.CreateObjectContext().AddCodeProperty(codeProperty).AddPropertyTarget(context.PropertyTarget),
                     propertyValue.Key
                 );
 
                 // Resolve value code object value.
                 ICodeDomObjectResult valueResult = context.Registry.WithObjectGenerator().Generate(
-                    context.CreateObjectContext().AddCodeProperty(codeProperty),
+                    context.CreateObjectContext().AddCodeProperty(codeProperty).AddPropertyTarget(context.PropertyTarget),
                     propertyValue.Value
                 );
 

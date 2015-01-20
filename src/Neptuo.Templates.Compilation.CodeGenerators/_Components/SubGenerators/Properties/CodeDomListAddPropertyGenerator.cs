@@ -69,7 +69,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 // Resolve code object value.
                 ICodeDomObjectResult result = context.Registry.WithObjectGenerator().Generate(
-                    context.CreateObjectContext().AddCodeProperty(codeProperty),
+                    context.CreateObjectContext().AddCodeProperty(codeProperty).AddPropertyTarget(context.PropertyTarget),
                     propertyValue
                 );
 
