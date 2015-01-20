@@ -13,6 +13,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomComponentObjectGenerator : CodeDomObjectGeneratorBase<ComponentCodeObject>
     {
         /// <summary>
+        /// Suffix of 'create' method.
+        /// </summary>
+        protected const string CreateMethodSuffix = "Create";
+
+        /// <summary>
         /// If <c>true</c>, create method will contain default properties binding.
         /// </summary>
         public bool IsDefaultPropertyAssignmentInCreateMethod { get; set; }
@@ -45,12 +50,31 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns>Execution of create method for <paramref name="codeObject"/>.</returns>
         protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject)
         {
-            CodeMemberMethod createMethod = GenerateCreateMethod(context, codeObject);
+            // Get field name.
+            string fieldName = NameProvider.Next();
+
+            // Generate with unique field name.
+            return Generate(context, codeObject, fieldName);
+        }
+
+        /// <summary>
+        /// Generates create method for <paramref name="codeObject"/> and returns its execution.
+        /// </summary>
+        /// <param name="context">Generator context.</param>
+        /// <param name="codeObject">Code object to process.</param>
+        /// <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
+        /// <returns>Execution of create method for <paramref name="codeObject"/>.</returns>
+        protected virtual ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        {
+            // Generate create method.
+            CodeMemberMethod createMethod = GenerateCreateMethod(context, codeObject, fieldName);
             if (createMethod == null)
                 return null;
 
+            // Append to structure.
             context.Structure.Class.Members.Add(createMethod);
 
+            // Return the invocation of create method.
             return new CodeDomDefaultObjectResult(
                 new CodeMethodInvokeExpression(
                     new CodeThisReferenceExpression(),
@@ -70,16 +94,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <param name="codeObject">Code object to process.</param>
+        /// <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
         /// <returns>Create method for <paramref name="codeObject"/>.</returns>
-        protected virtual CodeMemberMethod GenerateCreateMethod(ICodeDomObjectContext context, ComponentCodeObject codeObject)
+        protected virtual CodeMemberMethod GenerateCreateMethod(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
-            // Get field name.
-            string fieldName = NameProvider.Next();
-
-            // Create method which 
+            // Create method.
             CodeMemberMethod createMethod = new CodeMemberMethod()
             {
-                Name = FormatUniqueName(fieldName, "Create"),
+                Name = FormatUniqueName(fieldName, CreateMethodSuffix),
                 Attributes = MemberAttributes.Private,
                 ReturnType = new CodeTypeReference(codeObject.Type)
             };
@@ -106,7 +128,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (IsPropertyAssignmentInCreateMethod)
             {
                 // 3) Bind properties from code object.
-                statements = GeneratePropertyAssignment(context, codeObject, fieldName);
+                statements = GenerateAstPropertyAssignment(context, codeObject, fieldName);
                 if (statements == null)
                     return null;
 
@@ -196,7 +218,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object to process.</param>
         /// <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
         /// <returns>Enumeration of statements for properties set on <paramref name="codeObject"/>.</returns>
-        protected IEnumerable<CodeStatement> GeneratePropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected IEnumerable<CodeStatement> GenerateAstPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             CodeDomAstPropertyFeature propertyGenerator = new CodeDomAstPropertyFeature();
             IEnumerable<CodeStatement> statements = propertyGenerator.Generate(context, codeObject, fieldName);
@@ -210,7 +232,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object to process.</param>
         /// <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
         /// <returns>Additional statements for create method.</returns>
-        protected IEnumerable<CodeStatement> GenerateCreateMethodAdditionalStatements(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected virtual IEnumerable<CodeStatement> GenerateCreateMethodAdditionalStatements(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             return Enumerable.Empty<CodeStatement>();
         }

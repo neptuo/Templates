@@ -74,6 +74,7 @@
     <Compile Include="UI\DataContextObserver.cs" />
     <Compile Include="UI\Data\BindingManager.cs" />
     <Compile Include="UI\Data\DataStorage.cs" />
+    <Compile Include="UI\DateTimeExtension.cs" />
     <Compile Include="UI\FileTemplate.cs" />
     <Compile Include="UI\GenericContentControl.cs" />
     <Compile Include="UI\ITemplate.cs" />

@@ -42,7 +42,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeGenerators\CodeDomDelegatingObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomExtendedComponentObjectGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeDomControlObjectGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeDomValueExtensionObjectGenerator.cs" />
     <Compile Include="CodeObjects\MethodReferenceCodeObject.cs" />
     <Compile Include="CodeObjects\TemplateCodeObject.cs" />
     <Compile Include="Parsers\StringPropertyBuilder.cs" />

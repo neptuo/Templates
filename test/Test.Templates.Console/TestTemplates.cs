@@ -20,6 +20,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Test.Templates.Compilation.CodeGenerators;
 using Test.Templates.Compilation.Parsers;
 using Test.Templates.Controls;
 using Test.Templates.Runtime;
@@ -114,7 +115,7 @@ namespace Test.Templates
                 new CodeDomDefaultRegistry()
                     .AddObjectGenerator(
                         new CodeDomObjectGeneratorRegistry()
-                            .AddGenerator<ComponentCodeObject>(new CodeDomComponentObjectGenerator(nameProvider))
+                            .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
                             .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())

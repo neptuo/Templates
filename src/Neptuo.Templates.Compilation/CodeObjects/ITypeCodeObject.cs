@@ -8,7 +8,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Object that has type.
     /// </summary>
-    public interface ITypeCodeObject
+    public interface ITypeCodeObject : ICodeObject
     {
         /// <summary>
         /// Object type.
