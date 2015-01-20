@@ -7,8 +7,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Test.Templates.Compilation.CodeObjects;
+using Test.Templates.Controls;
 
-namespace Test.Templates.Controls
+namespace Test.Templates.Compilation.Parsers
 {
     public class TemplatePropertyBuilder : IContentPropertyBuilder, IPropertyBuilder
     {

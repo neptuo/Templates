@@ -8,8 +8,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Test.Templates.Controls;
 
-namespace Test.Templates.Controls
+namespace Test.Templates.Compilation.CodeObjects
 {
     public class TemplateCodeObject : ComponentCodeObject
     {

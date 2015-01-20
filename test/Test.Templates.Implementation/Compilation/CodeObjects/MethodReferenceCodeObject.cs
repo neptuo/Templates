@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test.Templates.Controls
+namespace Test.Templates.Compilation.CodeObjects
 {
     [JsType(Export = false)]
     public class MethodReferenceCodeObject : ICodeObject

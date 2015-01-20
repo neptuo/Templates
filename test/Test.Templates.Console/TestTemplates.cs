@@ -24,6 +24,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using Test.Templates.Compilation.Parsers;
 using Test.Templates.Controls;
 using Test.Templates.Data;
 using Test.Templates.Extensions;
@@ -142,6 +143,8 @@ namespace Test.Templates
                 ,
                 new CodeDomDefaultConfiguration()
                     .IsDirectObjectResolve(false)
+                    .IsAttributeDefaultEnabled(false)
+                    .IsPropertyTypeDefaultEnabled(false)
             );
 
             CodeCompiler codeCompiler = new CodeCompiler(Environment.CurrentDirectory);
