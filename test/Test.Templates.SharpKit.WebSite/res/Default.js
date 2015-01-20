@@ -4,16 +4,11 @@ function DefaultClient_Load(){
     $(document.body).append("Ready<br/>");
 };
 function btnTest_click(e){
-    var container = new Test.Templates.SimpleContainer.SimpleObjectBuilder.ctor();
-    Neptuo.DependencyContainerExtensions.RegisterInstance$1(Test.Templates.Data.DataStorage.ctor, container, new Test.Templates.Data.DataStorage.ctor(new Test.Templates.PersonModel.ctor("Jon", "Doe", new Test.Templates.AddressModel.ctor("Dlouhá street", 23, "Prague", 10001))));
-    Neptuo.DependencyContainerExtensions.RegisterInstance$1(Test.Templates.Extensions.IValueConverterService.ctor, container, new Test.Templates.Extensions.ValueConverterService.ctor().SetConverter("NullToBool", new Test.Templates.Extensions.NullToBoolValueConverter.ctor()));
-    Neptuo.DependencyContainerExtensions.RegisterInstance$1(Neptuo.Templates.Runtime.IComponentManager.ctor, container, new Neptuo.Templates.Runtime.ComponentManager.ctor());
+    var container = new Test.Templates.UI.SimpleContainer.SimpleObjectBuilder.ctor();
+    Neptuo._DependencyContainerExtensions.RegisterInstance$1(Test.Templates.UI.Data.DataStorage.ctor, container, new Test.Templates.UI.Data.DataStorage.ctor(new Test.Templates.UI.Models.PersonModel.ctor("Jon", "Doe", new Test.Templates.UI.Models.AddressModel.ctor("Dlouhá street", 23, "Prague", 10001))));
+    Neptuo._DependencyContainerExtensions.RegisterInstance$1(Test.Templates.UI.Converters.IValueConverterService.ctor, container, new Test.Templates.UI.Converters.ValueConverterService.ctor().SetConverter("NullToBool", new Test.Templates.UI.Converters.NullToBoolValueConverter.ctor()));
+    Neptuo._DependencyContainerExtensions.RegisterInstance$1(Test.Templates.IComponentManager.ctor, container, new Test.Templates.Runtime.ComponentManager.ctor());
     var writer = new System.IO.StringWriter.ctor();
-    var view = new Neptuo.Templates.View_38422005C8911AD1E3131BF96B087D39DBA789AA.ctor();
-    view.Setup(container);
-    view.OnInit(Neptuo.DependencyProviderExtensions.Resolve$1$$IDependencyProvider(Neptuo.Templates.Runtime.IComponentManager.ctor, container));
-    view.Render(new Neptuo.Templates.HtmlTextWriter.ctor(writer));
-    view.Dispose();
     $("#viewContent").html(writer.toString());
 };
 

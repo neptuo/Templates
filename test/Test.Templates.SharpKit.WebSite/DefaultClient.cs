@@ -1,14 +1,14 @@
 ﻿using SharpKit.JavaScript;
 using SharpKit.Html;
 using SharpKit.jQuery;
-using Neptuo.Templates;
 using System.IO;
-using Test.Templates.Data;
 using Test.Templates;
-using Test.Templates.Extensions;
-using Test.Templates.SimpleContainer;
 using Neptuo;
-using Neptuo.Templates.Runtime;
+using Test.Templates.UI.SimpleContainer;
+using Test.Templates.UI.Data;
+using Test.Templates.UI.Converters;
+using Test.Templates.Runtime;
+using Test.Templates.UI.Models;
 
 namespace Test.Templates.SharpKit.WebSite
 {
@@ -28,11 +28,11 @@ namespace Test.Templates.SharpKit.WebSite
 
             StringWriter writer = new StringWriter();
 
-            var view = new View_38422005C8911AD1E3131BF96B087D39DBA789AA();
-            view.Setup(container);
-            view.OnInit(container.Resolve<IComponentManager>());
-            view.Render(new HtmlTextWriter(writer));
-            view.Dispose();
+            //var view = new View_38422005C8911AD1E3131BF96B087D39DBA789AA();
+            //view.Setup(container);
+            //view.OnInit(container.Resolve<IComponentManager>());
+            //view.Render(new HtmlTextWriter(writer));
+            //view.Dispose();
 
             new jQuery("#viewContent").html(writer.ToString());
         }

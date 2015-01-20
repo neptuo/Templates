@@ -19,15 +19,11 @@ namespace Test.Templates.Compilation.CodeObjects
         }
     }
 
-    public class CodeDomMethodReferenceGenerator : XCodeDomObjectGeneratorBase<MethodReferenceCodeObject>
+    public class CodeDomMethodReferenceGenerator : CodeDomObjectGeneratorBase<MethodReferenceCodeObject>
     {
-        protected override CodeExpression GenerateCode(CodeObjectExtensionContext context, MethodReferenceCodeObject codeObject, ICodeProperty codeProperty)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, MethodReferenceCodeObject codeObject)
         {
-            CodeMemberMethod method = context.BaseStructure.Class.Members.FindMethod(codeObject.MethodName);
-            if(method == null)
-                return new CodePrimitiveExpression(null);
-
-            return new CodeMethodReferenceExpression(new CodeThisReferenceExpression(), codeObject.MethodName);
+            throw new NotImplementedException();
         }
     }
 

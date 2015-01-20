@@ -93,13 +93,6 @@ namespace Test.Templates
                 .RegisterPropertyBuilder<ITemplate, TemplatePropertyBuilder>(new TemplatePropertyBuilder())
                 .RegisterRootBuilder<GeneratedView>(v => v.Content);
 
-            ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
-                TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
-                TypeHelper.MethodName<IComponentManager, object>(m => m.Init),
-                TypeHelper.MethodName<IComponentManager, IControl, IControlObserver, Action<IControlObserver>>(m => m.AttachObserver),
-                TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue)
-            );
-            IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();
             //XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
             //    .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)
             //    //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
