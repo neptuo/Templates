@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Extensions
+namespace Test.Templates
 {
     /// <summary>
     /// Interface that enables usage of type as markup extension.

@@ -1,10 +1,10 @@
-﻿using Neptuo.Templates.Observers;
+﻿using Neptuo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Runtime
+namespace Test.Templates.Runtime
 {
     partial class ComponentManager
     {
@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Runtime
             /// <summary>
             /// Target observer.
             /// </summary>
-            public virtual IObserver Observer { get; set; }
+            public virtual IControlObserver Observer { get; set; }
 
             /// <summary>
             /// Method that binds property values.
@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Runtime
             /// </summary>
             public bool ArePropertiesBound { get; set; }
 
-            public ObserverInfo(IObserver observer, Delegate propertyBinder)
+            public ObserverInfo(IControlObserver observer, Delegate propertyBinder)
             {
                 Guard.NotNull(observer, "observer");
                 Observer = observer;
@@ -46,12 +46,12 @@ namespace Neptuo.Templates.Runtime
         /// </summary>
         /// <typeparam name="T">Target observer type.</typeparam>
         internal class ObserverInfo<T> : ObserverInfo
-            where T : IObserver
+            where T : IControlObserver
         {
             private T observer;
             private Action<T> propertyBinder;
 
-            public override IObserver Observer
+            public override IControlObserver Observer
             {
                 get { return observer; }
                 set { observer = (T)value; }

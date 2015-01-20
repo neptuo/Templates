@@ -10,7 +10,7 @@ using Test.Templates.Data;
 
 namespace Test.Templates.Observers
 {
-    public class DataContextObserver : IObserver
+    public class DataContextObserver : IControlObserver
     {
         private DataStorage dataStorage;
         
@@ -21,7 +21,7 @@ namespace Test.Templates.Observers
             this.dataStorage = dataStorage;
         }
 
-        public void OnInit(ObserverEventArgs e)
+        public void OnInit(DefaultControlObserverContext e)
         {
             e.ComponentManager.AttachInitComplete(e.Target, OnInitComplete);
             dataStorage.Push(DataContext);
@@ -32,7 +32,7 @@ namespace Test.Templates.Observers
             dataStorage.Pop();
         }
 
-        public void Render(ObserverEventArgs e, IHtmlWriter writer)
+        public void Render(DefaultControlObserverContext e, IHtmlWriter writer)
         { }
     }
 }

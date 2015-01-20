@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
-using Neptuo.Templates.Runtime;
+using Test.Templates.Runtime;
 
-namespace Neptuo.Templates.Controls
+namespace Test.Templates
 {
     /// <summary>
     /// Base interface that each control must implement. 
     /// Class name can contain suffix Control that is automaticaly appended to tag name.
-    /// As addition, class can be decorated with attribute <see cref="Neptuo.Templates.Compilation.ComponentAttribute"/>.
+    /// As addition, class can be decorated with attribute <see cref="Test.Templates.Compilation.ComponentAttribute"/>.
     /// To define default property use <see cref="DefaultPropertyAttribute"/>.
     /// </summary>
     public interface IControl

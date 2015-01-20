@@ -1,7 +1,5 @@
 ﻿using Neptuo.ComponentModel;
-using Neptuo.Templates.Controls;
-using Neptuo.Templates.Extensions;
-using Neptuo.Templates.Runtime;
+using Test.Templates.Runtime;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,8 +7,9 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Web;
+using Neptuo;
 
-namespace Neptuo.Templates
+namespace Test.Templates
 {
     /// <summary>
     /// Base class for generated views.
@@ -92,7 +91,7 @@ namespace Neptuo.Templates
             if (!String.IsNullOrEmpty(targetProperty))
                 propertyInfo = targetObject.GetType().GetProperty(targetProperty);
 
-            return new DefaultExtensionContext(
+            return new DefaultValueExtensionContext(
                 targetObject,
                 propertyInfo, 
                 dependencyProvider

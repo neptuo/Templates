@@ -8,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace Test.Templates.Observers
 {
-    public class VisibleObserver : IObserver
+    public class VisibleObserver : IControlObserver
     {
         public bool Visible { get; set; }
 
-        public void OnInit(ObserverEventArgs e)
+        public void OnInit(DefaultControlObserverContext e)
         {
             if (!Visible)
                 e.Cancel = true;
         }
 
-        public void Render(ObserverEventArgs e, IHtmlWriter writer)
+        public void Render(DefaultControlObserverContext e, IHtmlWriter writer)
         {
             if (!Visible)
                 e.Cancel = true;

@@ -1,11 +1,9 @@
-﻿using Neptuo.Templates.Controls;
-using Neptuo.Templates.Observers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Runtime
+namespace Test.Templates
 {
     /// <summary>
     /// Component manager.
@@ -29,14 +27,14 @@ namespace Neptuo.Templates.Runtime
         /// <param name="observer">Observer to attach.</param>
         /// <param name="propertyBinder">Observer property binder.</param>
         void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
-            where T : IObserver;
+            where T : IControlObserver;
 
         /// <summary>
         /// Attaches init complete hander of <paramref name="control"/> init phase.
         /// </summary>
         /// <param name="control">Target control.</param>
         /// <param name="handler">Handler for init complete.</param>
-        void AttachInitComplete(IControl control, OnInitComplete handler);
+        void AttachInitComplete(IControl control, Action<IControl> handler);
 
         /// <summary>
         /// Starts init phase on <paramref name="control"/>.

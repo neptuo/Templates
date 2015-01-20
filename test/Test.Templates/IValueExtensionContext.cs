@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Neptuo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace Neptuo.Templates.Extensions
+namespace Test.Templates
 {
     /// <summary>
     /// Describes context in which <see cref="IValueExtension"/> is used.

@@ -10,9 +10,6 @@ using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.ViewActivators;
-using Neptuo.Templates.Controls;
-using Neptuo.Templates.Extensions;
-using Neptuo.Templates.Observers;
 using Neptuo.Templates.Runtime;
 using System;
 using System.CodeDom;
@@ -29,6 +26,7 @@ using Test.Templates.Controls;
 using Test.Templates.Data;
 using Test.Templates.Extensions;
 using Test.Templates.Observers;
+using Test.Templates.Runtime;
 using Test.Templates.SimpleContainer;
 using Test.Templates.Unity;
 using IDisposable = Neptuo.IDisposable;
@@ -99,7 +97,7 @@ namespace Test.Templates
             ComponentManagerDescriptor componentManagerDescriptor = new ComponentManagerDescriptor(
                 TypeHelper.MethodName<IComponentManager, object, Action<object>>(m => m.AddComponent),
                 TypeHelper.MethodName<IComponentManager, object>(m => m.Init),
-                TypeHelper.MethodName<IComponentManager, IControl, IObserver, Action<IObserver>>(m => m.AttachObserver),
+                TypeHelper.MethodName<IComponentManager, IControl, IControlObserver, Action<IControlObserver>>(m => m.AttachObserver),
                 TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(m => m.ProvideValue)
             );
             IFieldNameProvider fieldNameProvider = new SequenceFieldNameProvider();

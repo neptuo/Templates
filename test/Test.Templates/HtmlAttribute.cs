@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Neptuo;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates
+namespace Test.Templates
 {
     /// <summary>
     /// Provides metadata about target html tag.

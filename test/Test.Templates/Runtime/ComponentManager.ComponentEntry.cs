@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Neptuo.Templates.Runtime
+namespace Test.Templates.Runtime
 {
     partial class ComponentManager
     {
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Runtime
             /// <summary>
             /// List of registered listeners for completion of init phase of <see cref="Control"/>.
             /// </summary>
-            public List<OnInitComplete> InitComplete { get; private set; }
+            public List<Action<IControl>> InitComplete { get; private set; }
 
             /// <summary>
             /// Flag to see if properties where bound.
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Runtime
             public ComponentEntryBase()
             {
                 Observers = new List<ObserverInfo>();
-                InitComplete = new List<OnInitComplete>();
+                InitComplete = new List<Action<IControl>>();
             }
 
             /// <summary>
