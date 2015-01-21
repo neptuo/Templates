@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Test.Templates.Compilation.CodeObjects;
-using Test.Templates.Controls;
 using Test.Templates.UI;
 
 namespace Test.Templates.Compilation.Parsers

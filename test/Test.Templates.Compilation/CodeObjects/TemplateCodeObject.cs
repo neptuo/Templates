@@ -9,7 +9,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Test.Templates.Controls;
 using Test.Templates.UI;
 
 namespace Test.Templates.Compilation.CodeObjects
