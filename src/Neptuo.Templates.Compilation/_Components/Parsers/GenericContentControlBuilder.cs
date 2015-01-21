@@ -2,7 +2,6 @@
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +9,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test.Templates.Controls
+namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
     /// Content builder that can handle any XML element. 

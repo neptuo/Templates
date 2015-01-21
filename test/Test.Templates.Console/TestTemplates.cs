@@ -22,7 +22,6 @@ using System.Xml;
 using System.Xml.Linq;
 using Test.Templates.Compilation.CodeGenerators;
 using Test.Templates.Compilation.Parsers;
-using Test.Templates.Controls;
 using Test.Templates.Runtime;
 using Test.Templates.UI;
 using Test.Templates.UI.Converters;
@@ -89,8 +88,6 @@ namespace Test.Templates
                 .RegisterObserverBuilder<DataContextObserver>("data", "*")
                 .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
                 .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
-                .RegisterPropertyBuilder<string, StringPropertyBuilder>()
-                .RegisterPropertyBuilder<ITemplate, TemplatePropertyBuilder>(new TemplatePropertyBuilder())
                 .RegisterRootBuilder<GeneratedView>(v => v.Content);
 
             //XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
