@@ -156,7 +156,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object to process.</param>
         /// <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
         /// <returns>Enumeration of statements for creating instance of type represented by <paramref name="codeObject"/>.</returns>
-        protected IEnumerable<CodeStatement> GenerateInstanceCreation(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected virtual IEnumerable<CodeStatement> GenerateInstanceCreation(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             CodeDomNewInstanceFeature instanceGenerator = new CodeDomNewInstanceFeature();
             CodeExpression instanceExpression = instanceGenerator.Generate(context, codeObject.Type);
@@ -181,7 +181,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object to process.</param>
         /// <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
         /// <returns>Enumeration of statements for default properties defined on type of <paramref name="codeObject"/>.</returns>
-        protected IEnumerable<CodeStatement> GenerateDefaultPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected virtual IEnumerable<CodeStatement> GenerateDefaultPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             List<CodeStatement> statements = new List<CodeStatement>();
             CodeDomPropertyDefaultValueFeature generator = new CodeDomPropertyDefaultValueFeature();
@@ -218,7 +218,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object to process.</param>
         /// <param name="fieldName">Field name for <paramref name="codeObject"/>.</param>
         /// <returns>Enumeration of statements for properties set on <paramref name="codeObject"/>.</returns>
-        protected IEnumerable<CodeStatement> GenerateAstPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected virtual IEnumerable<CodeStatement> GenerateAstPropertyAssignment(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             CodeDomAstPropertyFeature propertyGenerator = new CodeDomAstPropertyFeature();
             IEnumerable<CodeStatement> statements = propertyGenerator.Generate(context, codeObject, fieldName);
