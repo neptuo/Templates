@@ -8,6 +8,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class TypeBuilderRegistryConfiguration
     {
+        private IDependencyProvider dependencyProvider;
+
         public const string DefaultObserverWildcard = "*";
         public const string DefaultComponentSuffix = "control";
         public const string DefaultObserverSuffix = "observer";
@@ -19,16 +21,31 @@ namespace Neptuo.Templates.Compilation.Parsers
         public string ObserverWildcard { get; set; }
         public List<string> ExtensionSuffix { get; private set; }
 
-        public IDependencyProvider DependencyProvider { get; private set; }
-
-        public TypeBuilderRegistryConfiguration(IDependencyProvider dependencyProvider)
+        public IDependencyProvider DependencyProvider
         {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
-            DependencyProvider = dependencyProvider;
+            get
+            {
+                if (dependencyProvider == null)
+                    throw Guard.Exception.InvalidOperation("When constructing TypeBuilderConfiguration without dependency provider, that it's not possible to use it.");
+
+                return dependencyProvider;
+            }
+            set { dependencyProvider = value; }
+        }
+
+        public TypeBuilderRegistryConfiguration()
+        {
             ComponentSuffix = new List<string> { DefaultComponentSuffix };
             ObserverSuffix = new List<string> { DefaultObserverSuffix };
             ObserverWildcard = DefaultObserverWildcard;
             ExtensionSuffix = new List<string> { DefaultExtensionSuffix };
+        }
+
+        public TypeBuilderRegistryConfiguration(IDependencyProvider dependencyProvider)
+            : this()
+        {
+            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            DependencyProvider = dependencyProvider;
         }
 
 
