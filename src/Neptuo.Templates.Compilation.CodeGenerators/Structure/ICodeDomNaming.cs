@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Collections.Specialized;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,6 +12,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     public interface ICodeDomNaming
     {
+        /// <summary>
+        /// Collection of custom namig values.
+        /// </summary>
+        IReadOnlyKeyValueCollection CustomValues { get; }
+
         /// <summary>
         /// C# namespace for generated class(es).
         /// </summary>
