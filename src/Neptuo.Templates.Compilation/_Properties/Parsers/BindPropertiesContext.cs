@@ -40,7 +40,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         public BindPropertiesContext(IComponentDescriptor componentDescriptor)
-            : this(componentDescriptor.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()))
+            : this(componentDescriptor.GetProperties().Where(p => !p.IsReadOnly).ToDictionary(p => p.Name.ToLowerInvariant()))
         { }
 
         public BindPropertiesContext(IComponentDescriptor componentDescriptor, IPropertiesCodeObject codeObject)

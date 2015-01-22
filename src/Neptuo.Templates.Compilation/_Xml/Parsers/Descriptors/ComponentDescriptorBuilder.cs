@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IComponentCodeObject codeObject = CreateCodeObject(context, element);
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
-            BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition.GetProperties().ToDictionary(p => p.Name.ToLowerInvariant()));
+            BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition);
             context.ComponentCodeObject(codeObject);
             context.ComponentDescriptor(componentDefinition);
             context.BindPropertiesContext(bindContext);
