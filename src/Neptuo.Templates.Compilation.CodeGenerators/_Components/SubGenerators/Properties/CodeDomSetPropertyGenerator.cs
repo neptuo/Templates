@@ -41,8 +41,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 CodeExpression expression = context.Registry.WithConversionGenerator().Generate(
                     context,
                     targetItemType,
-                    result.Expression.Value,
-                    result.Expression.ReturnType
+                    result.Expression,
+                    result.Expression.GetReturnType()
                 );
 
                 if (expression == null)
@@ -57,7 +57,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             else if (result.HasStatement())
             {
                 // If result has statement (possibly comment), add it to the result.
-                statements.AddStatement(result.Statement.Value);
+                statements.AddStatement(result.Statement);
             }
 
             return statements;

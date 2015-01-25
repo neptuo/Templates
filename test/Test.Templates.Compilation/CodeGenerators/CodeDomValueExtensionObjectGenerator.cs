@@ -29,7 +29,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             {
                 Type returnType = GetExtensionProvideValueReturnType(codeObject.Type);
                 CodeExpression expression = new CodeMethodInvokeExpression(
-                    result.Expression.Value,
+                    result.Expression,
                     TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(e => e.ProvideValue),
                     GenerateValueExtensionContext(context, codeObject, fieldName)
                 );

@@ -44,9 +44,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             // 4) Append generated expression to entry point method.
             if (result.HasExpression())
-                structure.EntryPoint.Statements.Add(result.Expression.Value);
+                structure.EntryPoint.Statements.Add(result.Expression);
             else if (result.HasStatement())
-                structure.EntryPoint.Statements.Add(result.Statement.Value);
+                structure.EntryPoint.Statements.Add(result.Statement);
 
             // 5) Run CodeDom visitors.
             registry.WithVisitor().Visit(superContext);

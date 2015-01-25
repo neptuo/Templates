@@ -24,7 +24,7 @@ namespace Test.Templates.Compilation.CodeGenerators
                     return null;
 
                 if (result.HasExpression())
-                    statements.Add(new CodeExpressionStatement(result.Expression.Value));
+                    statements.Add(new CodeExpressionStatement(result.Expression));
             }
 
             return statements;

@@ -50,7 +50,6 @@ namespace Test.Templates.Compilation.CodeGenerators
             return new CodeDomDefaultObjectResult(
 
             );
-            return null;
         }
     }
 }
