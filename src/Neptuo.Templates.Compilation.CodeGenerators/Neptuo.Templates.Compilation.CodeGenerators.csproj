@@ -80,6 +80,7 @@
     <Compile Include="SubGenerators\Objects\Features\CodeDomAstPropertyFeature.cs" />
     <Compile Include="SubGenerators\Objects\Features\CodeDomPropertyDefaultValueFeature.cs" />
     <Compile Include="PropertyDefaults\_CodeDomAttributeResultExtensions.cs" />
+    <Compile Include="_Components\SubGenerators\Objects\CodeDomCommentObjectGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomComponentObjectGenerator.cs" />
     <Compile Include="_Components\SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
     <Compile Include="SubGenerators\Objects\CodeDomObjectGeneratorBase.cs" />
