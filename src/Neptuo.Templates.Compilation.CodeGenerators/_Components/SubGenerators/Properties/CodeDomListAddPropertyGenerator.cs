@@ -90,8 +90,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     CodeExpression expression = context.Registry.WithConversionGenerator().Generate(
                         context, 
                         targetItemType, 
-                        result.Expression, 
-                        result.ExpressionReturnType
+                        result.Expression.Value, 
+                        result.Expression.ReturnType
                     );
 
                     if (expression == null)
@@ -107,6 +107,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                             )
                         )
                     );
+                }
+                else
+                {
+                    // If result has statement (possibly comment), add it to the result.
+                    statements.AddStatement(result.Statement.Value);
                 }
             }
 

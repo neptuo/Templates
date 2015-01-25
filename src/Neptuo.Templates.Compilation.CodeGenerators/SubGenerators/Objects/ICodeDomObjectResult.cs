@@ -18,35 +18,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <summary>
         /// Result expression describtion.
         /// </summary>
-        IExpressionResult Expression { get; }
+        ICodeDomObjectExpressionResult Expression { get; }
 
         /// <summary>
         /// Result statement describtion.
         /// </summary>
-        IStatementResult Statement { get; }
-
-        /// <summary>
-        /// Describes expression result from <see cref="ICodeDomObjectGenerator"/>.
-        /// </summary>
-        public interface IExpressionResult
-        {
-            /// <summary>
-            /// Expression from code object.
-            /// </summary>
-            CodeExpression Expression { get; }
-
-            /// <summary>
-            /// Type return from <see cref="ICodeObjectResult.Expression"/>.
-            /// </summary>
-            Type ExpressionReturnType { get; }
-        }
-
-        public interface IStatementResult
-        {
-            /// <summary>
-            /// Statement from code object.
-            /// </summary>
-            CodeStatement Statement { get; }
-        }
+        ICodeDomObjectStatementResult Statement { get; }
     }
 }

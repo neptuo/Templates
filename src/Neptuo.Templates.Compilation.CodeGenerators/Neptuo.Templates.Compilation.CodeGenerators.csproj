@@ -55,6 +55,8 @@
     <Compile Include="Registries\CodeDomAttributeGeneratorRegistry.cs" />
     <Compile Include="Registries\CodeDomPropertyTypeGeneratorRegistry.cs" />
     <Compile Include="Registries\CodeDomVisitorRegistry.cs" />
+    <Compile Include="SubGenerators\Objects\ICodeDomObjectExpressionResult.cs" />
+    <Compile Include="SubGenerators\Objects\ICodeDomObjectStatementResult.cs" />
     <Compile Include="SubGenerators\Properties\_CodeDomPropertyContextExtensions.cs" />
     <Compile Include="_Components\PropertyDefaults\CodeDomDefaultValueAttributeGenerator.cs" />
     <Compile Include="PropertyDefaults\CodeDomAttributeGeneratorBase.cs" />

@@ -82,16 +82,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                     CodeExpression keyExpression = context.Registry.WithConversionGenerator().Generate(
                         context,
                         targetKeyItemType,
-                        keyResult.Expression,
-                        keyResult.ExpressionReturnType
+                        keyResult.Expression.Value,
+                        keyResult.Expression.ReturnType
                     );
 
                     // Try to convert to value type.
                     CodeExpression valueExpression = context.Registry.WithConversionGenerator().Generate(
                         context,
                         targetValueItemType,
-                        valueResult.Expression,
-                        valueResult.ExpressionReturnType
+                        valueResult.Expression.Value,
+                        valueResult.Expression.ReturnType
                     );
 
                     if (keyExpression == null || valueExpression == null)
@@ -108,6 +108,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                             )
                         )
                     );
+                }
+                else
+                {
+                    // If key result has statement (possibly comment), add it to the result.
+                    if (keyResult.HasStatement())
+                        statements.AddStatement(keyResult.Statement.Value);
+
+                    // If value result has statement (possibly comment), add it to the result.
+                    if(valueResult.HasStatement())
+                        statements.AddStatement(valueResult.Statement.Value);
                 }
             }
             return statements;
