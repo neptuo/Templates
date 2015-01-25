@@ -215,7 +215,6 @@
     <Compile Include="_Components\Parsers\TypePropertyInfo.cs" />
     <Compile Include="_Components\PreProcessing\VisitorBase.cs" />
     <Compile Include="_Components\PropertyAttribute.cs" />
-    <Compile Include="_Components\StringConverter.cs" />
     <Compile Include="_ErrorInfoExtensions.cs" />
     <Compile Include="_Properties\Parsers\BindPropertiesContext.cs" />
     <Compile Include="_Properties\Parsers\IPropertyBuilderContext.cs" />
