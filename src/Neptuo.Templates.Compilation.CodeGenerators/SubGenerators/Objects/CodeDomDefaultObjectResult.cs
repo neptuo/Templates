@@ -12,18 +12,45 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// </summary>
     public class CodeDomDefaultObjectResult : ICodeDomObjectResult
     {
-        public CodeExpression Expression { get; private set; }
-        public Type ExpressionReturnType { get; private set; }
+        public ICodeDomObjectResult.IExpressionResult Expression { get; private set; }
+        public ICodeDomObjectResult.IStatementResult Statement { get; private set; }
         
         public CodeDomDefaultObjectResult()
         { }
 
         public CodeDomDefaultObjectResult(CodeExpression expression, Type expressionReturnType)
         {
-            Guard.NotNull(expression, "expression");
-            Guard.NotNull(expressionReturnType, "expressionReturnType"); 
-            Expression = expression;
-            ExpressionReturnType = expressionReturnType;
+            Expression = new ExpressionResult(expression, expressionReturnType);
+        }
+
+        public CodeDomDefaultObjectResult(CodeStatement statement)
+        {
+            Statement = new StatementResult(statement);
+        }
+
+        public class ExpressionResult : ICodeDomObjectResult.IExpressionResult
+        {
+            public CodeExpression Expression { get; private set; }
+            public Type ExpressionReturnType { get; private set; }
+
+            public ExpressionResult(CodeExpression expression, Type expressionReturnType)
+            {
+                Guard.NotNull(expression, "expression");
+                Guard.NotNull(expressionReturnType, "expressionReturnType");
+                Expression = expression;
+                ExpressionReturnType = expressionReturnType;
+            }
+        }
+
+        public class StatementResult : ICodeDomObjectResult.IStatementResult
+        {
+            public CodeStatement Statement { get; private set; }
+
+            public StatementResult(CodeStatement statement)
+            {
+                Guard.NotNull(statement, "statement");
+                Statement = statement;
+            }
         }
     }
 }
