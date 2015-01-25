@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public static bool TryGetPropertyTarget(this ICodeDomObjectContext context, out CodeExpression propertyTarget)
         {
             Guard.NotNull(context, "context");
-            return context.CustomValues.TryGet<CodeExpression>("PropertyTarget", out propertyTarget);
+            return context.CustomValues.TryGet("PropertyTarget", out propertyTarget);
         }
 
         #endregion
@@ -37,7 +37,23 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public static bool TryGetCodeProperty(this ICodeDomObjectContext context, out ICodeProperty codeProperty)
         {
             Guard.NotNull(context, "context");
-            return context.CustomValues.TryGet<ICodeProperty>("CodeProperty", out codeProperty);
+            return context.CustomValues.TryGet("CodeProperty", out codeProperty);
+        }
+
+        #endregion
+
+        #region ObserverTarget
+
+        public static CodeDomDefaultObjectContext AddObserverTarget(this CodeDomDefaultObjectContext context, string variableName)
+        {
+            Guard.NotNull(context, "context");
+            return context.AddCustomValue("ObserverTarget", variableName);
+        }
+
+        public static bool TryGetObserverTarget(this ICodeDomObjectContext context, out string variableName)
+        {
+            Guard.NotNull(context, "context");
+            return context.CustomValues.TryGet("ObserverTarget", out variableName);
         }
 
         #endregion

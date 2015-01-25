@@ -45,7 +45,9 @@
     <Compile Include="CodeGenerators\CodeDomDelegatingObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomControlObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomDependencyProviderGenerator.cs" />
+    <Compile Include="CodeGenerators\CodeDomObserverObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomValueExtensionObjectGenerator.cs" />
+    <Compile Include="CodeGenerators\Features\CodeDomAstObserverFeature.cs" />
     <Compile Include="CodeObjects\MethodReferenceCodeObject.cs" />
     <Compile Include="CodeObjects\TemplateCodeObject.cs" />
     <Compile Include="Parsers\StringPropertyBuilder.cs" />
@@ -53,10 +55,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.CodeGenerators\Neptuo.Templates.Compilation.CodeGenerators.csproj">
-      <Project>{8635a5dc-10a6-40be-b78a-54e6a78705d1}</Project>
-      <Name>Neptuo.Templates.Compilation.CodeGenerators</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>

@@ -12,6 +12,9 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected bool IsCollectionProperty(IPropertyInfo propertyInfo)
         {
+            if (typeof(string) == propertyInfo.Type)
+                return false;
+
             return typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type);
             //TODO: Test for IEnumerable should be enough.
             //return typeof(ICollection).IsAssignableFrom(propertyInfo.Type)

@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public abstract class CodeDomObjectGeneratorBase<T> : ICodeDomObjectGenerator
         where T : ICodeObject
     {
-        public ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
+        public virtual ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
         {
             return Generate(context, (T)codeObject);
         }
