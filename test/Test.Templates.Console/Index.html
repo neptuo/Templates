@@ -3,17 +3,17 @@
     <body>
         <div class="address" data:datacontext="{ui:Binding Address}">
             <ui:panel header="Street:">
-                <ui:textbox name="street" text="{ui:Binding Address.Street}" />
+                <ui:textbox name="street" text="{ui:Binding Street}" />
             </ui:panel>
             <ui:panel header="House Number:">
-                <ui:textbox name="housenumber" text="{ui:Binding Address.HouseNumber}" />
+                <ui:textbox name="housenumber" text="{ui:Binding HouseNumber}" />
             </ui:panel>
             <ui:panel header="City:">
-                <ui:textbox name="city" text="{ui:Binding Address.City}" />
+                <ui:textbox name="city" text="{ui:Binding City}" />
             </ui:panel>
             <div>
                 <ui:panel header="Postal code:">
-                    <ui:textbox name="postalcode" text="{ui:Binding Address.PostalCode}" class="textbox" />
+                    <ui:textbox name="postalcode" text="{ui:Binding PostalCode}" class="textbox" />
                 </ui:panel>
             </div>
         </div>

@@ -46,6 +46,7 @@ namespace Test.Templates.Compilation.CodeGenerators
         {
             List<CodeStatement> statements = new List<CodeStatement>(base.GenerateCreateMethodAdditionalStatements(context, codeObject, fieldName));
 
+            // Register control to component manager.
             statements.Add(new CodeExpressionStatement(
                 new CodeMethodInvokeExpression(
                     new CodeFieldReferenceExpression(
@@ -61,6 +62,13 @@ namespace Test.Templates.Compilation.CodeGenerators
                 )
             ));
 
+            // Generate and attach observers.
+            CodeDomAstObserverFeature generator = new CodeDomAstObserverFeature();
+            IEnumerable<CodeStatement> result = generator.Generate(context, codeObject, fieldName);
+            if (result == null)
+                return null;
+
+            statements.AddRange(result);
             return statements;
         }
 

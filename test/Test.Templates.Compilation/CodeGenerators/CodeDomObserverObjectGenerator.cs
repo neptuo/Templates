@@ -1,7 +1,9 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,22 +17,24 @@ namespace Test.Templates.Compilation.CodeGenerators
     /// Takes instance of <see cref="IObserverCodeObject"/>, wraps it to <see cref="ComponentCodeObject"/>
     /// and generates code using <see cref="CodeDomComponentObjectGenerator"/>.
     /// </summary>
-    public class CodeDomObserverObjectGenerator : ICodeDomObjectGenerator
+    public class CodeDomObserverObjectGenerator : CodeDomControlObjectGenerator
     {
-        private readonly CodeDomComponentObjectGenerator generator;
-
         public CodeDomObserverObjectGenerator(IUniqueNameProvider nameProvider)
-        {
-            generator = new CodeDomComponentObjectGenerator(nameProvider);
-        }
+            : base(nameProvider)
+        { }
 
-        public ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
+        public override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
         {
             IObserverCodeObject observer = (IObserverCodeObject)codeObject;
             ComponentCodeObject component = new ComponentCodeObject(observer.Type);
             component.Properties.AddRange(observer.Properties);
+            
+            return base.Generate(context, component);
+        }
 
-            ICodeDomObjectResult result = generator.Generate(context, component);
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        {
+            ICodeDomObjectResult result = base.Generate(context, codeObject, fieldName);
             if (result == null)
                 return result;
 
@@ -48,7 +52,21 @@ namespace Test.Templates.Compilation.CodeGenerators
             }
 
             return new CodeDomDefaultObjectResult(
-
+                new CodeExpressionStatement(
+                    new CodeMethodInvokeExpression(
+                        new CodeFieldReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            "componentManager"
+                        ),
+                        TypeHelper.MethodName<IComponentManager, IControl, IControlObserver, Action<IControlObserver>>(m => m.AttachObserver),
+                        new CodeVariableReferenceExpression(variableName),
+                        result.Expression,
+                        new CodeMethodReferenceExpression(
+                            new CodeThisReferenceExpression(),
+                            FormatUniqueName(fieldName, BindMethodSuffix)
+                        )
+                    )
+                )
             );
         }
     }
