@@ -1,5 +1,6 @@
 ﻿using Neptuo.Compilers;
 using Neptuo.Reflection;
+using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.ViewActivators;
 using System;
 using System.Collections.Generic;
@@ -26,11 +27,11 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
 
         protected override object Compile(IStaticCompiler compiler, string tempDirectory, TextReader sourceCode, ICodeCompilerContext context)
         {
-            INaming naming = context.DependencyProvider.Resolve<INaming>();
-            string assemblyFile = Path.Combine(tempDirectory, naming.AssemblyName);
-            string sourceFile = Path.Combine(tempDirectory, naming.AssemblyName.Replace(".dll", ".cs"));
+            ICodeDomNaming naming = context.DependencyProvider.Resolve<ICodeDomNaming>();
+            string assemblyFile = Path.Combine(tempDirectory, naming.ClassName);
+            string sourceFile = Path.Combine(tempDirectory, naming.SourceFileName());
             string sourceContent = sourceCode.ReadToEnd();
-            string typeFullName = String.Format("{0}.{1}", naming.ClassNamespace, naming.ClassName);
+            string typeFullName = naming.FullClassName;
             
             if (IsDebugMode)
                 File.WriteAllText(sourceFile, sourceContent);
@@ -47,9 +48,9 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
 
         public object Activate(ISourceContent content, IViewActivatorContext context)
         {
-            INaming naming = context.DependencyProvider.Resolve<INaming>();
-            string assemblyFile = Path.Combine(tempDirectory, naming.AssemblyName);
-            string typeFullName = String.Format("{0}.{1}", naming.ClassNamespace, naming.ClassName);
+            ICodeDomNaming naming = context.DependencyProvider.Resolve<ICodeDomNaming>();
+            string assemblyFile = Path.Combine(tempDirectory, naming.AssemblyName());
+            string typeFullName = naming.FullClassName;
 
             return Activate(assemblyFile, typeFullName);
         }
