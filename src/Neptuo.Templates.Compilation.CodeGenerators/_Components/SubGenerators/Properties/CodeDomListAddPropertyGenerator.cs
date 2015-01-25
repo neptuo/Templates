@@ -91,7 +91,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         context, 
                         targetItemType, 
                         result.Expression, 
-                        result.ExpressionReturnType
+                        result.Expression.GetReturnType()
                     );
 
                     if (expression == null)
@@ -107,6 +107,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                             )
                         )
                     );
+                }
+                else
+                {
+                    // If result has statement (possibly comment), add it to the result.
+                    statements.AddStatement(result.Statement);
                 }
             }
 

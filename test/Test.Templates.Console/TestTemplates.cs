@@ -105,6 +105,7 @@ namespace Test.Templates
                 new CodeDomDefaultRegistry()
                     .AddObjectGenerator(
                         new CodeDomObjectGeneratorRegistry()
+                            .AddGenerator<CommentCodeObject>(new CodeDomCommentObjectGenerator())
                             .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())

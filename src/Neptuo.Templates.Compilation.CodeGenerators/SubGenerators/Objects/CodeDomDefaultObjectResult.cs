@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomDefaultObjectResult : ICodeDomObjectResult
     {
         public CodeExpression Expression { get; private set; }
-        public Type ExpressionReturnType { get; private set; }
+        public CodeStatement Statement { get; private set; }
         
         public CodeDomDefaultObjectResult()
         { }
@@ -21,9 +21,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomDefaultObjectResult(CodeExpression expression, Type expressionReturnType)
         {
             Guard.NotNull(expression, "expression");
-            Guard.NotNull(expressionReturnType, "expressionReturnType"); 
+            Guard.NotNull(expressionReturnType, "expressionReturnType");
             Expression = expression;
-            ExpressionReturnType = expressionReturnType;
+            Expression.AddReturnType(expressionReturnType);
+        }
+
+        public CodeDomDefaultObjectResult(CodeStatement statement)
+        {
+            Guard.NotNull(statement, "statement");
+            Statement = statement;
         }
     }
 }

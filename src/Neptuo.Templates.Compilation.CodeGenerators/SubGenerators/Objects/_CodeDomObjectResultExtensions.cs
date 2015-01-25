@@ -17,5 +17,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             Guard.NotNull(result, "result");
             return result.Expression != null;
         }
+
+        /// <summary>
+        /// Returns <c>true</c> if <paramref name="result"/> has statement not <c>null</c>; otherwise returns <c>false</c>.
+        /// </summary>
+        /// <returns><c>true</c> if <paramref name="result"/> has statement not <c>null</c>; otherwise returns <c>false</c>.</returns>
+        public static bool HasStatement(this ICodeDomObjectResult result)
+        {
+            Guard.NotNull(result, "result");
+            return result.Statement != null;
+        }
     }
 }

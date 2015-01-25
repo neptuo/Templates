@@ -9,17 +9,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     /// <summary>
     /// Describes result from <see cref="ICodeDomObjectGenerator"/>.
+    /// One of <see cref="ICodeDomObjectResult.Expression"/> or <see cref="ICodeDomObjectResult.Statement"/> 
+    /// if something was generated.
+    /// If both are <c>null</c> than processing was successfull, but nothing was generated.
     /// </summary>
     public interface ICodeDomObjectResult
     {
         /// <summary>
-        /// Expression from code object.
+        /// Result expression describtion.
         /// </summary>
         CodeExpression Expression { get; }
 
         /// <summary>
-        /// Type return from <see cref="ICodeObjectResult.Expression"/>.
+        /// Result statement describtion.
         /// </summary>
-        Type ExpressionReturnType { get; }
+        CodeStatement Statement { get; }
     }
 }

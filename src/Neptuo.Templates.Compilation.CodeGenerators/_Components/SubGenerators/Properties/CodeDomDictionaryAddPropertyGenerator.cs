@@ -83,7 +83,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         context,
                         targetKeyItemType,
                         keyResult.Expression,
-                        keyResult.ExpressionReturnType
+                        keyResult.Expression.GetReturnType()
                     );
 
                     // Try to convert to value type.
@@ -91,7 +91,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         context,
                         targetValueItemType,
                         valueResult.Expression,
-                        valueResult.ExpressionReturnType
+                        valueResult.Expression.GetReturnType()
                     );
 
                     if (keyExpression == null || valueExpression == null)
@@ -108,6 +108,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                             )
                         )
                     );
+                }
+                else
+                {
+                    // If key result has statement (possibly comment), add it to the result.
+                    if (keyResult.HasStatement())
+                        statements.AddStatement(keyResult.Statement);
+
+                    // If value result has statement (possibly comment), add it to the result.
+                    if(valueResult.HasStatement())
+                        statements.AddStatement(valueResult.Statement);
                 }
             }
             return statements;
