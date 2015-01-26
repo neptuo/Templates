@@ -50,11 +50,11 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             structure.Class = new CodeTypeDeclaration(structure.Naming.ClassName);
             structure.Class.IsClass = true;
             structure.Class.TypeAttributes = TypeAttributes.Public | TypeAttributes.Sealed;
-            SetBaseTypes(structure.Class, BaseType, ImplementedInterfaces);
+            SetBaseTypes(context, structure.Class, BaseType, ImplementedInterfaces);
             codeNamespace.Types.Add(structure.Class);
         }
 
-        protected virtual void SetBaseTypes(CodeTypeDeclaration typeDeclaration, CodeTypeReference baseType, IList<CodeTypeReference> implementedInterfaces)
+        protected virtual void SetBaseTypes(ICodeGeneratorContext context, CodeTypeDeclaration typeDeclaration, CodeTypeReference baseType, IList<CodeTypeReference> implementedInterfaces)
         {
             if (baseType != null)
                 typeDeclaration.BaseTypes.Add(baseType);
