@@ -12,6 +12,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         private readonly string variableName;
 
+        /// <summary>
+        /// Creates new instance.
+        /// </summary>
+        /// <param name="variableName">Name of the variable in bind method.</param>
         public CodeDomRootObjectGenerator(string variableName)
         {
             Guard.NotNullOrEmpty(variableName, "variableName");
@@ -21,7 +25,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, RootCodeObject codeObject)
         {
             CodeDomAstPropertyFeature generator = new CodeDomAstPropertyFeature();
-            IEnumerable<CodeStatement> statements = generator.Generate(context, codeObject, "view");
+            IEnumerable<CodeStatement> statements = generator.Generate(context, codeObject, variableName);
             if (statements == null)
                 return null;
 
