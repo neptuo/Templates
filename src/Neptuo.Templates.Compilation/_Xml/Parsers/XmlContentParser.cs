@@ -71,6 +71,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IEnumerable<ICodeObject> TryProcessNode(IContentBuilderContext context, IXmlNode node)
         {
+            context = new XmlContentBuilderContext(context);
+
             if (node.NodeType == XmlNodeType.Element)
             {
                 IXmlElement element = (IXmlElement)node;
