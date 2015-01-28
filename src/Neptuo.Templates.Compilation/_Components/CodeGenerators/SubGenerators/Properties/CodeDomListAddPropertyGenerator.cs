@@ -108,7 +108,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                         )
                     );
                 }
-                else
+                else if(result.HasStatement())
                 {
                     // If result has statement (possibly comment), add it to the result.
                     statements.AddStatement(result.Statement);
