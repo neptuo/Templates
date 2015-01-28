@@ -139,7 +139,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if (codeProperties != null)
                     {
                         context.ComponentCodeObject().Properties.AddRange(codeProperties);
-                        context.BindPropertiesContext().BoundProperties.Add(context.DefaultProperty().Name);
+                        context.BindPropertiesContext().BoundProperties.Add(defaultProperty.Name);
                         return true;
                     }
                 }
