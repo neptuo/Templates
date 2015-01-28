@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             UseLinqApi = useLinqApi;
         }
 
-        public ICodeObject Parse(ISourceContent content, IContentParserContext context)
+        public virtual ICodeObject Parse(ISourceContent content, IContentParserContext context)
         {
 #if !DEBUG
             try
@@ -74,20 +74,35 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (node.NodeType == XmlNodeType.Element)
             {
                 IXmlElement element = (IXmlElement)node;
-                return componentFactory.TryParse(new XmlContentBuilderContext(context), element);
+                return TryProcessElement(context, element);
             }
             else if (node.NodeType == XmlNodeType.Text)
             {
                 IXmlText text = (IXmlText)node;
-                return literalFactory.TryParseText(new XmlContentBuilderContext(context), text.Text);
+                return TryProcessText(context, text);
             }
             else if (node.NodeType == XmlNodeType.Comment)
             {
                 IXmlText text = (IXmlText)node;
-                return literalFactory.TryParseComment(new XmlContentBuilderContext(context), text.Text);
+                return TryProcessComment(context, text);
             }
 
             throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
+        }
+
+        protected virtual IEnumerable<ICodeObject> TryProcessElement(IContentBuilderContext context, IXmlElement element)
+        {
+            return componentFactory.TryParse(new XmlContentBuilderContext(context), element);
+        }
+
+        protected virtual IEnumerable<ICodeObject> TryProcessText(IContentBuilderContext context, IXmlText text)
+        {
+            return literalFactory.TryParseText(new XmlContentBuilderContext(context), text.Text);
+        }
+
+        protected virtual IEnumerable<ICodeObject> TryProcessComment(IContentBuilderContext context, IXmlText text)
+        {
+            return literalFactory.TryParseComment(new XmlContentBuilderContext(context), text.Text);
         }
 
         #region Creating document
