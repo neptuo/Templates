@@ -4,6 +4,7 @@ using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -35,6 +36,29 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             );
 
             // Try to get target property type.
+            MethodInfo methodInfo = codeProperty.Property.Type.GetMethod(addMethodName);
+            if (methodInfo == null)
+            {
+                context.AddError(
+                    "Unnable to bind property of type '{0}' using 'DictionaryAddCodeProperty' because it doesn't have Add method with two parameters.",
+                    codeProperty.Property.Type.FullName
+                );
+                return null;
+            }
+
+            ParameterInfo[] parameters = methodInfo.GetParameters();
+            if (parameters.Length != 2)
+            {
+                context.AddError(
+                    "Unnable to bind property of type '{0}' using 'DictionaryAddCodeProperty' because it doesn't have Add method with two parameters.",
+                    codeProperty.Property.Type.FullName
+                );
+                return null;
+            }
+
+            targetKeyItemType = parameters[0].ParameterType;
+            targetValueItemType = parameters[1].ParameterType;
+
             if (codeProperty.Property.Type.IsGenericType)
             {
                 Type[] genericArguments = codeProperty.Property.Type.GetGenericArguments();
