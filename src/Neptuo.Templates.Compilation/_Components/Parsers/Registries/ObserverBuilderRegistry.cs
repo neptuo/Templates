@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly Dictionary<string, Dictionary<string, IObserverBuilder>> storage = new Dictionary<string, Dictionary<string, IObserverBuilder>>();
         private readonly INameNormalizer nameNormalizer;
-        private Func<IXmlAttribute, IObserverBuilder> onSearchGenerator = o => new NullBuilder();
+        private Func<IXmlAttribute, IObserverBuilder> onSearchBuilder = o => new NullBuilder();
 
         public ObserverBuilderRegistry(INameNormalizer nameNormalizer)
         {
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public ObserverBuilderRegistry AddSearchHandler(Func<IXmlAttribute, IObserverBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
-            onSearchGenerator = searchHandler + onSearchGenerator;
+            onSearchBuilder = searchHandler + onSearchBuilder;
             return this;
         }
         
@@ -64,7 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 IObserverBuilder builder;
                 if (!builders.TryGetValue(name, out builder))
-                    builder = onSearchGenerator(attribute);
+                    builder = onSearchBuilder(attribute);
 
                 if (builder != null)
                     return builder.TryParse(context, codeObject, attribute);

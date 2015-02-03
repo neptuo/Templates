@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly Dictionary<string, Dictionary<string, ITokenBuilder>> storage = new Dictionary<string, Dictionary<string, ITokenBuilder>>();
         private readonly INameNormalizer nameNormalizer;
-        private Func<Token, ITokenBuilder> onSearchGenerator = o => new NullBuilder();
+        private Func<Token, ITokenBuilder> onSearchBuilder = o => new NullBuilder();
 
         public TokenBuilderRegistry(INameNormalizer nameNormalizer)
         {
@@ -51,7 +51,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public TokenBuilderRegistry AddSearchHandler(Func<Token, ITokenBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
-            onSearchGenerator = searchHandler + onSearchGenerator;
+            onSearchBuilder = searchHandler + onSearchBuilder;
             return this;
         }
 
@@ -65,7 +65,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 ITokenBuilder builder;
                 if (!builders.TryGetValue(name, out builder))
-                    builder = onSearchGenerator(token);
+                    builder = onSearchBuilder(token);
 
                 if (builder != null)
                     return builder.TryParse(context, token);
