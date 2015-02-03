@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Registry for <see cref="IContentBuilder"/> prefix and name of element.
+    /// Registry for <see cref="IContentBuilder"/> by prefix and name of element.
     /// </summary>
     public class ContentBuilderRegistry : IContentBuilder
     {

@@ -121,6 +121,8 @@
     <Compile Include="Parsers\Normalization\INameNormalizer.cs" />
     <Compile Include="Parsers\Normalization\LowerInvariantNameNormalizer.cs" />
     <Compile Include="Parsers\Normalization\SuffixNameNormalizer.cs" />
+    <Compile Include="_Components\Parsers\Registries\ObserverBuilderRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\TokenBuilderRegistry.cs" />
     <Compile Include="_Properties\CodeObjects\CodePropertyList.cs" />
     <Compile Include="_Properties\CodeObjects\_CodePropertyExtensions.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />
