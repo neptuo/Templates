@@ -13,10 +13,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Normalization
     {
         private readonly IEnumerable<string> nameSuffixes;
 
-        public SuffixNameNormalizer(IEnumerable<string> nameSuffixes)
+        public SuffixNameNormalizer(params string[] nameSuffixes)
         {
             Guard.NotNull(nameSuffixes, "nameSuffixes");
-            this.nameSuffixes = new List<string>(nameSuffixes);
+            this.nameSuffixes = nameSuffixes;
         }
 
         public string PreparePrefix(string prefix)

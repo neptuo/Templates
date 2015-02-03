@@ -9,6 +9,7 @@ using Neptuo.Templates.Compilation.CodeCompilers;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Templates.Compilation.ViewActivators;
 using System;
 using System.CodeDom;
@@ -72,15 +73,31 @@ namespace Test.Templates
 //                //doc.Load(reader);
 //            }
 
-
-
-
-
-
-
             TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
                 new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
             );
+
+
+
+
+
+
+            INameNormalizer nameNormalizer = new CompositeNameNormalizer(
+                new SuffixNameNormalizer("Control"),
+                new LowerInvariantNameNormalizer()
+            );
+
+            IParserRegistry parserRegistry = new DefaultParserRegistry()
+                .AddContentBuilder(
+                    new ContentBuilderRegistry(nameNormalizer)
+                        .AddSearchHandler(e => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry))
+                );
+
+
+
+
+
+
             builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
             builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
             builderRegistry
