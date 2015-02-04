@@ -5,6 +5,7 @@ using Neptuo.FileSystems;
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
+using Neptuo.Templates.Compilation.AssemblyScanning;
 using Neptuo.Templates.Compilation.CodeCompilers;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
@@ -78,31 +79,34 @@ namespace Test.Templates
             );
 
 
+            // Initialize type scanner.
+            TypeScanner typeScanner = new TypeScanner()
+                .AddTypeFilterOnAbstract()
+                .AddTypeFilterOnInterface();
 
-
-
-
+            // Name normalizer for components/controls.
             INameNormalizer componentNormalizer = new CompositeNameNormalizer(
                 new SuffixNameNormalizer("Control"),
                 new LowerInvariantNameNormalizer()
             );
 
+            // Name normalizer for tokens.
             INameNormalizer tokenNormalizer = new CompositeNameNormalizer(
                 new SuffixNameNormalizer("Extension"),
                 new LowerInvariantNameNormalizer()
             );
 
+            // Create extensible parser registry.
             IParserRegistry parserRegistry = new DefaultParserRegistry()
-                .AddContentBuilder(
+                .AddRegistry(typeScanner)
+                .AddContentBuilderRegistry(
                     new ContentBuilderRegistry(componentNormalizer)
                         .AddSearchHandler(e => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry))
                 )
-                .AddTokenBuilder(
-                    new TokenBuilderRegistry(tokenNormalizer)
-                );
+                .AddTokenBuilder(new TokenBuilderRegistry(tokenNormalizer));
 
-
-
+            // Scan types.
+            typeScanner.Run();
 
 
 

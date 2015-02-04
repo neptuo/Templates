@@ -107,6 +107,7 @@
     <Compile Include="_CodeDom\SubGenerators\Properties\_CodeDomPropertyResultExtensions.cs" />
     <Compile Include="_CodeDom\SubGenerators\_CodeDomContextExtensions.cs" />
     <Compile Include="_CodeDom\_CodeDomExtensions.cs" />
+    <Compile Include="_Components\AssemblyScanning\_TypeScannerExtensions.cs" />
     <Compile Include="_Components\CodeGenerators\CodeDomStructureGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\PropertyDefaults\CodeDomDefaultValueAttributeGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomCommentObjectGenerator.cs" />

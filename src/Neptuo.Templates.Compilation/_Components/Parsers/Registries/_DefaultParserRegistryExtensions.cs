@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.AssemblyScanning;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +10,18 @@ namespace Neptuo.Templates.Compilation.Parsers
     public static class _DefaultParserRegistryExtensions
     {
         #region IContentBuilder
+
+        public static DefaultParserRegistry AddContentBuilderRegistry(this DefaultParserRegistry registry, ContentBuilderRegistry builder)
+        {
+            Guard.NotNull(registry, "registry");
+
+            TypeScanner typeScanner = registry.With<TypeScanner>();
+            if(typeScanner != null)
+                typeScanner.AddTypeProcessor((prefix, type) => builder.AddBuilder(prefix, type.Name, new DefaultTypeComponentBuilder(type, null, null)));
+
+            return registry.AddRegistry<IContentBuilder>(builder);
+        }
+
 
         public static DefaultParserRegistry AddContentBuilder(this DefaultParserRegistry registry, IContentBuilder builder)
         {

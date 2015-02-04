@@ -15,8 +15,8 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
 
         private readonly INameNormalizer typeNameNormalizer;
         private readonly List<Func<Type, bool>> filters = new List<Func<Type, bool>>();
-        private readonly List<Action<Type>> processors = new List<Action<Type>>();
-        private readonly Dictionary<string, HashSet<string>> assemblies = new Dictionary<string, HashSet<string>>();
+        private readonly List<Action<string, Type>> processors = new List<Action<string, Type>>();
+        private readonly Dictionary<string, List<NamespaceItem>> assemblies = new Dictionary<string, List<NamespaceItem>>();
 
         public TypeScanner()
             : this(new NullNameNormalizer())
@@ -28,18 +28,18 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             this.typeNameNormalizer = typeNameNormalizer;
         }
 
-        public TypeScanner Add(string namespaceName, string assemblyFile)
+        public TypeScanner Add(string prefix, string namespaceName, string assemblyFile)
         {
             Guard.NotNullOrEmpty(assemblyFile, "assemblyFile");
 
             if (String.IsNullOrEmpty(namespaceName))
                 namespaceName = AllNamespaceWildcard;
 
-            HashSet<string> namespaces;
+            List<NamespaceItem> namespaces;
             if (!assemblies.TryGetValue(assemblyFile, out namespaces))
-                assemblies[assemblyFile] = namespaces = new HashSet<string>();
+                assemblies[assemblyFile] = namespaces = new List<NamespaceItem>();
 
-            namespaces.Add(namespaceName);
+            namespaces.Add(new NamespaceItem(prefix, namespaceName));
             return this;
         }
 
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             return this;
         }
 
-        public TypeScanner AddTypeProcessor(Action<Type> processor)
+        public TypeScanner AddTypeProcessor(Action<string, Type> processor)
         {
             Guard.NotNull(processor, "processor");
             processors.Add(processor);
@@ -63,38 +63,46 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         public void Run()
         {
             IReflectionService service = ReflectionFactory.FromCurrentAppDomain();
-            foreach (KeyValuePair<string, HashSet<string>> assemblyDescription in assemblies)
+            foreach (KeyValuePair<string, List<NamespaceItem>> assemblyDescription in assemblies)
             {
                 Assembly assembly = service.LoadAssembly(assemblyDescription.Key);
                 RunAssembly(assembly, assemblyDescription.Value);
             }
         }
 
-        private void RunAssembly(Assembly assembly, HashSet<string> namespaceNames)
+        private void RunAssembly(Assembly assembly, List<NamespaceItem> namespaceNames)
         {
             foreach (Type type in assembly.GetTypes())
             {
                 string typeNamespaceName = typeNameNormalizer.PrepareName(type.Namespace);
-                if (IsNamespaceContained(namespaceNames, typeNamespaceName) && IsPassedThroughFilters(type))
-                    ExecuteTypeProcessors(type);
+                string prefix;
+                if (TryGetNamespacePrefix(namespaceNames, typeNamespaceName, out prefix) && IsPassedThroughFilters(type))
+                    ExecuteTypeProcessors(prefix, type);
             }
         }
 
-        private bool IsNamespaceContained(HashSet<string> namespaceNames, string typeNamespaceName)
+        private bool TryGetNamespacePrefix(List<NamespaceItem> namespaceNames, string typeNamespaceName, out string prefix)
         {
-            if (namespaceNames.Contains(typeNamespaceName))
-                return true;
-
-            foreach (string namespaceName in namespaceNames)
+            foreach (NamespaceItem namespaceItem in namespaceNames)
             {
-                if (namespaceName.EndsWith(AllNamespaceWildcard))
+                if (namespaceItem.NamespaceName == typeNamespaceName)
                 {
-                    string subNamespaceName = namespaceName.Substring(0, namespaceName.Length - AllNamespaceWildcard.Length);
+                    prefix = namespaceItem.Prefix;
+                    return true;
+                }
+
+                if (namespaceItem.NamespaceName.EndsWith(AllNamespaceWildcard))
+                {
+                    string subNamespaceName = namespaceItem.NamespaceName.Substring(0, namespaceItem.NamespaceName.Length - AllNamespaceWildcard.Length);
                     if (typeNamespaceName.StartsWith(subNamespaceName))
+                    {
+                        prefix = namespaceItem.Prefix;
                         return true;
+                    }
                 }
             }
 
+            prefix = null;
             return false;
         }
 
@@ -109,10 +117,22 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             return true;
         }
 
-        private void ExecuteTypeProcessors(Type type)
+        private void ExecuteTypeProcessors(string prefix, Type type)
         {
-            foreach (Action<Type> processor in processors)
-                processor(type);
+            foreach (Action<string, Type> processor in processors)
+                processor(prefix, type);
+        }
+
+        private class NamespaceItem
+        {
+            public string Prefix { get; private set; }
+            public string NamespaceName { get; private set; }
+
+            public NamespaceItem(string prefix, string namespaceName)
+            {
+                Prefix = prefix;
+                NamespaceName = namespaceName;
+            }
         }
     }
 }
