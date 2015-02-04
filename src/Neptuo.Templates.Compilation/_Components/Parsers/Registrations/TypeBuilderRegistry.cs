@@ -18,9 +18,9 @@ namespace Neptuo.Templates.Compilation.Parsers
         #region Type scanner
 
         private object scannerLock = new object();
-        private TypeScanner typeScanner;
+        private XTypeScanner typeScanner;
 
-        protected TypeScanner TypeScanner
+        protected XTypeScanner TypeScanner
         {
             get
             {
@@ -381,9 +381,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        protected virtual TypeScanner CreateTypeScanner()
+        protected virtual XTypeScanner CreateTypeScanner()
         {
-            return new TypeScanner(Configuration, Content, this, this);
+            return new XTypeScanner(Configuration, Content, this, this);
         }
     }
 

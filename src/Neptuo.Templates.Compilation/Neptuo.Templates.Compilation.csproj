@@ -49,6 +49,7 @@
     <Compile Include="CodeObjects\CodeObjectList.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
+    <Compile Include="Parsers\Normalization\NullNameNormalizer.cs" />
     <Compile Include="Parsers\_ParserServiceExtensions.cs" />
     <Compile Include="_CodeDom\CodeDomGenerator.cs" />
     <Compile Include="_CodeDom\Configuration\CodeDomDefaultConfiguration.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomDictionaryAddPropertyGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomListAddPropertyGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomSetPropertyGenerator.cs" />
+    <Compile Include="_Components\AssemblyScanning\TypeScanner.cs" />
     <Compile Include="_Components\Parsers\GenericContentControlBuilder.cs" />
     <Compile Include="Parsers\Normalization\CompositeNameNormalizer.cs" />
     <Compile Include="_Components\Parsers\Registries\ContentBuilderRegistry.cs" />
@@ -216,7 +218,7 @@
     <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryContent.cs" />
     <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryException.cs" />
     <Compile Include="_Components\Parsers\Registrations\TypeRegistryHelper.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeScanner.cs" />
+    <Compile Include="_Components\Parsers\Registrations\XTypeScanner.cs" />
     <Compile Include="_Components\Parsers\Registrations\_TypeBuilderRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\RootComponentDescriptor.cs" />
     <Compile Include="_Components\Parsers\RootContentBuilder.cs" />

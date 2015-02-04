@@ -12,12 +12,12 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Helper for scanning namespaces for types which can be registered.
     /// </summary>
-    public class TypeScanner : TypeRegistryHelper
+    public class XTypeScanner : TypeRegistryHelper
     {
         private readonly IContentPropertyBuilder propertyBuilder;
         private readonly IObserverBuilder observerFactory;
 
-        public TypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content, IContentPropertyBuilder propertyBuilder, IObserverBuilder observerFactory)
+        public XTypeScanner(TypeBuilderRegistryConfiguration configuration, TypeBuilderRegistryContent content, IContentPropertyBuilder propertyBuilder, IObserverBuilder observerFactory)
             : base(configuration, content)
         {
             this.propertyBuilder = propertyBuilder;
