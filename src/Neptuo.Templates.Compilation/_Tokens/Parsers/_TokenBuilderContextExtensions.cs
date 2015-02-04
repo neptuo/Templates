@@ -110,15 +110,15 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Parses value use <paramref name="propertyFactory"/>.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="propertyFactory">Property builder factory.</param>
         /// <param name="propertyInfo">Property to build.</param>
         /// <param name="value">Value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this ITokenBuilderContext context, IPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, ISourceContent value)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this ITokenBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
         {
             Guard.NotNull(context, "context");
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            return propertyFactory.TryParse(new PropertyBuilderContext(context.ParserContext.Name, context.ParserContext, context.ParserContext.ParserService, propertyInfo), value);
+            return context.Registry
+                .WithPropertyBuilder()
+                .TryParse(new PropertyBuilderContext(context.ParserContext.Name, context.ParserContext, context.ParserContext.ParserService, propertyInfo), value);
         }
     }
 }

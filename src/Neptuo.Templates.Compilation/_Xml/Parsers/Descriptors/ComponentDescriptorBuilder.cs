@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(context.Registry.WithPropertyBuilder(), propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
                     context.ComponentCodeObject().Properties.AddRange(codeProperties);
@@ -54,7 +54,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(context.Registry.WithContentPropertyBuilder(), propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
                     context.ComponentCodeObject().Properties.AddRange(codeProperties);
@@ -118,7 +118,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo defaultProperty = context.DefaultProperty();
                 if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(defaultProperty.Name.ToLowerInvariant()))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(context.Registry.WithContentPropertyBuilder(), defaultProperty, unboundNodes);
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, unboundNodes);
                     if (codeProperties != null)
                     {
                         context.ComponentCodeObject().Properties.AddRange(codeProperties);

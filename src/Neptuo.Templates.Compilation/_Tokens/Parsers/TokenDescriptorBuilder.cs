@@ -16,14 +16,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected abstract IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
         protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension);
         
-        protected IPropertyBuilder PropertyFactory { get; private set; }
-
-        public TokenDescriptorBuilder(IPropertyBuilder propertyFactory)
-        {
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            PropertyFactory = propertyFactory;
-        }
-
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
             IComponentCodeObject codeObject = CreateCodeObject(context, extension);
@@ -48,7 +40,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo propertyInfo;
                 if (bindContext.Properties.TryGetValue(name, out propertyInfo))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, new DefaultSourceContent(attribute.Value, token));
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, new DefaultSourceContent(attribute.Value, token));
                     if(codeProperties != null) 
                     {
                         codeObject.Properties.AddRange(codeProperties);
@@ -66,7 +58,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 string defaultAttributeValue = token.DefaultAttributes.FirstOrDefault();
                 if (!String.IsNullOrEmpty(defaultAttributeValue))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
                     if(codeProperties != null)
                     {
                         codeObject.Properties.AddRange(codeProperties);

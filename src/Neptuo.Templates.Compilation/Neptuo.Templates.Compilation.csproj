@@ -212,7 +212,7 @@
     <Compile Include="_Components\CodeObjects\_ComponentsCodeObjectListExtensions.cs" />
     <Compile Include="_Components\ComponentAttribute.cs" />
     <Compile Include="_Components\Parsers\DefaultLiteralControlBuilder.cs" />
-    <Compile Include="_Components\Parsers\DefaultTokenBuilder.cs" />
+    <Compile Include="_Components\Parsers\DefaultTypeTokenBuilder.cs" />
     <Compile Include="_Components\Parsers\DefaultTypeComponentBuilder.cs" />
     <Compile Include="_Components\Parsers\DefaultTypeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\HtmlAttributeObserverBuilder.cs" />

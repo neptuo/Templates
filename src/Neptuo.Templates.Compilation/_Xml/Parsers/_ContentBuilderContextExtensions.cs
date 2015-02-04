@@ -191,33 +191,29 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Parses value use <paramref name="propertyFactory"/>.
+        /// Parses property value.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="propertyFactory">Property builder factory.</param>
         /// <param name="propertyInfo">Property to build.</param>
         /// <param name="value">Value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, ISourceContent value)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
         {
             Guard.NotNull(context, "context");
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            return propertyFactory.TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
+            return context.Registry.WithPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
         }
 
         /// <summary>
-        /// Parses value use <paramref name="propertyFactory"/>.
+        /// Parses property value.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="propertyFactory">Property builder factory.</param>
         /// <param name="propertyInfo">Property to build.</param>
-        /// <param name="value">Value.</param>
+        /// <param name="content">Content.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IContentPropertyBuilder propertyFactory, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             Guard.NotNull(context, "context");
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            return propertyFactory.TryParse(new ContentPropertyBuilderContext(context, propertyInfo), content);
+            return context.Registry.WithContentPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), content);
         }
     }
 }

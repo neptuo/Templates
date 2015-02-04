@@ -136,10 +136,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 typeScanner.AddTypeProcessor((prefix, type) => builder.AddBuilder(
                     prefix, 
                     type.Name, 
-                    new DefaultTokenBuilder(
-                        type, 
-                        registry.WithContentPropertyBuilder()
-                    )
+                    new DefaultTypeTokenBuilder(type)
                 ));
             }
 

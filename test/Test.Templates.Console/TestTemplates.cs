@@ -74,10 +74,6 @@ namespace Test.Templates
 //                //doc.Load(reader);
 //            }
 
-            TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
-            );
-
 
             // Name normalizer for components/controls.
             INameNormalizer componentNormalizer = new CompositeNameNormalizer(
@@ -186,7 +182,7 @@ namespace Test.Templates
             viewService.ParserService
                 .AddContentParser("CodeDom", new XmlContentParser(parserRegistry, true))
                 .AddValueParser("CodeDom", new PlainValueParser())
-                .AddValueParser("CodeDom", new TokenValueParser(builderRegistry));
+                .AddValueParser("CodeDom", new TokenValueParser(parserRegistry));
 
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
             viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());

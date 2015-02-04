@@ -21,5 +21,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Current parser.
         /// </summary>
         TokenValueParser Parser { get; }
+
+        /// <summary>
+        /// Extensible registry for parsers.
+        /// </summary>
+        IParserRegistry Registry { get; }
     }
 }

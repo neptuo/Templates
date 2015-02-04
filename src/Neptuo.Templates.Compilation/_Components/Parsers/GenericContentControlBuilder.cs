@@ -25,8 +25,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// to the property, where XML element name should be set.
         /// </summary>
         /// <param name="tagNameProperty">Expression to the property, where XML element name should be set.</param>
-        /// <param name="propertyFactory"></param>
-        /// <param name="observerFactory"></param>
         public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty)
             : base(typeof(T))
         {
