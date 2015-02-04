@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Neptuo.Linq.Expressions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,7 +16,18 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static ObserverBuilderRegistry AddBuilder<TObserver>(this ObserverBuilderRegistry registry, string prefix, string name)
         {
             throw Guard.Exception.NotImplemented();
-            return registry.AddBuilder(prefix, name, new DefaultTypeObserverBuilder(typeof(TObserver), null));
+            return registry.AddBuilder(prefix, name, new DefaultTypeObserverBuilder(typeof(TObserver)));
+        }
+
+        public static ObserverBuilderRegistry AddHtmlAttributeBuilder<T>(this ObserverBuilderRegistry registry, Expression<Func<T, Dictionary<string, string>>> propertyGetter)
+        {
+            Guard.NotNull(registry, "registry");
+            string propertyName = TypeHelper.PropertyName(propertyGetter);
+            return registry.AddBuilder(
+                null, 
+                "*", 
+                new HtmlAttributeObserverBuilder(typeof(T), propertyName)
+            );
         }
     }
 }

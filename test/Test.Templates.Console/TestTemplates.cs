@@ -79,11 +79,6 @@ namespace Test.Templates
             );
 
 
-            // Initialize type scanner.
-            TypeScanner typeScanner = new TypeScanner()
-                .AddTypeFilterOnAbstract()
-                .AddTypeFilterOnInterface();
-
             // Name normalizer for components/controls.
             INameNormalizer componentNormalizer = new CompositeNameNormalizer(
                 new SuffixNameNormalizer("Control"),
@@ -103,35 +98,38 @@ namespace Test.Templates
 
             // Create extensible parser registry.
             IParserRegistry parserRegistry = new DefaultParserRegistry()
-                .AddRegistry(typeScanner)
+                .AddTypeScanner(
+                    new TypeScanner()
+                        .AddTypeFilterOnAbstract()
+                        .AddTypeFilterOnInterface()
+                        .AddAssembly("ui", "Test.Templates.UI", "Test.Templates")
+                )
                 .AddLiteralBuilder(new LiteralBuilder())
-                .AddContentPropertyBuilder(
+                .AddPropertyBuilder(
                     new ContentPropertyBuilderRegistry()
                         .AddSearchHandler(propertyInfo => new TypeDefaultPropertyBuilder())
                 )
                 .AddContentBuilderRegistry(
                     new ContentBuilderRegistry(componentNormalizer)
-                        .AddSearchHandler(e => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry))
+                        .AddGenericControlSearchHandler<GenericContentControl>(c => c.TagName)
                 )
                 .AddObserverBuilder(
                     new ObserverBuilderRegistry(observerNormalizer)
                         .AddBuilder<VisibleObserver>("ui", "visible")
+                        .AddBuilder<DataContextObserver>("data", "*")
                 )
-                .AddTokenBuilder(new TokenBuilderRegistry(tokenNormalizer));
-
-            // Scan types.
-            typeScanner.Run();
+                .AddTokenBuilder(new TokenBuilderRegistry(tokenNormalizer))
+                .RunTypeScanner();
 
 
-
-            builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
-            builderRegistry
-                .RegisterNamespace("ui", "Test.Templates.UI, Test.Templates")
-                .RegisterObserverBuilder<DataContextObserver>("data", "*")
-                .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
-                .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
-                .RegisterRootBuilder<GeneratedView>(v => v.Content);
+            //builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
+            //builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
+            //builderRegistry
+            //    .RegisterNamespace("ui", "Test.Templates.UI, Test.Templates")
+            //    .RegisterObserverBuilder<DataContextObserver>("data", "*")
+            //    .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
+            //    .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
+            //    .RegisterRootBuilder<GeneratedView>(v => v.Content);
 
             //XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
             //    .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)

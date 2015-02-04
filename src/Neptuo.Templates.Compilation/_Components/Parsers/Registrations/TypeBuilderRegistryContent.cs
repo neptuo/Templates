@@ -96,10 +96,4 @@ namespace Neptuo.Templates.Compilation.Parsers
             { }
         }
     }
-
-    public class NamespaceDeclaration
-    {
-        public string Prefix { get; set; }
-        public string Namespace { get; set; }
-    }
 }

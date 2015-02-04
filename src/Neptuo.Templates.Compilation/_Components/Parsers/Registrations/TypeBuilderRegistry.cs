@@ -17,25 +17,25 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region Type scanner
 
-        private object scannerLock = new object();
-        private XTypeScanner typeScanner;
+        //private object scannerLock = new object();
+        //private XTypeScanner typeScanner;
 
-        protected XTypeScanner TypeScanner
-        {
-            get
-            {
-                if (typeScanner == null)
-                {
-                    lock (scannerLock)
-                    {
-                        if (typeScanner == null)
-                            typeScanner = CreateTypeScanner();
-                    }
-                }
+        //protected XTypeScanner TypeScanner
+        //{
+        //    get
+        //    {
+        //        if (typeScanner == null)
+        //        {
+        //            lock (scannerLock)
+        //            {
+        //                if (typeScanner == null)
+        //                    typeScanner = CreateTypeScanner();
+        //            }
+        //        }
 
-                return typeScanner;
-            }
-        }
+        //        return typeScanner;
+        //    }
+        //}
 
         #endregion
 
@@ -260,15 +260,15 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected void RegisterNamespaceInternal(string prefix, string clrNamespace)
         {
-            prefix = PreparePrefix(prefix);
-            if (!Content.Namespaces.ContainsKey(prefix))
-                Content.Namespaces[prefix] = new NamespaceDeclaration() { Prefix = prefix, Namespace = clrNamespace };
+            //prefix = PreparePrefix(prefix);
+            //if (!Content.Namespaces.ContainsKey(prefix))
+            //    Content.Namespaces[prefix] = new NamespaceDeclaration() { Prefix = prefix, NamespaceName = clrNamespace };
         }
 
         public TypeBuilderRegistry RegisterNamespace(string prefix, string clrNamespace)
         {
             RegisterNamespaceInternal(prefix, clrNamespace);
-            TypeScanner.Scan(prefix, clrNamespace);
+            //TypeScanner.Scan(prefix, clrNamespace);
             return this;
         }
 
@@ -381,10 +381,10 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        protected virtual XTypeScanner CreateTypeScanner()
-        {
-            return new XTypeScanner(Configuration, Content, this, this);
-        }
+        //protected virtual XTypeScanner CreateTypeScanner()
+        //{
+        //    return new XTypeScanner(Configuration, Content, this, this);
+        //}
     }
 
 }

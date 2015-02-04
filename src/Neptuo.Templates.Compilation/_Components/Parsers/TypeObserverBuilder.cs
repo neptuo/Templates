@@ -10,10 +10,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public abstract class TypeObserverBuilder : ObserverDescriptorBuilder
     {
-        public TypeObserverBuilder(IPropertyBuilder propertyFactory)
-            : base(propertyFactory)
-        { }
-
         protected abstract Type GetObserverType(IXmlAttribute attribute);
 
         protected override IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)

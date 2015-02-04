@@ -14,23 +14,6 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public abstract class ComponentDescriptorBuilder : ComponentBuilder
     {
-        protected IContentPropertyBuilder PropertyFactory { get; private set; }
-        protected IObserverBuilder ObserverFactory { get; private set; }
-
-        /// <summary>
-        /// Creates new instance with <paramref name="propertyFactory"/> as builder for resolving property values 
-        /// and <paramref name="observerFactory"/> as builder for resolving observers.
-        /// </summary>
-        /// <param name="propertyFactory">Builder for resolving property values.</param>
-        /// <param name="observerFactory">Builder for resolving observers.</param>
-        public ComponentDescriptorBuilder(IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
-        {
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            Guard.NotNull(observerFactory, "observerFactory");
-            PropertyFactory = propertyFactory;
-            ObserverFactory = observerFactory;
-        }
-
         public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
             IComponentCodeObject codeObject = CreateCodeObject(context, element);
@@ -51,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(context.Registry.WithPropertyBuilder(), propertyInfo, value);
                 if (codeProperties != null)
                 {
                     context.ComponentCodeObject().Properties.AddRange(codeProperties);
@@ -71,7 +54,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(context.Registry.WithContentPropertyBuilder(), propertyInfo, value);
                 if (codeProperties != null)
                 {
                     context.ComponentCodeObject().Properties.AddRange(codeProperties);
@@ -100,7 +83,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     boundAttribute = true;
 
                 // Try process as observer.
-                if (!boundAttribute && ObserverFactory.TryParse(context, context.ComponentCodeObject(), attribute))
+                if (!boundAttribute && context.Registry.WithObserverBuilder().TryParse(context, context.ComponentCodeObject(), attribute))
                     boundAttribute = true;
 
                 // Call base if attribute was not bound.
@@ -135,7 +118,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IPropertyInfo defaultProperty = context.DefaultProperty();
                 if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(defaultProperty.Name.ToLowerInvariant()))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, defaultProperty, unboundNodes);
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(context.Registry.WithContentPropertyBuilder(), defaultProperty, unboundNodes);
                     if (codeProperties != null)
                     {
                         context.ComponentCodeObject().Properties.AddRange(codeProperties);

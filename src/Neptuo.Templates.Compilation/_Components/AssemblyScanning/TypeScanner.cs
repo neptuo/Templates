@@ -1,4 +1,5 @@
 ﻿using Neptuo.Reflection;
+using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             this.typeNameNormalizer = typeNameNormalizer;
         }
 
-        public TypeScanner Add(string prefix, string namespaceName, string assemblyFile)
+        public TypeScanner AddAssembly(string prefix, string namespaceName, string assemblyFile)
         {
             Guard.NotNullOrEmpty(assemblyFile, "assemblyFile");
 
@@ -55,6 +56,15 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             Guard.NotNull(processor, "processor");
             processors.Add(processor);
             return this;
+        }
+
+        public IEnumerable<NamespaceDeclaration> EnumerateUsedNamespaces()
+        {
+            List<NamespaceDeclaration> result = new List<NamespaceDeclaration>();
+            foreach (KeyValuePair<string, List<NamespaceItem>> item in assemblies)
+                result.AddRange(item.Value.Select(n => new NamespaceDeclaration(n.Prefix, n.NamespaceName, item.Key)));
+
+            return result;
         }
 
         /// <summary>

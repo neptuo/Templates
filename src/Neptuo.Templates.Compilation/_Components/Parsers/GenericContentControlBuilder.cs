@@ -27,8 +27,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="tagNameProperty">Expression to the property, where XML element name should be set.</param>
         /// <param name="propertyFactory"></param>
         /// <param name="observerFactory"></param>
-        public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty, IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
-            : base(typeof(T), propertyFactory, observerFactory)
+        public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty)
+            : base(typeof(T))
         {
             this.tagNameProperty = TypeHelper.PropertyName(tagNameProperty);
         }
@@ -62,7 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
 
                 // Is observer.
-                if (ObserverFactory.TryParse(context, codeObject, attribute))
+                if (context.Registry.WithObserverBuilder().TryParse(context, codeObject, attribute))
                 {
                     isComponentRequired = true;
                     break;

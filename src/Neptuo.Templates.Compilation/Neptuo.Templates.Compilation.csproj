@@ -127,8 +127,10 @@
     <Compile Include="_Components\Parsers\Registries\ContentPropertyBuilderRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\DefaultParserRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\IParserRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\NamespaceDeclaration.cs" />
     <Compile Include="_Components\Parsers\Registries\ObserverBuilderRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\TokenBuilderRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\_ContentBuilderRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\Registries\_DefaultParserRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\Registries\_ObserverBuilderRegistryExtensions.cs" />
     <Compile Include="_Properties\CodeObjects\CodePropertyList.cs" />
@@ -220,8 +222,6 @@
     <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryContent.cs" />
     <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryException.cs" />
     <Compile Include="_Components\Parsers\Registrations\TypeRegistryHelper.cs" />
-    <Compile Include="_Components\Parsers\Registrations\XTypeScanner.cs" />
-    <Compile Include="_Components\Parsers\Registrations\_TypeBuilderRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\RootComponentDescriptor.cs" />
     <Compile Include="_Components\Parsers\RootContentBuilder.cs" />
     <Compile Include="_Components\Parsers\TypeComponentBuilder.cs" />

@@ -12,14 +12,6 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public abstract class ObserverDescriptorBuilder : IObserverBuilder
     {
-        protected IPropertyBuilder PropertyFactory { get; private set; }
-
-        public ObserverDescriptorBuilder(IPropertyBuilder propertyFactory)
-        {
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            PropertyFactory = propertyFactory;
-        }
-
         /// <summary>
         /// Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
         /// If returns <c>null</c>, new observer will be created and attached.
@@ -72,7 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, attribute.GetValue());
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(context.Registry.WithPropertyBuilder(), propertyInfo, attribute.GetValue());
                 if(codeProperties != null)
                 {
                     codeObject.Properties.AddRange(codeProperties);
