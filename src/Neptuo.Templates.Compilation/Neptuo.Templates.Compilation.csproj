@@ -217,11 +217,6 @@
     <Compile Include="_Components\Parsers\DefaultTypeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\HtmlAttributeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\PropertyDescriptorPropertyInfo.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistry.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryConfiguration.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryContent.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryException.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeRegistryHelper.cs" />
     <Compile Include="_Components\Parsers\RootComponentDescriptor.cs" />
     <Compile Include="_Components\Parsers\RootContentBuilder.cs" />
     <Compile Include="_Components\Parsers\TypeComponentBuilder.cs" />
