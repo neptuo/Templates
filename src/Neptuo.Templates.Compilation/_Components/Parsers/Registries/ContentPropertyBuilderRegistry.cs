@@ -51,6 +51,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNull(searchHandler, "searchHandler");
             onSearchContentBuilder.Add(searchHandler);
+            onSearchBuilder.Add(searchHandler);
             return this;
         }
 

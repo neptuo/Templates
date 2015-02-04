@@ -8,7 +8,7 @@ namespace Test.Templates.UI
 {
     [Html("input", true)]
     [DefaultProperty("Text")]
-    public class TextBoxControl : BaseControl
+    public class TextBoxControl : BaseControl, IHtmlAttributeCollectionAware
     {
         public string Name
         {

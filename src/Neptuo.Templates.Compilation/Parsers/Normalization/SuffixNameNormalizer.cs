@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Normalization
             foreach (string nameSuffix in nameSuffixes)
             {
                 if (name.EndsWith(nameSuffix))
-                    return name.Substring(0, nameSuffix.Length);
+                    return name.Substring(0, name.Length - nameSuffix.Length);
             }
 
             return name;

@@ -108,6 +108,7 @@ namespace Test.Templates
                 )
                 .AddObserverBuilder(
                     new ObserverBuilderRegistry(observerNormalizer)
+                        .AddHtmlAttributeBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
                         .AddBuilder<VisibleObserver>("ui", "visible")
                         .AddBuilder<DataContextObserver>("data", "*")
                 )

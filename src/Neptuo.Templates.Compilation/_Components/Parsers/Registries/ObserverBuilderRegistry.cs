@@ -68,7 +68,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 IObserverBuilder builder;
                 if (!builders.TryGetValue(name, out builder))
-                    builder = onSearchBuilder.Execute(attribute);
+                {
+                    if(!builders.TryGetValue("*", out builder))
+                        builder = onSearchBuilder.Execute(attribute);
+                }
 
                 if (builder != null)
                     return builder.TryParse(context, codeObject, attribute);
