@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomPropertyGeneratorRegistry : ICodeDomPropertyGenerator
     {
         private readonly Dictionary<Type, ICodeDomPropertyGenerator> storage = new Dictionary<Type, ICodeDomPropertyGenerator>();
-        private Func<Type, ICodeDomPropertyGenerator> onSearchGenerator = o => new NullGenerator();
+        private FuncList<Type, ICodeDomPropertyGenerator> onSearchGenerator = new FuncList<Type, ICodeDomPropertyGenerator>(o => new NullGenerator());
 
         /// <summary>
         /// Maps <paramref name="generator"/> to process code properties of type <paramref name="codeObjectType"/>.
@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomPropertyGeneratorRegistry AddSearchHandler(Func<Type, ICodeDomPropertyGenerator> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
-            onSearchGenerator += searchHandler;
+            onSearchGenerator.Add(searchHandler);
             return this;
         }
 
@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             ICodeDomPropertyGenerator generator;
             if (!storage.TryGetValue(codePropertyType, out generator))
-                generator = onSearchGenerator(codePropertyType);
+                generator = onSearchGenerator.Execute(codePropertyType);
 
             return generator.Generate(context, codeProperty);
         }

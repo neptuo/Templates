@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     public class CodeDomAttributeGeneratorRegistry : ICodeDomAttributeGenerator
     {
         private readonly Dictionary<Type, ICodeDomAttributeGenerator> storage = new Dictionary<Type, ICodeDomAttributeGenerator>();
-        private Func<Type, ICodeDomAttributeGenerator> onSearchGenerator;
+        private FuncList<Type, ICodeDomAttributeGenerator> onSearchGenerator = new FuncList<Type,ICodeDomAttributeGenerator>();
 
         /// <summary>
         /// Maps <paramref name="generator"/> to process attributes of type <paramref name="attributeType"/>.
@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomAttributeGeneratorRegistry AddSearchHandler(Func<Type, ICodeDomAttributeGenerator> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
-            onSearchGenerator += searchHandler;
+            onSearchGenerator.Add(searchHandler);
             return this;
         }
 
@@ -44,7 +44,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             ICodeDomAttributeGenerator generator;
             if (!storage.TryGetValue(attributeType, out generator) && onSearchGenerator != null)
-                generator = onSearchGenerator(attributeType);
+                generator = onSearchGenerator.Execute(attributeType);
 
             if (generator == null)
                 return new CodeDomDefaultAttributeResult();
