@@ -38,13 +38,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
             if (observerObject != null)
             {
-                bindContext = new BindContentPropertiesContext(observerDescriptor, observerObject);
+                bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer(), observerObject);
             }
             else
             {
                 observerObject = CreateCodeObject(context, attribute);
                 codeObject.Observers.Add(observerObject);
-                bindContext = new BindContentPropertiesContext(observerDescriptor);
+                bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
 
             // Bind attribute
@@ -60,7 +60,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
-            string attributeName = attribute.LocalName.ToLowerInvariant();
+            string attributeName = context.Registry.WithPropertyNormalizer().PrepareName(attribute.LocalName);
             IPropertyInfo propertyInfo;
             if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
             {

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.AssemblyScanning;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -258,6 +259,31 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Guard.NotNull(registry, "registry");
             return registry.With<ILiteralBuilder>();
+        }
+
+        #endregion
+
+        #region INameNormalizer
+
+        /// <summary>
+        /// Register <paramref name="nameNormalizer"/> (with name 'Property') to the <paramref name="registry"/>.
+        /// </summary>
+        /// <param name="registry">Parser registry to register to.</param>
+        /// <param name="builder">Instance of name normalizer for properties.</param>
+        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
+        public static DefaultParserRegistry AddPropertyNormalizer(this DefaultParserRegistry registry, INameNormalizer nameNormalizer)
+        {
+            return registry.AddRegistry<INameNormalizer>("Property", nameNormalizer);
+        }
+
+        /// <summary>
+        /// Returns registered instance of name normalizer (with name 'Property') in <paramref name="registry"/>.
+        /// </summary>
+        /// <param name="registry">Parser registry to read name normalizer from.</param>
+        /// <returns>Registered instance of name normalizer (with name 'Property') in <paramref name="registry"/>.</returns>
+        public static INameNormalizer WithPropertyNormalizer(this IParserRegistry registry)
+        {
+            return registry.With<INameNormalizer>("Property");
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,12 +22,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             : base(properties)
         { }
 
-        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor)
-            : base(componentDescriptor)
+        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
+            : base(componentDescriptor, nameNormalizer)
         { }
 
-        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor, IPropertiesCodeObject codeObject)
-            : base(componentDescriptor, codeObject)
+        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
+            : base(componentDescriptor, nameNormalizer, codeObject)
         { }
     }
 }

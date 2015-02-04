@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,16 +40,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             UnboundAttributes = new List<T>();
         }
 
-        public BindPropertiesContext(IComponentDescriptor componentDescriptor)
-            : this(componentDescriptor.GetProperties().Where(p => !p.IsReadOnly).ToDictionary(p => p.Name.ToLowerInvariant()))
+        public BindPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
+            : this(componentDescriptor.GetProperties().Where(p => !p.IsReadOnly).ToDictionary(p => nameNormalizer.PrepareName(p.Name)))
         { }
 
-        public BindPropertiesContext(IComponentDescriptor componentDescriptor, IPropertiesCodeObject codeObject)
-            : this(componentDescriptor)
+        public BindPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
+            : this(componentDescriptor, nameNormalizer)
         {
             Guard.NotNull(codeObject, "codeObject");
             foreach (ICodeProperty codeProperty in codeObject.Properties)
-                BoundProperties.Add(codeProperty.Property.Name);
+                BoundProperties.Add(nameNormalizer.PrepareName(codeProperty.Property.Name));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Tokens;
 using System;
 using System.Collections.Generic;
@@ -29,13 +30,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();
+            INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
 
-            BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition);
+            BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition, context.Registry.WithPropertyNormalizer());
             foreach (TokenAttribute attribute in token.Attributes)
             {
-                string name = attribute.Name.ToLowerInvariant();
+                string name = nameNormalizer.PrepareName(attribute.Name);
 
                 IPropertyInfo propertyInfo;
                 if (bindContext.Properties.TryGetValue(name, out propertyInfo))
@@ -53,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 result = false;
             }
 
-            if (defaultProperty != null && !boundProperies.Contains(defaultProperty.Name.ToLowerInvariant()))
+            if (defaultProperty != null && !boundProperies.Contains(nameNormalizer.PrepareName(defaultProperty.Name)))
             {
                 string defaultAttributeValue = token.DefaultAttributes.FirstOrDefault();
                 if (!String.IsNullOrEmpty(defaultAttributeValue))
@@ -62,7 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     if(codeProperties != null)
                     {
                         codeObject.Properties.AddRange(codeProperties);
-                        bindContext.BoundProperties.Add(defaultProperty.Name.ToLowerInvariant());
+                        bindContext.BoundProperties.Add(nameNormalizer.PrepareName(defaultProperty.Name));
                     }
                     else
                     {
