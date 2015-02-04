@@ -15,8 +15,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly Dictionary<Type, IContentPropertyBuilder> contentStorage = new Dictionary<Type, IContentPropertyBuilder>();
         private readonly Dictionary<Type, IPropertyBuilder> storage = new Dictionary<Type, IPropertyBuilder>();
-        private Func<IPropertyInfo, IContentPropertyBuilder> onSearchContentBuilder = o => new NullBuilder();
-        private Func<IPropertyInfo, IPropertyBuilder> onSearchBuilder = o => new NullBuilder();
+        private readonly FuncList<IPropertyInfo, IContentPropertyBuilder> onSearchContentBuilder = new FuncList<IPropertyInfo, IContentPropertyBuilder>(o => new NullBuilder());
+        private readonly FuncList<IPropertyInfo, IPropertyBuilder> onSearchBuilder = new FuncList<IPropertyInfo, IPropertyBuilder>(o => new NullBuilder());
 
         /// <summary>
         /// Maps <paramref name="builder"/> to process properties of type <paramref name="builder" />
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IContentPropertyBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
-            onSearchContentBuilder = searchHandler + onSearchContentBuilder;
+            onSearchContentBuilder.Add(searchHandler);
             return this;
         }
 
@@ -62,7 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IPropertyBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
-            onSearchBuilder = searchHandler + onSearchBuilder;
+            onSearchBuilder.Add(searchHandler);
             return this;
         }
 
@@ -70,7 +70,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             IContentPropertyBuilder builder;
             if (!contentStorage.TryGetValue(context.PropertyInfo.Type, out builder))
-                builder = onSearchContentBuilder(context.PropertyInfo);
+                builder = onSearchContentBuilder.Execute(context.PropertyInfo);
 
             if (builder != null)
                 return builder.TryParse(context, content);
@@ -82,7 +82,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             IPropertyBuilder builder;
             if (!storage.TryGetValue(context.PropertyInfo.Type, out builder))
-                builder = onSearchBuilder(context.PropertyInfo);
+                builder = onSearchBuilder.Execute(context.PropertyInfo);
 
             if (builder != null)
                 return builder.TryParse(context, value);

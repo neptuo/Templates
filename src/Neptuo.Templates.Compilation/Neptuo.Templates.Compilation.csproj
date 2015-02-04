@@ -126,6 +126,7 @@
     <Compile Include="Parsers\Normalization\SuffixNameNormalizer.cs" />
     <Compile Include="_Components\Parsers\Registries\ContentPropertyBuilderRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\DefaultParserRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\FuncList.cs" />
     <Compile Include="_Components\Parsers\Registries\IParserRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\NamespaceDeclaration.cs" />
     <Compile Include="_Components\Parsers\Registries\ObserverBuilderRegistry.cs" />

@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         public static TypeScanner AddTypeFilterOnInterface(this TypeScanner scanner)
         {
             Guard.NotNull(scanner, "scanner");
-            return scanner.AddTypeFilter(t => t.IsInterface);
+            return scanner.AddTypeFilter(t => !t.IsInterface);
         }
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         public static TypeScanner AddTypeFilterOnAbstract(this TypeScanner scanner)
         {
             Guard.NotNull(scanner, "scanner");
-            return scanner.AddTypeFilter(t => t.IsAbstract);
+            return scanner.AddTypeFilter(t => !t.IsAbstract);
         }
     }
 }

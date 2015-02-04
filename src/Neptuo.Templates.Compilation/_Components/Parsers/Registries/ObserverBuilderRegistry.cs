@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly Dictionary<string, Dictionary<string, IObserverBuilder>> storage = new Dictionary<string, Dictionary<string, IObserverBuilder>>();
         private readonly INameNormalizer nameNormalizer;
-        private Func<IXmlAttribute, IObserverBuilder> onSearchBuilder = o => new NullBuilder();
+        private FuncList<IXmlAttribute, IObserverBuilder> onSearchBuilder = new FuncList<IXmlAttribute, IObserverBuilder>(o => new NullBuilder());
 
         /// <summary>
         /// Creates new instance with <paramref name="nameNormalizer"/> for normalizing names.
@@ -54,7 +54,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public ObserverBuilderRegistry AddSearchHandler(Func<IXmlAttribute, IObserverBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
-            onSearchBuilder = searchHandler + onSearchBuilder;
+            onSearchBuilder.Add(searchHandler);
             return this;
         }
         
@@ -68,7 +68,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 IObserverBuilder builder;
                 if (!builders.TryGetValue(name, out builder))
-                    builder = onSearchBuilder(attribute);
+                    builder = onSearchBuilder.Execute(attribute);
 
                 if (builder != null)
                     return builder.TryParse(context, codeObject, attribute);
