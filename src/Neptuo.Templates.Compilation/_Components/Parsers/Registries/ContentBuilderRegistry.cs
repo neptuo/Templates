@@ -17,6 +17,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         private readonly INameNormalizer nameNormalizer;
         private Func<IXmlElement, IContentBuilder> onSearchBuilder = o => new NullBuilder();
 
+        /// <summary>
+        /// Creates new instance with <paramref name="nameNormalizer"/> for normalizing names.
+        /// </summary>
+        /// <param name="nameNormalizer">Normalizer for normlizing names.</param>
         public ContentBuilderRegistry(INameNormalizer nameNormalizer)
         {
             Guard.NotNull(nameNormalizer, "nameNormalizer");
