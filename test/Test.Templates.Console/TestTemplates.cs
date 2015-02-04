@@ -82,15 +82,23 @@ namespace Test.Templates
 
 
 
-            INameNormalizer nameNormalizer = new CompositeNameNormalizer(
+            INameNormalizer componentNormalizer = new CompositeNameNormalizer(
                 new SuffixNameNormalizer("Control"),
+                new LowerInvariantNameNormalizer()
+            );
+
+            INameNormalizer tokenNormalizer = new CompositeNameNormalizer(
+                new SuffixNameNormalizer("Extension"),
                 new LowerInvariantNameNormalizer()
             );
 
             IParserRegistry parserRegistry = new DefaultParserRegistry()
                 .AddContentBuilder(
-                    new ContentBuilderRegistry(nameNormalizer)
+                    new ContentBuilderRegistry(componentNormalizer)
                         .AddSearchHandler(e => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry))
+                )
+                .AddTokenBuilder(
+                    new TokenBuilderRegistry(tokenNormalizer)
                 );
 
 
