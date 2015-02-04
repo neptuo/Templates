@@ -269,7 +269,6 @@
     <Compile Include="_Xml\Parsers\XmlAbstractions\XDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
-    <Compile Include="_Xml\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlExtensions.cs" />
     <Compile Include="_Properties\Parsers\_PropertyBuilderContextExtensions.cs" />

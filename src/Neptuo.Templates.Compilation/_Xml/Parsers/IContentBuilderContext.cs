@@ -25,5 +25,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// XML parser.
         /// </summary>
         XmlContentParser Parser { get; }
+
+        /// <summary>
+        /// Extensible registry for parsers.
+        /// </summary>
+        IParserRegistry Registry { get; }
     }
 }

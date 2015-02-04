@@ -127,5 +127,21 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         #endregion
+
+        #region ILiteralBuilder
+
+        public static DefaultParserRegistry AddLiteralBuilder(this DefaultParserRegistry registry, ILiteralBuilder builder)
+        {
+            Guard.NotNull(registry, "registry");
+            return registry.AddRegistry<ILiteralBuilder>(builder);
+        }
+
+        public static ILiteralBuilder WithLiteralBuilder(this IParserRegistry registry)
+        {
+            Guard.NotNull(registry, "registry");
+            return registry.With<ILiteralBuilder>();
+        }
+
+        #endregion
     }
 }
