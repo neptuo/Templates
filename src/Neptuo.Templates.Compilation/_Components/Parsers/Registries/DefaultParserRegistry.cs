@@ -13,11 +13,23 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly Dictionary<Type, object> storage = new Dictionary<Type, object>();
 
+        /// <summary>
+        /// Registers instance <paramref name="parser"/> with interface <typeparamref name="T"/>.
+        /// </summary>
+        /// <typeparam name="T">Type of interface to register.</typeparam>
+        /// <param name="parser">Instance to map to <typeparamref name="T"/>.</param>
+        /// <returns>Self (fluently).</returns>
         public DefaultParserRegistry AddRegistry<T>(T parser)
         {
             Guard.NotNull(parser, "parser");
             storage[typeof(T)] = parser;
             return this;
+        }
+
+        public bool Has<T>()
+        {
+            Type parserType = typeof(T);
+            return storage.ContainsKey(parserType);
         }
 
         public T With<T>()

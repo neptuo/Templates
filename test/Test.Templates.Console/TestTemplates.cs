@@ -90,6 +90,11 @@ namespace Test.Templates
                 new LowerInvariantNameNormalizer()
             );
 
+            INameNormalizer observerNormalizer = new CompositeNameNormalizer(
+                new SuffixNameNormalizer("Observer"),
+                new LowerInvariantNameNormalizer()
+            );
+
             // Name normalizer for tokens.
             INameNormalizer tokenNormalizer = new CompositeNameNormalizer(
                 new SuffixNameNormalizer("Extension"),
@@ -99,9 +104,17 @@ namespace Test.Templates
             // Create extensible parser registry.
             IParserRegistry parserRegistry = new DefaultParserRegistry()
                 .AddRegistry(typeScanner)
+                .AddContentPropertyBuilder(
+                    new ContentPropertyBuilderRegistry()
+                        .AddSearchHandler(propertyInfo => new TypeDefaultPropertyBuilder())
+                )
                 .AddContentBuilderRegistry(
                     new ContentBuilderRegistry(componentNormalizer)
                         .AddSearchHandler(e => new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry))
+                )
+                .AddObserverBuilder(
+                    new ObserverBuilderRegistry(observerNormalizer)
+                        .AddBuilder<VisibleObserver>("ui", "visible")
                 )
                 .AddTokenBuilder(new TokenBuilderRegistry(tokenNormalizer));
 
