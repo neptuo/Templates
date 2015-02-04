@@ -94,26 +94,28 @@ namespace Test.Templates
 
             // Create extensible parser registry.
             IParserRegistry parserRegistry = new DefaultParserRegistry()
+                .AddPropertyNormalizer(new LowerInvariantNameNormalizer())
                 .AddTypeScanner(
                     new TypeScanner()
                         .AddTypeFilterOnAbstract()
                         .AddTypeFilterOnInterface()
                         .AddAssembly("ui", "Test.Templates.UI", "Test.Templates")
                 )
-                .AddLiteralBuilder(new LiteralBuilder())
-                .AddPropertyBuilder(
-                    new ContentPropertyBuilderRegistry()
-                        .AddSearchHandler(propertyInfo => new TypeDefaultPropertyBuilder())
-                )
                 .AddContentBuilderRegistry(
                     new ContentBuilderRegistry(componentNormalizer)
                         .AddGenericControlSearchHandler<GenericContentControl>(c => c.TagName)
+                        .AddRootBuilder<GeneratedView>(v => v.Content)
                 )
                 .AddObserverBuilder(
                     new ObserverBuilderRegistry(observerNormalizer)
                         .AddBuilder<VisibleObserver>("ui", "visible")
                         .AddBuilder<DataContextObserver>("data", "*")
                 )
+                .AddPropertyBuilder(
+                    new ContentPropertyBuilderRegistry()
+                        .AddSearchHandler(propertyInfo => new TypeDefaultPropertyBuilder())
+                )
+                .AddLiteralBuilder(new LiteralBuilder())
                 .AddTokenBuilder(new TokenBuilderRegistry(tokenNormalizer))
                 .RunTypeScanner();
 

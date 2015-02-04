@@ -15,7 +15,6 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public static ObserverBuilderRegistry AddBuilder<TObserver>(this ObserverBuilderRegistry registry, string prefix, string name)
         {
-            throw Guard.Exception.NotImplemented();
             return registry.AddBuilder(prefix, name, new DefaultTypeObserverBuilder(typeof(TObserver)));
         }
 

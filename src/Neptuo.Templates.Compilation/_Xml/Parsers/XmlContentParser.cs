@@ -41,6 +41,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             IEnumerable<ICodeObject> codeObject = TryProcessNode(new XmlContentBuilderContext(context, this, registry), documentElement);
             //FlushContent(helper); - doesn't respect current parent
 
+            if (codeObject == null)
+                return null;
+
             if (codeObject.Count() > 1)
             {
                 context.Errors.Add(new ErrorInfo(0, 0, "Root of AST can contain only single item."));
