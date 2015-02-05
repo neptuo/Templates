@@ -97,8 +97,8 @@ namespace Test.Templates
                 .AddPropertyNormalizer(new LowerInvariantNameNormalizer())
                 .AddTypeScanner(
                     new TypeScanner()
-                        .AddTypeFilterOnAbstract()
-                        .AddTypeFilterOnInterface()
+                        .AddTypeFilterNotAbstract()
+                        .AddTypeFilterNotInterface()
                         .AddAssembly("ui", "Test.Templates.UI", "Test.Templates")
                 )
                 .AddContentBuilderRegistry(
@@ -131,7 +131,6 @@ namespace Test.Templates
                             .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
                             .AddGenerator<ObserverCodeObject>(new CodeDomObserverObjectGenerator(nameProvider))
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
-                            .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
                             .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())
                     )
                     .AddPropertyGenerator(
