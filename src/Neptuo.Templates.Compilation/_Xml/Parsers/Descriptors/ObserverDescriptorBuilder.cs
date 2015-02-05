@@ -23,13 +23,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
         /// If returns <c>null</c>, new observer will be created and attached.
         /// </returns>
-        protected abstract IObserverCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IObserverCodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
 
         protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
 
-        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
 
-        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             BindContentPropertiesContext bindContext;
             IComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);

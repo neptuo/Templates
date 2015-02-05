@@ -18,6 +18,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Target component.</param>
         /// <param name="attribute">Attribute to be processed by this builder.</param>
         /// <returns><c>true</c> if processing was successfull; <c>false</c> otherwise.</returns>
-        bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+        bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
     }
 }

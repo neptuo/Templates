@@ -17,12 +17,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.defaultProperty = defaultProperty;
         }
 
-        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
+        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             return new RootCodeObject();
         }
 
-        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
+        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
         {
             return new RootComponentDescriptor(defaultProperty);
         }

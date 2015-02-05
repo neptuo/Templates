@@ -17,12 +17,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new ObserverCodeObject(GetObserverType(attribute));
         }
 
-        protected override IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        protected override IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             return new TypeComponentDescriptor(GetObserverType(attribute));
         }
 
-        protected override IObserverCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        protected override IObserverCodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             Type observerType = GetObserverType(attribute);
             return codeObject.Observers.FirstOrDefault(o => o.Type == observerType);

@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Describes root of AST.
     /// </summary>
-    public class RootCodeObject : IComponentCodeObject
+    public class RootCodeObject : IPropertiesCodeObject, IObserversCodeObject
     {
         public List<ICodeProperty> Properties { get; set; }
         public List<IObserverCodeObject> Observers { get; set; }

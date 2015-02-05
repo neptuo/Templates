@@ -11,17 +11,29 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         #region ComponentCodeObject
 
-        public static IComponentCodeObject ComponentCodeObject(this IContentBuilderContext context)
+        public static IContentBuilderContext CodeObject(this IContentBuilderContext context, ICodeObject codeObject)
         {
             Guard.NotNull(context, "context");
-            return (IComponentCodeObject)context.CustomValues["ComponentCodeObject"];
+            context.CustomValues["CodeObject"] = codeObject;
+            return context;
         }
 
-        public static IContentBuilderContext ComponentCodeObject(this IContentBuilderContext context, IComponentCodeObject codeObject)
+        public static ICodeObject CodeObject(this IContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
-            context.CustomValues["ComponentCodeObject"] = codeObject;
-            return context;
+            return (ICodeObject)context.CustomValues["CodeObject"];
+        }
+
+        public static IPropertiesCodeObject CodeObjectAsProperties(this IContentBuilderContext context)
+        {
+            Guard.NotNull(context, "context");
+            return (IPropertiesCodeObject)CodeObject(context);
+        }
+
+        public static IObserversCodeObject CodeObjectAsObservers(this IContentBuilderContext context)
+        {
+            Guard.NotNull(context, "context");
+            return (IObserversCodeObject)CodeObject(context);
         }
 
         #endregion

@@ -17,12 +17,12 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected abstract Type GetControlType(IXmlElement element);
 
-        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
+        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             return new ComponentCodeObject(GetControlType(element));
         }
 
-        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element)
+        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
         {
             return new TypeComponentDescriptor(GetControlType(element));
         }

@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="token">Token to create code object for.</param>
         /// <returns>Code object for <paramref name="token"/>.</returns>
-        protected abstract IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token token);
+        protected abstract ICodeObject CreateCodeObject(ITokenBuilderContext context, Token token);
 
         /// <summary>
         /// Should return component descriptor for <paramref name="token"/>.
@@ -29,12 +29,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Code object for <paramref name="token"/>.</param>
         /// <param name="token">Token to create component descriptor for.</param>
         /// <returns>Component descriptor for <paramref name="token"/>.</returns>
-        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token token);
+        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token token);
         
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
-            IComponentCodeObject codeObject = CreateCodeObject(context, extension);
-            if (codeObject != null && BindProperties(context, codeObject, extension))
+            ICodeObject codeObject = CreateCodeObject(context, extension);
+            IPropertiesCodeObject propertiesCodeObject = codeObject as IPropertiesCodeObject;
+            if (propertiesCodeObject != null && BindProperties(context, propertiesCodeObject, extension))
                 return codeObject;
 
             return null;
@@ -47,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Code object to bind properties to.</param>
         /// <param name="token">Token to process attributes from.</param>
         /// <returns><c>true</c> if binding was successfull; otherwise <c>false</c>.</returns>
-        protected virtual bool BindProperties(ITokenBuilderContext context, IComponentCodeObject codeObject, Token token)
+        protected virtual bool BindProperties(ITokenBuilderContext context, IPropertiesCodeObject codeObject, Token token)
         {
             bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();
