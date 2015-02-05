@@ -169,7 +169,6 @@
     <Compile Include="_Properties\CodeObjects\IPropertyInfo.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
-    <Compile Include="Data\StorageProvider.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="DefaultViewService.cs" />

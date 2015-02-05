@@ -1,5 +1,4 @@
 ﻿using Neptuo.ComponentModel;
-using Neptuo.Templates.Compilation.Data;
 using System;
 using System.Collections.Generic;
 using System.IO;
