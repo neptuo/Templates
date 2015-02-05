@@ -12,13 +12,13 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     {
         public Type Type { get; set; }
         public List<ICodeProperty> Properties { get; set; }
-        public List<IObserverCodeObject> Observers { get; set; }
+        public List<ICodeObject> Observers { get; set; }
 
         public ComponentCodeObject(Type type)
         {
             Type = type;
             Properties = new List<ICodeProperty>();
-            Observers = new List<IObserverCodeObject>();
+            Observers = new List<ICodeObject>();
         }
     }
 }

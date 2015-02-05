@@ -8,14 +8,14 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Observer.
     /// </summary>
-    public class ObserverCodeObject : IObserverCodeObject
+    public class ObserverCodeObject : ITypeCodeObject, IPropertiesCodeObject
     {
         public Type Type { get; set; }
         public List<ICodeProperty> Properties { get; set; }
-        public bool IsNew { get; set; }
 
         public ObserverCodeObject(Type type)
         {
+            Guard.NotNull(type, "type");
             Type = type;
             Properties = new List<ICodeProperty>();
         }

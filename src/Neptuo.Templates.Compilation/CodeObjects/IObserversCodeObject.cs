@@ -13,6 +13,6 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <summary>
         /// List of observers.
         /// </summary>
-        List<IObserverCodeObject> Observers { get; set; }
+        List<ICodeObject> Observers { get; set; }
     }
 }

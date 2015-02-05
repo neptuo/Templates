@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected abstract Type GetObserverType(IXmlAttribute attribute);
 
-        protected override IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)
+        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)
         {
             return new ObserverCodeObject(GetObserverType(attribute));
         }
@@ -22,10 +22,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new TypeComponentDescriptor(GetObserverType(attribute));
         }
 
-        protected override IObserverCodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        protected override ICodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             Type observerType = GetObserverType(attribute);
-            return codeObject.Observers.FirstOrDefault(o => o.Type == observerType);
+            return codeObject.Observers.OfType<ITypeCodeObject>().FirstOrDefault(o => o.Type == observerType);
         }
     }
 }

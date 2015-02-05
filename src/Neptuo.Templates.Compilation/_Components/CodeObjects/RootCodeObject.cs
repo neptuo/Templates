@@ -12,12 +12,12 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     public class RootCodeObject : IPropertiesCodeObject, IObserversCodeObject
     {
         public List<ICodeProperty> Properties { get; set; }
-        public List<IObserverCodeObject> Observers { get; set; }
+        public List<ICodeObject> Observers { get; set; }
 
         public RootCodeObject()
         {
             Properties = new List<ICodeProperty>();
-            Observers = new List<IObserverCodeObject>();
+            Observers = new List<ICodeObject>();
         }
     }
 }
