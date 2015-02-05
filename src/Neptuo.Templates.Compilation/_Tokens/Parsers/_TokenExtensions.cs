@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Common extensions on <see cref="Token"/>.
     /// </summary>
-    public static class TokenExtensions
+    public static class _TokenExtensions
     {
         /// <summary>
         /// Returns <c>true</c> if attribute <paramref name="attributeName"/> is defined on <paramref name="token"/>.

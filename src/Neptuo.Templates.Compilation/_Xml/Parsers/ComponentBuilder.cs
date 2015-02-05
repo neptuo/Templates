@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -56,10 +57,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Whether processing was successfull.</returns>
         private bool BindPropertiesFromAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> attributes, ICollection<IXmlAttribute> unboundAttributes)
         {
+            INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
             foreach (IXmlAttribute attribute in attributes)
             {
-                string prefix = attribute.Prefix.ToLowerInvariant();
-                string name = attribute.Name.ToLowerInvariant();
+                string prefix = nameNormalizer.PreparePrefix(attribute.Prefix);
+                string name = nameNormalizer.PrepareName(attribute.Name);
                 ISourceContent value = attribute.GetValue();
                 if (!TryBindProperty(context, prefix, name, value))
                     unboundAttributes.Add(attribute);
@@ -78,13 +80,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         private bool BindProperiesFromNodes(IContentBuilderContext context, IEnumerable<IXmlNode> childNodes, ICollection<IXmlNode> unboundNodes)
         {
             bool isPropertyBound = false;
+            INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
             foreach (IXmlNode childNode in childNodes)
             {
                 if (childNode.NodeType == XmlNodeType.Element)
                 {
                     IXmlElement element = (IXmlElement)childNode;
-                    string prefix = element.Prefix.ToLowerInvariant();
-                    string name = element.Name.ToLowerInvariant();
+                    string prefix = nameNormalizer.PreparePrefix(element.Prefix);
+                    string name = nameNormalizer.PrepareName(element.Name);
                     if (TryBindProperty(context, prefix, name, element.ChildNodes))
                     {
                         isPropertyBound = true;

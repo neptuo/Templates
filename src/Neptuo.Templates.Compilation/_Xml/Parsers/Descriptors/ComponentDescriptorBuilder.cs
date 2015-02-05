@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,29 +15,12 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public abstract class ComponentDescriptorBuilder : ComponentBuilder
     {
-        protected IContentPropertyBuilder PropertyFactory { get; private set; }
-        protected IObserverBuilder ObserverFactory { get; private set; }
-
-        /// <summary>
-        /// Creates new instance with <paramref name="propertyFactory"/> as builder for resolving property values 
-        /// and <paramref name="observerFactory"/> as builder for resolving observers.
-        /// </summary>
-        /// <param name="propertyFactory">Builder for resolving property values.</param>
-        /// <param name="observerFactory">Builder for resolving observers.</param>
-        public ComponentDescriptorBuilder(IContentPropertyBuilder propertyFactory, IObserverBuilder observerFactory)
-        {
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            Guard.NotNull(observerFactory, "observerFactory");
-            PropertyFactory = propertyFactory;
-            ObserverFactory = observerFactory;
-        }
-
         public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
             IComponentCodeObject codeObject = CreateCodeObject(context, element);
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
-            BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition);
+            BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition, context.Registry.WithPropertyNormalizer());
             context.ComponentCodeObject(codeObject);
             context.ComponentDescriptor(componentDefinition);
             context.BindPropertiesContext(bindContext);
@@ -51,7 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
                     context.ComponentCodeObject().Properties.AddRange(codeProperties);
@@ -71,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             IPropertyInfo propertyInfo;
             if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
                     context.ComponentCodeObject().Properties.AddRange(codeProperties);
@@ -91,16 +75,17 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             bool result = true;
             List<IXmlAttribute> usedAttributes = new List<IXmlAttribute>();
+            INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
             foreach (IXmlAttribute attribute in unboundAttributes)
             {
                 bool boundAttribute = false;
 
                 // TODO: Process xmlns registration.
-                if (attribute.Prefix.ToLowerInvariant() == "xmlns")
+                if (nameNormalizer.PreparePrefix(attribute.Prefix) == "xmlns")
                     boundAttribute = true;
 
                 // Try process as observer.
-                if (!boundAttribute && ObserverFactory.TryParse(context, context.ComponentCodeObject(), attribute))
+                if (!boundAttribute && context.Registry.WithObserverBuilder().TryParse(context, context.ComponentCodeObject(), attribute))
                     boundAttribute = true;
 
                 // Call base if attribute was not bound.
@@ -133,13 +118,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 // Bind content elements
                 IPropertyInfo defaultProperty = context.DefaultProperty();
-                if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(defaultProperty.Name.ToLowerInvariant()))
+                INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
+                if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(nameNormalizer.PrepareName(defaultProperty.Name)))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, defaultProperty, unboundNodes);
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, unboundNodes);
                     if (codeProperties != null)
                     {
                         context.ComponentCodeObject().Properties.AddRange(codeProperties);
-                        context.BindPropertiesContext().BoundProperties.Add(defaultProperty.Name);
+                        context.BindPropertiesContext().BoundProperties.Add(nameNormalizer.PrepareName(defaultProperty.Name));
                         return true;
                     }
                 }

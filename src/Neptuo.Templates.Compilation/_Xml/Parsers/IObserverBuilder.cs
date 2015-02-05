@@ -12,11 +12,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     public interface IObserverBuilder
     {
         /// <summary>
-        /// Parses <paramref name="attributes"/> and creates AST for it.
+        /// Parses <paramref name="attribute"/> and creates AST for it.
         /// </summary>
         /// <param name="context">Context information.</param>
         /// <param name="codeObject">Target component.</param>
-        /// <param name="attributes">Attribute to be processed by this builder.</param>
+        /// <param name="attribute">Attribute to be processed by this builder.</param>
         /// <returns><c>true</c> if processing was successfull; <c>false</c> otherwise.</returns>
         bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
     }

@@ -5,10 +5,12 @@ using Neptuo.FileSystems;
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
+using Neptuo.Templates.Compilation.AssemblyScanning;
 using Neptuo.Templates.Compilation.CodeCompilers;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Templates.Compilation.ViewActivators;
 using System;
 using System.CodeDom;
@@ -73,34 +75,54 @@ namespace Test.Templates
 //            }
 
 
-
-
-
-
-
-            TypeBuilderRegistry builderRegistry = new TypeBuilderRegistry(
-                new TypeBuilderRegistryConfiguration(container)//.AddComponentSuffix("presenter"),
+            // Name normalizer for components/controls.
+            INameNormalizer componentNormalizer = new CompositeNameNormalizer(
+                new SuffixNameNormalizer("Control"),
+                new LowerInvariantNameNormalizer()
             );
-            builderRegistry.LiteralBuilder = new DefaultLiteralControlBuilder<LiteralControl>(c => c.Text);
-            builderRegistry.DefaultContentBuilder = new GenericContentControlBuilder<GenericContentControl>(c => c.TagName, builderRegistry, builderRegistry);
-            builderRegistry
-                .RegisterNamespace("ui", "Test.Templates.UI, Test.Templates")
-                .RegisterObserverBuilder<DataContextObserver>("data", "*")
-                .RegisterObserverBuilder<VisibleObserver>("ui", "Visible")
-                .RegisterHtmlAttributeObserverBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
-                .RegisterRootBuilder<GeneratedView>(v => v.Content);
 
-            //XCodeDomGenerator codeGenerator = new XCodeDomGenerator()
-            //    .SetStandartGenerators(typeof(GeneratedView), componentManagerDescriptor, typeof(IControl), fieldNameProvider)
-            //    //.SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator2(fieldNameProvider, componentManagerDescriptor))
-            //    .SetCodeObjectGenerator<ComponentCodeObject>(new CodeDomExtendedComponentObjectGenerator(
-            //        new CodeDomComponentGenerator(fieldNameProvider, componentManagerDescriptor), 
-            //        new CodeDomExtensionObjectGenerator(fieldNameProvider, componentManagerDescriptor)
-            //    ))
-            //    .SetCodeObjectGenerator<TemplateCodeObject>(new CodeDomTemplateGenerator(fieldNameProvider, componentManagerDescriptor))
-            //    .SetCodeObjectGenerator<MethodReferenceCodeObject>(new CodeDomMethodReferenceGenerator());
+            INameNormalizer observerNormalizer = new CompositeNameNormalizer(
+                new SuffixNameNormalizer("Observer"),
+                new LowerInvariantNameNormalizer()
+            );
+
+            // Name normalizer for tokens.
+            INameNormalizer tokenNormalizer = new CompositeNameNormalizer(
+                new SuffixNameNormalizer("Extension"),
+                new LowerInvariantNameNormalizer()
+            );
+
+            // Create extensible parser registry.
+            IParserRegistry parserRegistry = new DefaultParserRegistry()
+                .AddPropertyNormalizer(new LowerInvariantNameNormalizer())
+                .AddTypeScanner(
+                    new TypeScanner()
+                        .AddTypeFilterNotAbstract()
+                        .AddTypeFilterNotInterface()
+                        .AddAssembly("ui", "Test.Templates.UI", "Test.Templates")
+                )
+                .AddContentBuilderRegistry(
+                    new ContentBuilderRegistry(componentNormalizer)
+                        .AddGenericControlSearchHandler<GenericContentControl>(c => c.TagName)
+                        .AddRootBuilder<GeneratedView>(v => v.Content)
+                )
+                .AddObserverBuilder(
+                    new ObserverBuilderRegistry(observerNormalizer)
+                        .AddHtmlAttributeBuilder<IHtmlAttributeCollectionAware>(c => c.HtmlAttributes)
+                        .AddBuilder<VisibleObserver>("ui", "visible")
+                        .AddBuilder<DataContextObserver>("data", "*")
+                )
+                .AddPropertyBuilder(
+                    new ContentPropertyBuilderRegistry()
+                        .AddSearchHandler(propertyInfo => new TypeDefaultPropertyBuilder())
+                )
+                .AddLiteralBuilder(new LiteralBuilder())
+                .AddTokenBuilder(new TokenBuilderRegistry(tokenNormalizer))
+                .RunTypeScanner();
+
+
+            // Create code generator.
             IUniqueNameProvider nameProvider = new SequenceUniqueNameProvider("field", 1);
-
             CodeDomGenerator codeGenerator = new CodeDomGenerator(
                 new CodeDomDefaultRegistry()
                     .AddObjectGenerator(
@@ -109,7 +131,6 @@ namespace Test.Templates
                             .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
                             .AddGenerator<ObserverCodeObject>(new CodeDomObserverObjectGenerator(nameProvider))
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
-                            .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
                             .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())
                     )
                     .AddPropertyGenerator(
@@ -143,98 +164,48 @@ namespace Test.Templates
 
             DefaultViewService viewService = new DefaultViewService();
             viewService.ParserService
-                .AddContentParser("CodeDom", new XmlContentParser(builderRegistry, builderRegistry.GetLiteralBuilder(), true))
+                .AddContentParser("CodeDom", new XmlContentParser(parserRegistry, true))
                 .AddValueParser("CodeDom", new PlainValueParser())
-                .AddValueParser("CodeDom", new TokenValueParser(builderRegistry));
+                .AddValueParser("CodeDom", new TokenValueParser(parserRegistry));
 
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
             viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());
             viewService.CompilerService.AddCompiler("CodeDom", codeCompiler);
 
-
-
-
-
-            //CodeDomViewService viewService = new CodeDomViewService(true);
-            //viewService.DebugMode = CodeDomDebugMode.AlwaysReGenerate | CodeDomDebugMode.GenerateSourceCode;
-            //viewService.ParserService.ContentParsers.Add(new XmlContentParser(builderRegistry));
-            //viewService.ParserService.DefaultValueParser = new PlainValueParser();
-            //viewService.ParserService.ValueParsers.Add(new TokenValueParser(builderRegistry));
-            //viewService.NamingService = new HashNamingService(new FileProvider(LocalFileSystem.FromDirectoryPath(Environment.CurrentDirectory)));
-
+            // Register view service to the container.
             container.RegisterInstance<IViewService>(viewService);
 
             StringWriter output = new StringWriter();
-            Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            //try
-            //{
 
             IViewServiceContext context = new DefaultViewServiceContext(container);
 
-
-
-
-
-            //IPropertyInfo propertyInfo = new TypePropertyInfo(typeof(BaseGeneratedView).GetProperty(TypeHelper.PropertyName<BaseGeneratedView>(v => v.Content)));
-            //IPropertyDescriptor codeProperty= new ListAddPropertyDescriptor(propertyInfo);
-            //StringWriter javascriptOutput = new StringWriter();
-
-            //viewService.ParserService.ProcessContent(File.ReadAllText("Index.html"), new DefaultParserServiceContext(container, contentProperty));
-            //viewService.JavascriptGenerator.ProcessTree(contentProperty, new CodeDomGeneratorContext(new DefaultNaming("X", "X", "X", "X"), output, viewService.CodeGeneratorService, container));
-
-            //Console.WriteLine(javascriptOutput);
-
-
-
-
-
-
-
-
-
-            //BaseGeneratedView view = (BaseGeneratedView)viewService.ProcessContent("<h:panel class='checkin'><a href='google'>Hello, World!</a></h:panel>", context);
-
             container.RegisterInstance<ICodeDomNaming>(new CodeDomDefaultNaming("Neptuo.Templates", "Index"));
 
-            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
-            GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
-            if (view == null || context.Errors.Any())
+            DebugHelper.Debug("Execute", () =>
             {
-                Console.WriteLine("Unnable to compile view...");
-
-                foreach (IErrorInfo errorInfo in context.Errors)
-                    Console.WriteLine("{0}:{1} -> {2}", errorInfo.LineNumber, errorInfo.ColumnIndex, errorInfo.ErrorText);
-            }
-            else
-            {
-                DebugHelper.Debug("Run", () =>
+                ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
+                GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
+                if (view == null || context.Errors.Any())
                 {
-                    view.Init(container, new ComponentManager());
-                    view.Render(new HtmlTextWriter(output));
-                    view.Dispose();
-                });
+                    Console.WriteLine("Unnable to compile view...");
 
-            }
-            stopwatch.Stop();
-            //}
-            //catch (CodeDomViewServiceException e)
-            //{
-            //    output.WriteLine("Errors occured!");
-            //    output.WriteLine();
-            //    foreach (IErrorInfo error in e.Errors)
-            //    {
-            //        output.WriteLine("Line: {0}", error.Line);
-            //        output.WriteLine("Position: {0}", error.Column);
-            //        output.WriteLine("Message: {0}", error.ErrorText);
-            //        output.WriteLine("Error number: {0}", error.ErrorNumber);
-            //        output.WriteLine();
-            //    }
-            //}
+                    foreach (IErrorInfo errorInfo in context.Errors)
+                        Console.WriteLine("{0}:{1} -> {2}", errorInfo.LineNumber, errorInfo.ColumnIndex, errorInfo.ErrorText);
+                }
+                else
+                {
+                    DebugHelper.Debug("Run", () =>
+                    {
+                        view.Init(container, new ComponentManager());
+                        view.Render(new HtmlTextWriter(output));
+                        view.Dispose();
+                    });
 
-            Console.WriteLine(output);
-            Console.WriteLine("Run in {0}ms, size {1}ch", stopwatch.ElapsedMilliseconds, output.ToString().Length);
+                }
+
+                Console.WriteLine(output);
+                Console.WriteLine("Output size {0}ch", output.ToString().Length);
+            });
         }
     }
 }

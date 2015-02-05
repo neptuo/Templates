@@ -16,21 +16,18 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// XML content parser implementation.
     /// </summary>
-    public partial class XmlContentParser : IContentParser
+    public class XmlContentParser : IContentParser
     {
         public static string FakeRootElementName = "NeptuoTemplatesRoot";
 
-        private readonly IContentBuilder componentFactory;
-        private readonly ILiteralBuilder literalFactory;
+        private readonly IParserRegistry registry;
 
         public bool UseLinqApi { get; set; }
 
-        public XmlContentParser(IContentBuilder componentFactory, ILiteralBuilder literalFactory, bool useLinqApi = false)
+        public XmlContentParser(IParserRegistry registry, bool useLinqApi = false)
         {
-            Guard.NotNull(componentFactory, "componentFactory");
-            Guard.NotNull(literalFactory, "literalFactory");
-            this.componentFactory = componentFactory;
-            this.literalFactory = literalFactory;
+            Guard.NotNull(registry, "registry");
+            this.registry = registry;
             UseLinqApi = useLinqApi;
         }
 
@@ -41,8 +38,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
 #endif
             IXmlElement documentElement = CreateDocumentRoot(content);
-            IEnumerable<ICodeObject> codeObject = TryProcessNode(new XmlContentBuilderContext(context, this), documentElement);
+            IEnumerable<ICodeObject> codeObject = TryProcessNode(new XmlContentBuilderContext(context, this, registry), documentElement);
             //FlushContent(helper); - doesn't respect current parent
+
+            if (codeObject == null)
+                return null;
 
             if (codeObject.Count() > 1)
             {
@@ -56,14 +56,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             catch (XmlException e)
             {
                 context.Errors.Add(new ExceptionErrorInfo(e.LineNumber - 1, e.LinePosition, e));
-            }
-            catch (Exception e)
-            {
-                ISourceCodeException sourceException = e as ISourceCodeException;
-                if (sourceException != null)
-                    context.Errors.Add(new ErrorInfo(sourceException.LineNumber, sourceException.LineIndex, sourceException.Message));
-                else
-                    context.Errors.Add(new ExceptionErrorInfo(e));
             }
             return null;
 #endif
@@ -94,17 +86,17 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual IEnumerable<ICodeObject> TryProcessElement(IContentBuilderContext context, IXmlElement element)
         {
-            return componentFactory.TryParse(new XmlContentBuilderContext(context), element);
+            return context.Registry.WithContentBuilder().TryParse(new XmlContentBuilderContext(context), element);
         }
 
         protected virtual IEnumerable<ICodeObject> TryProcessText(IContentBuilderContext context, IXmlText text)
         {
-            return literalFactory.TryParseText(new XmlContentBuilderContext(context), text.Text);
+            return context.Registry.WithLiteralBuilder().TryParseText(new XmlContentBuilderContext(context), text.Text);
         }
 
         protected virtual IEnumerable<ICodeObject> TryProcessComment(IContentBuilderContext context, IXmlText text)
         {
-            return literalFactory.TryParseComment(new XmlContentBuilderContext(context), text.Text);
+            return context.Registry.WithLiteralBuilder().TryParseComment(new XmlContentBuilderContext(context), text.Text);
         }
 
         #region Creating document

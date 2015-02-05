@@ -11,8 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected Type Type { get; private set; }
 
-        public DefaultTypeObserverBuilder(Type type, IPropertyBuilder propertyFactory)
-            : base(propertyFactory)
+        public DefaultTypeObserverBuilder(Type type)
         {
             Type = type;
         }

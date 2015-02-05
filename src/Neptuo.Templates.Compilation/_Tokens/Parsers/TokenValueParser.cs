@@ -13,12 +13,12 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public partial class TokenValueParser : IValueParser
     {
-        private readonly ITokenBuilder builderFactory;
+        private readonly IParserRegistry registry;
 
-        public TokenValueParser(ITokenBuilder builderFactory)
+        public TokenValueParser(IParserRegistry registry)
         {
-            Guard.NotNull(builderFactory, "builderFactory");
-            this.builderFactory = builderFactory;
+            Guard.NotNull(registry, "registry");
+            this.registry = registry;
         }
 
         public ICodeObject Parse(ISourceContent content, IValueParserContext context)
@@ -27,7 +27,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             TokenParser parser = CreateTokenParser();
             parser.OnParsedToken += (sender, e) => codeObject = GenerateToken(context, e.Token, content.GlobalSourceInfo);
-            parser.Parse(content.TextContent);
+            if (!parser.Parse(content.TextContent))
+                codeObject = null;
 
             return codeObject;
         }
@@ -43,7 +44,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             );
 
             // Build token.
-            ICodeObject codeObject = builderFactory.TryParse(new TokenBuilderContext(this, context), token);
+            ICodeObject codeObject = registry.WithTokenBuilder().TryParse(new TokenBuilderContext(this, context, registry), token);
             return codeObject;
         }
 

@@ -12,14 +12,6 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public abstract class ObserverDescriptorBuilder : IObserverBuilder
     {
-        protected IPropertyBuilder PropertyFactory { get; private set; }
-
-        public ObserverDescriptorBuilder(IPropertyBuilder propertyFactory)
-        {
-            Guard.NotNull(propertyFactory, "propertyFactory");
-            PropertyFactory = propertyFactory;
-        }
-
         /// <summary>
         /// Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
         /// If returns <c>null</c>, new observer will be created and attached.
@@ -46,13 +38,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
             if (observerObject != null)
             {
-                bindContext = new BindContentPropertiesContext(observerDescriptor, observerObject);
+                bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer(), observerObject);
             }
             else
             {
                 observerObject = CreateCodeObject(context, attribute);
                 codeObject.Observers.Add(observerObject);
-                bindContext = new BindContentPropertiesContext(observerDescriptor);
+                bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
 
             // Bind attribute
@@ -68,11 +60,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
         {
-            string attributeName = attribute.LocalName.ToLowerInvariant();
+            string attributeName = context.Registry.WithPropertyNormalizer().PrepareName(attribute.LocalName);
             IPropertyInfo propertyInfo;
             if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(PropertyFactory, propertyInfo, attribute.GetValue());
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, attribute.GetValue());
                 if(codeProperties != null)
                 {
                     codeObject.Properties.AddRange(codeProperties);

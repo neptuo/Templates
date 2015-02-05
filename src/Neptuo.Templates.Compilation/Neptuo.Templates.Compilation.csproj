@@ -49,6 +49,7 @@
     <Compile Include="CodeObjects\CodeObjectList.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
+    <Compile Include="Parsers\Normalization\NullNameNormalizer.cs" />
     <Compile Include="Parsers\_ParserServiceExtensions.cs" />
     <Compile Include="_CodeDom\CodeDomGenerator.cs" />
     <Compile Include="_CodeDom\Configuration\CodeDomDefaultConfiguration.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="_CodeDom\SubGenerators\Properties\_CodeDomPropertyResultExtensions.cs" />
     <Compile Include="_CodeDom\SubGenerators\_CodeDomContextExtensions.cs" />
     <Compile Include="_CodeDom\_CodeDomExtensions.cs" />
+    <Compile Include="_Components\AssemblyScanning\_TypeScannerExtensions.cs" />
     <Compile Include="_Components\CodeGenerators\CodeDomStructureGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\PropertyDefaults\CodeDomDefaultValueAttributeGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomCommentObjectGenerator.cs" />
@@ -115,7 +117,23 @@
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomDictionaryAddPropertyGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomListAddPropertyGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomSetPropertyGenerator.cs" />
+    <Compile Include="_Components\AssemblyScanning\TypeScanner.cs" />
     <Compile Include="_Components\Parsers\GenericContentControlBuilder.cs" />
+    <Compile Include="Parsers\Normalization\CompositeNameNormalizer.cs" />
+    <Compile Include="_Components\Parsers\Registries\ContentBuilderRegistry.cs" />
+    <Compile Include="Parsers\Normalization\INameNormalizer.cs" />
+    <Compile Include="Parsers\Normalization\LowerInvariantNameNormalizer.cs" />
+    <Compile Include="Parsers\Normalization\SuffixNameNormalizer.cs" />
+    <Compile Include="_Components\Parsers\Registries\ContentPropertyBuilderRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\DefaultParserRegistry.cs" />
+    <Compile Include="FuncList.cs" />
+    <Compile Include="_Components\Parsers\Registries\IParserRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\NamespaceDeclaration.cs" />
+    <Compile Include="_Components\Parsers\Registries\ObserverBuilderRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\TokenBuilderRegistry.cs" />
+    <Compile Include="_Components\Parsers\Registries\_ContentBuilderRegistryExtensions.cs" />
+    <Compile Include="_Components\Parsers\Registries\_DefaultParserRegistryExtensions.cs" />
+    <Compile Include="_Components\Parsers\Registries\_ObserverBuilderRegistryExtensions.cs" />
     <Compile Include="_Properties\CodeObjects\CodePropertyList.cs" />
     <Compile Include="_Properties\CodeObjects\_CodePropertyExtensions.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />
@@ -134,7 +152,6 @@
     <Compile Include="CodeCompilers\ICodeCompilerContext.cs" />
     <Compile Include="CodeCompilers\ICodeCompilerService.cs" />
     <Compile Include="CodeCompilers\ICodeCompilerServiceContext.cs" />
-    <Compile Include="SourceCodeException.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
@@ -157,7 +174,6 @@
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="DefaultViewService.cs" />
     <Compile Include="DefaultViewServiceContext.cs" />
-    <Compile Include="ISourceCodeException.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="IViewServiceContext.cs" />
     <Compile Include="Parsers\DefaultParserContext.cs" />
@@ -195,18 +211,11 @@
     <Compile Include="_Components\CodeObjects\_ComponentsCodeObjectListExtensions.cs" />
     <Compile Include="_Components\ComponentAttribute.cs" />
     <Compile Include="_Components\Parsers\DefaultLiteralControlBuilder.cs" />
-    <Compile Include="_Components\Parsers\DefaultTokenBuilder.cs" />
+    <Compile Include="_Components\Parsers\DefaultTypeTokenBuilder.cs" />
     <Compile Include="_Components\Parsers\DefaultTypeComponentBuilder.cs" />
     <Compile Include="_Components\Parsers\DefaultTypeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\HtmlAttributeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\PropertyDescriptorPropertyInfo.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistry.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryConfiguration.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryContent.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeBuilderRegistryException.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeRegistryHelper.cs" />
-    <Compile Include="_Components\Parsers\Registrations\TypeScanner.cs" />
-    <Compile Include="_Components\Parsers\Registrations\_TypeBuilderRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\RootComponentDescriptor.cs" />
     <Compile Include="_Components\Parsers\RootContentBuilder.cs" />
     <Compile Include="_Components\Parsers\TypeComponentBuilder.cs" />
@@ -225,7 +234,7 @@
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\_TokenBuilderContextExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
-    <Compile Include="_Tokens\Parsers\TokenExtensions.cs" />
+    <Compile Include="_Tokens\Parsers\_TokenExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
     <Compile Include="_Xml\Parsers\ContentPropertyBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\BindContentPropertiesContext.cs" />
@@ -254,12 +263,10 @@
     <Compile Include="_Xml\Parsers\XmlAbstractions\XDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
-    <Compile Include="_Xml\Parsers\XmlContentParser.Utils.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlExtensions.cs" />
     <Compile Include="_Properties\Parsers\_PropertyBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\_ContentPropertyBuilderContextExtensions.cs" />
-    <Compile Include="_Xml\XmlContentParserException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

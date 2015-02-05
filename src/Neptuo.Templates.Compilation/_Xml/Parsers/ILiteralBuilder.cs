@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// BUilds static literal value.
+    /// Builds static literal value.
     /// </summary>
     public interface ILiteralBuilder
     {
