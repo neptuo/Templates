@@ -12,6 +12,9 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
 {
     public class TypeScanner
     {
+        /// <summary>
+        /// Any sub namespace character.
+        /// </summary>
         public const string AllNamespaceWildcard = "*";
 
         private readonly INameNormalizer typeNameNormalizer;
@@ -29,6 +32,15 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             this.typeNameNormalizer = typeNameNormalizer;
         }
 
+        /// <summary>
+        /// Registers types from <paramref name="assemblyFile"/> (with namespace <paramref name="namespaceName"/>) to prefix <paramref name="prefix"/>.
+        /// Parameter<paramref name="namespaceName"/> can end with '*' to instruct this component to include namespace and all sub namespaces.
+        /// If <paramref name="namescapeName"/> is only '*', it means 'all types from <paramref name="assemblyFile"/>'.
+        /// </summary>
+        /// <param name="prefix">Prefix to register types with.</param>
+        /// <param name="namespaceName">Required type namespace.</param>
+        /// <param name="assemblyFile">Assembly to scan types from.</param>
+        /// <returns>Self (fluently).</returns>
         public TypeScanner AddAssembly(string prefix, string namespaceName, string assemblyFile)
         {
             Guard.NotNullOrEmpty(assemblyFile, "assemblyFile");
@@ -44,6 +56,13 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             return this;
         }
 
+        /// <summary>
+        /// Registers delegate to filter out scanned types.
+        /// Only when all filters for a particular type returns <c>true</c>,
+        /// the type is promoted for processing by processors.
+        /// </summary>
+        /// <param name="filter">Delegate to filter out types.</param>
+        /// <returns>Self (fluently).</returns>
         public TypeScanner AddTypeFilter(Func<Type, bool> filter)
         {
             Guard.NotNull(filter, "filter");
@@ -51,6 +70,11 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             return this;
         }
 
+        /// <summary>
+        /// Registers delegate to process (register) scanned types.
+        /// </summary>
+        /// <param name="processor">Delegate to process scanned types.</param>
+        /// <returns>Self (fluently).</returns>
         public TypeScanner AddTypeProcessor(Action<string, Type> processor)
         {
             Guard.NotNull(processor, "processor");
@@ -58,6 +82,10 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
             return this;
         }
 
+        /// <summary>
+        /// Enumerates all scanned namespaces.
+        /// </summary>
+        /// <returns>Enumeration of all scanned namespaces.</returns>
         public IEnumerable<NamespaceDeclaration> EnumerateUsedNamespaces()
         {
             List<NamespaceDeclaration> result = new List<NamespaceDeclaration>();
@@ -105,7 +133,10 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
                 if (namespaceItem.NamespaceName.EndsWith(AllNamespaceWildcard))
                 {
                     string subNamespaceName = namespaceItem.NamespaceName.Substring(0, namespaceItem.NamespaceName.Length - AllNamespaceWildcard.Length);
-                    if (typeNamespaceName.StartsWith(subNamespaceName))
+                    if (subNamespaceName.EndsWith("."))
+                        subNamespaceName = subNamespaceName.Substring(0, subNamespaceName.Length - 1);
+
+                    if (String.IsNullOrEmpty(subNamespaceName) || typeNamespaceName.StartsWith(subNamespaceName))
                     {
                         prefix = namespaceItem.Prefix;
                         return true;
