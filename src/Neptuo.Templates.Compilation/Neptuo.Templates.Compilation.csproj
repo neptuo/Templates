@@ -234,7 +234,7 @@
     <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
     <Compile Include="_Tokens\Parsers\_TokenBuilderContextExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
-    <Compile Include="_Tokens\Parsers\TokenExtensions.cs" />
+    <Compile Include="_Tokens\Parsers\_TokenExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
     <Compile Include="_Xml\Parsers\ContentPropertyBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\BindContentPropertiesContext.cs" />
