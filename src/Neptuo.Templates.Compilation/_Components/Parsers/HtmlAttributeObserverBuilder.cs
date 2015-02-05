@@ -37,10 +37,14 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeProperty;
         }
 
-        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject == null)
+                return false;
+
+            IPropertiesCodeObject propertiesCodeObject = codeObject as IPropertiesCodeObject;
+            if (propertiesCodeObject == null)
                 return false;
 
             if (requiredInterface.IsAssignableFrom(typeCodeObject.Type))
@@ -52,7 +56,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (value != null)
                 {
                     codeProperty.SetValue(value);
-                    codeObject.Properties.Add(codeProperty);
+                    propertiesCodeObject.Properties.Add(codeProperty);
                     return true;
                 }
             }

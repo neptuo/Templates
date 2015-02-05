@@ -25,7 +25,7 @@ namespace Test.Templates.Compilation.CodeGenerators
         public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IObserversCodeObject codeObject, string fieldName)
         {
             List<CodeStatement> statements = new List<CodeStatement>();
-            foreach (IObserverCodeObject observer in codeObject.Observers)
+            foreach (ICodeObject observer in codeObject.Observers)
             {
                 ICodeDomObjectResult result = context.Registry.WithObjectGenerator().Generate(
                     context.CreateObjectContext().AddObserverTarget(fieldName), 

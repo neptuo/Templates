@@ -23,26 +23,26 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
         /// If returns <c>null</c>, new observer will be created and attached.
         /// </returns>
-        protected abstract IObserverCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract ICodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
 
-        protected abstract IObserverCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
+        protected abstract ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
 
-        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
 
-        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             BindContentPropertiesContext bindContext;
             IComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
 
             // Create new observer or update existing?
-            IObserverCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
+            IPropertiesCodeObject observerObject = (IPropertiesCodeObject)IsObserverContained(context, codeObject, attribute);
             if (observerObject != null)
             {
-                bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer(), observerObject);
+                bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
             else
             {
-                observerObject = CreateCodeObject(context, attribute);
+                observerObject = (IPropertiesCodeObject)CreateCodeObject(context, attribute);
                 codeObject.Observers.Add(observerObject);
                 bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
@@ -58,7 +58,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IObserverCodeObject codeObject, IXmlAttribute attribute)
+        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IPropertiesCodeObject codeObject, IXmlAttribute attribute)
         {
             string attributeName = context.Registry.WithPropertyNormalizer().PrepareName(attribute.LocalName);
             IPropertyInfo propertyInfo;
@@ -78,7 +78,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IObserverCodeObject codeObject, IXmlAttribute unboundAttribute)
+        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IPropertiesCodeObject codeObject, IXmlAttribute unboundAttribute)
         {
             context.AddError(unboundAttribute, "Unnable to attach attribute to observer.");
             return false;

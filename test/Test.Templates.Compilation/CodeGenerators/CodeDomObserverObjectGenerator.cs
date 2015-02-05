@@ -25,9 +25,22 @@ namespace Test.Templates.Compilation.CodeGenerators
 
         public override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
         {
-            IObserverCodeObject observer = (IObserverCodeObject)codeObject;
-            ComponentCodeObject component = new ComponentCodeObject(observer.Type);
-            component.Properties.AddRange(observer.Properties);
+            ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
+            if (typeCodeObject == null)
+            {
+                context.AddError("Unnable to generate code for observer, which is not ITypeCodeObject.");
+                return null;
+            }
+
+            IPropertiesCodeObject propertiesCodeObject = codeObject as IPropertiesCodeObject;
+            if (propertiesCodeObject == null)
+            {
+                context.AddError("Unnable to generate code for observer, which is not IPropertiesCodeObject.");
+                return null;
+            }
+
+            ComponentCodeObject component = new ComponentCodeObject(typeCodeObject.Type);
+            component.Properties.AddRange(propertiesCodeObject.Properties);
             
             return base.Generate(context, component);
         }

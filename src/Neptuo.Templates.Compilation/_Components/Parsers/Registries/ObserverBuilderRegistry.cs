@@ -57,8 +57,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             onSearchBuilder.Add(searchHandler);
             return this;
         }
-        
-        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+
+        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             string prefix = nameNormalizer.PreparePrefix(attribute.Prefix);
             string name = nameNormalizer.PrepareName(attribute.LocalName);
@@ -82,7 +82,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         private class NullBuilder : IObserverBuilder
         {
-            public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+            public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
             {
                 return false;
             }

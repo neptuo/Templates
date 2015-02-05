@@ -17,11 +17,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
-            IComponentCodeObject codeObject = CreateCodeObject(context, element);
+            ICodeObject codeObject = CreateCodeObject(context, element);
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
             BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition, context.Registry.WithPropertyNormalizer());
-            context.ComponentCodeObject(codeObject);
+            context.CodeObject(codeObject);
             context.ComponentDescriptor(componentDefinition);
             context.BindPropertiesContext(bindContext);
             context.DefaultProperty(defaultProperty);
@@ -38,7 +38,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
-                    context.ComponentCodeObject().Properties.AddRange(codeProperties);
+                    context.CodeObjectAsProperties().Properties.AddRange(codeProperties);
                     context.BindPropertiesContext().BoundProperties.Add(name);
                     return true;
                 }
@@ -58,7 +58,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
-                    context.ComponentCodeObject().Properties.AddRange(codeProperties);
+                    context.CodeObjectAsProperties().Properties.AddRange(codeProperties);
                     context.BindPropertiesContext().BoundProperties.Add(name);
                     context.BindPropertiesContext().IsBoundFromContent = true;
                     return true;
@@ -85,7 +85,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     boundAttribute = true;
 
                 // Try process as observer.
-                if (!boundAttribute && context.Registry.WithObserverBuilder().TryParse(context, context.ComponentCodeObject(), attribute))
+                if (!boundAttribute && context.Registry.WithObserverBuilder().TryParse(context, context.CodeObjectAsObservers(), attribute))
                     boundAttribute = true;
 
                 // Call base if attribute was not bound.
@@ -124,7 +124,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, unboundNodes);
                     if (codeProperties != null)
                     {
-                        context.ComponentCodeObject().Properties.AddRange(codeProperties);
+                        context.CodeObjectAsProperties().Properties.AddRange(codeProperties);
                         context.BindPropertiesContext().BoundProperties.Add(nameNormalizer.PrepareName(defaultProperty.Name));
                         return true;
                     }
@@ -153,11 +153,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Should create code object for this component.
         /// </summary>
-        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
+        protected abstract ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
 
         /// <summary>
         /// Gets current component definition.
         /// </summary>
-        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlElement element);
+        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element);
     }
 }

@@ -31,10 +31,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.tagNameProperty = TypeHelper.PropertyName(tagNameProperty);
         }
 
-        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
+        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
-            IComponentCodeObject codeObject = base.CreateCodeObject(context, element);
-            codeObject.Properties.Add(new SetCodeProperty(new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), new PlainValueCodeObject(element.Name)));
+            ICodeObject codeObject = base.CreateCodeObject(context, element);
+
+            ((IPropertiesCodeObject)codeObject).Properties.Add(
+                new SetCodeProperty(
+                    new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), 
+                    new PlainValueCodeObject(element.Name)
+                )
+            );
             return codeObject;
         }
 
