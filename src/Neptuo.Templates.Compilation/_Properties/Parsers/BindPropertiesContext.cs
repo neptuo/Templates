@@ -1,6 +1,7 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -41,7 +42,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         public BindPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
-            : this(componentDescriptor.GetProperties().Where(p => !p.IsReadOnly).ToDictionary(p => nameNormalizer.PrepareName(p.Name)))
+            : this(componentDescriptor.GetProperties().Where(IsBindableProperty).ToDictionary(p => nameNormalizer.PrepareName(p.Name)))
         { }
 
         public BindPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
@@ -50,6 +51,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             Guard.NotNull(codeObject, "codeObject");
             foreach (ICodeProperty codeProperty in codeObject.Properties)
                 BoundProperties.Add(nameNormalizer.PrepareName(codeProperty.Property.Name));
+        }
+
+        private static bool IsBindableProperty(IPropertyInfo propertyInfo)
+        {
+            if (!propertyInfo.IsReadOnly)
+                return true;
+
+            if (typeof(string) == propertyInfo.Type)
+                return false;
+
+            return typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type);
         }
     }
 }
