@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         /// <summary>
         /// Registers types from <paramref name="assemblyFile"/> (with namespace <paramref name="namespaceName"/>) to prefix <paramref name="prefix"/>.
         /// Parameter<paramref name="namespaceName"/> can end with '*' to instruct this component to include namespace and all sub namespaces.
-        /// If <paramref name="namescapeName"/> is only '*', it means 'all types from <paramref name="assemblyFile"/>'.
+        /// If <paramref name="namespaceName"/> is only '*', it means 'all types from <paramref name="assemblyFile"/>'.
         /// </summary>
         /// <param name="prefix">Prefix to register types with.</param>
         /// <param name="namespaceName">Required type namespace.</param>

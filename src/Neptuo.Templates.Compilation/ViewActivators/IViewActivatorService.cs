@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.ViewActivators
         IViewActivatorService AddActivator(string name, IViewActivator activator);
 
         /// <summary>
-        /// Creates instance of view represented by <paramref name="viewContent"/>.
+        /// Creates instance of view represented by <paramref name="content"/>.
         /// </summary>
         /// <param name="name">Name of activator to use.</param>
         /// <param name="content">Content of view.</param>

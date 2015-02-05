@@ -107,7 +107,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Parses value use <paramref name="propertyFactory"/>.
+        /// Parses value using property builder.
         /// </summary>
         /// <param name="context">Builder context.</param>
         /// <param name="propertyInfo">Property to build.</param>

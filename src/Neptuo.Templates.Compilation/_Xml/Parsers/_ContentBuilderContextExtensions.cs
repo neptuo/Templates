@@ -95,7 +95,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Adds error related to the <paramref name="attribute"/> described by the <paramref name="errorText"/>.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="element">The element which caused the error.</param>
+        /// <param name="attribute">The attribute which caused the error.</param>
         /// <param name="errorText">Text description of the error.</param>
         public static void AddError(this IContentBuilderContext context, IXmlAttribute attribute, string errorText)
         {

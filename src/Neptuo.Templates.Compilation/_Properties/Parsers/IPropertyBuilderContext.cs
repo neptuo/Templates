@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Context for <see cref="IPropertyBuilder"/>.
+    /// </summary>
     public interface IPropertyBuilderContext : IParserServiceContext
     {
         /// <summary>

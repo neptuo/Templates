@@ -48,7 +48,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         /// <param name="context">Generator context.</param>
         /// <param name="targetType">Target type.</param>
-        /// <param name="sourceValue">Source contant value.</param>
+        /// <param name="sourceValue">Source content value.</param>
+        /// <param name="sourceType">Source value type.</param>
         /// <returns>Converted expression which returns object of type <paramref name="targetType"/>.</returns>
         protected virtual CodeExpression GenerateCompileTimeConversion(ICodeDomContext context, Type targetType, object sourceValue, Type sourceType)
         {

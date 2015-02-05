@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
     /// Default implementation of <see cref="ILiteralBuilder"/>.
-    /// If possible, stores string values as plain strings. If target property requires <see cref="IControl"/>, creates <typeparamref name="T"/>.
+    /// If possible, stores string values as plain strings. If target property requires instance of object instead of string, creates <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">Type of literal control.</typeparam>
     public class DefaultLiteralControlBuilder<T> : LiteralBuilder, ILiteralBuilder

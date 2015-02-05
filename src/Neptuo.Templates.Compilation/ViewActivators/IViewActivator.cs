@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.ViewActivators
     public interface IViewActivator
     {
         /// <summary>
-        /// Creates instance of view represented by <paramref name="viewContent"/>.
+        /// Creates instance of view represented by <paramref name="content"/>.
         /// </summary>
         /// <param name="content">Content of view.</param>
         /// <param name="context">Context for activation.</param>

@@ -54,7 +54,7 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         }
 
         /// <summary>
-        /// Should try to compile <paramref name="sourceCode"/> into <paramref name="tempDirectory"/> using <paramref name="compiler."/>
+        /// Should try to compile <paramref name="sourceCode"/> into <paramref name="tempDirectory"/> using <paramref name="compiler"/>.
         /// </summary>
         /// <param name="compiler">C# code compiler.</param>
         /// <param name="tempDirectory">Directory for storing temp files (.cs, .dll, .pdb, etc).</param>

@@ -269,8 +269,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Register <paramref name="nameNormalizer"/> (with name 'Property') to the <paramref name="registry"/>.
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
-        /// <param name="builder">Instance of name normalizer for properties.</param>
-        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
+        /// <param name="nameNormalizer">Instance of name normalizer for properties.</param>
+        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry{T}(string, T)"/>.</returns>
         public static DefaultParserRegistry AddPropertyNormalizer(this DefaultParserRegistry registry, INameNormalizer nameNormalizer)
         {
             return registry.AddRegistry<INameNormalizer>("Property", nameNormalizer);

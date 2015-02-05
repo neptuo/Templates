@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Defines <see cref="IComponentInfo"/>, <see cref="ITokenDescriptor"/> and <see cref="IObserverInfo"/> using class.
+    /// Implementation of <see cref="IComponentDescriptor"/> which uses reflection on type to read required properties.
     /// </summary>
     public class TypeComponentDescriptor : IComponentDescriptor
     {

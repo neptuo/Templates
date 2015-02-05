@@ -25,6 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Factory method for creating <see cref="IContentParserContext"/>.
         /// </summary>
+        /// <param name="name">Name of the pipeline to execute.</param>
         /// <param name="service">Current parser service.</param>
         /// <returns><see cref="IContentParserContext"/>.</returns>
         IContentParserContext CreateContentContext(string name, IParserService service);
@@ -32,6 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Factory method for creating <see cref="IValueParserContext"/>.
         /// </summary>
+        /// <param name="name">Name of the pipeline to execute.</param>
         /// <param name="service">Current parser service.</param>
         /// <returns><see cref="IValueParserContext"/>.</returns>
         IValueParserContext CreateValueContext(string name, IParserService service);

@@ -31,15 +31,5 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// Concatenation of <see cref="ICodeDomNaming.NamespaceName"/> and <see cref="ICodeDomNaming.ClassName"/>.
         /// </summary>
         string FullClassName { get; }
-
-        /// <summary>
-        /// Assembly file name.
-        /// </summary>
-        //string AssemblyFileName { get; }
-
-        /// <summary>
-        /// Source code file name.
-        /// </summary>
-        //string SourceCodeFileName { get; }
     }
 }

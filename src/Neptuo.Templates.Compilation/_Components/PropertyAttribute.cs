@@ -13,13 +13,14 @@ namespace Neptuo.Templates.Compilation
     public sealed class PropertyAttribute : Attribute
     {
         /// <summary>
-        /// Property name.
+        /// User defined name of the property.
         /// </summary>
         public string Name { get; private set; }
 
-        public PropertyAttribute()
-        { }
-
+        /// <summary>
+        /// Creates instance and names property to <paramref name="name"/>.
+        /// </summary>
+        /// <param name="name">User defined name of the property.</param>
         public PropertyAttribute(string name)
         {
             Guard.NotNullOrEmpty(name, "name");

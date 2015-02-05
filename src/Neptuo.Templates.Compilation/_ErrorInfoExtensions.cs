@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation
 {
     /// <summary>
-    /// Common extensions for <see cref="ICollection[IErrorInfo]"/>.
+    /// Common extensions for <see cref="ICollection{IErrorInfo}"/>.
     /// </summary>
     public static class _ErrorInfoExtensions
     {

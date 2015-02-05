@@ -72,6 +72,10 @@ namespace Neptuo.Templates.Compilation.PreProcessing
             VisitUnknown(codeProperty);
         }
 
+        /// <summary>
+        /// Any unknown code property type is going there.
+        /// </summary>
+        /// <param name="codeProperty">Uknown code property type.</param>
         protected virtual void VisitUnknown(ICodeProperty codeProperty)
         { }
 

@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         IList<IValueParser> GetValueParsers(string name);
 
         /// <summary>
-        /// Parses content using <see cref="ContentParsers"/> and creates AST.
+        /// Parses content using registered content parsers and creates AST.
         /// </summary>
         /// <param name="name">Name of parsers to use.</param>
         /// <param name="content">Template content.</param>
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context);
 
         /// <summary>
-        /// Parsers value using <see cref="ValueParsers"/> and create AST.
+        /// Parsers value using registered value parsers and create AST.
         /// </summary>
         /// <param name="name">Name of parsers to use.</param>
         /// <param name="value">Template part content.</param>

@@ -6,12 +6,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
+    /// <summary>
+    /// Common extensions for <see cref="IParserService"/>.
+    /// </summary>
     public static class _ParserServiceExtensions
     {
         /// <summary>
         /// Registers <paramref name="contentParser"/> with <paramref name="name"/>.
         /// This parser will be inserted to the index 0.
         /// </summary>
+        /// <param name="parserService">Parser service to extend.</param>
         /// <param name="name">Name of parser.</param>
         /// <param name="contentParser">Content parser.</param>
         public static IParserService AddContentParser(this IParserService parserService, string name, IContentParser contentParser)
@@ -25,6 +29,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Registers <paramref name="valueParser"/> with <paramref name="name"/>.
         /// This parser will be inserted to the index 0.
         /// </summary>
+        /// <param name="parserService">Parser service to extend.</param>
         /// <param name="name">Name of parser.</param>
         /// <param name="valueParser">Value parser.</param>
         public static IParserService AddValueParser(this IParserService parserService, string name, IValueParser valueParser)

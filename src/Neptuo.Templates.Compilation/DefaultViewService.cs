@@ -50,7 +50,6 @@ namespace Neptuo.Templates.Compilation
 
         /// <summary>
         /// Text writer for simple performance measurements.
-        /// Defaults to <see cref="Console.Out.WriteLine"/>.
         /// </summary>
         public DebugBase.DebugMessageWriter DebugWriter
         {

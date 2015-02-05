@@ -10,12 +10,26 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base implementation of <see cref="ITokenBuilder"/> that uses <see cref="ITokenDescriptor"/> as target decriptor.
+    /// Base implementation of <see cref="ITokenBuilder"/> that uses <see cref="IComponentDescriptor"/> as target decriptor.
     /// </summary>
     public abstract class TokenDescriptorBuilder : ITokenBuilder
     {
-        protected abstract IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token extension);
-        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token extension);
+        /// <summary>
+        /// Should create code object for <paramref name="token"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="token">Token to create code object for.</param>
+        /// <returns>Code object for <paramref name="token"/>.</returns>
+        protected abstract IComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token token);
+
+        /// <summary>
+        /// Should return component descriptor for <paramref name="token"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="codeObject">Code object for <paramref name="token"/>.</param>
+        /// <param name="token">Token to create component descriptor for.</param>
+        /// <returns>Component descriptor for <paramref name="token"/>.</returns>
+        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, IComponentCodeObject codeObject, Token token);
         
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
@@ -26,6 +40,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             return null;
         }
 
+        /// <summary>
+        /// Creates component descriptor for <paramref name="token"/> and tries to bind attributes from <paramref name="token"/> to <paramref name="codeObject"/>.
+        /// </summary>
+        /// <param name="context">Builder context.</param>
+        /// <param name="codeObject">Code object to bind properties to.</param>
+        /// <param name="token">Token to process attributes from.</param>
+        /// <returns><c>true</c> if binding was successfull; otherwise <c>false</c>.</returns>
         protected virtual bool BindProperties(ITokenBuilderContext context, IComponentCodeObject codeObject, Token token)
         {
             bool result = true;

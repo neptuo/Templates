@@ -15,13 +15,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         /// <summary>
         /// If <c>true</c>, <see cref="CodeDomPropertyDefaultValueFeature.TryGenerate"/> tries to use attribute generators.
-        /// This value overrides <see cref="ICodeDomConfiguration.IsAttributeDefaultEnabled"/>.
+        /// This value overrides <see cref="IsAttributeDefaultEnabled"/>.
         /// </summary>
         public bool? IsAttributeDefaultEnabled { get; set; }
 
         /// <summary>
         /// If <c>true</c>, <see cref="CodeDomPropertyDefaultValueFeature.TryGenerate"/> tries to use unbound property typy generators.
-        /// This value overrides <see cref="ICodeDomConfiguration.IsPropertyTypeDefaultEnabled"/>.
+        /// This value overrides <see cref="IsPropertyTypeDefaultEnabled"/>.
         /// </summary>
         public bool? IsPropertyTypeDefaultEnabled { get; set; }
 

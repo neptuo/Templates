@@ -11,12 +11,12 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
     /// <summary>
-    /// Generator for properties which should use <see cref="Dictionary.Add"/> method.
+    /// Generator for properties which should use <see cref="Dictionary{K,V}.Add"/> method.
     /// </summary>
     public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<DictionaryAddCodeProperty>
     {
         /// <summary>
-        /// Name of the <see cref="Dictionary.Add"/> method.
+        /// Name of the <see cref="Dictionary{K,V}.Add"/> method.
         /// </summary>
         private static string addMethodName = TypeHelper.MethodName<IDictionary<string, string>, string, string>(d => d.Add);
 
