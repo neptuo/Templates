@@ -152,7 +152,6 @@
     <Compile Include="CodeCompilers\ICodeCompilerContext.cs" />
     <Compile Include="CodeCompilers\ICodeCompilerService.cs" />
     <Compile Include="CodeCompilers\ICodeCompilerServiceContext.cs" />
-    <Compile Include="SourceCodeException.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\DefaultCodeGeneratorServiceContext.cs" />
@@ -175,7 +174,6 @@
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="DefaultViewService.cs" />
     <Compile Include="DefaultViewServiceContext.cs" />
-    <Compile Include="ISourceCodeException.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="IViewServiceContext.cs" />
     <Compile Include="Parsers\DefaultParserContext.cs" />
@@ -269,7 +267,6 @@
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlExtensions.cs" />
     <Compile Include="_Properties\Parsers\_PropertyBuilderContextExtensions.cs" />
     <Compile Include="_Xml\Parsers\_ContentPropertyBuilderContextExtensions.cs" />
-    <Compile Include="_Xml\XmlContentParserException.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

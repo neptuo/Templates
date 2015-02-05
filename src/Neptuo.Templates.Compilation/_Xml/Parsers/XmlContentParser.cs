@@ -57,15 +57,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 context.Errors.Add(new ExceptionErrorInfo(e.LineNumber - 1, e.LinePosition, e));
             }
-            catch (Exception e)
-            {
-                ISourceCodeException sourceException = e as ISourceCodeException;
-                if (sourceException != null)
-                    context.Errors.Add(new ErrorInfo(sourceException.LineNumber, sourceException.LineIndex, sourceException.Message));
-                else
-                    context.Errors.Add(new ExceptionErrorInfo(e));
-            }
-            return null;
 #endif
         }
 
