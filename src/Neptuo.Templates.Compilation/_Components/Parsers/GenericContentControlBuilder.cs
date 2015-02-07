@@ -44,7 +44,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeObject;
         }
 
-        protected bool IsComponentRequired(IContentBuilderContext context, IXmlElement element)
+        protected virtual bool IsComponentRequired(IContentBuilderContext context, IXmlElement element)
         {
             ComponentCodeObject codeObject = new ComponentCodeObject(typeof(T));
 
@@ -66,7 +66,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
 
                 // Is observer.
-                if (context.Registry.WithObserverBuilder().TryParse(context, codeObject, attribute))
+                if (context.Registry.WithObserverBuilder().TryParse(context, codeObject, attribute) && codeObject.Observers.Any())
                 {
                     isComponentRequired = true;
                     break;
