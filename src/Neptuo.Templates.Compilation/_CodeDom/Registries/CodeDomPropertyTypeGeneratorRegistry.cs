@@ -16,15 +16,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         private FuncList<PropertyInfo, ICodeDomPropertyTypeGenerator> onSearchGenerator = new FuncList<PropertyInfo, ICodeDomPropertyTypeGenerator>(o => new NullGenerator());
 
         /// <summary>
-        /// Maps <paramref name="generator"/> to process undound properties of type <paramref name="codeObjectType"/>.
+        /// Maps <paramref name="generator"/> to process undound properties of type <paramref name="propertyType"/>.
         /// </summary>
-        /// <param name="codeObjectType">Type of undound property to process by <paramref name="generator"/>.</param>
-        /// <param name="generator">Generator to process undound properties of type <paramref name="codeObjectType"/>.</param>
-        public CodeDomPropertyTypeGeneratorRegistry AddGenerator(Type codeObjectType, ICodeDomPropertyTypeGenerator generator)
+        /// <param name="propertyType">Type of undound property to process by <paramref name="generator"/>.</param>
+        /// <param name="generator">Generator to process undound properties of type <paramref name="propertyType"/>.</param>
+        public CodeDomPropertyTypeGeneratorRegistry AddGenerator(Type propertyType, ICodeDomPropertyTypeGenerator generator)
         {
-            Guard.NotNull(codeObjectType, "codeObjectType");
+            Guard.NotNull(propertyType, "propertyType");
             Guard.NotNull(generator, "generator");
-            storage[codeObjectType] = generator;
+            storage[propertyType] = generator;
             return this;
         }
 
