@@ -100,6 +100,7 @@ namespace Test.Templates
                         .AddTypeFilterNotAbstract()
                         .AddTypeFilterNotInterface()
                         .AddAssembly("ui", "Test.Templates.UI", "Test.Templates")
+                        .AddEmptyPrefix("data", "Observers")
                 )
                 .AddContentBuilderRegistry(
                     new ContentBuilderRegistry(componentNormalizer)

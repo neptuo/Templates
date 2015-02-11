@@ -102,7 +102,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         private IXmlElement CreateDocumentRoot(ISourceContent content)
         {
-            string preparedXml = CreateRootElement(content.TextContent);
+            string preparedXml = PrepareXmlContent(content.TextContent, registry);
             IXmlElement documentElement;
             if (UseLinqApi)
                 documentElement = XDocumentSupport.LoadXml(preparedXml);
@@ -112,7 +112,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return documentElement;
         }
 
-        private string CreateRootElement(string content)
+        private string PrepareXmlContent(string content, IParserRegistry registry)
         {
             // If we start with property xml definition name, we are assuming that content is prefectly valid.
             if (content.StartsWith("<?xml"))
@@ -124,17 +124,22 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             result.Append("<?xml version=\"1.0\" ?>");
             result.Append("<" + FakeRootElementName);
-            //foreach (NamespaceDeclaration entry in Enumerable.Empty<NamespaceDeclaration>()) //TODO: Move this to "View Normalizer".
-            //{
-            //    if (usedPrefixes.Add(entry.Prefix))
-            //    {
-            //        result.AppendFormat(
-            //            " xmlns{0}=\"clr-namespace:{1}\"",
-            //            String.IsNullOrEmpty(entry.Prefix) ? String.Empty : String.Format(":{0}", entry.Prefix),
-            //            entry.Namespace
-            //        );
-            //    }
-            //}
+
+            if (registry.HasUsedNamespaces())
+            {
+                foreach (NamespaceDeclaration entry in registry.WithUsedNamespaces())
+                {
+                    if (usedPrefixes.Add(entry.Prefix))
+                    {
+                        result.AppendFormat(
+                            " xmlns{0}=\"clr-namespace:{1}\"",
+                            String.IsNullOrEmpty(entry.Prefix) ? String.Empty : String.Format(":{0}", entry.Prefix),
+                            entry.NamespaceName
+                        );
+                    }
+                }
+            }
+
             result.Append(">");
             result.Append(content);
             result.Append("</" + FakeRootElementName + ">");

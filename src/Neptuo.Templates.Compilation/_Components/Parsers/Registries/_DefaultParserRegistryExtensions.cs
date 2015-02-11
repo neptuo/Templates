@@ -65,6 +65,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             return registry.WithTypeScanner().EnumerateUsedNamespaces();
         }
 
+        /// <summary>
+        /// Returns <c>true</c> if <paramref name="registry"/> has registered enumeration of used prefixes and namespaces (<see cref="WithUsedNamespaces"/>).
+        /// </summary>
+        /// <param name="registry">Parser registry to read registrations from.</param>
+        /// <returns><c>true</c> if <paramref name="registry"/> has registered enumeration of used prefixes and namespaces; otherwise <c>false</c>.</returns>
+        public static bool HasUsedNamespaces(this IParserRegistry registry)
+        {
+            Guard.NotNull(registry, "registry");
+            return registry.Has<TypeScanner>();
+        }
+
         #endregion
 
         #region IContentBuilder

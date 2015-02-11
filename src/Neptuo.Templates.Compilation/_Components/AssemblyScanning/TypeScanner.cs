@@ -10,6 +10,12 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.AssemblyScanning
 {
+    /// <summary>
+    /// Extensible type scanner.
+    /// Scannes registered namespaces and assemblies for types contained in.
+    /// Over these types executes type filters and types that pass these filters and
+    /// passed to type processors.
+    /// </summary>
     public class TypeScanner
     {
         /// <summary>
@@ -21,15 +27,36 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         private readonly List<Func<Type, bool>> filters = new List<Func<Type, bool>>();
         private readonly List<Action<string, Type>> processors = new List<Action<string, Type>>();
         private readonly Dictionary<string, List<NamespaceItem>> assemblies = new Dictionary<string, List<NamespaceItem>>();
+        private readonly List<NamespaceDeclaration> emptyNamespaces = new List<NamespaceDeclaration>();
 
+        /// <summary>
+        /// Creates empty instance (without type name normalizer).
+        /// </summary>
         public TypeScanner()
             : this(new NullNameNormalizer())
         { }
 
+        /// <summary>
+        /// Creates instance with name normalizer for scanned types.
+        /// </summary>
+        /// <param name="typeNameNormalizer">Name normalizer for scanned types.</param>
         public TypeScanner(INameNormalizer typeNameNormalizer)
         {
             Guard.NotNull(typeNameNormalizer, "typeNameNormalizer");
             this.typeNameNormalizer = typeNameNormalizer;
+        }
+
+        /// <summary>
+        /// Adds <paramref name="prefix"/> and <paramref name="customNamespaceName"/> to enumeration returned by <see cref="TypeScanner.EnumerateUsedNamespaces"/>.
+        /// Nothing else happen. Only to extend enumeration of registered namespaces and prefixes.
+        /// </summary>
+        /// <param name="prefix">Custom prefix.</param>
+        /// <param name="customNamespaceName">Custom namespace name.</param>
+        /// <returns>Self (fluently).</returns>
+        public TypeScanner AddEmptyPrefix(string prefix, string customNamespaceName)
+        {
+            emptyNamespaces.Add(new NamespaceDeclaration(prefix, customNamespaceName, String.Empty));
+            return this;
         }
 
         /// <summary>
@@ -88,7 +115,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         /// <returns>Enumeration of all scanned namespaces.</returns>
         public IEnumerable<NamespaceDeclaration> EnumerateUsedNamespaces()
         {
-            List<NamespaceDeclaration> result = new List<NamespaceDeclaration>();
+            List<NamespaceDeclaration> result = new List<NamespaceDeclaration>(emptyNamespaces);
             foreach (KeyValuePair<string, List<NamespaceItem>> item in assemblies)
                 result.AddRange(item.Value.Select(n => new NamespaceDeclaration(n.Prefix, n.NamespaceName, item.Key)));
 
