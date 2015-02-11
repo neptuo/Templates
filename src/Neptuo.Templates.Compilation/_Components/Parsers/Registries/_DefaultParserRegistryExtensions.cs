@@ -70,8 +70,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         #region IContentBuilder
 
         /// <summary>
-        /// Registers <paramref name="builder"/> to the <paramref name="registry"/> and if <paramref name="registry"/> contains <see cref="TypeScanner"/>,
-        /// attaches to mapping types.
+        /// Registers <paramref name="builder"/> to the <paramref name="registry"/> 
+        /// and if <paramref name="registry"/> contains <see cref="TypeScanner"/>, attaches to mapping types (using <see cref="DefaultTypeComponentBuilder"/>).
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
@@ -87,6 +87,31 @@ namespace Neptuo.Templates.Compilation.Parsers
                     prefix, 
                     type.Name, 
                     new DefaultTypeComponentBuilder(type)
+                ));
+            }
+
+            return registry.AddRegistry<IContentBuilder>(builder);
+        }
+
+        /// <summary>
+        /// Registers <paramref name="builder"/> to the <paramref name="registry"/> 
+        /// and if <paramref name="registry"/> contains <see cref="TypeScanner"/>, attaches to mapping types (using <paramref name="builderFactory" />).
+        /// </summary>
+        /// <param name="registry">Parser registry to register to.</param>
+        /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
+        /// <param name="builderFactory">Factory method for registering content builders when type scanner emits type.</param>
+        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
+        public static DefaultParserRegistry AddContentBuilderRegistry(this DefaultParserRegistry registry, ContentBuilderRegistry builder, Func<string, Type, IContentBuilder> builderFactory)
+        {
+            Guard.NotNull(registry, "registry");
+
+            if (registry.Has<TypeScanner>())
+            {
+                TypeScanner typeScanner = registry.With<TypeScanner>();
+                typeScanner.AddTypeProcessor((prefix, type) => builder.AddBuilder(
+                    prefix,
+                    type.Name,
+                    builderFactory(prefix, type)
                 ));
             }
 
