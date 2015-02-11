@@ -49,6 +49,12 @@ namespace Neptuo.Templates.Compilation
         public IViewActivatorService ActivatorService { get; private set; }
 
         /// <summary>
+        /// Pipeline name dispatcher.
+        /// Provides ability to rename pipeline for each part of processing template.
+        /// </summary>
+        public DefaultPipelineDispatcher Pipeline { get; private set; }
+
+        /// <summary>
         /// Text writer for simple performance measurements.
         /// </summary>
         public DebugBase.DebugMessageWriter DebugWriter
@@ -78,6 +84,7 @@ namespace Neptuo.Templates.Compilation
             GeneratorService = new DefaultCodeGeneratorService();
             CompilerService = new DefaultCodeCompilerService();
             ActivatorService = new DefaultViewActivatorService();
+            Pipeline = new DefaultPipelineDispatcher();
 
             if (keyMapper == null)
                 lockProvider = new MultiLockProvider();
@@ -132,26 +139,31 @@ namespace Neptuo.Templates.Compilation
 
         private object ExecuteActivatorService(string name, ISourceContent content, IViewServiceContext context)
         {
+            name = Pipeline.DispatchViewActivatorService(name);
             return ActivatorService.Activate(name, content, new DefaultViewActivatorServiceContext(context.DependencyProvider, context.Errors));
         }
 
         private ICodeObject ExecuteParserService(string name, ISourceContent content, IViewServiceContext context)
         {
+            name = Pipeline.DispatchParserService(name);
             return ParserService.ProcessContent(name, content, new DefaultParserServiceContext(context.DependencyProvider, context.Errors));
         }
 
         private void ExecutePreProcessorService(string name, ICodeObject codeObject, IViewServiceContext context)
         {
+            name = Pipeline.DispatchPreProcessorService(name);
             PreProcessorService.Process(codeObject, new DefaultPreProcessorServiceContext(context.DependencyProvider));
         }
 
         private bool ExecuteGeneratorService(string name, TextWriter sourceCode, ICodeObject codeObject, IViewServiceContext context)
         {
+            name = Pipeline.DispatchCodeGeneratorService(name);
             return GeneratorService.GeneratedCode(name, codeObject, new DefaultCodeGeneratorServiceContext(sourceCode, context.DependencyProvider, context.Errors));
         }
 
         private object ExecuteCompilerService(string name, TextReader sourceCode, IViewServiceContext context)
         {
+            name = Pipeline.DispatchCodeCompilerService(name);
             return CompilerService.Compile(name, sourceCode, new DefaultCodeCompilerServiceContext(context.DependencyProvider, context.Errors));
         }
     }

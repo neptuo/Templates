@@ -49,6 +49,7 @@
     <Compile Include="CodeObjects\CodeObjectList.cs" />
     <Compile Include="CodeObjects\CommentCodeObject.cs" />
     <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
+    <Compile Include="DefaultPipelineDispatcher.cs" />
     <Compile Include="Parsers\Normalization\NullNameNormalizer.cs" />
     <Compile Include="Parsers\_ParserServiceExtensions.cs" />
     <Compile Include="_CodeDom\CodeDomGenerator.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="_Components\Parsers\Registries\_ContentBuilderRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\Registries\_DefaultParserRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\Registries\_ObserverBuilderRegistryExtensions.cs" />
+    <Compile Include="_DefaultPipelineDispatcherExtensions.cs" />
     <Compile Include="_Properties\CodeObjects\CodePropertyList.cs" />
     <Compile Include="_Properties\CodeObjects\_CodePropertyExtensions.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />

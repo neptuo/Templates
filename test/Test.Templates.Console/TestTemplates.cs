@@ -165,13 +165,20 @@ namespace Test.Templates
 
             DefaultViewService viewService = new DefaultViewService();
             viewService.ParserService
-                .AddContentParser("CodeDom", new XmlContentParser(parserRegistry, true))
-                .AddValueParser("CodeDom", new PlainValueParser())
-                .AddValueParser("CodeDom", new TokenValueParser(parserRegistry));
+                .AddContentParser("Default", new XmlContentParser(parserRegistry, true))
+                .AddValueParser("Default", new PlainValueParser())
+                .AddValueParser("Default", new TokenValueParser(parserRegistry));
 
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
             viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());
             viewService.CompilerService.AddCompiler("CodeDom", codeCompiler);
+
+            viewService.CompilerService.AddCompiler("SharpKit", new SharpKitCodeCompiler());
+
+            viewService.Pipeline.AddParserService("CodeDom", "Default");
+            viewService.Pipeline.AddParserService("SharpKit", "Default");
+            viewService.Pipeline.AddCodeGeneratorService("SharpKit", "CodeDom");
+            viewService.Pipeline.AddViewActivatorService("SharpKit", "CodeDom");
 
             // Register view service to the container.
             container.RegisterInstance<IViewService>(viewService);
@@ -182,9 +189,9 @@ namespace Test.Templates
 
             container.RegisterInstance<ICodeDomNaming>(new CodeDomDefaultNaming("Neptuo.Templates", "Index"));
 
+            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
             DebugHelper.Debug("Execute", () =>
             {
-                ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
                 GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
                 if (view == null || context.Errors.Any())
                 {
@@ -207,6 +214,9 @@ namespace Test.Templates
                 Console.WriteLine(output);
                 Console.WriteLine("Output size {0}ch", output.ToString().Length);
             });
+
+            string javascriptCode = (string)viewService.ProcessContent("SharpKit", content, context);
+            Console.WriteLine(javascriptCode);
         }
     }
 }
