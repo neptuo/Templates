@@ -55,7 +55,7 @@
     <Compile Include="CodeGenerators\SharpKitCodeCompiler.cs" />
     <Compile Include="CodeObjects\TemplateCodeObject.cs" />
     <Compile Include="Parsers\StringPropertyBuilder.cs" />
-    <Compile Include="Parsers\TemplatePropertyBuilder.cs" />
+    <Compile Include="Parsers\XmlDocuments\TemplatePropertyBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

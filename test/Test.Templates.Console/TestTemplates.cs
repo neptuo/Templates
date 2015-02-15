@@ -11,6 +11,7 @@ using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
+using Neptuo.Templates.Compilation.Parsers.XmlDocuments;
 using Neptuo.Templates.Compilation.ViewActivators;
 using System;
 using System.CodeDom;
