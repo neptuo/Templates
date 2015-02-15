@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Context of <see cref="ITokenBuilder"/>.
+    /// Context of <see cref="ITokenValueBuilder"/>.
     /// </summary>
-    public interface ITokenBuilderContext
+    public interface ITokenValueBuilderContext
     {
         /// <summary>
         /// Current parser context.

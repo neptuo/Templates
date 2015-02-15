@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTypeTokenBuilder : TokenDescriptorBuilder
+    public class TokenDefaultTypeValueBuilder : TokenDescriptorValueBuilder
     {
         protected Type Type { get; private set; }
 
-        public DefaultTypeTokenBuilder(Type type)
+        public TokenDefaultTypeValueBuilder(Type type)
         {
             Guard.NotNull(type, "type");
             Type = type;
         }
 
-        protected override ICodeObject CreateCodeObject(ITokenBuilderContext context, Token extension)
+        protected override ICodeObject CreateCodeObject(ITokenValueBuilderContext context, Token extension)
         {
             return new ComponentCodeObject(Type);
         }
 
-        protected override IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token extension)
+        protected override IComponentDescriptor GetComponentDescriptor(ITokenValueBuilderContext context, ICodeObject codeObject, Token extension)
         {
             return new TypeComponentDescriptor(Type);
         }

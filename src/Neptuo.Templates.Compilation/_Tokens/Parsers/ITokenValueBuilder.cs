@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Builder for markup extension.
     /// </summary>
-    public interface ITokenBuilder
+    public interface ITokenValueBuilder
     {
         /// <summary>
         /// Parses markup extension and creates AST.
@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context information.</param>
         /// <param name="token">Token describing markup extension.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject TryParse(ITokenBuilderContext context, Token token);
+        ICodeObject TryParse(ITokenValueBuilderContext context, Token token);
     }
 }

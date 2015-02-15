@@ -44,7 +44,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             );
 
             // Build token.
-            ICodeObject codeObject = registry.WithTokenBuilder().TryParse(new TokenBuilderContext(this, context, registry), token);
+            ICodeObject codeObject = registry.WithTokenBuilder().TryParse(new TokenValueBuilderContext(this, context, registry), token);
             return codeObject;
         }
 

@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base implementation of <see cref="ITokenBuilder"/> that uses <see cref="IComponentDescriptor"/> as target decriptor.
+    /// Base implementation of <see cref="ITokenValueBuilder"/> that uses <see cref="IComponentDescriptor"/> as target decriptor.
     /// </summary>
-    public abstract class TokenDescriptorBuilder : ITokenBuilder
+    public abstract class TokenDescriptorValueBuilder : ITokenValueBuilder
     {
         /// <summary>
         /// Should create code object for <paramref name="token"/>.
@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="token">Token to create code object for.</param>
         /// <returns>Code object for <paramref name="token"/>.</returns>
-        protected abstract ICodeObject CreateCodeObject(ITokenBuilderContext context, Token token);
+        protected abstract ICodeObject CreateCodeObject(ITokenValueBuilderContext context, Token token);
 
         /// <summary>
         /// Should return component descriptor for <paramref name="token"/>.
@@ -29,9 +29,9 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Code object for <paramref name="token"/>.</param>
         /// <param name="token">Token to create component descriptor for.</param>
         /// <returns>Component descriptor for <paramref name="token"/>.</returns>
-        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token token);
+        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenValueBuilderContext context, ICodeObject codeObject, Token token);
         
-        public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
+        public ICodeObject TryParse(ITokenValueBuilderContext context, Token extension)
         {
             ICodeObject codeObject = CreateCodeObject(context, extension);
             IPropertiesCodeObject propertiesCodeObject = codeObject as IPropertiesCodeObject;
@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Code object to bind properties to.</param>
         /// <param name="token">Token to process attributes from.</param>
         /// <returns><c>true</c> if binding was successfull; otherwise <c>false</c>.</returns>
-        protected virtual bool BindProperties(ITokenBuilderContext context, IPropertiesCodeObject codeObject, Token token)
+        protected virtual bool BindProperties(ITokenValueBuilderContext context, IPropertiesCodeObject codeObject, Token token)
         {
             bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();

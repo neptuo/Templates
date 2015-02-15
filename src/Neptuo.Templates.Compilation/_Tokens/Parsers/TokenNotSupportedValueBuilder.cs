@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Implementation of <see cref="ITokenBuilder"/> that for all tokens returns 'This token is not supported'.
+    /// Implementation of <see cref="ITokenValueBuilder"/> that for all tokens returns 'This token is not supported'.
     /// </summary>
-    public class NotSupportedTokenBuilder : ITokenBuilder
+    public class TokenNotSupportedValueBuilder : ITokenValueBuilder
     {
-        public ICodeObject TryParse(ITokenBuilderContext context, Token token)
+        public ICodeObject TryParse(ITokenValueBuilderContext context, Token token)
         {
             context.AddError(token, String.Format("Token '{0}' is not supported.", token.Fullname));
             return null;

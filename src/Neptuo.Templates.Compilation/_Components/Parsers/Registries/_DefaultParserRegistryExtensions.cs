@@ -173,11 +173,11 @@ namespace Neptuo.Templates.Compilation.Parsers
                 typeScanner.AddTypeProcessor((prefix, type) => builder.AddBuilder(
                     prefix, 
                     type.Name, 
-                    new DefaultTypeTokenBuilder(type)
+                    new TokenDefaultTypeValueBuilder(type)
                 ));
             }
 
-            return registry.AddRegistry<ITokenBuilder>(builder);
+            return registry.AddRegistry<ITokenValueBuilder>(builder);
         }
 
         /// <summary>
@@ -186,10 +186,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of token builder.</param>
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddTokenBuilder(this DefaultParserRegistry registry, ITokenBuilder builder)
+        public static DefaultParserRegistry AddTokenBuilder(this DefaultParserRegistry registry, ITokenValueBuilder builder)
         {
             Guard.NotNull(registry, "registry");
-            return registry.AddRegistry<ITokenBuilder>(builder);
+            return registry.AddRegistry<ITokenValueBuilder>(builder);
         }
 
         /// <summary>
@@ -197,10 +197,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read token builder from.</param>
         /// <returns>Registered instance of token builder in <paramref name="registry"/>.</returns>
-        public static ITokenBuilder WithTokenBuilder(this IParserRegistry registry)
+        public static ITokenValueBuilder WithTokenBuilder(this IParserRegistry registry)
         {
             Guard.NotNull(registry, "registry");
-            return registry.With<ITokenBuilder>();
+            return registry.With<ITokenValueBuilder>();
         }
 
         #endregion

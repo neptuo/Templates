@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base implementaion of <see cref="ITokenBuilderContext"/>.
+    /// Base implementaion of <see cref="ITokenValueBuilderContext"/>.
     /// </summary>
-    public class TokenBuilderContext : ITokenBuilderContext
+    public class TokenValueBuilderContext : ITokenValueBuilderContext
     {
         public IValueParserContext ParserContext { get; private set; }
         public TokenValueParser Parser { get; private set; }
         public IParserRegistry Registry { get; private set; }
 
-        public TokenBuilderContext(TokenValueParser parser, IValueParserContext parserContext, IParserRegistry registry)
+        public TokenValueBuilderContext(TokenValueParser parser, IValueParserContext parserContext, IParserRegistry registry)
         {
             Guard.NotNull(parser, "parser");
             Guard.NotNull(parserContext, "parserContext");
