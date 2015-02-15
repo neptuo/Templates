@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Implementation of <see cref="IContentBuilder"/> that for all xml elements returns 'This element is not supported'.
+    /// Implementation of <see cref="IXmlContentBuilder"/> that for all xml elements returns 'This element is not supported'.
     /// </summary>
-    public class NotSupportedContentBuilder : IContentBuilder
+    public class XmlNotSupportedContentBuilder : IXmlContentBuilder
     {
-        public IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
+        public IEnumerable<ICodeObject> TryParse(IXmlContentBuilderContext context, IXmlElement element)
         {
             context.AddError(String.Format("Xml element '{0}' is not supported.", element.Name));
             return null;

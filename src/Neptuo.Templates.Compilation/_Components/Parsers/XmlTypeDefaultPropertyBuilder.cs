@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class TypeDefaultPropertyBuilder : DefaultPropertyBuilder
+    public class XmlTypeDefaultPropertyBuilder : XmlDefaultPropertyBuilder
     {
         protected bool IsCollectionProperty(IPropertyInfo propertyInfo)
         {

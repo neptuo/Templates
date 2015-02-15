@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines builder for component.
     /// </summary>
-    public interface IContentBuilder
+    public interface IXmlContentBuilder
     {
         /// <summary>
         /// Parses <paramref name="element"/> and creates AST for it.
@@ -17,6 +17,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context information.</param>
         /// <param name="element">Source XML tag to parse.</param>
         /// <returns>Parsed code objects; <c>null</c> otherwise.</returns>
-        IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element);
+        IEnumerable<ICodeObject> TryParse(IXmlContentBuilderContext context, IXmlElement element);
     }
 }

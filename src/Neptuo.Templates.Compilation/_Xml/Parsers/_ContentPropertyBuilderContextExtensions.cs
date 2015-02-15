@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Some common extensions for <see cref="IContentPropertyBuilderContext"/>.
+    /// Some common extensions for <see cref="IXmlContentPropertyBuilderContext"/>.
     /// </summary>
     public static class _ContentPropertyBuilderContextExtensions
     {
@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="line">Source file line number.</param>
         /// <param name="column">Source file line column number.</param>
         /// <param name="errorText">Description of error.</param>
-        public static void AddError(this IContentPropertyBuilderContext context, int line, int column, string errorText)
+        public static void AddError(this IXmlContentPropertyBuilderContext context, int line, int column, string errorText)
         {
             Guard.NotNull(context, "context");
             context.AddError(new ErrorInfo(line, column, errorText));
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="element">The element which caused the error.</param>
         /// <param name="errorText">Text description of the error.</param>
-        public static void AddError(this IContentPropertyBuilderContext context, IXmlElement element, string errorText)
+        public static void AddError(this IXmlContentPropertyBuilderContext context, IXmlElement element, string errorText)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(element, "element");

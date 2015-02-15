@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Some common extensions for <see cref="IContentBuilderContext"/>.
+    /// Some common extensions for <see cref="IXmlContentBuilderContext"/>.
     /// </summary>
     public static class _ContentBuilderContextExtensions
     {
@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Builder context.</param>
         /// <param name="errorInfo">Error description.</param>
-        public static void AddError(this IContentBuilderContext context, IErrorInfo errorInfo)
+        public static void AddError(this IXmlContentBuilderContext context, IErrorInfo errorInfo)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(errorInfo, "errorInfo");
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="context">Builder context.</param>
         /// <param name="errorText">Description of error.</param>
-        public static void AddError(this IContentBuilderContext context, string errorText)
+        public static void AddError(this IXmlContentBuilderContext context, string errorText)
         {
             Guard.NotNull(context, "context");
             context.AddError(new ErrorInfo(1, 1, errorText));
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="line">Source file line number.</param>
         /// <param name="column">Source file line column number.</param>
         /// <param name="errorText">Description of error.</param>
-        public static void AddError(this IContentBuilderContext context, int line, int column, string errorText)
+        public static void AddError(this IXmlContentBuilderContext context, int line, int column, string errorText)
         {
             Guard.NotNull(context, "context");
             context.AddError(new ErrorInfo(line, column, errorText));
@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="element">The element which caused the error.</param>
         /// <param name="errorText">Text description of the error.</param>
-        public static void AddError(this IContentBuilderContext context, IXmlElement element, string errorText)
+        public static void AddError(this IXmlContentBuilderContext context, IXmlElement element, string errorText)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(element, "element");
@@ -73,7 +73,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="node">The element which caused the error.</param>
         /// <param name="errorText">Text description of the error.</param>
-        public static void AddError(this IContentBuilderContext context, IXmlNode node, string errorText)
+        public static void AddError(this IXmlContentBuilderContext context, IXmlNode node, string errorText)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(node, "node");
@@ -97,7 +97,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="attribute">The attribute which caused the error.</param>
         /// <param name="errorText">Text description of the error.</param>
-        public static void AddError(this IContentBuilderContext context, IXmlAttribute attribute, string errorText)
+        public static void AddError(this IXmlContentBuilderContext context, IXmlAttribute attribute, string errorText)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(attribute, "attribute");
@@ -115,7 +115,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="content">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject TryProcessContent(this IContentBuilderContext context, ISourceContent content)
+        public static ICodeObject TryProcessContent(this IXmlContentBuilderContext context, ISourceContent content)
         {
             Guard.NotNull(context, "context");
             return context.ParserContext.ParserService.ProcessContent(
@@ -131,7 +131,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="nodes">Enumeration of XML nodes to process.</param>
         /// <returns>Parser code objects; <c>null</c> otherwise.</returns>
-        public static IEnumerable<ICodeObject> TryProcessContentNodes(this IContentBuilderContext context, IEnumerable<IXmlNode> nodes)
+        public static IEnumerable<ICodeObject> TryProcessContentNodes(this IXmlContentBuilderContext context, IEnumerable<IXmlNode> nodes)
         {
             Guard.NotNull(context, "context");
             Guard.NotNull(nodes, "nodes");
@@ -155,7 +155,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="value">Template content.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject TryProcessValue(this IContentBuilderContext context, ISourceContent value)
+        public static ICodeObject TryProcessValue(this IXmlContentBuilderContext context, ISourceContent value)
         {
             Guard.NotNull(context, "context");
 
@@ -172,7 +172,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="attribute">Attribute which to process.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        public static ICodeObject TryProcessValue(this IContentBuilderContext context, IXmlAttribute attribute)
+        public static ICodeObject TryProcessValue(this IXmlContentBuilderContext context, IXmlAttribute attribute)
         {
             return context.ParserContext.ParserService.ProcessValue(
                 context.ParserContext.Name,
@@ -197,10 +197,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="propertyInfo">Property to build.</param>
         /// <param name="value">Value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IXmlContentBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
         {
             Guard.NotNull(context, "context");
-            return context.Registry.WithPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
+            return context.Registry.WithPropertyBuilder().TryParse(new XmlContentPropertyBuilderContext(context, propertyInfo), value);
         }
 
         /// <summary>
@@ -210,10 +210,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="propertyInfo">Property to build.</param>
         /// <param name="content">Content.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IXmlContentBuilderContext context, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
             Guard.NotNull(context, "context");
-            return context.Registry.WithContentPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), content);
+            return context.Registry.WithContentPropertyBuilder().TryParse(new XmlContentPropertyBuilderContext(context, propertyInfo), content);
         }
     }
 }

@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Default implementation of <see cref="IContentPropertyBuilderContext"/>.
+    /// Default implementation of <see cref="IXmlContentPropertyBuilderContext"/>.
     /// </summary>
-    public class ContentPropertyBuilderContext : PropertyBuilderContext, IContentPropertyBuilderContext
+    public class XmlContentPropertyBuilderContext : PropertyBuilderContext, IXmlContentPropertyBuilderContext
     {
-        public IContentBuilderContext BuilderContext { get; private set; }
+        public IXmlContentBuilderContext BuilderContext { get; private set; }
         public Dictionary<string, object> CustomValues { get; private set; }
         public XmlContentParser Parser { get { return BuilderContext.Parser; } }
 
-        public ContentPropertyBuilderContext(IContentBuilderContext builderContext, IPropertyInfo propertyInfo)
+        public XmlContentPropertyBuilderContext(IXmlContentBuilderContext builderContext, IPropertyInfo propertyInfo)
             : base(builderContext.ParserContext.Name, builderContext.ParserContext, builderContext.ParserContext.ParserService, propertyInfo)
         {
             Guard.NotNull(builderContext, "builderContext");

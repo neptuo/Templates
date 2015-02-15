@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines builder properties of type.
     /// </summary>
-    public interface IContentPropertyBuilder : IPropertyBuilder
+    public interface IXmlContentPropertyBuilder : IPropertyBuilder
     {
         /// <summary>
         /// Parses <paramref name="content"/> and creates AST for it.
@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context inforation.</param>
         /// <param name="content">Source value.</param>
         /// <returns>True if succeeded.</returns>
-        IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content);
+        IEnumerable<ICodeProperty> TryParse(IXmlContentPropertyBuilderContext context, IEnumerable<IXmlNode> content);
     }
 }

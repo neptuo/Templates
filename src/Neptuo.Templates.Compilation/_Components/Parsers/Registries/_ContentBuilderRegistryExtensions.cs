@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public static class _ContentBuilderRegistryExtensions
     {
-        public static ContentBuilderRegistry AddRootBuilder(this ContentBuilderRegistry registry, IContentBuilder builder)
+        public static ContentBuilderRegistry AddRootBuilder(this ContentBuilderRegistry registry, IXmlContentBuilder builder)
         {
             Guard.NotNull(registry, "registry");
             return registry.AddBuilder(null, XmlContentParser.FakeRootElementName, builder);
@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             return AddRootBuilder(
                 registry,
-                new RootContentBuilder(
+                new XmlRootContentBuilder(
                     new TypePropertyInfo(typeof(T).GetProperty(TypeHelper.PropertyName(rootPropertyGetter)))
                 )
             );
@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static ContentBuilderRegistry AddGenericControlSearchHandler<T>(this ContentBuilderRegistry registry, Expression<Func<T, string>> tagNameProperty)
         {
             Guard.NotNull(registry, "registry");
-            return registry.AddSearchHandler(e => new GenericContentControlBuilder<T>(tagNameProperty));
+            return registry.AddSearchHandler(e => new XmlGenericContentControlBuilder<T>(tagNameProperty));
         }
     }
 }

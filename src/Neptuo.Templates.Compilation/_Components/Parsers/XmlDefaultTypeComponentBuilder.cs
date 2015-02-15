@@ -8,11 +8,11 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTypeComponentBuilder : TypeComponentBuilder
+    public class XmlDefaultTypeComponentBuilder : XmlTypeComponentBuilder
     {
         protected Type Type { get; private set; }
 
-        public DefaultTypeComponentBuilder(Type type)
+        public XmlDefaultTypeComponentBuilder(Type type)
         {
             Type = type;
         }

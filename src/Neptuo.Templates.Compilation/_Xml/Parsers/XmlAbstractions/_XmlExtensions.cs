@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Common extenions on <see cref="IXmlElement"/>, <see cref="IXmlAttribute"/> etc.
     /// </summary>
-    public static class XmlExtensions
+    public static class _XmlExtensions
     {
         /// <summary>
         /// Returns <c>true</c> if attribute <paramref name="attributeName"/> is defined on <paramref name="element"/>.

@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Registry for <see cref="IContentBuilder"/> by prefix and name of element.
+    /// Registry for <see cref="IXmlContentBuilder"/> by prefix and name of element.
     /// </summary>
-    public class ContentBuilderRegistry : IContentBuilder
+    public class ContentBuilderRegistry : IXmlContentBuilder
     {
-        private readonly Dictionary<string, Dictionary<string, IContentBuilder>> storage = new Dictionary<string, Dictionary<string, IContentBuilder>>();
+        private readonly Dictionary<string, Dictionary<string, IXmlContentBuilder>> storage = new Dictionary<string, Dictionary<string, IXmlContentBuilder>>();
         private readonly INameNormalizer nameNormalizer;
-        private readonly FuncList<IXmlElement, IContentBuilder> onSearchBuilder = new FuncList<IXmlElement, IContentBuilder>(o => new NullBuilder());
+        private readonly FuncList<IXmlElement, IXmlContentBuilder> onSearchBuilder = new FuncList<IXmlElement, IXmlContentBuilder>(o => new NullBuilder());
 
         /// <summary>
         /// Creates new instance with <paramref name="nameNormalizer"/> for normalizing names.
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Maps <paramref name="builder"/> to process elements with <paramref name="prefix" /> and <paramref name="name" />.
         /// </summary>
-        public ContentBuilderRegistry AddBuilder(string prefix, string name, IContentBuilder builder)
+        public ContentBuilderRegistry AddBuilder(string prefix, string name, IXmlContentBuilder builder)
         {
             Guard.NotNullOrEmpty(name, "name");
             Guard.NotNull(builder, "builder");
@@ -38,9 +38,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             prefix = nameNormalizer.PreparePrefix(prefix);
             name = nameNormalizer.PrepareName(name);
 
-            Dictionary<string, IContentBuilder> builders;
+            Dictionary<string, IXmlContentBuilder> builders;
             if (!storage.TryGetValue(prefix, out builders))
-                storage[prefix] = builders = new Dictionary<string, IContentBuilder>();
+                storage[prefix] = builders = new Dictionary<string, IXmlContentBuilder>();
 
             builders[name] = builder;
             return this;
@@ -51,22 +51,22 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// (Last registered is executed the first).
         /// </summary>
         /// <param name="searchHandler">Builder provider method.</param>
-        public ContentBuilderRegistry AddSearchHandler(Func<IXmlElement, IContentBuilder> searchHandler)
+        public ContentBuilderRegistry AddSearchHandler(Func<IXmlElement, IXmlContentBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
             onSearchBuilder.Add(searchHandler);
             return this;
         }
 
-        public IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
+        public IEnumerable<ICodeObject> TryParse(IXmlContentBuilderContext context, IXmlElement element)
         {
             string prefix = nameNormalizer.PreparePrefix(element.Prefix);
             string name = nameNormalizer.PrepareName(element.LocalName);
 
-            Dictionary<string, IContentBuilder> builders;
+            Dictionary<string, IXmlContentBuilder> builders;
             if (storage.TryGetValue(prefix, out builders))
             {
-                IContentBuilder builder;
+                IXmlContentBuilder builder;
                 if (!builders.TryGetValue(name, out builder))
                     builder = onSearchBuilder.Execute(element);
 
@@ -77,9 +77,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return null;
         }
 
-        private class NullBuilder : IContentBuilder
+        private class NullBuilder : IXmlContentBuilder
         {
-            public IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
+            public IEnumerable<ICodeObject> TryParse(IXmlContentBuilderContext context, IXmlElement element)
             {
                 context.AddError(element, String.Format("Unnable to process element '{0}'.", element.Name));
                 return null;

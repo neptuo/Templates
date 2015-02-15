@@ -115,9 +115,9 @@ namespace Test.Templates
                 )
                 .AddPropertyBuilder(
                     new ContentPropertyBuilderRegistry()
-                        .AddSearchHandler(propertyInfo => new TypeDefaultPropertyBuilder())
+                        .AddSearchHandler(propertyInfo => new XmlTypeDefaultPropertyBuilder())
                 )
-                .AddLiteralBuilder(new LiteralBuilder())
+                .AddLiteralBuilder(new XmlLiteralBuilder())
                 .AddTokenBuilder(new TokenBuilderRegistry(tokenNormalizer))
                 .RunTypeScanner();
 

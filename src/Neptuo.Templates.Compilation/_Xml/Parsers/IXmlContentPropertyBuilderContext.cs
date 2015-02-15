@@ -7,14 +7,14 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Context for <see cref="IContentBuilder"/>.
+    /// Context for <see cref="IXmlContentPropertyBuilder"/>.
     /// </summary>
-    public interface IContentBuilderContext
+    public interface IXmlContentPropertyBuilderContext : IPropertyBuilderContext
     {
         /// <summary>
         /// Current parser context.
         /// </summary>
-        IContentParserContext ParserContext { get; }
+        IXmlContentBuilderContext BuilderContext { get; }
 
         /// <summary>
         /// Custom values (transient) storage.
@@ -25,10 +25,5 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// XML parser.
         /// </summary>
         XmlContentParser Parser { get; }
-
-        /// <summary>
-        /// Extensible registry for parsers.
-        /// </summary>
-        IParserRegistry Registry { get; }
     }
 }

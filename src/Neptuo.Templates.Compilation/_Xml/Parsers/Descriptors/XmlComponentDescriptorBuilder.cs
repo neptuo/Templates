@@ -13,14 +13,14 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// Base component builder including logic for processing XML elements as properties and inner values.
     /// 
     /// </summary>
-    public abstract class ComponentDescriptorBuilder : ComponentBuilder
+    public abstract class XmlComponentDescriptorBuilder : XmlComponentBuilder
     {
-        public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
+        public override IEnumerable<ICodeObject> TryParse(IXmlContentBuilderContext context, IXmlElement element)
         {
             ICodeObject codeObject = CreateCodeObject(context, element);
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
-            BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition, context.Registry.WithPropertyNormalizer());
+            XmlBindContentPropertiesContext bindContext = new XmlBindContentPropertiesContext(componentDefinition, context.Registry.WithPropertyNormalizer());
             context.CodeObject(codeObject);
             context.ComponentDescriptor(componentDefinition);
             context.BindPropertiesContext(bindContext);
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new List<ICodeObject> { codeObject };
         }
 
-        protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, ISourceContent value)
+        protected override bool TryBindProperty(IXmlContentBuilderContext context, string prefix, string name, ISourceContent value)
         {
             IPropertyInfo propertyInfo;
             if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Tries to find property named <paramref name="prefix"/> + <paramref name="name"/> and delegates parsing it's value to property factory.
         /// </summary>
-        protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
+        protected override bool TryBindProperty(IXmlContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
             IPropertyInfo propertyInfo;
             if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
@@ -71,7 +71,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Skips xmlns definitions, other attributes tries to parse as observers; otherwise marks those as errors.
         /// </summary>
-        protected override bool ProcessUnboundAttributes(IContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
+        protected override bool ProcessUnboundAttributes(IXmlContentBuilderContext context, IEnumerable<IXmlAttribute> unboundAttributes)
         {
             bool result = true;
             List<IXmlAttribute> usedAttributes = new List<IXmlAttribute>();
@@ -99,7 +99,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Tries to bind default property from <paramref name="unboundNodes"/>.
         /// </summary>
-        protected override bool ProcessUnboundNodes(IContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
+        protected override bool ProcessUnboundNodes(IXmlContentBuilderContext context, IEnumerable<IXmlNode> unboundNodes)
         {
             if (unboundNodes.Any())
             {
@@ -153,11 +153,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Should create code object for this component.
         /// </summary>
-        protected abstract ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
+        protected abstract ICodeObject CreateCodeObject(IXmlContentBuilderContext context, IXmlElement element);
 
         /// <summary>
         /// Gets current component definition.
         /// </summary>
-        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element);
+        protected abstract IComponentDescriptor GetComponentDescriptor(IXmlContentBuilderContext context, ICodeObject codeObject, IXmlElement element);
     }
 }

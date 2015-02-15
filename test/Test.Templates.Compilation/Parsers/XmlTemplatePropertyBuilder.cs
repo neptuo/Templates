@@ -12,9 +12,9 @@ using Test.Templates.UI;
 
 namespace Test.Templates.Compilation.Parsers
 {
-    public class TemplatePropertyBuilder : IContentPropertyBuilder, IPropertyBuilder
+    public class XmlTemplatePropertyBuilder : IXmlContentPropertyBuilder, IPropertyBuilder
     {
-        public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
+        public IEnumerable<ICodeProperty> TryParse(IXmlContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
             TemplateCodeObject templateCodeObject = new TemplateCodeObject(typeof(ContentTemplate));
             IPropertyInfo targetProperty = new TypePropertyInfo(

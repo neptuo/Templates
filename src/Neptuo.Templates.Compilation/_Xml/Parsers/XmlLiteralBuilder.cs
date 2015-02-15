@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Default implementation of <see cref="ILiteralBuilder"/>.
+    /// Default implementation of <see cref="IXmlLiteralBuilder"/>.
     /// Creates instance of <see cref="PlainValueCodeObject"/> or <see cref="CommentCodeObject"/>.
     /// </summary>
-    public class LiteralBuilder : ILiteralBuilder
+    public class XmlLiteralBuilder : IXmlLiteralBuilder
     {
-        public virtual IEnumerable<ICodeObject> TryParseText(IContentBuilderContext context, string text)
+        public virtual IEnumerable<ICodeObject> TryParseText(IXmlContentBuilderContext context, string text)
         {
             Guard.NotNull(context, "context");
             return new CodeObjectList().AddPlainValue(text);
         }
 
-        public virtual IEnumerable<ICodeObject> TryParseComment(IContentBuilderContext context, string commentText)
+        public virtual IEnumerable<ICodeObject> TryParseComment(IXmlContentBuilderContext context, string commentText)
         {
             Guard.NotNull(context, "context");
             return new CodeObjectList().AddComment(commentText);

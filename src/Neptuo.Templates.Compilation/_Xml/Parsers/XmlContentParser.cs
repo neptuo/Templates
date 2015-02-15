@@ -60,7 +60,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 #endif
         }
 
-        public IEnumerable<ICodeObject> TryProcessNode(IContentBuilderContext context, IXmlNode node)
+        public IEnumerable<ICodeObject> TryProcessNode(IXmlContentBuilderContext context, IXmlNode node)
         {
             context = new XmlContentBuilderContext(context);
 
@@ -83,17 +83,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
         }
 
-        protected virtual IEnumerable<ICodeObject> TryProcessElement(IContentBuilderContext context, IXmlElement element)
+        protected virtual IEnumerable<ICodeObject> TryProcessElement(IXmlContentBuilderContext context, IXmlElement element)
         {
             return context.Registry.WithContentBuilder().TryParse(new XmlContentBuilderContext(context), element);
         }
 
-        protected virtual IEnumerable<ICodeObject> TryProcessText(IContentBuilderContext context, IXmlText text)
+        protected virtual IEnumerable<ICodeObject> TryProcessText(IXmlContentBuilderContext context, IXmlText text)
         {
             return context.Registry.WithLiteralBuilder().TryParseText(new XmlContentBuilderContext(context), text.Text);
         }
 
-        protected virtual IEnumerable<ICodeObject> TryProcessComment(IContentBuilderContext context, IXmlText text)
+        protected virtual IEnumerable<ICodeObject> TryProcessComment(IXmlContentBuilderContext context, IXmlText text)
         {
             return context.Registry.WithLiteralBuilder().TryParseComment(new XmlContentBuilderContext(context), text.Text);
         }

@@ -7,11 +7,11 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class DefaultTypeObserverBuilder : TypeObserverBuilder
+    public class XmlDefaultTypeObserverBuilder : XmlTypeObserverBuilder
     {
         protected Type Type { get; private set; }
 
-        public DefaultTypeObserverBuilder(Type type)
+        public XmlDefaultTypeObserverBuilder(Type type)
         {
             Type = type;
         }

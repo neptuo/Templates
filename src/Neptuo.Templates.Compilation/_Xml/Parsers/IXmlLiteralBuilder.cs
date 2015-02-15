@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Builds static literal value.
     /// </summary>
-    public interface ILiteralBuilder
+    public interface IXmlLiteralBuilder
     {
         /// <summary>
         /// Parses <paramref name="text"/> and creates AST for it.
@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Context information.</param>
         /// <param name="text">Text value to parse.</param>
         /// <returns>Parsed code objects; <c>null</c> otherwise.</returns>
-        IEnumerable<ICodeObject> TryParseText(IContentBuilderContext context, string text);
+        IEnumerable<ICodeObject> TryParseText(IXmlContentBuilderContext context, string text);
 
         /// <summary>
         /// Parses <paramref name="commentText"/> and creates AST for it.
@@ -26,6 +26,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Content information.</param>
         /// <param name="commentText">Text value of comment.</param>
         /// <returns>Parsed code objects; <c>null</c> otherwise.</returns>
-        IEnumerable<ICodeObject> TryParseComment(IContentBuilderContext context, string commentText);
+        IEnumerable<ICodeObject> TryParseComment(IXmlContentBuilderContext context, string commentText);
     }
 }

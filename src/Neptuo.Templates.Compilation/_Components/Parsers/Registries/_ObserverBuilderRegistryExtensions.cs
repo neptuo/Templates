@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public static ObserverBuilderRegistry AddBuilder<TObserver>(this ObserverBuilderRegistry registry, string prefix, string name)
         {
-            return registry.AddBuilder(prefix, name, new DefaultTypeObserverBuilder(typeof(TObserver)));
+            return registry.AddBuilder(prefix, name, new XmlDefaultTypeObserverBuilder(typeof(TObserver)));
         }
 
         public static ObserverBuilderRegistry AddHtmlAttributeBuilder<T>(this ObserverBuilderRegistry registry, Expression<Func<T, Dictionary<string, string>>> propertyGetter)
@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return registry.AddBuilder(
                 null, 
                 "*", 
-                new HtmlAttributeObserverBuilder(typeof(T), propertyName)
+                new XmlHtmlAttributeObserverBuilder(typeof(T), propertyName)
             );
         }
     }

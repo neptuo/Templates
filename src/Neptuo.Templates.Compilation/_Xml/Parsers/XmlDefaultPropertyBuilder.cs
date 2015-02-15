@@ -11,14 +11,14 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Some magic logic to create right proproperty descriptors for right property types.
     /// </summary>
-    public abstract class DefaultPropertyBuilder : IContentPropertyBuilder, IPropertyBuilder
+    public abstract class XmlDefaultPropertyBuilder : IXmlContentPropertyBuilder, IPropertyBuilder
     {
         /// <summary>
         /// Should create property descriptor for <paramref name="propertyInfo"/>.
         /// </summary>
         protected abstract ICodeProperty CreateCodeProperty(IPropertyInfo propertyInfo);
 
-        public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
+        public IEnumerable<ICodeProperty> TryParse(IXmlContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
             if (typeof(string) == context.PropertyInfo.Type)
             {

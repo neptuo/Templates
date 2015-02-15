@@ -9,13 +9,13 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Registry for <see cref="IObserverBuilder"/> by prefix and name of token.
+    /// Registry for <see cref="IXmlObserverBuilder"/> by prefix and name of token.
     /// </summary>
-    public class ObserverBuilderRegistry : IObserverBuilder
+    public class ObserverBuilderRegistry : IXmlObserverBuilder
     {
-        private readonly Dictionary<string, Dictionary<string, IObserverBuilder>> storage = new Dictionary<string, Dictionary<string, IObserverBuilder>>();
+        private readonly Dictionary<string, Dictionary<string, IXmlObserverBuilder>> storage = new Dictionary<string, Dictionary<string, IXmlObserverBuilder>>();
         private readonly INameNormalizer nameNormalizer;
-        private FuncList<IXmlAttribute, IObserverBuilder> onSearchBuilder = new FuncList<IXmlAttribute, IObserverBuilder>(o => new NullBuilder());
+        private FuncList<IXmlAttribute, IXmlObserverBuilder> onSearchBuilder = new FuncList<IXmlAttribute, IXmlObserverBuilder>(o => new NullBuilder());
 
         /// <summary>
         /// Creates new instance with <paramref name="nameNormalizer"/> for normalizing names.
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Maps <paramref name="builder"/> to process observers with <paramref name="prefix" /> and <paramref name="name" />.
         /// </summary>
-        public ObserverBuilderRegistry AddBuilder(string prefix, string name, IObserverBuilder builder)
+        public ObserverBuilderRegistry AddBuilder(string prefix, string name, IXmlObserverBuilder builder)
         {
             Guard.NotNullOrEmpty(name, "name");
             Guard.NotNull(builder, "builder");
@@ -38,9 +38,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             prefix = nameNormalizer.PreparePrefix(prefix);
             name = nameNormalizer.PrepareName(name);
 
-            Dictionary<string, IObserverBuilder> builders;
+            Dictionary<string, IXmlObserverBuilder> builders;
             if (!storage.TryGetValue(prefix, out builders))
-                storage[prefix] = builders = new Dictionary<string, IObserverBuilder>();
+                storage[prefix] = builders = new Dictionary<string, IXmlObserverBuilder>();
 
             builders[name] = builder;
             return this;
@@ -51,22 +51,22 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// (Last registered is executed the first).
         /// </summary>
         /// <param name="searchHandler">Builder provider method.</param>
-        public ObserverBuilderRegistry AddSearchHandler(Func<IXmlAttribute, IObserverBuilder> searchHandler)
+        public ObserverBuilderRegistry AddSearchHandler(Func<IXmlAttribute, IXmlObserverBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
             onSearchBuilder.Add(searchHandler);
             return this;
         }
 
-        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        public bool TryParse(IXmlContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             string prefix = nameNormalizer.PreparePrefix(attribute.Prefix);
             string name = nameNormalizer.PrepareName(attribute.LocalName);
 
-            Dictionary<string, IObserverBuilder> builders;
+            Dictionary<string, IXmlObserverBuilder> builders;
             if (storage.TryGetValue(prefix, out builders))
             {
-                IObserverBuilder builder;
+                IXmlObserverBuilder builder;
                 if (!builders.TryGetValue(name, out builder))
                 {
                     if(!builders.TryGetValue("*", out builder))
@@ -80,9 +80,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        private class NullBuilder : IObserverBuilder
+        private class NullBuilder : IXmlObserverBuilder
         {
-            public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+            public bool TryParse(IXmlContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
             {
                 return false;
             }

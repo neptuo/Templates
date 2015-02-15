@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Observer which sets attribute to dictionary property.
     /// </summary>
-    public class HtmlAttributeObserverBuilder : IObserverBuilder
+    public class XmlHtmlAttributeObserverBuilder : IXmlObserverBuilder
     {
         private readonly Type requiredInterface;
         private readonly string propertyName;
@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="requiredInterface">Required interface on type code object.</param>
         /// <param name="propertyName">Dictionary&lt;string, string&gt; property to set HTML attributes to.</param>
-        public HtmlAttributeObserverBuilder(Type requiredInterface, string propertyName)
+        public XmlHtmlAttributeObserverBuilder(Type requiredInterface, string propertyName)
         {
             Guard.NotNull(requiredInterface, "requiredInterface");
             Guard.NotNullOrEmpty(propertyName, "propertyName");
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeProperty;
         }
 
-        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        public bool TryParse(IXmlContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
             if (typeCodeObject == null)

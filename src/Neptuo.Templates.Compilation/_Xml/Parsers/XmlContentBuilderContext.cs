@@ -7,16 +7,16 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base implementation of <see cref="IContentBuilderContext"/>.
+    /// Base implementation of <see cref="IXmlContentBuilderContext"/>.
     /// </summary>
-    public class XmlContentBuilderContext : IContentBuilderContext
+    public class XmlContentBuilderContext : IXmlContentBuilderContext
     {
         public IContentParserContext ParserContext { get; private set; }
         public Dictionary<string, object> CustomValues { get; private set; }
         public XmlContentParser Parser { get; private set; }
         public IParserRegistry Registry { get; private set; }
 
-        public XmlContentBuilderContext(IContentBuilderContext context)
+        public XmlContentBuilderContext(IXmlContentBuilderContext context)
             : this(context.ParserContext, context.Parser, context.Registry)
         { }
 

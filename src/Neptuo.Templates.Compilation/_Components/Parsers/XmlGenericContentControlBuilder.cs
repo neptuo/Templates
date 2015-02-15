@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// Must have defined property, where XML element name is set.
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class GenericContentControlBuilder<T> : DefaultTypeComponentBuilder
+    public class XmlGenericContentControlBuilder<T> : XmlDefaultTypeComponentBuilder
     {
         private readonly string tagNameProperty;
 
@@ -25,13 +25,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// to the property, where XML element name should be set.
         /// </summary>
         /// <param name="tagNameProperty">Expression to the property, where XML element name should be set.</param>
-        public GenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty)
+        public XmlGenericContentControlBuilder(Expression<Func<T, string>> tagNameProperty)
             : base(typeof(T))
         {
             this.tagNameProperty = TypeHelper.PropertyName(tagNameProperty);
         }
 
-        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
+        protected override ICodeObject CreateCodeObject(IXmlContentBuilderContext context, IXmlElement element)
         {
             ICodeObject codeObject = base.CreateCodeObject(context, element);
 
@@ -44,7 +44,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeObject;
         }
 
-        protected virtual bool IsComponentRequired(IContentBuilderContext context, IXmlElement element)
+        protected virtual bool IsComponentRequired(IXmlContentBuilderContext context, IXmlElement element)
         {
             ComponentCodeObject codeObject = new ComponentCodeObject(typeof(T));
 
@@ -76,7 +76,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return isComponentRequired;
         }
 
-        public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
+        public override IEnumerable<ICodeObject> TryParse(IXmlContentBuilderContext context, IXmlElement element)
         {
             if (IsComponentRequired(context, element))
                 return base.TryParse(context, element);
@@ -84,7 +84,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return ProcessAsTextXmlTag(context, element);
         }
 
-        protected IEnumerable<ICodeObject> ProcessAsTextXmlTag(IContentBuilderContext context, IXmlElement element)
+        protected IEnumerable<ICodeObject> ProcessAsTextXmlTag(IXmlContentBuilderContext context, IXmlElement element)
         {
             CodeObjectList result = new CodeObjectList();
             if (element.ChildNodes.Any())

@@ -86,7 +86,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
-        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="XmlDefaultTypeComponentBuilder.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddContentBuilderRegistry(this DefaultParserRegistry registry, ContentBuilderRegistry builder)
         {
             Guard.NotNull(registry, "registry");
@@ -96,12 +96,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                 TypeScanner typeScanner = registry.With<TypeScanner>();
                 typeScanner.AddTypeProcessor((prefix, type) => builder.AddBuilder(
                     prefix, 
-                    type.Name, 
-                    new DefaultTypeComponentBuilder(type)
+                    type.Name,
+                    new XmlDefaultTypeComponentBuilder(type)
                 ));
             }
 
-            return registry.AddRegistry<IContentBuilder>(builder);
+            return registry.AddRegistry<IXmlContentBuilder>(builder);
         }
 
         /// <summary>
@@ -112,7 +112,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
         /// <param name="builderFactory">Factory method for registering content builders when type scanner emits type.</param>
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddContentBuilderRegistry(this DefaultParserRegistry registry, ContentBuilderRegistry builder, Func<string, Type, IContentBuilder> builderFactory)
+        public static DefaultParserRegistry AddContentBuilderRegistry(this DefaultParserRegistry registry, ContentBuilderRegistry builder, Func<string, Type, IXmlContentBuilder> builderFactory)
         {
             Guard.NotNull(registry, "registry");
 
@@ -126,7 +126,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 ));
             }
 
-            return registry.AddRegistry<IContentBuilder>(builder);
+            return registry.AddRegistry<IXmlContentBuilder>(builder);
         }
 
         /// <summary>
@@ -135,10 +135,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of content builder.</param>
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddContentBuilder(this DefaultParserRegistry registry, IContentBuilder builder)
+        public static DefaultParserRegistry AddContentBuilder(this DefaultParserRegistry registry, IXmlContentBuilder builder)
         {
             Guard.NotNull(registry, "registry");
-            return registry.AddRegistry<IContentBuilder>(builder);
+            return registry.AddRegistry<IXmlContentBuilder>(builder);
         }
 
         /// <summary>
@@ -146,10 +146,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read content builder from.</param>
         /// <returns>Registered instance of content builder in <paramref name="registry"/>.</returns>
-        public static IContentBuilder WithContentBuilder(this IParserRegistry registry)
+        public static IXmlContentBuilder WithContentBuilder(this IParserRegistry registry)
         {
             Guard.NotNull(registry, "registry");
-            return registry.With<IContentBuilder>();
+            return registry.With<IXmlContentBuilder>();
         }
 
         #endregion
@@ -213,10 +213,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of observer builder.</param>
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddObserverBuilder(this DefaultParserRegistry registry, IObserverBuilder builder)
+        public static DefaultParserRegistry AddObserverBuilder(this DefaultParserRegistry registry, IXmlObserverBuilder builder)
         {
             Guard.NotNull(registry, "registry");
-            return registry.AddRegistry<IObserverBuilder>(builder);
+            return registry.AddRegistry<IXmlObserverBuilder>(builder);
         }
 
         /// <summary>
@@ -224,10 +224,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read observer builder from.</param>
         /// <returns>Registered instance of observer builder in <paramref name="registry"/>.</returns>
-        public static IObserverBuilder WithObserverBuilder(this IParserRegistry registry)
+        public static IXmlObserverBuilder WithObserverBuilder(this IParserRegistry registry)
         {
             Guard.NotNull(registry, "registry");
-            return registry.With<IObserverBuilder>();
+            return registry.With<IXmlObserverBuilder>();
         }
 
         #endregion
@@ -240,11 +240,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of property builder.</param>
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddPropertyBuilder(this DefaultParserRegistry registry, IContentPropertyBuilder builder)
+        public static DefaultParserRegistry AddPropertyBuilder(this DefaultParserRegistry registry, IXmlContentPropertyBuilder builder)
         {
             Guard.NotNull(registry, "registry");
             return registry
-                .AddRegistry<IContentPropertyBuilder>(builder)
+                .AddRegistry<IXmlContentPropertyBuilder>(builder)
                 .AddRegistry<IPropertyBuilder>(builder);
         }
 
@@ -253,10 +253,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read content property builder from.</param>
         /// <returns>Registered instance of content property builder in <paramref name="registry"/>.</returns>
-        public static IContentPropertyBuilder WithContentPropertyBuilder(this IParserRegistry registry)
+        public static IXmlContentPropertyBuilder WithContentPropertyBuilder(this IParserRegistry registry)
         {
             Guard.NotNull(registry, "registry");
-            return registry.With<IContentPropertyBuilder>();
+            return registry.With<IXmlContentPropertyBuilder>();
         }
 
         /// <summary>
@@ -267,7 +267,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static IPropertyBuilder WithPropertyBuilder(this IParserRegistry registry)
         {
             Guard.NotNull(registry, "registry");
-            return registry.With<IContentPropertyBuilder>();
+            return registry.With<IXmlContentPropertyBuilder>();
         }
 
         #endregion
@@ -280,10 +280,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of literal builder.</param>
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddLiteralBuilder(this DefaultParserRegistry registry, ILiteralBuilder builder)
+        public static DefaultParserRegistry AddLiteralBuilder(this DefaultParserRegistry registry, IXmlLiteralBuilder builder)
         {
             Guard.NotNull(registry, "registry");
-            return registry.AddRegistry<ILiteralBuilder>(builder);
+            return registry.AddRegistry<IXmlLiteralBuilder>(builder);
         }
 
         /// <summary>
@@ -291,10 +291,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read literal builder from.</param>
         /// <returns>Registered instance of literal builder in <paramref name="registry"/>.</returns>
-        public static ILiteralBuilder WithLiteralBuilder(this IParserRegistry registry)
+        public static IXmlLiteralBuilder WithLiteralBuilder(this IParserRegistry registry)
         {
             Guard.NotNull(registry, "registry");
-            return registry.With<ILiteralBuilder>();
+            return registry.With<IXmlLiteralBuilder>();
         }
 
         #endregion

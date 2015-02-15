@@ -9,19 +9,19 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Registry for <see cref="IPropertyBuilder"/> and <see cref="IContentPropertyBuilder"/> by property type.
+    /// Registry for <see cref="IPropertyBuilder"/> and <see cref="IXmlContentPropertyBuilder"/> by property type.
     /// </summary>
-    public class ContentPropertyBuilderRegistry : IContentPropertyBuilder
+    public class ContentPropertyBuilderRegistry : IXmlContentPropertyBuilder
     {
-        private readonly Dictionary<Type, IContentPropertyBuilder> contentStorage = new Dictionary<Type, IContentPropertyBuilder>();
+        private readonly Dictionary<Type, IXmlContentPropertyBuilder> contentStorage = new Dictionary<Type, IXmlContentPropertyBuilder>();
         private readonly Dictionary<Type, IPropertyBuilder> storage = new Dictionary<Type, IPropertyBuilder>();
-        private readonly FuncList<IPropertyInfo, IContentPropertyBuilder> onSearchContentBuilder = new FuncList<IPropertyInfo, IContentPropertyBuilder>(o => new NullBuilder());
+        private readonly FuncList<IPropertyInfo, IXmlContentPropertyBuilder> onSearchContentBuilder = new FuncList<IPropertyInfo, IXmlContentPropertyBuilder>(o => new NullBuilder());
         private readonly FuncList<IPropertyInfo, IPropertyBuilder> onSearchBuilder = new FuncList<IPropertyInfo, IPropertyBuilder>(o => new NullBuilder());
 
         /// <summary>
         /// Maps <paramref name="builder"/> to process properties of type <paramref name="builder" />
         /// </summary>
-        public ContentPropertyBuilderRegistry AddBuilder(Type propertyType, IContentPropertyBuilder builder)
+        public ContentPropertyBuilderRegistry AddBuilder(Type propertyType, IXmlContentPropertyBuilder builder)
         {
             Guard.NotNull(propertyType, "propertyType");
             Guard.NotNull(builder, "builder");
@@ -47,7 +47,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// (Last registered is executed the first).
         /// </summary>
         /// <param name="searchHandler">Builder provider method.</param>
-        public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IContentPropertyBuilder> searchHandler)
+        public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IXmlContentPropertyBuilder> searchHandler)
         {
             Guard.NotNull(searchHandler, "searchHandler");
             onSearchContentBuilder.Add(searchHandler);
@@ -67,9 +67,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return this;
         }
 
-        public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
+        public IEnumerable<ICodeProperty> TryParse(IXmlContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
-            IContentPropertyBuilder builder;
+            IXmlContentPropertyBuilder builder;
             if (!contentStorage.TryGetValue(context.PropertyInfo.Type, out builder))
                 builder = onSearchContentBuilder.Execute(context.PropertyInfo);
 
@@ -91,9 +91,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             return null;
         }
 
-        public class NullBuilder : IContentPropertyBuilder
+        public class NullBuilder : IXmlContentPropertyBuilder
         {
-            public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
+            public IEnumerable<ICodeProperty> TryParse(IXmlContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
             {
                 context.AddError(String.Format(
                     "Unnable to process property '{0}' of property type '{1}'.", 

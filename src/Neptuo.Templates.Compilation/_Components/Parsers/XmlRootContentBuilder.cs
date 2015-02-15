@@ -7,32 +7,32 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class RootContentBuilder : ComponentDescriptorBuilder
+    public class XmlRootContentBuilder : XmlComponentDescriptorBuilder
     {
         private readonly IPropertyInfo defaultProperty;
 
-        public RootContentBuilder(IPropertyInfo defaultProperty)
+        public XmlRootContentBuilder(IPropertyInfo defaultProperty)
         {
             Guard.NotNull(defaultProperty, "defaultProperty");
             this.defaultProperty = defaultProperty;
         }
 
-        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
+        protected override ICodeObject CreateCodeObject(IXmlContentBuilderContext context, IXmlElement element)
         {
             return new RootCodeObject();
         }
 
-        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
+        protected override IComponentDescriptor GetComponentDescriptor(IXmlContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
         {
             return new RootComponentDescriptor(defaultProperty);
         }
 
-        protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
+        protected override bool TryBindProperty(IXmlContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
             return base.TryBindProperty(context, prefix, name, value);
         }
 
-        protected override bool ProcessUnboundAttribute(IContentBuilderContext context, IXmlAttribute unboundAttribute)
+        protected override bool ProcessUnboundAttribute(IXmlContentBuilderContext context, IXmlAttribute unboundAttribute)
         {
             return true;
         }

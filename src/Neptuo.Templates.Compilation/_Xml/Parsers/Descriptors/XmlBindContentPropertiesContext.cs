@@ -11,22 +11,22 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Context of binding properties.
     /// </summary>
-    public class BindContentPropertiesContext : BindPropertiesContext<IXmlAttribute>
+    public class XmlBindContentPropertiesContext : BindPropertiesContext<IXmlAttribute>
     {
         /// <summary>
         /// Whether at least one property was bound from content element.
         /// </summary>
         public bool IsBoundFromContent { get; set; }
 
-        public BindContentPropertiesContext(Dictionary<string, IPropertyInfo> properties)
+        public XmlBindContentPropertiesContext(Dictionary<string, IPropertyInfo> properties)
             : base(properties)
         { }
 
-        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
+        public XmlBindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
             : base(componentDescriptor, nameNormalizer)
         { }
 
-        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
+        public XmlBindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
             : base(componentDescriptor, nameNormalizer, codeObject)
         { }
     }

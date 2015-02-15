@@ -8,21 +8,21 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public abstract class TypeObserverBuilder : ObserverDescriptorBuilder
+    public abstract class XmlTypeObserverBuilder : XmlObserverDescriptorBuilder
     {
         protected abstract Type GetObserverType(IXmlAttribute attribute);
 
-        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)
+        protected override ICodeObject CreateCodeObject(IXmlContentBuilderContext context, IXmlAttribute attribute)
         {
             return new ObserverCodeObject(GetObserverType(attribute));
         }
 
-        protected override IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        protected override IComponentDescriptor GetObserverDescriptor(IXmlContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             return new TypeComponentDescriptor(GetObserverType(attribute));
         }
 
-        protected override ICodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        protected override ICodeObject IsObserverContained(IXmlContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             Type observerType = GetObserverType(attribute);
             return codeObject.Observers.OfType<ITypeCodeObject>().FirstOrDefault(o => o.Type == observerType);

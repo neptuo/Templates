@@ -10,27 +10,27 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Default implementation of <see cref="ILiteralBuilder"/>.
+    /// Default implementation of <see cref="IXmlLiteralBuilder"/>.
     /// If possible, stores string values as plain strings. If target property requires instance of object instead of string, creates <typeparamref name="T"/>.
     /// </summary>
     /// <typeparam name="T">Type of literal control.</typeparam>
-    public class DefaultLiteralControlBuilder<T> : LiteralBuilder, ILiteralBuilder
+    public class XmlDefaultLiteralControlBuilder<T> : XmlLiteralBuilder, IXmlLiteralBuilder
     {
         private readonly Type literalControlType;
         private readonly string textProperty;
 
-        public DefaultLiteralControlBuilder(Expression<Func<T, string>> textProperty)
+        public XmlDefaultLiteralControlBuilder(Expression<Func<T, string>> textProperty)
             : this(TypeHelper.PropertyName(textProperty))
         { }
 
-        public DefaultLiteralControlBuilder(string textProperty)
+        public XmlDefaultLiteralControlBuilder(string textProperty)
         {
             Guard.NotNullOrEmpty(textProperty, "textProperty");
             this.literalControlType = typeof(T);
             this.textProperty = textProperty;
         }
 
-        public override IEnumerable<ICodeObject> TryParseText(IContentBuilderContext context, string text)
+        public override IEnumerable<ICodeObject> TryParseText(IXmlContentBuilderContext context, string text)
         {
             Guard.NotNull(context, "context");
             return new CodeObjectList().AddLiteral(literalControlType, textProperty, text);

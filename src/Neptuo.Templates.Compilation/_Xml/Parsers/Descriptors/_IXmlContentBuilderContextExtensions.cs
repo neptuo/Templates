@@ -7,30 +7,30 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public static class _IContentBuilderContextExtensions
+    public static class _IXmlContentBuilderContextExtensions
     {
         #region ComponentCodeObject
 
-        public static IContentBuilderContext CodeObject(this IContentBuilderContext context, ICodeObject codeObject)
+        public static IXmlContentBuilderContext CodeObject(this IXmlContentBuilderContext context, ICodeObject codeObject)
         {
             Guard.NotNull(context, "context");
             context.CustomValues["CodeObject"] = codeObject;
             return context;
         }
 
-        public static ICodeObject CodeObject(this IContentBuilderContext context)
+        public static ICodeObject CodeObject(this IXmlContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
             return (ICodeObject)context.CustomValues["CodeObject"];
         }
 
-        public static IPropertiesCodeObject CodeObjectAsProperties(this IContentBuilderContext context)
+        public static IPropertiesCodeObject CodeObjectAsProperties(this IXmlContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
             return (IPropertiesCodeObject)CodeObject(context);
         }
 
-        public static IObserversCodeObject CodeObjectAsObservers(this IContentBuilderContext context)
+        public static IObserversCodeObject CodeObjectAsObservers(this IXmlContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
             return (IObserversCodeObject)CodeObject(context);
@@ -40,13 +40,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region ComponentDescriptor
 
-        public static IComponentDescriptor ComponentDescriptor(this IContentBuilderContext context)
+        public static IComponentDescriptor ComponentDescriptor(this IXmlContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
             return (IComponentDescriptor)context.CustomValues["ComponentDescriptor"];
         }
 
-        public static IContentBuilderContext ComponentDescriptor(this IContentBuilderContext context, IComponentDescriptor componentDescriptor)
+        public static IXmlContentBuilderContext ComponentDescriptor(this IXmlContentBuilderContext context, IComponentDescriptor componentDescriptor)
         {
             Guard.NotNull(context, "context");
             context.CustomValues["ComponentDescriptor"] = componentDescriptor;
@@ -57,13 +57,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region BindPropertiesContext
 
-        public static BindContentPropertiesContext BindPropertiesContext(this IContentBuilderContext context)
+        public static XmlBindContentPropertiesContext BindPropertiesContext(this IXmlContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
-            return (BindContentPropertiesContext)context.CustomValues["BindPropertiesContext"];
+            return (XmlBindContentPropertiesContext)context.CustomValues["BindPropertiesContext"];
         }
 
-        public static IContentBuilderContext BindPropertiesContext(this IContentBuilderContext context, BindContentPropertiesContext bindPropertiesContext)
+        public static IXmlContentBuilderContext BindPropertiesContext(this IXmlContentBuilderContext context, XmlBindContentPropertiesContext bindPropertiesContext)
         {
             Guard.NotNull(context, "context");
             context.CustomValues["BindPropertiesContext"] = bindPropertiesContext;
@@ -74,13 +74,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region DefaultProperty
 
-        public static IPropertyInfo DefaultProperty(this IContentBuilderContext context)
+        public static IPropertyInfo DefaultProperty(this IXmlContentBuilderContext context)
         {
             Guard.NotNull(context, "context");
             return (IPropertyInfo)context.CustomValues["DefaultProperty"];
         }
 
-        public static IContentBuilderContext DefaultProperty(this IContentBuilderContext context, IPropertyInfo defaultProperty)
+        public static IXmlContentBuilderContext DefaultProperty(this IXmlContentBuilderContext context, IPropertyInfo defaultProperty)
         {
             Guard.NotNull(context, "context");
             context.CustomValues["DefaultProperty"] = defaultProperty;
