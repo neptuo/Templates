@@ -127,7 +127,6 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         /// </summary>
         public void Run()
         {
-            IReflectionService service = ReflectionFactory.FromCurrentAppDomain();
             foreach (KeyValuePair<string, List<NamespaceItem>> assemblyDescription in assemblies)
             {
                 //Assembly assembly = service.LoadAssembly(assemblyDescription.Key + ".dll");
