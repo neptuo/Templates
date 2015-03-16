@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="nameNormalizer">Normalizer for normlizing names.</param>
         public ObserverBuilderRegistry(INameNormalizer nameNormalizer)
         {
-            Guard.NotNull(nameNormalizer, "nameNormalizer");
+            Ensure.NotNull(nameNormalizer, "nameNormalizer");
             this.nameNormalizer = nameNormalizer;
         }
 
@@ -32,8 +32,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         public ObserverBuilderRegistry AddBuilder(string prefix, string name, IObserverBuilder builder)
         {
-            Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNull(builder, "builder");
+            Ensure.NotNullOrEmpty(name, "name");
+            Ensure.NotNull(builder, "builder");
 
             prefix = nameNormalizer.PreparePrefix(prefix);
             name = nameNormalizer.PrepareName(name);
@@ -53,7 +53,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="searchHandler">Builder provider method.</param>
         public ObserverBuilderRegistry AddSearchHandler(Func<IXmlAttribute, IObserverBuilder> searchHandler)
         {
-            Guard.NotNull(searchHandler, "searchHandler");
+            Ensure.NotNull(searchHandler, "searchHandler");
             onSearchBuilder.Add(searchHandler);
             return this;
         }

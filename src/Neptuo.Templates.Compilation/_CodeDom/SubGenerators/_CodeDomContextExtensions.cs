@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         public static void AddError(this ICodeDomContext context, string errorTextFormat, params object[] parameters)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             context.GeneratorContext.Errors.Add(new ErrorInfo(0, 0, String.Format(errorTextFormat, parameters)));
         }
 
@@ -24,7 +24,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><see cref="ICodeDomPropertyContext"/> from <paramref name="context"/> and <paramref name="propertyTarget"/>.</returns>
         public static CodeDomDefaultPropertyContext CreatePropertyContext(this ICodeDomContext context, CodeExpression propertyTarget)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return new CodeDomDefaultPropertyContext(context, propertyTarget);
         }
 
@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><see cref="ICodeDomObjectContext"/> from <paramref name="context"/>.</returns>
         public static CodeDomDefaultObjectContext CreateObjectContext(this ICodeDomContext context)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return new CodeDomDefaultObjectContext(context);
         }
     }

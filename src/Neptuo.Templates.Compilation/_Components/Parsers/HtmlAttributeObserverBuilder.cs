@@ -24,8 +24,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="propertyName">Dictionary&lt;string, string&gt; property to set HTML attributes to.</param>
         public HtmlAttributeObserverBuilder(Type requiredInterface, string propertyName)
         {
-            Guard.NotNull(requiredInterface, "requiredInterface");
-            Guard.NotNullOrEmpty(propertyName, "propertyName");
+            Ensure.NotNull(requiredInterface, "requiredInterface");
+            Ensure.NotNullOrEmpty(propertyName, "propertyName");
             this.requiredInterface = requiredInterface;
             this.propertyName = propertyName;
         }

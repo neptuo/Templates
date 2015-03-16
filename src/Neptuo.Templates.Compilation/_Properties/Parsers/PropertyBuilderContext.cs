@@ -1,4 +1,5 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Activators;
+using Neptuo.ComponentModel;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
@@ -23,10 +24,10 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public PropertyBuilderContext(string name, IParserServiceContext context, IParserService parserService, IPropertyInfo propertyInfo)
         {
-            Guard.NotNull(name, "name");
-            Guard.NotNull(context, "context");
-            Guard.NotNull(parserService, "parserService");
-            Guard.NotNull(propertyInfo, "propertyInfo");
+            Ensure.NotNull(name, "name");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(parserService, "parserService");
+            Ensure.NotNull(propertyInfo, "propertyInfo");
             this.context = context;
             Name = name;
             ParserService = parserService;

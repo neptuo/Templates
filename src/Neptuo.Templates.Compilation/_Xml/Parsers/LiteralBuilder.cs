@@ -16,13 +16,13 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public virtual IEnumerable<ICodeObject> TryParseText(IContentBuilderContext context, string text)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return new CodeObjectList().AddPlainValue(text);
         }
 
         public virtual IEnumerable<ICodeObject> TryParseComment(IContentBuilderContext context, string commentText)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return new CodeObjectList().AddComment(commentText);
         }
     }

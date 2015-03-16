@@ -29,7 +29,7 @@ namespace Test.Templates.UI
 
         public void OnInit(IComponentManager componentManager)
         {
-            Guard.NotNull(componentManager, "componentManager");
+            Ensure.NotNull(componentManager, "componentManager");
             ComponentManager = componentManager;
 
             if (Content != null)

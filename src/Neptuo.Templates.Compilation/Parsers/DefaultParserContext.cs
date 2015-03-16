@@ -1,4 +1,5 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Activators;
+using Neptuo.ComponentModel;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
@@ -18,8 +19,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         public DefaultParserContext(string name, IParserService parserService, IParserServiceContext context)
             : base(context.DependencyProvider, context.Errors)
         {
-            Guard.NotNull(name, "name");
-            Guard.NotNull(parserService, "parserService");
+            Ensure.NotNull(name, "name");
+            Ensure.NotNull(parserService, "parserService");
             Name = name;
             ParserService = parserService;
         }
@@ -27,8 +28,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         public DefaultParserContext(string name, IDependencyProvider dependencyProvider, IParserService parserService, ICollection<IErrorInfo> errors)
             : base(dependencyProvider, errors)
         {
-            Guard.NotNull(name, "name");
-            Guard.NotNull(parserService, "parserService");
+            Ensure.NotNull(name, "name");
+            Ensure.NotNull(parserService, "parserService");
             Name = name;
             ParserService = parserService;
         }

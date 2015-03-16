@@ -21,8 +21,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns>Expression for creating instance of type <paramref name="type"/>.</returns>
         public CodeExpression Generate(ICodeDomContext context, Type type)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(type, "type");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(type, "type");
 
             if (context.Configuration.IsDirectObjectResolve())
                 return context.Registry.WithDependencyGenerator().Generate(context, type);

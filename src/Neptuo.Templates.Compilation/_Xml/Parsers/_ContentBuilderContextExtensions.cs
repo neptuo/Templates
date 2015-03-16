@@ -20,8 +20,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorInfo">Error description.</param>
         public static void AddError(this IContentBuilderContext context, IErrorInfo errorInfo)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(errorInfo, "errorInfo");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(errorInfo, "errorInfo");
             context.ParserContext.Errors.Add(errorInfo);
         }
 
@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Description of error.</param>
         public static void AddError(this IContentBuilderContext context, string errorText)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             context.AddError(new ErrorInfo(1, 1, errorText));
         }
 
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Description of error.</param>
         public static void AddError(this IContentBuilderContext context, int line, int column, string errorText)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             context.AddError(new ErrorInfo(line, column, errorText));
         }
 
@@ -57,8 +57,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Text description of the error.</param>
         public static void AddError(this IContentBuilderContext context, IXmlElement element, string errorText)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(element, "element");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(element, "element");
 
             ISourceLineInfo lineInfo = element as ISourceLineInfo;
             if (lineInfo != null)
@@ -75,8 +75,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Text description of the error.</param>
         public static void AddError(this IContentBuilderContext context, IXmlNode node, string errorText)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(node, "node");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(node, "node");
 
             if (node.NodeType == XmlNodeType.Element)
             {
@@ -99,8 +99,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Text description of the error.</param>
         public static void AddError(this IContentBuilderContext context, IXmlAttribute attribute, string errorText)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(attribute, "attribute");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(attribute, "attribute");
 
             ISourceLineInfo lineInfo = attribute as ISourceLineInfo;
             if (lineInfo != null)
@@ -117,7 +117,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
         public static ICodeObject TryProcessContent(this IContentBuilderContext context, ISourceContent content)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return context.ParserContext.ParserService.ProcessContent(
                 context.ParserContext.Name,
                 content,
@@ -133,8 +133,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Parser code objects; <c>null</c> otherwise.</returns>
         public static IEnumerable<ICodeObject> TryProcessContentNodes(this IContentBuilderContext context, IEnumerable<IXmlNode> nodes)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(nodes, "nodes");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(nodes, "nodes");
 
             CodeObjectList result = new CodeObjectList();
             foreach (IXmlNode node in nodes)
@@ -157,7 +157,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
         public static ICodeObject TryProcessValue(this IContentBuilderContext context, ISourceContent value)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
 
             return context.ParserContext.ParserService.ProcessValue(
                 context.ParserContext.Name,
@@ -199,7 +199,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Parsed property descriptors.</returns>
         public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return context.Registry.WithPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
         }
 
@@ -212,7 +212,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Parsed property descriptors.</returns>
         public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return context.Registry.WithContentPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), content);
         }
     }

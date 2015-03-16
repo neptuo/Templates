@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <returns><paramref name="list"/>.</returns>
         public static CodeObjectList AddPlainValue(this CodeObjectList list, object value)
         {
-            Guard.NotNull(list, "list");
+            Ensure.NotNull(list, "list");
             list.Add(new PlainValueCodeObject(value));
             return list;
         }
@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <returns><paramref name="list"/>.</returns>
         public static CodeObjectList AddComment(this CodeObjectList list, string commentText)
         {
-            Guard.NotNull(list, "list");
+            Ensure.NotNull(list, "list");
             list.Add(new CommentCodeObject(commentText));
             return list;
         }

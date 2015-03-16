@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation
         /// <param name="name">User defined name of the property.</param>
         public PropertyAttribute(string name)
         {
-            Guard.NotNullOrEmpty(name, "name");
+            Ensure.NotNullOrEmpty(name, "name");
             Name = name;
         }
     }

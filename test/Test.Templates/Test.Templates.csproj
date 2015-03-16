@@ -82,7 +82,6 @@
     <Compile Include="UI\LiteralControl.cs" />
     <Compile Include="UI\Models\PersonModel.cs" />
     <Compile Include="UI\PanelControl.cs" />
-    <Compile Include="UI\SimpleContainer\SimpleObjectBuilder.cs" />
     <Compile Include="UI\TextBoxControl.cs" />
     <Compile Include="UI\ViewTemplateContent.cs" />
     <Compile Include="UI\VisibleObserver.cs" />

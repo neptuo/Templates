@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomDefaultNaming(string namespaceName, string className)
         {
-            Guard.NotNullOrEmpty(className, "className");
+            Ensure.NotNullOrEmpty(className, "className");
             NamespaceName = namespaceName;
             ClassName = className;
 

@@ -22,9 +22,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public XmlContentBuilderContext(IContentParserContext parserContext, XmlContentParser parser, IParserRegistry registry)
         {
-            Guard.NotNull(parserContext, "parserContext");
-            Guard.NotNull(parser, "parser");
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(parserContext, "parserContext");
+            Ensure.NotNull(parser, "parser");
+            Ensure.NotNull(registry, "registry");
             ParserContext = parserContext;
             CustomValues = new Dictionary<string, object>();
             Parser = parser;

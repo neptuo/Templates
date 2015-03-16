@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using Neptuo;
+using Neptuo.Activators;
 
 namespace Test.Templates
 {
@@ -40,8 +41,8 @@ namespace Test.Templates
         /// </summary>
         public void Init(IDependencyProvider dependencyProvider, IComponentManager componentManager)
         {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
-            Guard.NotNull(componentManager, "componentManager");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(componentManager, "componentManager");
             this.dependencyProvider = dependencyProvider;
             this.componentManager = componentManager;
             componentManager.AddComponent(this, BindView);
@@ -50,7 +51,7 @@ namespace Test.Templates
 
         public void OnInit(IComponentManager componentManager)
         {
-            Guard.NotNull(componentManager, "componentManager");
+            Ensure.NotNull(componentManager, "componentManager");
 
             foreach (object item in Content)
                 componentManager.Init(item);
@@ -62,7 +63,7 @@ namespace Test.Templates
         /// <param name="writer">Output writer.</param>
         public void Render(IHtmlWriter writer)
         {
-            Guard.NotNull(writer, "writer");
+            Ensure.NotNull(writer, "writer");
 
             foreach (object item in Content)
                 componentManager.Render(item, writer);
@@ -85,7 +86,7 @@ namespace Test.Templates
         /// <returns><see cref="IValueExtensionContext"/> for <paramref name="targetObject"/> and <paramref name="targetProperty"/>.</returns>
         protected IValueExtensionContext CreateValueExtensionContext(object targetObject, string targetProperty)
         {
-            Guard.NotNull(targetObject, "targetObject");
+            Ensure.NotNull(targetObject, "targetObject");
 
             PropertyInfo propertyInfo = null;
             if (!String.IsNullOrEmpty(targetProperty))

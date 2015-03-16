@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="generator">Generator to setup.</param>
         public static CodeDomDefaultStructureGenerator SetBaseType<T>(this CodeDomDefaultStructureGenerator generator)
         {
-            Guard.NotNull(generator, "generator");
+            Ensure.NotNull(generator, "generator");
             generator.BaseType = new CodeTypeReference(typeof(T));
             return generator;
         }
@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="generator">Generator to setup.</param>
         public static CodeDomDefaultStructureGenerator AddInterface<T>(this CodeDomDefaultStructureGenerator generator)
         {
-            Guard.NotNull(generator, "generator");
+            Ensure.NotNull(generator, "generator");
             generator.ImplementedInterfaces.Add(new CodeTypeReference(typeof(T)));
             return generator;
         }
@@ -40,8 +40,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="entryPointName">Name of the entry point method.</param>
         public static CodeDomDefaultStructureGenerator SetEntryPointName(this CodeDomDefaultStructureGenerator generator, string entryPointName)
         {
-            Guard.NotNull(generator, "generator");
-            Guard.NotNullOrEmpty(entryPointName, "entryPointName");
+            Ensure.NotNull(generator, "generator");
+            Ensure.NotNullOrEmpty(entryPointName, "entryPointName");
             generator.EntryPointName = entryPointName;
             return generator;
         }
@@ -54,9 +54,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="parameterName">Name of the parameter.</param>
         public static CodeDomDefaultStructureGenerator AddEntryPointParameter(this CodeDomDefaultStructureGenerator generator, CodeTypeReference parameterType, string parameterName)
         {
-            Guard.NotNull(generator, "generator");
-            Guard.NotNull(parameterType, "parameterType");
-            Guard.NotNullOrEmpty(parameterName, "parameterName");
+            Ensure.NotNull(generator, "generator");
+            Ensure.NotNull(parameterType, "parameterType");
+            Ensure.NotNullOrEmpty(parameterName, "parameterName");
             generator.EntryPointParameters.Add(new CodeParameterDeclarationExpression(parameterType, parameterName));
             return generator;
         }

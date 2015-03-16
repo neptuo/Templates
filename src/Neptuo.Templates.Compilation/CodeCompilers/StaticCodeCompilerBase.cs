@@ -1,4 +1,5 @@
-﻿using Neptuo.Compilers;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.Compilers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,53 +15,52 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
     public abstract class StaticCodeCompilerBase : ICodeCompiler, ICompilerConfiguration
     {
         private readonly CompilerFactory compilerFactory;
-        private readonly string tempDirectory;
 
         /// <summary>
-        /// Whether debug mode is on/off (.cs saving, pdb generation, etc.)
+        /// Creates new instance.
         /// </summary>
-        public bool IsDebugMode
+        public StaticCodeCompilerBase()
         {
-            get { return compilerFactory.IsDebugMode; }
-            set { compilerFactory.IsDebugMode = value; }
-        }
-
-        /// <summary>
-        /// Compiler references.
-        /// </summary>
-        public CompilerReferenceCollection References
-        {
-            get { return compilerFactory.References; }
-        }
-
-        /// <summary>
-        /// Creates new instance which stores temp files to the <paramref name="tempDirectory"/>.
-        /// </summary>
-        /// <param name="tempDirectory">Directory for storing temp files (.cs, .dll, .pdb, etc).</param>
-        public StaticCodeCompilerBase(string tempDirectory)
-        {
-            Guard.NotNullOrEmpty(tempDirectory, "tempDirectory");
-
-            if (!Directory.Exists(tempDirectory))
-                throw Guard.Exception.ArgumentDirectoryNotExist(tempDirectory, "tempDirectory");
-
             this.compilerFactory = new CompilerFactory();
-            this.tempDirectory = tempDirectory;
         }
 
         public object Compile(TextReader sourceCode, ICodeCompilerContext context)
         {
-            return Compile(compilerFactory.CreateStatic(), tempDirectory, sourceCode, context);
+            return Compile(compilerFactory.CreateStatic(), sourceCode, context);
         }
 
         /// <summary>
-        /// Should try to compile <paramref name="sourceCode"/> into <paramref name="tempDirectory"/> using <paramref name="compiler"/>.
+        /// Should try to compile <paramref name="sourceCode"/> using <paramref name="compiler"/>.
         /// </summary>
         /// <param name="compiler">C# code compiler.</param>
-        /// <param name="tempDirectory">Directory for storing temp files (.cs, .dll, .pdb, etc).</param>
         /// <param name="sourceCode">C# source code.</param>
         /// <param name="context">Code compiler context.</param>
         /// <returns>Compiled view instance.</returns>
-        protected abstract object Compile(IStaticCompiler compiler, string tempDirectory, TextReader sourceCode, ICodeCompilerContext context);
+        protected abstract object Compile(IStaticCompiler compiler, TextReader sourceCode, ICodeCompilerContext context);
+
+        public IKeyValueCollection Set(string key, object value)
+        {
+            compilerFactory.Set(key, value);
+            return this;
+        }
+
+        #region ICompilerConfiguration
+
+        public IEnumerable<string> Keys
+        {
+            get { return compilerFactory.Keys; }
+        }
+
+        public bool TryGet<T>(string key, out T value)
+        {
+            return compilerFactory.TryGet(key, out value);
+        }
+
+        public ICompilerConfiguration Clone()
+        {
+            return compilerFactory.Clone();
+        }
+
+        #endregion
     }
 }

@@ -9,6 +9,8 @@ using Test.Templates.UI.Data;
 using Test.Templates.UI.Converters;
 using Test.Templates.Runtime;
 using Test.Templates.UI.Models;
+using System;
+using Neptuo.Activators;
 
 namespace Test.Templates.SharpKit.WebSite
 {
@@ -21,10 +23,11 @@ namespace Test.Templates.SharpKit.WebSite
         }
         static void btnTest_click(DOMEvent e)
         {
-            IDependencyContainer container = new SimpleObjectBuilder();
-            container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
-            container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
-            container.RegisterInstance<IComponentManager>(new ComponentManager());
+            throw new NotImplementedException();
+            IDependencyContainer container = null;
+            //container.RegisterInstance<DataStorage>(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
+            //container.RegisterInstance<IValueConverterService>(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
+            //container.RegisterInstance<IComponentManager>(new ComponentManager());
 
             StringWriter writer = new StringWriter();
 

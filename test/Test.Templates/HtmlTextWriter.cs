@@ -55,7 +55,7 @@ namespace Test.Templates
 
         public HtmlTextWriter(TextWriter innerWriter)
         {
-            Guard.NotNull(innerWriter, "innerWriter");
+            Ensure.NotNull(innerWriter, "innerWriter");
             InnerWriter = innerWriter;
             OpenTags = new Stack<string>();
         }
@@ -91,7 +91,7 @@ namespace Test.Templates
         /// <returns>This.</returns>
         public virtual IHtmlWriter Tag(string name)
         {
-            Guard.NotNullOrEmpty(name, "name");
+            Ensure.NotNullOrEmpty(name, "name");
             EnsureCloseOpeningTag();
 
             CanWriteAttribute = true;
@@ -132,7 +132,7 @@ namespace Test.Templates
         /// <returns>This.</returns>
         public virtual IHtmlWriter Attribute(string name, string value)
         {
-            Guard.NotNullOrEmpty(name, "name");
+            Ensure.NotNullOrEmpty(name, "name");
 
             if (!CanWriteAttribute)
                 throw new HtmlTextWriterException("Unnable to write attribute in current state!");

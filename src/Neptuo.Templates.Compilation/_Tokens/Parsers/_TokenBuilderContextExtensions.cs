@@ -21,8 +21,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorInfo">Error description.</param>
         public static void AddError(this ITokenBuilderContext context, IErrorInfo errorInfo)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(errorInfo, "errorInfo");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(errorInfo, "errorInfo");
             context.ParserContext.Errors.Add(errorInfo);
         }
 
@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Description of error.</param>
         public static void AddError(this ITokenBuilderContext context, string errorText)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             context.AddError(new ErrorInfo(1, 1, errorText));
         }
 
@@ -46,7 +46,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Description of error.</param>
         public static void AddError(this ITokenBuilderContext context, int line, int column, string errorText)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             context.AddError(new ErrorInfo(line, column, errorText));
         }
 
@@ -58,8 +58,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Text description of the error.</param>
         public static void AddError(this ITokenBuilderContext context, Token token, string errorText)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(token, "token");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(token, "token");
             AddError(context, token.LineIndex, token.ColumnIndex, errorText);
         }
 
@@ -71,8 +71,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Text description of the error.</param>
         public static void AddError(this ITokenBuilderContext context, TokenAttribute tokenAttribute, string errorText)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(tokenAttribute, "token");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(tokenAttribute, "token");
             AddError(context, tokenAttribute.OwnerToken.LineIndex, tokenAttribute.OwnerToken.ColumnIndex, errorText);
         }
 
@@ -115,7 +115,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Parsed property descriptors.</returns>
         public static IEnumerable<ICodeProperty> TryProcessProperty(this ITokenBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return context.Registry
                 .WithPropertyBuilder()
                 .TryParse(new PropertyBuilderContext(context.ParserContext.Name, context.ParserContext, context.ParserContext.ParserService, propertyInfo), value);

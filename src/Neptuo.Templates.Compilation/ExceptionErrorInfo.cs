@@ -24,7 +24,7 @@ namespace Neptuo.Templates.Compilation
         public ExceptionErrorInfo(Exception exception)
             : base(1, 1, null, exception.Message)
         {
-            Guard.NotNull(exception, "exception");
+            Ensure.NotNull(exception, "exception");
             Exception = exception; 
         }
 
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation
         public ExceptionErrorInfo(int line, int column, Exception exception)
             : base(line, column, null, exception.Message)
         {
-            Guard.NotNull(exception, "exception");
+            Ensure.NotNull(exception, "exception");
             Exception = exception;
         }
     }

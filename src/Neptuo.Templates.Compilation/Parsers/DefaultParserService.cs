@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IList<IContentParser> GetContentParsers(string name)
         {
-            Guard.NotNull(name, "name");
+            Ensure.NotNull(name, "name");
 
             List<IContentParser> namedParsers;
             if (!contentParsers.TryGetValue(name, out namedParsers))
@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IList<IValueParser> GetValueParsers(string name)
         {
-            Guard.NotNull(name, "name");
+            Ensure.NotNull(name, "name");
 
             List<IValueParser> namedParsers;
             if (!valueParsers.TryGetValue(name, out namedParsers))
@@ -45,8 +45,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
         {
-            Guard.NotNull(content, "content");
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(content, "content");
+            Ensure.NotNull(context, "context");
 
             List<IContentParser> namedParsers;
             if (!contentParsers.TryGetValue(name, out namedParsers))
@@ -67,8 +67,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public ICodeObject ProcessValue(string name, ISourceContent value, IParserServiceContext context)
         {
-            Guard.NotNull(value, "value");
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(value, "value");
+            Ensure.NotNull(context, "context");
 
             List<IValueParser> namedParsers;
             if (!valueParsers.TryGetValue(name, out namedParsers))

@@ -25,8 +25,8 @@ namespace Neptuo.Templates.Compilation
         /// <returns>Self (for fluency).</returns>
         public DefaultPipelineDispatcher Add<TService>(string sourceName, string targetName)
         {
-            Guard.NotNull(sourceName, "sourceName");
-            Guard.NotNull(targetName, "targetName");
+            Ensure.NotNull(sourceName, "sourceName");
+            Ensure.NotNull(targetName, "targetName");
 
             Type serviceType = typeof(TService);
             Dictionary<string, string> subStorage;
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.Compilation
         /// <returns>Target pipeline name.</returns>
         public string Dispatch<TService>(string sourceName)
         {
-            Guard.NotNull(sourceName, "sourceName");
+            Ensure.NotNull(sourceName, "sourceName");
 
             Type serviceType = typeof(TService);
             Dictionary<string, string> subStorage;

@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomVisitorRegistry AddVisitor(ICodeDomVisitor visitor)
         {
-            Guard.NotNull(visitor, "visitor");
+            Ensure.NotNull(visitor, "visitor");
             storage.Add(visitor);
             return this;
         }

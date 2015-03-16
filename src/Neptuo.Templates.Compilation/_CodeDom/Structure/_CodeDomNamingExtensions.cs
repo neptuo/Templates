@@ -10,14 +10,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         public static string FormatFileName(this ICodeDomNaming naming, string fileExtension)
         {
-            Guard.NotNull(naming, "naming");
+            Ensure.NotNull(naming, "naming");
             return String.Format("{0}.{1}", naming.ClassName, fileExtension);
         }
         #region AssemblyFileName
 
         public static CodeDomDefaultNaming AddAssemblyFileName(this CodeDomDefaultNaming naming, string assemblyFileName)
         {
-            Guard.NotNull(naming, "naming");
+            Ensure.NotNull(naming, "naming");
             return naming.AddCustomValue("AssemblyFileName", assemblyFileName);
         }
 
@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static string AssemblyName(this ICodeDomNaming naming)
         {
-            Guard.NotNull(naming, "naming");
+            Ensure.NotNull(naming, "naming");
 
             string fileName;
             if (!TryGetAssemblyFileName(naming, out fileName))
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static CodeDomDefaultNaming AddSourceFileName(this CodeDomDefaultNaming naming, string sourceFileName)
         {
-            Guard.NotNull(naming, "naming");
+            Ensure.NotNull(naming, "naming");
             return naming.AddCustomValue("SourceFileName", sourceFileName);
         }
 
@@ -54,7 +54,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static string SourceFileName(this ICodeDomNaming naming)
         {
-            Guard.NotNull(naming, "naming");
+            Ensure.NotNull(naming, "naming");
 
             string fileName;
             if (!TryGetSourceFileName(naming, out fileName))

@@ -20,17 +20,17 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomDefaultStructure(ICodeDomNaming naming)
         {
-            Guard.NotNull(naming, "naming");
+            Ensure.NotNull(naming, "naming");
             Naming = naming;
         }
 
         public CodeDomDefaultStructure(ICodeDomNaming naming, CodeCompileUnit unit, CodeTypeDeclaration classDeclaration, CodeConstructor constructor, CodeEntryPointMethod entryPoint)
             : this(naming)
         {
-            Guard.NotNull(unit, "unit");
-            Guard.NotNull(classDeclaration, "classDeclaration");
-            Guard.NotNull(constructor, "constructor");
-            Guard.NotNull(entryPoint, "entryPoint");
+            Ensure.NotNull(unit, "unit");
+            Ensure.NotNull(classDeclaration, "classDeclaration");
+            Ensure.NotNull(constructor, "constructor");
+            Ensure.NotNull(entryPoint, "entryPoint");
             Unit = unit;
             Class = classDeclaration;
             Constructor = constructor;

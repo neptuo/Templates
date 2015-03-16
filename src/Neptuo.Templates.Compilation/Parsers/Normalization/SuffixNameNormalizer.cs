@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Normalization
 
         public SuffixNameNormalizer(params string[] nameSuffixes)
         {
-            Guard.NotNull(nameSuffixes, "nameSuffixes");
+            Ensure.NotNull(nameSuffixes, "nameSuffixes");
             this.nameSuffixes = nameSuffixes;
         }
 

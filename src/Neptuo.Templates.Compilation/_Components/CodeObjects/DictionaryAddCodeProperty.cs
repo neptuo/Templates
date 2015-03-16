@@ -15,15 +15,15 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 
         public DictionaryAddCodeProperty(IPropertyInfo property)
         {
-            Guard.NotNull(property, "property");
+            Ensure.NotNull(property, "property");
             Property = property;
             Values = new Dictionary<ICodeObject, ICodeObject>();
         }
 
         public void SetValue(ICodeObject key, ICodeObject value)
         {
-            Guard.NotNull(key, "key");
-            Guard.NotNull(value, "value");
+            Ensure.NotNull(key, "key");
+            Ensure.NotNull(value, "value");
             Values[key] = value;
         }
 

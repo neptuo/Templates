@@ -20,8 +20,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns><c>true</c> if <paramref name="attributeName"/> is defined on <paramref name="element"/>; <c>false</c> otherwise.</returns>
         public static bool HasAttribute(this IXmlElement element, string attributeName)
         {
-            Guard.NotNull(element, "element");
-            Guard.NotNullOrEmpty(attributeName, "attributeName");
+            Ensure.NotNull(element, "element");
+            Ensure.NotNullOrEmpty(attributeName, "attributeName");
             return element.Attributes.Any(a => a.Name == attributeName);
         }
 
@@ -33,8 +33,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Value of attribute; <c>null</c> if attribute is not found.</returns>
         public static string GetAttributeValue(this IXmlElement element, string attributeName)
         {
-            Guard.NotNull(element, "element");
-            Guard.NotNullOrEmpty(attributeName, "attributeName");
+            Ensure.NotNull(element, "element");
+            Ensure.NotNullOrEmpty(attributeName, "attributeName");
             IXmlAttribute attribute = element.Attributes.FirstOrDefault(a => a.Name == attributeName);
             if (attribute == null)
                 return null;
@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Value of the <paramref name="attribute"/> with line info updated.</returns>
         public static ISourceContent GetValue(this IXmlAttribute attribute)
         {
-            Guard.NotNull(attribute, "attribute");
+            Ensure.NotNull(attribute, "attribute");
             ISourceLineInfo lineInfo;
             ISourceLineInfo attributeLineInfo = attribute as ISourceLineInfo;
             if (attributeLineInfo != null)

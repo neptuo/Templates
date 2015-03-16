@@ -14,13 +14,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static CodeDomDefaultPropertyContext AddFieldType(this CodeDomDefaultPropertyContext context, Type fieldType)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return context.AddCustomValue("FieldType", fieldType);
         }
 
         public static bool TryGetFieldType(this ICodeDomPropertyContext context, out Type fieldType)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return context.CustomValues.TryGet<Type>("FieldType", out fieldType);
         }
 

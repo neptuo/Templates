@@ -25,14 +25,14 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public DefaultLiteralControlBuilder(string textProperty)
         {
-            Guard.NotNullOrEmpty(textProperty, "textProperty");
+            Ensure.NotNullOrEmpty(textProperty, "textProperty");
             this.literalControlType = typeof(T);
             this.textProperty = textProperty;
         }
 
         public override IEnumerable<ICodeObject> TryParseText(IContentBuilderContext context, string text)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             return new CodeObjectList().AddLiteral(literalControlType, textProperty, text);
         }
     }

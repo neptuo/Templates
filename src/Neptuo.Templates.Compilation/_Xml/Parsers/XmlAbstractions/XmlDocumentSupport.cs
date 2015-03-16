@@ -53,11 +53,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             public XmlNameNodeWrapper(XmlNodeType nodeType, string name)
                 : base(nodeType)
             {
-                Guard.NotNullOrEmpty(name, "name");
+                Ensure.NotNullOrEmpty(name, "name");
 
                 string[] parts = name.Split(NameSeparator);
                 if (parts.Length > 2)
-                    throw Guard.Exception.ArgumentOutOfRange("name", "Name must in format 'prefix:name' or 'name'!");
+                    throw Ensure.Exception.ArgumentOutOfRange("name", "Name must in format 'prefix:name' or 'name'!");
 
                 if (parts.Length == 1)
                 {

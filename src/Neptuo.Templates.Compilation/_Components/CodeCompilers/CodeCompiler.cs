@@ -1,4 +1,5 @@
-﻿using Neptuo.Compilers;
+﻿using Neptuo.Activators;
+using Neptuo.Compilers;
 using Neptuo.Reflection;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.ViewActivators;
@@ -17,23 +18,15 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
     /// </summary>
     public class CodeCompiler : StaticCodeCompilerBase, IViewActivator
     {
-        private readonly string tempDirectory;
-
-        public CodeCompiler(string tempDirectory)
-            : base(tempDirectory)
-        {
-            this.tempDirectory = tempDirectory;
-        }
-
-        protected override object Compile(IStaticCompiler compiler, string tempDirectory, TextReader sourceCode, ICodeCompilerContext context)
+        protected override object Compile(IStaticCompiler compiler, TextReader sourceCode, ICodeCompilerContext context)
         {
             ICodeDomNaming naming = context.DependencyProvider.Resolve<ICodeDomNaming>();
-            string assemblyFile = Path.Combine(tempDirectory, naming.ClassName);
-            string sourceFile = Path.Combine(tempDirectory, naming.SourceFileName());
+            string assemblyFile = Path.Combine(this.TempDirectory(), naming.ClassName);
+            string sourceFile = Path.Combine(this.TempDirectory(), naming.SourceFileName());
             string sourceContent = sourceCode.ReadToEnd();
             string typeFullName = naming.FullClassName;
             
-            if (IsDebugMode)
+            if (this.IsDebugMode())
                 File.WriteAllText(sourceFile, sourceContent);
 
             ICompilerResult result = compiler.FromSourceCode(sourceContent, assemblyFile);
@@ -49,7 +42,7 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         public object Activate(ISourceContent content, IViewActivatorContext context)
         {
             ICodeDomNaming naming = context.DependencyProvider.Resolve<ICodeDomNaming>();
-            string assemblyFile = Path.Combine(tempDirectory, naming.AssemblyName());
+            string assemblyFile = Path.Combine(this.TempDirectory(), naming.AssemblyName());
             string typeFullName = naming.FullClassName;
 
             return Activate(assemblyFile, typeFullName);

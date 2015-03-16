@@ -33,8 +33,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Self (fluently).</returns>
         public DefaultParserRegistry AddRegistry<T>(string name, T parser)
         {
-            Guard.NotNull(name, "name");
-            Guard.NotNull(parser, "parser");
+            Ensure.NotNull(name, "name");
+            Ensure.NotNull(parser, "parser");
             Type parserType = typeof(T);
 
             Dictionary<string, object> typeStorage;
@@ -52,7 +52,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool Has<T>(string name)
         {
-            Guard.NotNull(name, "name");
+            Ensure.NotNull(name, "name");
             Type parserType = typeof(T);
 
             Dictionary<string, object> typeStorage;
@@ -69,7 +69,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public T With<T>(string name)
         {
-            Guard.NotNull(name, "name");
+            Ensure.NotNull(name, "name");
             Type parserType = typeof(T);
 
             Dictionary<string, object> typeStorage;
@@ -80,7 +80,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     return (T)parser;
             }
 
-            throw Guard.Exception.ArgumentOutOfRange("T", "Unnable to resolve parser of type '{0}' from parser registry.", parserType.FullName);
+            throw Ensure.Exception.ArgumentOutOfRange("T", "Unnable to resolve parser of type '{0}' from parser registry.", parserType.FullName);
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="generator">Generator to process code properties of type <paramref name="codeObjectType"/>.</param>
         public CodeDomPropertyGeneratorRegistry AddGenerator(Type codeObjectType, ICodeDomPropertyGenerator generator)
         {
-            Guard.NotNull(codeObjectType, "codeObjectType");
-            Guard.NotNull(generator, "generator");
+            Ensure.NotNull(codeObjectType, "codeObjectType");
+            Ensure.NotNull(generator, "generator");
             storage[codeObjectType] = generator;
             return this;
         }
@@ -35,15 +35,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="searchHandler">Generator provider method.</param>
         public CodeDomPropertyGeneratorRegistry AddSearchHandler(Func<Type, ICodeDomPropertyGenerator> searchHandler)
         {
-            Guard.NotNull(searchHandler, "searchHandler");
+            Ensure.NotNull(searchHandler, "searchHandler");
             onSearchGenerator.Add(searchHandler);
             return this;
         }
 
         public ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ICodeProperty codeProperty)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(codeProperty, "codeProperty");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(codeProperty, "codeProperty");
             Type codePropertyType = codeProperty.GetType();
 
             ICodeDomPropertyGenerator generator;

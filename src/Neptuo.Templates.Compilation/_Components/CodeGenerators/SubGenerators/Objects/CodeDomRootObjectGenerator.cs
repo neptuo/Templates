@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="variableName">Name of the variable in bind method.</param>
         public CodeDomRootObjectGenerator(string variableName)
         {
-            Guard.NotNullOrEmpty(variableName, "variableName");
+            Ensure.NotNullOrEmpty(variableName, "variableName");
             this.variableName = variableName;
         }
 

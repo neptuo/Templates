@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 
         public ObserverCodeObject(Type type)
         {
-            Guard.NotNull(type, "type");
+            Ensure.NotNull(type, "type");
             Type = type;
             Properties = new List<ICodeProperty>();
         }

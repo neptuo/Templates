@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public TypeComponentDescriptor(Type type)
         {
-            Guard.NotNull(type, "type");
+            Ensure.NotNull(type, "type");
             this.type = type;
         }
 

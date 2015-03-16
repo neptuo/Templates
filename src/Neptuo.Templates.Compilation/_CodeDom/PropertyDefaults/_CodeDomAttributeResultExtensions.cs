@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><c>true</c> if <paramref name="result"/> has expression not <c>null</c>; otherwise returns <c>false</c>.</returns>
         public static bool HasExpression(this ICodeDomAttributeResult result)
         {
-            Guard.NotNull(result, "result");
+            Ensure.NotNull(result, "result");
             return result.Expression != null;
         }
     }

@@ -19,8 +19,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorInfo">Error description.</param>
         public static void AddError(this IPropertyBuilderContext context, IErrorInfo errorInfo)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(errorInfo, "errorInfo");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(errorInfo, "errorInfo");
             context.Errors.Add(errorInfo);
         }
 
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="errorText">Description of error.</param>
         public static void AddError(this IPropertyBuilderContext context, string errorText)
         {
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(context, "context");
             context.AddError(new ErrorInfo(1, 1, errorText));
         }
     }

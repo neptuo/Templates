@@ -20,8 +20,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomGenerator(ICodeDomRegistry registry, ICodeDomConfiguration configuration)
         {
-            Guard.NotNull(registry, "registry");
-            Guard.NotNull(configuration, "configuration");
+            Ensure.NotNull(registry, "registry");
+            Ensure.NotNull(configuration, "configuration");
             this.registry = registry;
             this.configuration = configuration;
         }
@@ -56,7 +56,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             WriteOutput(structure.Unit, context.Output);
 
             return true;
-            //throw Guard.Exception.NotImplemented();
+            //throw Ensure.Exception.NotImplemented();
         }
 
         private void WriteOutput(CodeCompileUnit unit, TextWriter writer)

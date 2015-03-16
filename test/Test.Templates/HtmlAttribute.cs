@@ -24,7 +24,7 @@ namespace Test.Templates
 
         public HtmlAttribute(string tagName)
         {
-            Guard.NotNullOrEmpty(tagName, "tagName");
+            Ensure.NotNullOrEmpty(tagName, "tagName");
             TagName = tagName;
         }
 

@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public CodeDomDefaultPropertyContext(ICodeDomContext context, CodeExpression propertyTarget)
             : base(context.GeneratorContext, context.Configuration, context.Structure, context.Registry)
         {
-            Guard.NotNull(propertyTarget, "propertyTarget");
+            Ensure.NotNull(propertyTarget, "propertyTarget");
             PropertyTarget = propertyTarget;
             customValues = new KeyValueCollection();
         }

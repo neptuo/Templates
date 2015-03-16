@@ -14,8 +14,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     {
         public static CodeStatementCollection AddRange(this CodeStatementCollection collection, IEnumerable<CodeStatement> statements)
         {
-            Guard.NotNull(collection, "collection");
-            Guard.NotNull(statements, "statements");
+            Ensure.NotNull(collection, "collection");
+            Ensure.NotNull(statements, "statements");
 
             foreach (CodeStatement statement in statements)
                 collection.Add(statement);
@@ -28,8 +28,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static CodeExpression AddReturnType(this CodeExpression expression, Type returnType)
         {
-            Guard.NotNull(expression, "expression");
-            Guard.NotNull(returnType, "returnType");
+            Ensure.NotNull(expression, "expression");
+            Ensure.NotNull(returnType, "returnType");
             expression.UserData["ReturnType"] = returnType;
             return expression;
         }
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             if (TryGetReturnType(expression, out returnType))
                 return returnType;
 
-            throw Guard.Exception.InvalidOperation("Return type was not specified on expression.");
+            throw Ensure.Exception.InvalidOperation("Return type was not specified on expression.");
         }
 
         #endregion

@@ -20,8 +20,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns><c>true</c> if <paramref name="attributeName"/> is defined on <paramref name="token"/>; <c>false</c> otherwise.</returns>
         public static bool HasAttribute(this Token token, string attributeName)
         {
-            Guard.NotNull(token, "element");
-            Guard.NotNullOrEmpty(attributeName, "attributeName");
+            Ensure.NotNull(token, "element");
+            Ensure.NotNullOrEmpty(attributeName, "attributeName");
             return token.Attributes.Any(a => a.Name == attributeName);
         }
 
@@ -33,8 +33,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Value of attribute; <c>null</c> if attribute is not found.</returns>
         public static string GetAttributeValue(this Token token, string attributeName)
         {
-            Guard.NotNull(token, "element");
-            Guard.NotNullOrEmpty(attributeName, "attributeName");
+            Ensure.NotNull(token, "element");
+            Ensure.NotNullOrEmpty(attributeName, "attributeName");
             TokenAttribute attribute = token.Attributes.FirstOrDefault(a => a.Name == attributeName);
             if (attribute == null)
                 return null;
@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Value of the <paramref name="attribute"/> with line info updated.</returns>
         public static ISourceContent GetValue(this TokenAttribute attribute)
         {
-            Guard.NotNull(attribute, "attribute");
+            Ensure.NotNull(attribute, "attribute");
             return new DefaultSourceContent(attribute.Value, attribute.OwnerToken);
         }
     }

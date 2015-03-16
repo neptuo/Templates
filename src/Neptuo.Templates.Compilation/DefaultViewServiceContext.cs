@@ -1,4 +1,5 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Activators;
+using Neptuo.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace Neptuo.Templates.Compilation
 
         public DefaultViewServiceContext(IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors = null)
         {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
         }

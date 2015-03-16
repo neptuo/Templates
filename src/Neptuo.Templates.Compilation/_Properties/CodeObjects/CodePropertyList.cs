@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 
         public CodePropertyList AddRange(IEnumerable<ICodeProperty> values)
         {
-            Guard.NotNull(values, "values");
+            Ensure.NotNull(values, "values");
 
             foreach (ICodeProperty value in values)
                 Add(value);
@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 
         protected override void InsertItem(int index, ICodeProperty item)
         {
-            Guard.NotNull(item, "item");
+            Ensure.NotNull(item, "item");
             base.InsertItem(index, item);
         }
     }

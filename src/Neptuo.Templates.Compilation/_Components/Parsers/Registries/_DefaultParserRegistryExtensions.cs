@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddTypeScanner(this DefaultParserRegistry registry, TypeScanner typeScanner)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<TypeScanner>(typeScanner);
         }
 
@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Registered instance of type scanner in <paramref name="registry"/>.</returns>
         public static TypeScanner WithTypeScanner(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<TypeScanner>();
         }
 
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry RunTypeScanner(this DefaultParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             registry.WithTypeScanner().Run();
             return registry;
         }
@@ -61,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Enumeration of all registered prefixes and namespaces.</returns>
         public static IEnumerable<NamespaceDeclaration> WithUsedNamespaces(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.WithTypeScanner().EnumerateUsedNamespaces();
         }
 
@@ -72,7 +72,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns><c>true</c> if <paramref name="registry"/> has registered enumeration of used prefixes and namespaces; otherwise <c>false</c>.</returns>
         public static bool HasUsedNamespaces(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.Has<TypeScanner>();
         }
 
@@ -89,7 +89,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddContentBuilderRegistry(this DefaultParserRegistry registry, ContentBuilderRegistry builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
 
             if (registry.Has<TypeScanner>())
             {
@@ -114,7 +114,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddContentBuilderRegistry(this DefaultParserRegistry registry, ContentBuilderRegistry builder, Func<string, Type, IContentBuilder> builderFactory)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
 
             if (registry.Has<TypeScanner>())
             {
@@ -137,7 +137,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddContentBuilder(this DefaultParserRegistry registry, IContentBuilder builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<IContentBuilder>(builder);
         }
 
@@ -148,7 +148,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Registered instance of content builder in <paramref name="registry"/>.</returns>
         public static IContentBuilder WithContentBuilder(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<IContentBuilder>();
         }
 
@@ -165,7 +165,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddTokenBuilder(this DefaultParserRegistry registry, TokenBuilderRegistry builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
 
             if (registry.Has<TypeScanner>())
             {
@@ -188,7 +188,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddTokenBuilder(this DefaultParserRegistry registry, ITokenBuilder builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ITokenBuilder>(builder);
         }
 
@@ -199,7 +199,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Registered instance of token builder in <paramref name="registry"/>.</returns>
         public static ITokenBuilder WithTokenBuilder(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ITokenBuilder>();
         }
 
@@ -215,7 +215,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddObserverBuilder(this DefaultParserRegistry registry, IObserverBuilder builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<IObserverBuilder>(builder);
         }
 
@@ -226,7 +226,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Registered instance of observer builder in <paramref name="registry"/>.</returns>
         public static IObserverBuilder WithObserverBuilder(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<IObserverBuilder>();
         }
 
@@ -242,7 +242,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddPropertyBuilder(this DefaultParserRegistry registry, IContentPropertyBuilder builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry
                 .AddRegistry<IContentPropertyBuilder>(builder)
                 .AddRegistry<IPropertyBuilder>(builder);
@@ -255,7 +255,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Registered instance of content property builder in <paramref name="registry"/>.</returns>
         public static IContentPropertyBuilder WithContentPropertyBuilder(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<IContentPropertyBuilder>();
         }
 
@@ -266,7 +266,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Registered instance of property builder in <paramref name="registry"/>.</returns>
         public static IPropertyBuilder WithPropertyBuilder(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<IContentPropertyBuilder>();
         }
 
@@ -282,7 +282,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
         public static DefaultParserRegistry AddLiteralBuilder(this DefaultParserRegistry registry, ILiteralBuilder builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ILiteralBuilder>(builder);
         }
 
@@ -293,7 +293,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <returns>Registered instance of literal builder in <paramref name="registry"/>.</returns>
         public static ILiteralBuilder WithLiteralBuilder(this IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ILiteralBuilder>();
         }
 

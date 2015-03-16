@@ -18,8 +18,8 @@ namespace Neptuo.Templates.Compilation
 
         public DefaultSourceContent(TextReader content, ISourceLineInfo globalSourceInfo)
         {
-            Guard.NotNull(content, "content");
-            Guard.NotNull(globalSourceInfo, "globalSourceInfo");
+            Ensure.NotNull(content, "content");
+            Ensure.NotNull(globalSourceInfo, "globalSourceInfo");
             TextContent = content.ReadToEnd();
             GlobalSourceInfo = globalSourceInfo;
         }
@@ -30,8 +30,8 @@ namespace Neptuo.Templates.Compilation
 
         public DefaultSourceContent(string textContent, ISourceLineInfo globalSourceInfo)
         {
-            Guard.NotNullOrEmpty(textContent, "content");
-            Guard.NotNull(globalSourceInfo, "globalSourceInfo");
+            Ensure.NotNullOrEmpty(textContent, "content");
+            Ensure.NotNull(globalSourceInfo, "globalSourceInfo");
             GlobalSourceInfo = globalSourceInfo;
             TextContent = textContent;
         }

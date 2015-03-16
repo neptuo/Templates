@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <returns><paramref name="list"/>.</returns>
         public static CodeObjectList AddLiteral(this CodeObjectList list, Type literalType, string textProperty, object value)
         {
-            Guard.NotNull(list, "list");
+            Ensure.NotNull(list, "list");
             list.Add(new LiteralCodeObject(literalType, textProperty, value));
             return list;
         }

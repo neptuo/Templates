@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation
 
         public ComponentAttribute(string name)
         {
-            Guard.NotNullOrEmpty(name, "name");
+            Ensure.NotNullOrEmpty(name, "name");
             Name = name;
         }
     }

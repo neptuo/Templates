@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public XmlContentParser(IParserRegistry registry, bool useLinqApi = false)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             this.registry = registry;
             UseLinqApi = useLinqApi;
         }
@@ -80,7 +80,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return TryProcessComment(context, text);
             }
 
-            throw Guard.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
+            throw Ensure.Exception.NotSupported("XmlContentParser supports only element, text or comment.");
         }
 
         protected virtual IEnumerable<ICodeObject> TryProcessElement(IContentBuilderContext context, IXmlElement element)

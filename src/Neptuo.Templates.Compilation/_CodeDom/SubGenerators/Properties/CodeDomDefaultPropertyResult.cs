@@ -23,13 +23,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomDefaultPropertyResult(IEnumerable<CodeStatement> statements)
         {
-            Guard.NotNull(statements, "statements");
+            Ensure.NotNull(statements, "statements");
             this.statements = new List<CodeStatement>(statements);
         }
 
         public CodeDomDefaultPropertyResult(params CodeStatement[] statements)
         {
-            Guard.NotNull(statements, "statements");
+            Ensure.NotNull(statements, "statements");
             this.statements = new List<CodeStatement>(statements);
         }
 
@@ -39,7 +39,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="statement">New statement to add to the collection.</param>
         public CodeDomDefaultPropertyResult AddStatement(CodeStatement statement)
         {
-            Guard.NotNull(statement, "statement");
+            Ensure.NotNull(statement, "statement");
             statements.Add(statement);
             return this;
         }

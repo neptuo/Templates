@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomDefaultAttributeResult(CodeExpression expression)
         {
-            Guard.NotNull(expression, "expression");
+            Ensure.NotNull(expression, "expression");
             Expression = expression;
         }
     }

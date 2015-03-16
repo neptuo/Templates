@@ -23,8 +23,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         public ContentPropertyBuilderRegistry AddBuilder(Type propertyType, IContentPropertyBuilder builder)
         {
-            Guard.NotNull(propertyType, "propertyType");
-            Guard.NotNull(builder, "builder");
+            Ensure.NotNull(propertyType, "propertyType");
+            Ensure.NotNull(builder, "builder");
 
             contentStorage[propertyType] = builder;
             return this;
@@ -35,8 +35,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         public ContentPropertyBuilderRegistry AddBuilder(Type propertyType, IPropertyBuilder builder)
         {
-            Guard.NotNull(propertyType, "propertyType");
-            Guard.NotNull(builder, "builder");
+            Ensure.NotNull(propertyType, "propertyType");
+            Ensure.NotNull(builder, "builder");
 
             storage[propertyType] = builder;
             return this;
@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="searchHandler">Builder provider method.</param>
         public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IContentPropertyBuilder> searchHandler)
         {
-            Guard.NotNull(searchHandler, "searchHandler");
+            Ensure.NotNull(searchHandler, "searchHandler");
             onSearchContentBuilder.Add(searchHandler);
             onSearchBuilder.Add(searchHandler);
             return this;
@@ -62,7 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="searchHandler">Builder provider method.</param>
         public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IPropertyBuilder> searchHandler)
         {
-            Guard.NotNull(searchHandler, "searchHandler");
+            Ensure.NotNull(searchHandler, "searchHandler");
             onSearchBuilder.Add(searchHandler);
             return this;
         }

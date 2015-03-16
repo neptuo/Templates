@@ -15,14 +15,14 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         public void AddVisitor(IVisitor visitor)
         {
-            Guard.NotNull(visitor, "visitor");
+            Ensure.NotNull(visitor, "visitor");
             visitors.Add(visitor);
         }
 
         public void Process(ICodeObject codeObject, IPreProcessorServiceContext context)
         {
-            Guard.NotNull(codeObject, "codeObject");
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(codeObject, "codeObject");
+            Ensure.NotNull(context, "context");
 
             foreach (IVisitor visitor in visitors)
                 visitor.Visit(codeObject, context.CreateVisitorContext(this));

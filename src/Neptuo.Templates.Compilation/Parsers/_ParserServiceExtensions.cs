@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="contentParser">Content parser.</param>
         public static IParserService AddContentParser(this IParserService parserService, string name, IContentParser contentParser)
         {
-            Guard.NotNull(parserService, "parserService");
+            Ensure.NotNull(parserService, "parserService");
             parserService.GetContentParsers(name).Insert(0, contentParser);
             return parserService;
         }
@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="valueParser">Value parser.</param>
         public static IParserService AddValueParser(this IParserService parserService, string name, IValueParser valueParser)
         {
-            Guard.NotNull(parserService, "parserService");
+            Ensure.NotNull(parserService, "parserService");
             parserService.GetValueParsers(name).Insert(0, valueParser);
             return parserService;
         }

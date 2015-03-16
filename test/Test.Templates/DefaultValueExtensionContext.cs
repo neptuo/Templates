@@ -1,4 +1,5 @@
 ﻿using Neptuo;
+using Neptuo.Activators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,9 @@ namespace Test.Templates
 
         public DefaultValueExtensionContext(object targetObject, PropertyInfo targetProperty, IDependencyProvider dependencyProvider)
         {
-            Guard.NotNull(targetObject, "targetObject");
-            Guard.NotNull(targetProperty, "targetProperty");
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(targetObject, "targetObject");
+            Ensure.NotNull(targetProperty, "targetProperty");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
             TargetObject = targetObject;
             TargetProperty = targetProperty;
             DependencyProvider = dependencyProvider;

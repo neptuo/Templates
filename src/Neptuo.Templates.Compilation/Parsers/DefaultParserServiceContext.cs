@@ -1,4 +1,5 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Activators;
+using Neptuo.ComponentModel;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
@@ -17,20 +18,20 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public DefaultParserServiceContext(IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors = null)
         {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
         }
 
         public IContentParserContext CreateContentContext(string name, IParserService service)
         {
-            Guard.NotNull(service, "service");
+            Ensure.NotNull(service, "service");
             return new DefaultParserContext(name, service, this);
         }
 
         public IValueParserContext CreateValueContext(string name, IParserService service)
         {
-            Guard.NotNull(service, "service");
+            Ensure.NotNull(service, "service");
             return new DefaultParserContext(name, service, this);
         }
     }

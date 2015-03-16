@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public TokenValueParser(IParserRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             this.registry = registry;
         }
 

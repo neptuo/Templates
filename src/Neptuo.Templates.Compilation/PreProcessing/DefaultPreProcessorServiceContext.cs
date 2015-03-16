@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Activators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,13 +15,13 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         public DefaultPreProcessorServiceContext(IDependencyProvider dependencyProvider)
         {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
             DependencyProvider = dependencyProvider;
         }
 
         public IVisitorContext CreateVisitorContext(IPreProcessorService service)
         {
-            Guard.NotNull(service, "service");
+            Ensure.NotNull(service, "service");
             return new DefaultVisitorContext(DependencyProvider, service);
         }
     }

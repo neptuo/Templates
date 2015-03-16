@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Activators;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
@@ -72,7 +73,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         protected virtual CodeMemberMethod CreateEntryPoint(ICodeDomNaming naming, ICodeGeneratorContext context)
         {
             if (String.IsNullOrEmpty(EntryPointName))
-                throw Guard.Exception.NotImplemented("Provide entry point method name of override CreateEntryPoint method.");
+                throw Ensure.Exception.NotImplemented("Provide entry point method name of override CreateEntryPoint method.");
 
             CodeMemberMethod entryPoint = new CodeMemberMethod
             {

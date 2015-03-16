@@ -19,16 +19,16 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         public void Visit(ICodeProperty codeProperty, IVisitorContext context)
         {
-            Guard.NotNull(codeProperty, "codeProperty");
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(codeProperty, "codeProperty");
+            Ensure.NotNull(context, "context");
             Context = context;
             Visit(codeProperty);
         }
 
         public void Visit(ICodeObject codeObject, IVisitorContext context)
         {
-            Guard.NotNull(codeObject, "codeObject");
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(codeObject, "codeObject");
+            Ensure.NotNull(context, "context");
             Context = context;
             Visit(codeObject);
         }

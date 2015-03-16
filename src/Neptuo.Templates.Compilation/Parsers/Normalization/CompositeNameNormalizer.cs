@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Normalization
 
         public CompositeNameNormalizer(params INameNormalizer[] innerNormalizers)
         {
-            Guard.NotNull(innerNormalizers, "innerNormalizers");
+            Ensure.NotNull(innerNormalizers, "innerNormalizers");
             this.innerNormalizers = innerNormalizers;
         }
 

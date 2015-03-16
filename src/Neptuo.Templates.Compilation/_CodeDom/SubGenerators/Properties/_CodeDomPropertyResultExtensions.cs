@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><c>true</c> if <paramref name="result"/> has statement; otherwise returns <c>false</c>.</returns>
         public static bool HasStatement(this ICodeDomPropertyResult result)
         {
-            Guard.NotNull(result, "result");
+            Ensure.NotNull(result, "result");
             return result.Statements.Any();
         }
     }

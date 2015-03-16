@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="properties">List of all properties keyed by its name.</param>
         public BindPropertiesContext(Dictionary<string, IPropertyInfo> properties)
         {
-            Guard.NotNull(properties, "properties");
+            Ensure.NotNull(properties, "properties");
             Properties = properties;
             BoundProperties = new HashSet<string>();
             UnboundAttributes = new List<T>();
@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public BindPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
             : this(componentDescriptor, nameNormalizer)
         {
-            Guard.NotNull(codeObject, "codeObject");
+            Ensure.NotNull(codeObject, "codeObject");
             foreach (ICodeProperty codeProperty in codeObject.Properties)
                 BoundProperties.Add(nameNormalizer.PrepareName(codeProperty.Property.Name));
         }

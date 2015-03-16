@@ -18,10 +18,10 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomDefaultContext(ICodeGeneratorContext generatorContext, ICodeDomConfiguration configuration, ICodeDomStructure structure, ICodeDomRegistry registry)
         {
-            Guard.NotNull(generatorContext, "generatorContext");
-            Guard.NotNull(configuration, "configuration");
-            Guard.NotNull(structure, "structure");
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(generatorContext, "generatorContext");
+            Ensure.NotNull(configuration, "configuration");
+            Ensure.NotNull(structure, "structure");
+            Ensure.NotNull(registry, "registry");
             GeneratorContext = generatorContext;
             Configuration = configuration;
             Structure = structure;

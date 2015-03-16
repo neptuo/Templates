@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomDefaultRegistry AddRegistry<T>(T generator)
         {
-            Guard.NotNull(generator, "generator");
+            Ensure.NotNull(generator, "generator");
             storage[typeof(T)] = generator;
             return this;
         }
@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             Type generatorType = typeof(T);
             object generator;
             if (!storage.TryGetValue(generatorType, out generator))
-                throw Guard.Exception.ArgumentOutOfRange("T", "Unnable to resolve generator of type '{0}' from code dom registry.", generatorType.FullName);
+                throw Ensure.Exception.ArgumentOutOfRange("T", "Unnable to resolve generator of type '{0}' from code dom registry.", generatorType.FullName);
 
             return (T)generator;
         }

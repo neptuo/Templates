@@ -94,9 +94,9 @@ namespace Neptuo.Templates.Compilation
 
         public object ProcessContent(string name, ISourceContent content, IViewServiceContext context)
         {
-            Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNull(content, "content");
-            Guard.NotNull(context, "context");
+            Ensure.NotNullOrEmpty(name, "name");
+            Ensure.NotNull(content, "content");
+            Ensure.NotNull(context, "context");
 
             // Try already compiled view.
             object compiledView = ExecuteActivatorService(name, content, context);

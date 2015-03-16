@@ -21,20 +21,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddObjectGenerator(this CodeDomDefaultRegistry registry, ICodeDomObjectGenerator generator)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ICodeDomObjectGenerator>(generator);
         }
 
         public static CodeDomObjectGeneratorRegistry AddGenerator<TCodeObject>(this CodeDomObjectGeneratorRegistry registry, ICodeDomObjectGenerator generator)
             where TCodeObject : ICodeObject
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddGenerator(typeof(TCodeObject), generator);
         }
 
         public static ICodeDomObjectGenerator WithObjectGenerator(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomObjectGenerator>();
         }
 
@@ -51,20 +51,20 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddPropertyGenerator(this CodeDomDefaultRegistry registry, ICodeDomPropertyGenerator generator)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ICodeDomPropertyGenerator>(generator);
         }
 
         public static CodeDomPropertyGeneratorRegistry AddGenerator<TCodeObject>(this CodeDomPropertyGeneratorRegistry registry, ICodeDomPropertyGenerator generator)
             where TCodeObject : ICodeProperty
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddGenerator(typeof(TCodeObject), generator);
         }
 
         public static ICodeDomPropertyGenerator WithPropertyGenerator(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomPropertyGenerator>();
         }
 
@@ -80,13 +80,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddStructureGenerator(this CodeDomDefaultRegistry registry, ICodeDomStructureGenerator generator)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ICodeDomStructureGenerator>(generator);
         }
 
         public static ICodeDomStructureGenerator WithStructureGenerator(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomStructureGenerator>();
         }
 
@@ -102,13 +102,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddDependencyGenerator(this CodeDomDefaultRegistry registry, ICodeDomDependencyGenerator generator)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ICodeDomDependencyGenerator>(generator);
         }
 
         public static ICodeDomDependencyGenerator WithDependencyGenerator(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomDependencyGenerator>();
         }
 
@@ -124,13 +124,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddTypeConversionGenerator(this CodeDomDefaultRegistry registry, ICodeDomTypeConversionGenerator generator)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ICodeDomTypeConversionGenerator>(generator);
         }
 
         public static ICodeDomTypeConversionGenerator WithConversionGenerator(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomTypeConversionGenerator>();
         }
 
@@ -146,13 +146,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddAttributeGenerator(this CodeDomDefaultRegistry registry, ICodeDomAttributeGenerator generator)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<ICodeDomAttributeGenerator>(generator);
         }
 
         public static CodeDomAttributeGeneratorRegistry AddGenerator<TAttribute>(this CodeDomAttributeGeneratorRegistry registry, ICodeDomAttributeGenerator generator)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddGenerator(typeof(TAttribute), generator);
         }
 
@@ -163,7 +163,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static ICodeDomAttributeGenerator WithAttributeGenerator(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomAttributeGenerator>();
         }
 
@@ -180,13 +180,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddVisitor(this CodeDomDefaultRegistry registry, ICodeDomVisitor visitor)
         {
-            Guard.NotNull(registry, "visitor");
+            Ensure.NotNull(registry, "visitor");
             return registry.AddRegistry<ICodeDomVisitor>(visitor);
         }
 
         public static ICodeDomVisitor WithVisitor(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomVisitor>();
         }
 
@@ -203,13 +203,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns><paramref name="registry"/>.</returns>
         public static CodeDomDefaultRegistry AddUnboundPropertyTypeGenerator(this CodeDomDefaultRegistry registry, ICodeDomPropertyTypeGenerator generator)
         {
-            Guard.NotNull(registry, "visitor");
+            Ensure.NotNull(registry, "visitor");
             return registry.AddRegistry<ICodeDomPropertyTypeGenerator>(generator);
         }
 
         public static ICodeDomPropertyTypeGenerator WithUnboundPropertyType(this ICodeDomRegistry registry)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.With<ICodeDomPropertyTypeGenerator>();
         }
 

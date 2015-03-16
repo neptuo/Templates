@@ -42,7 +42,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         /// <param name="typeNameNormalizer">Name normalizer for scanned types.</param>
         public TypeScanner(INameNormalizer typeNameNormalizer)
         {
-            Guard.NotNull(typeNameNormalizer, "typeNameNormalizer");
+            Ensure.NotNull(typeNameNormalizer, "typeNameNormalizer");
             this.typeNameNormalizer = typeNameNormalizer;
         }
 
@@ -70,7 +70,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         /// <returns>Self (fluently).</returns>
         public TypeScanner AddAssembly(string prefix, string namespaceName, string assemblyFile)
         {
-            Guard.NotNullOrEmpty(assemblyFile, "assemblyFile");
+            Ensure.NotNullOrEmpty(assemblyFile, "assemblyFile");
 
             if (String.IsNullOrEmpty(namespaceName))
                 namespaceName = AllNamespaceWildcard;
@@ -92,7 +92,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         /// <returns>Self (fluently).</returns>
         public TypeScanner AddTypeFilter(Func<Type, bool> filter)
         {
-            Guard.NotNull(filter, "filter");
+            Ensure.NotNull(filter, "filter");
             filters.Add(filter);
             return this;
         }
@@ -104,7 +104,7 @@ namespace Neptuo.Templates.Compilation.AssemblyScanning
         /// <returns>Self (fluently).</returns>
         public TypeScanner AddTypeProcessor(Action<string, Type> processor)
         {
-            Guard.NotNull(processor, "processor");
+            Ensure.NotNull(processor, "processor");
             processors.Add(processor);
             return this;
         }

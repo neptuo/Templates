@@ -1,4 +1,5 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Activators;
+using Neptuo.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,7 @@ namespace Neptuo.Templates.Compilation.ViewActivators
 
         public DefaultViewActivatorContext(IViewActivatorService activatorService, IViewActivatorServiceContext context)
         {
-            Guard.NotNull(activatorService, "activatorService");
+            Ensure.NotNull(activatorService, "activatorService");
             ActivatorService = activatorService;
             DependencyProvider = context.DependencyProvider;
             Errors = context.Errors;

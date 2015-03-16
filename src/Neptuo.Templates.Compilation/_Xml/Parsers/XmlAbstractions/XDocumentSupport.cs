@@ -104,7 +104,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             public IEnumerable<IXmlNode> ChildNodes { get; private set; }
             public IEnumerable<IXmlAttribute> Attributes { get; private set; }
             public bool IsEmpty { get; private set; }
-            public override string OuterXml { get { throw Guard.Exception.NotImplemented(); } }
+            public override string OuterXml { get { throw Ensure.Exception.NotImplemented(); } }
 
             public XElementWrapper(XElement element)
                 : base(XmlNodeType.Element, element.GetPrefixOfNamespace(element.Name.Namespace), element.Name.LocalName)

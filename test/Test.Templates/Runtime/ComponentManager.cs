@@ -20,7 +20,7 @@ namespace Test.Templates.Runtime
 
         public virtual void AddComponent<T>(T component, Action<T> propertyBinder)
         {
-            Guard.NotNull(component, "component");
+            Ensure.NotNull(component, "component");
 
             ComponentEntryBase entry = new ComponentEntry<T>
             {
@@ -34,8 +34,8 @@ namespace Test.Templates.Runtime
         public virtual void AttachObserver<T>(IControl control, T observer, Action<T> propertyBinder)
             where T : IControlObserver
         {
-            Guard.NotNull(control, "control");
-            Guard.NotNull(observer, "observer");
+            Ensure.NotNull(control, "control");
+            Ensure.NotNull(observer, "observer");
 
             if (!entries.ContainsKey(control))
                 return;
@@ -45,8 +45,8 @@ namespace Test.Templates.Runtime
 
         public void AttachInitComplete(IControl control, Action<IControl> handler)
         {
-            Guard.NotNull(control, "control");
-            Guard.NotNull(handler, "handler");
+            Ensure.NotNull(control, "control");
+            Ensure.NotNull(handler, "handler");
 
             if (entries.ContainsKey(control))
                 entries[control].InitComplete.Add(handler);

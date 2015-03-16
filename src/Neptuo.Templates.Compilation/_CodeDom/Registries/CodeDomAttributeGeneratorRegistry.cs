@@ -19,8 +19,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="generator">Generator to process attributes of type <paramref name="attributeType"/>.</param>
         public CodeDomAttributeGeneratorRegistry AddGenerator(Type attributeType, ICodeDomAttributeGenerator generator)
         {
-            Guard.NotNull(attributeType, "attribute");
-            Guard.NotNull(generator, "generator");
+            Ensure.NotNull(attributeType, "attribute");
+            Ensure.NotNull(generator, "generator");
             storage[attributeType] = generator;
             return this;
         }
@@ -31,15 +31,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="searchHandler">Generator provider method.</param>
         public CodeDomAttributeGeneratorRegistry AddSearchHandler(Func<Type, ICodeDomAttributeGenerator> searchHandler)
         {
-            Guard.NotNull(searchHandler, "searchHandler");
+            Ensure.NotNull(searchHandler, "searchHandler");
             onSearchGenerator.Add(searchHandler);
             return this;
         }
 
         public ICodeDomAttributeResult Generate(ICodeDomContext context, Attribute attribute)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(attribute, "attribute");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(attribute, "attribute");
             Type attributeType = attribute.GetType();
 
             ICodeDomAttributeGenerator generator;

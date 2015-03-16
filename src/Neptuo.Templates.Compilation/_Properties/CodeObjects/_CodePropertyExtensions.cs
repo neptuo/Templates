@@ -15,8 +15,8 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <param name="values">Enumeration of values to set to the <paramref name="codeProperty"/>.</param>
         public static void SetRangeValue(this ICodeProperty codeProperty, IEnumerable<ICodeObject> values)
         {
-            Guard.NotNull(codeProperty, "codeProperty");
-            Guard.NotNull(values, "values");
+            Ensure.NotNull(codeProperty, "codeProperty");
+            Ensure.NotNull(values, "values");
 
             foreach (ICodeObject value in values)
                 codeProperty.SetValue(value);
@@ -29,8 +29,8 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <param name="values">Enumeration of values to set to the <paramref name="codeProperty"/>.</param>
         public static void SetRangeValue(this ICodeProperty codeProperty, params ICodeObject[] values)
         {
-            Guard.NotNull(codeProperty, "codeProperty");
-            Guard.NotNull(values, "values");
+            Ensure.NotNull(codeProperty, "codeProperty");
+            Ensure.NotNull(values, "values");
 
             foreach (ICodeObject value in values)
                 codeProperty.SetValue(value);

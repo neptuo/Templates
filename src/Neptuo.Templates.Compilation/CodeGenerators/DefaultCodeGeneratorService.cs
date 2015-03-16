@@ -15,23 +15,23 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public ICodeGeneratorService AddGenerator(string name, ICodeGenerator generator)
         {
-            Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNull(generator, "generator");
+            Ensure.NotNullOrEmpty(name, "name");
+            Ensure.NotNull(generator, "generator");
             generators[name] = generator;
             return this;
         }
 
         public bool GeneratedCode(string name, ICodeObject codeObject, ICodeGeneratorServiceContext context)
         {
-            Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNull(codeObject, "codeObject");
-            Guard.NotNull(context, "context");
+            Ensure.NotNullOrEmpty(name, "name");
+            Ensure.NotNull(codeObject, "codeObject");
+            Ensure.NotNull(context, "context");
 
             ICodeGenerator codeGenerator;
             if (generators.TryGetValue(name, out codeGenerator))
                 return codeGenerator.ProcessTree(codeObject, context.CreateGeneratorContext(this));
 
-            throw Guard.Exception.ArgumentOutOfRange("name", "Requested an unregistered code generator named '{0}'.", name);
+            throw Ensure.Exception.ArgumentOutOfRange("name", "Requested an unregistered code generator named '{0}'.", name);
         }
     }
 }

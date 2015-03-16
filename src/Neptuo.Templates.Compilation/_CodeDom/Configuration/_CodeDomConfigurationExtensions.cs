@@ -13,13 +13,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static bool IsDirectObjectResolve(this ICodeDomConfiguration configuration)
         {
-            Guard.NotNull(configuration, "configuration");
-            return configuration.Get("IsDirectObjectResolve", (bool?)true);
+            Ensure.NotNull(configuration, "configuration");
+            return configuration.Get("IsDirectObjectResolve", true);
         }
 
         public static CodeDomDefaultConfiguration IsDirectObjectResolve(this CodeDomDefaultConfiguration configuration, bool value)
         {
-            Guard.NotNull(configuration, "configuration");
+            Ensure.NotNull(configuration, "configuration");
             configuration.Set("IsDirectObjectResolve", value);
             return configuration;
         }
@@ -30,13 +30,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static bool IsAttributeDefaultEnabled(this ICodeDomConfiguration configuration)
         {
-            Guard.NotNull(configuration, "configuration");
-            return configuration.Get("IsAttributeDefaultEnabled", (bool?)true);
+            Ensure.NotNull(configuration, "configuration");
+            return configuration.Get("IsAttributeDefaultEnabled", true);
         }
 
         public static CodeDomDefaultConfiguration IsAttributeDefaultEnabled(this CodeDomDefaultConfiguration configuration, bool value)
         {
-            Guard.NotNull(configuration, "configuration");
+            Ensure.NotNull(configuration, "configuration");
             configuration.Set("IsAttributeDefaultEnabled", value);
             return configuration;
         }
@@ -47,13 +47,13 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public static bool IsPropertyTypeDefaultEnabled(this ICodeDomConfiguration configuration)
         {
-            Guard.NotNull(configuration, "configuration");
-            return configuration.Get("IsPropertyTypeDefaultEnabled", (bool?)true);
+            Ensure.NotNull(configuration, "configuration");
+            return configuration.Get("IsPropertyTypeDefaultEnabled", true);
         }
 
         public static CodeDomDefaultConfiguration IsPropertyTypeDefaultEnabled(this CodeDomDefaultConfiguration configuration, bool value)
         {
-            Guard.NotNull(configuration, "configuration");
+            Ensure.NotNull(configuration, "configuration");
             configuration.Set("IsPropertyTypeDefaultEnabled", value);
             return configuration;
         }

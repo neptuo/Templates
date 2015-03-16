@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Activators;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,8 +16,8 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         public DefaultVisitorContext(IDependencyProvider dependencyProvider, IPreProcessorService preProcessorService)
         {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
-            Guard.NotNull(preProcessorService, "preProcessorService");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(preProcessorService, "preProcessorService");
             DependencyProvider = dependencyProvider;
             PreProcessorService = preProcessorService;
         }

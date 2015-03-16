@@ -14,8 +14,8 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         public LiteralCodeObject(Type literalType, string textProperty, object value)
             : base(value)
         {
-            Guard.NotNull(literalType, "literalType");
-            Guard.NotNullOrEmpty(textProperty, "textProperty");
+            Ensure.NotNull(literalType, "literalType");
+            Ensure.NotNullOrEmpty(textProperty, "textProperty");
             LiteralType = literalType;
             TextProperty = textProperty;
         }

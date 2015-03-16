@@ -19,8 +19,8 @@ namespace Neptuo.Templates.Compilation
         /// <param name="errorsToAdd">Errors to add to the <paramref name="targetCollection"/>.</param>
         public static void AddRange(this ICollection<IErrorInfo> targetCollection, IEnumerable<IErrorInfo> errorsToAdd)
         {
-            Guard.NotNull(targetCollection, "targetCollection");
-            Guard.NotNull(errorsToAdd, "errorsToAdd");
+            Ensure.NotNull(targetCollection, "targetCollection");
+            Ensure.NotNull(errorsToAdd, "errorsToAdd");
 
             foreach (IErrorInfo error in errorsToAdd)
                 targetCollection.Add(error);

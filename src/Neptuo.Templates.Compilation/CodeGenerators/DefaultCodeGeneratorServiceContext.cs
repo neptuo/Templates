@@ -1,4 +1,5 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Activators;
+using Neptuo.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,8 +19,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public DefaultCodeGeneratorServiceContext(TextWriter output, IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors = null)
         {
-            Guard.NotNull(output, "output");
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(output, "output");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
             Output = output;
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
@@ -27,7 +28,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public virtual ICodeGeneratorContext CreateGeneratorContext(ICodeGeneratorService service)
         {
-            Guard.NotNull(service, "service");
+            Ensure.NotNull(service, "service");
             return new DefaultCodeGeneratorContext(Output, service, DependencyProvider, Errors);
         }
     }

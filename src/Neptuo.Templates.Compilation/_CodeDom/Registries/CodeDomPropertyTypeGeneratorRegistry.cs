@@ -22,8 +22,8 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="generator">Generator to process undound properties of type <paramref name="propertyType"/>.</param>
         public CodeDomPropertyTypeGeneratorRegistry AddGenerator(Type propertyType, ICodeDomPropertyTypeGenerator generator)
         {
-            Guard.NotNull(propertyType, "propertyType");
-            Guard.NotNull(generator, "generator");
+            Ensure.NotNull(propertyType, "propertyType");
+            Ensure.NotNull(generator, "generator");
             storage[propertyType] = generator;
             return this;
         }
@@ -34,15 +34,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="searchHandler">Generator provider method.</param>
         public CodeDomPropertyTypeGeneratorRegistry AddSearchHandler(Func<PropertyInfo, ICodeDomPropertyTypeGenerator> searchHandler)
         {
-            Guard.NotNull(searchHandler, "searchHandler");
+            Ensure.NotNull(searchHandler, "searchHandler");
             onSearchGenerator.Add(searchHandler);
             return this;
         }
 
         public ICodeDomPropertyTypeResult Generate(ICodeDomContext context, PropertyInfo propertyInfo)
         {
-            Guard.NotNull(context, "context");
-            Guard.NotNull(propertyInfo, "propertyInfo");
+            Ensure.NotNull(context, "context");
+            Ensure.NotNull(propertyInfo, "propertyInfo");
             Type propertyType = propertyInfo.PropertyType;
 
             ICodeDomPropertyTypeGenerator generator;

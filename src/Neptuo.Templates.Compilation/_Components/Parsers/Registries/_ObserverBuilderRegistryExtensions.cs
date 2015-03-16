@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public static ObserverBuilderRegistry AddHtmlAttributeBuilder<T>(this ObserverBuilderRegistry registry, Expression<Func<T, Dictionary<string, string>>> propertyGetter)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             string propertyName = TypeHelper.PropertyName(propertyGetter);
             return registry.AddBuilder(
                 null, 

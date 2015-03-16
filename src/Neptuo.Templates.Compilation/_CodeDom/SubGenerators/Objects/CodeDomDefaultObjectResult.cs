@@ -20,15 +20,15 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
         public CodeDomDefaultObjectResult(CodeExpression expression, Type expressionReturnType)
         {
-            Guard.NotNull(expression, "expression");
-            Guard.NotNull(expressionReturnType, "expressionReturnType");
+            Ensure.NotNull(expression, "expression");
+            Ensure.NotNull(expressionReturnType, "expressionReturnType");
             Expression = expression;
             Expression.AddReturnType(expressionReturnType);
         }
 
         public CodeDomDefaultObjectResult(CodeStatement statement)
         {
-            Guard.NotNull(statement, "statement");
+            Ensure.NotNull(statement, "statement");
             Statement = statement;
         }
     }

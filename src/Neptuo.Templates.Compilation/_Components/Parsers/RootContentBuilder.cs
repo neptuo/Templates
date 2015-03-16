@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public RootContentBuilder(IPropertyInfo defaultProperty)
         {
-            Guard.NotNull(defaultProperty, "defaultProperty");
+            Ensure.NotNull(defaultProperty, "defaultProperty");
             this.defaultProperty = defaultProperty;
         }
 

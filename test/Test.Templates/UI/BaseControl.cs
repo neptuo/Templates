@@ -75,7 +75,7 @@ namespace Test.Templates.UI
 
         public virtual void OnInit(IComponentManager componentManager)
         {
-            Guard.NotNull(componentManager, "componentManager");
+            Ensure.NotNull(componentManager, "componentManager");
             ComponentManager = componentManager;
         }
 

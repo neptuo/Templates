@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// </summary>
         public CodeDomComponentObjectGenerator(IUniqueNameProvider nameProvider)
         {
-            Guard.NotNull(nameProvider, "nameProvider");
+            Ensure.NotNull(nameProvider, "nameProvider");
             NameProvider = nameProvider;
             IsPropertyAssignmentInCreateMethod = true;
         }

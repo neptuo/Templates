@@ -1,4 +1,5 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Activators;
+using Neptuo.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +18,14 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
 
         public DefaultCodeCompilerServiceContext(IDependencyProvider dependencyProvider, ICollection<IErrorInfo> errors = null)
         {
-            Guard.NotNull(dependencyProvider, "dependencyProvider");
+            Ensure.NotNull(dependencyProvider, "dependencyProvider");
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
         }
 
         public ICodeCompilerContext CreateCompilerContext(ICodeCompilerService service)
         {
-            Guard.NotNull(service, "service");
+            Ensure.NotNull(service, "service");
             return new DefaultCodeCompilerContext(service, this);
         }
     }

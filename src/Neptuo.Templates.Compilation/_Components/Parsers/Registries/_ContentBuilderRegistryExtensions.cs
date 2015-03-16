@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public static ContentBuilderRegistry AddRootBuilder(this ContentBuilderRegistry registry, IContentBuilder builder)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddBuilder(null, XmlContentParser.FakeRootElementName, builder);
         }
 
@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public static ContentBuilderRegistry AddGenericControlSearchHandler<T>(this ContentBuilderRegistry registry, Expression<Func<T, string>> tagNameProperty)
         {
-            Guard.NotNull(registry, "registry");
+            Ensure.NotNull(registry, "registry");
             return registry.AddSearchHandler(e => new GenericContentControlBuilder<T>(tagNameProperty));
         }
     }

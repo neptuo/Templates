@@ -16,22 +16,22 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
 
         public ICodeCompilerService AddCompiler(string name, ICodeCompiler compiler)
         {
-            Guard.NotNullOrEmpty(name, "name");
-            Guard.NotNull(compiler, "compiler");
+            Ensure.NotNullOrEmpty(name, "name");
+            Ensure.NotNull(compiler, "compiler");
             compilers[name] = compiler;
             return this;
         }
 
         public object Compile(string name, TextReader sourceCode, ICodeCompilerServiceContext context)
         {
-            Guard.NotNull(sourceCode, "sourceCode");
-            Guard.NotNull(context, "context");
+            Ensure.NotNull(sourceCode, "sourceCode");
+            Ensure.NotNull(context, "context");
 
             ICodeCompiler compiler;
             if (compilers.TryGetValue(name, out compiler))
                 return compiler.Compile(sourceCode, new DefaultCodeCompilerContext(this, context));
 
-            throw Guard.Exception.ArgumentOutOfRange("name", "Requested an unregistered compiler named '{0}'.", name);
+            throw Ensure.Exception.ArgumentOutOfRange("name", "Requested an unregistered compiler named '{0}'.", name);
         }
     }
 }

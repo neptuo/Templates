@@ -17,13 +17,13 @@ namespace Neptuo.Templates.Compilation
 
         public static DefaultPipelineDispatcher AddParserService(this DefaultPipelineDispatcher pipeline, string sourceName, string targetName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Add<IParserService>(sourceName, targetName);
         }
 
         public static string DispatchParserService(this DefaultPipelineDispatcher pipeline, string sourceName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Dispatch<IParserService>(sourceName);
         }
 
@@ -33,13 +33,13 @@ namespace Neptuo.Templates.Compilation
 
         public static DefaultPipelineDispatcher AddViewActivatorService(this DefaultPipelineDispatcher pipeline, string sourceName, string targetName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Add<IViewActivatorService>(sourceName, targetName);
         }
 
         public static string DispatchViewActivatorService(this DefaultPipelineDispatcher pipeline, string sourceName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Dispatch<IViewActivatorService>(sourceName);
         }
 
@@ -49,13 +49,13 @@ namespace Neptuo.Templates.Compilation
 
         public static DefaultPipelineDispatcher AddPreProcessorService(this DefaultPipelineDispatcher pipeline, string sourceName, string targetName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Add<IPreProcessorService>(sourceName, targetName);
         }
 
         public static string DispatchPreProcessorService(this DefaultPipelineDispatcher pipeline, string sourceName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Dispatch<IPreProcessorService>(sourceName);
         }
 
@@ -65,13 +65,13 @@ namespace Neptuo.Templates.Compilation
 
         public static DefaultPipelineDispatcher AddCodeGeneratorService(this DefaultPipelineDispatcher pipeline, string sourceName, string targetName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Add<ICodeGeneratorService>(sourceName, targetName);
         }
 
         public static string DispatchCodeGeneratorService(this DefaultPipelineDispatcher pipeline, string sourceName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Dispatch<ICodeGeneratorService>(sourceName);
         }
 
@@ -81,13 +81,13 @@ namespace Neptuo.Templates.Compilation
 
         public static DefaultPipelineDispatcher AddCodeCompilerService(this DefaultPipelineDispatcher pipeline, string sourceName, string targetName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Add<ICodeCompilerService>(sourceName, targetName);
         }
 
         public static string DispatchCodeCompilerService(this DefaultPipelineDispatcher pipeline, string sourceName)
         {
-            Guard.NotNull(pipeline, "pipeline");
+            Ensure.NotNull(pipeline, "pipeline");
             return pipeline.Dispatch<ICodeCompilerService>(sourceName);
         }
 
