@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.Compilation"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStudio.UI", "src\Neptuo.Templates.VisualStudio.UI\Neptuo.Templates.VisualStudio.UI.csproj", "{08038638-BA5E-4032-91D1-CFA70B9777BB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +120,7 @@ Global
 		{52A35B4D-EECC-43A0-80FD-3EDE2A06E17C} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{5C3E3B99-79BD-4A53-A07C-0B9B03CE52D3} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{BC762024-B072-4030-B33E-7900493AC41D} = {6B93C14C-2672-4935-AE18-C28432632F46}
+		{08038638-BA5E-4032-91D1-CFA70B9777BB} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35

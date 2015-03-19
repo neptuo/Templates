@@ -9,7 +9,7 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 
-namespace Neptuo.Neptuo_Templates_VisualStudio_UI
+namespace Neptuo.Templates.VisualStudio.UI
 {
     /// <summary>
     /// This is the class that implements the package exposed by this assembly.
@@ -27,8 +27,8 @@ namespace Neptuo.Neptuo_Templates_VisualStudio_UI
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [Guid(GuidList.guidNeptuo_Templates_VisualStudio_UIPkgString)]
-    public sealed class Neptuo_Templates_VisualStudio_UIPackage : Package
+    [Guid(GuidList.PkgString)]
+    public sealed class VsPackage : Package
     {
         /// <summary>
         /// Default constructor of the package.
@@ -37,12 +37,10 @@ namespace Neptuo.Neptuo_Templates_VisualStudio_UI
         /// not sited yet inside Visual Studio environment. The place to do all the other 
         /// initialization is the Initialize method.
         /// </summary>
-        public Neptuo_Templates_VisualStudio_UIPackage()
+        public VsPackage()
         {
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
         }
-
-
 
         /////////////////////////////////////////////////////////////////////////////
         // Overridden Package Implementation
@@ -54,7 +52,7 @@ namespace Neptuo.Neptuo_Templates_VisualStudio_UI
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine (string.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
+            Debug.WriteLine(String.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
         }
