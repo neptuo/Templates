@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         protected override object Compile(IStaticCompiler compiler, TextReader sourceCode, ICodeCompilerContext context)
         {
             ICodeDomNaming naming = context.DependencyProvider.Resolve<ICodeDomNaming>();
-            string assemblyFile = Path.Combine(this.TempDirectory(), naming.ClassName);
+            string assemblyFile = Path.Combine(this.TempDirectory(), naming.AssemblyName());
             string sourceFile = Path.Combine(this.TempDirectory(), naming.SourceFileName());
             string sourceContent = sourceCode.ReadToEnd();
             string typeFullName = naming.FullClassName;
