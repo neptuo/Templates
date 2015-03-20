@@ -21,14 +21,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
     [Export(typeof(ICompletionSourceProvider))]
     [Name(TemplateContentType.ContentType)]
     [ContentType(TemplateContentType.ContentType)]
-    internal class TestCompletionSourceProvider : ICompletionSourceProvider
+    internal class TemplateCompletionSourceProvider : ICompletionSourceProvider
     {
         //[Import]
         //internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
         
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
-            return new TestCompletionSource(this, textBuffer);
+            return new TemplateCompletionSource(this, textBuffer);
         }
     }
 }

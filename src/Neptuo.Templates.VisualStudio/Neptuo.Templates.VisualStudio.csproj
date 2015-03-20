@@ -55,8 +55,8 @@
     <Compile Include="IntelliSense\CompletionSessionHelper.cs" />
     <Compile Include="IntelliSense\TemplateViewController.cs" />
     <Compile Include="IntelliSense\TemplateViewControllerProvider.cs" />
-    <Compile Include="IntelliSense\Completions\TestCompletionSource.cs" />
-    <Compile Include="IntelliSense\Completions\TestCompletionSourceProvider.cs" />
+    <Compile Include="IntelliSense\Completions\TemplateCompletionSource.cs" />
+    <Compile Include="IntelliSense\Completions\TemplateCompletionSourceProvider.cs" />
     <Compile Include="_Temporals\xJsTextOleHandler.cs" />
     <Compile Include="TemplateContentType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

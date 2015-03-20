@@ -148,7 +148,7 @@
     <Content Include="Resources\Package.ico" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj">
+    <ProjectReference Include="..\Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj">
       <Project>{9aa671e2-fb2e-48b1-bd9f-3d7796ceddd7}</Project>
       <Name>Neptuo.Templates.VisualStudio</Name>
       <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>

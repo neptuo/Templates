@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStud
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStudio", "Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj", "{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStudio", "src\Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj", "{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
