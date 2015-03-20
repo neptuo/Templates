@@ -16,13 +16,14 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.Completions
 {
+    [Order(Before = "default")]
     [Export(typeof(ICompletionSourceProvider))]
     [Name("token completion")]
     [ContentType(TestContentTypeDefinition.ContentType)]
     internal class TestCompletionSourceProvider : ICompletionSourceProvider
     {
-        [Import]
-        internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
+        //[Import]
+        //internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
         
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {

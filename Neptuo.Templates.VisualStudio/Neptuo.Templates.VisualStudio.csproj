@@ -53,9 +53,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Completions\TestCompletionCommandHandler.cs" />
-    <Compile Include="Completions\TestCompletionHandlerProvider.cs" />
+    <Compile Include="Completions\Providers\TestCompletionCommandHandlerProvider.cs" />
     <Compile Include="Completions\TestCompletionSource.cs" />
-    <Compile Include="Completions\TestCompletionSourceProvider.cs" />
+    <Compile Include="Completions\Providers\TestCompletionSourceProvider.cs" />
+    <Compile Include="Completions\xJsTextOleHandler.cs" />
     <Compile Include="TestContentTypeDefinition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

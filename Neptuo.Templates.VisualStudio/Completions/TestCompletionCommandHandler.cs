@@ -17,10 +17,10 @@ namespace Neptuo.Templates.VisualStudio.Completions
     {
         private IOleCommandTarget m_nextCommandHandler;
         private ITextView m_textView;
-        private TestCompletionHandlerProvider m_provider;
+        private TestCompletionCommandHandlerProvider m_provider;
         private ICompletionSession m_session;
 
-        internal TestCompletionCommandHandler(IVsTextView textViewAdapter, ITextView textView, TestCompletionHandlerProvider provider)
+        internal TestCompletionCommandHandler(IVsTextView textViewAdapter, ITextView textView, TestCompletionCommandHandlerProvider provider)
         {
             this.m_textView = textView;
             this.m_provider = provider;
@@ -31,6 +31,18 @@ namespace Neptuo.Templates.VisualStudio.Completions
 
         public int QueryStatus(ref Guid pguidCmdGroup, uint cCmds, OLECMD[] prgCmds, IntPtr pCmdText)
         {
+            if (pguidCmdGroup == VSConstants.VSStd2K)
+            {
+                switch ((VSConstants.VSStd2KCmdID)prgCmds[0].cmdID)
+                {
+                    case VSConstants.VSStd2KCmdID.AUTOCOMPLETE:
+                    case VSConstants.VSStd2KCmdID.SHOWMEMBERLIST:
+                    case VSConstants.VSStd2KCmdID.COMPLETEWORD:
+                        prgCmds[0].cmdf = (uint)OLECMDF.OLECMDF_ENABLED | (uint)OLECMDF.OLECMDF_SUPPORTED;
+                        return VSConstants.S_OK;
+                }
+            }
+
             return m_nextCommandHandler.QueryStatus(ref pguidCmdGroup, cCmds, prgCmds, pCmdText);
         }
 
@@ -72,6 +84,23 @@ namespace Neptuo.Templates.VisualStudio.Completions
                 }
             }
 
+            if (nCmdID == (uint)VSConstants.VSStd2KCmdID.COMPLETEWORD)
+            {
+                if (m_session == null || m_session.IsDismissed) // If there is no active session, bring up completion
+                {
+                    //this.TriggerCompletion();
+                    StartSession();
+                    if (m_session != null)
+                        m_session.Filter();
+                }
+                else     //the completion session is already active, so just filter
+                {
+                    m_session.Filter();
+                }
+
+                return VSConstants.S_OK;
+            }
+
             //pass along the command so the char is added to the buffer 
             int retVal = m_nextCommandHandler.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
             bool handled = false;
@@ -79,7 +108,8 @@ namespace Neptuo.Templates.VisualStudio.Completions
             {
                 if (m_session == null || m_session.IsDismissed) // If there is no active session, bring up completion
                 {
-                    this.TriggerCompletion();
+                    //this.TriggerCompletion();
+                    StartSession();
                     if (m_session != null)
                         m_session.Filter();
                 }
@@ -102,7 +132,33 @@ namespace Neptuo.Templates.VisualStudio.Completions
 
         private bool TriggerCompletion()
         {
+            //the caret must be in a non-projection location 
+            SnapshotPoint? caretPoint =
+            m_textView.Caret.Position.Point.GetPoint(
+            textBuffer => (!textBuffer.ContentType.IsOfType("projection")), PositionAffinity.Predecessor);
+            if (!caretPoint.HasValue)
+            {
+                return false;
+            }
 
+            m_session = m_provider.CompletionBroker.CreateCompletionSession(
+                m_textView,
+                caretPoint.Value.Snapshot.CreateTrackingPoint(
+                    caretPoint.Value.Position, 
+                    PointTrackingMode.Positive
+                ),
+                true
+            );
+
+            //subscribe to the Dismissed event on the session 
+            m_session.Dismissed += this.OnSessionDismissed;
+            m_session.Start();
+
+            return true;
+        }
+
+        bool StartSession()
+        {
             if (m_session != null)
                 return false;
 
@@ -117,38 +173,12 @@ namespace Neptuo.Templates.VisualStudio.Completions
             {
                 m_session = m_provider.CompletionBroker.GetSessions(m_textView)[0];
             }
+            m_session.Dismissed += (sender, args) => m_session = null;
 
-            //subscribe to the Dismissed event on the session 
-            m_session.Dismissed += this.OnSessionDismissed;
-            m_session.Start();
+            if (!m_session.IsStarted)
+                m_session.Start();
 
             return true;
-
-
-
-            //the caret must be in a non-projection location 
-            //SnapshotPoint? caretPoint =
-            //m_textView.Caret.Position.Point.GetPoint(
-            //textBuffer => (!textBuffer.ContentType.IsOfType("projection")), PositionAffinity.Predecessor);
-            //if (!caretPoint.HasValue)
-            //{
-            //    return false;
-            //}
-
-            //m_session = m_provider.CompletionBroker.CreateCompletionSession(
-            //    m_textView,
-            //    caretPoint.Value.Snapshot.CreateTrackingPoint(
-            //        caretPoint.Value.Position, 
-            //        PointTrackingMode.Positive
-            //    ),
-            //    true
-            //);
-
-            ////subscribe to the Dismissed event on the session 
-            //m_session.Dismissed += this.OnSessionDismissed;
-            //m_session.Start();
-
-            //return true;
         }
 
         private void OnSessionDismissed(object sender, EventArgs e)

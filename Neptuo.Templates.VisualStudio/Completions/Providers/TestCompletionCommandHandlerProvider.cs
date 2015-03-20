@@ -17,7 +17,7 @@ namespace Neptuo.Templates.VisualStudio.Completions
     [Name("token completion handler")]
     [ContentType(TestContentTypeDefinition.ContentType)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    internal class TestCompletionHandlerProvider : IVsTextViewCreationListener
+    internal class TestCompletionCommandHandlerProvider : IVsTextViewCreationListener
     {
         [Import]
         internal IVsEditorAdaptersFactoryService AdapterService = null;
