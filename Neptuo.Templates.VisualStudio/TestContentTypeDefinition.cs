@@ -11,6 +11,7 @@ namespace Neptuo.Templates.VisualStudio
     public class TestContentTypeDefinition
     {
         public const string ContentType = "ntemplate";
+        //public const string ContentType = "plaintext";
 
         [Export(typeof(ContentTypeDefinition))]
         [Name(ContentType)]
