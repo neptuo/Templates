@@ -60,19 +60,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 {
                     if (currentSession.SelectedCompletionSet.Moniker == TemplateCompletionSource.Moniker)
                     {
-                        string currentToken = textView.TextBuffer.CurrentSnapshot.GetText().Split(' ').LastOrDefault();
-                        if (!String.IsNullOrEmpty(currentToken))
-                        {
-                            //textView.TextBuffer.Delete(new Span(
-                            //    textView.Caret.Position.BufferPosition.Position - currentToken.Length,
-                            //    currentToken.Length
-                            //));
-                            //textView.Caret.MoveTo(new SnapshotPoint(
-                            //    textView.Caret.Position.BufferPosition.Snapshot, 
-                            //    textView.Caret.Position.BufferPosition.Position - currentToken.Length
-                            //));
-                        }
-
                         currentSession.Commit();
                         textView.TextBuffer.Insert(textView.Caret.Position.BufferPosition.Position, "();");
                         textView.Caret.MoveToNextCaretPosition();

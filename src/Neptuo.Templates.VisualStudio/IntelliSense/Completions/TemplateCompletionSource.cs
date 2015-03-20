@@ -37,7 +37,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 string currentValue = currentToken == null ? value : value.Substring(Math.Min(currentToken.Length, value.Length));
 
                 if (currentToken == null || value.StartsWith(currentToken))
-                    result.Add(new Completion(value, currentValue, "", null, ""));
+                    result.Add(new Completion(value, currentValue, String.Format("Value of '{0}'.", value), null, ""));
             }
 
             completionSets.Add(new CompletionSet(
