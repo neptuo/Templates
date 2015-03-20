@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Language.Intellisense;
+using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
@@ -11,16 +12,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.Completions
+namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     [Export(typeof(IVsTextViewCreationListener))]
     [Name("token completion handler")]
-    [ContentType(TestContentTypeDefinition.ContentType)]
+    [ContentType(TemplateContentType.ContentType)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    internal class TestCompletionCommandHandlerProvider : IVsTextViewCreationListener
+    internal class TemplateViewControllerProvider : IVsTextViewCreationListener
     {
         [Import]
-        internal IVsEditorAdaptersFactoryService AdapterService = null;
+        internal IVsEditorAdaptersFactoryService AdapterService { get; set; }
         [Import]
         internal ICompletionBroker CompletionBroker { get; set; }
         [Import]
@@ -32,7 +33,11 @@ namespace Neptuo.Templates.VisualStudio.Completions
             if (textView == null)
                 return;
 
-            Func<TestCompletionCommandHandler> createCommandHandler = delegate() { return new TestCompletionCommandHandler(textViewAdapter, textView, this); };
+            Func<TemplateViewController> createCommandHandler = delegate()
+            {
+                TemplateViewController controller = new TemplateViewController(textViewAdapter, textView, CompletionBroker, ServiceProvider);
+                return controller;
+            };
             textView.Properties.GetOrCreateSingletonProperty(createCommandHandler);
         }
     }

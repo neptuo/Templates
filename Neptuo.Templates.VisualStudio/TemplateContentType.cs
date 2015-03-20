@@ -8,15 +8,14 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio
 {
-    public class TestContentTypeDefinition
+    public class TemplateContentType
     {
         public const string ContentType = "ntemplate";
-        //public const string ContentType = "plaintext";
 
         [Export(typeof(ContentTypeDefinition))]
         [Name(ContentType)]
         [BaseDefinition("htmlx")]
-        public TestContentTypeDefinition RwHtmlContentTypeDefinition { get; set; }
+        public TemplateContentType ContentTypeDefinition { get; set; }
 
         [Export(typeof(FileExtensionToContentTypeDefinition))]
         [FileExtension(".nt")]

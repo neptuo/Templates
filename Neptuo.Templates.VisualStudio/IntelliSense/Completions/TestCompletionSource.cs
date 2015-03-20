@@ -7,7 +7,7 @@ using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Operations;
 
-namespace Neptuo.Templates.VisualStudio.Completions
+namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
     internal class TestCompletionSource : ICompletionSource
     {

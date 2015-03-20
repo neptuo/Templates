@@ -14,12 +14,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.Completions
+namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
     [Order(Before = "default")]
+    //[Order(Before = "High")]
     [Export(typeof(ICompletionSourceProvider))]
-    [Name("token completion")]
-    [ContentType(TestContentTypeDefinition.ContentType)]
+    [Name(TemplateContentType.ContentType)]
+    [ContentType(TemplateContentType.ContentType)]
     internal class TestCompletionSourceProvider : ICompletionSourceProvider
     {
         //[Import]
