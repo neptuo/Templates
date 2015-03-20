@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.VisualStudio.Completions
 {
     [Export(typeof(ICompletionSourceProvider))]
-    [ContentType("plaintext")]
+    [ContentType(TestContentTypeDefinition.ContentType)]
     [Name("token completion")]
     internal class TestCompletionSourceProvider : ICompletionSourceProvider
     {
