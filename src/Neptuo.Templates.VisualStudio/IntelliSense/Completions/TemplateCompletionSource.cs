@@ -6,17 +6,18 @@ using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Operations;
+using Neptuo.ComponentModel;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
-    internal class TemplateCompletionSource : ICompletionSource
+    internal class TemplateCompletionSource : DisposableBase, ICompletionSource
     {
-        private TemplateCompletionSourceProvider m_sourceProvider;
-        private ITextBuffer textBuffer;
+        public const string Moniker = "ntemplate";
 
-        public TemplateCompletionSource(TemplateCompletionSourceProvider sourceProvider, ITextBuffer textBuffer)
+        private readonly ITextBuffer textBuffer;
+
+        public TemplateCompletionSource(ITextBuffer textBuffer)
         {
-            m_sourceProvider = sourceProvider;
             this.textBuffer = textBuffer;
         }
 
@@ -33,13 +34,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
             foreach (string value in supportedValues)
             {
+                string currentValue = currentToken == null ? value : value.Substring(Math.Min(currentToken.Length, value.Length));
+
                 if (currentToken == null || value.StartsWith(currentToken))
-                    result.Add(new Completion(value));
+                    result.Add(new Completion(value, currentValue, "", null, ""));
             }
 
             completionSets.Add(new CompletionSet(
-                "Tokens",    //the non-localized title of the tab 
-                "Tokens",    //the display title of the tab
+                Moniker,
+                "Neptuo Templates",
                 FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session),
                 result,
                 null
@@ -57,16 +60,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 0, 
                 SpanTrackingMode.EdgeInclusive
             );
-        }
-
-        private bool m_isDisposed;
-        public void Dispose()
-        {
-            if (!m_isDisposed)
-            {
-                GC.SuppressFinalize(this);
-                m_isDisposed = true;
-            }
         }
     }
 }

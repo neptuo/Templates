@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
+using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,20 +10,20 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    internal class CompletionSessionHelper
+    internal class CompletionSession
     {
         private readonly ITextView textView;
         private readonly ICompletionBroker completionBroker;
 
         private ICompletionSession currentSession;
 
-        public CompletionSessionHelper(ITextView textView, ICompletionBroker completionBroker)
+        public CompletionSession(ITextView textView, ICompletionBroker completionBroker)
         {
             this.textView = textView;
             this.completionBroker = completionBroker;
         }
 
-        public bool StartSession()
+        public bool TryStartSession()
         {
             if (HasSession)
                 return false;
@@ -49,7 +50,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             currentSession = null;
         }
 
-        public bool TryCommit()
+        public CommitResult TryCommit()
         {
             //check for a a selection 
             if (HasSession)
@@ -57,12 +58,32 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 //if the selection is fully selected, commit the current session 
                 if (currentSession.SelectedCompletionSet.SelectionStatus.IsSelected)
                 {
-                    currentSession.Commit();
-                    return true;
+                    if (currentSession.SelectedCompletionSet.Moniker == TemplateCompletionSource.Moniker)
+                    {
+                        string currentToken = textView.TextBuffer.CurrentSnapshot.GetText().Split(' ').LastOrDefault();
+                        if (!String.IsNullOrEmpty(currentToken))
+                        {
+                            //textView.TextBuffer.Delete(new Span(
+                            //    textView.Caret.Position.BufferPosition.Position - currentToken.Length,
+                            //    currentToken.Length
+                            //));
+                            //textView.Caret.MoveTo(new SnapshotPoint(
+                            //    textView.Caret.Position.BufferPosition.Snapshot, 
+                            //    textView.Caret.Position.BufferPosition.Position - currentToken.Length
+                            //));
+                        }
+
+                        currentSession.Commit();
+                        textView.TextBuffer.Insert(textView.Caret.Position.BufferPosition.Position, "();");
+                        textView.Caret.MoveToNextCaretPosition();
+                        return CommitResult.Commited;
+                    }
+
+                    return CommitResult.OtherMoniker;
                 }
             }
 
-            return false;
+            return CommitResult.NoSession;
         }
 
         public bool TryDismiss()
@@ -92,6 +113,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         public bool HasSession
         {
             get { return currentSession != null && !currentSession.IsDismissed; }
+        }
+
+
+
+        public enum CommitResult
+        {
+            Commited,
+            NoSession,
+            OtherMoniker
         }
     }
 }

@@ -18,13 +18,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly IOleCommandTarget nextController;
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
-        private readonly CompletionSessionHelper completionSession;
+        private readonly CompletionSession completionSession;
 
         internal TemplateViewController(IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
             this.textView = textView;
             this.serviceProvider = serviceProvider;
-            this.completionSession = new CompletionSessionHelper(textView, completionBroker);
+            this.completionSession = new CompletionSession(textView, completionBroker);
 
             //add the command to the command chain
             textViewAdapter.AddCommandFilter(this, out nextController);
@@ -55,51 +55,57 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
             //make a copy of this so we can look at it after forwarding some commands 
             uint commandID = nCmdID;
-            char typedChar = char.MinValue;
+            char typedChar = Char.MinValue;
             
             // Try to read input as char.
             if (pguidCmdGroup == VSConstants.VSStd2K && nCmdID == (uint)VSConstants.VSStd2KCmdID.TYPECHAR)
                 typedChar = (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
 
-
-
-            //check for a commit character 
-            if (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN
-                || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB
-                || (char.IsWhiteSpace(typedChar) || char.IsPunctuation(typedChar)))
-            {
-                if (!completionSession.TryCommit())
-                    completionSession.TryDismiss();
-            }
-
+            // Try start completion on 'Ctrl+Space'.
             if (nCmdID == (uint)VSConstants.VSStd2KCmdID.COMPLETEWORD)
             {
-                if(!completionSession.HasSession)
-                    completionSession.StartSession();
+                if (!completionSession.HasSession)
+                    completionSession.TryStartSession();
 
                 completionSession.TryFilter();
                 return VSConstants.S_OK;
             }
 
-            //pass along the command so the char is added to the buffer 
-            int retVal = nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
-            bool handled = false;
-            if (!typedChar.Equals(char.MinValue) && char.IsLetterOrDigit(typedChar))
+            // If we have active session.
+            if (completionSession.HasSession)
             {
-                if (!completionSession.HasSession)
-                    completionSession.StartSession();
+                // Try commit completion (Enter, Tab or Space).
+                if (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB || Char.IsWhiteSpace(typedChar))
+                {
+                    switch (completionSession.TryCommit())
+                    {
+                        case CompletionSession.CommitResult.Commited:
+                        case CompletionSession.CommitResult.NoSession:
+                            completionSession.TryDismiss();
+                            return VSConstants.S_OK;
+                        case CompletionSession.CommitResult.OtherMoniker:
+                            return nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+                    }
+                }
+            }
 
-                completionSession.TryFilter();
-                handled = true;
-            }
-            else if (commandID == (uint)VSConstants.VSStd2KCmdID.BACKSPACE   //redo the filter if there is a deletion
-                || commandID == (uint)VSConstants.VSStd2KCmdID.DELETE)
+            // Let input be written into the buffer.
+            int nextResult = nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
+
+            // On text input, filter out completion.
+            if (!typedChar.Equals(Char.MinValue) && char.IsLetterOrDigit(typedChar))
             {
+                // If this is not deletion, start session.
+                if (commandID != (uint)VSConstants.VSStd2KCmdID.BACKSPACE && commandID != (uint)VSConstants.VSStd2KCmdID.DELETE) 
+                    completionSession.TryStartSession();
+
+                // Update filter.
                 completionSession.TryFilter();
-                handled = true;
+                return VSConstants.S_OK;
             }
-            if (handled) return VSConstants.S_OK;
-            return retVal;
+            
+            // Return value from next controller.
+            return nextResult;
         }
     }
 }

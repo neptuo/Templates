@@ -17,18 +17,14 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
     [Order(Before = "default")]
-    //[Order(Before = "High")]
     [Export(typeof(ICompletionSourceProvider))]
     [Name(TemplateContentType.ContentType)]
     [ContentType(TemplateContentType.ContentType)]
     internal class TemplateCompletionSourceProvider : ICompletionSourceProvider
     {
-        //[Import]
-        //internal ITextStructureNavigatorSelectorService NavigatorService { get; set; }
-        
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
-            return new TemplateCompletionSource(this, textBuffer);
+            return new TemplateCompletionSource(textBuffer);
         }
     }
 }
