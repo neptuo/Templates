@@ -11,7 +11,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
 
-namespace Neptuo.Templates.VisualStudio.UI.Completions
+namespace Neptuo.Templates.VisualStudio.Completions
 {
     internal class TestCompletionCommandHandler : IOleCommandTarget
     {
@@ -80,7 +80,8 @@ namespace Neptuo.Templates.VisualStudio.UI.Completions
                 if (m_session == null || m_session.IsDismissed) // If there is no active session, bring up completion
                 {
                     this.TriggerCompletion();
-                    m_session.Filter();
+                    if (m_session != null)
+                        m_session.Filter();
                 }
                 else     //the completion session is already active, so just filter
                 {
@@ -101,25 +102,53 @@ namespace Neptuo.Templates.VisualStudio.UI.Completions
 
         private bool TriggerCompletion()
         {
-            //the caret must be in a non-projection location 
-            SnapshotPoint? caretPoint =
-            m_textView.Caret.Position.Point.GetPoint(
-            textBuffer => (!textBuffer.ContentType.IsOfType("projection")), PositionAffinity.Predecessor);
-            if (!caretPoint.HasValue)
-            {
-                return false;
-            }
 
-            m_session = m_provider.CompletionBroker.CreateCompletionSession
-         (m_textView,
-                caretPoint.Value.Snapshot.CreateTrackingPoint(caretPoint.Value.Position, PointTrackingMode.Positive),
-                true);
+            if (m_session != null)
+                return false;
+
+            SnapshotPoint caret = m_textView.Caret.Position.BufferPosition;
+            ITextSnapshot snapshot = caret.Snapshot;
+
+            if (!m_provider.CompletionBroker.IsCompletionActive(m_textView))
+            {
+                m_session = m_provider.CompletionBroker.CreateCompletionSession(m_textView, snapshot.CreateTrackingPoint(caret, PointTrackingMode.Positive), true);
+            }
+            else
+            {
+                m_session = m_provider.CompletionBroker.GetSessions(m_textView)[0];
+            }
 
             //subscribe to the Dismissed event on the session 
             m_session.Dismissed += this.OnSessionDismissed;
             m_session.Start();
 
             return true;
+
+
+
+            //the caret must be in a non-projection location 
+            //SnapshotPoint? caretPoint =
+            //m_textView.Caret.Position.Point.GetPoint(
+            //textBuffer => (!textBuffer.ContentType.IsOfType("projection")), PositionAffinity.Predecessor);
+            //if (!caretPoint.HasValue)
+            //{
+            //    return false;
+            //}
+
+            //m_session = m_provider.CompletionBroker.CreateCompletionSession(
+            //    m_textView,
+            //    caretPoint.Value.Snapshot.CreateTrackingPoint(
+            //        caretPoint.Value.Position, 
+            //        PointTrackingMode.Positive
+            //    ),
+            //    true
+            //);
+
+            ////subscribe to the Dismissed event on the session 
+            //m_session.Dismissed += this.OnSessionDismissed;
+            //m_session.Start();
+
+            //return true;
         }
 
         private void OnSessionDismissed(object sender, EventArgs e)

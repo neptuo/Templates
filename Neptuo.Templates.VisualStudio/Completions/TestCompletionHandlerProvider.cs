@@ -11,12 +11,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.UI.Completions
+namespace Neptuo.Templates.VisualStudio.Completions
 {
     [Export(typeof(IVsTextViewCreationListener))]
     [Name("token completion handler")]
     [ContentType("plaintext")]
-    [TextViewRole(PredefinedTextViewRoles.Editable)]
+    [TextViewRole(PredefinedTextViewRoles.Interactive)]
     internal class TestCompletionHandlerProvider : IVsTextViewCreationListener
     {
         [Import]

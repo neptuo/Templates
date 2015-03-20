@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.UI.Completions
+namespace Neptuo.Templates.VisualStudio.Completions
 {
     [Export(typeof(ICompletionSourceProvider))]
     [ContentType("plaintext")]
