@@ -30,6 +30,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStud
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStudio", "Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj", "{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -110,6 +112,16 @@ Global
 		{08038638-BA5E-4032-91D1-CFA70B9777BB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{08038638-BA5E-4032-91D1-CFA70B9777BB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{08038638-BA5E-4032-91D1-CFA70B9777BB}.Release|x86.ActiveCfg = Release|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,6 +133,7 @@ Global
 		{5C3E3B99-79BD-4A53-A07C-0B9B03CE52D3} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{BC762024-B072-4030-B33E-7900493AC41D} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{08038638-BA5E-4032-91D1-CFA70B9777BB} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
+		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
