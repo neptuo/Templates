@@ -4,7 +4,6 @@ using SharpKit.jQuery;
 using System.IO;
 using Test.Templates;
 using Neptuo;
-using Test.Templates.UI.SimpleContainer;
 using Test.Templates.UI.Data;
 using Test.Templates.UI.Converters;
 using Test.Templates.Runtime;

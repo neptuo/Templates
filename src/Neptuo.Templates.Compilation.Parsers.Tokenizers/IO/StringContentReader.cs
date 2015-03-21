@@ -50,6 +50,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
         public bool Next()
         {
+            if (value == null || Position >= value.Length)
+                return false;
+
             Position++;
             return Position < value.Length;
         }
