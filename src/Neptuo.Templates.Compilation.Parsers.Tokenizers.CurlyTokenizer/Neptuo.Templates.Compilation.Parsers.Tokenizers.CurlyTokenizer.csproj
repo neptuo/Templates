@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{B12E7C16-46FB-4450-8415-E17823A8FABD}</ProjectGuid>
+    <ProjectGuid>{20E032E2-5ABD-472E-B8F9-48CF138D64F6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Neptuo.Templates.Compilation.Parsers.Tokenizers</RootNamespace>
-    <AssemblyName>Neptuo.Templates.Compilation.Parsers.Tokenizers</AssemblyName>
+    <AssemblyName>Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -42,22 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentModel\DefaultContentInfo.cs" />
-    <Compile Include="ComponentModel\IContentInfo.cs" />
-    <Compile Include="ComponentModel\IErrorMessage.cs" />
-    <Compile Include="ComponentModel\DefaultSourceRangeLineInfo.cs" />
-    <Compile Include="DefaultTokenizerContext.cs" />
-    <Compile Include="IO\IContentReader.cs" />
-    <Compile Include="IO\StringContentReader.cs" />
-    <Compile Include="IToken.cs" />
-    <Compile Include="ITokenizer.cs" />
-    <Compile Include="ITokenizerContext.cs" />
+    <Compile Include="CurlyToken.cs" />
+    <Compile Include="CurlyTokenizer.cs" />
+    <Compile Include="CurlyTokenizerContext.cs" />
+    <Compile Include="CurlyTokenType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
-      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
-      <Name>Neptuo.Templates.Compilation</Name>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
+      <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -53,10 +53,18 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="TestStringContentReader.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="TestCurlyTokenizerBase.cs" />
+    <Compile Include="_Fakes\FakeTokenizerContext.cs" />
+    <Compile Include="IO\TestStringContentReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestCurlyTokenizer.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\src\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer.csproj">
+      <Project>{20e032e2-5abd-472e-b8f9-48cf138d64f6}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\src\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
       <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>

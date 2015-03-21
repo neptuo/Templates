@@ -14,13 +14,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     public interface ITokenizerContext
     {
         /// <summary>
-        /// Collection of errors.
-        /// </summary>
-        ICollection<IErrorInfo> Errors { get; }
-
-        /// <summary>
         /// Current dependency provider.
         /// </summary>
         IDependencyProvider DependencyProvider { get; }
+
+        /// <summary>
+        /// Collection of errors.
+        /// </summary>
+        ICollection<IErrorInfo> Errors { get; }
     }
 }

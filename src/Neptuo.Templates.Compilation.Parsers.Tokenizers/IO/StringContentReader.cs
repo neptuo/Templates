@@ -18,8 +18,21 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         public const char NullChar = '\0';
 
         private readonly string value;
+        private int position;
 
-        public int Position { get; private set; }
+        public int Position
+        {
+            get
+            {
+                if(value == null)
+                    return -1;
+
+                if (position >= value.Length)
+                    return -1;
+
+                return position;
+            }
+        }
 
         public char Current
         {
@@ -45,16 +58,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         public StringContentReader(string value)
         {
             this.value = value;
-            Position = -1;
+            position = -1;
         }
 
         public bool Next()
         {
-            if (value == null || Position >= value.Length)
+            if (value == null || position >= value.Length)
                 return false;
 
-            Position++;
-            return Position < value.Length;
+            position++;
+            return position < value.Length;
         }
     }
 }
