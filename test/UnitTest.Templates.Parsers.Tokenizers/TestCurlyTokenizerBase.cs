@@ -13,7 +13,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
     {
         protected void AssertLength(IList<CurlyToken> tokens, int count)
         {
-            AssertAreEqual(count, tokens.Count);
+            AssertAreEqual(tokens.Count, count);
         }
 
         protected void AssertText(IList<CurlyToken> tokens, params string[] values)

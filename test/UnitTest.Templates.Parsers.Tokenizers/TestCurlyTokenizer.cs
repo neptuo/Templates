@@ -21,11 +21,22 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 
             AssertLength(tokens, 3);
             AssertText(tokens, "{", "Binding", "}");
-            AssertContentInfo(tokens, 
+            AssertContentInfo(tokens,
                 CreateContentInfo(0, 1),
                 CreateContentInfo(1, 7),
                 CreateContentInfo(8, 1)
             );
+        }
+
+        [TestMethod]
+        public void ValidTokenWithText()
+        {
+            IContentReader reader = new StringContentReader("abc {Binding} def");
+            ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();
+            IList<CurlyToken> tokens = tokenizer.Tokenize(reader, new FakeTokenizerContext());
+
+            AssertLength(tokens, 5);
+            AssertText(tokens, "abc ", "{", "Binding", "}", " def");
         }
     }
 }

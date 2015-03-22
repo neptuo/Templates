@@ -29,6 +29,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     ReadCurlyToken(context);
                 }
             }
+
+            TryCreateToken(context, CurlyTokenType.Text);
         }
 
         private void ReadCurlyToken(CurlyTokenizerContext context)
