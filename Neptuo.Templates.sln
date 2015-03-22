@@ -36,7 +36,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilatio
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{CDC9D666-07CE-4356-B874-055D7862B17F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.Templates.Parsers.Tokenizers", "src\UnitTest.Templates.Parsers.Tokenizers\UnitTest.Templates.Parsers.Tokenizers.csproj", "{7A2007BB-86BF-4999-A86B-37DC66FD97A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.Templates.Parsers.Tokenizers", "test\UnitTest.Templates.Parsers.Tokenizers\UnitTest.Templates.Parsers.Tokenizers.csproj", "{7A2007BB-86BF-4999-A86B-37DC66FD97A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer", "src\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer.csproj", "{20E032E2-5ABD-472E-B8F9-48CF138D64F6}"
 EndProject
