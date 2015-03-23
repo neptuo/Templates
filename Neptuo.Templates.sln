@@ -34,8 +34,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStud
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Parsers.Tokenizers", "src\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj", "{B12E7C16-46FB-4450-8415-E17823A8FABD}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{CDC9D666-07CE-4356-B874-055D7862B17F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.Templates.Parsers.Tokenizers", "test\UnitTest.Templates.Parsers.Tokenizers\UnitTest.Templates.Parsers.Tokenizers.csproj", "{7A2007BB-86BF-4999-A86B-37DC66FD97A5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer", "src\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer.csproj", "{20E032E2-5ABD-472E-B8F9-48CF138D64F6}"
@@ -172,11 +170,10 @@ Global
 		{BC762024-B072-4030-B33E-7900493AC41D} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{08038638-BA5E-4032-91D1-CFA70B9777BB} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
 		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
-		{CDC9D666-07CE-4356-B874-055D7862B17F} = {6B93C14C-2672-4935-AE18-C28432632F46}
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5} = {CDC9D666-07CE-4356-B874-055D7862B17F}
+		{7A2007BB-86BF-4999-A86B-37DC66FD97A5} = {6B93C14C-2672-4935-AE18-C28432632F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

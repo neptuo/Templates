@@ -80,7 +80,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 {
                     Text = text,
                     Type = type,
-                    ContentInfo = new DefaultContentInfo(context.Reader.Position - text.Length + 1 - (removeLastChar ? 1 : 0), text.Length),
+                    ContentInfo = new DefaultSourceContentInfo(context.Reader.Position - text.Length + 1 - (removeLastChar ? 1 : 0), text.Length),
                     Error = null,
                     LineInfo = null //TODO: Implement source range line info.
                 });

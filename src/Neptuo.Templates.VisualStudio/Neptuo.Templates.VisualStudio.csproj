@@ -57,6 +57,10 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntelliSense\Classifications\TemplateClassifierProvider.cs" />
+    <Compile Include="_Temporals\FakeTokenizerContext.cs" />
+    <Compile Include="IntelliSense\Classifications\TemplateClassificationType.cs" />
+    <Compile Include="IntelliSense\Classifications\TemplateClassifier.cs" />
     <Compile Include="IntelliSense\CompletionSession.cs" />
     <Compile Include="IntelliSense\TemplateViewController.cs" />
     <Compile Include="IntelliSense\TemplateViewControllerProvider.cs" />
@@ -103,6 +107,16 @@
       <Isolated>False</Isolated>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer.csproj">
+      <Project>{20e032e2-5abd-472e-b8f9-48cf138d64f6}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
+      <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

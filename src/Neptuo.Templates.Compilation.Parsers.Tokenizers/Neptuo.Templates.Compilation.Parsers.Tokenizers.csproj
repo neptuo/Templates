@@ -42,8 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentModel\DefaultContentInfo.cs" />
-    <Compile Include="ComponentModel\IContentInfo.cs" />
+    <Compile Include="ComponentModel\DefaultSourceContentInfo.cs" />
+    <Compile Include="ComponentModel\ISourceContentInfo.cs" />
     <Compile Include="ComponentModel\IErrorMessage.cs" />
     <Compile Include="ComponentModel\DefaultSourceRangeLineInfo.cs" />
     <Compile Include="DefaultTokenizerContext.cs" />

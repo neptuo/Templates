@@ -23,7 +23,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AssertAreEqual(values[i], tokens[i].Text);
         }
 
-        protected void AssertContentInfo(IList<CurlyToken> tokens, params IContentInfo[] values)
+        protected void AssertContentInfo(IList<CurlyToken> tokens, params ISourceContentInfo[] values)
         {
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)
@@ -34,9 +34,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected IContentInfo CreateContentInfo(int startIndex, int length)
+        protected ISourceContentInfo CreateContentInfo(int startIndex, int length)
         {
-            return new DefaultContentInfo(startIndex, length);
+            return new DefaultSourceContentInfo(startIndex, length);
         }
     }
 }

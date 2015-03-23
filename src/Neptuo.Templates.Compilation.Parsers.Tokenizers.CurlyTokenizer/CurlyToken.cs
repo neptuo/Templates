@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     {
         public CurlyTokenType Type { get; set; }
         public ISourceRangeLineInfo LineInfo { get; set; }
-        public IContentInfo ContentInfo { get; set; }
+        public ISourceContentInfo ContentInfo { get; set; }
         public string Text { get; set; }
         public IErrorMessage Error { get; set; }
     }
