@@ -24,6 +24,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
     {
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
+            //ServiceProvider.GlobalProvider.GetService(typeof(DTE2))
             return new TemplateCompletionSource(textBuffer);
         }
     }

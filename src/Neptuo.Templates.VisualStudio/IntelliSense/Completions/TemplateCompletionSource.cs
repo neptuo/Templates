@@ -40,13 +40,39 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                     result.Add(new Completion(value, currentValue, String.Format("Value of '{0}'.", value), null, ""));
             }
 
-            completionSets.Add(new CompletionSet(
+            CompletionSet newCompletionSet = new CompletionSet(
                 Moniker,
                 "Neptuo Templates",
                 FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session),
                 result,
                 null
-            ));
+            );
+            //completionSets.Add(MergeCompletionSets(completionSets, newCompletionSet));
+
+            if (completionSets.Any())
+                completionSets.RemoveAt(0);
+
+            completionSets.Add(newCompletionSet);
+        }
+
+        private CompletionSet MergeCompletionSets(IList<CompletionSet> completionSets, CompletionSet newCompletionSet)
+        {
+            CompletionSet htmlCompletionSet = completionSets.FirstOrDefault();
+            if (htmlCompletionSet != null)
+            {
+                CompletionSet mergedCompletionSet = new CompletionSet(
+                    newCompletionSet.Moniker,
+                    newCompletionSet.DisplayName,
+                    newCompletionSet.ApplicableTo,
+                    newCompletionSet.Completions.Concat(htmlCompletionSet.Completions).OrderBy(n => n.DisplayText),
+                    htmlCompletionSet.CompletionBuilders
+                );
+
+                completionSets.Remove(htmlCompletionSet);
+                return mergedCompletionSet;
+            }
+
+            return newCompletionSet;
         }
 
         private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session)

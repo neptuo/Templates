@@ -13,7 +13,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     public class TemplateClassifier : IClassifier
     {
         private readonly ITextBuffer buffer;
-        private readonly IClassificationType curlyBrace, curlyContent;
+        private readonly IClassificationType curlyBrace, curlyContent, curlyError;
         private readonly CurlyTokenizer tokenizer;
 
         public TemplateClassifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
@@ -22,6 +22,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(TemplateClassificationType.CurlyBrace);
             curlyContent = registry.GetClassificationType(TemplateClassificationType.CurlyContent);
+            curlyError = registry.GetClassificationType(TemplateClassificationType.CurlyError);
         }
 
         public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged;
@@ -44,12 +45,17 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                 CurlyTokenState state = CurlyTokenState.Other;
                 foreach (CurlyToken token in tokens)
                 {
+                    // After error, continue from current state, or start orver?
                     if (state == CurlyTokenState.Other)
                     {
                         if (token.Type == CurlyTokenType.OpenBrace)
                         {
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
                             state = CurlyTokenState.Open;
+                        }
+                        else if (token.Type == CurlyTokenType.Error)
+                        {
+                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
                         }
                     }
                     else if (state == CurlyTokenState.Open)
@@ -58,12 +64,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                         {
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyContent));
                             state = CurlyTokenState.Name;
-                        }
-
-                        if (token.Type == CurlyTokenType.CloseBrace)
+                        } 
+                        else if (token.Type == CurlyTokenType.CloseBrace)
                         {
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
                             state = CurlyTokenState.Other;
+                        }
+                        else if (token.Type == CurlyTokenType.Error)
+                        {
+                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
                         }
                     }
                     else if (state == CurlyTokenState.Name)
@@ -72,6 +81,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                         {
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
                             state = CurlyTokenState.Other;
+                        }
+                        else if(token.Type == CurlyTokenType.Error)
+                        {
+                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
                         }
                     }
                 }

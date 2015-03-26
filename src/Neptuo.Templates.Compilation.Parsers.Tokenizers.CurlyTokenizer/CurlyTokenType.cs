@@ -10,12 +10,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     {
         Text,
 
+        Error,
+
         /// <summary>
         /// '{'
         /// </summary>
         OpenBrace,
         Name,
-
+        
         /// <summary>
         /// ' '
         /// </summary>

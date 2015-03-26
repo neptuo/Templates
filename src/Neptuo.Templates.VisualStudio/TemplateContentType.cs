@@ -14,7 +14,7 @@ namespace Neptuo.Templates.VisualStudio
 
         [Export(typeof(ContentTypeDefinition))]
         [Name(ContentType)]
-        [BaseDefinition("plaintext")]
+        [BaseDefinition("htmlx")]
         public TemplateContentType ContentTypeDefinition { get; set; }
 
         [Export(typeof(FileExtensionToContentTypeDefinition))]

@@ -31,12 +31,34 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void ValidTokenWithText()
         {
-            IContentReader reader = new StringContentReader("abc {Binding} def");
+            IContentReader reader = new StringContentReader("abc {Binding}  subtraction(); adaptation(); ");
             ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();
             IList<CurlyToken> tokens = tokenizer.Tokenize(reader, new FakeTokenizerContext());
 
             AssertLength(tokens, 5);
-            AssertText(tokens, "abc ", "{", "Binding", "}", " def");
+            AssertText(tokens, "abc ", "{", "Binding", "}", "  subtraction(); adaptation(); ");
+        }
+
+        [TestMethod]
+        public void InValidTokenName()
+        {
+            IContentReader reader = new StringContentReader("{Binding as}");
+            ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();
+            IList<CurlyToken> tokens = tokenizer.Tokenize(reader, new FakeTokenizerContext());
+
+            AssertLength(tokens, 4);
+            AssertText(tokens, "{", "Binding", " as", "}");
+        }
+
+        [TestMethod]
+        public void InValidTokenMissingCloseWithNextValid()
+        {
+            IContentReader reader = new StringContentReader("{Binding as {Binding}");
+            ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();
+            IList<CurlyToken> tokens = tokenizer.Tokenize(reader, new FakeTokenizerContext());
+
+            AssertLength(tokens, 6);
+            AssertText(tokens, "{", "Binding", " as ", "{", "Binding", "}");
         }
     }
 }

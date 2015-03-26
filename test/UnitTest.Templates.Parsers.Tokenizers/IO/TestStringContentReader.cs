@@ -29,9 +29,14 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'e');
             AssertAreEqual(contentReader.Position, 4);
+
             AssertAreEqual(contentReader.Next(), false);
             AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
-            AssertAreEqual(contentReader.Position, -1);
+            AssertAreEqual(contentReader.Position, 4);
+
+            AssertAreEqual(contentReader.Next(), false);
+            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Position, 4);
         }
 
         [TestMethod]

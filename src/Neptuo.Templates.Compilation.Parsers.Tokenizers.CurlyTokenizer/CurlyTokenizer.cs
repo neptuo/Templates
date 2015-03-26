@@ -44,10 +44,37 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             {
                 context.CurrentText.Append(context.Reader.Current);
 
-                if(context.Reader.Current == '}')
+                if (context.Reader.Current == ' ')
+                {
+                    TryCreateToken(context, CurlyTokenType.Name, true);
+                    ReadCurlyNameError(context);
+                    return;
+                }
+                else if(context.Reader.Current == '}')
                 {
                     TryCreateToken(context, CurlyTokenType.Name, true);
                     TryCreateToken(context, CurlyTokenType.CloseBrace);
+                    return;
+                }
+            }
+        }
+
+        private void ReadCurlyNameError(CurlyTokenizerContext context)
+        {
+            while (context.Reader.Next())
+            {
+                context.CurrentText.Append(context.Reader.Current);
+
+                if (context.Reader.Current == '}')
+                {
+                    TryCreateToken(context, CurlyTokenType.Error, true);
+                    TryCreateToken(context, CurlyTokenType.CloseBrace);
+                    return;
+                }
+                else if (context.Reader.Current == '{')
+                {
+                    TryCreateToken(context, CurlyTokenType.Error, true);
+                    ReadCurlyToken(context);
                     return;
                 }
             }

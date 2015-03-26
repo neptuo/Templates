@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                     return -1;
 
                 if (position >= value.Length)
-                    return -1;
+                    return position - 1;
 
                 return position;
             }
@@ -38,16 +38,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         {
             get
             {
-                if (Position < 0)
+                if (position < 0)
                     return NullChar;
 
                 if (value == null)
                     return NullChar;
 
-                if (Position >= value.Length)
+                if (position >= value.Length)
                     return NullChar;
 
-                return value[Position];
+                return value[position];
             }
         }
 

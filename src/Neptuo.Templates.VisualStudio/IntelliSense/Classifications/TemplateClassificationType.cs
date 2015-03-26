@@ -14,14 +14,19 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         public const string Name = "ntemplate";
         public const string CurlyBrace = "ntemplate_CurlyBrace";
         public const string CurlyContent = "ntemplate_CurlyContent";
+        public const string CurlyError = "ntemplate_CurlyError";
 
         [Export(typeof(ClassificationTypeDefinition))]
         [Name(CurlyBrace)]
         internal static ClassificationTypeDefinition TemplateCurlyBraceClassificationTypeDefinition = null;
 
-        [Export(typeof (ClassificationTypeDefinition))] 
+        [Export(typeof(ClassificationTypeDefinition))]
         [Name(CurlyContent)]
         internal static ClassificationTypeDefinition TemplateCurlyContentClassificationTypeDefinition = null;
+
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name(CurlyError)]
+        internal static ClassificationTypeDefinition TemplateCurlyErrorClassificationTypeDefinition = null;
     }
 
     [Export(typeof(EditorFormatDefinition))]
@@ -51,15 +56,30 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             BackgroundColor = Color.FromRgb(244, 244, 244);
             ForegroundColor = Colors.Blue;
             DisplayName = "Template Curly Content";
+        }
+    }
 
-            //TextDecorations = new TextDecorationCollection();
-            //TextDecorations.Add(new TextDecoration(
-            //    TextDecorationLocation.Underline,
-            //    new Pen(new SolidColorBrush(Color.FromRgb(255, 0, 0)), 1),
-            //    2,
-            //    TextDecorationUnit.FontRecommended,
-            //    TextDecorationUnit.FontRecommended
-            //));
+    [Export(typeof(EditorFormatDefinition))]
+    [ClassificationType(ClassificationTypeNames = TemplateClassificationType.CurlyError)]
+    [Name(TemplateClassificationType.CurlyError)]
+    [UserVisible(true)]
+    [Order(After = Priority.Default)]
+    internal sealed class CurlyErrorDefinition : ClassificationFormatDefinition
+    {
+        public CurlyErrorDefinition()
+        {
+            BackgroundColor = Color.FromArgb(0, 0, 0, 0);
+            ForegroundColor = Colors.Red;
+            DisplayName = "Template Curly Error";
+
+            TextDecorations = new TextDecorationCollection();
+            TextDecorations.Add(new TextDecoration(
+                TextDecorationLocation.Underline,
+                new Pen(new SolidColorBrush(Colors.Red), 1),
+                2,
+                TextDecorationUnit.FontRecommended,
+                TextDecorationUnit.FontRecommended
+            ));
         }
     }
 }
