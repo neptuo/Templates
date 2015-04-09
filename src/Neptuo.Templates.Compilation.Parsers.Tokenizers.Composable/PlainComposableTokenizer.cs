@@ -13,6 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     {
         public bool Accept(char input, ComposableTokenizerContext context)
         {
+            context.IncludeAllTokenizers(this);
             return true;
         }
 

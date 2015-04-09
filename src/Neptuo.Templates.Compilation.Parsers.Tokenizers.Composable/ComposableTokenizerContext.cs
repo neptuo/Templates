@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
+﻿using Neptuo.Collections.Specialized;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public ITokenizerContext TokenizerContext { get; private set; }
         public IList<ComposableToken> Tokens { get; private set; }
 
+        public IKeyValueCollection CustomValues { get; private set; }
+
         internal List<IComposableTokenizer> Tokenizers { get; private set; }
         internal List<IComposableTokenizer> CurrentTokenizers { get; private set; }
 
@@ -27,6 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             Reader = reader;
             TokenizerContext = tokenizerContext;
             Tokens = new List<ComposableToken>();
+            CustomValues = new KeyValueCollection();
             Tokenizers = new List<IComposableTokenizer>(tokenizers);
             CurrentTokenizers = new List<IComposableTokenizer>(tokenizers);
         }

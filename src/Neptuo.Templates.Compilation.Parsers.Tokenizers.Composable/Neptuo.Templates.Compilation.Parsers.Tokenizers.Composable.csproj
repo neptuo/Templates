@@ -47,6 +47,7 @@
     <Compile Include="ComposableTokenTypeCollection.cs" />
     <Compile Include="ComposableTokenizer.cs" />
     <Compile Include="ComposableTokenType.cs" />
+    <Compile Include="CurlyComposableTokenizer.cs" />
     <Compile Include="IComposableTokenizer.cs" />
     <Compile Include="PlainComposableTokenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
