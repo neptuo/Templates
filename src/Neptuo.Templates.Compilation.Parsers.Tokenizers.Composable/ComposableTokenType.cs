@@ -11,13 +11,32 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// </summary>
     public class ComposableTokenType
     {
+        /// <summary>
+        /// Error token type.
+        /// </summary>
+        public static readonly ComposableTokenType Error = new ComposableTokenType("Error");
+
+        /// <summary>
+        /// Plain text token type.
+        /// </summary>
+        public static readonly ComposableTokenType Text = new ComposableTokenType("Text");
+
+
+        /// <summary>
+        /// Unique token type name.
+        /// </summary>
         public string UniqueName { get; private set; }
 
+        /// <summary>
+        /// Creates instance of token type.
+        /// </summary>
+        /// <param name="uniqueName">Unique token type name.</param>
         public ComposableTokenType(string uniqueName)
         {
             Ensure.NotNullOrEmpty(uniqueName, "uniqueName");
             UniqueName = uniqueName;
         }
+
 
         public override int GetHashCode()
         {
