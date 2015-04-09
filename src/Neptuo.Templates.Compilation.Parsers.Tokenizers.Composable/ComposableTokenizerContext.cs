@@ -31,12 +31,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             CurrentTokenizers = new List<IComposableTokenizer>(tokenizers);
         }
 
-        public bool TryCreateToken(IComposableTokenizer tokenizer, ComposableTokenType tokenType, bool removeLastChar = false)
+        private bool TryCreateTokenInternal(ComposableTokenType tokenType, bool removeLastChar = false)
         {
-            // Check if 'tokenizer' can currently tokenize.
-            if (!CurrentTokenizers.Contains(tokenizer))
-                return false;
-
             string text = CurrentText.ToString();
             if (removeLastChar)
             {
@@ -67,6 +63,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     LineInfo = null //TODO: Implement source range line info.
                 });
 
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool TryCreateToken(IComposableTokenizer tokenizer, ComposableTokenType tokenType, bool removeLastChar = false)
+        {
+            // Check if 'tokenizer' can currently tokenize.
+            if (!CurrentTokenizers.Contains(tokenizer))
+                return false;
+
+            if(TryCreateTokenInternal(tokenType, removeLastChar))
+            {
                 // Remove all other tokenizers, because 'tokenizer' has win (the contest with other tokenizers).
                 if (CurrentTokenizers.Count > 1)
                 {
@@ -78,6 +88,53 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             }
 
             return false;
+        }
+
+        public void IncludeAllTokenizers(IComposableTokenizer tokenizer, bool onCurrentChar = false)
+        {
+            CurrentTokenizers.Clear();
+            CurrentTokenizers.AddRange(Tokenizers);
+
+            if (onCurrentChar)
+            {
+                List<IComposableTokenizer> toRemove = new List<IComposableTokenizer>();
+                foreach (IComposableTokenizer otherTokenizer in CurrentTokenizers)
+                {
+                    if(otherTokenizer != tokenizer)
+                    {
+                        if (!otherTokenizer.Accept(Reader.Current, this))
+                            toRemove.Add(otherTokenizer);
+                    }
+                }
+
+                foreach (IComposableTokenizer otherTokenizer in toRemove)
+                    CurrentTokenizers.Remove(otherTokenizer);
+            }
+        }
+
+        internal void Accept(char input)
+        {
+            List<IComposableTokenizer> toRemove = new List<IComposableTokenizer>();
+            foreach (IComposableTokenizer tokenizer in CurrentTokenizers)
+            {
+                if (!tokenizer.Accept(input, this))
+                    toRemove.Add(tokenizer);
+            }
+
+            foreach (IComposableTokenizer otherTokenizer in toRemove)
+                CurrentTokenizers.Remove(otherTokenizer);
+        }
+
+        internal void Finalize()
+        {
+            if(!CurrentTokenizers.Any())
+            {
+                TryCreateTokenInternal(ComposableTokenType.Error);
+                return;
+            }
+
+            foreach (IComposableTokenizer tokenizer in CurrentTokenizers)
+                tokenizer.Finalize(this);
         }
     }
 }

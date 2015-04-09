@@ -43,6 +43,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         {
             while (context.Reader.Next())
             {
+                context.CurrentText.Append(context.Reader.Current);
+                context.Accept(context.Reader.Current);
+
                 //TODO: Process character.
                 // 1) Call all registered tokenizers (and add them to temporal list).
                 // 2) When first tokenizer exports token, kill all others (remove all others from list).
@@ -50,6 +53,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 // 4) Stop tokenizer when stop token/char is found OR end of file is reached.
 
             }
+
+            context.Finalize();
         }
     }
 }

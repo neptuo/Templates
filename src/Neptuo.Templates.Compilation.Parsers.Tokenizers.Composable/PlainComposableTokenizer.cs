@@ -11,5 +11,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// </summary>
     public class PlainComposableTokenizer : IComposableTokenizer
     {
+        public bool Accept(char input, ComposableTokenizerContext context)
+        {
+            return true;
+        }
+
+        public void Finalize(ComposableTokenizerContext context)
+        {
+            context.TryCreateToken(this, ComposableTokenType.Text);
+        }
     }
 }

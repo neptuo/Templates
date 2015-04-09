@@ -8,5 +8,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     public interface IComposableTokenizer
     {
+        bool Accept(char input, ComposableTokenizerContext context);
+
+        void Finalize(ComposableTokenizerContext context);
     }
 }
