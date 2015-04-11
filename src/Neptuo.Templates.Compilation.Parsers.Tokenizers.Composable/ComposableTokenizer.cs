@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Extensible implementation of <see cref="ITokenizer{T}"/>.
     /// </summary>
-    public class ComposableTokenizer : ITokenizer<ComposableToken>
+    public class ComposableTokenizer : ITokenizer<ComposableToken>, IComposableTokenizerCollection
     {
         private readonly ComposableTokenTypeCollection supportedTokens;
         private readonly List<IComposableTokenizer> tokenizers;
@@ -55,6 +55,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             }
 
             context.Finalize();
+        }
+
+        public IComposableTokenizerCollection Add(IComposableTokenizer tokenizer)
+        {
+            Ensure.NotNull(tokenizer, "tokenizer");
+            tokenizers.Add(tokenizer);
+            return this;
         }
     }
 }
