@@ -13,19 +13,15 @@ namespace UnitTest.Templates.Parsers.Tokenizers
     public class TestComposableTokenizer
     {
         [TestMethod]
-        public void BaseValidToken()
+        public void Composable_ValidToken()
         {
             IContentReader reader = new StringContentReader("{Binding}");
+            
             ComposableTokenizer tokenizer = new ComposableTokenizer();
+            tokenizer.Add(new CurlyComposableTokenizer());
+
             IList<ComposableToken> tokens = tokenizer.Tokenize(reader, new FakeTokenizerContext());
 
-            //AssertLength(tokens, 3);
-            //AssertText(tokens, "{", "Binding", "}");
-            //AssertContentInfo(tokens,
-            //    CreateContentInfo(0, 1),
-            //    CreateContentInfo(1, 7),
-            //    CreateContentInfo(8, 1)
-            //);
         }
     }
 }

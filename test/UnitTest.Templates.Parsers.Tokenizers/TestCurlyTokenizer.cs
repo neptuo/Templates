@@ -13,7 +13,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
     public class TestCurlyTokenizer : TestCurlyTokenizerBase
     {
         [TestMethod]
-        public void BaseValidToken()
+        public void Curly_BaseValidToken()
         {
             IContentReader reader = new StringContentReader("{Binding}");
             ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();
@@ -29,7 +29,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void ValidTokenWithText()
+        public void Curly_ValidTokenWithText()
         {
             IContentReader reader = new StringContentReader("abc {Binding}  subtraction(); adaptation(); ");
             ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();
@@ -40,7 +40,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void InValidTokenName()
+        public void Curly_InValidTokenName()
         {
             IContentReader reader = new StringContentReader("{Binding as}");
             ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();
@@ -51,7 +51,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void InValidTokenMissingCloseWithNextValid()
+        public void Curly_InValidTokenMissingCloseWithNextValid()
         {
             IContentReader reader = new StringContentReader("{Binding as {Binding}");
             ITokenizer<CurlyToken> tokenizer = new CurlyTokenizer();

@@ -51,5 +51,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             return UniqueName.Equals(otherType.UniqueName);
         }
+
+        public override string ToString()
+        {
+            return String.Format("({0})", UniqueName);
+        }
     }
 }

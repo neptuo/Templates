@@ -18,5 +18,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public ISourceContentInfo ContentInfo { get; set; }
         public string Text { get; set; }
         public IErrorMessage Error { get; set; }
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} \"{2}\"", ContentInfo, Type, Text);
+        }
     }
 }

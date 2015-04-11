@@ -8,7 +8,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
     public class TestStringContentReader : TestBase
     {
         [TestMethod]
-        public void ReadingValue()
+        public void ContentReader_ReadingValue()
         {
             IContentReader contentReader = new StringContentReader("value");
 
@@ -40,7 +40,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         }
 
         [TestMethod]
-        public void ReadingNull()
+        public void ContentReader_ReadingNull()
         {
             IContentReader contentReader = new StringContentReader(null);
 

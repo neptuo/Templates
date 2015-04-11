@@ -84,7 +84,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 // Remove all other tokenizers, because 'tokenizer' has win (the contest with other tokenizers).
                 if (CurrentTokenizers.Count > 1)
                 {
-                    foreach (IComposableTokenizer item in CurrentTokenizers.Where(t => t != tokenizer))
+                    foreach (IComposableTokenizer item in CurrentTokenizers.ToList().Where(t => t != tokenizer))
                         CurrentTokenizers.Remove(item);
                 }
 
@@ -119,7 +119,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         internal void Accept(char input)
         {
             List<IComposableTokenizer> toRemove = new List<IComposableTokenizer>();
-            foreach (IComposableTokenizer tokenizer in CurrentTokenizers)
+            List<IComposableTokenizer> currentTokenizers = CurrentTokenizers.ToList();
+            foreach (IComposableTokenizer tokenizer in currentTokenizers)
             {
                 if (!tokenizer.Accept(input, this))
                     toRemove.Add(tokenizer);
