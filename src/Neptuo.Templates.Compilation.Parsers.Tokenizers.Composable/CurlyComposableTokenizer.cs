@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class CurlyComposableTokenizer : IComposableTokenizer
+    public class CurlyComposableTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
     {
         private enum State
         {
@@ -94,6 +94,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public void Finalize(ComposableTokenizerContext context)
         {
             context.TryCreateToken(this, ComposableTokenType.Error);
+        }
+
+        public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
+        {
+            return new List<ComposableTokenType>()
+            {
+                TokenType.OpenBrace,
+                TokenType.Name,
+                TokenType.CloseBrace
+            };
         }
     }
 }

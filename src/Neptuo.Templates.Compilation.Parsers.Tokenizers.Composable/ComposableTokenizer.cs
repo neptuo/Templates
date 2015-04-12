@@ -35,6 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public IList<ComposableToken> Tokenize(IContentReader reader, ITokenizerContext context)
         {
             ComposableTokenizerContext superContext = new ComposableTokenizerContext(reader, context, tokenizers);
+            superContext.SupportedTokenTypes = supportedTokens;
             Tokenize(superContext);
             return superContext.Tokens;
         }
@@ -61,6 +62,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         {
             Ensure.NotNull(tokenizer, "tokenizer");
             tokenizers.Add(tokenizer);
+
+            IComposableTokenTypeProvider provider = tokenizer as IComposableTokenTypeProvider;
+            if (provider != null)
+                supportedTokens.AddRange(provider.GetSupportedTokenTypes());
+
             return this;
         }
     }

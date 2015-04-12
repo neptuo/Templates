@@ -18,6 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         internal IContentReader Reader { get; private set; }
         public ITokenizerContext TokenizerContext { get; private set; }
         public IList<ComposableToken> Tokens { get; private set; }
+        public IEnumerable<ComposableTokenType> SupportedTokenTypes { get; internal set; }
 
         public IKeyValueCollection CustomValues { get; private set; }
 
@@ -78,6 +79,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             // Check if 'tokenizer' can currently tokenize.
             if (!CurrentTokenizers.Contains(tokenizer))
                 return false;
+
+            // Check if token type is supported.
+            if (!SupportedTokenTypes.Contains(tokenType))
+                throw Ensure.Exception.NotSupported("Not supported token type '{0}'.", tokenType.UniqueName);
 
             if(TryCreateTokenInternal(tokenType, removeLastChar))
             {

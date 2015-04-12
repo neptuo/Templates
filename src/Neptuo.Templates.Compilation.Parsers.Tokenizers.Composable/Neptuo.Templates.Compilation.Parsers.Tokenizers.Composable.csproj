@@ -50,8 +50,10 @@
     <Compile Include="CurlyComposableTokenizer.cs" />
     <Compile Include="IComposableTokenizer.cs" />
     <Compile Include="IComposableTokenizerCollection.cs" />
+    <Compile Include="IComposableTokenTypeProvider.cs" />
     <Compile Include="PlainComposableTokenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_ComposableTokenTypeCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
