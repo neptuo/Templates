@@ -22,8 +22,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             /// <summary>
             /// ' '
             /// </summary>
-            Whitespace,
+            NameSeparator,
             AttributeName,
+
+            DefaultAttributeValue,
 
             /// <summary>
             /// '='
@@ -46,6 +48,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         {
             public static readonly ComposableTokenType OpenBrace = new ComposableTokenType("Curly.OpenBrace");
             public static readonly ComposableTokenType Name = new ComposableTokenType("Curly.Name");
+
+            public static readonly ComposableTokenType DefaultAttributeValue = new ComposableTokenType("Curly.DefaultAttributeName");
+            public static readonly ComposableTokenType AttributeSeparator = new ComposableTokenType("Curly.AttributeSeparator");
+
             public static readonly ComposableTokenType CloseBrace = new ComposableTokenType("Curly.CloseBrace");
         }
 
@@ -66,6 +72,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             {
                 if (input == '{')
                 {
+                    context.TryCreateToken(this, ComposableTokenType.Text, true);
                     context.TryCreateToken(this, TokenType.OpenBrace);
                     CurrentState(context, State.OpenBrace);
                     return true;
@@ -75,12 +82,38 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             }
             else if (state == State.OpenBrace)
             {
+                if (input == '{')
+                {
+                    context.TryCreateToken(this, ComposableTokenType.Error);
+                    return true;
+                }
+
                 if(input == '}')
                 {
                     context.TryCreateToken(this, TokenType.Name, true);
                     context.TryCreateToken(this, TokenType.CloseBrace);
                     CurrentState(context, State.Initial);
-                    //TODO: Include all? No!
+                    return true;
+                }
+
+                if (input == ' ')
+                {
+                    context.TryCreateToken(this, TokenType.Name, true);
+                    context.TryCreateToken(this, ComposableTokenType.Text);
+                    CurrentState(context, State.NameSeparator);
+                    return true;
+                }
+
+                if (Char.IsLetterOrDigit(input))
+                    return true;
+            }
+            else if (state == State.NameSeparator)
+            {
+                if(input == '}')
+                {
+                    context.TryCreateToken(this, C, true);
+                    context.TryCreateToken(this, TokenType.CloseBrace);
+                    CurrentState(context, State.Initial);
                     return true;
                 }
 

@@ -10,21 +10,33 @@ using System.Threading.Tasks;
 
 namespace UnitTest.Templates.Parsers.Tokenizers
 {
-    public abstract class TestCurlyTokenizerBase : TestBase
+    public abstract class TestComposableTokenizerBase : TestBase
     {
-        protected void AssertLength(IList<CurlyToken> tokens, int count)
+        protected ComposableTokenizer CreateTokenizer()
+        {
+            ComposableTokenizer tokenizer = new ComposableTokenizer();
+            tokenizer.Add(new CurlyComposableTokenizer());
+            return tokenizer;
+        }
+
+        protected IContentReader CreateContentReader(string text)
+        {
+            return new StringContentReader(text);
+        }
+
+        protected void AssertLength(IList<ComposableToken> tokens, int count)
         {
             AssertAreEqual(tokens.Count, count);
         }
 
-        protected void AssertText(IList<CurlyToken> tokens, params string[] values)
+        protected void AssertText(IList<ComposableToken> tokens, params string[] values)
         {
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)
                 AssertAreEqual(values[i], tokens[i].Text);
         }
 
-        protected void AssertContentInfo(IList<CurlyToken> tokens, params ISourceContentInfo[] values)
+        protected void AssertContentInfo(IList<ComposableToken> tokens, params ISourceContentInfo[] values)
         {
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)

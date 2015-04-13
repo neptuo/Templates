@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="TestComposableTokenizer.cs" />
     <Compile Include="TestBase.cs" />
+    <Compile Include="TestComposableTokenizerBase.cs" />
     <Compile Include="TestCurlyTokenizerBase.cs" />
     <Compile Include="_Fakes\FakeTokenizerContext.cs" />
     <Compile Include="IO\TestStringContentReader.cs" />
