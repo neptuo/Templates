@@ -46,9 +46,17 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Composable_ValidTokenWithNamedAttributes()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path=ID}"), new FakeTokenizerContext());
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path=ID, Converter=Default}"), new FakeTokenizerContext());
 
-            AssertText(tokens, "{", "Binding", " ", "Path", "=", "ID", "}");
+            AssertText(tokens, "{", "Binding", " ", "Path", "=", "ID", ",", " ", "Converter", "=", "Default", "}");
+        }
+
+        [TestMethod]
+        public void Composable_InValidTokenWithoutCloseBrace()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "Binding", "}");
         }
 
         [TestMethod]

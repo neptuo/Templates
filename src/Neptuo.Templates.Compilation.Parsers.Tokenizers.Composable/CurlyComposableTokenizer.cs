@@ -139,9 +139,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 ReadTokenStart(decorator, context, result);
                 CreateToken(decorator, result, TokenType.Text);
             }
+
+            // TODO: This use case is more complicated!
+            //if (decorator.Current == StringContentReader.NullChar)
+            //{
+            //    // Use as name and close token (virtually).
+            //    CreateToken(decorator, result, TokenType.Name);
+            //    CreateVirtualToken(result, TokenType.CloseBrace, "}");
+            //}
         }
 
-        private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result, bool supportDefaultAttributes = true)
         {
             decorator.ReadWhile(Char.IsLetterOrDigit);
 
@@ -156,17 +164,30 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 CreateToken(decorator, result, TokenType.AttributeValue, 1);
 
                 if (decorator.Current == ',')
-                    ReadTokenAttribute(decorator, context, result);
+                {
+                    // Use as separator.
+                    CreateToken(decorator, result, TokenType.AttributeSeparator);
 
-                if (decorator.Current == '}')
-                    return;
+                    // Read all whitespaces.
+                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    CreateToken(decorator, result, TokenType.Whitespace, 1);
+
+                    // Try read next attribute.
+                    ReadTokenAttribute(decorator, context, result, false);
+                }
             }
             else if (decorator.Current == ',')
             {
-                // Use as default.
-                CreateToken(decorator, result, TokenType.DefaultAttributeValue, 1);
+                // Use as default attribute or mark as error.
+                if (supportDefaultAttributes)
+                    CreateToken(decorator, result, TokenType.DefaultAttributeValue, 1);
+                else
+                    CreateToken(decorator, result, TokenType.Error, 1);
+
+                // Use as separator.
                 CreateToken(decorator, result, TokenType.AttributeSeparator);
 
+                // Try read next attribute.
                 ReadTokenAttribute(decorator, context, result);
             }
         }
@@ -182,7 +203,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 result.Add(new ComposableToken(tokenType, text)
                 {
                     ContentInfo = decorator.CurrentContentInfo(),
-                    LineInfo = decorator.CurrentLineInfo()
+                    LineInfo = decorator.CurrentLineInfo(),
                 });
 
                 decorator.ResetCurrentInfo();
@@ -190,6 +211,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             if (stepsToGoBack > 0)
                 decorator.Read(stepsToGoBack);
+        }
+
+        private void CreateVirtualToken(List<ComposableToken> result, ComposableTokenType tokenType, string text)
+        {
+            result.Add(new ComposableToken(tokenType, text)
+            {
+                IsVirtual = true
+            });
         }
     }
 }

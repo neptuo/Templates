@@ -36,7 +36,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         public override string ToString()
         {
-            return String.Format("{0} {1} \"{2}\"", ContentInfo, Type, Text);
+            string position = null;
+            if(IsVirtual)
+                position = "<Virtual>";
+            else if(ContentInfo != null)
+                position = ContentInfo.ToString();
+            else if(LineInfo != null)
+                position = LineInfo.ToString();
+
+            return String.Format("{0} {1} \"{2}\"", position, Type, Text);
         }
     }
 }
