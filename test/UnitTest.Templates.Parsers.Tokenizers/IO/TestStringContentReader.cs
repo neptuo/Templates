@@ -50,5 +50,20 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
             AssertAreEqual(contentReader.Position, -1);
         }
+
+        [TestMethod]
+        public void ContentReader_Offset()
+        {
+            IContentReader contentReader = new StringContentReader("value", 5);
+
+            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Position, 4);
+            AssertAreEqual(contentReader.Next(), true);
+            AssertAreEqual(contentReader.Current, 'v');
+            AssertAreEqual(contentReader.Position, 5);
+            AssertAreEqual(contentReader.Next(), true);
+            AssertAreEqual(contentReader.Current, 'a');
+            AssertAreEqual(contentReader.Position, 6);
+        }
     }
 }

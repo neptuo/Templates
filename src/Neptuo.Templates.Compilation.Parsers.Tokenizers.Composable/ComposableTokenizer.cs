@@ -15,11 +15,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         private readonly ComposableTokenTypeCollection supportedTokens;
         private readonly List<IComposableTokenizer> tokenizers;
 
+        public class TokenType : ComposableTokenType.TokenType
+        { }
+
         /// <summary>
         /// Creates new instance of tokenizer.
         /// </summary>
         public ComposableTokenizer()
-            : this(new List<ComposableTokenType>() { ComposableTokenType.Error, ComposableTokenType.Text })
+            : this(new List<ComposableTokenType>() { TokenType.Error, TokenType.Text })
         { }
 
         /// <summary>
@@ -29,33 +32,23 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public ComposableTokenizer(IEnumerable<ComposableTokenType> supportedTokens)
         {
             this.supportedTokens = new ComposableTokenTypeCollection(supportedTokens);
-            this.tokenizers = new List<IComposableTokenizer>() { new PlainComposableTokenizer() };
+            this.tokenizers = new List<IComposableTokenizer>() { };//new PlainComposableTokenizer() };
         }
 
         public IList<ComposableToken> Tokenize(IContentReader reader, ITokenizerContext context)
         {
-            ComposableTokenizerContext superContext = new ComposableTokenizerContext(reader, context, tokenizers);
-            superContext.SupportedTokenTypes = supportedTokens;
-            Tokenize(superContext);
-            return superContext.Tokens;
-        }
+            IComposableTokenizerContext superContext = new DefaultComposableTokenizerContext(context);
 
-        private void Tokenize(ComposableTokenizerContext context)
-        {
-            while (context.Reader.Next())
+            //TODO: When using two or more tokenizers, cache reader!!
+            foreach (IComposableTokenizer tokenizer in tokenizers)
             {
-                context.CurrentText.Append(context.Reader.Current);
-                context.Accept(context.Reader.Current);
-
-                //TODO: Process character.
-                // 1) Call all registered tokenizers (and add them to temporal list).
-                // 2) When first tokenizer exports token, kill all others (remove all others from list).
-                // 3) Use selected tokenizer until it calls for 'activate other tokenizers', with stop token/char (when other tokiners should stop).
-                // 4) Stop tokenizer when stop token/char is found OR end of file is reached.
-
+                IList<ComposableToken> tokens = tokenizer.Tokenize(reader, superContext);
+                if (tokens.Any())
+                    return tokens;
             }
 
-            context.Finalize();
+            //TODO: Return empty collection.
+            throw Ensure.Exception.NotImplemented();
         }
 
         public IComposableTokenizerCollection Add(IComposableTokenizer tokenizer)

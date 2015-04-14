@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +13,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// </summary>
     public class PlainComposableTokenizer : IComposableTokenizer
     {
-        public bool Accept(char input, ComposableTokenizerContext context)
-        {
-            context.IncludeAllTokenizers(this);
-            return true;
-        }
+        public class TokenType : ComposableTokenType.TokenType 
+        { }
 
-        public void Finalize(ComposableTokenizerContext context)
+        public IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizerContext context)
         {
-            context.TryCreateToken(this, ComposableTokenType.Text);
+            int startPosition = reader.Position;
+            string content = reader.ReadToEnd().ToString();
+            return new List<ComposableToken>() 
+            { 
+                new ComposableToken(TokenType.Text, content) 
+                {
+                    ContentInfo = new DefaultSourceContentInfo(startPosition, content.Length)
+                }
+            };
         }
     }
 }

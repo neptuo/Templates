@@ -12,15 +12,25 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     public class ComposableTokenType
     {
         /// <summary>
-        /// Error token type.
+        /// Base token types.
         /// </summary>
-        public static readonly ComposableTokenType Error = new ComposableTokenType("Error");
+        public class TokenType
+        {
+            /// <summary>
+            /// Error token type.
+            /// </summary>
+            public static readonly ComposableTokenType Error = new ComposableTokenType("Error");
 
-        /// <summary>
-        /// Plain text token type.
-        /// </summary>
-        public static readonly ComposableTokenType Text = new ComposableTokenType("Text");
+            /// <summary>
+            /// Plain text token type.
+            /// </summary>
+            public static readonly ComposableTokenType Text = new ComposableTokenType("Text");
 
+            /// <summary>
+            /// Whitespace only text token type.
+            /// </summary>
+            public static readonly ComposableTokenType Whitespace = new ComposableTokenType("Whitespace");
+        }
 
         /// <summary>
         /// Unique token type name.

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Collections.Specialized;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,10 +20,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             OpenBrace,
             Name,
 
-            /// <summary>
-            /// ' '
-            /// </summary>
-            NameSeparator,
             AttributeName,
 
             DefaultAttributeValue,
@@ -44,89 +41,21 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             CloseBrace
         }
 
-        public static class TokenType
+        public class TokenType : ComposableTokenType.TokenType
         {
             public static readonly ComposableTokenType OpenBrace = new ComposableTokenType("Curly.OpenBrace");
+            public static readonly ComposableTokenType NamePrefix = new ComposableTokenType("Curly.NamePrefix");
+            public static readonly ComposableTokenType NameSeparator = new ComposableTokenType("Curly.NameSeparator");
             public static readonly ComposableTokenType Name = new ComposableTokenType("Curly.Name");
 
             public static readonly ComposableTokenType DefaultAttributeValue = new ComposableTokenType("Curly.DefaultAttributeName");
             public static readonly ComposableTokenType AttributeSeparator = new ComposableTokenType("Curly.AttributeSeparator");
 
+            public static readonly ComposableTokenType AttributeName = new ComposableTokenType("Curly.AttributeName");
+            public static readonly ComposableTokenType AttributeValueSeparator = new ComposableTokenType("Curly.AttributeValueSeparator");
+            public static readonly ComposableTokenType AttributeValue = new ComposableTokenType("Curly.AttributeValue");
+
             public static readonly ComposableTokenType CloseBrace = new ComposableTokenType("Curly.CloseBrace");
-        }
-
-        private State CurrentState(ComposableTokenizerContext context)
-        {
-            return context.CustomValues.Get<State>("Curly.State", State.Initial);
-        }
-
-        private void CurrentState(ComposableTokenizerContext context, State state)
-        {
-            context.CustomValues.Set("Curly.State", state);
-        }
-
-        public bool Accept(char input, ComposableTokenizerContext context)
-        {
-            State state = CurrentState(context);
-            if (state == State.Initial)
-            {
-                if (input == '{')
-                {
-                    context.TryCreateToken(this, ComposableTokenType.Text, true);
-                    context.TryCreateToken(this, TokenType.OpenBrace);
-                    CurrentState(context, State.OpenBrace);
-                    return true;
-                }
-
-                return false;
-            }
-            else if (state == State.OpenBrace)
-            {
-                if (input == '{')
-                {
-                    context.TryCreateToken(this, ComposableTokenType.Error);
-                    return true;
-                }
-
-                if(input == '}')
-                {
-                    context.TryCreateToken(this, TokenType.Name, true);
-                    context.TryCreateToken(this, TokenType.CloseBrace);
-                    CurrentState(context, State.Initial);
-                    return true;
-                }
-
-                if (input == ' ')
-                {
-                    context.TryCreateToken(this, TokenType.Name, true);
-                    context.TryCreateToken(this, ComposableTokenType.Text);
-                    CurrentState(context, State.NameSeparator);
-                    return true;
-                }
-
-                if (Char.IsLetterOrDigit(input))
-                    return true;
-            }
-            else if (state == State.NameSeparator)
-            {
-                if(input == '}')
-                {
-                    context.TryCreateToken(this, C, true);
-                    context.TryCreateToken(this, TokenType.CloseBrace);
-                    CurrentState(context, State.Initial);
-                    return true;
-                }
-
-                if (Char.IsLetterOrDigit(input))
-                    return true;
-            }
-
-            return false;
-        }
-
-        public void Finalize(ComposableTokenizerContext context)
-        {
-            context.TryCreateToken(this, ComposableTokenType.Error);
         }
 
         public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
@@ -135,8 +64,128 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             {
                 TokenType.OpenBrace,
                 TokenType.Name,
-                TokenType.CloseBrace
+
+                TokenType.DefaultAttributeValue,
+                TokenType.AttributeSeparator,
+
+                TokenType.AttributeName,
+                TokenType.AttributeValueSeparator,
+                TokenType.AttributeValue,
+
+                TokenType.CloseBrace,
+
+                TokenType.Error,
+                TokenType.Whitespace,
+                TokenType.Text
             };
+        }
+
+        public IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizerContext context)
+        {
+            List<ComposableToken> result = new List<ComposableToken>();
+            ContentDecorator decorator = new ContentDecorator(reader);
+            ReadTokenStart(decorator, context, result);
+            return result;
+        }
+
+        private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        {
+            if (decorator.ReadUntil(c => c == '{'))
+            {
+                CreateToken(decorator, result, TokenType.Text, 1);
+                CreateToken(decorator, result, TokenType.OpenBrace);
+                ReadTokenName(decorator, context, result);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void ReadTokenName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        {
+            decorator.ReadWhile(Char.IsLetterOrDigit);
+
+            if (decorator.Current == ':')
+            {
+                // Use as prefix.
+                CreateToken(decorator, result, TokenType.NamePrefix, 1);
+                CreateToken(decorator, result, TokenType.NameSeparator);
+
+                decorator.ReadWhile(Char.IsLetterOrDigit);
+            } 
+            
+            if(decorator.Current == ' ')
+            {
+                // Use as name.
+                CreateToken(decorator, result, TokenType.Name, 1);
+
+                decorator.ReadWhile(Char.IsWhiteSpace);
+                CreateToken(decorator, result, TokenType.Whitespace, 1);
+            }
+
+            if (Char.IsLetter(decorator.Current))
+            {
+                // Attribute or default attribute.
+                ReadTokenAttribute(decorator, context, result);
+            }
+
+            if (decorator.Current == '}')
+            {
+                // Use as name and close token.
+                CreateToken(decorator, result, TokenType.Name, 1);
+                CreateToken(decorator, result, TokenType.CloseBrace);
+                
+                // Read tokens and accept last characters as text.
+                ReadTokenStart(decorator, context, result);
+                CreateToken(decorator, result, TokenType.Text);
+            }
+        }
+
+        private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        {
+            decorator.ReadWhile(Char.IsLetterOrDigit);
+
+            if (decorator.Current == '=')
+            {
+                // Use as attribute name.
+                CreateToken(decorator, result, TokenType.AttributeName, 1);
+                CreateToken(decorator, result, TokenType.AttributeValueSeparator);
+
+                // Use as attribute value.
+                decorator.ReadUntil(c => c == ',' || c == '}');
+                CreateToken(decorator, result, TokenType.AttributeValue);
+
+                if (decorator.Current == ',')
+                    ReadTokenAttribute(decorator, context, result);
+
+                if (decorator.Current == '}')
+                    return;
+            }
+            else if (decorator.Current == ',')
+            {
+
+            }
+        }
+
+        private void CreateToken(ContentDecorator decorator, List<ComposableToken> result, ComposableTokenType tokenType, int stepsToGoBack = -1)
+        {
+            if (stepsToGoBack > 0)
+                decorator.ResetCurrentPosition(stepsToGoBack);
+
+            string text = decorator.CurrentContent();
+            if (!String.IsNullOrEmpty(text))
+            {
+                result.Add(new ComposableToken(tokenType, text)
+                {
+                    ContentInfo = decorator.CurrentContentInfo(),
+                    LineInfo = decorator.CurrentLineInfo()
+                });
+
+                decorator.ResetCurrentInfo();
+            }
+
+            if (stepsToGoBack > 0)
+                decorator.Read(stepsToGoBack);
         }
     }
 }

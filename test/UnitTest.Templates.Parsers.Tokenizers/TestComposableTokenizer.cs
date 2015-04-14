@@ -36,11 +36,11 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenName()
+        public void Composable_ValidTokenDefaultAttributes()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding as}"), new FakeTokenizerContext());
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID,Name,Price}"), new FakeTokenizerContext());
 
-            AssertText(tokens, "{", "Binding", " as", "}");
+            AssertText(tokens, "{", "Binding", " ", "ID", ",", "Name", ",", "Price", "}");
         }
 
         [TestMethod]

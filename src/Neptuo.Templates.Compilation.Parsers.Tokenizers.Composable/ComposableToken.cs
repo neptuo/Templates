@@ -19,6 +19,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public string Text { get; set; }
         public IErrorMessage Error { get; set; }
 
+        public ComposableToken()
+        { }
+
+        public ComposableToken(ComposableTokenType type, string text)
+        {
+            Ensure.NotNull(type, "type");
+            Type = type;
+            Text = text;
+        }
+
         public override string ToString()
         {
             return String.Format("{0} {1} \"{2}\"", ContentInfo, Type, Text);
