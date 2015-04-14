@@ -19,6 +19,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public string Text { get; set; }
         public IErrorMessage Error { get; set; }
 
+        /// <summary>
+        /// Whether this token is created without content in the source.
+        /// </summary>
+        public bool IsVirtual { get; set; }
+
         public ComposableToken()
         { }
 
