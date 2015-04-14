@@ -153,7 +153,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
                 // Use as attribute value.
                 decorator.ReadUntil(c => c == ',' || c == '}');
-                CreateToken(decorator, result, TokenType.AttributeValue);
+                CreateToken(decorator, result, TokenType.AttributeValue, 1);
 
                 if (decorator.Current == ',')
                     ReadTokenAttribute(decorator, context, result);
@@ -163,7 +163,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             }
             else if (decorator.Current == ',')
             {
+                // Use as default.
+                CreateToken(decorator, result, TokenType.DefaultAttributeValue, 1);
+                CreateToken(decorator, result, TokenType.AttributeSeparator);
 
+                ReadTokenAttribute(decorator, context, result);
             }
         }
 
