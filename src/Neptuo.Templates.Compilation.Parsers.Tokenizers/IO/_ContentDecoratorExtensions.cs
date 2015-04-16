@@ -50,5 +50,25 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
             return false;
         }
+
+        /// <summary>
+        /// Removes <paramref name="lastCharsToRemove"/> from the end of the current content of <paramref name="decorator"/>.
+        /// Value of <paramref name="lastCharsToRemove"/> must be positive or zero.
+        /// If text is not long enough it returns whole text from current content.
+        /// </summary>
+        /// <param name="decorator">Content decorator.</param>
+        /// <param name="lastCharsToRemove">Chars to remove from the end of the current content of <paramref name="decorator"/>.</param>
+        /// <returns>Current content from the <paramref name="decorator"/> without last <paramref name="lastCharsToRemove"/> chars.</returns>
+        public static string CurrentContent(this ContentDecorator decorator, int lastCharsToRemove)
+        {
+            Ensure.NotNull(decorator, "decorator");
+            Ensure.PositiveOrZero(lastCharsToRemove, "lastCharsToRemove");
+
+            string text = decorator.CurrentContent();
+            if (lastCharsToRemove > 0 && text.Length - lastCharsToRemove > 0)
+                text.Substring(0, text.Length - lastCharsToRemove);
+
+            return text;
+        }
     }
 }
