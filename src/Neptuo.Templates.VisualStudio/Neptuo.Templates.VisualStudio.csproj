@@ -109,6 +109,10 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
+      <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
       <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>

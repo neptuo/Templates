@@ -66,7 +66,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
             string text = decorator.CurrentContent();
             if (lastCharsToRemove > 0 && text.Length - lastCharsToRemove > 0)
-                text.Substring(0, text.Length - lastCharsToRemove);
+                text = text.Substring(0, text.Length - lastCharsToRemove);
 
             return text;
         }
