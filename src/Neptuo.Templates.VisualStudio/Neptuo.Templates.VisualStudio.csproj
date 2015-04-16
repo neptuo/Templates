@@ -109,10 +109,6 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer\Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer.csproj">
-      <Project>{20e032e2-5abd-472e-b8f9-48cf138d64f6}</Project>
-      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.CurlyTokenizer</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
       <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>
