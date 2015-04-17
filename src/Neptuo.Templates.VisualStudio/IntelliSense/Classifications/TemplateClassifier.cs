@@ -44,12 +44,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                 IList<ComposableToken> tokens = tokenizer.Tokenize(new StringContentReader(buffer.CurrentSnapshot.GetText()), new FakeTokenizerContext());
                 foreach (ComposableToken token in tokens)
                 {
-                    if (token.Type == CurlyComposableTokenizer.TokenType.OpenBrace || token.Type == CurlyComposableTokenizer.TokenType.CloseBrace)
-                        addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
-                    else if(token.Type == CurlyComposableTokenizer.TokenType.Error)
-                        addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
-                    else if (token.Type != CurlyComposableTokenizer.TokenType.Text)
-                        addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyContent));
+                    if (!token.IsVirtual)
+                    {
+                        if (token.Type == CurlyComposableTokenizer.TokenType.OpenBrace || token.Type == CurlyComposableTokenizer.TokenType.CloseBrace)
+                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
+                        else if (token.Type == CurlyComposableTokenizer.TokenType.Error)
+                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
+                        else if (token.Type != CurlyComposableTokenizer.TokenType.Text)
+                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyContent));
+                    }
                 }
             }
             catch (Exception)

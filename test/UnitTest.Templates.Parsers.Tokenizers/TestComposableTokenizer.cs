@@ -98,12 +98,21 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenInValidName()
+        public void Composable_InValidTokenWithInValidName()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());
 
             AssertText(tokens, "{", "1Binding", "}");
             AssertAreEqual(tokens[1].Type, ComposableTokenType.TokenType.Error);
+        }
+
+        [TestMethod]
+        public void Composable_InValidTokenWithDefaultAttributeAfterNamed()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=Default, ID}"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "}");
+            AssertAreEqual(tokens[8].HasError, true);
         }
     }
 }

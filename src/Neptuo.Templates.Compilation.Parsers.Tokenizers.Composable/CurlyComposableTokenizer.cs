@@ -1,4 +1,5 @@
 ﻿using Neptuo.Collections.Specialized;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
@@ -214,7 +215,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 if (supportDefaultAttributes)
                     CreateToken(decorator, result, TokenType.DefaultAttributeValue, 1);
                 else
-                    CreateToken(decorator, result, TokenType.Error, 1);
+                {
+                    if (IsValidIdentifier(decorator.CurrentContent(1)))
+                    {
+                        // Use as attribute name.
+                        CreateToken(decorator, result, TokenType.AttributeName, 1);
+                        result.Last().Error = new DefaultErrorMessage("Missing attribute value.");
+                    }
+                    else
+                    {
+                        // Use as error.
+                        CreateToken(decorator, result, TokenType.Error, 1);
+                    }
+                }
 
                 // If separator was found.
                 if (decorator.Current == ',')
