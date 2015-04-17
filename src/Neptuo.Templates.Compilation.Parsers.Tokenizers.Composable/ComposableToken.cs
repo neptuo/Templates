@@ -24,6 +24,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// </summary>
         public bool IsVirtual { get; set; }
 
+        /// <summary>
+        /// Whether this token contains errors.
+        /// </summary>
+        public bool HasError
+        {
+            get { return Error != null; }
+        }
+
         public ComposableToken()
         { }
 
@@ -44,7 +52,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             else if(LineInfo != null)
                 position = LineInfo.ToString();
 
-            return String.Format("{0} {1} \"{2}\"", position, Type, Text);
+            return String.Format("{0} {1} \"{2}\"{3}", position, Type, Text, HasError ? " !", "");
         }
     }
 }
