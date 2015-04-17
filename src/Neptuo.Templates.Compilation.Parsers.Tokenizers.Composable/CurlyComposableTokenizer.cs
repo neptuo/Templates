@@ -10,37 +10,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     public class CurlyComposableTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
     {
-        private enum State
-        {
-            Initial,
-
-            /// <summary>
-            /// '{'
-            /// </summary>
-            OpenBrace,
-            Name,
-
-            AttributeName,
-
-            DefaultAttributeValue,
-
-            /// <summary>
-            /// '='
-            /// </summary>
-            AttributeValueSeparator,
-            AttributeValue,
-
-            /// <summary>
-            /// ','
-            /// </summary>
-            AttributeSeparator,
-
-            /// <summary>
-            /// '}'
-            /// </summary>
-            CloseBrace
-        }
-
         public class TokenType : ComposableTokenType.TokenType
         {
             public static readonly ComposableTokenType OpenBrace = new ComposableTokenType("Curly.OpenBrace");
@@ -114,7 +83,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             decorator.ReadWhile(Char.IsLetterOrDigit);
 
             bool hasName = false;
-            bool hasAttribute = false;
 
             if (decorator.Current == '{')
             {
@@ -253,6 +221,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 {
                     // Use as separator.
                     CreateToken(decorator, result, TokenType.AttributeSeparator);
+
+                    // While whitespaces, read..
+                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    CreateToken(decorator, result, TokenType.Whitespace, 1);
 
                     // Try read next attribute.
                     ReadTokenAttribute(decorator, context, result);
