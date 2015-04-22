@@ -1,4 +1,5 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.ComponentModel.TextOffsets;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(context, "context");
             Ensure.NotNull(element, "element");
 
-            ISourceLineInfo lineInfo = element as ISourceLineInfo;
+            ILineInfo lineInfo = element as ILineInfo;
             if (lineInfo != null)
                 context.AddError(lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
             else
