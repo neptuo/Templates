@@ -1,4 +1,5 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
@@ -60,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(context, "context");
             Ensure.NotNull(element, "element");
 
-            ISourceLineInfo lineInfo = element as ISourceLineInfo;
+            ILineInfo lineInfo = element as ILineInfo;
             if (lineInfo != null)
                 AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
             else
@@ -84,7 +85,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return;
             }
 
-            ISourceLineInfo lineInfo = node as ISourceLineInfo;
+            ILineInfo lineInfo = node as ILineInfo;
             if (lineInfo != null)
                 AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
             else
@@ -102,7 +103,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(context, "context");
             Ensure.NotNull(attribute, "attribute");
 
-            ISourceLineInfo lineInfo = attribute as ISourceLineInfo;
+            ILineInfo lineInfo = attribute as ILineInfo;
             if (lineInfo != null)
                 AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
             else
@@ -181,9 +182,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             );
         }
 
-        private static ISourceLineInfo GetSourceLineInfoOrDefault(object source)
+        private static ILineInfo GetSourceLineInfoOrDefault(object source)
         {
-            ISourceLineInfo lineInfo = source as ISourceLineInfo;
+            ILineInfo lineInfo = source as ILineInfo;
             if (lineInfo != null)
                 return lineInfo;
 

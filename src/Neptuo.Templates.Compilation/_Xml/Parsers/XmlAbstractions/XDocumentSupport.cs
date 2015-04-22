@@ -1,4 +1,5 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.ComponentModel.TextOffsets;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -42,12 +43,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        internal abstract class XNodeWrapper : IXmlNode, ISourceLineInfo
+        internal abstract class XNodeWrapper : IXmlNode, ILineInfo
         {
             public XmlNodeType NodeType { get; private set; }
             public abstract string OuterXml { get; }
 
-            #region ISourceLineInfo
+            #region ILineInfo
 
             public int LineIndex { get; protected set; }
             public int ColumnIndex { get; private set; }
@@ -169,7 +170,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             }
         }
 
-        internal class XTextWrapper : XNodeWrapper, IXmlText, ISourceLineInfo
+        internal class XTextWrapper : XNodeWrapper, IXmlText, ILineInfo
         {
             public string Text { get; private set; }
             public override string OuterXml { get { return Text; } }
@@ -195,7 +196,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             //{ }
         }
 
-        internal class XCommentWrapper : XNodeWrapper, IXmlText, ISourceLineInfo
+        internal class XCommentWrapper : XNodeWrapper, IXmlText, ILineInfo
         {
             public string Text { get; private set; }
             public override string OuterXml { get { return String.Format("<!-- {0} -->", Text); } }

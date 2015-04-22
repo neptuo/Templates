@@ -13,12 +13,20 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// </summary>
     public class CodeObjectList : Collection<ICodeObject>, IEnumerable<ICodeObject>
     {
-        public void AddRange(IEnumerable<ICodeObject> values)
+        public new CodeObjectList Add(ICodeObject value)
+        {
+            base.Add(value);
+            return this;
+        }
+
+        public CodeObjectList AddRange(IEnumerable<ICodeObject> values)
         {
             Ensure.NotNull(values, "values");
 
             foreach (ICodeObject value in values)
                 Add(value);
+
+            return this;
         }
 
         protected override void InsertItem(int index, ICodeObject item)

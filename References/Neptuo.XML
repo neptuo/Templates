@@ -683,6 +683,14 @@
             <param name="defaultValue">Optional default value if is not found or not convertible.</param>
             <returns>Value of <paramref name="key"/> in <paramref name="collection"/>.</returns>
         </member>
+        <member name="M:Neptuo.Collections.Specialized._ReadOnlyKeyValueCollectionExtensions.Has(Neptuo.Collections.Specialized.IReadOnlyKeyValueCollection,System.String)">
+            <summary>
+            Returns <c>true</c> if <paramref name="collection"/> contains <paramref name="key"/>.
+            </summary>
+            <param name="collection">Collection of key-value pairs.</param>
+            <param name="key">Requested key.</param>
+            <returns><c>true</c> if <paramref name="collection"/> contains <paramref name="key"/>; otherwise <c>false</c>.</returns>
+        </member>
         <member name="T:Neptuo.Compilers.Compiler">
             <summary>
             Internal implementation of <see cref="T:Neptuo.Compilers.IStaticCompiler"/> and <see cref="T:Neptuo.Compilers.IDynamicCompiler"/>.
@@ -1646,6 +1654,53 @@
             <param name="converter">The converter.</param>
             <returns><paramref name="repository"/>.</returns>
         </member>
+        <member name="T:Neptuo.ComponentModel.DefaultErrorModel">
+            <summary>
+            Default extensible implementation of <see cref="T:Neptuo.ComponentModel.IErrorModel"/>.
+            This implementation is not thread safe.
+            </summary>
+        </member>
+        <member name="T:Neptuo.FeatureModels.FeatureCollectionModel">
+            <summary>
+            Implementation of <see cref="T:Neptuo.FeatureModels.IFeatureModel"/> which delegates features to registered objects (with concurrent support.).
+            </summary>
+        </member>
+        <member name="T:Neptuo.FeatureModels.IFeatureModel">
+            <summary>
+            Describes extensible model.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FeatureModels.IFeatureModel.TryWith``1(``0@)">
+            <summary>
+            Tries to retrieve object of type <typeparamref name="TFeature"/>.
+            If this is possible, returns <c>true</c>; otherwise <c>false</c>.
+            </summary>
+            <typeparam name="TFeature">Type of feature to retrieve.</typeparam>
+            <param name="feature">Output instance of feature; <c>null</c> if not supported.</param>
+            <returns><c>true</c> if feature of type <typeparamref name="TFeature"/> is supported; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="F:Neptuo.FeatureModels.FeatureCollectionModel.onSearchFeature">
+            <summary>
+            Invoked when feature was not found.
+            Takes typeof requested feture, should return <c>true</c> to indicate success; otherwise <c>false</c>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FeatureModels.FeatureCollectionModel.Add(System.Type,System.Object)">
+            <summary>
+            Adds feature to the collection.
+            </summary>
+            <param name="featureType">Tyoe if feature.</param>
+            <param name="feature">Feature instance.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.FeatureModels.FeatureCollectionModel.AddSearchHandler(Neptuo.OutFunc{System.Type,System.Boolean,System.Object})">
+            <summary>
+            Registers generic handler for providing feature.
+            <paramref name="handler"/> takes typeof requested feature 
+            and returns <c>true</c> to indicate success; otherwise <c>false</c>.
+            </summary>
+            <param name="handler">Handler to register.</param>
+        </member>
         <member name="T:Neptuo.ComponentModel.IErrorInfo">
             <summary>
             Describes error info.
@@ -1806,36 +1861,124 @@
             The source message/envelope ID.
             </summary>
         </member>
-        <member name="T:Neptuo.ComponentModel.ISourceLineInfo">
+        <member name="T:Neptuo.ComponentModel.IErrorModel">
+            <summary>
+            Describes error.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.IErrorModel.Text">
+            <summary>
+            Text description of error.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.TextOffsets.DefaultContentRangeInfo">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.ComponentModel.TextOffsets.IContentRangeInfo"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.TextOffsets.IContentRangeInfo">
+            <summary>
+            Describes text content info.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.TextOffsets.IContentRangeInfo.StartIndex">
+            <summary>
+            Starting index.
+            </summary>
+        </member>
+        <member name="P:Neptuo.ComponentModel.TextOffsets.IContentRangeInfo.Length">
+            <summary>
+            Length of the content.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.TextOffsets.DefaultLineInfo">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.ComponentModel.TextOffsets.ILineInfo"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.TextOffsets.ILineInfo">
             <summary>
             Describes position/offset in source global source content.
             </summary>
         </member>
-        <member name="P:Neptuo.ComponentModel.ISourceLineInfo.LineIndex">
+        <member name="P:Neptuo.ComponentModel.TextOffsets.ILineInfo.LineIndex">
             <summary>
             Line index.
             </summary>
         </member>
-        <member name="P:Neptuo.ComponentModel.ISourceLineInfo.ColumnIndex">
+        <member name="P:Neptuo.ComponentModel.TextOffsets.ILineInfo.ColumnIndex">
             <summary>
             Index at line.
             </summary>
         </member>
-        <member name="T:Neptuo.ComponentModel.ISourceRangeLineInfo">
+        <member name="T:Neptuo.ComponentModel.TextOffsets.DefaultLineRangeInfo">
             <summary>
-            Extends <see cref="T:Neptuo.ComponentModel.ISourceLineInfo"/> with property for end position.
+            Default implementation of <see cref="T:Neptuo.ComponentModel.TextOffsets.ILineRangeInfo"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.TextOffsets.ILineRangeInfo">
+            <summary>
+            Extends <see cref="T:Neptuo.ComponentModel.TextOffsets.ILineInfo"/> with property for end position.
             So this class models range sub part of source content.
             </summary>
         </member>
-        <member name="P:Neptuo.ComponentModel.ISourceRangeLineInfo.EndLineIndex">
+        <member name="P:Neptuo.ComponentModel.TextOffsets.ILineRangeInfo.EndLineIndex">
             <summary>
             Line index of range end.
             </summary>
         </member>
-        <member name="P:Neptuo.ComponentModel.ISourceRangeLineInfo.EndColumnIndex">
+        <member name="P:Neptuo.ComponentModel.TextOffsets.ILineRangeInfo.EndColumnIndex">
             <summary>
             Index at line of range end.
             </summary>
+        </member>
+        <member name="T:Neptuo.ComponentModel.OutFuncCollection`3">
+            <summary>
+            Represents collection of output functions.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="TOutput"></typeparam>
+            <typeparam name="TReturn"></typeparam>
+        </member>
+        <member name="T:Neptuo.ComponentModel._ErrorModelExtensions">
+            <summary>
+            Common extensions of <see cref="T:Neptuo.ComponentModel.IErrorModel"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.ComponentModel._ErrorModelExtensions.TryWithLineInfo(Neptuo.ComponentModel.IErrorModel,Neptuo.ComponentModel.TextOffsets.ILineInfo@)">
+            <summary>
+            Tries to <see cref="T:Neptuo.ComponentModel.TextOffsets.ILineInfo"/> from <paramref name="errorModel"/>.
+            </summary>
+            <param name="errorModel">Source error model.</param>
+            <param name="lineInfo">Target output line info.</param>
+            <returns><c>true</c> if <paramref name="errorModel"/> contains line info.</returns>
+        </member>
+        <member name="M:Neptuo.ComponentModel._ErrorModelExtensions.TryWithLineRangeInfo(Neptuo.ComponentModel.IErrorModel,Neptuo.ComponentModel.TextOffsets.ILineRangeInfo@)">
+            <summary>
+            Tries to <see cref="T:Neptuo.ComponentModel.TextOffsets.ILineRangeInfo"/> from <paramref name="errorModel"/>.
+            </summary>
+            <param name="errorModel">Source error model.</param>
+            <param name="lineInfo">Target output line info.</param>
+            <returns><c>true</c> if <paramref name="errorModel"/> contains line info.</returns>
+        </member>
+        <member name="M:Neptuo.ComponentModel._ErrorModelExtensions.TryWithContentInfo(Neptuo.ComponentModel.IErrorModel,Neptuo.ComponentModel.TextOffsets.IContentRangeInfo@)">
+            <summary>
+            Tries to <see cref="T:Neptuo.ComponentModel.TextOffsets.IContentRangeInfo"/> from <paramref name="errorModel"/>.
+            </summary>
+            <param name="errorModel">Source error model.</param>
+            <param name="contentInfo">Target output content info.</param>
+            <returns><c>true</c> if <paramref name="errorModel"/> contains content info.</returns>
+        </member>
+        <member name="M:Neptuo.ComponentModel._OutFuncCollectionExtensions.TryExecute``2(Neptuo.ComponentModel.OutFuncCollection{``0,``1,System.Boolean},``0,``1@)">
+            <summary>
+            Tries to execute all funcs in <paramref name="list"/> until first returns <c>true</c>. 
+            </summary>
+            <typeparam name="T">Type of func parameter.</typeparam>
+            <typeparam name="TOutput">Type of output parameter.</typeparam>
+            <param name="list">List to execute on.</param>
+            <param name="parameter">Value of func parameter.</param>
+            <param name="output">Provided output value.</param>
+            <returns><c>true</c> if any func in <paramref name="list"/> returns <c>true</c>; otherwise <c>false</c>.</returns>
         </member>
         <member name="T:Neptuo.Converts">
             <summary>
@@ -1903,39 +2046,6 @@
             <typeparam name="T"></typeparam>
         </member>
         <!-- Badly formed XML comment ignored for member "T:Neptuo.Activators.DependencyActivator`1" -->
-        <member name="T:Neptuo.FeatureModels.IFeatureModel">
-            <summary>
-            Describes extensible model.
-            </summary>
-        </member>
-        <member name="M:Neptuo.FeatureModels.IFeatureModel.TryWith``1(``0@)">
-            <summary>
-            Tries to retrieve object of type <typeparamref name="TFeature"/>.
-            If this is possible, returns <c>true</c>; otherwise <c>false</c>.
-            </summary>
-            <typeparam name="TFeature">Type of feature to retrieve.</typeparam>
-            <param name="feature">Output instance of feature; <c>null</c> if not supported.</param>
-            <returns><c>true</c> if feature of type <typeparamref name="TFeature"/> is supported; otherwise <c>false</c>.</returns>
-        </member>
-        <member name="T:Neptuo.FeatureModels.MappingFeatureModel">
-            <summary>
-            Implementation of <see cref="T:Neptuo.FeatureModels.IFeatureModel"/> which delegates features to registered objects (with concurrent support.).
-            </summary>
-        </member>
-        <member name="F:Neptuo.FeatureModels.MappingFeatureModel.onSearchFeature">
-            <summary>
-            Invoked when feature was not found.
-            Takes typeof requested feture, should return <c>true</c> to indicate success; otherwise <c>false</c>.
-            </summary>
-        </member>
-        <member name="M:Neptuo.FeatureModels.MappingFeatureModel.AddSearchHandler(Neptuo.OutFunc{System.Type,System.Boolean,System.Object})">
-            <summary>
-            Registers generic handler for providing feature.
-            <paramref name="handler"/> takes typeof requested feature 
-            and returns <c>true</c> to indicate success; otherwise <c>false</c>.
-            </summary>
-            <param name="handler">Handler to register.</param>
-        </member>
         <member name="T:Neptuo.FeatureModels.ObjectFeatureModel">
             <summary>
             Implementation of <see cref="T:Neptuo.FeatureModels.IFeatureModel"/> which tries type casting to retrive requested feature.
@@ -1946,6 +2056,19 @@
             Creates feature model for object <paramref name="instance"/>.
             </summary>
             <param name="instance">Object instance to retrieve feature from.</param>
+        </member>
+        <member name="T:Neptuo.FeatureModels._FeatureCollectionModelExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.FeatureModels.FeatureCollectionModel"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.FeatureModels._FeatureCollectionModelExtensions.Add``1(Neptuo.FeatureModels.FeatureCollectionModel,``0)">
+            <summary>
+            Adds feature to the collection.
+            </summary>
+            <typeparam name="T">Tyoe if feature.</typeparam>
+            <param name="feature">Feature instance.</param>
+            <returns>Self (for fluency).</returns>
         </member>
         <member name="M:Neptuo.FeatureModels._FeatureModelExtensions.With``1(Neptuo.FeatureModels.IFeatureModel)">
             <summary>
@@ -2998,12 +3121,12 @@
         <member name="T:Neptuo.DomainModels.IValidatableModel">
             <summary>
             Decribes model that contains information if the model is in valid state.
-            This information is mostly set from <see cref="!:Validators.IValidationDispatcher"/>.
+            This information is mostly set from <see cref="T:Neptuo.Pipelines.Validators.IValidationDispatcher"/>.
             </summary>
         </member>
         <member name="P:Neptuo.DomainModels.IValidatableModel.IsValid">
             <summary>
-            Whether the model is in valid state.
+            Whether the model is in valid state; <c>null</c> = not validated, <c>true</c> = is valid, <c>false</c> = is not valid.
             </summary>
         </member>
         <member name="T:Neptuo.DomainModels.IReadOnlyRepository`2">
@@ -3061,6 +3184,12 @@
             Internal storage.
             </summary>
         </member>
+        <member name="F:Neptuo.EngineEnvironment.onSearchService">
+            <summary>
+            Invoked when service was not found.
+            Takes typeof requested service, should return <c>true</c> to indicate success; otherwise <c>false</c>.
+            </summary>
+        </member>
         <member name="M:Neptuo.EngineEnvironment.Use``1(``0,System.String)">
             <summary>
             Registers <paramref name="service"/> (with optional <paramref name="name"/>) into environment.
@@ -3072,19 +3201,35 @@
         </member>
         <member name="M:Neptuo.EngineEnvironment.With``1(System.String)">
             <summary>
-            Tries to retrieve service of type <typeparamref name="T"/> (with optional <paramref name="name"/>).
+            Retrieve service of type <typeparamref name="T"/> (with optional <paramref name="name"/>) or throws exception.
             </summary>
             <typeparam name="T">Type of service.</typeparam>
             <param name="name">Optional service name (for registering more services of the same type.</param>
             <returns>Retrieved service.</returns>
         </member>
-        <member name="M:Neptuo.EngineEnvironment.Is``1(System.String)">
+        <member name="M:Neptuo.EngineEnvironment.Has``1(System.String)">
             <summary>
             Returns <c>true</c> if there is registered service of type <typeparamref name="T"/> with optional name <paramref name="name"/>.
             </summary>
             <typeparam name="T">Type of service.</typeparam>
             <param name="name">Optional service name (for registering more services of the same type.</param>
             <returns><c>true</c> if such a service is registered; <c>false</c> otherwise.</returns>
+        </member>
+        <member name="M:Neptuo.EngineEnvironment.TryWith``1(System.String,``0@)">
+            <summary>
+            Tries to retrieve service of type <typeparamref name="T"/> (with optional <paramref name="name"/>).
+            </summary>
+            <typeparam name="T">Type of service.</typeparam>
+            <param name="name">Optional service name (for registering more services of the same type.</param>
+            <param name="service">Retrieved service or <c>null</c>.</param>
+            <returns><c>true</c> if service of type <typeparamref name="T"/> can be provided; <c>false</c> otherwise..</returns>
+        </member>
+        <member name="M:Neptuo.EngineEnvironment.AddSearchHandler(Neptuo.OutFunc{System.Type,System.Object,System.Boolean})">
+            <summary>
+            Adds handler for searching service for.
+            </summary>
+            <param name="handler">Search handler to add.</param>
+            <returns>Self (for fluency).</returns>
         </member>
         <member name="T:Neptuo._EnsureArgumentExtensions">
             <summary>
@@ -3773,6 +3918,34 @@
             <param name="output">Ouput parameter.</param>
             <returns>Computed result.</returns>
         </member>
+        <member name="T:Neptuo.Pipelines.Validators.IValidationResultBuilder">
+            <summary>
+            Validation result builder contract.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Pipelines.Validators.IValidationResultBuilder.Add(Neptuo.Pipelines.Validators.Messages.IValidationMessage)">
+            <summary>
+            Adds message to the result.
+            Based on configuration for constructor, this message will or will not invalidate future result.
+            </summary>
+            <param name="message">The message.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.Pipelines.Validators.IValidationResultBuilder.Add(Neptuo.Pipelines.Validators.Messages.IValidationMessage,System.Boolean)">
+            <summary>
+            Adds message to the result.
+            Based on <paramref name="causesInvalidation" />, this message will or will not invalidate future result.
+            </summary>
+            <param name="message">The message.</param>
+            <param name="causesInvalidation">Flag to see if <paramref name="message"/> invalidates future result.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.Pipelines.Validators.IValidationResultBuilder.ToResult">
+            <summary>
+            Creates result from this builder.
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Neptuo.Pipelines.Validators.ValidationResultBuilder">
             <summary>
             Builder for <see cref="T:Neptuo.Pipelines.Validators.IValidationResult"/>
@@ -3803,7 +3976,7 @@
             If <c>false</c>, only explicitly maked messages causes invalidation of result.
             </param>
         </member>
-        <member name="M:Neptuo.Pipelines.Validators.ValidationResultBuilder.AddMessage(Neptuo.Pipelines.Validators.Messages.IValidationMessage)">
+        <member name="M:Neptuo.Pipelines.Validators.ValidationResultBuilder.Add(Neptuo.Pipelines.Validators.Messages.IValidationMessage)">
             <summary>
             Adds message to the result.
             Based on configuration for constructor, this message will or will not invalidate future result.
@@ -3811,7 +3984,7 @@
             <param name="message">The message.</param>
             <returns>Self (for fluency).</returns>
         </member>
-        <member name="M:Neptuo.Pipelines.Validators.ValidationResultBuilder.AddMessage(Neptuo.Pipelines.Validators.Messages.IValidationMessage,System.Boolean)">
+        <member name="M:Neptuo.Pipelines.Validators.ValidationResultBuilder.Add(Neptuo.Pipelines.Validators.Messages.IValidationMessage,System.Boolean)">
             <summary>
             Adds message to the result.
             Based on <paramref name="causesInvalidation" />, this message will or will not invalidate future result.
@@ -3819,6 +3992,21 @@
             <param name="message">The message.</param>
             <param name="causesInvalidation">Flag to see if <paramref name="message"/> invalidates future result.</param>
             <returns>Self (for fluency).</returns>
+        </member>
+        <member name="T:Neptuo.Pipelines.Validators._ValidationResultBuilderExtensions">
+            <summary>
+            Common extensions for <see cref="T:Neptuo.Pipelines.Validators.IValidationResultBuilder"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Pipelines.Validators._ValidationResultBuilderExtensions.AddTextMessage(Neptuo.Pipelines.Validators.IValidationResultBuilder,System.String,System.String,System.Object[])">
+            <summary>
+            Adds <see cref="T:Neptuo.Pipelines.Validators.Messages.TextValidationMessage"/> to the <paramref name="builder"/>.
+            </summary>
+            <param name="builder">Result builder.</param>
+            <param name="key">Message key.</param>
+            <param name="message">Text format.</param>
+            <param name="parameters">Optional parameters for <paramref name="message"/>.</param>
+            <returns><paramref name="builder"/>.</returns>
         </member>
         <member name="T:Neptuo.Reflection.DefaultReflectionService">
             <summary>
@@ -4629,19 +4817,19 @@
             </summary>
             <param name="result">Result of validation process.</param>
         </member>
-        <member name="T:Neptuo.Pipelines.Validators.ValidationResultBase">
+        <member name="T:Neptuo.Pipelines.Validators.ValidationResult">
             <summary>
             Base implementation of <see cref="T:Neptuo.Pipelines.Validators.IValidationResult"/>.
             Supports warning messages.
             </summary>
         </member>
-        <member name="M:Neptuo.Pipelines.Validators.ValidationResultBase.#ctor(System.Boolean)">
+        <member name="M:Neptuo.Pipelines.Validators.ValidationResult.#ctor(System.Boolean)">
             <summary>
             Creates new instance with <paramref name="isValid"/> as validation success/failure flag and empty message collection.
             </summary>
             <param name="isValid">Whether validation was successfull.</param>
         </member>
-        <member name="M:Neptuo.Pipelines.Validators.ValidationResultBase.#ctor(System.Boolean,System.Collections.Generic.IEnumerable{Neptuo.Pipelines.Validators.Messages.IValidationMessage})">
+        <member name="M:Neptuo.Pipelines.Validators.ValidationResult.#ctor(System.Boolean,System.Collections.Generic.IEnumerable{Neptuo.Pipelines.Validators.Messages.IValidationMessage})">
             <summary>
             Creates new instance with <paramref name="isValid"/> as validation success/failure flag and <paramref name="messages"/> as message collection.
             </summary>
