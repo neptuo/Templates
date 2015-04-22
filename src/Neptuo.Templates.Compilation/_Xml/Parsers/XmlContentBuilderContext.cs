@@ -13,14 +13,14 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public ITextContentParserContext ParserContext { get; private set; }
         public Dictionary<string, object> CustomValues { get; private set; }
-        public XmlContentParser Parser { get; private set; }
+        public TextXmlContentParser Parser { get; private set; }
         public IParserRegistry Registry { get; private set; }
 
         public XmlContentBuilderContext(IContentBuilderContext context)
             : this(context.ParserContext, context.Parser, context.Registry)
         { }
 
-        public XmlContentBuilderContext(ITextContentParserContext parserContext, XmlContentParser parser, IParserRegistry registry)
+        public XmlContentBuilderContext(ITextContentParserContext parserContext, TextXmlContentParser parser, IParserRegistry registry)
         {
             Ensure.NotNull(parserContext, "parserContext");
             Ensure.NotNull(parser, "parser");

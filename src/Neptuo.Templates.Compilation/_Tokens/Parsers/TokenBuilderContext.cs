@@ -13,10 +13,10 @@ namespace Neptuo.Templates.Compilation.Parsers
     public class TokenBuilderContext : ITokenBuilderContext
     {
         public ITextValueParserContext ParserContext { get; private set; }
-        public TokenValueParser Parser { get; private set; }
+        public TextTokenValueParser Parser { get; private set; }
         public IParserRegistry Registry { get; private set; }
 
-        public TokenBuilderContext(TokenValueParser parser, ITextValueParserContext parserContext, IParserRegistry registry)
+        public TokenBuilderContext(TextTokenValueParser parser, ITextValueParserContext parserContext, IParserRegistry registry)
         {
             Ensure.NotNull(parser, "parser");
             Ensure.NotNull(parserContext, "parserContext");

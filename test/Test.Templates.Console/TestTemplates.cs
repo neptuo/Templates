@@ -167,9 +167,9 @@ namespace Test.Templates
 
             DefaultViewService viewService = new DefaultViewService();
             viewService.AddParserService(new TextParserService()
-                .AddContentParser("Default", new XmlContentParser(parserRegistry, true))
+                .AddContentParser("Default", new TextXmlContentParser(parserRegistry, true))
                 .AddValueParser("Default", new TextPlainValueParser())
-                .AddValueParser("Default", new TokenValueParser(parserRegistry))
+                .AddValueParser("Default", new TextTokenValueParser(parserRegistry))
             );
 
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);

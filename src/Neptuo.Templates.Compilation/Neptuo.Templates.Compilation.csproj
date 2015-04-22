@@ -234,7 +234,7 @@
     <Compile Include="_Tokens\Parsers\_TokenBuilderContextExtensions.cs" />
     <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
     <Compile Include="_Tokens\Parsers\_TokenExtensions.cs" />
-    <Compile Include="_Tokens\Parsers\TokenValueParser.cs" />
+    <Compile Include="_Tokens\Parsers\TextTokenValueParser.cs" />
     <Compile Include="_Xml\Parsers\ContentPropertyBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\Descriptors\BindContentPropertiesContext.cs" />
     <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
@@ -261,7 +261,7 @@
     <Compile Include="_Xml\Parsers\Descriptors\ObserverDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
-    <Compile Include="_Xml\Parsers\XmlContentParser.cs" />
+    <Compile Include="_Xml\Parsers\TextXmlContentParser.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XmlExtensions.cs" />
     <Compile Include="_Properties\Parsers\_PropertyBuilderContextExtensions.cs" />

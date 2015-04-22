@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// XML content parser implementation.
     /// </summary>
-    public class XmlContentParser : ITextContentParser
+    public class TextXmlContentParser : ITextContentParser
     {
         public static string FakeRootElementName = "NeptuoTemplatesRoot";
 
@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public bool UseLinqApi { get; set; }
 
-        public XmlContentParser(IParserRegistry registry, bool useLinqApi = false)
+        public TextXmlContentParser(IParserRegistry registry, bool useLinqApi = false)
         {
             Ensure.NotNull(registry, "registry");
             this.registry = registry;

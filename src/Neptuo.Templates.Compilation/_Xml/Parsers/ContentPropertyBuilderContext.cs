@@ -14,7 +14,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public IContentBuilderContext BuilderContext { get; private set; }
         public Dictionary<string, object> CustomValues { get; private set; }
-        public XmlContentParser Parser { get { return BuilderContext.Parser; } }
+        public TextXmlContentParser Parser { get { return BuilderContext.Parser; } }
 
         public ContentPropertyBuilderContext(IContentBuilderContext builderContext, IPropertyInfo propertyInfo)
             : base(builderContext.ParserContext.Name, builderContext.ParserContext, builderContext.ParserContext.ParserService, propertyInfo)
