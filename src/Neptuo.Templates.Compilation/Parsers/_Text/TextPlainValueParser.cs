@@ -11,9 +11,9 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Parses any value as <see cref="IPlainValueCodeObject"/>.
     /// </summary>
-    public class PlainValueParser : IValueParser
+    public class TextPlainValueParser : ITextValueParser
     {
-        public ICodeObject Parse(ISourceContent content, IValueParserContext context)
+        public ICodeObject Parse(ISourceContent content, ITextValueParserContext context)
         {
             return new PlainValueCodeObject(content.TextContent);
         }

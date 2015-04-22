@@ -127,7 +127,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         /// <summary>
-        /// Parses content using <see cref="XmlContentParser"/> and creates AST for <paramref name="nodes"/>.
+        /// Parses content using <see cref="TextXmlContentParser"/> and creates AST for <paramref name="nodes"/>.
         /// </summary>
         /// <param name="context">Builder context.</param>
         /// <param name="nodes">Enumeration of XML nodes to process.</param>

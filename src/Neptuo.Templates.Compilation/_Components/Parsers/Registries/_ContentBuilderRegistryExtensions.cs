@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static ContentBuilderRegistry AddRootBuilder(this ContentBuilderRegistry registry, IContentBuilder builder)
         {
             Ensure.NotNull(registry, "registry");
-            return registry.AddBuilder(null, XmlContentParser.FakeRootElementName, builder);
+            return registry.AddBuilder(null, TextXmlContentParser.FakeRootElementName, builder);
         }
 
         public static ContentBuilderRegistry AddRootBuilder<T>(this ContentBuilderRegistry registry, Expression<Func<T, ICollection<object>>> rootPropertyGetter)

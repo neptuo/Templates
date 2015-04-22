@@ -9,14 +9,14 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Implementation of <see cref="IContentParserContext"/> and <see cref="IValueParserContext"/>.
+    /// Implementation of <see cref="ITextContentParserContext"/> and <see cref="ITextValueParserContext"/>.
     /// </summary>
-    public class DefaultParserContext : DefaultParserServiceContext, IContentParserContext, IValueParserContext
+    public class TextParserContext : DefaultParserServiceContext, ITextContentParserContext, ITextValueParserContext
     {
         public string Name { get; private set; }
         public IParserService ParserService { get; private set; }
 
-        public DefaultParserContext(string name, IParserService parserService, IParserServiceContext context)
+        public TextParserContext(string name, IParserService parserService, IParserServiceContext context)
             : base(context.DependencyProvider, context.Errors)
         {
             Ensure.NotNull(name, "name");
@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ParserService = parserService;
         }
 
-        public DefaultParserContext(string name, IDependencyProvider dependencyProvider, IParserService parserService, ICollection<IErrorInfo> errors)
+        public TextParserContext(string name, IDependencyProvider dependencyProvider, IParserService parserService, ICollection<IErrorInfo> errors)
             : base(dependencyProvider, errors)
         {
             Ensure.NotNull(name, "name");

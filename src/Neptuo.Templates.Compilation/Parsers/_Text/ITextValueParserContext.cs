@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Value parser context.
     /// </summary>
-    public interface IValueParserContext : IParserServiceContext
+    public interface ITextValueParserContext : IParserServiceContext
     {
         /// <summary>
         /// Name of parsers to use.

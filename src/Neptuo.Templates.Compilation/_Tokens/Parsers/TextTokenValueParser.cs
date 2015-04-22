@@ -12,17 +12,17 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Token value parser.
     /// </summary>
-    public partial class TokenValueParser : IValueParser
+    public partial class TextTokenValueParser : ITextValueParser
     {
         private readonly IParserRegistry registry;
 
-        public TokenValueParser(IParserRegistry registry)
+        public TextTokenValueParser(IParserRegistry registry)
         {
             Ensure.NotNull(registry, "registry");
             this.registry = registry;
         }
 
-        public ICodeObject Parse(ISourceContent content, IValueParserContext context)
+        public ICodeObject Parse(ISourceContent content, ITextValueParserContext context)
         {
             ICodeObject codeObject = null;
 
@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeObject;
         }
 
-        private ICodeObject GenerateToken(IValueParserContext context, Token token, ILineInfo globalSourceInfo)
+        private ICodeObject GenerateToken(ITextValueParserContext context, Token token, ILineInfo globalSourceInfo)
         {
             // Update line info according to global source info.
             token.SetLineInfo(

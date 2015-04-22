@@ -79,7 +79,7 @@ namespace Neptuo.Templates.Compilation
         public DefaultViewService(Func<object, string> keyMapper = null)
             : base(Console.Out)
         {
-            ParserService = new DefaultParserService();
+            ParserService = new TextParserService();
             PreProcessorService = new DefaultPreProcessorService();
             GeneratorService = new DefaultCodeGeneratorService();
             CompilerService = new DefaultCodeCompilerService();
@@ -90,6 +90,18 @@ namespace Neptuo.Templates.Compilation
                 lockProvider = new MultiLockProvider();
             else
                 lockProvider = new MultiLockProvider(keyMapper);
+        }
+
+        /// <summary>
+        /// Sets current parser service to <paramref name="parserService"/>.
+        /// </summary>
+        /// <param name="parserService">Parser service to use.</param>
+        /// <returns>Self (for fluency).</returns>
+        public DefaultViewService AddParserService(IParserService parserService)
+        {
+            Ensure.NotNull(parserService, "parserService");
+            ParserService = parserService;
+            return this;
         }
 
         public object ProcessContent(string name, ISourceContent content, IViewServiceContext context)

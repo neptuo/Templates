@@ -34,12 +34,12 @@ namespace Neptuo.Templates.Compilation.Parsers
             PropertyInfo = propertyInfo;
         }
 
-        public IContentParserContext CreateContentContext(string name, IParserService service)
+        public ITextContentParserContext CreateContentContext(string name, IParserService service)
         {
             return context.CreateContentContext(name, service);
         }
 
-        public IValueParserContext CreateValueContext(string name, IParserService service)
+        public ITextValueParserContext CreateValueContext(string name, IParserService service)
         {
             return context.CreateValueContext(name, service);
         }

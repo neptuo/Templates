@@ -40,6 +40,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilatio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable", "src\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj", "{239D1592-BA86-4231-A273-79D8B0DEBACF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Parsers", "src\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj", "{3418325A-D861-4FB7-BF59-215A0D19C5A1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -170,6 +172,16 @@ Global
 		{239D1592-BA86-4231-A273-79D8B0DEBACF}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{239D1592-BA86-4231-A273-79D8B0DEBACF}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{239D1592-BA86-4231-A273-79D8B0DEBACF}.Release|x86.ActiveCfg = Release|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -185,7 +197,7 @@ Global
 		{7A2007BB-86BF-4999-A86B-37DC66FD97A5} = {6B93C14C-2672-4935-AE18-C28432632F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

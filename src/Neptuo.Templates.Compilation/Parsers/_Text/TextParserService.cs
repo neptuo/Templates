@@ -10,35 +10,47 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Implementation of <see cref="IParserService"/>.
     /// </summary>
-    public class DefaultParserService : IParserService
+    public class TextParserService : IParserService
     {
-        private readonly Dictionary<string, List<IContentParser>> contentParsers;
-        private readonly Dictionary<string, List<IValueParser>> valueParsers;
+        private readonly Dictionary<string, List<ITextContentParser>> contentParsers;
+        private readonly Dictionary<string, List<ITextValueParser>> valueParsers;
 
-        public DefaultParserService()
+        public TextParserService()
         {
-            contentParsers = new Dictionary<string, List<IContentParser>>();
-            valueParsers = new Dictionary<string, List<IValueParser>>();
+            contentParsers = new Dictionary<string, List<ITextContentParser>>();
+            valueParsers = new Dictionary<string, List<ITextValueParser>>();
         }
 
-        public IList<IContentParser> GetContentParsers(string name)
+        /// <summary>
+        /// Returns list of content parsers registered to name <paramref name="name"/>.
+        /// Never returns <c>null</c>, always at least empty list to insert new parsers into.
+        /// </summary>
+        /// <param name="name">Name of parsers.</param>
+        /// <returns>List of content parsers registered to name <paramref name="name"/>.</returns>
+        public IList<ITextContentParser> GetContentParsers(string name)
         {
             Ensure.NotNull(name, "name");
 
-            List<IContentParser> namedParsers;
+            List<ITextContentParser> namedParsers;
             if (!contentParsers.TryGetValue(name, out namedParsers))
-                namedParsers = contentParsers[name] = new List<IContentParser>();
+                namedParsers = contentParsers[name] = new List<ITextContentParser>();
             
             return namedParsers;
         }
 
-        public IList<IValueParser> GetValueParsers(string name)
+        /// <summary>
+        /// Returns list of value parsers registered to name <paramref name="name"/>.
+        /// Never returns <c>null</c>, always at least empty list to insert new parsers into.
+        /// </summary>
+        /// <param name="name">Name of parsers.</param>
+        /// <returns>List of value parsers registered to name <paramref name="name"/>.</returns>
+        public IList<ITextValueParser> GetValueParsers(string name)
         {
             Ensure.NotNull(name, "name");
 
-            List<IValueParser> namedParsers;
+            List<ITextValueParser> namedParsers;
             if (!valueParsers.TryGetValue(name, out namedParsers))
-                namedParsers = valueParsers[name] = new List<IValueParser>();
+                namedParsers = valueParsers[name] = new List<ITextValueParser>();
 
             return namedParsers;
         }
@@ -48,14 +60,14 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(content, "content");
             Ensure.NotNull(context, "context");
 
-            List<IContentParser> namedParsers;
+            List<ITextContentParser> namedParsers;
             if (!contentParsers.TryGetValue(name, out namedParsers))
             {
                 context.Errors.Add(new ErrorInfo(0, 0, String.Format("Unnable to parse content using name '{0}'.", name)));
                 return null;
             }
 
-            foreach (IContentParser contentParser in namedParsers)
+            foreach (ITextContentParser contentParser in namedParsers)
             {
                 ICodeObject codeObject = contentParser.Parse(content, context.CreateContentContext(name, this));
                 if (codeObject != null)
@@ -70,14 +82,14 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(value, "value");
             Ensure.NotNull(context, "context");
 
-            List<IValueParser> namedParsers;
+            List<ITextValueParser> namedParsers;
             if (!valueParsers.TryGetValue(name, out namedParsers))
             {
                 context.Errors.Add(new ErrorInfo(0, 0, String.Format("Unnable to parse value using name '{0}'.", name)));
                 return null;
             }
 
-            foreach (IValueParser valueParser in namedParsers)
+            foreach (ITextValueParser valueParser in namedParsers)
             {
                 ICodeObject codeObject = valueParser.Parse(value, context.CreateValueContext(name, this));
                 if (codeObject != null)
