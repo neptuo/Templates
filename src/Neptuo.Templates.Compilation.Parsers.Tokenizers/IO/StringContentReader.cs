@@ -18,6 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         public const char NullChar = '\0';
 
         private readonly string value;
+        private readonly int offset;
         private int position;
 
         public int Position
@@ -30,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 if (position >= value.Length)
                     return position - 1;
 
-                return position;
+                return offset + position;
             }
         }
 
@@ -56,8 +57,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// </summary>
         /// <param name="value">Content characters.</param>
         public StringContentReader(string value)
+            : this(value, 0)
+        { }
+
+        /// <summary>
+        /// Creates new instance which reads characters from <paramref name="value"/>
+        /// and Position is prefixed with <paramref name="offset"/>.
+        /// </summary>
+        /// <param name="value">Content characters.</param>
+        /// <param name="offset">Start position offset.</param>
+        public StringContentReader(string value, int offset)
         {
             this.value = value;
+            this.offset = offset;
             position = -1;
         }
 
