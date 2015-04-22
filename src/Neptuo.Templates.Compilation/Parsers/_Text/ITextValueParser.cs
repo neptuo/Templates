@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines value parser.
     /// </summary>
-    public interface IValueParser
+    public interface ITextValueParser
     {
         /// <summary>
         /// Parses value in <paramref name="content"/> and create AST.
@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="content">Template content part.</param>
         /// <param name="context">Context information.</param>
         /// <returns>Parsed code object; <c>null</c> otherwise.</returns>
-        ICodeObject Parse(ISourceContent content, IValueParserContext context);
+        ICodeObject Parse(ISourceContent content, ITextValueParserContext context);
     }
 }

@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Common extensions for <see cref="IParserService"/>.
     /// </summary>
-    public static class _ParserServiceExtensions
+    public static class _TextParserServiceExtensions
     {
         /// <summary>
         /// Registers <paramref name="contentParser"/> with <paramref name="name"/>.
@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="parserService">Parser service to extend.</param>
         /// <param name="name">Name of parser.</param>
         /// <param name="contentParser">Content parser.</param>
-        public static IParserService AddContentParser(this IParserService parserService, string name, IContentParser contentParser)
+        public static TextParserService AddContentParser(this TextParserService parserService, string name, ITextContentParser contentParser)
         {
             Ensure.NotNull(parserService, "parserService");
             parserService.GetContentParsers(name).Insert(0, contentParser);
@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="parserService">Parser service to extend.</param>
         /// <param name="name">Name of parser.</param>
         /// <param name="valueParser">Value parser.</param>
-        public static IParserService AddValueParser(this IParserService parserService, string name, IValueParser valueParser)
+        public static TextParserService AddValueParser(this TextParserService parserService, string name, ITextValueParser valueParser)
         {
             Ensure.NotNull(parserService, "parserService");
             parserService.GetValueParsers(name).Insert(0, valueParser);

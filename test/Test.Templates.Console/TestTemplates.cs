@@ -166,10 +166,11 @@ namespace Test.Templates
             codeCompiler.References().AddDirectory(Environment.CurrentDirectory);
 
             DefaultViewService viewService = new DefaultViewService();
-            viewService.ParserService
+            viewService.AddParserService(new TextParserService()
                 .AddContentParser("Default", new XmlContentParser(parserRegistry, true))
-                .AddValueParser("Default", new PlainValueParser())
-                .AddValueParser("Default", new TokenValueParser(parserRegistry));
+                .AddValueParser("Default", new TextPlainValueParser())
+                .AddValueParser("Default", new TokenValueParser(parserRegistry))
+            );
 
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);
             viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());

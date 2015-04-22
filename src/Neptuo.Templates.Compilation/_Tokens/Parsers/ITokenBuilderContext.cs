@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Current parser context.
         /// </summary>
-        IValueParserContext ParserContext { get; }
+        ITextValueParserContext ParserContext { get; }
 
         /// <summary>
         /// Current parser.

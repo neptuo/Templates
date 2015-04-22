@@ -23,16 +23,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             Errors = errors ?? new List<IErrorInfo>();
         }
 
-        public IContentParserContext CreateContentContext(string name, IParserService service)
+        public ITextContentParserContext CreateContentContext(string name, IParserService service)
         {
             Ensure.NotNull(service, "service");
-            return new DefaultParserContext(name, service, this);
+            return new TextParserContext(name, service, this);
         }
 
-        public IValueParserContext CreateValueContext(string name, IParserService service)
+        public ITextValueParserContext CreateValueContext(string name, IParserService service)
         {
             Ensure.NotNull(service, "service");
-            return new DefaultParserContext(name, service, this);
+            return new TextParserContext(name, service, this);
         }
     }
 }

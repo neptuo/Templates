@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// XML content parser implementation.
     /// </summary>
-    public class XmlContentParser : IContentParser
+    public class XmlContentParser : ITextContentParser
     {
         public static string FakeRootElementName = "NeptuoTemplatesRoot";
 
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             UseLinqApi = useLinqApi;
         }
 
-        public virtual ICodeObject Parse(ISourceContent content, IContentParserContext context)
+        public virtual ICodeObject Parse(ISourceContent content, ITextContentParserContext context)
         {
 #if !DEBUG
             try

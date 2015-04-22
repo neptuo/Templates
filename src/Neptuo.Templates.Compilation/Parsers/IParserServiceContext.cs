@@ -24,19 +24,19 @@ namespace Neptuo.Templates.Compilation.Parsers
         ICollection<IErrorInfo> Errors { get; }
 
         /// <summary>
-        /// Factory method for creating <see cref="IContentParserContext"/>.
+        /// Factory method for creating <see cref="ITextContentParserContext"/>.
         /// </summary>
         /// <param name="name">Name of the pipeline to execute.</param>
         /// <param name="service">Current parser service.</param>
-        /// <returns><see cref="IContentParserContext"/>.</returns>
-        IContentParserContext CreateContentContext(string name, IParserService service);
+        /// <returns><see cref="ITextContentParserContext"/>.</returns>
+        ITextContentParserContext CreateContentContext(string name, IParserService service);
 
         /// <summary>
-        /// Factory method for creating <see cref="IValueParserContext"/>.
+        /// Factory method for creating <see cref="ITextValueParserContext"/>.
         /// </summary>
         /// <param name="name">Name of the pipeline to execute.</param>
         /// <param name="service">Current parser service.</param>
-        /// <returns><see cref="IValueParserContext"/>.</returns>
-        IValueParserContext CreateValueContext(string name, IParserService service);
+        /// <returns><see cref="ITextValueParserContext"/>.</returns>
+        ITextValueParserContext CreateValueContext(string name, IParserService service);
     }
 }
