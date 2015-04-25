@@ -16,5 +16,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public DefaultComposableTokenizerContext(ITokenizerContext context)
             : base(context.DependencyProvider, context.Errors)
         { }
+
+        public IList<ComposableTokenType> Tokenize(IO.IContentReader reader, IComposableTokenizer initiator)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
