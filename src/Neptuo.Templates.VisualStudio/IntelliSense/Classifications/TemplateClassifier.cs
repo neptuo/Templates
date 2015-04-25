@@ -14,11 +14,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     {
         private readonly ITextBuffer buffer;
         private readonly IClassificationType curlyBrace, curlyContent, curlyError;
-        private readonly CurlyTokenizer tokenizer;
+        private readonly ComposableTokenizer tokenizer;
 
         public TemplateClassifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
         {
-            this.tokenizer = new CurlyTokenizer();
+            this.tokenizer = new ComposableTokenizer();
+            tokenizer.Add(new CurlyComposableTokenizer());
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(TemplateClassificationType.CurlyBrace);
             curlyContent = registry.GetClassificationType(TemplateClassificationType.CurlyContent);
@@ -40,58 +41,22 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 
             try
             {
-                IList<CurlyToken> tokens = tokenizer.Tokenize(new StringContentReader(buffer.CurrentSnapshot.GetText()), new FakeTokenizerContext());
-
-                CurlyTokenState state = CurlyTokenState.Other;
-                foreach (CurlyToken token in tokens)
+                IList<ComposableToken> tokens = tokenizer.Tokenize(new StringContentReader(buffer.CurrentSnapshot.GetText()), new FakeTokenizerContext());
+                foreach (ComposableToken token in tokens)
                 {
-                    // After error, continue from current state, or start orver?
-                    if (state == CurlyTokenState.Other)
+                    if (!token.IsVirtual)
                     {
-                        if (token.Type == CurlyTokenType.OpenBrace)
-                        {
+                        if (token.Type == CurlyComposableTokenizer.TokenType.OpenBrace || token.Type == CurlyComposableTokenizer.TokenType.CloseBrace)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
-                            state = CurlyTokenState.Open;
-                        }
-                        else if (token.Type == CurlyTokenType.Error)
-                        {
+                        else if (token.Type == CurlyComposableTokenizer.TokenType.Error)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
-                        }
-                    }
-                    else if (state == CurlyTokenState.Open)
-                    {
-                        if (token.Type == CurlyTokenType.Name)
-                        {
+                        else if (token.Type != CurlyComposableTokenizer.TokenType.Text)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyContent));
-                            state = CurlyTokenState.Name;
-                        } 
-                        else if (token.Type == CurlyTokenType.CloseBrace)
-                        {
-                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
-                            state = CurlyTokenState.Other;
-                        }
-                        else if (token.Type == CurlyTokenType.Error)
-                        {
-                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
-                        }
-                    }
-                    else if (state == CurlyTokenState.Name)
-                    {
-                        if (token.Type == CurlyTokenType.CloseBrace)
-                        {
-                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
-                            state = CurlyTokenState.Other;
-                        }
-                        else if(token.Type == CurlyTokenType.Error)
-                        {
-                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
-                        }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-            }
+            catch (Exception)
+            { }
 
             return spans;
         }

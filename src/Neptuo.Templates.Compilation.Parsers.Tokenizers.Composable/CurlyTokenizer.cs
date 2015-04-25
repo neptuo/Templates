@@ -1,4 +1,5 @@
 ﻿using Neptuo.Collections.Specialized;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
@@ -10,37 +11,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     public class CurlyTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
     {
-        private enum State
-        {
-            Initial,
-
-            /// <summary>
-            /// '{'
-            /// </summary>
-            OpenBrace,
-            Name,
-
-            AttributeName,
-
-            DefaultAttributeValue,
-
-            /// <summary>
-            /// '='
-            /// </summary>
-            AttributeValueSeparator,
-            AttributeValue,
-
-            /// <summary>
-            /// ','
-            /// </summary>
-            AttributeSeparator,
-
-            /// <summary>
-            /// '}'
-            /// </summary>
-            CloseBrace
-        }
-
         public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
         {
             return new List<ComposableTokenType>()
@@ -73,12 +43,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            if (decorator.ReadUntil(c => c == '{'))
+            if (decorator.ReadUntil(c => c == '{' || c == '}'))
             {
+                if (decorator.Current == '{')
+                {
                 CreateToken(decorator, result, CurlyTokenType.Text, 1);
                 CreateToken(decorator, result, CurlyTokenType.OpenBrace);
-                ReadTokenName(decorator, context, result);
-                return true;
+                    ReadTokenName(decorator, context, result);
+                    return true;
+                }
+                else
+                {
+                    CreateToken(decorator, result, TokenType.Error);
+                    return ReadTokenStart(decorator, context, result);
+                }
             }
 
             return false;
@@ -87,6 +65,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         private void ReadTokenName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
             decorator.ReadWhile(Char.IsLetterOrDigit);
+
+            bool hasName = false;
+
+            if (decorator.Current == '{')
+            {
+                result.Last().Type = TokenType.Error;
+                CreateToken(decorator, result, TokenType.OpenBrace);
+                ReadTokenName(decorator, context, result);
+                return;
+            }
 
             if (decorator.Current == ':')
             {
@@ -99,11 +87,22 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             
             if(decorator.Current == ' ')
             {
-                // Use as name.
+                // Check for valid name.
+                if (IsValidIdentifier(decorator.CurrentContent(1)))
+                {
+                    // Use as name.
                 CreateToken(decorator, result, CurlyTokenType.Name, 1);
+                }
+                else
+                {
+                    // Use as error
+                    CreateToken(decorator, result, TokenType.Error, 1);
+                }
 
                 decorator.ReadWhile(Char.IsWhiteSpace);
                 CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
+
+                hasName = true;
             }
 
             if (Char.IsLetter(decorator.Current))
@@ -114,43 +113,117 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             if (decorator.Current == '}')
             {
-                // Use as name and close token.
-                CreateToken(decorator, result, CurlyTokenType.Name, 1);
-                CreateToken(decorator, result, CurlyTokenType.CloseBrace);
+                // Check for valid name.
+                if (IsValidIdentifier(decorator.CurrentContent(1)))
+                {
+                    // Use as name.
+                    CreateToken(decorator, result, TokenType.Name, 1);
+                }
+                else
+                {
+                    // Use as error
+                    CreateToken(decorator, result, TokenType.Error, 1);
+                }
+
+                // Close token.
+                CreateToken(decorator, result, TokenType.CloseBrace);
                 
                 // Read tokens and accept last characters as text.
                 ReadTokenStart(decorator, context, result);
                 CreateToken(decorator, result, CurlyTokenType.Text);
             }
+            else if (decorator.Current == StringContentReader.NullChar)
+            {
+                // Use as name and close token (virtually).
+                CreateToken(decorator, result, TokenType.Name);
+                CreateVirtualToken(result, TokenType.CloseBrace, "}");
+            }
+            else if (decorator.Current == '{')
+            {
+                if (hasName)
+                {
+                    CreateVirtualToken(result, TokenType.CloseBrace, "}");
+                }
+                else
+                {
+                    decorator.ReadUntil(c => c == '{');
+                    CreateToken(decorator, result, TokenType.Error, 1);
+                }
+
+                CreateToken(decorator, result, TokenType.OpenBrace);
+                ReadTokenName(decorator, context, result);
+            }
         }
 
-        private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result, bool supportDefaultAttributes = true)
         {
-            decorator.ReadWhile(Char.IsLetterOrDigit);
+            List<char> specials = new List<char>() { '=', ',', '{', '}' };
+            decorator.ReadUntil(specials.Contains);
 
             if (decorator.Current == '=')
             {
-                // Use as attribute name.
-                CreateToken(decorator, result, CurlyTokenType.AttributeName, 1);
-                CreateToken(decorator, result, CurlyTokenType.AttributeValueSeparator);
+                if (IsValidIdentifier(decorator.CurrentContent(1)))
+                {
+                    // Use as attribute name.
+                    CreateToken(decorator, result, TokenType.AttributeName, 1);
+                }
+                else
+                {
+                    // Use as error.
+                    CreateToken(decorator, result, TokenType.Error, 1);
+                }
+
 
                 // Use as attribute value.
                 decorator.ReadUntil(c => c == ',' || c == '}');
                 CreateToken(decorator, result, CurlyTokenType.AttributeValue, 1);
 
                 if (decorator.Current == ',')
-                    ReadTokenAttribute(decorator, context, result);
+                {
+                    // Use as separator.
+                    CreateToken(decorator, result, TokenType.AttributeSeparator);
 
-                if (decorator.Current == '}')
-                    return;
+                    // Read all whitespaces.
+                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    CreateToken(decorator, result, TokenType.Whitespace, 1);
+
+                    // Try read next attribute.
+                    ReadTokenAttribute(decorator, context, result, false);
+                }
             }
-            else if (decorator.Current == ',')
+            else
             {
-                // Use as default.
-                CreateToken(decorator, result, CurlyTokenType.DefaultAttributeValue, 1);
-                CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
+                // Use as default attribute or mark as error.
+                if (supportDefaultAttributes)
+                    CreateToken(decorator, result, TokenType.DefaultAttributeValue, 1);
+                else
+                {
+                    if (IsValidIdentifier(decorator.CurrentContent(1)))
+                    {
+                        // Use as attribute name.
+                        CreateToken(decorator, result, TokenType.AttributeName, 1);
+                        result.Last().Error = new DefaultErrorMessage("Missing attribute value.");
+                    }
+                    else
+                    {
+                        // Use as error.
+                        CreateToken(decorator, result, TokenType.Error, 1);
+                    }
+                }
 
-                ReadTokenAttribute(decorator, context, result);
+                // If separator was found.
+                if (decorator.Current == ',')
+                {
+                    // Use as separator.
+                    CreateToken(decorator, result, TokenType.AttributeSeparator);
+
+                    // While whitespaces, read..
+                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    CreateToken(decorator, result, TokenType.Whitespace, 1);
+
+                    // Try read next attribute.
+                    ReadTokenAttribute(decorator, context, result);
+                }
             }
         }
 
@@ -165,7 +238,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 result.Add(new ComposableToken(tokenType, text)
                 {
                     ContentInfo = decorator.CurrentContentInfo(),
-                    LineInfo = decorator.CurrentLineInfo()
+                    LineInfo = decorator.CurrentLineInfo(),
                 });
 
                 decorator.ResetCurrentInfo();
@@ -173,6 +246,31 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             if (stepsToGoBack > 0)
                 decorator.Read(stepsToGoBack);
+        }
+
+        private void CreateVirtualToken(List<ComposableToken> result, ComposableTokenType tokenType, string text)
+        {
+            result.Add(new ComposableToken(tokenType, text)
+            {
+                IsVirtual = true
+            });
+        }
+
+        private bool IsValidIdentifier(string text)
+        {
+            if (String.IsNullOrEmpty(text))
+                return false;
+
+            if(!Char.IsLetter(text[0]))
+                return false;
+
+            foreach (char c in text)
+            {
+                if (!Char.IsLetterOrDigit(c))
+                    return false;
+            }
+
+            return true;
         }
     }
 }

@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3418325A-D861-4FB7-BF59-215A0D19C5A1}</ProjectGuid>
+    <ProjectGuid>{ECB2C2F2-F0DD-44FE-9C4D-BADDD58308A2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Neptuo.Templates.Compilation.Parsers</RootNamespace>
@@ -31,7 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Neptuo">
-      <HintPath>..\references\Neptuo.dll</HintPath>
+      <HintPath>..\..\references\Neptuo.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -42,10 +42,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TokenizerParserService.cs" />
+    <Compile Include="CurlyTokenBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
+      <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
       <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>

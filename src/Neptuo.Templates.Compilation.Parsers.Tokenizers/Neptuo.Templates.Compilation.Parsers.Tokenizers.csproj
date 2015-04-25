@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ComponentModel\DefaultErrorMessage.cs" />
     <Compile Include="ComponentModel\IErrorMessage.cs" />
     <Compile Include="DefaultTokenizerContext.cs" />
     <Compile Include="IO\ContentDecorator.cs" />

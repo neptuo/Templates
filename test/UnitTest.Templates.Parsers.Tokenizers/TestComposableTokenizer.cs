@@ -46,9 +46,46 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Composable_ValidTokenWithNamedAttributes()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path=ID}"), new FakeTokenizerContext());
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path=ID, Converter=Default}"), new FakeTokenizerContext());
 
-            AssertText(tokens, "{", "Binding", " ", "Path", "=", "ID", "}");
+            AssertText(tokens, "{", "Binding", " ", "Path", "=", "ID", ",", " ", "Converter", "=", "Default", "}");
+        }
+
+        [TestMethod]
+        public void Composable_ValidTokenWithDefaultAndNamedAttributes()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID, Converter=Default}"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "Binding", " ", "ID", ",", " ", "Converter", "=", "Default", "}");
+        }
+
+        [TestMethod]
+        public void Composable_InValidTokenWithoutCloseBrace()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "Binding", "}");
+            AssertAreEqual(tokens[2].IsVirtual, true);
+        }
+
+        [TestMethod]
+        public void Composable_InValidTokenWithDoubleOpenBrace()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{{Binding"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "{", "Binding", "}");
+            AssertAreEqual(tokens[0].Type, ComposableTokenType.TokenType.Error);
+            AssertAreEqual(tokens[3].IsVirtual, true);
+        }
+
+        [TestMethod]
+        public void Composable_InValidTokenWithTripleCloseBrace()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}}}"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "Binding", "}", "}", "}");
+            AssertAreEqual(tokens[3].Type, ComposableTokenType.TokenType.Error);
+            AssertAreEqual(tokens[4].Type, ComposableTokenType.TokenType.Error);
         }
 
         [TestMethod]
@@ -56,8 +93,26 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding as {Binding}"), new FakeTokenizerContext());
 
-            AssertLength(tokens, 2);
-            AssertText(tokens, "{", "Binding as {Binding}");
+            AssertText(tokens, "{", "Binding", " ", "as ", "}", "{", "Binding", "}");
+            AssertAreEqual(tokens[4].IsVirtual, true);
+        }
+
+        [TestMethod]
+        public void Composable_InValidTokenWithInValidName()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "1Binding", "}");
+            AssertAreEqual(tokens[1].Type, ComposableTokenType.TokenType.Error);
+        }
+
+        [TestMethod]
+        public void Composable_InValidTokenWithDefaultAttributeAfterNamed()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=Default, ID}"), new FakeTokenizerContext());
+
+            AssertText(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "}");
+            AssertAreEqual(tokens[8].HasError, true);
         }
     }
 }
