@@ -19,7 +19,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         public TemplateClassifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
         {
             this.tokenizer = new ComposableTokenizer();
-            tokenizer.Add(new CurlyComposableTokenizer());
+            tokenizer.Add(new CurlyTokenizer());
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(TemplateClassificationType.CurlyBrace);
             curlyContent = registry.GetClassificationType(TemplateClassificationType.CurlyContent);
@@ -46,11 +46,11 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                 {
                     if (!token.IsVirtual)
                     {
-                        if (token.Type == CurlyComposableTokenizer.TokenType.OpenBrace || token.Type == CurlyComposableTokenizer.TokenType.CloseBrace)
+                        if (token.Type == CurlyTokenType.OpenBrace || token.Type == CurlyTokenType.CloseBrace)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
-                        else if (token.Type == CurlyComposableTokenizer.TokenType.Error)
+                        else if (token.Type == CurlyTokenType.Error)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
-                        else if (token.Type != CurlyComposableTokenizer.TokenType.Text)
+                        else if (token.Type != CurlyTokenType.Text)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyContent));
                     }
                 }

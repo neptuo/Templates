@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{ECB2C2F2-F0DD-44FE-9C4D-BADDD58308A2}</ProjectGuid>
+    <ProjectGuid>{3418325A-D861-4FB7-BF59-215A0D19C5A1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Neptuo.Templates.Compilation.Parsers</RootNamespace>

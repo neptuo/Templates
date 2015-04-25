@@ -74,7 +74,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{{Binding"), new FakeTokenizerContext());
 
             AssertText(tokens, "{", "{", "Binding", "}");
-            AssertAreEqual(tokens[0].Type, ComposableTokenType.TokenType.Error);
+            AssertAreEqual(tokens[0].Type, ComposableTokenType.Error);
             AssertAreEqual(tokens[3].IsVirtual, true);
         }
 
@@ -84,8 +84,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}}}"), new FakeTokenizerContext());
 
             AssertText(tokens, "{", "Binding", "}", "}", "}");
-            AssertAreEqual(tokens[3].Type, ComposableTokenType.TokenType.Error);
-            AssertAreEqual(tokens[4].Type, ComposableTokenType.TokenType.Error);
+            AssertAreEqual(tokens[3].Type, ComposableTokenType.Error);
+            AssertAreEqual(tokens[4].Type, ComposableTokenType.Error);
         }
 
         [TestMethod]
@@ -103,7 +103,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());
 
             AssertText(tokens, "{", "1Binding", "}");
-            AssertAreEqual(tokens[1].Type, ComposableTokenType.TokenType.Error);
+            AssertAreEqual(tokens[1].Type, ComposableTokenType.Error);
         }
 
         [TestMethod]

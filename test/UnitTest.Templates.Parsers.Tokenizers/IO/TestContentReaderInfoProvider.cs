@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Neptuo.ComponentModel;
+using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
@@ -13,13 +14,13 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
     [TestClass]
     public class TestContentReaderInfoProvider : TestBase
     {
-        private void AssertSourceContentInfo(ISourceContentInfo contentInfo, int startIndex, int length)
+        private void AssertSourceContentInfo(IContentRangeInfo contentInfo, int startIndex, int length)
         {
             AssertAreEqual(contentInfo.StartIndex, startIndex);
             AssertAreEqual(contentInfo.Length, length);
         }
 
-        private void AssertSourceRangeLineInfo(ISourceRangeLineInfo lineInfo, int columnIndex, int lineIndex, int endColumnIndex, int endLineIndex)
+        private void AssertSourceRangeLineInfo(ILineRangeInfo lineInfo, int columnIndex, int lineIndex, int endColumnIndex, int endLineIndex)
         {
             AssertAreEqual(lineInfo.ColumnIndex, columnIndex);
             AssertAreEqual(lineInfo.LineIndex, lineIndex);

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
@@ -36,7 +37,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AssertAreEqual(values[i], tokens[i].Text);
         }
 
-        protected void AssertContentInfo(IList<ComposableToken> tokens, params ISourceContentInfo[] values)
+        protected void AssertContentInfo(IList<ComposableToken> tokens, params IContentRangeInfo[] values)
         {
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)
@@ -47,9 +48,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected ISourceContentInfo CreateContentInfo(int startIndex, int length)
+        protected IContentRangeInfo CreateContentInfo(int startIndex, int length)
         {
-            return new DefaultSourceContentInfo(startIndex, length);
+            return new DefaultContentRangeInfo(startIndex, length);
         }
     }
 }
