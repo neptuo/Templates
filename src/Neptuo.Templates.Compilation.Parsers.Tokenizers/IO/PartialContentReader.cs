@@ -76,8 +76,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
                 return false;
             }
+            else
+            {
+                isAfterEscape = false;
+            }
 
-            isAfterEscape = false;
             return true;
         }
     }
