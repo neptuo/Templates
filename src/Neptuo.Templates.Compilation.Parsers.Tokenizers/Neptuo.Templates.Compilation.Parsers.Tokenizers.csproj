@@ -42,10 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ComponentModel\DefaultSourceContentInfo.cs" />
-    <Compile Include="ComponentModel\ISourceContentInfo.cs" />
     <Compile Include="ComponentModel\IErrorMessage.cs" />
-    <Compile Include="ComponentModel\DefaultSourceRangeLineInfo.cs" />
     <Compile Include="DefaultTokenizerContext.cs" />
     <Compile Include="IO\ContentDecorator.cs" />
     <Compile Include="IO\IContentReader.cs" />

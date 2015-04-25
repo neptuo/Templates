@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class CurlyComposableTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
+    public class CurlyTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
     {
         private enum State
         {
@@ -41,42 +41,25 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             CloseBrace
         }
 
-        public class TokenType : ComposableTokenType.TokenType
-        {
-            public static readonly ComposableTokenType OpenBrace = new ComposableTokenType("Curly.OpenBrace");
-            public static readonly ComposableTokenType NamePrefix = new ComposableTokenType("Curly.NamePrefix");
-            public static readonly ComposableTokenType NameSeparator = new ComposableTokenType("Curly.NameSeparator");
-            public static readonly ComposableTokenType Name = new ComposableTokenType("Curly.Name");
-
-            public static readonly ComposableTokenType DefaultAttributeValue = new ComposableTokenType("Curly.DefaultAttributeName");
-            public static readonly ComposableTokenType AttributeSeparator = new ComposableTokenType("Curly.AttributeSeparator");
-
-            public static readonly ComposableTokenType AttributeName = new ComposableTokenType("Curly.AttributeName");
-            public static readonly ComposableTokenType AttributeValueSeparator = new ComposableTokenType("Curly.AttributeValueSeparator");
-            public static readonly ComposableTokenType AttributeValue = new ComposableTokenType("Curly.AttributeValue");
-
-            public static readonly ComposableTokenType CloseBrace = new ComposableTokenType("Curly.CloseBrace");
-        }
-
         public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
         {
             return new List<ComposableTokenType>()
             {
-                TokenType.OpenBrace,
-                TokenType.Name,
-
-                TokenType.DefaultAttributeValue,
-                TokenType.AttributeSeparator,
-
-                TokenType.AttributeName,
-                TokenType.AttributeValueSeparator,
-                TokenType.AttributeValue,
-
-                TokenType.CloseBrace,
-
-                TokenType.Error,
-                TokenType.Whitespace,
-                TokenType.Text
+                CurlyTokenType.OpenBrace,
+                CurlyTokenType.Name,
+                
+                CurlyTokenType.DefaultAttributeValue,
+                CurlyTokenType.AttributeSeparator,
+                
+                CurlyTokenType.AttributeName,
+                CurlyTokenType.AttributeValueSeparator,
+                CurlyTokenType.AttributeValue,
+                
+                CurlyTokenType.CloseBrace,
+                
+                CurlyTokenType.Error,
+                CurlyTokenType.Whitespace,
+                CurlyTokenType.Text
             };
         }
 
@@ -92,8 +75,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         {
             if (decorator.ReadUntil(c => c == '{'))
             {
-                CreateToken(decorator, result, TokenType.Text, 1);
-                CreateToken(decorator, result, TokenType.OpenBrace);
+                CreateToken(decorator, result, CurlyTokenType.Text, 1);
+                CreateToken(decorator, result, CurlyTokenType.OpenBrace);
                 ReadTokenName(decorator, context, result);
                 return true;
             }
@@ -108,8 +91,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             if (decorator.Current == ':')
             {
                 // Use as prefix.
-                CreateToken(decorator, result, TokenType.NamePrefix, 1);
-                CreateToken(decorator, result, TokenType.NameSeparator);
+                CreateToken(decorator, result, CurlyTokenType.NamePrefix, 1);
+                CreateToken(decorator, result, CurlyTokenType.NameSeparator);
 
                 decorator.ReadWhile(Char.IsLetterOrDigit);
             } 
@@ -117,10 +100,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             if(decorator.Current == ' ')
             {
                 // Use as name.
-                CreateToken(decorator, result, TokenType.Name, 1);
+                CreateToken(decorator, result, CurlyTokenType.Name, 1);
 
                 decorator.ReadWhile(Char.IsWhiteSpace);
-                CreateToken(decorator, result, TokenType.Whitespace, 1);
+                CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
             }
 
             if (Char.IsLetter(decorator.Current))
@@ -132,12 +115,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             if (decorator.Current == '}')
             {
                 // Use as name and close token.
-                CreateToken(decorator, result, TokenType.Name, 1);
-                CreateToken(decorator, result, TokenType.CloseBrace);
+                CreateToken(decorator, result, CurlyTokenType.Name, 1);
+                CreateToken(decorator, result, CurlyTokenType.CloseBrace);
                 
                 // Read tokens and accept last characters as text.
                 ReadTokenStart(decorator, context, result);
-                CreateToken(decorator, result, TokenType.Text);
+                CreateToken(decorator, result, CurlyTokenType.Text);
             }
         }
 
@@ -148,12 +131,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             if (decorator.Current == '=')
             {
                 // Use as attribute name.
-                CreateToken(decorator, result, TokenType.AttributeName, 1);
-                CreateToken(decorator, result, TokenType.AttributeValueSeparator);
+                CreateToken(decorator, result, CurlyTokenType.AttributeName, 1);
+                CreateToken(decorator, result, CurlyTokenType.AttributeValueSeparator);
 
                 // Use as attribute value.
                 decorator.ReadUntil(c => c == ',' || c == '}');
-                CreateToken(decorator, result, TokenType.AttributeValue, 1);
+                CreateToken(decorator, result, CurlyTokenType.AttributeValue, 1);
 
                 if (decorator.Current == ',')
                     ReadTokenAttribute(decorator, context, result);
@@ -164,8 +147,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             else if (decorator.Current == ',')
             {
                 // Use as default.
-                CreateToken(decorator, result, TokenType.DefaultAttributeValue, 1);
-                CreateToken(decorator, result, TokenType.AttributeSeparator);
+                CreateToken(decorator, result, CurlyTokenType.DefaultAttributeValue, 1);
+                CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
 
                 ReadTokenAttribute(decorator, context, result);
             }

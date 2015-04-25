@@ -1,4 +1,5 @@
 ﻿using Neptuo.ComponentModel;
+using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using System;
 using System.Collections.Generic;
@@ -16,12 +17,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <summary>
         /// Token line info.
         /// </summary>
-        ISourceRangeLineInfo LineInfo { get; set; }
+        ILineRangeInfo LineInfo { get; set; }
 
         /// <summary>
         /// Token content info.
         /// </summary>
-        ISourceContentInfo ContentInfo { get; set; }
+        IContentRangeInfo ContentInfo { get; set; }
 
         /// <summary>
         /// Token text.

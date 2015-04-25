@@ -15,14 +15,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         private readonly ComposableTokenTypeCollection supportedTokens;
         private readonly List<IComposableTokenizer> tokenizers;
 
-        public class TokenType : ComposableTokenType.TokenType
-        { }
-
         /// <summary>
         /// Creates new instance of tokenizer.
         /// </summary>
         public ComposableTokenizer()
-            : this(new List<ComposableTokenType>() { TokenType.Error, TokenType.Text })
+            : this(new List<ComposableTokenType>() { ComposableTokenType.Error, ComposableTokenType.Text })
         { }
 
         /// <summary>
