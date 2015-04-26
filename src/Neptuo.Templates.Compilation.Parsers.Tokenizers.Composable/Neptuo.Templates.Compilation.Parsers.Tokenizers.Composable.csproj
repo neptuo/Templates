@@ -48,12 +48,12 @@
     <Compile Include="ComposableTokenType.cs" />
     <Compile Include="CurlyTokenizer.cs" />
     <Compile Include="CurlyTokenType.cs" />
-    <Compile Include="DefaultComposableTokenizerContext.cs" />
+    <Compile Include="ComposableTokenizerContext.cs" />
     <Compile Include="IComposableTokenizer.cs" />
     <Compile Include="IComposableTokenizerCollection.cs" />
     <Compile Include="IComposableTokenizerContext.cs" />
     <Compile Include="IComposableTokenTypeProvider.cs" />
-    <Compile Include="PlainComposableTokenizer.cs" />
+    <Compile Include="PlainTokenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_ComposableTokenTypeCollectionExtensions.cs" />
   </ItemGroup>

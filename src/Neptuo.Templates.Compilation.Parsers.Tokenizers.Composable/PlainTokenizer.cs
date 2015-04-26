@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Parses content as single text token.
     /// </summary>
-    public class PlainComposableTokenizer : IComposableTokenizer
+    public class PlainTokenizer : IComposableTokenizer
     {
         public IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizerContext context)
         {

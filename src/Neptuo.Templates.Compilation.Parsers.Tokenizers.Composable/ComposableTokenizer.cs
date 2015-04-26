@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+﻿using Neptuo.Activators;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,12 +35,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         public IList<ComposableToken> Tokenize(IContentReader reader, ITokenizerContext context)
         {
-            IComposableTokenizerContext superContext = new DefaultComposableTokenizerContext(context);
+            IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, context);
 
-            //TODO: When using two or more tokenizers, cache reader!!
+            IActivator<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
-                IList<ComposableToken> tokens = tokenizer.Tokenize(reader, superContext);
+                IList<ComposableToken> tokens = tokenizer.Tokenize(factory.Create(), superContext);
                 if (tokens.Any())
                     return tokens;
             }

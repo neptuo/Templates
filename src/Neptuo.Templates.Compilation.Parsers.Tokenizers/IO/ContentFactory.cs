@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             Ensure.NotNull(contentReader, "contentReader");
 
             if (contentReader.Position != -1)
-                Ensure.Exception.ArgumentOutOfRange("contentReader", "Source content reader must be at position '-1', current position is '{0}'.", contentReader.Position);
+                throw Ensure.Exception.ArgumentOutOfRange("contentReader", "Source content reader must be at position '-1', current position is '{0}'.", contentReader.Position);
 
             this.contentReader = contentReader;
             this.cache = new StringBuilder();

@@ -18,6 +18,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="reader">Input content reader.</param>
         /// <param name="initiator">Tokenizer, that should be skipped.</param>
         /// <returns>List of syntactic tokens from <paramref name="reader"/>.</returns>
-        IList<ComposableTokenType> Tokenize(IContentReader reader, IComposableTokenizer initiator);
+        IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizer initiator);
     }
 }

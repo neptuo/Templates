@@ -43,20 +43,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            if (decorator.ReadUntil(c => c == '{' || c == '}'))
+            IList<ComposableToken> tokens = context.Tokenize(new PartialContentReader(decorator, c => c == '{' || c == '}'), this);
+            result.AddRange(tokens);
+
+            if (decorator.Current == '{')
             {
-                if (decorator.Current == '{')
-                {
                 CreateToken(decorator, result, CurlyTokenType.Text, 1);
                 CreateToken(decorator, result, CurlyTokenType.OpenBrace);
-                    ReadTokenName(decorator, context, result);
-                    return true;
-                }
-                else
-                {
-                    CreateToken(decorator, result, CurlyTokenType.Error);
-                    return ReadTokenStart(decorator, context, result);
-                }
+                ReadTokenName(decorator, context, result);
+                return true;
+            }
+            else
+            {
+                CreateToken(decorator, result, CurlyTokenType.Error);
+                return ReadTokenStart(decorator, context, result);
             }
 
             return false;
@@ -83,15 +83,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 CreateToken(decorator, result, CurlyTokenType.NameSeparator);
 
                 decorator.ReadWhile(Char.IsLetterOrDigit);
-            } 
-            
-            if(decorator.Current == ' ')
+            }
+
+            if (decorator.Current == ' ')
             {
                 // Check for valid name.
                 if (IsValidIdentifier(decorator.CurrentContent(1)))
                 {
                     // Use as name.
-                CreateToken(decorator, result, CurlyTokenType.Name, 1);
+                    CreateToken(decorator, result, CurlyTokenType.Name, 1);
                 }
                 else
                 {
@@ -127,7 +127,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
                 // Close token.
                 CreateToken(decorator, result, CurlyTokenType.CloseBrace);
-                
+
                 // Read tokens and accept last characters as text.
                 ReadTokenStart(decorator, context, result);
                 CreateToken(decorator, result, CurlyTokenType.Text);
@@ -261,7 +261,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             if (String.IsNullOrEmpty(text))
                 return false;
 
-            if(!Char.IsLetter(text[0]))
+            if (!Char.IsLetter(text[0]))
                 return false;
 
             foreach (char c in text)

@@ -7,27 +7,35 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 {
     /// <summary>
-    /// Reads content until specified character is found.
+    /// Reads content until termination function returns <c>true</c>.
     /// Supports single char escape.
     /// </summary>
     public class PartialContentReader : IContentReader
     {
         private readonly IContentReader contentReader;
-        private readonly char terminator;
-        private readonly char escape;
+        private readonly Func<char, bool> terminator;
+        private readonly char? escape;
+        private int startOffset;
         private bool isAfterEscape;
         private bool hasNext;
+        private bool isBlankRead;
 
         public int Position
         {
-            get { return contentReader.Position; }
+            get
+            {
+                if (isBlankRead)
+                    return -1;
+
+                return contentReader.Position - startOffset;
+            }
         }
 
         public char Current
         {
             get
             {
-                if(hasNext)
+                if (!isBlankRead && hasNext)
                     return contentReader.Current;
 
                 return StringContentReader.NullChar;
@@ -36,23 +44,34 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
         /// <summary>
         /// Creates new intance that reads content from <paramref name="contentReader"/>.
-        /// Reading is terminated when <paramref name="terminator"/> is found, but
+        /// Reading is terminated when <paramref name="terminator"/> returns <c>true</c>, but
         /// termination can be escaped when <paramref name="escape"/> is just before <paramref name="terminator"/>.
         /// </summary>
         /// <param name="contentReader">Source content reader.</param>
-        /// <param name="terminator">Termination char.</param>
+        /// <param name="terminator">Termination function.</param>
         /// <param name="escape">Termination escape char.</param>
-        public PartialContentReader(IContentReader contentReader, char terminator, char escape = '\\')
+        public PartialContentReader(IContentReader contentReader, Func<char, bool> terminator, char? escape = null)
         {
             Ensure.NotNull(contentReader, "contentReader");
+            Ensure.NotNull(terminator, "terminator");
             this.contentReader = contentReader;
             this.terminator = terminator;
             this.escape = escape;
             this.hasNext = true;
+
+            this.startOffset = Math.Max(contentReader.Position, 0);
+            if (contentReader.Position != -1)
+                isBlankRead = true;
         }
 
         public bool Next()
         {
+            if (isBlankRead)
+            {
+                isBlankRead = false;
+                return true;
+            }
+
             if (hasNext)
             {
                 hasNext = contentReader.Next();
@@ -69,7 +88,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             {
                 isAfterEscape = !isAfterEscape;
             }
-            else if (contentReader.Current == terminator)
+            else if (terminator(contentReader.Current))
             {
                 if (isAfterEscape)
                     return true;
