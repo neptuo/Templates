@@ -81,5 +81,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             position++;
             return position < value.Length;
         }
+
+        public override string ToString()
+        {
+            string currentValue;
+            if (value != null && value.Length > 10)
+                currentValue = value.Substring(Math.Max(0, position - 5), 10);
+            else
+                currentValue = value;
+
+            return String.Format("('{0}' at {1}) of '{2}'", Current, position, currentValue);
+        }
     }
 }
