@@ -13,11 +13,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
     {
         /// <summary>
         /// Reads content from <paramref name="decorator"/> WHILE <paramref name="terminator"/> returns <c>true</c>.
+        /// CURRENT character is IGNORED (methods starts reading next character).
         /// </summary>
         /// <param name="decorator">Content decorator.</param>
         /// <param name="terminator">Function to determine when stop reading.</param>
         /// <returns><c>true</c> if terminated by <paramref name="terminator"/>; <c>false</c> if terminated by EOF (from <paramref name="decorator"/>).</returns>
-        public static bool ReadWhile(this ContentDecorator decorator, Func<char, bool> terminator)
+        public static bool NextWhile(this ContentDecorator decorator, Func<char, bool> terminator)
         {
             Ensure.NotNull(decorator, "decorator");
             Ensure.NotNull(terminator, "terminator");
@@ -32,12 +33,34 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         }
 
         /// <summary>
-        /// Reads content from <paramref name="decorator"/> UNTIL <paramref name="terminator"/> returns <c>true</c>.
+        /// Reads content from <paramref name="decorator"/> WHILE <paramref name="terminator"/> returns <c>true</c>.
+        /// CURRENT character is USED (methods starts comparing current character).
         /// </summary>
         /// <param name="decorator">Content decorator.</param>
         /// <param name="terminator">Function to determine when stop reading.</param>
         /// <returns><c>true</c> if terminated by <paramref name="terminator"/>; <c>false</c> if terminated by EOF (from <paramref name="decorator"/>).</returns>
-        public static bool ReadUntil(this ContentDecorator decorator, Func<char, bool> terminator)
+        public static bool CurrentWhile(this ContentDecorator decorator, Func<char, bool> terminator)
+        {
+            Ensure.NotNull(decorator, "decorator");
+            Ensure.NotNull(terminator, "terminator");
+
+            do
+            {
+                if (!terminator(decorator.Current))
+                    return true;
+            } while (decorator.Next());
+
+            return false;
+        }
+
+        /// <summary>
+        /// Reads content from <paramref name="decorator"/> UNTIL <paramref name="terminator"/> returns <c>true</c>.
+        /// CURRENT character is IGNORED (methods starts reading next character).
+        /// </summary>
+        /// <param name="decorator">Content decorator.</param>
+        /// <param name="terminator">Function to determine when stop reading.</param>
+        /// <returns><c>true</c> if terminated by <paramref name="terminator"/>; <c>false</c> if terminated by EOF (from <paramref name="decorator"/>).</returns>
+        public static bool NextUntil(this ContentDecorator decorator, Func<char, bool> terminator)
         {
             Ensure.NotNull(decorator, "decorator");
             Ensure.NotNull(terminator, "terminator");
@@ -47,6 +70,27 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 if (terminator(decorator.Current))
                     return true;
             }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Reads content from <paramref name="decorator"/> UNTIL <paramref name="terminator"/> returns <c>true</c>.
+        /// CURRENT character is USED (methods starts comparing current character).
+        /// </summary>
+        /// <param name="decorator">Content decorator.</param>
+        /// <param name="terminator">Function to determine when stop reading.</param>
+        /// <returns><c>true</c> if terminated by <paramref name="terminator"/>; <c>false</c> if terminated by EOF (from <paramref name="decorator"/>).</returns>
+        public static bool CurrentUntil(this ContentDecorator decorator, Func<char, bool> terminator)
+        {
+            Ensure.NotNull(decorator, "decorator");
+            Ensure.NotNull(terminator, "terminator");
+
+            do
+            {
+                if (terminator(decorator.Current))
+                    return true;
+            } while (decorator.Next());
 
             return false;
         }

@@ -36,8 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 }
             }
 
-            //TODO: Return empty collection.
-            throw Ensure.Exception.NotImplemented();
+            return new List<ComposableToken>();
         }
     }
 }

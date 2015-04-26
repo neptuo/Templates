@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             this.contentReader = contentReader;
             this.terminator = terminator;
             this.escape = escape;
-            this.hasNext = true;
+            this.hasNext = !terminator(contentReader.Current);
         }
 
         public bool Next()

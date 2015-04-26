@@ -48,10 +48,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             if (decorator.Current == '{')
             {
-                decorator.ResetCurrentPosition(1);
-                decorator.ResetCurrentInfo();
-                decorator.Next();
-
                 //CreateToken(decorator, result, CurlyTokenType.Text, 1);
                 CreateToken(decorator, result, CurlyTokenType.OpenBrace);
                 ReadTokenName(decorator, context, result);
@@ -68,7 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private void ReadTokenName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            decorator.ReadWhile(Char.IsLetterOrDigit);
+            decorator.NextWhile(Char.IsLetterOrDigit);
 
             bool hasName = false;
 
@@ -86,7 +82,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 CreateToken(decorator, result, CurlyTokenType.NamePrefix, 1);
                 CreateToken(decorator, result, CurlyTokenType.NameSeparator);
 
-                decorator.ReadWhile(Char.IsLetterOrDigit);
+                decorator.NextWhile(Char.IsLetterOrDigit);
             }
 
             if (decorator.Current == ' ')
@@ -103,7 +99,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, CurlyTokenType.Error, 1);
                 }
 
-                decorator.ReadWhile(Char.IsWhiteSpace);
+                decorator.NextWhile(Char.IsWhiteSpace);
                 CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
 
                 hasName = true;
@@ -155,7 +151,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 }
                 else
                 {
-                    decorator.ReadUntil(c => c == '{');
+                    decorator.NextUntil(c => c == '{');
                     CreateToken(decorator, result, CurlyTokenType.Error, 1);
                 }
 
@@ -167,7 +163,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result, bool supportDefaultAttributes = true)
         {
             List<char> specials = new List<char>() { '=', ',', '{', '}' };
-            decorator.ReadUntil(specials.Contains);
+            decorator.NextUntil(specials.Contains);
 
             if (decorator.Current == '=')
             {
@@ -184,7 +180,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
 
                 // Use as attribute value.
-                decorator.ReadUntil(c => c == ',' || c == '}');
+                decorator.NextUntil(c => c == ',' || c == '}');
                 CreateToken(decorator, result, CurlyTokenType.AttributeValue, 1);
 
                 if (decorator.Current == ',')
@@ -193,7 +189,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
 
                     // Read all whitespaces.
-                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    decorator.NextWhile(Char.IsWhiteSpace);
                     CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
 
                     // Try read next attribute.
@@ -227,7 +223,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
 
                     // While whitespaces, read..
-                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    decorator.NextWhile(Char.IsWhiteSpace);
                     CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
 
                     // Try read next attribute.

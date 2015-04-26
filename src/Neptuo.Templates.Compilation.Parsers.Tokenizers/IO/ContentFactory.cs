@@ -67,6 +67,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 this.contentReader = contentReader;
                 this.cache = cache;
                 position = 0;
+                positionOffset = contentReader.Position;
             }
 
             public bool Next()
