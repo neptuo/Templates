@@ -8,6 +8,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 {
     /// <summary>
     /// Describes content reader.
+    /// When new instance is created, reader points to the first character.
+    /// When no character is available, <see cref="ContentReader.EndOfInput"/> is returned.
     /// </summary>
     public interface IContentReader
     {
