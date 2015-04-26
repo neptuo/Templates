@@ -57,7 +57,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 ReadTokenName(decorator, context, result);
                 return true;
             }
-            else if(decorator.Current != StringReader.NullChar)
+            else if(decorator.Current != ContentReader.EndOfInput)
             {
                 CreateToken(decorator, result, CurlyTokenType.Error);
                 return ReadTokenStart(decorator, context, result);
@@ -141,7 +141,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     decorator.ResetCurrentInfo();
                 }
             }
-            else if (decorator.Current == StringReader.NullChar)
+            else if (decorator.Current == ContentReader.EndOfInput)
             {
                 // Use as name and close token (virtually).
                 CreateToken(decorator, result, CurlyTokenType.Name);

@@ -12,10 +12,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
     /// </summary>
     public class StringReader : IContentReader
     {
-        /// <summary>
-        /// Default character value when non from input is available.
-        /// </summary>
-        public const char NullChar = '\0';
 
         private readonly string value;
         private readonly int offset;
@@ -40,13 +36,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             get
             {
                 if (position < 0)
-                    return NullChar;
+                    return ContentReader.EndOfInput;
 
                 if (value == null)
-                    return NullChar;
+                    return ContentReader.EndOfInput;
 
                 if (position >= value.Length)
-                    return NullChar;
+                    return ContentReader.EndOfInput;
 
                 return value[position];
             }

@@ -38,7 +38,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 if (!isBlankRead && hasNext)
                     return contentReader.Current;
 
-                return StringReader.NullChar;
+                return ContentReader.EndOfInput;
             }
         }
 
