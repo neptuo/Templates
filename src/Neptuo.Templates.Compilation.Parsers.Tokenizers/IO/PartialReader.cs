@@ -63,17 +63,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 isBlankRead = true;
         }
 
-        /// <summary>
-        /// Creates new intance that reads content from <paramref name="contentReader"/>.
-        /// Reading is terminated when one of the <paramref name="terminators"/> is found, but
-        /// can be escaped when <c>\</c> is just before this char.
-        /// </summary>
-        /// <param name="contentReader">Source content reader.</param>
-        /// <param name="terminators">Enumeration of possible terminators.</param>
-        public PartialReader(IContentReader contentReader, params char[] terminators)
-            : this(contentReader, terminators.Contains, '\\')
-        { }
-
         public bool Next()
         {
             if (isBlankRead)
