@@ -43,17 +43,21 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            IList<ComposableToken> tokens = context.Tokenize(new PartialReader(decorator, c => c == '{' || c == '}'), this);
+            IList<ComposableToken> tokens = context.Tokenize(new PartialReader(decorator, '{', '}'), this);
             result.AddRange(tokens);
 
             if (decorator.Current == '{')
             {
-                CreateToken(decorator, result, CurlyTokenType.Text, 1);
+                decorator.ResetCurrentPosition(1);
+                decorator.ResetCurrentInfo();
+                decorator.Next();
+
+                //CreateToken(decorator, result, CurlyTokenType.Text, 1);
                 CreateToken(decorator, result, CurlyTokenType.OpenBrace);
                 ReadTokenName(decorator, context, result);
                 return true;
             }
-            else
+            else if(decorator.Current != StringReader.NullChar)
             {
                 CreateToken(decorator, result, CurlyTokenType.Error);
                 return ReadTokenStart(decorator, context, result);
@@ -128,9 +132,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 // Close token.
                 CreateToken(decorator, result, CurlyTokenType.CloseBrace);
 
-                // Read tokens and accept last characters as text.
-                ReadTokenStart(decorator, context, result);
-                CreateToken(decorator, result, CurlyTokenType.Text);
+                // If there is something to read.
+                if (decorator.Next())
+                {
+                    // Read tokens and accept last characters as text.
+                    ReadTokenStart(decorator, context, result);
+                    //CreateToken(decorator, result, CurlyTokenType.Text);
+                    decorator.ResetCurrentInfo();
+                }
             }
             else if (decorator.Current == StringReader.NullChar)
             {

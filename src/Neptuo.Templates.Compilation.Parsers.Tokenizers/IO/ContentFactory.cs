@@ -44,6 +44,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             private readonly IContentReader contentReader;
             private readonly StringBuilder cache;
             private int position;
+            private int positionOffset;
 
             public int Position
             {
@@ -57,7 +58,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                     if(position < 0)
                         return StringReader.NullChar;
 
-                    if (position <= contentReader.Position)
+                    if (position <= contentReader.Position - positionOffset)
                         return cache[position];
 
                     return contentReader.Current;
@@ -74,12 +75,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             public bool Next()
             {
                 position++;
-                if(position <= contentReader.Position)
+                if(position <= contentReader.Position - positionOffset)
                     return true;
 
                 bool hasValue = contentReader.Next();
                 if (hasValue)
+                {
                     cache.Append(contentReader.Current);
+                    if (position != contentReader.Position)
+                        positionOffset = contentReader.Position - position;
+                }
 
                 return hasValue;
             }

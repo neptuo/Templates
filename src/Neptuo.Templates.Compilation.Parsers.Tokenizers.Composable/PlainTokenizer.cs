@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     {
         public IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizerContext context)
         {
-            int startPosition = reader.Position;
+            int startPosition = Math.Max(reader.Position, 0);
             string content = reader.ReadToEnd().ToString();
             return new List<ComposableToken>() 
             { 
