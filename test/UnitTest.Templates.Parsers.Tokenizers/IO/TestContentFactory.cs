@@ -19,21 +19,17 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             IActivator<IContentReader> factory = new ContentFactory(source);
 
             IContentReader reader1 = factory.Create();
-            AssertAreEqual(reader1.Current, ContentReader.EndOfInput);
-            AssertAreEqual(source.Current, ContentReader.EndOfInput);
+            AssertAreEqual(reader1.Current, 'a');
+            AssertAreEqual(source.Current, 'a');
 
             IContentReader reader2 = factory.Create();
-            AssertAreEqual(reader2.Current, ContentReader.EndOfInput);
-            AssertAreEqual(source.Current, ContentReader.EndOfInput);
+            AssertAreEqual(reader2.Current, 'a');
+            AssertAreEqual(source.Current, 'a');
 
-            AssertAreEqual(reader1.Next(), true);
-            AssertAreEqual(reader1.Current, 'a');
             AssertAreEqual(reader1.Next(), true);
             AssertAreEqual(reader1.Current, 'b');
             AssertAreEqual(source.Current, 'b');
 
-            AssertAreEqual(reader2.Current, ContentReader.EndOfInput);
-            AssertAreEqual(reader2.Next(), true);
             AssertAreEqual(reader2.Current, 'a');
             AssertAreEqual(reader2.Next(), true);
             AssertAreEqual(reader2.Current, 'b');

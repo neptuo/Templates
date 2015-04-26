@@ -16,10 +16,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         {
             IContentReader contentReader = new PartialReader(new StringReader("abc.ddd"), c => c == '.');
 
-            AssertAreEqual(contentReader.Current, ContentReader.EndOfInput);
-            AssertAreEqual(contentReader.Position, -1);
+            AssertAreEqual(contentReader.Current, 'a');
+            AssertAreEqual(contentReader.Position, 0);
 
-            AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Next(), true);
 
@@ -37,10 +36,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         {
             IContentReader contentReader = new PartialReader(new StringReader("abc\\.ddd"), c => c == '.', '\\');
 
-            AssertAreEqual(contentReader.Current, ContentReader.EndOfInput);
-            AssertAreEqual(contentReader.Position, -1);
+            AssertAreEqual(contentReader.Current, 'a');
+            AssertAreEqual(contentReader.Position, 0);
 
-            AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'c');
@@ -64,13 +62,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         {
             IContentReader source = new StringReader("abc.ddd");
             source.Next();
-            source.Next();
             IContentReader contentReader = new PartialReader(source, c => c == '.', '\\');
 
-            AssertAreEqual(contentReader.Current, ContentReader.EndOfInput);
-            AssertAreEqual(contentReader.Position, -1);
-
-            AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'b');
             AssertAreEqual(contentReader.Position, 1);
 
@@ -81,9 +74,6 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             AssertAreEqual(contentReader.Next(), false);
             AssertAreEqual(contentReader.Current, ContentReader.EndOfInput);
             AssertAreEqual(contentReader.Position, 3);
-
-
         }
-
     }
 }

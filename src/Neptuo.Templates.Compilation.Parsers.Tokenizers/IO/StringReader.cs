@@ -35,9 +35,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         {
             get
             {
-                if (position < 0)
-                    return ContentReader.EndOfInput;
-
                 if (value == null)
                     return ContentReader.EndOfInput;
 
@@ -66,7 +63,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         {
             this.value = value;
             this.offset = offset;
-            position = -1;
+            position = 0;
         }
 
         public bool Next()

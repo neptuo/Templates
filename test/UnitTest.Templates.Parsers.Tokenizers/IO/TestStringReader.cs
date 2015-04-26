@@ -12,9 +12,6 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         {
             IContentReader contentReader = new StringReader("value");
 
-            AssertAreEqual(contentReader.Current, ContentReader.EndOfInput);
-            AssertAreEqual(contentReader.Position, -1);
-            AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'v');
             AssertAreEqual(contentReader.Position, 0);
             AssertAreEqual(contentReader.Next(), true);
@@ -56,9 +53,6 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         {
             IContentReader contentReader = new StringReader("value", 5);
 
-            AssertAreEqual(contentReader.Current, ContentReader.EndOfInput);
-            AssertAreEqual(contentReader.Position, 4);
-            AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'v');
             AssertAreEqual(contentReader.Position, 5);
             AssertAreEqual(contentReader.Next(), true);

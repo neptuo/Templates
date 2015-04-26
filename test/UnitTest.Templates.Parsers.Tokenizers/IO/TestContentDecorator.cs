@@ -35,7 +35,6 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             
             contentReader.Next();
             contentReader.Next();
-            contentReader.Next();
 
             // 'abc'
             AssertSourceContentInfo(contentReader.CurrentContentInfo(), 0, 3);
@@ -66,7 +65,6 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         {
             ContentDecorator contentReader = new ContentDecorator(new StringReader("abc abc" + '\n' + "abc abc"));
 
-            contentReader.Next(); // 'a'
             contentReader.Next(); // 'b'
             contentReader.Next(); // 'c'
             contentReader.Next(); // ' '
@@ -101,7 +99,12 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         {
             ContentDecorator contentReader = new ContentDecorator(new StringReader("abc abc" + '\n' + "abc abc"));
 
-            contentReader.Next();
+            // 'a'
+            AssertSourceContentInfo(contentReader.CurrentContentInfo(), 0, 1);
+            AssertSourceRangeLineInfo(contentReader.CurrentLineInfo(), 0, 0, 1, 0);
+            AssertAreEqual(contentReader.CurrentContent(), "a");
+            AssertAreEqual(contentReader.Current, 'a');
+
             contentReader.Next();
             contentReader.Next();
 
@@ -116,6 +119,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             AssertSourceContentInfo(contentReader.CurrentContentInfo(), 0, 1);
             AssertSourceRangeLineInfo(contentReader.CurrentLineInfo(), 0, 0, 1, 0);
             AssertAreEqual(contentReader.CurrentContent(), "a");
+            AssertAreEqual(contentReader.Current, 'a');
 
             contentReader.Next();
             contentReader.Next();
@@ -144,6 +148,24 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             AssertSourceContentInfo(contentReader.CurrentContentInfo(), 4, 3);
             AssertSourceRangeLineInfo(contentReader.CurrentLineInfo(), 4, 0, 7, 0);
             AssertAreEqual(contentReader.CurrentContent(), "abc");
+        }
+
+        [TestMethod]
+        public void Decorator_ResetPositionToInvalid()
+        {
+            ContentDecorator contentReader = new ContentDecorator(new StringReader("abc abc" + '\n' + "abc abc"));
+
+            // 'a'
+            AssertSourceContentInfo(contentReader.CurrentContentInfo(), 0, 1);
+            AssertSourceRangeLineInfo(contentReader.CurrentLineInfo(), 0, 0, 1, 0);
+            AssertAreEqual(contentReader.CurrentContent(), "a");
+            AssertAreEqual(contentReader.Current, 'a');
+
+            contentReader.Next();
+            contentReader.Next();
+
+            AssertAreEqual(contentReader.ResetCurrentPosition(3), false);
+
         }
     }
 }

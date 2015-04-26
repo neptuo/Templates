@@ -19,12 +19,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         public ContentFactory(IContentReader contentReader)
         {
             Ensure.NotNull(contentReader, "contentReader");
-
-            if (contentReader.Position != -1)
-                throw Ensure.Exception.ArgumentOutOfRange("contentReader", "Source content reader must be at position '-1', current position is '{0}'.", contentReader.Position);
-
             this.contentReader = contentReader;
             this.cache = new StringBuilder();
+            cache.Append(contentReader.Current);
         }
 
         /// <summary>
@@ -69,7 +66,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             {
                 this.contentReader = contentReader;
                 this.cache = cache;
-                position = -1;
+                position = 0;
             }
 
             public bool Next()

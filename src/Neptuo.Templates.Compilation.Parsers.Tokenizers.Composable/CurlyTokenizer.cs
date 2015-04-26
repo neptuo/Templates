@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            IList<ComposableToken> tokens = context.Tokenize(new PartialReader(decorator, '{', '}'), this);
+            IList<ComposableToken> tokens = context.Tokenize(ContentReader.Partial(decorator, '{', '}'), this);
             result.AddRange(tokens);
 
             if (decorator.Current == '{')

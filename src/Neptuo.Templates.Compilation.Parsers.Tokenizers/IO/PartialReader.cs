@@ -15,27 +15,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         private readonly IContentReader contentReader;
         private readonly Func<char, bool> terminator;
         private readonly char? escape;
-        private int startOffset;
         private bool isAfterEscape;
         private bool hasNext;
-        private bool isBlankRead;
 
         public int Position
         {
-            get
-            {
-                if (isBlankRead)
-                    return -1;
-
-                return contentReader.Position;
-            }
+            get { return contentReader.Position; }
         }
 
         public char Current
         {
             get
             {
-                if (!isBlankRead && hasNext)
+                if (hasNext)
                     return contentReader.Current;
 
                 return ContentReader.EndOfInput;
@@ -58,19 +50,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             this.terminator = terminator;
             this.escape = escape;
             this.hasNext = true;
-
-            if (contentReader.Position != -1)
-                isBlankRead = true;
         }
 
         public bool Next()
         {
-            if (isBlankRead)
-            {
-                isBlankRead = false;
-                return true;
-            }
-
             if (hasNext)
             {
                 hasNext = contentReader.Next();
