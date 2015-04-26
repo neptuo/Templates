@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {
     [TestClass]
-    public class TestContentReaderInfoProvider : TestBase
+    public class TestContentDecorator : TestBase
     {
         private void AssertSourceContentInfo(IContentRangeInfo contentInfo, int startIndex, int length)
         {
@@ -31,7 +31,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         [TestMethod]
         public void Decorator_BaseSingleLine()
         {
-            ContentDecorator contentReader = new ContentDecorator(new StringContentReader("abc abc"));
+            ContentDecorator contentReader = new ContentDecorator(new StringReader("abc abc"));
             
             contentReader.Next();
             contentReader.Next();
@@ -64,7 +64,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         [TestMethod]
         public void Decorator_BaseMultiLine()
         {
-            ContentDecorator contentReader = new ContentDecorator(new StringContentReader("abc abc" + '\n' + "abc abc"));
+            ContentDecorator contentReader = new ContentDecorator(new StringReader("abc abc" + '\n' + "abc abc"));
 
             contentReader.Next(); // 'a'
             contentReader.Next(); // 'b'
@@ -99,7 +99,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         [TestMethod]
         public void Decorator_ResetPosition()
         {
-            ContentDecorator contentReader = new ContentDecorator(new StringContentReader("abc abc" + '\n' + "abc abc"));
+            ContentDecorator contentReader = new ContentDecorator(new StringReader("abc abc" + '\n' + "abc abc"));
 
             contentReader.Next();
             contentReader.Next();

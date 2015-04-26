@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            IList<ComposableToken> tokens = context.Tokenize(new PartialContentReader(decorator, c => c == '{' || c == '}'), this);
+            IList<ComposableToken> tokens = context.Tokenize(new PartialReader(decorator, c => c == '{' || c == '}'), this);
             result.AddRange(tokens);
 
             if (decorator.Current == '{')
@@ -132,7 +132,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 ReadTokenStart(decorator, context, result);
                 CreateToken(decorator, result, CurlyTokenType.Text);
             }
-            else if (decorator.Current == StringContentReader.NullChar)
+            else if (decorator.Current == StringReader.NullChar)
             {
                 // Use as name and close token (virtually).
                 CreateToken(decorator, result, CurlyTokenType.Name);

@@ -54,13 +54,13 @@
   </Choose>
   <ItemGroup>
     <Compile Include="IO\TestContentFactory.cs" />
-    <Compile Include="IO\TestContentReaderInfoProvider.cs" />
-    <Compile Include="IO\TestPartialContentReader.cs" />
+    <Compile Include="IO\TestContentDecorator.cs" />
+    <Compile Include="IO\TestPartialReader.cs" />
     <Compile Include="TestComposableTokenizer.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestComposableTokenizerBase.cs" />
     <Compile Include="_Fakes\FakeTokenizerContext.cs" />
-    <Compile Include="IO\TestStringContentReader.cs" />
+    <Compile Include="IO\TestStringReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 get
                 {
                     if(position < 0)
-                        return StringContentReader.NullChar;
+                        return StringReader.NullChar;
 
                     if (position <= contentReader.Position)
                         return cache[position];

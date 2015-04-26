@@ -170,7 +170,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
             // Prepare temporal reader.
             currentLength = currentContent.Length;
-            currentReader = new StringContentReader(toResetText, currentStartIndex);
+            currentReader = new StringReader(toResetText, currentStartIndex);
 
             // Update line info.
             foreach (char item in toResetText.Reverse())

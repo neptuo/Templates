@@ -41,7 +41,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 
             try
             {
-                IList<ComposableToken> tokens = tokenizer.Tokenize(new StringContentReader(buffer.CurrentSnapshot.GetText()), new FakeTokenizerContext());
+                IList<ComposableToken> tokens = tokenizer.Tokenize(new StringReader(buffer.CurrentSnapshot.GetText()), new FakeTokenizerContext());
                 foreach (ComposableToken token in tokens)
                 {
                     if (!token.IsVirtual)

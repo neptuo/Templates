@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {
     [TestClass]
-    public class TestPartialContentReader : TestBase
+    public class TestPartialReader : TestBase
     {
         [TestMethod]
         public void PartialContentReader_ContentWithoutEscape()
         {
-            IContentReader contentReader = new PartialContentReader(new StringContentReader("abc.ddd"), c => c == '.');
+            IContentReader contentReader = new PartialReader(new StringReader("abc.ddd"), c => c == '.');
 
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, -1);
 
             AssertAreEqual(contentReader.Next(), true);
@@ -28,16 +28,16 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
 
             AssertAreEqual(contentReader.Next(), false);
 
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, 3);
         }
 
         [TestMethod]
         public void PartialContentReader_ContentWithEscape()
         {
-            IContentReader contentReader = new PartialContentReader(new StringContentReader("abc\\.ddd"), c => c == '.', '\\');
+            IContentReader contentReader = new PartialReader(new StringReader("abc\\.ddd"), c => c == '.', '\\');
 
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, -1);
 
             AssertAreEqual(contentReader.Next(), true);
@@ -62,25 +62,25 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         [TestMethod]
         public void PartialContentReader_ContentWithOffset()
         {
-            IContentReader source = new StringContentReader("abc.ddd");
+            IContentReader source = new StringReader("abc.ddd");
             source.Next();
             source.Next();
-            IContentReader contentReader = new PartialContentReader(source, c => c == '.', '\\');
+            IContentReader contentReader = new PartialReader(source, c => c == '.', '\\');
 
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, -1);
 
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'b');
-            AssertAreEqual(contentReader.Position, 0);
+            AssertAreEqual(contentReader.Position, 1);
 
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'c');
-            AssertAreEqual(contentReader.Position, 1);
+            AssertAreEqual(contentReader.Position, 2);
 
             AssertAreEqual(contentReader.Next(), false);
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
-            AssertAreEqual(contentReader.Position, 2);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
+            AssertAreEqual(contentReader.Position, 3);
 
 
         }

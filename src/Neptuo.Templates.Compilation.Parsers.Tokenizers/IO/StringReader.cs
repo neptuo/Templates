@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
     /// String content reader.
     /// Reads characters from string value.
     /// </summary>
-    public class StringContentReader : IContentReader
+    public class StringReader : IContentReader
     {
         /// <summary>
         /// Default character value when non from input is available.
@@ -56,7 +56,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// Creates new instance which reads characters from <paramref name="value"/>.
         /// </summary>
         /// <param name="value">Content characters.</param>
-        public StringContentReader(string value)
+        public StringReader(string value)
             : this(value, 0)
         { }
 
@@ -66,7 +66,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// </summary>
         /// <param name="value">Content characters.</param>
         /// <param name="offset">Start position offset.</param>
-        public StringContentReader(string value, int offset)
+        public StringReader(string value, int offset)
         {
             this.value = value;
             this.offset = offset;

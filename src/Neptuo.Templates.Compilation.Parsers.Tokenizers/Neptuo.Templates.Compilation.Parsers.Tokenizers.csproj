@@ -48,8 +48,8 @@
     <Compile Include="IO\ContentDecorator.cs" />
     <Compile Include="IO\ContentFactory.cs" />
     <Compile Include="IO\IContentReader.cs" />
-    <Compile Include="IO\PartialContentReader.cs" />
-    <Compile Include="IO\StringContentReader.cs" />
+    <Compile Include="IO\PartialReader.cs" />
+    <Compile Include="IO\StringReader.cs" />
     <Compile Include="IO\_ContentDecoratorExtensions.cs" />
     <Compile Include="IO\_ContentReaderExtensions.cs" />
     <Compile Include="IToken.cs" />

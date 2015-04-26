@@ -5,14 +5,14 @@ using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {
     [TestClass]
-    public class TestStringContentReader : TestBase
+    public class TestStringReader : TestBase
     {
         [TestMethod]
         public void ContentReader_ReadingValue()
         {
-            IContentReader contentReader = new StringContentReader("value");
+            IContentReader contentReader = new StringReader("value");
 
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, -1);
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'v');
@@ -31,32 +31,32 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             AssertAreEqual(contentReader.Position, 4);
 
             AssertAreEqual(contentReader.Next(), false);
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, 4);
 
             AssertAreEqual(contentReader.Next(), false);
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, 4);
         }
 
         [TestMethod]
         public void ContentReader_ReadingNull()
         {
-            IContentReader contentReader = new StringContentReader(null);
+            IContentReader contentReader = new StringReader(null);
 
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, -1);
             AssertAreEqual(contentReader.Next(), false);
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, -1);
         }
 
         [TestMethod]
         public void ContentReader_Offset()
         {
-            IContentReader contentReader = new StringContentReader("value", 5);
+            IContentReader contentReader = new StringReader("value", 5);
 
-            AssertAreEqual(contentReader.Current, StringContentReader.NullChar);
+            AssertAreEqual(contentReader.Current, StringReader.NullChar);
             AssertAreEqual(contentReader.Position, 4);
             AssertAreEqual(contentReader.Next(), true);
             AssertAreEqual(contentReader.Current, 'v');

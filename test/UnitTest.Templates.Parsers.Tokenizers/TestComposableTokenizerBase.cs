@@ -23,7 +23,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 
         protected IContentReader CreateContentReader(string text)
         {
-            return new StringContentReader(text);
+            return new StringReader(text);
         }
 
         protected void AssertLength(IList<ComposableToken> tokens, int count)

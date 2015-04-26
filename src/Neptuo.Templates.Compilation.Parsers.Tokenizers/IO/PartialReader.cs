@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
     /// Reads content until termination function returns <c>true</c>.
     /// Supports single char escape.
     /// </summary>
-    public class PartialContentReader : IContentReader
+    public class PartialReader : IContentReader
     {
         private readonly IContentReader contentReader;
         private readonly Func<char, bool> terminator;
@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 if (isBlankRead)
                     return -1;
 
-                return contentReader.Position - startOffset;
+                return contentReader.Position;
             }
         }
 
@@ -38,7 +38,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                 if (!isBlankRead && hasNext)
                     return contentReader.Current;
 
-                return StringContentReader.NullChar;
+                return StringReader.NullChar;
             }
         }
 
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// <param name="contentReader">Source content reader.</param>
         /// <param name="terminator">Termination function.</param>
         /// <param name="escape">Termination escape char.</param>
-        public PartialContentReader(IContentReader contentReader, Func<char, bool> terminator, char? escape = null)
+        public PartialReader(IContentReader contentReader, Func<char, bool> terminator, char? escape = null)
         {
             Ensure.NotNull(contentReader, "contentReader");
             Ensure.NotNull(terminator, "terminator");
@@ -59,10 +59,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             this.escape = escape;
             this.hasNext = true;
 
-            this.startOffset = Math.Max(contentReader.Position, 0);
             if (contentReader.Position != -1)
                 isBlankRead = true;
         }
+
+        /// <summary>
+        /// Creates new intance that reads content from <paramref name="contentReader"/>.
+        /// Reading is terminated when one of the <paramref name="terminators"/> is found, but
+        /// can be escaped when <c>\</c> is just before this char.
+        /// </summary>
+        /// <param name="contentReader">Source content reader.</param>
+        /// <param name="terminators">Enumeration of possible terminators.</param>
+        public PartialReader(IContentReader contentReader, params char[] terminators)
+            : this(contentReader, terminators.Contains, '\\')
+        { }
 
         public bool Next()
         {
