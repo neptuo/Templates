@@ -164,8 +164,11 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
             contentReader.Next();
             contentReader.Next();
 
-            AssertAreEqual(contentReader.ResetCurrentPosition(3), true);
-            AssertAreEqual(contentReader.ResetCurrentPosition(4), false);
+            AssertAreEqual(contentReader.ResetCurrentPosition(2), true);
+            AssertAreEqual(contentReader.Current, 'a');
+            AssertAreEqual(contentReader.ResetCurrentPosition(1), true);
+            AssertAreEqual(contentReader.Current, ContentReader.EndOfInput);
+            AssertAreEqual(contentReader.ResetCurrentPosition(1), false);
 
         }
     }
