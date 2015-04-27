@@ -39,7 +39,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         private int currentLineIndex;
         private int currentColumnIndex;
 
-        private StringBuilder currentContent = new StringBuilder();
+        private StringBuilder currentContent;
 
         /// <summary>
         /// Creates new instance that wraps content from <paramref name="contentReader"/>.
@@ -49,6 +49,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         {
             Ensure.NotNull(contentReader, "contentReader");
             this.contentReader = contentReader;
+            this.currentContent = new StringBuilder();
+            UpdateContentInfoState();
         }
 
         #region IContentReader
@@ -163,14 +165,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
             string text = currentContent.ToString();
             string toResetText = text.Substring(text.Length - stepsToGoBack);
+            string newCurrent = text.Substring(0, text.Length - stepsToGoBack);
+            char firstChar = newCurrent.Length > 0 ? newCurrent[newCurrent.Length - 1] : ContentReader.EndOfInput;
 
             // Update current 'token'.
             currentContent.Clear();
-            currentContent.Append(text.Substring(0, text.Length - stepsToGoBack));
+            currentContent.Append(newCurrent);
 
             // Prepare temporal reader.
             currentLength = currentContent.Length;
-            currentReader = new StringReader(toResetText, currentStartIndex);
+            currentReader = new StringReader(firstChar + toResetText, currentStartIndex);
 
             // Update line info.
             foreach (char item in toResetText.Reverse())

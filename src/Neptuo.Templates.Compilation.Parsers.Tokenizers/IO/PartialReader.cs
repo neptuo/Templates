@@ -15,30 +15,22 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         private readonly IContentReader contentReader;
         private readonly Func<char, bool> terminator;
         private readonly char? escape;
-        private int startOffset;
         private bool isAfterEscape;
         private bool hasNext;
-        private bool isBlankRead;
 
         public int Position
         {
-            get
-            {
-                if (isBlankRead)
-                    return -1;
-
-                return contentReader.Position;
-            }
+            get { return contentReader.Position; }
         }
 
         public char Current
         {
             get
             {
-                if (!isBlankRead && hasNext)
+                if (hasNext)
                     return contentReader.Current;
 
-                return StringReader.NullChar;
+                return ContentReader.EndOfInput;
             }
         }
 
@@ -57,31 +49,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             this.contentReader = contentReader;
             this.terminator = terminator;
             this.escape = escape;
-            this.hasNext = true;
-
-            if (contentReader.Position != -1)
-                isBlankRead = true;
+            this.hasNext = !terminator(contentReader.Current);
         }
-
-        /// <summary>
-        /// Creates new intance that reads content from <paramref name="contentReader"/>.
-        /// Reading is terminated when one of the <paramref name="terminators"/> is found, but
-        /// can be escaped when <c>\</c> is just before this char.
-        /// </summary>
-        /// <param name="contentReader">Source content reader.</param>
-        /// <param name="terminators">Enumeration of possible terminators.</param>
-        public PartialReader(IContentReader contentReader, params char[] terminators)
-            : this(contentReader, terminators.Contains, '\\')
-        { }
 
         public bool Next()
         {
-            if (isBlankRead)
-            {
-                isBlankRead = false;
-                return true;
-            }
-
             if (hasNext)
             {
                 hasNext = contentReader.Next();

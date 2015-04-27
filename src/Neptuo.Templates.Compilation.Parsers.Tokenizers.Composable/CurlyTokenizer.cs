@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            IList<ComposableToken> tokens = context.Tokenize(new PartialReader(decorator, '{', '}'), this);
+            IList<ComposableToken> tokens = context.Tokenize(ContentReader.Partial(decorator, '{', '}'), this);
             result.AddRange(tokens);
 
             if (decorator.Current == '{')
@@ -57,10 +57,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 ReadTokenName(decorator, context, result);
                 return true;
             }
-            else if(decorator.Current != StringReader.NullChar)
+            else if(decorator.Current != ContentReader.EndOfInput)
             {
                 CreateToken(decorator, result, CurlyTokenType.Error);
-                return ReadTokenStart(decorator, context, result);
+                if (decorator.Next())
+                    return ReadTokenStart(decorator, context, result);
             }
 
             return false;
@@ -68,7 +69,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         private void ReadTokenName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            decorator.ReadWhile(Char.IsLetterOrDigit);
+            decorator.NextWhile(Char.IsLetterOrDigit);
 
             bool hasName = false;
 
@@ -86,7 +87,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 CreateToken(decorator, result, CurlyTokenType.NamePrefix, 1);
                 CreateToken(decorator, result, CurlyTokenType.NameSeparator);
 
-                decorator.ReadWhile(Char.IsLetterOrDigit);
+                decorator.NextWhile(Char.IsLetterOrDigit);
             }
 
             if (decorator.Current == ' ')
@@ -103,7 +104,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, CurlyTokenType.Error, 1);
                 }
 
-                decorator.ReadWhile(Char.IsWhiteSpace);
+                decorator.NextWhile(Char.IsWhiteSpace);
                 CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
 
                 hasName = true;
@@ -141,7 +142,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     decorator.ResetCurrentInfo();
                 }
             }
-            else if (decorator.Current == StringReader.NullChar)
+            else if (decorator.Current == ContentReader.EndOfInput)
             {
                 // Use as name and close token (virtually).
                 CreateToken(decorator, result, CurlyTokenType.Name);
@@ -155,7 +156,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 }
                 else
                 {
-                    decorator.ReadUntil(c => c == '{');
+                    decorator.NextUntil(c => c == '{');
                     CreateToken(decorator, result, CurlyTokenType.Error, 1);
                 }
 
@@ -167,7 +168,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result, bool supportDefaultAttributes = true)
         {
             List<char> specials = new List<char>() { '=', ',', '{', '}' };
-            decorator.ReadUntil(specials.Contains);
+            decorator.NextUntil(specials.Contains);
 
             if (decorator.Current == '=')
             {
@@ -175,6 +176,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 {
                     // Use as attribute name.
                     CreateToken(decorator, result, CurlyTokenType.AttributeName, 1);
+                    CreateToken(decorator, result, CurlyTokenType.AttributeValueSeparator);
                 }
                 else
                 {
@@ -184,7 +186,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
 
                 // Use as attribute value.
-                decorator.ReadUntil(c => c == ',' || c == '}');
+                decorator.NextUntil(c => c == ',' || c == '}');
                 CreateToken(decorator, result, CurlyTokenType.AttributeValue, 1);
 
                 if (decorator.Current == ',')
@@ -193,7 +195,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
 
                     // Read all whitespaces.
-                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    decorator.NextWhile(Char.IsWhiteSpace);
                     CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
 
                     // Try read next attribute.
@@ -204,7 +206,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             {
                 // Use as default attribute or mark as error.
                 if (supportDefaultAttributes)
+                {
                     CreateToken(decorator, result, CurlyTokenType.DefaultAttributeValue, 1);
+                }
                 else
                 {
                     if (IsValidIdentifier(decorator.CurrentContent(1)))
@@ -227,7 +231,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
 
                     // While whitespaces, read..
-                    decorator.ReadWhile(Char.IsWhiteSpace);
+                    decorator.NextWhile(Char.IsWhiteSpace);
                     CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
 
                     // Try read next attribute.
@@ -239,7 +243,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         private void CreateToken(ContentDecorator decorator, List<ComposableToken> result, ComposableTokenType tokenType, int stepsToGoBack = -1)
         {
             if (stepsToGoBack > 0)
-                decorator.ResetCurrentPosition(stepsToGoBack);
+            {
+                if (!decorator.ResetCurrentPosition(stepsToGoBack))
+                    throw Ensure.Exception.NotSupported("Unnable to process back steps.");
+            }
 
             string text = decorator.CurrentContent();
             if (!String.IsNullOrEmpty(text))
