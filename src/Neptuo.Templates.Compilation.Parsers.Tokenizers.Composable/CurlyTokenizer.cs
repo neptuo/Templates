@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class CurlyTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
+    public class CurlyTokenizer : TokenizerBase, IComposableTokenTypeProvider
     {
         public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
         {
@@ -33,11 +33,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             };
         }
 
-        public IList<ComposableToken> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
+        protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            List<ComposableToken> result = new List<ComposableToken>();
             ReadTokenStart(decorator, context, result);
-            return result;
         }
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
@@ -240,38 +238,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     ReadTokenAttribute(decorator, context, result);
                 }
             }
-        }
-
-        private void CreateToken(ContentDecorator decorator, List<ComposableToken> result, ComposableTokenType tokenType, int stepsToGoBack = -1)
-        {
-            if (stepsToGoBack > 0)
-            {
-                if (!decorator.ResetCurrentPosition(stepsToGoBack))
-                    throw Ensure.Exception.NotSupported("Unnable to process back steps.");
-            }
-
-            string text = decorator.CurrentContent();
-            if (!String.IsNullOrEmpty(text))
-            {
-                result.Add(new ComposableToken(tokenType, text)
-                {
-                    ContentInfo = decorator.CurrentContentInfo(),
-                    LineInfo = decorator.CurrentLineInfo(),
-                });
-
-                decorator.ResetCurrentInfo();
-            }
-
-            if (stepsToGoBack > 0)
-                decorator.Read(stepsToGoBack);
-        }
-
-        private void CreateVirtualToken(List<ComposableToken> result, ComposableTokenType tokenType, string text)
-        {
-            result.Add(new ComposableToken(tokenType, text)
-            {
-                IsVirtual = true
-            });
         }
 
         private bool IsValidIdentifier(string text)
