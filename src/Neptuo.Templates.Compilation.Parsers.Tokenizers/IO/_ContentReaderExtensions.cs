@@ -25,10 +25,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
         /// <summary>
         /// Reads remaing content from <paramref name="contentReader"/>.
+        /// CURRENT character is IGNORED (methods starts reading next character).
         /// </summary>
         /// <param name="contentReader">Content source.</param>
         /// <returns>Remaing content from <paramref name="contentReader"/>.</returns>
-        public static StringBuilder ReadToEnd(this IContentReader contentReader)
+        public static StringBuilder NextToEnd(this IContentReader contentReader)
         {
             Ensure.NotNull(contentReader, "contentReader");
 
@@ -37,6 +38,28 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             {
                 result.Append(contentReader.Current);
             }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Reads remaing content from <paramref name="contentReader"/>.
+        /// CURRENT character is USED (methods starts comparing current character).
+        /// </summary>
+        /// <param name="contentReader">Content source.</param>
+        /// <returns>Remaing content from <paramref name="contentReader"/>.</returns>
+        public static StringBuilder CurrentToEnd(this IContentReader contentReader)
+        {
+            Ensure.NotNull(contentReader, "contentReader");
+            StringBuilder result = new StringBuilder();
+
+            if (contentReader.Current == ContentReader.EndOfInput)
+                return result;
+
+            do
+            {
+                result.Append(contentReader.Current);
+            } while (contentReader.Next());
 
             return result;
         }

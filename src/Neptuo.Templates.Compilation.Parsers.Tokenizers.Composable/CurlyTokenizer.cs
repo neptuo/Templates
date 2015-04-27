@@ -48,6 +48,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             if (decorator.Current == '{')
             {
+                decorator.ResetCurrentPosition(1);
+                decorator.ResetCurrentInfo();
+                decorator.Next();
+
                 //CreateToken(decorator, result, CurlyTokenType.Text, 1);
                 CreateToken(decorator, result, CurlyTokenType.OpenBrace);
                 ReadTokenName(decorator, context, result);
@@ -56,7 +60,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             else if(decorator.Current != ContentReader.EndOfInput)
             {
                 CreateToken(decorator, result, CurlyTokenType.Error);
-                return ReadTokenStart(decorator, context, result);
+                if (decorator.Next())
+                    return ReadTokenStart(decorator, context, result);
             }
 
             return false;
@@ -171,6 +176,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 {
                     // Use as attribute name.
                     CreateToken(decorator, result, CurlyTokenType.AttributeName, 1);
+                    CreateToken(decorator, result, CurlyTokenType.AttributeValueSeparator);
                 }
                 else
                 {
@@ -200,7 +206,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             {
                 // Use as default attribute or mark as error.
                 if (supportDefaultAttributes)
+                {
                     CreateToken(decorator, result, CurlyTokenType.DefaultAttributeValue, 1);
+                }
                 else
                 {
                     if (IsValidIdentifier(decorator.CurrentContent(1)))
@@ -235,7 +243,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         private void CreateToken(ContentDecorator decorator, List<ComposableToken> result, ComposableTokenType tokenType, int stepsToGoBack = -1)
         {
             if (stepsToGoBack > 0)
-                decorator.ResetCurrentPosition(stepsToGoBack);
+            {
+                if (!decorator.ResetCurrentPosition(stepsToGoBack))
+                    throw Ensure.Exception.NotSupported("Unnable to process back steps.");
+            }
 
             string text = decorator.CurrentContent();
             if (!String.IsNullOrEmpty(text))

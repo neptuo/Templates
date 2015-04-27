@@ -160,12 +160,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         public bool ResetCurrentPosition(int stepsToGoBack)
         {
             // Test if we can go back.
-            if ((currentContent.Length - 1) < stepsToGoBack)
+            if (currentContent.Length < stepsToGoBack)
                 return false;
 
             string text = currentContent.ToString();
             string toResetText = text.Substring(text.Length - stepsToGoBack);
             string newCurrent = text.Substring(0, text.Length - stepsToGoBack);
+            char firstChar = newCurrent.Length > 0 ? newCurrent[newCurrent.Length - 1] : ContentReader.EndOfInput;
 
             // Update current 'token'.
             currentContent.Clear();
@@ -173,7 +174,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
             // Prepare temporal reader.
             currentLength = currentContent.Length;
-            currentReader = new StringReader(newCurrent.Last() + toResetText, currentStartIndex);
+            currentReader = new StringReader(firstChar + toResetText, currentStartIndex);
 
             // Update line info.
             foreach (char item in toResetText.Reverse())

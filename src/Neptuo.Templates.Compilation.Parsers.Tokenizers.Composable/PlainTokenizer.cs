@@ -17,14 +17,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizerContext context)
         {
             List<ComposableToken> result = new List<ComposableToken>();
+            ContentDecorator decorator = new ContentDecorator(reader);
 
-            int startPosition = Math.Max(reader.Position, 0);
-            string content = reader.ReadToEnd().ToString();
+            string content = decorator.CurrentToEnd().ToString();
             if (!String.IsNullOrEmpty(content))
             {
                 result.Add(new ComposableToken(ComposableTokenType.Text, content)
                 {
-                    ContentInfo = new DefaultContentRangeInfo(startPosition, content.Length)
+                    ContentInfo = decorator.CurrentContentInfo(),
+                    LineInfo = decorator.CurrentLineInfo()
                 });
             }
 
