@@ -16,22 +16,28 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     internal class ComposableTokenizerContext : DefaultTokenizerContext, IComposableTokenizerContext
     {
         private readonly List<IComposableTokenizer> tokenizers;
+        private readonly IComposableTokenizer targetTokenizer;
 
-        public ComposableTokenizerContext(List<IComposableTokenizer> tokenizers, ITokenizerContext context)
+        public ComposableTokenizerContext(List<IComposableTokenizer> tokenizers, IComposableTokenizer targetTokenizer, ITokenizerContext context)
             : base(context.DependencyProvider, context.Errors)
         {
             Ensure.NotNull(tokenizers, "tokenizers");
+            Ensure.NotNull(targetTokenizer, "targetTokenizer");
             this.tokenizers = tokenizers;
+            this.targetTokenizer = targetTokenizer;
         }
 
-        public IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo, IComposableTokenizer initiator)
+        public IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo)
         {
             IActivator<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
-                if (tokenizer != initiator)
+                if (tokenizer != targetTokenizer)
                 {
-                    IList<ComposableToken> tokens = tokenizer.Tokenize(new ContentDecorator(factory.Create(), currentInfo.Position, currentInfo.LineIndex, currentInfo.ColumnIndex), this);
+                    IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, tokenizer, this);
+                    ContentDecorator decorator = new ContentDecorator(factory.Create(), currentInfo.Position, currentInfo.LineIndex, currentInfo.ColumnIndex);
+
+                    IList<ComposableToken> tokens = tokenizer.Tokenize(decorator, new ComposableTokenizerContext(tokenizers, tokenizer, this));
                     if (tokens.Any())
                         return tokens;
                 }

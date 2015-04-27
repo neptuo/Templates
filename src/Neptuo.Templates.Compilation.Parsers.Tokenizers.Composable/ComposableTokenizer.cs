@@ -35,12 +35,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         public IList<ComposableToken> Tokenize(IContentReader reader, ITokenizerContext context)
         {
-            IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, context);
-
             IActivator<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
-                IList<ComposableToken> tokens = tokenizer.Tokenize(new ContentDecorator(factory.Create()), superContext);
+                IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, tokenizer, context);
+                ContentDecorator decorator = new ContentDecorator(factory.Create());
+
+                IList<ComposableToken> tokens = tokenizer.Tokenize(decorator, superContext);
                 if (tokens.Any())
                     return tokens;
             }

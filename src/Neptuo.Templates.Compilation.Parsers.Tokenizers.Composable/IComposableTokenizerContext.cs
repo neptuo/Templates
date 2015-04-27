@@ -17,8 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// </summary>
         /// <param name="reader">Input content reader.</param>
         /// <param name="currentInfo">Offset info.</param>
-        /// <param name="initiator">Tokenizer, that should be skipped.</param>
         /// <returns>List of syntactic tokens from <paramref name="decorator"/>.</returns>
-        IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo, IComposableTokenizer initiator);
+        IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo);
     }
 }
