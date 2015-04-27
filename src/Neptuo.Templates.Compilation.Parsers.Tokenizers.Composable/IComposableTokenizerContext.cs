@@ -13,11 +13,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     public interface IComposableTokenizerContext : ITokenizerContext
     {
         /// <summary>
-        /// Processes <paramref name="reader"/> and creates list of syntactic tokens.
+        /// Processes <paramref name="decorator"/> and creates list of syntactic tokens.
         /// </summary>
         /// <param name="reader">Input content reader.</param>
+        /// <param name="currentInfo">Offset info.</param>
         /// <param name="initiator">Tokenizer, that should be skipped.</param>
-        /// <returns>List of syntactic tokens from <paramref name="reader"/>.</returns>
-        IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizer initiator);
+        /// <returns>List of syntactic tokens from <paramref name="decorator"/>.</returns>
+        IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo, IComposableTokenizer initiator);
     }
 }

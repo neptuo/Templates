@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
     /// Extended <see cref="IContentReader"/> providing content and line info.
     /// Also supports re-reading of content.
     /// </summary>
-    public class ContentDecorator : IContentReader
+    public class ContentDecorator : IContentReader, ICurrentInfoAware
     {
         private readonly Dictionary<int, int> lineLenghts = new Dictionary<int, int>();
         private readonly IContentReader contentReader;
@@ -41,6 +41,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
         private StringBuilder currentContent;
 
+        public int LineIndex
+        {
+            get { return currentLineIndex; }
+        }
+
+        public int ColumnIndex
+        {
+            get { return currentColumnIndex; }
+        }
+
         /// <summary>
         /// Creates new instance that wraps content from <paramref name="contentReader"/>.
         /// </summary>
@@ -50,6 +60,26 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             Ensure.NotNull(contentReader, "contentReader");
             this.contentReader = contentReader;
             this.currentContent = new StringBuilder();
+            UpdateContentInfoState();
+        }
+
+        /// <summary>
+        /// Creates new instance that wraps content from <paramref name="contentReader"/>
+        /// with line info offset.
+        /// </summary>
+        /// <param name="contentReader">Inner content provider.</param>
+        /// <param name="lineInfo">Line info offset.</param>
+        public ContentDecorator(IContentReader contentReader, int positionOffset, int lineOffset, int columnOffset)
+        {
+            Ensure.NotNull(contentReader, "contentReader");
+            Ensure.PositiveOrZero(positionOffset, "positionOffset");
+            Ensure.PositiveOrZero(lineOffset, "lineOffset");
+            Ensure.PositiveOrZero(columnOffset, "columnOffset");
+            this.contentReader = contentReader;
+            this.currentContent = new StringBuilder();
+            currentStartIndex = positionOffset;
+            currentLineIndex = currentStartLineIndex = lineOffset;
+            currentColumnIndex = currentStartColumnIndex = columnOffset;
             UpdateContentInfoState();
         }
 

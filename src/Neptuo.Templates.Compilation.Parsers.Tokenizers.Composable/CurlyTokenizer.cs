@@ -33,17 +33,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             };
         }
 
-        public IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizerContext context)
+        public IList<ComposableToken> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
         {
             List<ComposableToken> result = new List<ComposableToken>();
-            ContentDecorator decorator = new ContentDecorator(reader);
             ReadTokenStart(decorator, context, result);
             return result;
         }
 
         private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            IList<ComposableToken> tokens = context.Tokenize(ContentReader.Partial(decorator, '{', '}'), this);
+            IList<ComposableToken> tokens = context.TokenizePartial(decorator, c => c == '{' || c == '}', this);
             result.AddRange(tokens);
 
             if (decorator.Current == '{')

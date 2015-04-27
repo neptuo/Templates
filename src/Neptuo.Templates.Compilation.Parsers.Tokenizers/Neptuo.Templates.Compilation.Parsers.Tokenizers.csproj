@@ -49,6 +49,7 @@
     <Compile Include="IO\ContentFactory.cs" />
     <Compile Include="IO\ContentReader.cs" />
     <Compile Include="IO\IContentReader.cs" />
+    <Compile Include="IO\ICurrentInfoAware.cs" />
     <Compile Include="IO\PartialReader.cs" />
     <Compile Include="IO\StringReader.cs" />
     <Compile Include="IO\_ContentDecoratorExtensions.cs" />

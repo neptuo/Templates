@@ -10,11 +10,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     public interface IComposableTokenizer
     {
         /// <summary>
-        /// Processes <paramref name="reader"/> and creates list of syntactic tokens.
+        /// Processes <paramref name="decorator"/> and creates list of syntactic tokens.
         /// </summary>
-        /// <param name="reader">Input content reader.</param>
+        /// <param name="decorator">Input content decorator.</param>
         /// <param name="context">Context for input processing.</param>
-        /// <returns>List of syntactic tokens from <paramref name="reader"/>.</returns>
-        IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizerContext context);
+        /// <returns>List of syntactic tokens from <paramref name="decorator"/>.</returns>
+        IList<ComposableToken> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Neptuo.Activators;
 using Neptuo.ComponentModel;
+using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
@@ -23,14 +24,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             this.tokenizers = tokenizers;
         }
 
-        public IList<ComposableToken> Tokenize(IContentReader reader, IComposableTokenizer initiator)
+        public IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo, IComposableTokenizer initiator)
         {
             IActivator<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
                 if (tokenizer != initiator)
                 {
-                    IList<ComposableToken> tokens = tokenizer.Tokenize(factory.Create(), this);
+                    IList<ComposableToken> tokens = tokenizer.Tokenize(new ContentDecorator(factory.Create(), currentInfo.Position, currentInfo.LineIndex, currentInfo.ColumnIndex), this);
                     if (tokens.Any())
                         return tokens;
                 }

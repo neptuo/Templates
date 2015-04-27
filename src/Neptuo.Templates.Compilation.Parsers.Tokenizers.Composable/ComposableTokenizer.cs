@@ -40,7 +40,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             IActivator<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
-                IList<ComposableToken> tokens = tokenizer.Tokenize(factory.Create(), superContext);
+                IList<ComposableToken> tokens = tokenizer.Tokenize(new ContentDecorator(factory.Create()), superContext);
                 if (tokens.Any())
                     return tokens;
             }

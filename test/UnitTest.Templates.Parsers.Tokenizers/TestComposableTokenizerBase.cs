@@ -31,11 +31,26 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertAreEqual(tokens.Count, count);
         }
 
-        protected void AssertText(IList<ComposableToken> tokens, params string[] values)
+        protected void AssertTokens(IList<ComposableToken> tokens, params string[] values)
         {
+            int positionIndex = 0;
+
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)
+            {
                 AssertAreEqual(values[i], tokens[i].Text);
+
+                if (tokens[i].IsVirtual)
+                {
+                    AssertAreEqual(null, tokens[i].ContentInfo);
+                }
+                else
+                {
+                    AssertAreEqual(positionIndex, tokens[i].ContentInfo.StartIndex);
+                    AssertAreEqual(values[i].Length, tokens[i].ContentInfo.Length);
+                    positionIndex += tokens[i].ContentInfo.Length;
+                }
+            }
         }
 
         protected void AssertContentInfo(IList<ComposableToken> tokens, params IContentRangeInfo[] values)
