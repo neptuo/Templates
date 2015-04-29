@@ -217,7 +217,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     {
                         // Use as attribute name.
                         CreateToken(decorator, result, CurlyTokenType.AttributeName, 1);
-                        result.Last().Error = new DefaultErrorMessage("Missing attribute value.");
+                        CreateVirtualToken(result, CurlyTokenType.AttributeValueSeparator, "=");
+                        CreateVirtualToken(result, CurlyTokenType.AttributeValue, "");
                     }
                     else
                     {

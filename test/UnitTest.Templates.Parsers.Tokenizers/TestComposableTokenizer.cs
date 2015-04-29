@@ -111,8 +111,10 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=Default, ID}"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "}");
-            AssertAreEqual(tokens[8].HasError, true);
+            AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "=", "", "}");
+            AssertAreEqual(tokens[8].Type, CurlyTokenType.AttributeName);
+            AssertAreEqual(tokens[9].IsVirtual, true);
+            AssertAreEqual(tokens[10].IsVirtual, true);
         }
     }
 }
