@@ -491,6 +491,31 @@
             </summary>
             <param name="sortedItems">An <see cref="T:System.Collections.Generic.IEnumerable`1"/> to provide item orders.</param>
         </member>
+        <member name="T:Neptuo.Collections.Generic.ConcurrentAwareDictionaryActivator`2">
+            <summary>
+            Factory for dictionaries that creates concurrent of not concurrent instances based on configuration,
+            either ctor parameter or <c>Environment.WithIsConcurrentApplication</c>.
+            </summary>
+            <typeparam name="TKey">Type of key.</typeparam>
+            <typeparam name="TValue">Type of value.</typeparam>
+        </member>
+        <member name="T:Neptuo.Activators.IActivator`1">
+            <summary>
+            Activator for <typeparamref name="T"/>
+            </summary>
+            <typeparam name="T">Type of service to create.</typeparam>
+        </member>
+        <member name="M:Neptuo.Activators.IActivator`1.Create">
+            <summary>
+            Creates service of type <typeparamref name="T"/>.
+            </summary>
+            <returns>Service of type <typeparamref name="T"/>.</returns>
+        </member>
+        <member name="P:Neptuo.Collections.Generic.ConcurrentAwareDictionaryActivator`2.Instance">
+            <summary>
+            Default instance.
+            </summary>
+        </member>
         <member name="T:Neptuo.Collections.Specialized.IKeyValueCollection">
             <summary>
             Key/value collection.
@@ -690,6 +715,11 @@
             <param name="collection">Collection of key-value pairs.</param>
             <param name="key">Requested key.</param>
             <returns><c>true</c> if <paramref name="collection"/> contains <paramref name="key"/>; otherwise <c>false</c>.</returns>
+        </member>
+        <member name="T:Neptuo.Collections._EnvironmentExtensions">
+            <summary>
+            Common extensions for <see cref="!:EngineEvironment"/> for 
+            </summary>
         </member>
         <member name="T:Neptuo.Compilers.Compiler">
             <summary>
@@ -1272,18 +1302,6 @@
             Generates pipeline using <see cref="N:System.CodeDom"/>.
             </summary>
             <typeparam name="T">Base type (or required interface) of generated type.</typeparam>
-        </member>
-        <member name="T:Neptuo.Activators.IActivator`1">
-            <summary>
-            Activator for <typeparamref name="T"/>
-            </summary>
-            <typeparam name="T">Type of service to create.</typeparam>
-        </member>
-        <member name="M:Neptuo.Activators.IActivator`1.Create">
-            <summary>
-            Creates service of type <typeparamref name="T"/>.
-            </summary>
-            <returns>Service of type <typeparamref name="T"/>.</returns>
         </member>
         <member name="F:Neptuo.ComponentModel.Behaviors.Processing.Compilation.CodeDomPipelineFactory`1.handlerType">
             <summary>
@@ -2683,6 +2701,109 @@
         <member name="P:Neptuo.Pipelines.Commands.Interception.ManualInterceptorProvider.Storage">
             <summary>
             Key is command handler type, value if list of interceptor factories.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Pipelines.Deleters.DefaultDeleteDispatcher">
+            <summary>
+            Default implementation of <see cref="T:Neptuo.Pipelines.Deleters.IDeleteDispatcher"/>.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Pipelines.Deleters.IDeleteDispatcher">
+            <summary>
+            Provides ability to delete object.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Pipelines.Deleters.IDeleteDispatcher.PrepareContext(Neptuo.DomainModels.IKey)">
+            <summary>
+            Prepares context for deleting object identifier by <paramref name="key"/>.
+            </summary>
+            <param name="key">Key of the object to delete.</param>
+            <returns>Deletion context.</returns>
+        </member>
+        <member name="M:Neptuo.Pipelines.Deleters.DefaultDeleteDispatcher.Add(System.String,Neptuo.Pipelines.Deleters.Handlers.IDeleteHandler)">
+            <summary>
+            Registers <paramref name="handler"/> to be executed for keys with type <paramref name="objectType"/>.
+            </summary>
+            <param name="objectType">Type of object to be handled by <paramref name="handler"/>.</param>
+            <param name="handler">Handler to be executed for keys with type <paramref name="objectType"/>.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="M:Neptuo.Pipelines.Deleters.DefaultDeleteDispatcher.AddSearchHandler(Neptuo.OutFunc{System.String,Neptuo.Pipelines.Deleters.Handlers.IDeleteHandler,System.Boolean})">
+            <summary>
+            Registers search handler when non handler was found for key.
+            </summary>
+            <param name="searchHandler">Search handler.</param>
+            <returns>Self (for fluency).</returns>
+        </member>
+        <member name="T:Neptuo.Pipelines.Deleters.Handlers.IDeleteExecutionHandler">
+            <summary>
+            Executes deletion.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Pipelines.Deleters.Handlers.IDeleteExecutionHandler.Handle(Neptuo.DomainModels.IKey)">
+            <summary>
+            Executes delete operation.
+            This method should be called <see cref="T:Neptuo.Pipelines.Deleters.IDeleteContext"/> has set <see cref="P:Neptuo.Pipelines.Deleters.IDeleteContext.CanDelete"/> to <c>true</c>.
+            </summary>
+            <param name="key">Key of the object to delete.</param>
+        </member>
+        <member name="T:Neptuo.Pipelines.Deleters.Handlers.IDeleteHandler">
+            <summary>
+            Prepares <see cref="T:Neptuo.Pipelines.Deleters.IDeleteContext"/>.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Pipelines.Deleters.Handlers.IDeleteHandler.Handle(Neptuo.DomainModels.IKey)">
+            <summary>
+            Prepares <see cref="T:Neptuo.Pipelines.Deleters.IDeleteContext"/> for <paramref name="key"/>.
+            </summary>
+            <param name="key">Key of the object to delete.</param>
+            <returns>Deletion context.</returns>
+        </member>
+        <member name="T:Neptuo.Pipelines.Deleters.IDeleteContext">
+            <summary>
+            Describes context of delete request.
+            Takes referenced objects and whether object can be deleted.
+            </summary>
+        </member>
+        <member name="M:Neptuo.Pipelines.Deleters.IDeleteContext.Delete">
+            <summary>
+            Executes delete (if can be deleted).
+            </summary>
+            <exception cref="T:System.InvalidOperationException">In case when <see cref="P:Neptuo.Pipelines.Deleters.IDeleteContext.CanDelete"/> is <c>false</c>.</exception>
+        </member>
+        <member name="P:Neptuo.Pipelines.Deleters.IDeleteContext.SourceKey">
+            <summary>
+            Requested key to delete.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Pipelines.Deleters.IDeleteContext.CanDelete">
+            <summary>
+            If object identified by <see cref="P:Neptuo.Pipelines.Deleters.IDeleteContext.SourceKey"/> can be deleted.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Pipelines.Deleters.IDeleteContext.References">
+            <summary>
+            Collection of referenced objects.
+            </summary>
+        </member>
+        <member name="T:Neptuo.Pipelines.Deleters.IDeleteReference">
+            <summary>
+            Describes reference to other object.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Pipelines.Deleters.IDeleteReference.Key">
+            <summary>
+            Key of the referenced object.
+            </summary>
+        </member>
+        <member name="P:Neptuo.Pipelines.Deleters.IDeleteReference.IsMandatory">
+            <summary>
+            Whether reference is mandatory (to target object must be deleted too).
+            </summary>
+        </member>
+        <member name="T:Neptuo.Pipelines.Deleters.MissingHandlerContext">
+            <summary>
+            Implementation of <see cref="T:Neptuo.Pipelines.Deleters.IDeleteContext"/> for missing delete handler.
             </summary>
         </member>
         <member name="T:Neptuo.Pipelines.Events.Handlers.ActivatorEventHandler`2">
