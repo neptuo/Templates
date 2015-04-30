@@ -93,7 +93,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             int nextResult = nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
 
             // On text input, filter out completion.
-            if (!typedChar.Equals(Char.MinValue) && char.IsLetterOrDigit(typedChar))
+            if (!typedChar.Equals(Char.MinValue) && (Char.IsLetterOrDigit(typedChar) || typedChar == '{' || typedChar == '='))
             {
                 // If this is not deletion, start session.
                 if (commandID != (uint)VSConstants.VSStd2KCmdID.BACKSPACE && commandID != (uint)VSConstants.VSStd2KCmdID.DELETE) 

@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     {
         private readonly ITextView textView;
         private readonly ICompletionBroker completionBroker;
+        private readonly TokenizerContext tokenizer;
 
         private ICompletionSession currentSession;
 
@@ -21,6 +23,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         {
             this.textView = textView;
             this.completionBroker = completionBroker;
+            this.tokenizer = new TokenizerContext();
         }
 
         public bool TryStartSession()
@@ -61,8 +64,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                     if (currentSession.SelectedCompletionSet.Moniker == TemplateCompletionSource.Moniker)
                     {
                         currentSession.Commit();
-                        textView.TextBuffer.Insert(textView.Caret.Position.BufferPosition.Position, "();");
-                        textView.Caret.MoveToNextCaretPosition();
                         return CommitResult.Commited;
                     }
 
