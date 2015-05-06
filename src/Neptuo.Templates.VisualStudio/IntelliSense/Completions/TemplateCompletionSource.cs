@@ -41,14 +41,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 {
                     result.AddRange(tokenNames
                         .Where(n => n.StartsWith(currentToken.Text))
-                        .Select(n => new Completion(n, n, n, null, ""))
+                        .Select(n => CreateItem(currentToken, n))
                     );
                 }
                 else if (currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
                 {
                     result.AddRange(attributeNames
                         .Where(n => n.StartsWith(currentToken.Text))
-                        .Select(n => new Completion(n, n, n, null, ""))
+                        .Select(n => CreateItem(currentToken, n))
                     );
                 }
             }
@@ -66,6 +66,11 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 completionSets.RemoveAt(0);
 
             completionSets.Add(newCompletionSet);
+        }
+
+        private Completion CreateItem(ComposableToken currentToken, string targetValue)
+        {
+            return new Completion(targetValue, targetValue.Substring(currentToken.Text.Length), targetValue, null, "");
         }
 
         private CompletionSet MergeCompletionSets(IList<CompletionSet> completionSets, CompletionSet newCompletionSet)
