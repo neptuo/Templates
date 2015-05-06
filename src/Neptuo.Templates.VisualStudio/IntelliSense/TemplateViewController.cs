@@ -96,7 +96,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (!typedChar.Equals(Char.MinValue) && (Char.IsLetterOrDigit(typedChar) || typedChar == '{' || typedChar == '='))
             {
                 // If this is not deletion, start session.
-                if (commandID != (uint)VSConstants.VSStd2KCmdID.BACKSPACE && commandID != (uint)VSConstants.VSStd2KCmdID.DELETE) 
+                if (!completionSession.HasSession && commandID != (uint)VSConstants.VSStd2KCmdID.BACKSPACE && commandID != (uint)VSConstants.VSStd2KCmdID.DELETE) 
                     completionSession.TryStartSession();
 
                 // Update filter.

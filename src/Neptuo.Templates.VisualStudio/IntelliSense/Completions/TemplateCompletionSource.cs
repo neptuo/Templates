@@ -17,14 +17,16 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         public const string Moniker = "ntemplate";
 
         private readonly ITextBuffer textBuffer;
+        private readonly IGlyphService glyphService;
         private readonly TokenizerContext tokenizer;
 
         private readonly List<string> tokenNames = new List<string>() { "Binding", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
 
-        public TemplateCompletionSource(ITextBuffer textBuffer)
+        public TemplateCompletionSource(ITextBuffer textBuffer, IGlyphService glyphService)
         {
             this.textBuffer = textBuffer;
+            this.glyphService = glyphService;
             this.tokenizer = new TokenizerContext();
         }
 
@@ -41,14 +43,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 {
                     result.AddRange(tokenNames
                         .Where(n => n.StartsWith(currentToken.Text))
-                        .Select(n => CreateItem(currentToken, n))
+                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
                     );
                 }
                 else if (currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
                 {
                     result.AddRange(attributeNames
                         .Where(n => n.StartsWith(currentToken.Text))
-                        .Select(n => CreateItem(currentToken, n))
+                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
                     );
                 }
             }
@@ -68,9 +70,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             completionSets.Add(newCompletionSet);
         }
 
-        private Completion CreateItem(ComposableToken currentToken, string targetValue)
+        private Completion CreateItem(ComposableToken currentToken, string targetValue, StandardGlyphGroup glyphGroup, StandardGlyphItem glyphItem = StandardGlyphItem.GlyphItemPublic)
         {
-            return new Completion(targetValue, targetValue.Substring(currentToken.Text.Length), targetValue, null, "");
+            return new Completion(
+                targetValue, 
+                targetValue.Substring(currentToken.Text.Length), 
+                "This such a usefull description for this item.",
+                glyphService.GetGlyph(glyphGroup, glyphItem), 
+                "Hello, Template!"
+            );
         }
 
         private CompletionSet MergeCompletionSets(IList<CompletionSet> completionSets, CompletionSet newCompletionSet)

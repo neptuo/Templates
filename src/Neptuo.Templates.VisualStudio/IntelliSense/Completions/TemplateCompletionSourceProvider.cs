@@ -22,10 +22,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
     [ContentType(TemplateContentType.ContentType)]
     internal class TemplateCompletionSourceProvider : ICompletionSourceProvider
     {
+        [Import]
+        public IGlyphService GlyphService { get; set; }
+
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
             //ServiceProvider.GlobalProvider.GetService(typeof(DTE2))
-            return new TemplateCompletionSource(textBuffer);
+            return new TemplateCompletionSource(textBuffer, GlyphService);
         }
     }
 }
