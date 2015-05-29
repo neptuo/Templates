@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     {
         protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            if (decorator.Current != '<')
+            if (decorator.Current != '<' && decorator.Current != ContentReader.EndOfInput)
             {
                 IList<ComposableToken> tokens = context.TokenizePartial(decorator, '<', '>');
                 result.AddRange(tokens);
@@ -19,6 +19,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             if (decorator.Current == '<')
                 ChooseNodeType(decorator, context, result);
+
+            if (decorator.Current == ContentReader.EndOfInput)
+                return;
 
             throw Ensure.Exception.NotImplemented();
         }
@@ -32,8 +35,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             // <[a-Z]
             if (Char.IsLetter(decorator.Current))
             {
-                CreateToken(decorator, result, AngleTokenType.OpenBrace);
-                return ReadElementName(decorator, context, result);
+                CreateToken(decorator, result, AngleTokenType.OpenBrace, 1);
+                if (ReadElementName(decorator, context, result))
+                {
+                    decorator.Next();
+                    Tokenize(decorator, context, result);
+                    return true;
+                }
             }
             // <!
             else if (decorator.Current == '!')
@@ -92,17 +100,21 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, AngleTokenType.NameSeparator);
                     if (decorator.NextWhile(Char.IsLetterOrDigit))
                     {
-                        CreateToken(decorator, result, AngleTokenType.Name);
-                    } 
-                    else 
+                        CreateToken(decorator, result, AngleTokenType.Name, 1);
+                    }
+                    else
                     {
                         CreateToken(decorator, result, AngleTokenType.Error);
                         return false;
                     }
                 }
+                else
+                {
+                    CreateToken(decorator, result, AngleTokenType.Name, 1);
+                }
 
                 if (decorator.CurrentWhile(Char.IsWhiteSpace))
-                    CreateToken(decorator, result, AngleTokenType.Whitespace);
+                    CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
 
                 if (decorator.Current == '/')
                 {
@@ -111,6 +123,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                         if (decorator.Current == '>')
                         {
                             CreateToken(decorator, result, AngleTokenType.SelfCloseBrace);
+                            return true;
                         }
                         else
                         {

@@ -16,6 +16,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         protected ComposableTokenizer CreateTokenizer()
         {
             ComposableTokenizer tokenizer = new ComposableTokenizer();
+            tokenizer.Add(new AngleTokenizer());
             tokenizer.Add(new CurlyTokenizer());
             tokenizer.Add(new PlainTokenizer());
             return tokenizer;

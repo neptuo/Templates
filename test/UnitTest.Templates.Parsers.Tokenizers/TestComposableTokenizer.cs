@@ -13,7 +13,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
     public class TestComposableTokenizer : TestComposableTokenizerBase
     {
         [TestMethod]
-        public void Composable_ValidToken()
+        public void Curly_ValidToken()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}"), new FakeTokenizerContext());
 
@@ -27,7 +27,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_ValidTokenWithText()
+        public void Curly_ValidTokenWithText()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("abc {Binding}  subtraction(); adaptation(); "), new FakeTokenizerContext());
 
@@ -36,7 +36,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_ValidTokenWithDefaultAttributes()
+        public void Curly_ValidTokenWithDefaultAttributes()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID,Name,Price}"), new FakeTokenizerContext());
 
@@ -44,7 +44,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_ValidTokenWithNamedAttributes()
+        public void Curly_ValidTokenWithNamedAttributes()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path=ID, Converter=Default}"), new FakeTokenizerContext());
 
@@ -52,7 +52,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_ValidTokenWithDefaultAndNamedAttributes()
+        public void Curly_ValidTokenWithDefaultAndNamedAttributes()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID, Converter=Default}"), new FakeTokenizerContext());
 
@@ -60,7 +60,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenWithoutCloseBrace()
+        public void Curly_InValidTokenWithoutCloseBrace()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding"), new FakeTokenizerContext());
 
@@ -69,7 +69,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenWithDoubleOpenBrace()
+        public void Curly_InValidTokenWithDoubleOpenBrace()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{{Binding"), new FakeTokenizerContext());
 
@@ -79,7 +79,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenWithTripleCloseBrace()
+        public void Curly_InValidTokenWithTripleCloseBrace()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}}}"), new FakeTokenizerContext());
 
@@ -89,7 +89,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenMissingCloseWithNextValid()
+        public void Curly_InValidTokenMissingCloseWithNextValid()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding as {Binding}"), new FakeTokenizerContext());
 
@@ -98,7 +98,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenWithInValidName()
+        public void Curly_InValidTokenWithInValidName()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());
 
@@ -107,12 +107,38 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Composable_InValidTokenWithDefaultAttributeAfterNamed()
+        public void Curly_InValidTokenWithDefaultAttributeAfterNamed()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=Default, ID}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "}");
             AssertAreEqual(tokens[8].HasError, true);
+        }
+
+        [TestMethod]
+        public void Angle_ValidEmptyTag()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty />"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "empty", " ", "/>");
+            AssertAreEqual(tokens[0].Type, AngleTokenType.OpenBrace);
+            AssertAreEqual(tokens[1].Type, AngleTokenType.Name);
+            AssertAreEqual(tokens[2].Type, AngleTokenType.Whitespace);
+            AssertAreEqual(tokens[3].Type, AngleTokenType.SelfCloseBrace);
+        }
+
+        [TestMethod]
+        public void Angle_ValidEmptyPrefixedTag()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty />"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "abc", ":", "empty", " ", "/>");
+            AssertAreEqual(tokens[0].Type, AngleTokenType.OpenBrace);
+            AssertAreEqual(tokens[1].Type, AngleTokenType.NamePrefix);
+            AssertAreEqual(tokens[2].Type, AngleTokenType.NameSeparator);
+            AssertAreEqual(tokens[3].Type, AngleTokenType.Name);
+            AssertAreEqual(tokens[4].Type, AngleTokenType.Whitespace);
+            AssertAreEqual(tokens[5].Type, AngleTokenType.SelfCloseBrace);
         }
     }
 }
