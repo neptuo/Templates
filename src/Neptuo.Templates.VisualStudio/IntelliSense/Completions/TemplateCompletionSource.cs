@@ -7,6 +7,8 @@ using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Operations;
 using Neptuo.ComponentModel;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
@@ -15,35 +17,48 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         public const string Moniker = "ntemplate";
 
         private readonly ITextBuffer textBuffer;
+        private readonly IGlyphService glyphService;
+        private readonly TokenizerContext tokenizer;
 
-        public TemplateCompletionSource(ITextBuffer textBuffer)
+        private readonly List<string> tokenNames = new List<string>() { "Binding", "StaticResource" };
+        private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
+
+        public TemplateCompletionSource(ITextBuffer textBuffer, IGlyphService glyphService)
         {
             this.textBuffer = textBuffer;
+            this.glyphService = glyphService;
+            this.tokenizer = new TokenizerContext();
         }
 
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
-            List<string> supportedValues = new List<string>();
-            supportedValues.Add("addition");
-            supportedValues.Add("adaptation");
-            supportedValues.Add("subtraction");
-            supportedValues.Add("summation");
             List<Completion> result = new List<Completion>();
+            IList<ComposableToken> tokens = tokenizer.Tokenize(textBuffer);
 
-            string currentToken = textBuffer.CurrentSnapshot.GetText().Split(' ').LastOrDefault();
-
-            foreach (string value in supportedValues)
+            SnapshotPoint cursorPosition = session.TextView.Caret.Position.BufferPosition;
+            ComposableToken currentToken = tokens.FirstOrDefault(t => t.ContentInfo.StartIndex <= cursorPosition && t.ContentInfo.StartIndex + t.ContentInfo.Length >= cursorPosition);
+            if (currentToken != null)
             {
-                string currentValue = currentToken == null ? value : value.Substring(Math.Min(currentToken.Length, value.Length));
-
-                if (currentToken == null || value.StartsWith(currentToken))
-                    result.Add(new Completion(value, currentValue, String.Format("Value of '{0}'.", value), null, ""));
+                if(currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
+                {
+                    result.AddRange(tokenNames
+                        .Where(n => n.StartsWith(currentToken.Text))
+                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
+                    );
+                }
+                else if (currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
+                {
+                    result.AddRange(attributeNames
+                        .Where(n => n.StartsWith(currentToken.Text))
+                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
+                    );
+                }
             }
 
             CompletionSet newCompletionSet = new CompletionSet(
                 Moniker,
                 "Neptuo Templates",
-                FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session),
+                FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session, currentToken),
                 result,
                 null
             );
@@ -53,6 +68,17 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 completionSets.RemoveAt(0);
 
             completionSets.Add(newCompletionSet);
+        }
+
+        private Completion CreateItem(ComposableToken currentToken, string targetValue, StandardGlyphGroup glyphGroup, StandardGlyphItem glyphItem = StandardGlyphItem.GlyphItemPublic)
+        {
+            return new Completion(
+                targetValue, 
+                targetValue.Substring(currentToken.Text.Length), 
+                "This such a usefull description for this item.",
+                glyphService.GetGlyph(glyphGroup, glyphItem), 
+                "Hello, Template!"
+            );
         }
 
         private CompletionSet MergeCompletionSets(IList<CompletionSet> completionSets, CompletionSet newCompletionSet)
@@ -75,15 +101,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return newCompletionSet;
         }
 
-        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session)
+        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, ComposableToken currentToken)
         {
             SnapshotPoint currentPoint = session
                 .GetTriggerPoint(textBuffer)
                 .GetPoint(textBuffer.CurrentSnapshot);
 
             return currentPoint.Snapshot.CreateTrackingSpan(
-                currentPoint.Position, 
-                0, 
+                currentToken.ContentInfo.StartIndex,
+                currentToken.ContentInfo.Length, 
                 SpanTrackingMode.EdgeInclusive
             );
         }

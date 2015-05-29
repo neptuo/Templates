@@ -20,6 +20,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         {
             this.tokenizer = new ComposableTokenizer();
             tokenizer.Add(new CurlyTokenizer());
+            tokenizer.Add(new PlainTokenizer());
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(TemplateClassificationType.CurlyBrace);
             curlyContent = registry.GetClassificationType(TemplateClassificationType.CurlyContent);

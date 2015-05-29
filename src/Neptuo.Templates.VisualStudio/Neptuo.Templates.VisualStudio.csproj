@@ -58,6 +58,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IntelliSense\Classifications\TemplateClassifierProvider.cs" />
+    <Compile Include="IntelliSense\TokenizerContext.cs" />
     <Compile Include="_Temporals\FakeTokenizerContext.cs" />
     <Compile Include="IntelliSense\Classifications\TemplateClassificationType.cs" />
     <Compile Include="IntelliSense\Classifications\TemplateClassifier.cs" />
