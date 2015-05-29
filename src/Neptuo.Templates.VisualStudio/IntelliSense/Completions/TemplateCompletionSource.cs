@@ -58,7 +58,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             CompletionSet newCompletionSet = new CompletionSet(
                 Moniker,
                 "Neptuo Templates",
-                FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session),
+                FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session, currentToken),
                 result,
                 null
             );
@@ -101,15 +101,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return newCompletionSet;
         }
 
-        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session)
+        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, ComposableToken currentToken)
         {
             SnapshotPoint currentPoint = session
                 .GetTriggerPoint(textBuffer)
                 .GetPoint(textBuffer.CurrentSnapshot);
 
             return currentPoint.Snapshot.CreateTrackingSpan(
-                currentPoint.Position, 
-                0, 
+                currentToken.ContentInfo.StartIndex,
+                currentToken.ContentInfo.Length, 
                 SpanTrackingMode.EdgeInclusive
             );
         }
