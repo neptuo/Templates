@@ -33,6 +33,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Neptuo">
+      <HintPath>..\..\references\Neptuo.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,6 +47,25 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Fakes\FakeTokenizerContext.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
+      <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
+      <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj">
+      <Project>{3418325a-d861-4fb7-bf59-215a0d19c5a1}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
