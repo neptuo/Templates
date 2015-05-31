@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers
 {
     [TestClass]
-    public class TestComposableTokenizer : TestComposableTokenizerBase
+    public class TestComposableTokenizer_Curly : TestComposableTokenizerBase
     {
         [TestMethod]
         public void Curly_ValidToken()
@@ -113,32 +113,6 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "}");
             AssertAreEqual(tokens[8].HasError, true);
-        }
-
-        [TestMethod]
-        public void Angle_ValidEmptyTag()
-        {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty />"), new FakeTokenizerContext());
-
-            AssertTokens(tokens, "<", "empty", " ", "/>");
-            AssertAreEqual(tokens[0].Type, AngleTokenType.OpenBrace);
-            AssertAreEqual(tokens[1].Type, AngleTokenType.Name);
-            AssertAreEqual(tokens[2].Type, AngleTokenType.Whitespace);
-            AssertAreEqual(tokens[3].Type, AngleTokenType.SelfCloseBrace);
-        }
-
-        [TestMethod]
-        public void Angle_ValidEmptyPrefixedTag()
-        {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty />"), new FakeTokenizerContext());
-
-            AssertTokens(tokens, "<", "abc", ":", "empty", " ", "/>");
-            AssertAreEqual(tokens[0].Type, AngleTokenType.OpenBrace);
-            AssertAreEqual(tokens[1].Type, AngleTokenType.NamePrefix);
-            AssertAreEqual(tokens[2].Type, AngleTokenType.NameSeparator);
-            AssertAreEqual(tokens[3].Type, AngleTokenType.Name);
-            AssertAreEqual(tokens[4].Type, AngleTokenType.Whitespace);
-            AssertAreEqual(tokens[5].Type, AngleTokenType.SelfCloseBrace);
         }
     }
 }

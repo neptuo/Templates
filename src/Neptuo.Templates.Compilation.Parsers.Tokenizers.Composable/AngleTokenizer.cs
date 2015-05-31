@@ -161,25 +161,36 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 {
                     CreateToken(decorator, result, AngleTokenType.AttributeNamePrefix, 1);
                     CreateToken(decorator, result, AngleTokenType.AttributeNameSeparator);
-
                     if (decorator.NextWhile(Char.IsLetterOrDigit))
-                        CreateToken(decorator, result, AngleTokenType.AttributeName, 1);
-                    else
-                        return false;
-
-                    if (decorator.Current == '=')
                     {
-                        CreateToken(decorator, result, AngleTokenType.AttributeNameSeparator);
-                        if (decorator.Next())
-                        {
-                            if (decorator.Current == '"')
-                            {
-                                CreateToken(decorator, result, AngleTokenType.AttributeOpenValue);
-                                if (ReadAttributeValue(decorator, context, result))
-                                    return ReadOpenElementContent(decorator, context, result);
+                        CreateToken(decorator, result, AngleTokenType.AttributeName, 1);
+                    }
+                    else
+                    {
+                        CreateToken(decorator, result, AngleTokenType.Error);
+                        return false;
+                    }
+                }
+                else
+                {
+                    CreateToken(decorator, result, AngleTokenType.AttributeName, 1);
+                }
 
-                                return false;
+                if (decorator.Current == '=')
+                {
+                    CreateToken(decorator, result, AngleTokenType.AttributeValueSeparator);
+                    if (decorator.Next())
+                    {
+                        if (decorator.Current == '"')
+                        {
+                            CreateToken(decorator, result, AngleTokenType.AttributeOpenValue);
+                            if (ReadAttributeValue(decorator, context, result))
+                            {
+                                decorator.Next();
+                                return ReadOpenElementContent(decorator, context, result);
                             }
+
+                            return false;
                         }
                     }
                 }

@@ -54,6 +54,15 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
+        protected void AssertTokenTypes(IList<ComposableToken> tokens, params ComposableTokenType[] types)
+        {
+            AssertLength(tokens, types.Length);
+            for (int i = 0; i < types.Length; i++)
+            {
+                AssertAreEqual(types[i], tokens[i].Type);
+            }
+        }
+
         protected void AssertContentInfo(IList<ComposableToken> tokens, params IContentRangeInfo[] values)
         {
             AssertLength(tokens, values.Length);
