@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
                     if(position < 0)
                         return ContentReader.EndOfInput;
 
-                    if (position <= contentReader.Position - positionOffset)
+                    if (position < cache.Length)
                         return cache[position];
 
                     return contentReader.Current;

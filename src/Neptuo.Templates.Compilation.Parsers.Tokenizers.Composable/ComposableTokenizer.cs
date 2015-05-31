@@ -38,7 +38,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             IActivator<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
-                IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, tokenizer, context);
+                IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, tokenizer, context, new Stack<IComposableTokenizer>());
                 ContentDecorator decorator = new ContentDecorator(factory.Create());
 
                 IList<ComposableToken> tokens = tokenizer.Tokenize(decorator, superContext);

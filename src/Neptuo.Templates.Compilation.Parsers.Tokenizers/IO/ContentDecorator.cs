@@ -17,6 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
     {
         private readonly Dictionary<int, int> lineLenghts = new Dictionary<int, int>();
         private readonly IContentReader contentReader;
+        private readonly int positionOffset;
         private IContentReader currentReader;
 
         private IContentReader CurrentReader
@@ -77,6 +78,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             Ensure.PositiveOrZero(columnOffset, "columnOffset");
             this.contentReader = contentReader;
             this.currentContent = new StringBuilder();
+            this.positionOffset = positionOffset;
             currentStartIndex = positionOffset;
             currentLineIndex = currentStartLineIndex = lineOffset;
             currentColumnIndex = currentStartColumnIndex = columnOffset;
@@ -87,7 +89,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
         public int Position
         {
-            get { return CurrentReader.Position; }
+            get { return CurrentReader.Position + positionOffset; }
         }
 
         public char Current

@@ -183,7 +183,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     {
                         if (decorator.Current == '"')
                         {
-                            CreateToken(decorator, result, AngleTokenType.AttributeOpenValue);
                             if (ReadAttributeValue(decorator, context, result))
                             {
                                 decorator.Next();
@@ -199,12 +198,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             return false;
         }
 
-        private bool ReadAttributeValue(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> tokens)
+        private bool ReadAttributeValue(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            bool result = decorator.NextUntil(c => c == '"');
-            CreateToken(decorator, tokens, AngleTokenType.AttributeValue, 1);
-            CreateToken(decorator, tokens, AngleTokenType.AttributeCloseValue);
-            return result;
+            CreateToken(decorator, result, AngleTokenType.AttributeOpenValue);
+
+            decorator.Next();
+            IList<ComposableToken> attributeValue = context.TokenizePartial(decorator, '"');
+            result.AddRange(attributeValue);
+            decorator.ResetCurrentPosition(1);
+            decorator.ResetCurrentInfo();
+            decorator.Next();
+            
+            CreateToken(decorator, result, AngleTokenType.AttributeCloseValue);
+            return true;
         }
 
         private bool ReadDirectiveName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
