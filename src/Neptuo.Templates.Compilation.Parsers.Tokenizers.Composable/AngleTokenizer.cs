@@ -113,33 +113,87 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, AngleTokenType.Name, 1);
                 }
 
-                if (decorator.CurrentWhile(Char.IsWhiteSpace))
-                    CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
+                return ReadOpenElementContent(decorator, context, result);
+            }
 
-                if (decorator.Current == '/')
+            return false;
+        }
+
+        private bool ReadOpenElementContent(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        {
+            if (decorator.CurrentWhile(Char.IsWhiteSpace))
+                CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
+
+            if (decorator.Current == '/')
+            {
+                if (decorator.Next())
                 {
-                    if (decorator.Next())
+                    if (decorator.Current == '>')
                     {
-                        if (decorator.Current == '>')
-                        {
-                            CreateToken(decorator, result, AngleTokenType.SelfCloseBrace);
-                            return true;
-                        }
-                        else
-                        {
-                            CreateToken(decorator, result, AngleTokenType.Error);
-                            return false;
-                        }
+                        CreateToken(decorator, result, AngleTokenType.SelfCloseBrace);
+                        return true;
+                    }
+                    else
+                    {
+                        CreateToken(decorator, result, AngleTokenType.Error);
+                        return false;
                     }
                 }
-                else if (decorator.Current == '>')
+            }
+            else if (decorator.Current == '>')
+            {
+                CreateToken(decorator, result, AngleTokenType.CloseBrace);
+                throw new NotImplementedException();
+            }
+            else if (Char.IsLetterOrDigit(decorator.Current))
+            {
+                return ReadAttributeName(decorator, context, result);
+            }
+
+            return false;
+        }
+
+        private bool ReadAttributeName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        {
+            if (decorator.CurrentWhile(Char.IsLetterOrDigit))
+            {
+                if (decorator.Current == ':')
                 {
-                    CreateToken(decorator, result, AngleTokenType.CloseBrace);
-                    return true;
+                    CreateToken(decorator, result, AngleTokenType.AttributeNamePrefix, 1);
+                    CreateToken(decorator, result, AngleTokenType.AttributeNameSeparator);
+
+                    if (decorator.NextWhile(Char.IsLetterOrDigit))
+                        CreateToken(decorator, result, AngleTokenType.AttributeName, 1);
+                    else
+                        return false;
+
+                    if (decorator.Current == '=')
+                    {
+                        CreateToken(decorator, result, AngleTokenType.AttributeNameSeparator);
+                        if (decorator.Next())
+                        {
+                            if (decorator.Current == '"')
+                            {
+                                CreateToken(decorator, result, AngleTokenType.AttributeOpenValue);
+                                if (ReadAttributeValue(decorator, context, result))
+                                    return ReadOpenElementContent(decorator, context, result);
+
+                                return false;
+                            }
+                        }
+                    }
                 }
             }
 
             return false;
+        }
+
+        private bool ReadAttributeValue(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> tokens)
+        {
+            bool result = decorator.NextUntil(c => c == '"');
+            CreateToken(decorator, tokens, AngleTokenType.AttributeValue, 1);
+            CreateToken(decorator, tokens, AngleTokenType.AttributeCloseValue);
+            return result;
         }
 
         private bool ReadDirectiveName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
