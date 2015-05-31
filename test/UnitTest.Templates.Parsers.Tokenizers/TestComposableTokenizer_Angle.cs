@@ -63,7 +63,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.AttributeValue, 
                 AngleTokenType.AttributeCloseValue, 
                 AngleTokenType.Whitespace, 
-                AngleTokenType.SelfCloseBrace, 
+                AngleTokenType.SelfCloseBrace
             );
         }
     }
