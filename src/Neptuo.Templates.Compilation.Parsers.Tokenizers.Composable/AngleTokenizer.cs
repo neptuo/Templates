@@ -7,8 +7,33 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class AngleTokenizer : TokenizerBase
+    public class AngleTokenizer : TokenizerBase, IComposableTokenTypeProvider
     {
+        public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
+        {
+            return new List<ComposableTokenType>()
+            {
+                AngleTokenType.OpenBrace,
+                AngleTokenType.NamePrefix,
+                AngleTokenType.NameSeparator,
+                AngleTokenType.Name,
+                AngleTokenType.SelfCloseBrace,
+                AngleTokenType.CloseBrace,
+                
+                AngleTokenType.AttributeNamePrefix,
+                AngleTokenType.AttributeNameSeparator,
+                AngleTokenType.AttributeName,
+                AngleTokenType.AttributeValueSeparator,
+                AngleTokenType.AttributeOpenValue,
+                AngleTokenType.AttributeCloseValue,
+                
+                AngleTokenType.OpenDirective,
+                
+                AngleTokenType.OpenComment,
+                AngleTokenType.CloseComment
+            };
+        }
+
         protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
             if (decorator.Current != '<' && decorator.Current != ContentReader.EndOfInput)
@@ -18,7 +43,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             }
 
             if (decorator.Current == '<')
+            {
+                decorator.ResetCurrentPosition(1);
+                decorator.ResetCurrentInfo();
+                decorator.Next();
+
                 ChooseNodeType(decorator, context, result);
+            }
 
             if (decorator.Current == ContentReader.EndOfInput)
                 return;

@@ -18,10 +18,13 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "/>");
-            AssertAreEqual(tokens[0].Type, AngleTokenType.OpenBrace);
-            AssertAreEqual(tokens[1].Type, AngleTokenType.Name);
-            AssertAreEqual(tokens[2].Type, AngleTokenType.Whitespace);
-            AssertAreEqual(tokens[3].Type, AngleTokenType.SelfCloseBrace);
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.SelfCloseBrace
+            );
         }
 
         [TestMethod]
@@ -30,12 +33,15 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "abc", ":", "empty", " ", "/>");
-            AssertAreEqual(tokens[0].Type, AngleTokenType.OpenBrace);
-            AssertAreEqual(tokens[1].Type, AngleTokenType.NamePrefix);
-            AssertAreEqual(tokens[2].Type, AngleTokenType.NameSeparator);
-            AssertAreEqual(tokens[3].Type, AngleTokenType.Name);
-            AssertAreEqual(tokens[4].Type, AngleTokenType.Whitespace);
-            AssertAreEqual(tokens[5].Type, AngleTokenType.SelfCloseBrace);
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.NamePrefix,
+                AngleTokenType.NameSeparator,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.SelfCloseBrace
+            );
         }
 
         [TestMethod]
@@ -63,6 +69,26 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.Text, 
                 AngleTokenType.AttributeCloseValue, 
                 AngleTokenType.Whitespace, 
+                AngleTokenType.SelfCloseBrace
+            );
+        }
+
+        [TestMethod]
+        public void Angle_MultipleValidEmptyTagsSeparatedWithText()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty /> Hello, World! <empty2 />"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "empty", " ", "/>", " Hello, World! ", "<", "empty2", " ", "/>");
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.SelfCloseBrace,
+                AngleTokenType.Text,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
                 AngleTokenType.SelfCloseBrace
             );
         }
