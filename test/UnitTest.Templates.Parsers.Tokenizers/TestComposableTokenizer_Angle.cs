@@ -112,5 +112,35 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertAreEqual(tokens[3].IsVirtual, true);
             AssertAreEqual(tokens[6].IsVirtual, true);
         }
+
+        [TestMethod]
+        public void Angle_UnfinishedAttribute()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty id class= />"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "empty", " ", "id", " ", "=", "\"", "\"", "class", "=", " ", "\"", "\"", "/>");
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.AttributeName,
+                AngleTokenType.Whitespace,
+                AngleTokenType.AttributeValueSeparator,
+                AngleTokenType.AttributeOpenValue,
+                AngleTokenType.AttributeCloseValue,
+                AngleTokenType.AttributeName,
+                AngleTokenType.AttributeValueSeparator,
+                AngleTokenType.Whitespace,
+                AngleTokenType.AttributeOpenValue,
+                AngleTokenType.AttributeCloseValue,
+                AngleTokenType.SelfCloseBrace
+            );
+            AssertAreEqual(tokens[5].IsVirtual, true);
+            AssertAreEqual(tokens[6].IsVirtual, true);
+            AssertAreEqual(tokens[7].IsVirtual, true);
+            AssertAreEqual(tokens[11].IsVirtual, true);
+            AssertAreEqual(tokens[12].IsVirtual, true);
+        }
     }
 }

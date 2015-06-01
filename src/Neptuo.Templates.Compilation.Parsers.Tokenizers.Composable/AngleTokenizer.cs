@@ -222,11 +222,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     CreateToken(decorator, result, AngleTokenType.AttributeName, 1);
                 }
 
+                if (decorator.CurrentWhile(Char.IsWhiteSpace))
+                    CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
+
                 if (decorator.Current == '=')
                 {
                     CreateToken(decorator, result, AngleTokenType.AttributeValueSeparator);
                     if (decorator.Next())
                     {
+                        if (decorator.CurrentWhile(Char.IsWhiteSpace))
+                            CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
+
                         if (decorator.Current == '"')
                         {
                             if (ReadAttributeValue(decorator, context, result))
@@ -237,6 +243,33 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
                             return false;
                         }
+                        else
+                        {
+                            CreateVirtualToken(result, AngleTokenType.AttributeOpenValue, "\"");
+                            CreateVirtualToken(result, AngleTokenType.AttributeCloseValue, "\"");
+                            return ReadOpenElementContent(decorator, context, result);
+                        }
+                    }
+                }
+                else
+                {
+                    if (decorator.Current == '"')
+                    {
+                        CreateVirtualToken(result, AngleTokenType.AttributeValueSeparator, "=");
+                        if (ReadAttributeValue(decorator, context, result))
+                        {
+                            decorator.Next();
+                            return ReadOpenElementContent(decorator, context, result);
+                        }
+
+                        return false;
+                    }
+                    else //if (decorator.Current == '/' || decorator.Current == '>' || decorator.IsCurrentEndOfInput())
+                    {
+                        CreateVirtualToken(result, AngleTokenType.AttributeValueSeparator, "=");
+                        CreateVirtualToken(result, AngleTokenType.AttributeOpenValue, "\"");
+                        CreateVirtualToken(result, AngleTokenType.AttributeCloseValue, "\"");
+                        return ReadOpenElementContent(decorator, context, result);
                     }
                 }
             }

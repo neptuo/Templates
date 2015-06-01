@@ -63,5 +63,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
 
             return result;
         }
+
+        /// <summary>
+        /// Returns <c>true</c> if <see cref="IContentReader.Current"/> of <paramref name="contentReader"/> is <see cref="ContentReader.EndOfInput"/>; <c>false</c> otherwise.
+        /// </summary>
+        /// <param name="contentReader">Content source.</param>
+        /// <returns><c>true</c> if <see cref="IContentReader.Current"/> of <paramref name="contentReader"/> is <see cref="ContentReader.EndOfInput"/>; <c>false</c> otherwise.</returns>
+        public static bool IsCurrentEndOfInput(this IContentReader contentReader)
+        {
+            Ensure.NotNull(contentReader, "contentReader");
+            return contentReader.Current == ContentReader.EndOfInput;
+        }
     }
 }
