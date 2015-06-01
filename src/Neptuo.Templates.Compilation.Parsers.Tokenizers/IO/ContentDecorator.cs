@@ -184,6 +184,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         }
 
         /// <summary>
+        /// Returns <c>true</c> if current state enables to take <paramref name="stepsToGoBack"/> steps back; <c>false</c> otherwise.
+        /// </summary>
+        /// <param name="stepsToGoBack">Number of characters to go back.</param>
+        /// <returns><c>true</c> if current state enables to take <paramref name="stepsToGoBack"/> steps back; <c>false</c> otherwise.</returns>
+        public bool CanResetCurrentPosition(int stepsToGoBack)
+        {
+            if (currentContent.Length < stepsToGoBack)
+                return false;
+
+            return true;
+        }
+
+        /// <summary>
         /// Moves cursor in content reading to <paramref name="stepsToGoBack"/> chars back.
         /// Only reset inside current 'token' is supported.
         /// </summary>
@@ -192,7 +205,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         public bool ResetCurrentPosition(int stepsToGoBack)
         {
             // Test if we can go back.
-            if (currentContent.Length < stepsToGoBack)
+            if (!CanResetCurrentPosition(stepsToGoBack))
                 return false;
 
             string text = currentContent.ToString();

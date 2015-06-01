@@ -146,13 +146,18 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
                 return ReadOpenElementContent(decorator, context, result);
             }
+            else if (decorator.Current == ContentReader.EndOfInput)
+            {
+                CreateToken(decorator, result, AngleTokenType.Name);
+                return ReadOpenElementContent(decorator, context, result);
+            }
 
             return false;
         }
 
         private bool ReadOpenElementContent(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            if (decorator.CurrentWhile(Char.IsWhiteSpace))
+            if (decorator.CurrentWhile(Char.IsWhiteSpace) && decorator.CanResetCurrentPosition(1))
                 CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
 
             if (decorator.Current == '/')
@@ -179,6 +184,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             else if (Char.IsLetterOrDigit(decorator.Current))
             {
                 return ReadAttributeName(decorator, context, result);
+            }
+            else if (decorator.Current == '<')
+            {
+                CreateVirtualToken(result, AngleTokenType.SelfCloseBrace, "/>");
+                return ChooseNodeType(decorator, context, result);
+            }
+            else if (decorator.Current == ContentReader.EndOfInput)
+            {
+                CreateVirtualToken(result, AngleTokenType.SelfCloseBrace, "/>");
+                return true;
             }
 
             return false;
