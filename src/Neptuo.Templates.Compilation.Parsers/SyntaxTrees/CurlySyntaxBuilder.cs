@@ -33,12 +33,12 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 CurlyNameSyntax name = CurlyNameSyntax.New();
                 if (enumerator.Current.Type == CurlyTokenType.NamePrefix)
                 {
-                    name = name.WithPrefix(enumerator.Current);
+                    name = name.WithPrefixToken(enumerator.Current);
                     if (enumerator.MoveNext() && enumerator.Current.Type == CurlyTokenType.NameSeparator)
                     {
-                        name = name.WithNameSeparator(enumerator.Current);
+                        name = name.WithNameSeparatorToken(enumerator.Current);
                         if (enumerator.MoveNext() && enumerator.Current.Type == CurlyTokenType.Name)
-                            name = name.WithName(enumerator.Current);
+                            name = name.WithNameToken(enumerator.Current);
                         else
                             throw new NotImplementedException();
                     }
@@ -49,7 +49,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 }
                 else if (enumerator.Current.Type == CurlyTokenType.Name)
                 {
-                    name = name.WithName(enumerator.Current);
+                    name = name.WithNameToken(enumerator.Current);
                 }
                 else
                 {

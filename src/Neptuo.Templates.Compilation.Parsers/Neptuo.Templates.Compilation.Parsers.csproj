@@ -48,6 +48,7 @@
     <Compile Include="SyntaxTrees\ISyntaxNode.cs" />
     <Compile Include="SyntaxTrees\SyntaxBuilderCollection.cs" />
     <Compile Include="SyntaxTrees\ISyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\SyntaxNodeBase.cs" />
     <Compile Include="SyntaxTrees\SyntaxtCollection.cs" />
     <Compile Include="SyntaxTrees\TextSyntax.cs" />
     <Compile Include="SyntaxTrees\TextSyntaxBuilder.cs" />

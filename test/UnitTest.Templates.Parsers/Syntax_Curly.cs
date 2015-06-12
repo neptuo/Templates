@@ -29,7 +29,7 @@ namespace UnitTest.Templates.Parsers
                 CurlySyntax curly = collection.Nodes[1] as CurlySyntax;
                 if (curly != null)
                 {
-                    AssertAreEqual(curly.Name.Name.Text, "Binding");
+                    AssertAreEqual(curly.Name.NameToken.Text, "Binding");
                 }
             }
         }
