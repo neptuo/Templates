@@ -44,6 +44,12 @@
   <ItemGroup>
     <Compile Include="CurlyTokenBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Syntax\CurlySyntax.cs" />
+    <Compile Include="_Syntax\CurlySyntaxBuilder.cs" />
+    <Compile Include="_Syntax\ISyntaxBuilder.cs" />
+    <Compile Include="_Syntax\ISyntaxNode.cs" />
+    <Compile Include="_Syntax\SyntaxBuilderCollection.cs" />
+    <Compile Include="_Syntax\SyntaxtCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
