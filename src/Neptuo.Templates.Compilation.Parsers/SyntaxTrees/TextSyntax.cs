@@ -7,32 +7,34 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
-    public class TextSyntax : ISyntaxNode
+    public class TextSyntax : SyntaxNodeBase<TextSyntax>
     {
-        public IReadOnlyList<ComposableToken> Tokens { get; private set; }
-
         public ComposableToken TextToken { get; private set; }
 
-        public TextSyntax(ComposableToken textToken)
+        public TextSyntax(ComposableToken textToken, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
+            : base(leadingTrivia, trailingTrivia)
         {
             TextToken = textToken;
 
-            List<ComposableToken> tokens = new List<ComposableToken>();
-            if (textToken != null)
-                tokens.Add(textToken);
+            AddNullableLeadingTrivia();
+            AddNullableTokens(textToken);
+            AddNullableTrailingTrivia();
+        }
 
-            Tokens = tokens;
+        public override TextSyntax Clone()
+        {
+            return new TextSyntax(TextToken, LeadingTrivia, TrailingTrivia);
         }
 
         public TextSyntax WithText(ComposableToken textToken)
         {
-            return new TextSyntax(textToken);
+            return new TextSyntax(textToken, LeadingTrivia, TrailingTrivia);
         }
 
 
         public static TextSyntax New()
         {
-            return new TextSyntax(null);
+            return new TextSyntax(null, null, null);
         }
     }
 }

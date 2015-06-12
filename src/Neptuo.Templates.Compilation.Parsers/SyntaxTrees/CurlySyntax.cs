@@ -7,39 +7,47 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
-    public class CurlySyntax : SyntaxNodeBase
+    public class CurlySyntax : SyntaxNodeBase<CurlySyntax>
     {
         public ComposableToken OpenToken { get; private set; }
         public CurlyNameSyntax Name { get; private set; }
         public ComposableToken CloseToken { get; private set; }
         public IReadOnlyList<CurlyAttributeSyntax> Attributes { get; private set; }
 
-        internal CurlySyntax(ComposableToken openToken, CurlyNameSyntax name, ComposableToken closeToken, IReadOnlyList<CurlyAttributeSyntax> attributes)
+        internal CurlySyntax(ComposableToken openToken, CurlyNameSyntax name, ComposableToken closeToken, IReadOnlyList<CurlyAttributeSyntax> attributes, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
+            : base(leadingTrivia, trailingTrivia)
         {
             OpenToken = openToken;
             Name = name;
             CloseToken = closeToken;
             Attributes = attributes;
 
+            AddNullableLeadingTrivia();
             AddNullableTokens(openToken);
             AddNullableTokens(name);
             AddNullableTokens(attributes);
             AddNullableTokens(closeToken);
+            AddNullableTrailingTrivia();
+        }
+
+        public override CurlySyntax Clone()
+        {
+            return new CurlySyntax(OpenToken, Name, CloseToken, Attributes, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlySyntax WithOpenToken(ComposableToken openToken)
         {
-            return new CurlySyntax(openToken, Name, CloseToken, Attributes);
+            return new CurlySyntax(openToken, Name, CloseToken, Attributes, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlySyntax WithName(CurlyNameSyntax name)
         {
-            return new CurlySyntax(OpenToken, name, CloseToken, Attributes);
+            return new CurlySyntax(OpenToken, name, CloseToken, Attributes, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlySyntax WithCloseToken(ComposableToken closeToken)
         {
-            return new CurlySyntax(OpenToken, Name, closeToken, Attributes);
+            return new CurlySyntax(OpenToken, Name, closeToken, Attributes, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlySyntax AddAttribute(CurlyAttributeSyntax attribute)
@@ -51,86 +59,103 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 attributes.AddRange(Attributes);
 
             attributes.Add(attribute);
-            return new CurlySyntax(OpenToken, Name, CloseToken, attributes);
+            return new CurlySyntax(OpenToken, Name, CloseToken, attributes, LeadingTrivia, TrailingTrivia);
         }
 
 
         public static CurlySyntax New()
         {
-            return new CurlySyntax(null, null, null, null);
+            return new CurlySyntax(null, null, null, null, null, null);
         }
     }
 
-    public class CurlyNameSyntax : SyntaxNodeBase
+    public class CurlyNameSyntax : SyntaxNodeBase<CurlyNameSyntax>
     {
         public ComposableToken PrefixToken { get; private set; }
         public ComposableToken NameSeparatorToken { get; private set; }
         public ComposableToken NameToken { get; private set; }
 
-        internal CurlyNameSyntax(ComposableToken prefixToken, ComposableToken nameSeparatorToken, ComposableToken nameToken)
+        internal CurlyNameSyntax(ComposableToken prefixToken, ComposableToken nameSeparatorToken, ComposableToken nameToken, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
+            : base(leadingTrivia, trailingTrivia)
         {
             PrefixToken = prefixToken;
             NameSeparatorToken = nameSeparatorToken;
             NameToken = nameToken;
 
+            AddNullableLeadingTrivia();
             AddNullableTokens(prefixToken, nameSeparatorToken, nameToken);
+            AddNullableTrailingTrivia();
+        }
+
+        public override CurlyNameSyntax Clone()
+        {
+            return new CurlyNameSyntax(PrefixToken, NameSeparatorToken, NameToken, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyNameSyntax WithPrefixToken(ComposableToken prefixToken)
         {
-            return new CurlyNameSyntax(prefixToken, NameSeparatorToken, NameToken);
+            return new CurlyNameSyntax(prefixToken, NameSeparatorToken, NameToken, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyNameSyntax WithNameSeparatorToken(ComposableToken nameSeparatorToken)
         {
-            return new CurlyNameSyntax(PrefixToken, nameSeparatorToken, NameToken);
+            return new CurlyNameSyntax(PrefixToken, nameSeparatorToken, NameToken, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyNameSyntax WithNameToken(ComposableToken nameToken)
         {
-            return new CurlyNameSyntax(PrefixToken, NameSeparatorToken, nameToken);
+            return new CurlyNameSyntax(PrefixToken, NameSeparatorToken, nameToken, LeadingTrivia, TrailingTrivia);
         }
 
 
         public static CurlyNameSyntax New()
         {
-            return new CurlyNameSyntax(null, null, null);
+            return new CurlyNameSyntax(null, null, null, null, null);
         }
     }
 
-    public class CurlyAttributeSyntax : SyntaxNodeBase
+    public class CurlyAttributeSyntax : SyntaxNodeBase<CurlyAttributeSyntax>
     {
         public ComposableToken NameToken { get; private set; }
         public ComposableToken ValueSeparatorToken { get; private set; }
         public ComposableToken ValueToken { get; private set; }
 
-        public CurlyAttributeSyntax(ComposableToken nameToken, ComposableToken valueSeparatorToken, ComposableToken valueToken)
+        public CurlyAttributeSyntax(ComposableToken nameToken, ComposableToken valueSeparatorToken, ComposableToken valueToken, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
+            : base(leadingTrivia, trailingTrivia)
         {
             NameToken = nameToken;
             ValueSeparatorToken = valueSeparatorToken;
             ValueToken = valueToken;
+
+            AddNullableLeadingTrivia();
             AddNullableTokens(NameToken, valueSeparatorToken, valueToken);
+            AddNullableTrailingTrivia();
+        }
+
+        public override CurlyAttributeSyntax Clone()
+        {
+            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, ValueToken, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyAttributeSyntax WithNameToken(ComposableToken nameToken)
         {
-            return new CurlyAttributeSyntax(nameToken, ValueSeparatorToken, ValueToken);
+            return new CurlyAttributeSyntax(nameToken, ValueSeparatorToken, ValueToken, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyAttributeSyntax WithValueSeparatorToken(ComposableToken valueSeparatorToken)
         {
-            return new CurlyAttributeSyntax(NameToken, valueSeparatorToken, ValueToken);
+            return new CurlyAttributeSyntax(NameToken, valueSeparatorToken, ValueToken, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyAttributeSyntax WithValueToken(ComposableToken valueToken)
         {
-            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, valueToken);
+            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, valueToken, LeadingTrivia, TrailingTrivia);
         }
 
 
         public static CurlyAttributeSyntax New()
         {
-            return new CurlyAttributeSyntax(null, null, null);
+            return new CurlyAttributeSyntax(null, null, null, null, null);
         }
     }
 

@@ -15,6 +15,15 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         {
             get { return Nodes.SelectMany(n => n.Tokens).ToList(); }
         }
+        public IReadOnlyList<ComposableToken> LeadingTrivia
+        {
+            get { return null; }
+        }
+
+        public IReadOnlyList<ComposableToken> TrailingTrivia
+        {
+            get { return null; }
+        }
 
         public SyntaxtCollection()
         {

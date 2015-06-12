@@ -15,6 +15,16 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
             IEnumerator<ComposableToken> enumerator = new ComposableTokenEnumerator(tokens, startIndex);
             ComposableToken token = enumerator.Current;
+
+            while (token.Type == CurlyTokenType.Whitespace)
+            {
+                result = result.AddLeadingTrivia(token);
+                if (!enumerator.MoveNext())
+                    throw new NotImplementedException();
+
+                token = enumerator.Current;
+            }
+
             if (token.Type == CurlyTokenType.OpenBrace)
             {
                 result = result.WithOpenToken(token);
@@ -69,7 +79,8 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         {
             if (enumerator.MoveNext())
             {
-                if(enumerator.Current.Type == CurlyTokenType.CloseBrace)
+                ComposableToken token = enumerator.Current;
+                if (token.Type == CurlyTokenType.CloseBrace)
                 {
                     result = result.WithCloseToken(enumerator.Current);
                     return result;
