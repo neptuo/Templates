@@ -50,6 +50,8 @@
     <Compile Include="_Syntax\ISyntaxNode.cs" />
     <Compile Include="_Syntax\SyntaxBuilderCollection.cs" />
     <Compile Include="_Syntax\SyntaxtCollection.cs" />
+    <Compile Include="_Syntax\TextSyntax.cs" />
+    <Compile Include="_Syntax\TextSyntaxBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
