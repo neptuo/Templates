@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class CurlyTokenizer : TokenizerBase, IComposableTokenTypeProvider
+    public class CurlyTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
     {
         public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
         {
@@ -27,179 +27,193 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 
                 CurlyTokenType.CloseBrace,
                 
-                CurlyTokenType.Error,
                 CurlyTokenType.Whitespace,
                 CurlyTokenType.Text
             };
         }
 
-        protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        public IList<ComposableToken> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
         {
-            ReadTokenStart(decorator, context, result);
+            CurlyContext thisContext = new CurlyContext(decorator, context);
+            ReadTokenStart(thisContext);
+            return thisContext.Result;
         }
 
-        private bool ReadTokenStart(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ReadTokenStart(CurlyContext context)
         {
-            if (decorator.Current != '{')
+            if (context.Decorator.Current != '{')
             {
-                IList<ComposableToken> tokens = context.TokenizePartial(decorator, '{', '}');
-                result.AddRange(tokens);
+                IList<ComposableToken> tokens = context.TokenizerContext.TokenizePartial(context.Decorator, '{', '}');
+                context.Result.AddRange(tokens);
             }
 
-            if (decorator.Current == '{')
+            if (context.Decorator.Current == '{')
             {
-                decorator.ResetCurrentPosition(1);
-                decorator.ResetCurrentInfo();
-                decorator.Next();
+                context.Decorator.ResetCurrentPosition(1);
+                context.Decorator.ResetCurrentInfo();
+                context.Decorator.Next();
 
-                //CreateToken(decorator, result, CurlyTokenType.Text, 1);
-                CreateToken(decorator, result, CurlyTokenType.OpenBrace);
-                ReadTokenName(decorator, context, result);
+                //context.CreateToken(CurlyTokenType.Text, 1);
+                context.CreateToken(CurlyTokenType.OpenBrace);
+                ReadTokenName(context);
                 return true;
             }
-            else if(decorator.Current != ContentReader.EndOfInput)
+            else if(context.Decorator.Current != ContentReader.EndOfInput)
             {
-                CreateToken(decorator, result, CurlyTokenType.Error);
-                if (decorator.Next())
-                    return ReadTokenStart(decorator, context, result);
+                context
+                    .CreateToken(CurlyTokenType.Text, -1, true)
+                    .WithError("Not valid here.");
+
+                if (context.Decorator.Next())
+                    return ReadTokenStart(context);
             }
 
             return false;
         }
 
-        private void ReadTokenName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private void ReadTokenName(CurlyContext context)
         {
-            decorator.NextWhile(Char.IsLetterOrDigit);
+            context.Decorator.NextWhile(Char.IsLetterOrDigit);
 
             bool hasName = false;
 
-            if (decorator.Current == '{')
+            if (context.Decorator.Current == '{')
             {
-                result.Last().Type = CurlyTokenType.Error;
-                CreateToken(decorator, result, CurlyTokenType.OpenBrace);
-                ReadTokenName(decorator, context, result);
+                ComposableToken lastToken = context.Result.Last();
+                lastToken.Errors.Add(new DefaultErrorMessage("Not valid here"));
+                lastToken.IsSkipped = true;
+                context.CreateToken(CurlyTokenType.OpenBrace);
+                ReadTokenName(context);
                 return;
             }
 
-            if (decorator.Current == ':')
+            if (context.Decorator.Current == ':')
             {
                 // Use as prefix.
-                CreateToken(decorator, result, CurlyTokenType.NamePrefix, 1);
-                CreateToken(decorator, result, CurlyTokenType.NameSeparator);
+                context.CreateToken(CurlyTokenType.NamePrefix, 1);
+                context.CreateToken(CurlyTokenType.NameSeparator);
 
-                decorator.NextWhile(Char.IsLetterOrDigit);
+                context.Decorator.NextWhile(Char.IsLetterOrDigit);
             }
 
-            if (decorator.Current == ' ')
+            if (context.Decorator.Current == ' ')
             {
                 // Check for valid name.
-                if (IsValidIdentifier(decorator.CurrentContent(1)))
+                if (IsValidIdentifier(context.Decorator.CurrentContent(1)))
                 {
                     // Use as name.
-                    CreateToken(decorator, result, CurlyTokenType.Name, 1);
+                    context.CreateToken(CurlyTokenType.Name, 1);
                 }
                 else
                 {
                     // Use as error
-                    CreateToken(decorator, result, CurlyTokenType.Error, 1);
+                    context
+                        .CreateToken(CurlyTokenType.Text, 1, true)
+                        .WithError("Not valid here.");
                 }
 
-                decorator.NextWhile(Char.IsWhiteSpace);
-                CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
+                context.Decorator.NextWhile(Char.IsWhiteSpace);
+                context.CreateToken(CurlyTokenType.Whitespace, 1);
 
                 hasName = true;
             }
 
-            if (Char.IsLetter(decorator.Current))
+            if (Char.IsLetter(context.Decorator.Current))
             {
                 // Attribute or default attribute.
-                ReadTokenAttribute(decorator, context, result);
+                ReadTokenAttribute(context);
             }
 
-            if (decorator.Current == '}')
+            if (context.Decorator.Current == '}')
             {
                 // Check for valid name.
-                if (IsValidIdentifier(decorator.CurrentContent(1)))
+                if (IsValidIdentifier(context.Decorator.CurrentContent(1)))
                 {
                     // Use as name.
-                    CreateToken(decorator, result, CurlyTokenType.Name, 1);
+                    context.CreateToken(CurlyTokenType.Name, 1);
                 }
                 else
                 {
                     // Use as error
-                    CreateToken(decorator, result, CurlyTokenType.Error, 1);
+                    context
+                        .CreateToken(CurlyTokenType.Text, 1, true)
+                        .WithError("Not valid here.");
                 }
 
                 // Close token.
-                CreateToken(decorator, result, CurlyTokenType.CloseBrace);
+                context.CreateToken(CurlyTokenType.CloseBrace);
 
                 // If there is something to read.
-                if (decorator.Next())
+                if (context.Decorator.Next())
                 {
                     // Read tokens and accept last characters as text.
-                    ReadTokenStart(decorator, context, result);
-                    //CreateToken(decorator, result, CurlyTokenType.Text);
-                    decorator.ResetCurrentInfo();
+                    ReadTokenStart(context);
+                    //context.CreateToken(CurlyTokenType.Text);
+                    context.Decorator.ResetCurrentInfo();
                 }
             }
-            else if (decorator.Current == ContentReader.EndOfInput)
+            else if (context.Decorator.Current == ContentReader.EndOfInput)
             {
                 // Use as name and close token (virtually).
-                CreateToken(decorator, result, CurlyTokenType.Name);
-                CreateVirtualToken(result, CurlyTokenType.CloseBrace, "}");
+                context.CreateToken(CurlyTokenType.Name);
+                context.CreateVirtualToken(CurlyTokenType.CloseBrace, "}");
             }
-            else if (decorator.Current == '{')
+            else if (context.Decorator.Current == '{')
             {
                 if (hasName)
                 {
-                    CreateVirtualToken(result, CurlyTokenType.CloseBrace, "}");
+                    context.CreateVirtualToken(CurlyTokenType.CloseBrace, "}");
                 }
                 else
                 {
-                    decorator.NextUntil(c => c == '{');
-                    CreateToken(decorator, result, CurlyTokenType.Error, 1);
+                    context.Decorator.NextUntil(c => c == '{');
+                    context
+                        .CreateToken(CurlyTokenType.Text, 1, true)
+                        .WithError("Not valid here.");
                 }
 
-                CreateToken(decorator, result, CurlyTokenType.OpenBrace);
-                ReadTokenName(decorator, context, result);
+                context.CreateToken(CurlyTokenType.OpenBrace);
+                ReadTokenName(context);
             }
         }
 
-        private void ReadTokenAttribute(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result, bool supportDefaultAttributes = true)
+        private void ReadTokenAttribute(CurlyContext context, bool supportDefaultAttributes = true)
         {
             List<char> specials = new List<char>() { '=', ',', '{', '}' };
-            decorator.NextUntil(specials.Contains);
+            context.Decorator.NextUntil(specials.Contains);
 
-            if (decorator.Current == '=')
+            if (context.Decorator.Current == '=')
             {
-                if (IsValidIdentifier(decorator.CurrentContent(1)))
+                if (IsValidIdentifier(context.Decorator.CurrentContent(1)))
                 {
                     // Use as attribute name.
-                    CreateToken(decorator, result, CurlyTokenType.AttributeName, 1);
-                    CreateToken(decorator, result, CurlyTokenType.AttributeValueSeparator);
+                    context.CreateToken(CurlyTokenType.AttributeName, 1);
+                    context.CreateToken(CurlyTokenType.AttributeValueSeparator);
                 }
                 else
                 {
                     // Use as error.
-                    CreateToken(decorator, result, CurlyTokenType.Error, 1);
+                    context
+                        .CreateToken(CurlyTokenType.Text, 1, true)
+                        .WithError("Not valid here.");
                 }
 
 
                 // Use as attribute value.
-                decorator.NextUntil(c => c == ',' || c == '}');
-                CreateToken(decorator, result, CurlyTokenType.AttributeValue, 1);
+                context.Decorator.NextUntil(c => c == ',' || c == '}');
+                context.CreateToken(CurlyTokenType.AttributeValue, 1);
 
-                if (decorator.Current == ',')
+                if (context.Decorator.Current == ',')
                 {
                     // Use as separator.
-                    CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
+                    context.CreateToken(CurlyTokenType.AttributeSeparator);
 
                     // Read all whitespaces.
-                    decorator.NextWhile(Char.IsWhiteSpace);
-                    CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
+                    context.Decorator.NextWhile(Char.IsWhiteSpace);
+                    context.CreateToken(CurlyTokenType.Whitespace, 1);
 
                     // Try read next attribute.
-                    ReadTokenAttribute(decorator, context, result, false);
+                    ReadTokenAttribute(context, false);
                 }
             }
             else
@@ -207,36 +221,38 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 // Use as default attribute or mark as error.
                 if (supportDefaultAttributes)
                 {
-                    CreateToken(decorator, result, CurlyTokenType.DefaultAttributeValue, 1);
+                    context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
                 }
                 else
                 {
-                    if (IsValidIdentifier(decorator.CurrentContent(1)))
+                    if (IsValidIdentifier(context.Decorator.CurrentContent(1)))
                     {
                         // Use as attribute name.
-                        CreateToken(decorator, result, CurlyTokenType.AttributeName, 1);
-                        CreateVirtualToken(result, CurlyTokenType.AttributeValueSeparator, "=");
-                        CreateVirtualToken(result, CurlyTokenType.AttributeValue, "");
+                        context.CreateToken(CurlyTokenType.AttributeName, 1);
+                        context.CreateVirtualToken(CurlyTokenType.AttributeValueSeparator, "=");
+                        context.CreateVirtualToken(CurlyTokenType.AttributeValue, "");
                     }
                     else
                     {
                         // Use as error.
-                        CreateToken(decorator, result, CurlyTokenType.Error, 1);
+                        context
+                            .CreateToken(CurlyTokenType.Text, 1, true)
+                            .WithError("Not valid here.");
                     }
                 }
 
                 // If separator was found.
-                if (decorator.Current == ',')
+                if (context.Decorator.Current == ',')
                 {
                     // Use as separator.
-                    CreateToken(decorator, result, CurlyTokenType.AttributeSeparator);
+                    context.CreateToken(CurlyTokenType.AttributeSeparator);
 
                     // While whitespaces, read..
-                    decorator.NextWhile(Char.IsWhiteSpace);
-                    CreateToken(decorator, result, CurlyTokenType.Whitespace, 1);
+                    context.Decorator.NextWhile(Char.IsWhiteSpace);
+                    context.CreateToken(CurlyTokenType.Whitespace, 1);
 
                     // Try read next attribute.
-                    ReadTokenAttribute(decorator, context, result);
+                    ReadTokenAttribute(context);
                 }
             }
         }

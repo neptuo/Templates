@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// Creates new instance of tokenizer.
         /// </summary>
         public ComposableTokenizer()
-            : this(new List<ComposableTokenType>() { ComposableTokenType.Error, ComposableTokenType.Text })
+            : this(new List<ComposableTokenType>() { ComposableTokenType.Text, ComposableTokenType.Whitespace })
         { }
 
         /// <summary>

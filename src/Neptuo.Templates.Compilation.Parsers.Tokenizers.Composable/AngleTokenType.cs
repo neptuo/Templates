@@ -27,6 +27,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public static readonly ComposableTokenType OpenComment = new ComposableTokenType("Angle.OpenComment");
         public static readonly ComposableTokenType CloseComment = new ComposableTokenType("Angle.CloseComment");
 
+        public static readonly ComposableTokenType Error = new ComposableTokenType("Error");
+
         private AngleTokenType() 
             : base("")
         { }

@@ -48,9 +48,11 @@
     <Compile Include="ComposableTokenTypeCollection.cs" />
     <Compile Include="ComposableTokenizer.cs" />
     <Compile Include="ComposableTokenType.cs" />
+    <Compile Include="CurlyContext.cs" />
     <Compile Include="CurlyTokenizer.cs" />
     <Compile Include="CurlyTokenType.cs" />
     <Compile Include="ComposableTokenizerContext.cs" />
+    <Compile Include="ComposableTokenBuilder.cs" />
     <Compile Include="IComposableTokenizer.cs" />
     <Compile Include="IComposableTokenizerCollection.cs" />
     <Compile Include="IComposableTokenizerContext.cs" />

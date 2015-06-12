@@ -49,7 +49,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                     {
                         if (token.Type == CurlyTokenType.OpenBrace || token.Type == CurlyTokenType.CloseBrace)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyBrace));
-                        else if (token.Type == CurlyTokenType.Error)
+                        else if (token.HasError)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyError));
                         else if (token.Type != CurlyTokenType.Text)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.ContentInfo.StartIndex, token.ContentInfo.Length), curlyContent));

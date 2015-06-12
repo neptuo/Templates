@@ -12,11 +12,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     public class ComposableTokenType
     {
         /// <summary>
-        /// Error token type.
-        /// </summary>
-        public static readonly ComposableTokenType Error = new ComposableTokenType("Error");
-
-        /// <summary>
         /// Plain text token type.
         /// </summary>
         public static readonly ComposableTokenType Text = new ComposableTokenType("Text");
