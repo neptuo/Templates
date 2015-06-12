@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AngleTokenizer.cs" />
+    <Compile Include="AngleTokenType.cs" />
     <Compile Include="ComposableToken.cs" />
     <Compile Include="ComposableTokenTypeCollection.cs" />
     <Compile Include="ComposableTokenizer.cs" />
@@ -55,6 +57,7 @@
     <Compile Include="IComposableTokenTypeProvider.cs" />
     <Compile Include="PlainTokenizer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TokenizerBase.cs" />
     <Compile Include="_ComposableTokenizerContextExtensions.cs" />
     <Compile Include="_ComposableTokenTypeCollectionExtensions.cs" />
   </ItemGroup>

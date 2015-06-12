@@ -16,6 +16,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         protected ComposableTokenizer CreateTokenizer()
         {
             ComposableTokenizer tokenizer = new ComposableTokenizer();
+            tokenizer.Add(new AngleTokenizer());
             tokenizer.Add(new CurlyTokenizer());
             tokenizer.Add(new PlainTokenizer());
             return tokenizer;
@@ -50,6 +51,15 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                     AssertAreEqual(values[i].Length, tokens[i].ContentInfo.Length);
                     positionIndex += tokens[i].ContentInfo.Length;
                 }
+            }
+        }
+
+        protected void AssertTokenTypes(IList<ComposableToken> tokens, params ComposableTokenType[] types)
+        {
+            AssertLength(tokens, types.Length);
+            for (int i = 0; i < types.Length; i++)
+            {
+                AssertAreEqual(types[i], tokens[i].Type);
             }
         }
 
