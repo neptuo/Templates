@@ -27,6 +27,21 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
+        public void Curly_ValidWithPrefixToken()
+        {
+            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{data:Binding}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "data", ":", "Binding", "}");
+            AssertContentInfo(tokens,
+                CreateContentInfo(0, 1),
+                CreateContentInfo(1, 4),
+                CreateContentInfo(5, 1),
+                CreateContentInfo(6, 7),
+                CreateContentInfo(13, 1)
+            );
+        }
+
+        [TestMethod]
         public void Curly_ValidTokenWithText()
         {
             IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("abc {Binding}  subtraction(); adaptation(); "), new FakeTokenizerContext());

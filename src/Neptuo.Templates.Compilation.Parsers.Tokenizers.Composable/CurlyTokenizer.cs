@@ -91,6 +91,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             {
                 // Use as prefix.
                 context.CreateToken(CurlyTokenType.NamePrefix, 1);
+                context.Decorator.Next();
                 context.CreateToken(CurlyTokenType.NameSeparator);
 
                 context.Decorator.NextWhile(Char.IsLetterOrDigit);
