@@ -114,6 +114,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
                 context.Decorator.NextWhile(Char.IsWhiteSpace);
                 context.CreateToken(CurlyTokenType.Whitespace, 1);
+                context.Decorator.Next();
 
                 hasName = true;
             }
@@ -131,6 +132,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 {
                     // Use as name.
                     context.CreateToken(CurlyTokenType.Name, 1);
+                    context.Decorator.Next();
                 }
                 else
                 {
@@ -188,6 +190,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 {
                     // Use as attribute name.
                     context.CreateToken(CurlyTokenType.AttributeName, 1);
+                    context.Decorator.Next();
                     context.CreateToken(CurlyTokenType.AttributeValueSeparator);
                 }
                 else
@@ -202,6 +205,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 // Use as attribute value.
                 context.Decorator.NextUntil(c => c == ',' || c == '}');
                 context.CreateToken(CurlyTokenType.AttributeValue, 1);
+                context.Decorator.Next();
 
                 if (context.Decorator.Current == ',')
                 {
@@ -211,6 +215,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     // Read all whitespaces.
                     context.Decorator.NextWhile(Char.IsWhiteSpace);
                     context.CreateToken(CurlyTokenType.Whitespace, 1);
+                    context.Decorator.Next();
 
                     // Try read next attribute.
                     ReadTokenAttribute(context, false);
@@ -222,6 +227,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 if (supportDefaultAttributes)
                 {
                     context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
+                    context.Decorator.Next();
                 }
                 else
                 {
@@ -250,6 +256,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     // While whitespaces, read..
                     context.Decorator.NextWhile(Char.IsWhiteSpace);
                     context.CreateToken(CurlyTokenType.Whitespace, 1);
+                    context.Decorator.Next();
 
                     // Try read next attribute.
                     ReadTokenAttribute(context);

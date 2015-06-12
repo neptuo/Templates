@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
         {
-            if (decorator.Current != '<' && decorator.Current != ContentReader.EndOfInput)
+            while (decorator.Current != '<' && decorator.Current != ContentReader.EndOfInput)
             {
                 IList<ComposableToken> tokens = context.TokenizePartial(decorator, '<', '>');
                 result.AddRange(tokens);
