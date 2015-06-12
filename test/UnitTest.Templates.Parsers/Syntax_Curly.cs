@@ -1,9 +1,10 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using UnitTest.Templates.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using System.Collections.Generic;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Neptuo.Templates.Compilation.Parsers;
+using Neptuo.Templates.Compilation.Parsers.SyntaxTrees;
+using Neptuo.Templates.Compilation.Parsers.Tokenizers;
+using System;
+using System.Collections.Generic;
+using UnitTest.Templates.Parsers.Tokenizers;
 
 namespace UnitTest.Templates.Parsers
 {

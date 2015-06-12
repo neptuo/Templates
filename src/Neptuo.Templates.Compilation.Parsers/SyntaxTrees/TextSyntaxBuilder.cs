@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers
+namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class TextSyntaxBuilder : ISyntaxBuilder
     {
