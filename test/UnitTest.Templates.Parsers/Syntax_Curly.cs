@@ -8,10 +8,10 @@ using Neptuo.Templates.Compilation.Parsers;
 namespace UnitTest.Templates.Parsers
 {
     [TestClass]
-    public class TestSyntax_Curly : TestComposableTokenizerBase
+    public class Syntax_Curly : TestComposableTokenizerBase
     {
         [TestMethod]
-        public void Syntax_Curly_BasicSyntax()
+        public void Basic()
         {
             ComposableTokenizer tokenizer = CreateTokenizer();
             IList<ComposableToken> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding} Text"), new FakeTokenizerContext());
@@ -21,7 +21,16 @@ namespace UnitTest.Templates.Parsers
                 .Add(ComposableTokenType.Text, new TextSyntaxBuilder());
 
             ISyntaxNode node = builder.Build(tokens, 0);
-            Console.WriteLine(node);
+
+            SyntaxtCollection collection = node as SyntaxtCollection;
+            if (collection != null)
+            {
+                CurlySyntax curly = collection.Nodes[1] as CurlySyntax;
+                if (curly != null)
+                {
+                    AssertAreEqual(curly.Name.Name.Text, "Binding");
+                }
+            }
         }
     }
 }
