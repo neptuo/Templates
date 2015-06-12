@@ -24,8 +24,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 throw new NotSupportedException();
             }
-
-            return result;
         }
 
         private ISyntaxNode BuildName(IEnumerator<ComposableToken> enumerator, CurlySyntax result)
@@ -58,7 +56,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     throw new NotImplementedException();
                 }
 
-                result.WithName(name);
+                result = result.WithName(name);
                 return BuildContent(enumerator, result);
             }
             else
@@ -73,7 +71,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 if(enumerator.Current.Type == CurlyTokenType.CloseBrace)
                 {
-                    result.WithCloseToken(enumerator.Current);
+                    result = result.WithCloseToken(enumerator.Current);
                     return result;
                 }
                 else

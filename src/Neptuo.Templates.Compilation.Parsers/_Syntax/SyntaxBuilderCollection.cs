@@ -22,15 +22,19 @@ namespace Neptuo.Templates.Compilation.Parsers
         public ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex)
         {
             SyntaxtCollection result = new SyntaxtCollection();
-            for (int i = startIndex; i < tokens.Count; i++)
+            for (int i = startIndex; i < tokens.Count; )
             {
-                ComposableToken token =tokens[i];
+                ComposableToken token = tokens[i];
                 ISyntaxBuilder builder;
-                if(storage.TryGetValue(token.Type, out builder))
+                if (storage.TryGetValue(token.Type, out builder))
                 {
                     ISyntaxNode node = builder.Build(tokens, i);
-                    i += node.Tokens.Count - 1;
+                    i += node.Tokens.Count;
                     result.Nodes.Add(node);
+                }
+                else
+                {
+                    throw new NotImplementedException();
                 }
             }
 

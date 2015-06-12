@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace UnitTest.Templates.Parsers.Tokenizers
 {
-    internal class FakeTokenizerContext : ITokenizerContext
+    public class FakeTokenizerContext : ITokenizerContext
     {
         public IDependencyProvider DependencyProvider
         {

@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurlyTokenBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Syntax\CurlySyntax.cs" />
     <Compile Include="_Syntax\CurlySyntaxBuilder.cs" />

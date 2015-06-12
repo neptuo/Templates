@@ -16,6 +16,12 @@ namespace Neptuo.Templates.Compilation.Parsers
         public TextSyntax(ComposableToken textToken)
         {
             TextToken = textToken;
+
+            List<ComposableToken> tokens = new List<ComposableToken>();
+            if (textToken != null)
+                tokens.Add(textToken);
+
+            Tokens = tokens;
         }
 
         public TextSyntax WithText(ComposableToken textToken)
