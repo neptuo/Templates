@@ -18,19 +18,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public ILineRangeInfo LineInfo { get; set; }
         public IContentRangeInfo ContentInfo { get; set; }
         public string Text { get; set; }
-        public IErrorMessage Error { get; set; }
+        public IList<IErrorMessage> Errors { get; private set; }
 
-        /// <summary>
-        /// Whether this token is created without content in the source.
-        /// </summary>
         public bool IsVirtual { get; set; }
+        public bool IsSkipped { get; set; }
 
         /// <summary>
         /// Whether this token contains errors.
         /// </summary>
         public bool HasError
         {
-            get { return Error != null; }
+            get { return Errors.Count > 0; }
         }
 
         public ComposableToken()
@@ -41,6 +39,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             Ensure.NotNull(type, "type");
             Type = type;
             Text = text;
+            Errors = new List<IErrorMessage>();
         }
 
         public override string ToString()

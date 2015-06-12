@@ -32,7 +32,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <summary>
         /// Token error description.
         /// </summary>
-        IErrorMessage Error { get; set; }
+        IList<IErrorMessage> Errors { get; }
+
+        /// <summary>
+        /// Whether this token is created without content in the source.
+        /// </summary>
+        bool IsVirtual { get; set; }
+
+        /// <summary>
+        /// Whether this token should be skipped.
+        /// </summary>
+        bool IsSkipped { get; set; }
     }
 
     /// <summary>
