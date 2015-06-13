@@ -118,38 +118,39 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
     {
         public ComposableToken NameToken { get; private set; }
         public ComposableToken ValueSeparatorToken { get; private set; }
-        public ComposableToken ValueToken { get; private set; }
+        public ISyntaxNode Value { get; private set; }
 
-        public CurlyAttributeSyntax(ComposableToken nameToken, ComposableToken valueSeparatorToken, ComposableToken valueToken, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
+        public CurlyAttributeSyntax(ComposableToken nameToken, ComposableToken valueSeparatorToken, ISyntaxNode value, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
             : base(leadingTrivia, trailingTrivia)
         {
             NameToken = nameToken;
             ValueSeparatorToken = valueSeparatorToken;
-            ValueToken = valueToken;
+            Value = value;
 
             AddNullableLeadingTrivia();
-            AddNullableTokens(NameToken, valueSeparatorToken, valueToken);
+            AddNullableTokens(NameToken, valueSeparatorToken);
+            AddNullableTokens(value);
             AddNullableTrailingTrivia();
         }
 
         public override CurlyAttributeSyntax Clone()
         {
-            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, ValueToken, LeadingTrivia, TrailingTrivia);
+            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, Value, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyAttributeSyntax WithNameToken(ComposableToken nameToken)
         {
-            return new CurlyAttributeSyntax(nameToken, ValueSeparatorToken, ValueToken, LeadingTrivia, TrailingTrivia);
+            return new CurlyAttributeSyntax(nameToken, ValueSeparatorToken, Value, LeadingTrivia, TrailingTrivia);
         }
 
         public CurlyAttributeSyntax WithValueSeparatorToken(ComposableToken valueSeparatorToken)
         {
-            return new CurlyAttributeSyntax(NameToken, valueSeparatorToken, ValueToken, LeadingTrivia, TrailingTrivia);
+            return new CurlyAttributeSyntax(NameToken, valueSeparatorToken, Value, LeadingTrivia, TrailingTrivia);
         }
 
-        public CurlyAttributeSyntax WithValueToken(ComposableToken valueToken)
+        public CurlyAttributeSyntax WithValueToken(ISyntaxNode value)
         {
-            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, valueToken, LeadingTrivia, TrailingTrivia);
+            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, value, LeadingTrivia, TrailingTrivia);
         }
 
 
