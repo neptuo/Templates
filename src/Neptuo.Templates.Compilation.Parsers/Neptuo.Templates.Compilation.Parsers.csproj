@@ -52,6 +52,7 @@
     <Compile Include="SyntaxTrees\SyntaxtCollection.cs" />
     <Compile Include="SyntaxTrees\TextSyntax.cs" />
     <Compile Include="SyntaxTrees\TextSyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\TokenListReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">

@@ -94,13 +94,19 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
         private void AddNullableLeadingTrivia(IEnumerable<ComposableToken> tokens)
         {
+            if (tokens == null)
+                return;
+
             if (leadingTrivia == null)
                 leadingTrivia = new List<ComposableToken>();
 
             foreach (ComposableToken token in tokens)
             {
                 if (token != null)
+                {
                     this.leadingTrivia.Add(token);
+                    this.tokens.Add(token);
+                }
             }
         }
 
@@ -111,13 +117,19 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
         private void AddNullableTrailingTrivia(IEnumerable<ComposableToken> tokens)
         {
+            if (tokens == null)
+                return;
+
             if (trailingTrivia == null)
                 trailingTrivia = new List<ComposableToken>();
 
             foreach (ComposableToken token in tokens)
             {
                 if (token != null)
+                {
                     this.trailingTrivia.Add(token);
+                    this.tokens.Add(token);
+                }
             }
         }
 
@@ -146,12 +158,12 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             return WithLeadingTrivia(Enumerable.Concat(this.leadingTrivia, leadingTrivia));
         }
 
-        public T WithTrailingTrivia(IEnumerable<ComposableToken> trailingTrivia)
+        public T WithTrailingTrivia(params ComposableToken[] trailingTrivia)
         {
-            return WithTrailingTrivia((IEnumerable<ComposableToken>)leadingTrivia);
+            return WithTrailingTrivia((IEnumerable<ComposableToken>)trailingTrivia);
         }
 
-        public T WithTrailingTrivia(params ComposableToken[] trailingTrivia)
+        public T WithTrailingTrivia(IEnumerable<ComposableToken> trailingTrivia)
         {
             SyntaxNodeBase<T> result = (SyntaxNodeBase<T>)Clone();
             result.AddNullableTrailingTrivia(trailingTrivia);

@@ -13,22 +13,22 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         {
             CurlySyntax result = CurlySyntax.New();
 
-            IEnumerator<ComposableToken> enumerator = new ComposableTokenEnumerator(tokens, startIndex);
-            ComposableToken token = enumerator.Current;
+            TokenListReader reader = new TokenListReader(tokens, startIndex);
+            ComposableToken token = reader.Current;
 
             while (token.Type == CurlyTokenType.Whitespace)
             {
                 result = result.AddLeadingTrivia(token);
-                if (!enumerator.MoveNext())
+                if (!reader.Next())
                     throw new NotImplementedException();
 
-                token = enumerator.Current;
+                token = reader.Current;
             }
 
             if (token.Type == CurlyTokenType.OpenBrace)
             {
                 result = result.WithOpenToken(token);
-                return BuildName(enumerator, result);
+                return BuildName(reader, result);
             }
             else
             {
@@ -36,19 +36,19 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             }
         }
 
-        private ISyntaxNode BuildName(IEnumerator<ComposableToken> enumerator, CurlySyntax result)
+        private ISyntaxNode BuildName(TokenListReader reader, CurlySyntax result)
         {
-            if (enumerator.MoveNext())
+            if (reader.Next())
             {
                 CurlyNameSyntax name = CurlyNameSyntax.New();
-                if (enumerator.Current.Type == CurlyTokenType.NamePrefix)
+                if (reader.Current.Type == CurlyTokenType.NamePrefix)
                 {
-                    name = name.WithPrefixToken(enumerator.Current);
-                    if (enumerator.MoveNext() && enumerator.Current.Type == CurlyTokenType.NameSeparator)
+                    name = name.WithPrefixToken(reader.Current);
+                    if (reader.Next() && reader.Current.Type == CurlyTokenType.NameSeparator)
                     {
-                        name = name.WithNameSeparatorToken(enumerator.Current);
-                        if (enumerator.MoveNext() && enumerator.Current.Type == CurlyTokenType.Name)
-                            name = name.WithNameToken(enumerator.Current);
+                        name = name.WithNameSeparatorToken(reader.Current);
+                        if (reader.Next() && reader.Current.Type == CurlyTokenType.Name)
+                            name = name.WithNameToken(reader.Current);
                         else
                             throw new NotImplementedException();
                     }
@@ -57,17 +57,18 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                         throw new NotImplementedException();
                     }
                 }
-                else if (enumerator.Current.Type == CurlyTokenType.Name)
+                else if (reader.Current.Type == CurlyTokenType.Name)
                 {
-                    name = name.WithNameToken(enumerator.Current);
+                    name = name.WithNameToken(reader.Current);
                 }
                 else
                 {
                     throw new NotImplementedException();
                 }
 
+                name = TryAppendTrailingTrivia(reader, name);
                 result = result.WithName(name);
-                return BuildContent(enumerator, result);
+                return BuildContent(reader, result);
             }
             else
             {
@@ -75,14 +76,14 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             }
         }
 
-        private ISyntaxNode BuildContent(IEnumerator<ComposableToken> enumerator, CurlySyntax result)
+        private ISyntaxNode BuildContent(TokenListReader reader, CurlySyntax result)
         {
-            if (enumerator.MoveNext())
+            if (reader.Next())
             {
-                ComposableToken token = enumerator.Current;
+                ComposableToken token = reader.Current;
                 if (token.Type == CurlyTokenType.CloseBrace)
                 {
-                    result = result.WithCloseToken(enumerator.Current);
+                    result = result.WithCloseToken(reader.Current);
                     return result;
                 }
                 else
@@ -94,6 +95,29 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             {
                 throw new NotImplementedException();
             }
+        }
+
+        private T TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)
+            where T : SyntaxNodeBase<T>
+        {
+
+            bool wasMove = false;
+            if (reader.Next())
+            {
+                do
+                {
+                    wasMove = true;
+                    if (reader.Current.Type == CurlyTokenType.Whitespace)
+                        syntax = syntax.AddTrailingTrivia(reader.Current);
+                    else
+                        break;
+                } while (reader.Next());
+            }
+
+            if (wasMove)
+                reader.Prev();
+
+            return syntax;
         }
     }
 }
