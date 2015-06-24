@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
-    public class SyntaxBuilderCollection : ISyntaxBuilder
+    public class SyntaxBuilderCollection : ISyntaxBuilder, IComposableSyntaxBuilderContext
     {
-        private readonly Dictionary<ComposableTokenType, ISyntaxBuilder> storage = new Dictionary<ComposableTokenType, ISyntaxBuilder>();
+        private readonly Dictionary<ComposableTokenType, IComposableSyntaxBuilder> storage = new Dictionary<ComposableTokenType, IComposableSyntaxBuilder>();
 
-        public SyntaxBuilderCollection Add(ComposableTokenType tokenType, ISyntaxBuilder builder)
+        public SyntaxBuilderCollection Add(ComposableTokenType tokenType, IComposableSyntaxBuilder builder)
         {
             Ensure.NotNull(tokenType, "tokenType");
             Ensure.NotNull(builder, "builder");
@@ -21,14 +21,14 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
         public ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex)
         {
-            SyntaxtCollection result = new SyntaxtCollection();
+            SyntaxNodeCollection result = new SyntaxNodeCollection();
             for (int i = startIndex; i < tokens.Count; )
             {
                 ComposableToken token = tokens[i];
-                ISyntaxBuilder builder;
+                IComposableSyntaxBuilder builder;
                 if (storage.TryGetValue(token.Type, out builder))
                 {
-                    ISyntaxNode node = builder.Build(tokens, i);
+                    ISyntaxNode node = builder.Build(tokens, i, this);
                     i += node.GetTokens().Count();
                     result.Nodes.Add(node);
                 }

@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class TokenListReader
     {
-        private readonly IList<ComposableToken> tokens;
+        public IList<ComposableToken> Tokens { get; private set; }
 
         /// <summary>
         /// Current reader position/index.
@@ -23,8 +23,8 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         {
             get
             {
-                if (Position >= 0 && Position <= tokens.Count)
-                    return tokens[Position];
+                if (Position >= 0 && Position <= Tokens.Count)
+                    return Tokens[Position];
 
                 return null;
             }
@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         public TokenListReader(IList<ComposableToken> tokens, int startIndex = -1)
         {
             Ensure.NotNull(tokens, "tokens");
-            this.tokens = tokens;
+            Tokens = tokens;
             Position = startIndex;
         }
 
@@ -44,10 +44,10 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         /// <returns><c>true</c> if reading was successfull; <c>false</c> when end of token list was reached.</returns>
         public bool Next()
         {
-            if(Position < tokens.Count)
+            if(Position < Tokens.Count)
             {
                 Position++;
-                return Position < tokens.Count;
+                return Position < Tokens.Count;
             }
 
             return false;

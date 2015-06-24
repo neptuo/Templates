@@ -23,7 +23,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 
                 CurlyTokenType.AttributeName,
                 CurlyTokenType.AttributeValueSeparator,
-                CurlyTokenType.AttributeValue,
                 
                 CurlyTokenType.CloseBrace,
                 
@@ -204,8 +203,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
 
                 // Use as attribute value.
-                context.Decorator.NextUntil(c => c == ',' || c == '}');
-                context.CreateToken(CurlyTokenType.AttributeValue, 1);
+                context.Decorator.Next();
+                IList<ComposableToken> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, ',', '}');
+                context.Result.AddRange(attributeValue);
+                context.Decorator.ResetCurrentPosition(1);
+                context.Decorator.ResetCurrentInfo();
                 context.Decorator.Next();
 
                 if (context.Decorator.Current == ',')
@@ -237,7 +239,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                         // Use as attribute name.
                         context.CreateToken(CurlyTokenType.AttributeName, 1);
                         context.CreateVirtualToken(CurlyTokenType.AttributeValueSeparator, "=");
-                        context.CreateVirtualToken(CurlyTokenType.AttributeValue, "");
+                        context.CreateVirtualToken(CurlyTokenType.Text, "");
                     }
                     else
                     {

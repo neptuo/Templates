@@ -25,5 +25,13 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             if (reader.Current.Type != tokenType)
                 throw Ensure.Exception.NotSupported();
         }
+
+        public static void Next(this TokenListReader reader, int count)
+        {
+            Ensure.NotNull(reader, "reader");
+
+            for (int i = 0; i < count; i++)
+                reader.Next();
+        }
     }
 }

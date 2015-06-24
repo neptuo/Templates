@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
-    public class CurlySyntaxBuilder : ISyntaxBuilder
+    public class CurlySyntaxBuilder : IComposableSyntaxBuilder
     {
-        public ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex)
+        public ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex, IComposableSyntaxBuilderContext context)
         {
             CurlySyntax result = new CurlySyntax();
 
@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             if (token.Type == CurlyTokenType.OpenBrace)
             {
                 result.OpenToken = token;
-                return BuildName(reader, result);
+                return BuildName(reader, result, context);
             }
             else
             {
@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             }
         }
 
-        private ISyntaxNode BuildName(TokenListReader reader, CurlySyntax result)
+        private ISyntaxNode BuildName(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
         {
             reader.NextRequired();
 
@@ -62,43 +62,42 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
             TryAppendTrailingTrivia(reader, name);
             result.Name = name;
-            BuildContent(reader, result);
+            BuildContent(reader, result, context);
             return result;
         }
 
-        private void BuildContent(TokenListReader reader, CurlySyntax result)
+        private void BuildContent(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
         {
             reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
-                BuildTokenClose(reader, result);
+                BuildTokenClose(reader, result, context);
             else if (reader.Current.Type == CurlyTokenType.AttributeName)
-                BuildAttribute(reader, result);
+                BuildAttribute(reader, result, context);
             else
                 throw new NotImplementedException();
         }
 
-        private void BuildAttribute(TokenListReader reader, CurlySyntax result)
+        private void BuildAttribute(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
         {
             CurlyAttributeSyntax attribute = new CurlyAttributeSyntax()
             {
                 NameToken = reader.Current
             };
+            result.Attributes.Add(attribute);
 
             reader.NextRequiredOfType(CurlyTokenType.AttributeValueSeparator);
             attribute.ValueSeparatorToken = reader.Current;
 
-            reader.NextRequiredOfType(CurlyTokenType.AttributeValue);
-            attribute.Value = new TextSyntax()
-            {
-                TextToken = reader.Current
-            };
-            result.Attributes.Add(attribute);
+            reader.NextRequired();
+            attribute.Value = context.Build(reader.Tokens, reader.Position);
+            if (attribute.Value != null)
+                reader.Next(attribute.GetTokens().Count());
 
             reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
             {
                 TryAppendTrailingTrivia(reader, attribute);
-                BuildTokenClose(reader, result);
+                BuildTokenClose(reader, result, context);
             }
             else if (reader.Current.Type == CurlyTokenType.AttributeSeparator)
             {
@@ -106,7 +105,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 TryAppendTrailingTrivia(reader, attribute);
 
                 reader.NextRequiredOfType(CurlyTokenType.AttributeName);
-                BuildAttribute(reader, result);
+                BuildAttribute(reader, result, context);
             }
             else
             {
@@ -114,7 +113,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             }
         }
 
-        private void BuildTokenClose(TokenListReader reader, CurlySyntax result)
+        private void BuildTokenClose(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
         {
             result.CloseToken = reader.Current;
         }

@@ -24,7 +24,7 @@ namespace UnitTest.Templates.Parsers
 
             ISyntaxNode node = builder.Build(tokens, 0);
 
-            SyntaxtCollection collection = node as SyntaxtCollection;
+            SyntaxNodeCollection collection = node as SyntaxNodeCollection;
             if (collection != null)
             {
                 CurlySyntax curly = collection.Nodes[1] as CurlySyntax;
