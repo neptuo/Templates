@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeObjectBuilderBase.cs" />
+    <Compile Include="CurlyCodeObjectBuilder.cs" />
     <Compile Include="ICodeObjectBuilder.cs" />
     <Compile Include="ICodeObjectBuilderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="SyntaxTrees\TokenListReader.cs" />
     <Compile Include="SyntaxTrees\_EnsureConditionExtensions.cs" />
     <Compile Include="SyntaxTrees\_TokenListReaderExtensions.cs" />
+    <Compile Include="SyntaxParserService.cs" />
     <Compile Include="_IListExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
