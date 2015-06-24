@@ -83,40 +83,62 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             {
                 if (reader.Current.Type == CurlyTokenType.CloseBrace)
                 {
-                    result.CloseToken = reader.Current;
+                    BuildTokenClose(reader, result);
                 }
                 else if (reader.Current.Type == CurlyTokenType.AttributeName)
                 {
-                    CurlyAttributeSyntax attribute = new CurlyAttributeSyntax()
-                    {
-                        NameToken = reader.Current
-                    };
+                    BuildAttribute(reader, result);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
+        }
 
+        private void BuildAttribute(TokenListReader reader, CurlySyntax result)
+        {
+            CurlyAttributeSyntax attribute = new CurlyAttributeSyntax()
+            {
+                NameToken = reader.Current
+            };
+
+            if (reader.Next())
+            {
+                if (reader.Current.Type == CurlyTokenType.AttributeValueSeparator)
+                {
+                    attribute.ValueSeparatorToken = reader.Current;
                     if (reader.Next())
                     {
-                        if (reader.Current.Type == CurlyTokenType.AttributeValueSeparator)
+                        if (reader.Current.Type == CurlyTokenType.AttributeValue)
                         {
-                            attribute.ValueSeparatorToken = reader.Current;
+                            attribute.Value = new TextSyntax()
+                            {
+                                TextToken = reader.Current
+                            };
+                            result.Attributes.Add(attribute);
+
                             if (reader.Next())
                             {
-                                if (reader.Current.Type == CurlyTokenType.AttributeValue)
+                                if (reader.Current.Type == CurlyTokenType.CloseBrace)
                                 {
-                                    attribute.Value = new TextSyntax()
-                                    {
-                                        TextToken = reader.Current
-                                    };
-                                    result.Attributes.Add(attribute);
+                                    BuildTokenClose(reader, result);
+                                }
+                                else if (reader.Current.Type == CurlyTokenType.AttributeSeparator)
+                                {
+                                    attribute.TrailingTrivia.Add(reader.Current);
+                                    TryAppendTrailingTrivia(reader, attribute);
 
                                     if (reader.Next())
                                     {
-                                        if (reader.Current.Type == CurlyTokenType.CloseBrace)
-                                        {
-                                            result.CloseToken = reader.Current;
-                                        }
+                                        if (reader.Current.Type == CurlyTokenType.AttributeName)
+                                            BuildAttribute(reader, result);
                                         else
-                                        {
                                             throw new NotImplementedException();
-                                        }
                                     }
                                     else
                                     {
@@ -127,7 +149,6 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                                 {
                                     throw new NotImplementedException();
                                 }
-
                             }
                             else
                             {
@@ -138,6 +159,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                         {
                             throw new NotImplementedException();
                         }
+
                     }
                     else
                     {
@@ -153,6 +175,11 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             {
                 throw new NotImplementedException();
             }
+        }
+
+        private void BuildTokenClose(TokenListReader reader, CurlySyntax result)
+        {
+            result.CloseToken = reader.Current;
         }
 
         private void TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)
