@@ -42,6 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICodeObjectBuilder.cs" />
+    <Compile Include="ICodeObjectBuilderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxTrees\CurlySyntax.cs" />
     <Compile Include="SyntaxTrees\CurlySyntaxBuilder.cs" />
