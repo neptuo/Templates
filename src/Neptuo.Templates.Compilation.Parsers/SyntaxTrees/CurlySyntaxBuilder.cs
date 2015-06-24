@@ -38,66 +38,43 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
         private ISyntaxNode BuildName(TokenListReader reader, CurlySyntax result)
         {
-            if (reader.Next())
-            {
-                CurlyNameSyntax name = new CurlyNameSyntax();
-                if (reader.Current.Type == CurlyTokenType.NamePrefix)
-                {
-                    name.PrefixToken = reader.Current;
-                    if (reader.Next() && reader.Current.Type == CurlyTokenType.NameSeparator)
-                    {
-                        name.NameSeparatorToken = reader.Current;
-                        if (reader.Next() && reader.Current.Type == CurlyTokenType.Name)
-                            name.NameToken = reader.Current;
-                        else
-                            throw new NotImplementedException();
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
-                }
-                else if (reader.Current.Type == CurlyTokenType.Name)
-                {
-                    name.NameToken = reader.Current;
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+            reader.NextRequired();
 
-                TryAppendTrailingTrivia(reader, name);
-                result.Name = name;
-                BuildContent(reader, result);
-                return result;
+            CurlyNameSyntax name = new CurlyNameSyntax();
+            if (reader.Current.Type == CurlyTokenType.NamePrefix)
+            {
+                name.PrefixToken = reader.Current;
+
+                reader.NextRequiredOfType(CurlyTokenType.NameSeparator);
+                name.NameSeparatorToken = reader.Current;
+
+                reader.NextRequiredOfType(CurlyTokenType.Name);
+                name.NameToken = reader.Current;
+            }
+            else if (reader.Current.Type == CurlyTokenType.Name)
+            {
+                name.NameToken = reader.Current;
             }
             else
             {
                 throw new NotImplementedException();
             }
+
+            TryAppendTrailingTrivia(reader, name);
+            result.Name = name;
+            BuildContent(reader, result);
+            return result;
         }
 
         private void BuildContent(TokenListReader reader, CurlySyntax result)
         {
-            if (reader.Next())
-            {
-                if (reader.Current.Type == CurlyTokenType.CloseBrace)
-                {
-                    BuildTokenClose(reader, result);
-                }
-                else if (reader.Current.Type == CurlyTokenType.AttributeName)
-                {
-                    BuildAttribute(reader, result);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
-            }
+            reader.NextRequired();
+            if (reader.Current.Type == CurlyTokenType.CloseBrace)
+                BuildTokenClose(reader, result);
+            else if (reader.Current.Type == CurlyTokenType.AttributeName)
+                BuildAttribute(reader, result);
             else
-            {
                 throw new NotImplementedException();
-            }
         }
 
         private void BuildAttribute(TokenListReader reader, CurlySyntax result)
@@ -107,69 +84,29 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 NameToken = reader.Current
             };
 
-            if (reader.Next())
+            reader.NextRequiredOfType(CurlyTokenType.AttributeValueSeparator);
+            attribute.ValueSeparatorToken = reader.Current;
+
+            reader.NextRequiredOfType(CurlyTokenType.AttributeValue);
+            attribute.Value = new TextSyntax()
             {
-                if (reader.Current.Type == CurlyTokenType.AttributeValueSeparator)
-                {
-                    attribute.ValueSeparatorToken = reader.Current;
-                    if (reader.Next())
-                    {
-                        if (reader.Current.Type == CurlyTokenType.AttributeValue)
-                        {
-                            attribute.Value = new TextSyntax()
-                            {
-                                TextToken = reader.Current
-                            };
-                            result.Attributes.Add(attribute);
+                TextToken = reader.Current
+            };
+            result.Attributes.Add(attribute);
 
-                            if (reader.Next())
-                            {
-                                if (reader.Current.Type == CurlyTokenType.CloseBrace)
-                                {
-                                    BuildTokenClose(reader, result);
-                                }
-                                else if (reader.Current.Type == CurlyTokenType.AttributeSeparator)
-                                {
-                                    attribute.TrailingTrivia.Add(reader.Current);
-                                    TryAppendTrailingTrivia(reader, attribute);
+            reader.NextRequired();
+            if (reader.Current.Type == CurlyTokenType.CloseBrace)
+            {
+                TryAppendTrailingTrivia(reader, attribute);
+                BuildTokenClose(reader, result);
+            }
+            else if (reader.Current.Type == CurlyTokenType.AttributeSeparator)
+            {
+                attribute.TrailingTrivia.Add(reader.Current);
+                TryAppendTrailingTrivia(reader, attribute);
 
-                                    if (reader.Next())
-                                    {
-                                        if (reader.Current.Type == CurlyTokenType.AttributeName)
-                                            BuildAttribute(reader, result);
-                                        else
-                                            throw new NotImplementedException();
-                                    }
-                                    else
-                                    {
-                                        throw new NotImplementedException();
-                                    }
-                                }
-                                else
-                                {
-                                    throw new NotImplementedException();
-                                }
-                            }
-                            else
-                            {
-                                throw new NotImplementedException();
-                            }
-                        }
-                        else
-                        {
-                            throw new NotImplementedException();
-                        }
-
-                    }
-                    else
-                    {
-                        throw new NotImplementedException();
-                    }
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+                reader.NextRequiredOfType(CurlyTokenType.AttributeName);
+                BuildAttribute(reader, result);
             }
             else
             {
