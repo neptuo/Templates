@@ -9,32 +9,24 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class TextSyntax : SyntaxNodeBase<TextSyntax>
     {
-        public ComposableToken TextToken { get; private set; }
+        public ComposableToken TextToken { get; set; }
 
-        public TextSyntax(ComposableToken textToken, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
-            : base(leadingTrivia, trailingTrivia)
+        protected override TextSyntax CloneInternal()
         {
-            TextToken = textToken;
-
-            AddNullableLeadingTrivia();
-            AddNullableTokens(textToken);
-            AddNullableTrailingTrivia();
+            return new TextSyntax
+            {
+                TextToken = TextToken
+            };
         }
 
-        public override TextSyntax Clone()
+        protected override IEnumerable<ComposableToken> GetTokensInternal()
         {
-            return new TextSyntax(TextToken, LeadingTrivia, TrailingTrivia);
-        }
+            List<ComposableToken> result = new List<ComposableToken>();
 
-        public TextSyntax WithText(ComposableToken textToken)
-        {
-            return new TextSyntax(textToken, LeadingTrivia, TrailingTrivia);
-        }
+            if (TextToken != null)
+                result.Add(TextToken);
 
-
-        public static TextSyntax New()
-        {
-            return new TextSyntax(null, null, null);
+            return result;
         }
     }
 }

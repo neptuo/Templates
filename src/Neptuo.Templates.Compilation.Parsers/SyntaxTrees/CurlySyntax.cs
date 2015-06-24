@@ -9,155 +9,121 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class CurlySyntax : SyntaxNodeBase<CurlySyntax>
     {
-        public ComposableToken OpenToken { get; private set; }
-        public CurlyNameSyntax Name { get; private set; }
-        public ComposableToken CloseToken { get; private set; }
-        public IReadOnlyList<CurlyAttributeSyntax> Attributes { get; private set; }
+        public ComposableToken OpenToken { get; set; }
+        public CurlyNameSyntax Name { get; set; }
+        public ComposableToken CloseToken { get; set; }
+        public IList<CurlyAttributeSyntax> Attributes { get; set; }
 
-        internal CurlySyntax(ComposableToken openToken, CurlyNameSyntax name, ComposableToken closeToken, IReadOnlyList<CurlyAttributeSyntax> attributes, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
-            : base(leadingTrivia, trailingTrivia)
+        public CurlySyntax()
         {
-            OpenToken = openToken;
-            Name = name;
-            CloseToken = closeToken;
-            Attributes = attributes;
-
-            AddNullableLeadingTrivia();
-            AddNullableTokens(openToken);
-            AddNullableTokens(name);
-            AddNullableTokens(attributes);
-            AddNullableTokens(closeToken);
-            AddNullableTrailingTrivia();
+            Attributes = new List<CurlyAttributeSyntax>();
         }
 
-        public override CurlySyntax Clone()
+        protected override CurlySyntax CloneInternal()
         {
-            return new CurlySyntax(OpenToken, Name, CloseToken, Attributes, LeadingTrivia, TrailingTrivia);
+            CurlySyntax result = new CurlySyntax
+            {
+                OpenToken = OpenToken,
+                Name = Name != null ? Name.Clone() : null,
+                CloseToken = CloseToken
+            };
+
+            if (Attributes.Count > 0)
+                result.Attributes.AddRange(Attributes.Select(a => a.Clone()));
+
+            return result;
         }
 
-        public CurlySyntax WithOpenToken(ComposableToken openToken)
+        protected override IEnumerable<ComposableToken> GetTokensInternal()
         {
-            return new CurlySyntax(openToken, Name, CloseToken, Attributes, LeadingTrivia, TrailingTrivia);
-        }
+            List<ComposableToken> result = new List<ComposableToken>();
 
-        public CurlySyntax WithName(CurlyNameSyntax name)
-        {
-            return new CurlySyntax(OpenToken, name, CloseToken, Attributes, LeadingTrivia, TrailingTrivia);
-        }
+            if (OpenToken != null)
+                result.Add(OpenToken);
 
-        public CurlySyntax WithCloseToken(ComposableToken closeToken)
-        {
-            return new CurlySyntax(OpenToken, Name, closeToken, Attributes, LeadingTrivia, TrailingTrivia);
-        }
+            if (Name != null)
+                result.AddRange(Name.GetTokens());
 
-        public CurlySyntax AddAttribute(CurlyAttributeSyntax attribute)
-        {
-            Ensure.NotNull(attribute, "attribute");
+            if (Attributes.Count > 0)
+                result.AddRange(Attributes.SelectMany(a => a.GetTokens()));
 
-            List<CurlyAttributeSyntax> attributes = new List<CurlyAttributeSyntax>();
-            if(Attributes != null)
-                attributes.AddRange(Attributes);
+            if (CloseToken != null)
+                result.Add(CloseToken);
 
-            attributes.Add(attribute);
-            return new CurlySyntax(OpenToken, Name, CloseToken, attributes, LeadingTrivia, TrailingTrivia);
-        }
-
-
-        public static CurlySyntax New()
-        {
-            return new CurlySyntax(null, null, null, null, null, null);
+            return result;
         }
     }
 
     public class CurlyNameSyntax : SyntaxNodeBase<CurlyNameSyntax>
     {
-        public ComposableToken PrefixToken { get; private set; }
-        public ComposableToken NameSeparatorToken { get; private set; }
-        public ComposableToken NameToken { get; private set; }
+        public ComposableToken PrefixToken { get; set; }
+        public ComposableToken NameSeparatorToken { get; set; }
+        public ComposableToken NameToken { get; set; }
 
-        internal CurlyNameSyntax(ComposableToken prefixToken, ComposableToken nameSeparatorToken, ComposableToken nameToken, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
-            : base(leadingTrivia, trailingTrivia)
+        protected override CurlyNameSyntax CloneInternal()
         {
-            PrefixToken = prefixToken;
-            NameSeparatorToken = nameSeparatorToken;
-            NameToken = nameToken;
-
-            AddNullableLeadingTrivia();
-            AddNullableTokens(prefixToken, nameSeparatorToken, nameToken);
-            AddNullableTrailingTrivia();
+            return new CurlyNameSyntax
+            {
+                PrefixToken = PrefixToken,
+                NameSeparatorToken = NameSeparatorToken,
+                NameToken = NameToken
+            };
         }
 
-        public override CurlyNameSyntax Clone()
+        protected override IEnumerable<ComposableToken> GetTokensInternal()
         {
-            return new CurlyNameSyntax(PrefixToken, NameSeparatorToken, NameToken, LeadingTrivia, TrailingTrivia);
-        }
+            List<ComposableToken> result = new List<ComposableToken>();
 
-        public CurlyNameSyntax WithPrefixToken(ComposableToken prefixToken)
-        {
-            return new CurlyNameSyntax(prefixToken, NameSeparatorToken, NameToken, LeadingTrivia, TrailingTrivia);
-        }
+            if (PrefixToken != null)
+                result.Add(PrefixToken);
 
-        public CurlyNameSyntax WithNameSeparatorToken(ComposableToken nameSeparatorToken)
-        {
-            return new CurlyNameSyntax(PrefixToken, nameSeparatorToken, NameToken, LeadingTrivia, TrailingTrivia);
-        }
+            if (NameSeparatorToken != null)
+                result.Add(NameSeparatorToken);
 
-        public CurlyNameSyntax WithNameToken(ComposableToken nameToken)
-        {
-            return new CurlyNameSyntax(PrefixToken, NameSeparatorToken, nameToken, LeadingTrivia, TrailingTrivia);
-        }
+            if (NameToken != null)
+                result.Add(NameToken);
 
-
-        public static CurlyNameSyntax New()
-        {
-            return new CurlyNameSyntax(null, null, null, null, null);
+            return result;
         }
     }
 
     public class CurlyAttributeSyntax : SyntaxNodeBase<CurlyAttributeSyntax>
     {
-        public ComposableToken NameToken { get; private set; }
-        public ComposableToken ValueSeparatorToken { get; private set; }
-        public ISyntaxNode Value { get; private set; }
+        public ComposableToken NameToken { get; set; }
+        public ComposableToken ValueSeparatorToken { get; set; }
+        public ISyntaxNode Value { get; set; }
 
-        public CurlyAttributeSyntax(ComposableToken nameToken, ComposableToken valueSeparatorToken, ISyntaxNode value, IEnumerable<ComposableToken> leadingTrivia, IEnumerable<ComposableToken> trailingTrivia)
-            : base(leadingTrivia, trailingTrivia)
+        protected override CurlyAttributeSyntax CloneInternal()
         {
-            NameToken = nameToken;
-            ValueSeparatorToken = valueSeparatorToken;
-            Value = value;
+            CurlyAttributeSyntax result = new CurlyAttributeSyntax
+            {
+                NameToken = NameToken,
+                ValueSeparatorToken = ValueSeparatorToken
+            };
 
-            AddNullableLeadingTrivia();
-            AddNullableTokens(NameToken, valueSeparatorToken);
-            AddNullableTokens(value);
-            AddNullableTrailingTrivia();
+            ICloneable<ISyntaxNode> cloneableValue = Value as ICloneable<ISyntaxNode>;
+            if (cloneableValue != null)
+                result.Value = cloneableValue.Clone();
+            else if (Value != null) 
+                throw Ensure.Condition.NotCloneable(Value);
+
+            return result;
         }
 
-        public override CurlyAttributeSyntax Clone()
+        protected override IEnumerable<ComposableToken> GetTokensInternal()
         {
-            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, Value, LeadingTrivia, TrailingTrivia);
-        }
+            List<ComposableToken> result = new List<ComposableToken>();
 
-        public CurlyAttributeSyntax WithNameToken(ComposableToken nameToken)
-        {
-            return new CurlyAttributeSyntax(nameToken, ValueSeparatorToken, Value, LeadingTrivia, TrailingTrivia);
-        }
+            if (NameToken != null)
+                result.Add(NameToken);
 
-        public CurlyAttributeSyntax WithValueSeparatorToken(ComposableToken valueSeparatorToken)
-        {
-            return new CurlyAttributeSyntax(NameToken, valueSeparatorToken, Value, LeadingTrivia, TrailingTrivia);
-        }
+            if (ValueSeparatorToken != null)
+                result.Add(ValueSeparatorToken);
 
-        public CurlyAttributeSyntax WithValueToken(ISyntaxNode value)
-        {
-            return new CurlyAttributeSyntax(NameToken, ValueSeparatorToken, value, LeadingTrivia, TrailingTrivia);
-        }
+            if (Value != null)
+                result.AddRange(Value.GetTokens());
 
-
-        public static CurlyAttributeSyntax New()
-        {
-            return new CurlyAttributeSyntax(null, null, null, null, null);
+            return result;
         }
     }
-
 }

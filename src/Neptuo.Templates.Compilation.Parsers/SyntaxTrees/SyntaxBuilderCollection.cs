@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 if (storage.TryGetValue(token.Type, out builder))
                 {
                     ISyntaxNode node = builder.Build(tokens, i);
-                    i += node.Tokens.Count;
+                    i += node.GetTokens().Count();
                     result.Nodes.Add(node);
                 }
                 else

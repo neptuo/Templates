@@ -11,14 +11,14 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
     {
         public ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex)
         {
-            CurlySyntax result = CurlySyntax.New();
+            CurlySyntax result = new CurlySyntax();
 
             TokenListReader reader = new TokenListReader(tokens, startIndex);
             ComposableToken token = reader.Current;
 
             while (token.Type == CurlyTokenType.Whitespace)
             {
-                result = result.AddLeadingTrivia(token);
+                result.LeadingTrivia.Add(token);
                 if (!reader.Next())
                     throw new NotImplementedException();
 
@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
             if (token.Type == CurlyTokenType.OpenBrace)
             {
-                result = result.WithOpenToken(token);
+                result.OpenToken = token;
                 return BuildName(reader, result);
             }
             else
@@ -40,15 +40,15 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         {
             if (reader.Next())
             {
-                CurlyNameSyntax name = CurlyNameSyntax.New();
+                CurlyNameSyntax name = new CurlyNameSyntax();
                 if (reader.Current.Type == CurlyTokenType.NamePrefix)
                 {
-                    name = name.WithPrefixToken(reader.Current);
+                    name.PrefixToken = reader.Current;
                     if (reader.Next() && reader.Current.Type == CurlyTokenType.NameSeparator)
                     {
-                        name = name.WithNameSeparatorToken(reader.Current);
+                        name.NameSeparatorToken = reader.Current;
                         if (reader.Next() && reader.Current.Type == CurlyTokenType.Name)
-                            name = name.WithNameToken(reader.Current);
+                            name.NameToken = reader.Current;
                         else
                             throw new NotImplementedException();
                     }
@@ -59,16 +59,17 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 }
                 else if (reader.Current.Type == CurlyTokenType.Name)
                 {
-                    name = name.WithNameToken(reader.Current);
+                    name.NameToken = reader.Current;
                 }
                 else
                 {
                     throw new NotImplementedException();
                 }
 
-                name = TryAppendTrailingTrivia(reader, name);
-                result = result.WithName(name);
-                return BuildContent(reader, result);
+                TryAppendTrailingTrivia(reader, name);
+                result.Name = name;
+                BuildContent(reader, result);
+                return result;
             }
             else
             {
@@ -76,15 +77,14 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             }
         }
 
-        private ISyntaxNode BuildContent(TokenListReader reader, CurlySyntax result)
+        private void BuildContent(TokenListReader reader, CurlySyntax result)
         {
             if (reader.Next())
             {
                 ComposableToken token = reader.Current;
                 if (token.Type == CurlyTokenType.CloseBrace)
                 {
-                    result = result.WithCloseToken(reader.Current);
-                    return result;
+                    result.CloseToken = reader.Current;
                 }
                 else
                 {
@@ -97,7 +97,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             }
         }
 
-        private T TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)
+        private void TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)
             where T : SyntaxNodeBase<T>
         {
 
@@ -108,7 +108,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 {
                     wasMove = true;
                     if (reader.Current.Type == CurlyTokenType.Whitespace)
-                        syntax = syntax.AddTrailingTrivia(reader.Current);
+                        syntax.TrailingTrivia.Add(reader.Current);
                     else
                         break;
                 } while (reader.Next());
@@ -116,8 +116,6 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
             if (wasMove)
                 reader.Prev();
-
-            return syntax;
         }
     }
 }

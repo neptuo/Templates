@@ -13,7 +13,12 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         {
             ComposableToken token = tokens[startIndex];
             if (token.Type == ComposableTokenType.Text)
-                return TextSyntax.New().WithText(token);
+            {
+                return new TextSyntax
+                {
+                    TextToken = token
+                };
+            }
 
             throw new NotImplementedException();
         }

@@ -9,8 +9,8 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public interface ISyntaxNode
     {
-        IReadOnlyList<ComposableToken> Tokens { get; }
-        IReadOnlyList<ComposableToken> LeadingTrivia { get; }
-        IReadOnlyList<ComposableToken> TrailingTrivia { get; }
+        IEnumerable<ComposableToken> GetTokens();
+        IList<ComposableToken> LeadingTrivia { get; }
+        IList<ComposableToken> TrailingTrivia { get; }
     }
 }
