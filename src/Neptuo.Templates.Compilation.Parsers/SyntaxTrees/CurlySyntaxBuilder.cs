@@ -89,11 +89,10 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             attribute.ValueSeparatorToken = reader.Current;
 
             reader.NextRequired();
-            attribute.Value = context.Build(reader.Tokens, reader.Position);
+            attribute.Value = context.BuildNext(reader.Tokens, reader.Position);
             if (attribute.Value != null)
-                reader.Next(attribute.GetTokens().Count());
+                reader.Next(attribute.Value.GetTokens().Count());
 
-            reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
             {
                 TryAppendTrailingTrivia(reader, attribute);

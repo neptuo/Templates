@@ -25,20 +25,27 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             for (int i = startIndex; i < tokens.Count; )
             {
                 ComposableToken token = tokens[i];
-                IComposableSyntaxBuilder builder;
-                if (storage.TryGetValue(token.Type, out builder))
-                {
-                    ISyntaxNode node = builder.Build(tokens, i, this);
-                    i += node.GetTokens().Count();
-                    result.Nodes.Add(node);
-                }
-                else
-                {
-                    throw new NotImplementedException();
-                }
+                ISyntaxNode node = BuildNext(tokens, i);
+                i += node.GetTokens().Count();
+                result.Nodes.Add(node);
             }
 
             return result;
+        }
+
+        public ISyntaxNode BuildNext(IList<ComposableToken> tokens, int startIndex)
+        {
+            ComposableToken token = tokens[startIndex];
+            IComposableSyntaxBuilder builder;
+            if (storage.TryGetValue(token.Type, out builder))
+            {
+                ISyntaxNode node = builder.Build(tokens, startIndex, this);
+                return node;
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
