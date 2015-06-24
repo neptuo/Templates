@@ -42,8 +42,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurlyTokenBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SyntaxTrees\CurlySyntax.cs" />
+    <Compile Include="SyntaxTrees\CurlySyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\IComposableSyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\IComposableSyntaxBuilderContext.cs" />
+    <Compile Include="SyntaxTrees\ISyntaxNode.cs" />
+    <Compile Include="SyntaxTrees\SyntaxBuilderCollection.cs" />
+    <Compile Include="SyntaxTrees\ISyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\SyntaxNodeBase.cs" />
+    <Compile Include="SyntaxTrees\SyntaxNodeCollection.cs" />
+    <Compile Include="SyntaxTrees\TextSyntax.cs" />
+    <Compile Include="SyntaxTrees\TextSyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\TokenListReader.cs" />
+    <Compile Include="SyntaxTrees\_EnsureConditionExtensions.cs" />
+    <Compile Include="SyntaxTrees\_TokenListReaderExtensions.cs" />
+    <Compile Include="_IListExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">

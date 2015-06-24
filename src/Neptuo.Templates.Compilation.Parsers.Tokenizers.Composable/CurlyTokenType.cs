@@ -18,7 +18,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         public static readonly ComposableTokenType AttributeName = new ComposableTokenType("Curly.AttributeName");
         public static readonly ComposableTokenType AttributeValueSeparator = new ComposableTokenType("Curly.AttributeValueSeparator");
-        public static readonly ComposableTokenType AttributeValue = new ComposableTokenType("Curly.AttributeValue");
 
         public static readonly ComposableTokenType CloseBrace = new ComposableTokenType("Curly.CloseBrace");
 
