@@ -120,22 +120,15 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         private void TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)
             where T : SyntaxNodeBase<T>
         {
-
-            bool wasMove = false;
-            if (reader.Next())
+            while (reader.Next())
             {
-                do
-                {
-                    wasMove = true;
-                    if (reader.Current.Type == CurlyTokenType.Whitespace)
-                        syntax.TrailingTrivia.Add(reader.Current);
-                    else
-                        break;
-                } while (reader.Next());
+                if (reader.Current.Type == CurlyTokenType.Whitespace)
+                    syntax.TrailingTrivia.Add(reader.Current);
+                else
+                    break;
             }
 
-            if (wasMove)
-                reader.Prev();
+            reader.Prev();
         }
     }
 }
