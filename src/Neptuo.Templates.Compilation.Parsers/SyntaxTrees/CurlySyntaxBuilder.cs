@@ -81,10 +81,68 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         {
             if (reader.Next())
             {
-                ComposableToken token = reader.Current;
-                if (token.Type == CurlyTokenType.CloseBrace)
+                if (reader.Current.Type == CurlyTokenType.CloseBrace)
                 {
                     result.CloseToken = reader.Current;
+                }
+                else if (reader.Current.Type == CurlyTokenType.AttributeName)
+                {
+                    CurlyAttributeSyntax attribute = new CurlyAttributeSyntax()
+                    {
+                        NameToken = reader.Current
+                    };
+
+                    if (reader.Next())
+                    {
+                        if (reader.Current.Type == CurlyTokenType.AttributeValueSeparator)
+                        {
+                            attribute.ValueSeparatorToken = reader.Current;
+                            if (reader.Next())
+                            {
+                                if (reader.Current.Type == CurlyTokenType.AttributeValue)
+                                {
+                                    attribute.Value = new TextSyntax()
+                                    {
+                                        TextToken = reader.Current
+                                    };
+                                    result.Attributes.Add(attribute);
+
+                                    if (reader.Next())
+                                    {
+                                        if (reader.Current.Type == CurlyTokenType.CloseBrace)
+                                        {
+                                            result.CloseToken = reader.Current;
+                                        }
+                                        else
+                                        {
+                                            throw new NotImplementedException();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        throw new NotImplementedException();
+                                    }
+                                }
+                                else
+                                {
+                                    throw new NotImplementedException();
+                                }
+
+                            }
+                            else
+                            {
+                                throw new NotImplementedException();
+                            }
+                        }
+                        else
+                        {
+                            throw new NotImplementedException();
+                        }
+                    }
+                    else
+                    {
+                        throw new NotImplementedException();
+                    }
                 }
                 else
                 {

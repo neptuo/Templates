@@ -51,5 +51,15 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         }
 
         protected abstract IEnumerable<ComposableToken> GetTokensInternal();
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+
+            foreach (ComposableToken token in GetTokens())
+                result.Append(token.Text);
+
+            return result.ToString();
+        }
     }
 }
