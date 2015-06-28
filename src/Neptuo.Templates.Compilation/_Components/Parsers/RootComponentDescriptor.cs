@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class RootComponentDescriptor : IComponentDescriptor
+    public class RootComponentDescriptor : IXComponentDescriptor
     {
         IPropertyInfo defaultProperty;
         List<IPropertyInfo> properties;

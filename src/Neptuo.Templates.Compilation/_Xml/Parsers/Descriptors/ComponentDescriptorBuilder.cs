@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
             ICodeObject codeObject = CreateCodeObject(context, element);
-            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
+            IXComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
             BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition, context.Registry.WithPropertyNormalizer());
             context.CodeObject(codeObject);
@@ -158,6 +158,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Gets current component definition.
         /// </summary>
-        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element);
+        protected abstract IXComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element);
     }
 }

@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Defines component.
     /// </summary>
-    public interface IComponentDescriptor
+    public interface IXComponentDescriptor
     {
         /// <summary>
         /// Enumerates properties.

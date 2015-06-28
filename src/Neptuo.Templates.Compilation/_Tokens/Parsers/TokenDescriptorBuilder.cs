@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base implementation of <see cref="ITokenBuilder"/> that uses <see cref="IComponentDescriptor"/> as target decriptor.
+    /// Base implementation of <see cref="ITokenBuilder"/> that uses <see cref="IXComponentDescriptor"/> as target decriptor.
     /// </summary>
     public abstract class TokenDescriptorBuilder : ITokenBuilder
     {
@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Code object for <paramref name="token"/>.</param>
         /// <param name="token">Token to create component descriptor for.</param>
         /// <returns>Component descriptor for <paramref name="token"/>.</returns>
-        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token token);
+        protected abstract IXComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token token);
         
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
@@ -53,7 +53,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();
             INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
-            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
+            IXComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
 
             BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition, context.Registry.WithPropertyNormalizer());

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Implementation of <see cref="IComponentDescriptor"/> which uses reflection on type to read required properties.
+    /// Implementation of <see cref="IXComponentDescriptor"/> which uses reflection on type to read required properties.
     /// </summary>
-    public class TypeComponentDescriptor : IComponentDescriptor
+    public class TypeComponentDescriptor : IXComponentDescriptor
     {
         private readonly Type type;
 

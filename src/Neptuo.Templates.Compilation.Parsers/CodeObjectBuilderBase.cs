@@ -17,5 +17,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         }
 
         protected abstract IEnumerable<ICodeObject> TryBuild(T node, ICodeObjectBuilderContext context);
+
+        protected IEnumerable<ICodeObject> Result(params ICodeObject[] codeObjects)
+        {
+            return new CodeObjectList().AddRange(codeObjects);
+        }
     }
 }

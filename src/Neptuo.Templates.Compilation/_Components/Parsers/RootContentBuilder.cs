@@ -22,7 +22,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return new RootCodeObject();
         }
 
-        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
+        protected override IXComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
         {
             return new RootComponentDescriptor(defaultProperty);
         }

@@ -41,11 +41,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             UnboundAttributes = new List<T>();
         }
 
-        public BindPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
+        public BindPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
             : this(componentDescriptor.GetProperties().Where(IsBindableProperty).ToDictionary(p => nameNormalizer.PrepareName(p.Name)))
         { }
 
-        public BindPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
+        public BindPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
             : this(componentDescriptor, nameNormalizer)
         {
             Ensure.NotNull(codeObject, "codeObject");

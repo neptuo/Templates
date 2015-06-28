@@ -40,13 +40,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region ComponentDescriptor
 
-        public static IComponentDescriptor ComponentDescriptor(this IContentBuilderContext context)
+        public static IXComponentDescriptor ComponentDescriptor(this IContentBuilderContext context)
         {
             Ensure.NotNull(context, "context");
-            return (IComponentDescriptor)context.CustomValues["ComponentDescriptor"];
+            return (IXComponentDescriptor)context.CustomValues["ComponentDescriptor"];
         }
 
-        public static IContentBuilderContext ComponentDescriptor(this IContentBuilderContext context, IComponentDescriptor componentDescriptor)
+        public static IContentBuilderContext ComponentDescriptor(this IContentBuilderContext context, IXComponentDescriptor componentDescriptor)
         {
             Ensure.NotNull(context, "context");
             context.CustomValues["ComponentDescriptor"] = componentDescriptor;

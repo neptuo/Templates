@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Base builder for observer which operates on <see cref="IComponentDescriptor"/>.
+    /// Base builder for observer which operates on <see cref="IXComponentDescriptor"/>.
     /// </summary>
     public abstract class ObserverDescriptorBuilder : IObserverBuilder
     {
@@ -27,12 +27,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected abstract ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
 
-        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IXComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
 
         public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
         {
             BindContentPropertiesContext bindContext;
-            IComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
+            IXComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
 
             // Create new observer or update existing?
             IPropertiesCodeObject observerObject = (IPropertiesCodeObject)IsObserverContained(context, codeObject, attribute);

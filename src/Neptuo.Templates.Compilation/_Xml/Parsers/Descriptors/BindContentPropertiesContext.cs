@@ -22,11 +22,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             : base(properties)
         { }
 
-        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
+        public BindContentPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer)
             : base(componentDescriptor, nameNormalizer)
         { }
 
-        public BindContentPropertiesContext(IComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
+        public BindContentPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
             : base(componentDescriptor, nameNormalizer, codeObject)
         { }
     }
