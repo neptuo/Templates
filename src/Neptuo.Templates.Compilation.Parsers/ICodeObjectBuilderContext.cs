@@ -8,5 +8,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public interface ICodeObjectBuilderContext
     {
+        /// <summary>
+        /// Extensible registry for parsers.
+        /// </summary>
+        IParserRegistry Registry { get; }
     }
 }
