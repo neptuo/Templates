@@ -1,4 +1,5 @@
-﻿using Neptuo.SharpKit.CodeGenerator;
+﻿using Neptuo.Compilers;
+using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.CodeCompilers;
 using System;
 using System.Collections.Generic;
@@ -19,31 +20,35 @@ namespace Test.Templates.Compilation.CodeGenerators
             StringWriter output = new StringWriter();
             StringReader input = new StringReader(replacedSourceCode);
 
-            SharpKitCompiler sharpKitGenerator = new SharpKitCompiler();
-            sharpKitGenerator.AddReference("mscorlib.dll");
-            sharpKitGenerator.AddReference("SharpKit.JavaScript.dll", "SharpKit.Html.dll", "SharpKit.jQuery.dll");
-            //sharpKitGenerator.AddPlugin("Neptuo.SharpKit.Exugin", "Neptuo.SharpKit.Exugin.ExuginPlugin");
+            CompilerFactory factory = new CompilerFactory();
+            ISharpKitCompiler compiler = factory.CreateSharpKit();
+            compiler.References().AddAssembly("mscorlib.dll");
+            compiler.References().AddAssembly("SharpKit.JavaScript.dll");
+            compiler.References().AddAssembly("SharpKit.Html.dll");
+            compiler.References().AddAssembly("SharpKit.jQuery.dll");
+            //compiler.AddPlugin("Neptuo.SharpKit.Exugin", "Neptuo.SharpKit.Exugin.ExuginPlugin");
+            compiler.References().AddDirectory(Environment.CurrentDirectory);
+            //compiler.References().RemoveReference("System.Web.dll");
 
-            sharpKitGenerator.AddReferenceFolder(Environment.CurrentDirectory);
+            compiler.AddTempDirectory(Environment.CurrentDirectory);
 
-            sharpKitGenerator.RemoveReference("System.Web.dll");
+            string filePath = Path.Combine(Environment.CurrentDirectory, Guid.NewGuid().ToString() + ".js");
 
-            sharpKitGenerator.TempDirectory = Environment.CurrentDirectory;
 
-            try
+            ICompilerResult result = compiler.FromSourceCode(replacedSourceCode, filePath);
+            if (result.IsSuccess)
             {
-                sharpKitGenerator.Generate(new SharpKitCompilerContext(input, output));
-                return output.ToString();
+                string content = File.ReadAllText(filePath);
+                File.Delete(filePath);
+                return content;
             }
-            catch (SharpKitCompilerException e)
+            else
             {
-                Console.WriteLine("Error.");
+                foreach (IErrorInfo error in result.Errors)
+                    Console.WriteLine("{0}:{1} -> {2}", error.LineNumber, error.ColumnIndex, error.ErrorText);
 
-                foreach (string line in e.ExecuteResult.Output)
-                    Console.WriteLine(line);
+                return null;
             }
-
-            return null;
         }
     }
 }
