@@ -1,5 +1,4 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
+﻿using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,9 +14,9 @@ namespace Neptuo.Templates.Compilation
     public class DefaultSourceContent : ISourceContent
     {
         public string TextContent { get; private set; }
-        public ILineInfo GlobalSourceInfo { get; private set; }
+        public IDocumentPoint GlobalSourceInfo { get; private set; }
 
-        public DefaultSourceContent(TextReader content, ILineInfo globalSourceInfo)
+        public DefaultSourceContent(TextReader content, IDocumentPoint globalSourceInfo)
         {
             Ensure.NotNull(content, "content");
             Ensure.NotNull(globalSourceInfo, "globalSourceInfo");
@@ -29,7 +28,7 @@ namespace Neptuo.Templates.Compilation
             : this(content, new DefaultSourceLineInfo(0, 0))
         { }
 
-        public DefaultSourceContent(string textContent, ILineInfo globalSourceInfo)
+        public DefaultSourceContent(string textContent, IDocumentPoint globalSourceInfo)
         {
             Ensure.NotNullOrEmpty(textContent, "content");
             Ensure.NotNull(globalSourceInfo, "globalSourceInfo");

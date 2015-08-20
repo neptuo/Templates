@@ -1,5 +1,5 @@
 ﻿using Neptuo.Activators;
-using Neptuo.ComponentModel;
+using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;

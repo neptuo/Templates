@@ -1,4 +1,4 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Identifiers;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.CodeDom;

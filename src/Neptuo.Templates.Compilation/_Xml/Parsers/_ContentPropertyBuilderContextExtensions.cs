@@ -1,5 +1,5 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
+﻿using Neptuo.Compilers.Errors;
+using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,9 +37,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(context, "context");
             Ensure.NotNull(element, "element");
 
-            ILineInfo lineInfo = element as ILineInfo;
-            if (lineInfo != null)
-                context.AddError(lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
+            IDocumentPoint point = element as IDocumentPoint;
+            if (point != null)
+                context.AddError(point.LineIndex, point.ColumnIndex, errorText);
             else
                 context.AddError(String.Format("<{0}> -> {1}", element.Name, errorText));
         }

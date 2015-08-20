@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public static CodeDomDefaultConfiguration IsDirectObjectResolve(this CodeDomDefaultConfiguration configuration, bool value)
         {
             Ensure.NotNull(configuration, "configuration");
-            configuration.Set("IsDirectObjectResolve", value);
+            configuration.Add("IsDirectObjectResolve", value);
             return configuration;
         }
 
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public static CodeDomDefaultConfiguration IsAttributeDefaultEnabled(this CodeDomDefaultConfiguration configuration, bool value)
         {
             Ensure.NotNull(configuration, "configuration");
-            configuration.Set("IsAttributeDefaultEnabled", value);
+            configuration.Add("IsAttributeDefaultEnabled", value);
             return configuration;
         }
 
@@ -54,7 +54,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         public static CodeDomDefaultConfiguration IsPropertyTypeDefaultEnabled(this CodeDomDefaultConfiguration configuration, bool value)
         {
             Ensure.NotNull(configuration, "configuration");
-            configuration.Set("IsPropertyTypeDefaultEnabled", value);
+            configuration.Add("IsPropertyTypeDefaultEnabled", value);
             return configuration;
         }
 

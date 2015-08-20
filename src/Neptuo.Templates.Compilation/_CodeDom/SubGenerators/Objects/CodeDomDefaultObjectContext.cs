@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="value">Value to associate with <paramref name="key"/>.</param>
         public CodeDomDefaultObjectContext AddCustomValue(string key, object value)
         {
-            customValues.Set(key, value);
+            customValues.Add(key, value);
             return this;
         }
     }

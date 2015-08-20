@@ -38,9 +38,9 @@ namespace Neptuo.Templates.Compilation.CodeCompilers
         /// <returns>Compiled view instance.</returns>
         protected abstract object Compile(IStaticCompiler compiler, TextReader sourceCode, ICodeCompilerContext context);
 
-        public IKeyValueCollection Set(string key, object value)
+        public IKeyValueCollection Add(string key, object value)
         {
-            compilerFactory.Set(key, value);
+            compilerFactory.Add(key, value);
             return this;
         }
 

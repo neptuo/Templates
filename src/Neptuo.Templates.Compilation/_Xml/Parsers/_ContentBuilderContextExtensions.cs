@@ -1,6 +1,6 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
+﻿using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -61,9 +61,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(context, "context");
             Ensure.NotNull(element, "element");
 
-            ILineInfo lineInfo = element as ILineInfo;
-            if (lineInfo != null)
-                AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
+            IDocumentPoint point = element as IDocumentPoint;
+            if (point != null)
+                AddError(context, point.LineIndex, point.ColumnIndex, errorText);
             else
                 AddError(context, String.Format("<{0}> -> {1}", element.Name, errorText));
         }
@@ -85,9 +85,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return;
             }
 
-            ILineInfo lineInfo = node as ILineInfo;
-            if (lineInfo != null)
-                AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
+            IDocumentPoint point = node as IDocumentPoint;
+            if (point != null)
+                AddError(context, point.LineIndex, point.ColumnIndex, errorText);
             else
                 AddError(context, String.Format("'{0}' -> {1}", node, errorText));
         }
@@ -103,9 +103,9 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(context, "context");
             Ensure.NotNull(attribute, "attribute");
 
-            ILineInfo lineInfo = attribute as ILineInfo;
-            if (lineInfo != null)
-                AddError(context, lineInfo.LineIndex, lineInfo.ColumnIndex, errorText);
+            IDocumentPoint point = attribute as IDocumentPoint;
+            if (point != null)
+                AddError(context, point.LineIndex, point.ColumnIndex, errorText);
             else
                 AddError(context, String.Format("<{0} {1}> -> {2}", attribute.OwnerElement.Name, attribute.Name, errorText));
         }
@@ -177,16 +177,16 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             return context.ParserContext.ParserService.ProcessValue(
                 context.ParserContext.Name,
-                new DefaultSourceContent(attribute.Value, GetSourceLineInfoOrDefault(attribute)),
+                new DefaultSourceContent(attribute.Value, GetDocumentPointOrDefault(attribute)),
                 context.ParserContext
             );
         }
 
-        private static ILineInfo GetSourceLineInfoOrDefault(object source)
+        private static IDocumentPoint GetDocumentPointOrDefault(object source)
         {
-            ILineInfo lineInfo = source as ILineInfo;
-            if (lineInfo != null)
-                return lineInfo;
+            IDocumentPoint point = source as IDocumentPoint;
+            if (point != null)
+                return point;
 
             return new DefaultSourceLineInfo(0, 0);
         }

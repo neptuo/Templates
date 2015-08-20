@@ -1,5 +1,4 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
+﻿using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -51,14 +50,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static ISourceContent GetValue(this IXmlAttribute attribute)
         {
             Ensure.NotNull(attribute, "attribute");
-            ILineInfo lineInfo;
-            ILineInfo attributeLineInfo = attribute as ILineInfo;
+            IDocumentPoint point;
+            IDocumentPoint attributeLineInfo = attribute as IDocumentPoint;
             if (attributeLineInfo != null)
-                lineInfo = new DefaultSourceLineInfo(attributeLineInfo.LineIndex, attributeLineInfo.ColumnIndex + attribute.Name.Length + 2);
+                point = new DefaultSourceLineInfo(attributeLineInfo.LineIndex, attributeLineInfo.ColumnIndex + attribute.Name.Length + 2);
             else
-                lineInfo = new DefaultSourceLineInfo(0, 0);
+                point = new DefaultSourceLineInfo(0, 0);
 
-            return new DefaultSourceContent(attribute.Value, lineInfo);
+            return new DefaultSourceContent(attribute.Value, point);
         }
     }
 }

@@ -1,8 +1,7 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
-using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
-using Neptuo.Tokens;
+using Neptuo.Text.Positions;
+using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
@@ -34,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeObject;
         }
 
-        private ICodeObject GenerateToken(IValueParserContext context, Token token, ILineInfo globalSourceInfo)
+        private ICodeObject GenerateToken(IValueParserContext context, Token token, IDocumentPoint globalSourceInfo)
         {
             // Update line info according to global source info.
             token.SetLineInfo(

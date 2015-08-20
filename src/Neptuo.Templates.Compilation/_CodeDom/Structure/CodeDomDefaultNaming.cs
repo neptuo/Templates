@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <returns>Self.</returns>
         public CodeDomDefaultNaming AddCustomValue(string key, object value)
         {
-            customValues.Set(key, value);
+            customValues.Add(key, value);
             return this;
         }
     }
