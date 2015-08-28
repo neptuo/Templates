@@ -1,9 +1,9 @@
 ﻿using Neptuo;
 using Neptuo.Activators;
 using Neptuo.Compilers;
-using Neptuo.ComponentModel;
+using Neptuo.Compilers.Errors;
 using Neptuo.Diagnostics;
-using Neptuo.FileSystems;
+using Neptuo.Identifiers;
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates;
 using Neptuo.Templates.Compilation;
@@ -54,9 +54,10 @@ namespace Test.Templates
         static TestTemplates()
         {
             container = new UnityDependencyContainer();
-            container.Map<DataStorage>().InCurrentScope().To(new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))));
-            container.Map<IValueConverterService>().InCurrentScope().To(new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()));
-            container.Map<IViewServiceContext>().InCurrentScope().ToType<DefaultViewServiceContext>();
+            container.Definitions
+                .AddScoped<DataStorage>(container.ScopeName, new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))))
+                .AddScoped<IValueConverterService>(container.ScopeName, new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()))
+                .AddScoped<IViewServiceContext, DefaultViewServiceContext>(container.ScopeName);
         }
 
         public static void Test()
@@ -161,8 +162,8 @@ namespace Test.Templates
             );
 
             CodeCompiler codeCompiler = new CodeCompiler();
-            codeCompiler.TempDirectory(Environment.CurrentDirectory);
-            codeCompiler.IsDebugMode(true);
+            codeCompiler.AddTempDirectory(Environment.CurrentDirectory);
+            codeCompiler.AddIsDebugMode(true);
             codeCompiler.References().AddDirectory(Environment.CurrentDirectory);
 
             DefaultViewService viewService = new DefaultViewService();
@@ -184,15 +185,15 @@ namespace Test.Templates
             viewService.Pipeline.AddViewActivatorService("SharpKit", "CodeDom");
 
             // Register view service to the container.
-            container.Map<IViewService>().InCurrentScope().To(viewService);
+            container.Definitions.AddScoped<IViewService>(container.ScopeName, viewService);
 
             StringWriter output = new StringWriter();
 
             IViewServiceContext context = new DefaultViewServiceContext(container);
 
-            container.Map<ICodeDomNaming>().InCurrentScope().To(new CodeDomDefaultNaming("Neptuo.Templates", "Index"));
+            container.Definitions.AddScoped<ICodeDomNaming>(container.ScopeName, new CodeDomDefaultNaming("Neptuo.Templates", "Index"));
 
-            ISourceContent content = new DefaultSourceContent(LocalFileSystem.FromFilePath("Index.html").GetContent());
+            ISourceContent content = new DefaultSourceContent(File.ReadAllText("Index.html"));
             DebugHelper.Debug("Execute", () =>
             {
                 GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);

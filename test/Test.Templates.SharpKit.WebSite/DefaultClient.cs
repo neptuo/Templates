@@ -1,15 +1,15 @@
-﻿using SharpKit.JavaScript;
+﻿using Neptuo;
+using Neptuo.Activators;
 using SharpKit.Html;
+using SharpKit.JavaScript;
 using SharpKit.jQuery;
+using System;
 using System.IO;
 using Test.Templates;
-using Neptuo;
-using Test.Templates.UI.Data;
-using Test.Templates.UI.Converters;
 using Test.Templates.Runtime;
+using Test.Templates.UI.Converters;
+using Test.Templates.UI.Data;
 using Test.Templates.UI.Models;
-using System;
-using Neptuo.Activators;
 
 namespace Test.Templates.SharpKit.WebSite
 {

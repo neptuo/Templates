@@ -1,5 +1,4 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
+﻿using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +10,7 @@ namespace Neptuo.Templates.Compilation
     /// <summary>
     /// Default (standalone) implementation of <see cref="ISourceLineInfo"/>.
     /// </summary>
-    public class DefaultSourceLineInfo : ILineInfo
+    public class DefaultSourceLineInfo : IDocumentPoint
     {
         public int LineIndex { get; private set; }
         public int ColumnIndex { get; private set; }

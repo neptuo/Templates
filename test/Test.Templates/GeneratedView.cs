@@ -1,5 +1,4 @@
-﻿using Neptuo.ComponentModel;
-using Test.Templates.Runtime;
+﻿using Test.Templates.Runtime;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

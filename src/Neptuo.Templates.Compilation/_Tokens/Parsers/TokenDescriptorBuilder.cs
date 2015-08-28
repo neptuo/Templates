@@ -1,6 +1,6 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
-using Neptuo.Tokens;
+using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;

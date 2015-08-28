@@ -1,5 +1,4 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
+﻿using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +21,6 @@ namespace Neptuo.Templates.Compilation
         /// <summary>
         /// Gets information about offset in globally processing content.
         /// </summary>
-        ILineInfo GlobalSourceInfo { get; }
+        IDocumentPoint GlobalSourceInfo { get; }
     }
 }

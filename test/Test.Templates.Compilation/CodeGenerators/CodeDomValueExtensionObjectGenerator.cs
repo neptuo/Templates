@@ -1,4 +1,4 @@
-﻿using Neptuo.ComponentModel;
+﻿using Neptuo.Identifiers;
 using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Test.Templates.Metadata;
 
 namespace Test.Templates.Compilation.CodeGenerators
 {
@@ -52,7 +53,7 @@ namespace Test.Templates.Compilation.CodeGenerators
         {
             ReturnTypeAttribute attribute = extensionType.GetCustomAttribute<ReturnTypeAttribute>();
             if (attribute != null)
-                return attribute.Type;
+                return attribute.ReturnType;
 
             return typeof(object);
         }
