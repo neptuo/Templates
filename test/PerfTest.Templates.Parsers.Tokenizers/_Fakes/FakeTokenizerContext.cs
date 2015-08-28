@@ -13,12 +13,12 @@ namespace PerfTest.Templates.Parsers.Tokenizers
     {
         public IDependencyProvider DependencyProvider
         {
-            get { throw new NotImplementedException(); }
+            get { return new FakeDependencyProvider(); }
         }
 
         public ICollection<IErrorInfo> Errors
         {
-            get { throw new NotImplementedException(); }
+            get { return new List<IErrorInfo>(); }
         }
     }
 
