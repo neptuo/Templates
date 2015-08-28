@@ -1,4 +1,4 @@
-﻿using Neptuo.FeatureModels;
+﻿using Neptuo.Models.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,5 +1,4 @@
-﻿using Neptuo.ComponentModel.TextOffsets;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
+﻿using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;

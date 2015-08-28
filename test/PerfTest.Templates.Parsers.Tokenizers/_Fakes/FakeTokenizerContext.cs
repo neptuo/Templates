@@ -1,5 +1,5 @@
 ﻿using Neptuo.Activators;
-using Neptuo.ComponentModel;
+using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers;
 using System;
 using System.Collections.Generic;
@@ -13,17 +13,22 @@ namespace PerfTest.Templates.Parsers.Tokenizers
     {
         public IDependencyProvider DependencyProvider
         {
-            get { return new FakeDependencyProvider(); }
+            get { throw new NotImplementedException(); }
         }
 
         public ICollection<IErrorInfo> Errors
         {
-            get { return new List<IErrorInfo>(); }
+            get { throw new NotImplementedException(); }
         }
     }
 
     class FakeDependencyProvider : IDependencyProvider
     {
+        public IDependencyDefinitionReadOnlyCollection Definitions
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         public object Resolve(Type requiredType)
         {
             throw new NotImplementedException();

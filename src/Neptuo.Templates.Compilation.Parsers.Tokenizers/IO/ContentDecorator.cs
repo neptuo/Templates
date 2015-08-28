@@ -1,6 +1,5 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
+﻿using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
+using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,9 +144,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// Values are reseted calling <see cref="ContentDecorator.ResetCurrentInfo"/>.
         /// </summary>
         /// <returns>Current 'token' content info.</returns>
-        public IContentRangeInfo CurrentContentInfo()
+        public ITextPoint CurrentContentInfo()
         {
-            return new DefaultContentRangeInfo(currentStartIndex, currentLength);
+            return new DefaultTextPoint(currentStartIndex, currentLength);
         }
 
         /// <summary>
@@ -155,9 +154,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// Values are reseted calling <see cref="ContentDecorator.ResetCurrentInfo"/>.
         /// </summary>
         /// <returns>Current 'token' line info.</returns>
-        public ILineRangeInfo CurrentLineInfo()
+        public IDocumentSpan CurrentLineInfo()
         {
-            return new DefaultLineRangeInfo(currentStartColumnIndex, currentStartLineIndex, currentColumnIndex, currentLineIndex);
+            return new DefaultDocumentSpan(currentStartColumnIndex, currentStartLineIndex, currentColumnIndex, currentLineIndex);
         }
 
         /// <summary>

@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
     /// Factory for content readers.
     /// Caches content from single content reader and provides ability to read this content.
     /// </summary>
-    public class ContentFactory : IActivator<IContentReader>
+    public class ContentFactory : IFactory<IContentReader>
     {
         private readonly IContentReader contentReader;
         private readonly StringBuilder cache;

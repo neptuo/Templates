@@ -1,6 +1,4 @@
 ﻿using Neptuo.Activators;
-using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
@@ -34,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         {
             currentTokenizers.Push(targetTokenizer);
             IList<ComposableToken> tokens = new List<ComposableToken>();
-            IActivator<IContentReader> factory = new ContentFactory(reader);
+            IFactory<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
                 if (!currentTokenizers.Contains(tokenizer))

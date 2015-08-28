@@ -40,7 +40,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
             return new PartialReader(reader, terminators.Contains, '\\');
         }
 
-        public static IActivator<IContentReader> Factory(IContentReader reader)
+        public static IFactory<IContentReader> Factory(IContentReader reader)
         {
             return new ContentFactory(reader);
         }

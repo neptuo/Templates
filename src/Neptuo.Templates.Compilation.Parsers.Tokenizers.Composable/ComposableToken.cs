@@ -1,6 +1,5 @@
-﻿using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
+﻿using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
+using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,8 +14,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     public class ComposableToken : IToken<ComposableTokenType>
     {
         public ComposableTokenType Type { get; set; }
-        public ILineRangeInfo LineInfo { get; set; }
-        public IContentRangeInfo ContentInfo { get; set; }
+        public IDocumentSpan LineInfo { get; set; }
+        public ITextPoint ContentInfo { get; set; }
         public string Text { get; set; }
         public IList<IErrorMessage> Errors { get; private set; }
 

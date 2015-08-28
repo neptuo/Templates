@@ -1,8 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neptuo.ComponentModel;
-using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +13,13 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
     [TestClass]
     public class TestContentDecorator : TestBase
     {
-        private void AssertSourceContentInfo(IContentRangeInfo contentInfo, int startIndex, int length)
+        private void AssertSourceContentInfo(ITextPoint contentInfo, int startIndex, int length)
         {
             AssertAreEqual(contentInfo.StartIndex, startIndex);
             AssertAreEqual(contentInfo.Length, length);
         }
 
-        private void AssertSourceRangeLineInfo(ILineRangeInfo lineInfo, int columnIndex, int lineIndex, int endColumnIndex, int endLineIndex)
+        private void AssertSourceRangeLineInfo(IDocumentSpan lineInfo, int columnIndex, int lineIndex, int endColumnIndex, int endLineIndex)
         {
             AssertAreEqual(lineInfo.ColumnIndex, columnIndex);
             AssertAreEqual(lineInfo.LineIndex, lineIndex);

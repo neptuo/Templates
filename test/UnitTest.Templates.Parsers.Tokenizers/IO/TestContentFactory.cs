@@ -16,7 +16,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
         public void ContentFactory_BaseTest()
         {
             IContentReader source = new StringReader("abcdef");
-            IActivator<IContentReader> factory = new ContentFactory(source);
+            IFactory<IContentReader> factory = new ContentFactory(source);
 
             IContentReader reader1 = factory.Create();
             AssertAreEqual(reader1.Current, 'a');

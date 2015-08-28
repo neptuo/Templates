@@ -1,8 +1,8 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neptuo.ComponentModel.TextOffsets;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -63,7 +63,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected void AssertContentInfo(IList<ComposableToken> tokens, params IContentRangeInfo[] values)
+        protected void AssertContentInfo(IList<ComposableToken> tokens, params ITextPoint[] values)
         {
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)
@@ -74,9 +74,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected IContentRangeInfo CreateContentInfo(int startIndex, int length)
+        protected ITextPoint CreateContentInfo(int startIndex, int length)
         {
-            return new DefaultContentRangeInfo(startIndex, length);
+            return new DefaultTextPoint(startIndex, length);
         }
     }
 }

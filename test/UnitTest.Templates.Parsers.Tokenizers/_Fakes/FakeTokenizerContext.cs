@@ -1,5 +1,5 @@
 ﻿using Neptuo.Activators;
-using Neptuo.ComponentModel;
+using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers;
 using System;
 using System.Collections.Generic;
@@ -47,6 +47,11 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         public void Dispose()
         {
             throw new NotImplementedException();
+        }
+
+        public IDependencyDefinitionReadOnlyCollection Definitions
+        {
+            get { throw new NotImplementedException(); }
         }
     }
 
