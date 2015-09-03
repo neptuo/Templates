@@ -15,7 +15,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     {
         public ComposableTokenType Type { get; set; }
         public IDocumentSpan LineInfo { get; set; }
-        public ITextPoint ContentInfo { get; set; }
+        public ITextSpan ContentInfo { get; set; }
         public string Text { get; set; }
         public IList<IErrorMessage> Errors { get; private set; }
 

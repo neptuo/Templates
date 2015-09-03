@@ -63,7 +63,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected void AssertContentInfo(IList<ComposableToken> tokens, params ITextPoint[] values)
+        protected void AssertContentInfo(IList<ComposableToken> tokens, params ITextSpan[] values)
         {
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)
@@ -74,9 +74,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected ITextPoint CreateContentInfo(int startIndex, int length)
+        protected ITextSpan CreateContentInfo(int startIndex, int length)
         {
-            return new DefaultTextPoint(startIndex, length);
+            return new DefaultTextSpan(startIndex, length);
         }
     }
 }

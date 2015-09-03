@@ -144,9 +144,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// Values are reseted calling <see cref="ContentDecorator.ResetCurrentInfo"/>.
         /// </summary>
         /// <returns>Current 'token' content info.</returns>
-        public ITextPoint CurrentContentInfo()
+        public ITextSpan CurrentContentInfo()
         {
-            return new DefaultTextPoint(currentStartIndex, currentLength);
+            return new DefaultTextSpan(currentStartIndex, currentLength);
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers.IO
         /// <returns>Current 'token' line info.</returns>
         public IDocumentSpan CurrentLineInfo()
         {
-            return new DefaultDocumentSpan(currentStartColumnIndex, currentStartLineIndex, currentColumnIndex, currentLineIndex);
+            return new DefaultDocumentSpan(currentStartLineIndex, currentStartColumnIndex, currentLineIndex, currentColumnIndex);
         }
 
         /// <summary>

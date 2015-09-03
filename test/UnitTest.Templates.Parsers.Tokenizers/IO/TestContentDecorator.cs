@@ -13,7 +13,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers.IO
     [TestClass]
     public class TestContentDecorator : TestBase
     {
-        private void AssertSourceContentInfo(ITextPoint contentInfo, int startIndex, int length)
+        private void AssertSourceContentInfo(ITextSpan contentInfo, int startIndex, int length)
         {
             AssertAreEqual(contentInfo.StartIndex, startIndex);
             AssertAreEqual(contentInfo.Length, length);

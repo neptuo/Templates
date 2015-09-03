@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <summary>
         /// Token content info.
         /// </summary>
-        ITextPoint ContentInfo { get; set; }
+        ITextSpan ContentInfo { get; set; }
 
         /// <summary>
         /// Token text.
