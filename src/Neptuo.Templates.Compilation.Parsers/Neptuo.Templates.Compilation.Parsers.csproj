@@ -51,11 +51,11 @@
   <ItemGroup>
     <Compile Include="CodeObjectBuilderBase.cs" />
     <Compile Include="CurlyCodeObjectBuilder.cs" />
+    <Compile Include="Descriptors\Features\_ComponentDescriptorExtensions.cs" />
     <Compile Include="Descriptors\IComponentDescriptor.cs" />
-    <Compile Include="Descriptors\IDefaultFieldCollectionFeature.cs" />
-    <Compile Include="Descriptors\IFieldCollectionFeature.cs" />
+    <Compile Include="Descriptors\Features\IDefaultFieldEnumerator.cs" />
+    <Compile Include="Descriptors\Features\IFieldEnumerator.cs" />
     <Compile Include="Descriptors\IFieldDescriptor.cs" />
-    <Compile Include="Descriptors\_ComponentDescriptorExtensions.cs" />
     <Compile Include="ICodeObjectBuilder.cs" />
     <Compile Include="ICodeObjectBuilderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
