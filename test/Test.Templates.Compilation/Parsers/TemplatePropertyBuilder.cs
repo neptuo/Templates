@@ -36,7 +36,7 @@ namespace Test.Templates.Compilation.Parsers
 
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            ComponentCodeObject templateCodeObject = new ComponentCodeObject(typeof(FileTemplate));
+            XComponentCodeObject templateCodeObject = new XComponentCodeObject(typeof(FileTemplate));
             templateCodeObject.Properties.Add(
                 new SetCodeProperty(
                     new TypePropertyInfo(

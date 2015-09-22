@@ -164,11 +164,9 @@
     <Compile Include="CodeGenerators\ICodeGeneratorContext.cs" />
     <Compile Include="CodeGenerators\ICodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\ICodeGeneratorServiceContext.cs" />
-    <Compile Include="CodeObjects\ICodeObject.cs" />
     <Compile Include="CodeObjects\IObserversCodeObject.cs" />
     <Compile Include="CodeObjects\IPlainValueCodeObject.cs" />
     <Compile Include="CodeObjects\IPropertiesCodeObject.cs" />
-    <Compile Include="_Properties\CodeObjects\ICodeProperty.cs" />
     <Compile Include="_Properties\CodeObjects\IPropertyInfo.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
@@ -200,7 +198,7 @@
     <Compile Include="ViewActivators\NullViewActivator.cs" />
     <Compile Include="_Components\BuilderAttribute.cs" />
     <Compile Include="_Components\CodeCompilers\CodeCompiler.cs" />
-    <Compile Include="_Components\CodeObjects\ComponentCodeObject.cs" />
+    <Compile Include="_Components\CodeObjects\XComponentCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DependencyCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DictionaryAddCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\ListAddCodeProperty.cs" />
@@ -273,6 +271,12 @@
   <ItemGroup>
     <None Include="Neptuo.Templates.Compilation.nuspec" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.CodeObjects\Neptuo.Templates.Compilation.CodeObjects.csproj">
+      <Project>{c285ce2d-1b99-484a-9ffe-2d0aade22af7}</Project>
+      <Name>Neptuo.Templates.Compilation.CodeObjects</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\build\Neptuo.Build.targets" />

@@ -13,7 +13,7 @@ using Test.Templates.UI;
 
 namespace Test.Templates.Compilation.CodeObjects
 {
-    public class TemplateCodeObject : ComponentCodeObject
+    public class TemplateCodeObject : XComponentCodeObject
     {
         public TemplateCodeObject(Type type)
             : base(type)

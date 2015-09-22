@@ -23,11 +23,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IEnumerable<ICodeObject> TryBuild(CurlySyntax node, ICodeObjectBuilderContext context)
         {
-            //ComponentCodeObject codeObject = new ComponentCodeObject();
+            ComponentCodeObject codeObject = new ComponentCodeObject();
             throw new NotImplementedException();
         }
 
-        protected bool TryBuildAttributes(IEnumerable<CurlyAttributeSyntax> attributeNodes, IPropertiesCodeObject codeObject, ICodeObjectBuilderContext context)
+        protected bool TryBuildAttributes(IEnumerable<CurlyAttributeSyntax> attributeNodes, IFieldCollectionCodeObject codeObject, ICodeObjectBuilderContext context)
         {
             IFieldEnumerator feature;
             if (!descriptor.TryWithFields(out feature))
@@ -45,6 +45,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if(fields.TryGetValue(nodeName, out fieldDescriptor))
                 {
                     // Bind field.
+                    codeObject.AddProperty(new SetCodeProperty())
                 }
             }
 

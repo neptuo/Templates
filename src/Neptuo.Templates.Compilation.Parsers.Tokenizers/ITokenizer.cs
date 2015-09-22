@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     /// <summary>
-    /// Debines component that passes throught reader and creates list of syntactic tokens.
+    /// Describes component that passes throught reader and creates list of syntactic tokens.
     /// </summary>
     /// <typeparam name="TToken">Type of token.</typeparam>
     public interface ITokenizer<TToken>

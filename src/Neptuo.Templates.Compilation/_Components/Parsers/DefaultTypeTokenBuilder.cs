@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override ICodeObject CreateCodeObject(ITokenBuilderContext context, Token extension)
         {
-            return new ComponentCodeObject(Type);
+            return new XComponentCodeObject(Type);
         }
 
         protected override IXComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token extension)

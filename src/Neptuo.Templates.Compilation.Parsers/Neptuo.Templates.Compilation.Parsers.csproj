@@ -77,6 +77,10 @@
     <Compile Include="_IListExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.CodeObjects\Neptuo.Templates.Compilation.CodeObjects.csproj">
+      <Project>{c285ce2d-1b99-484a-9ffe-2d0aade22af7}</Project>
+      <Name>Neptuo.Templates.Compilation.CodeObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
       <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>

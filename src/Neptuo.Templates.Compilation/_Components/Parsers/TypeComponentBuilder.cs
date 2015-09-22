@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
-            return new ComponentCodeObject(GetControlType(element));
+            return new XComponentCodeObject(GetControlType(element));
         }
 
         protected override IXComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)

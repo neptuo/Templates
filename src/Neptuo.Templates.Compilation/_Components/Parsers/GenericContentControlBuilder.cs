@@ -46,7 +46,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual bool IsComponentRequired(IContentBuilderContext context, IXmlElement element)
         {
-            ComponentCodeObject codeObject = new ComponentCodeObject(typeof(T));
+            XComponentCodeObject codeObject = new XComponentCodeObject(typeof(T));
 
             bool isComponentRequired = false;
             foreach (IXmlAttribute attribute in element.Attributes)

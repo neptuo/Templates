@@ -14,7 +14,7 @@ namespace Test.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Implementation of object generator for <see cref="IObserverCodeObject"/> using component wrap
     /// and delegation to <see cref="CodeDomComponentObjectGenerator"/>.
-    /// Takes instance of <see cref="IObserverCodeObject"/>, wraps it to <see cref="ComponentCodeObject"/>
+    /// Takes instance of <see cref="IObserverCodeObject"/>, wraps it to <see cref="XComponentCodeObject"/>
     /// and generates code using <see cref="CodeDomComponentObjectGenerator"/>.
     /// </summary>
     public class CodeDomObserverObjectGenerator : CodeDomControlObjectGenerator
@@ -39,13 +39,13 @@ namespace Test.Templates.Compilation.CodeGenerators
                 return null;
             }
 
-            ComponentCodeObject component = new ComponentCodeObject(typeCodeObject.Type);
+            XComponentCodeObject component = new XComponentCodeObject(typeCodeObject.Type);
             component.Properties.AddRange(propertiesCodeObject.Properties);
             
             return base.Generate(context, component);
         }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, XComponentCodeObject codeObject, string fieldName)
         {
             ICodeDomObjectResult result = base.Generate(context, codeObject, fieldName);
             if (result == null)
