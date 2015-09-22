@@ -11,6 +11,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Extensible registry for parsers.
         /// </summary>
-        IParserCollection Registry { get; }
+        IParserProvider Registry { get; }
     }
 }

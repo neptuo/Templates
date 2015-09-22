@@ -38,22 +38,26 @@ namespace Neptuo.Templates.Compilation.Parsers
             foreach (IFieldDescriptor fieldDescriptor in feature)
                 fields[nameNormalizer.PrepareName(fieldDescriptor.Name)] = fieldDescriptor;
 
+            bool result = true;
             foreach (CurlyAttributeSyntax node in attributeNodes)
             {
                 string nodeName = nameNormalizer.PrepareName(node.NameToken.Text);
                 IFieldDescriptor fieldDescriptor;
-                if(fields.TryGetValue(nodeName, out fieldDescriptor))
+                if (fields.TryGetValue(nodeName, out fieldDescriptor))
                 {
-                    //ICodeProperty property = fieldDescriptor.CreateProperty();
-                    //property.SetValue(null);
-                    //// Bind field.
-                    //codeObject.AddProperty(property);
+                    IEnumerable<ICodeProperty> codeProperties = context.Registry.WithPropertyBuilder().TryBuild(node.Value, null);
+                    if (codeProperties == null)
+                    {
+                        result = false;
+                        continue;
+                    }
 
-                    //context.Registry
+                    foreach (ICodeProperty codeProperty in codeProperties)
+                        codeObject.AddProperty(codeProperty);
                 }
             }
 
-            throw new NotImplementedException();
+            return result;
         }
     }
 }

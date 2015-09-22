@@ -201,7 +201,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
         {
             Ensure.NotNull(context, "context");
-            return context.Registry.WithPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
+            return context.Registry.XWithPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
         }
 
         /// <summary>

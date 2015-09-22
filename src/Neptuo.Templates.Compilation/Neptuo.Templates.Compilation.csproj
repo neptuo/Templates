@@ -131,7 +131,7 @@
     <Compile Include="_Components\Parsers\Registries\ContentPropertyBuilderRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\DefaultParserRegistry.cs" />
     <Compile Include="FuncList.cs" />
-    <Compile Include="_Components\Parsers\Registries\IParserCollection.cs" />
+    <Compile Include="_Components\Parsers\Registries\IParserProvider.cs" />
     <Compile Include="_Components\Parsers\Registries\NamespaceDeclaration.cs" />
     <Compile Include="_Components\Parsers\Registries\ObserverBuilderRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\TokenBuilderRegistry.cs" />

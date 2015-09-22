@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Common extensions for <see cref="DefaultParserRegistry"/> and <see cref="IParserCollection"/>.
+    /// Common extensions for <see cref="DefaultParserRegistry"/> and <see cref="IParserProvider"/>.
     /// </summary>
     public static class _DefaultParserRegistryExtensions
     {
@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read type scanner from.</param>
         /// <returns>Registered instance of type scanner in <paramref name="registry"/>.</returns>
-        public static TypeScanner WithTypeScanner(this IParserCollection registry)
+        public static TypeScanner WithTypeScanner(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.With<TypeScanner>();
@@ -59,7 +59,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read registrations from.</param>
         /// <returns>Enumeration of all registered prefixes and namespaces.</returns>
-        public static IEnumerable<NamespaceDeclaration> WithUsedNamespaces(this IParserCollection registry)
+        public static IEnumerable<NamespaceDeclaration> WithUsedNamespaces(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.WithTypeScanner().EnumerateUsedNamespaces();
@@ -70,7 +70,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read registrations from.</param>
         /// <returns><c>true</c> if <paramref name="registry"/> has registered enumeration of used prefixes and namespaces; otherwise <c>false</c>.</returns>
-        public static bool HasUsedNamespaces(this IParserCollection registry)
+        public static bool HasUsedNamespaces(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.Has<TypeScanner>();
@@ -146,7 +146,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read content builder from.</param>
         /// <returns>Registered instance of content builder in <paramref name="registry"/>.</returns>
-        public static IContentBuilder WithContentBuilder(this IParserCollection registry)
+        public static IContentBuilder WithContentBuilder(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.With<IContentBuilder>();
@@ -197,7 +197,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read token builder from.</param>
         /// <returns>Registered instance of token builder in <paramref name="registry"/>.</returns>
-        public static ITokenBuilder WithTokenBuilder(this IParserCollection registry)
+        public static ITokenBuilder WithTokenBuilder(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.With<ITokenBuilder>();
@@ -224,7 +224,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read observer builder from.</param>
         /// <returns>Registered instance of observer builder in <paramref name="registry"/>.</returns>
-        public static IObserverBuilder WithObserverBuilder(this IParserCollection registry)
+        public static IObserverBuilder WithObserverBuilder(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.With<IObserverBuilder>();
@@ -253,7 +253,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read content property builder from.</param>
         /// <returns>Registered instance of content property builder in <paramref name="registry"/>.</returns>
-        public static IContentPropertyBuilder WithContentPropertyBuilder(this IParserCollection registry)
+        public static IContentPropertyBuilder WithContentPropertyBuilder(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.With<IContentPropertyBuilder>();
@@ -264,7 +264,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read property builder from.</param>
         /// <returns>Registered instance of property builder in <paramref name="registry"/>.</returns>
-        public static IPropertyBuilder WithPropertyBuilder(this IParserCollection registry)
+        public static IPropertyBuilder XWithPropertyBuilder(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.With<IContentPropertyBuilder>();
@@ -291,7 +291,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read literal builder from.</param>
         /// <returns>Registered instance of literal builder in <paramref name="registry"/>.</returns>
-        public static ILiteralBuilder WithLiteralBuilder(this IParserCollection registry)
+        public static ILiteralBuilder WithLiteralBuilder(this IParserProvider registry)
         {
             Ensure.NotNull(registry, "registry");
             return registry.With<ILiteralBuilder>();
@@ -317,7 +317,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to read name normalizer from.</param>
         /// <returns>Registered instance of name normalizer (with name 'Property') in <paramref name="registry"/>.</returns>
-        public static INameNormalizer WithPropertyNormalizer(this IParserCollection registry)
+        public static INameNormalizer WithPropertyNormalizer(this IParserProvider registry)
         {
             return registry.With<INameNormalizer>("Property");
         }

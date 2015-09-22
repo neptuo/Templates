@@ -117,7 +117,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Ensure.NotNull(context, "context");
             return context.Registry
-                .WithPropertyBuilder()
+                .XWithPropertyBuilder()
                 .TryParse(new PropertyBuilderContext(context.ParserContext.Name, context.ParserContext, context.ParserContext.ParserService, propertyInfo), value);
         }
     }
