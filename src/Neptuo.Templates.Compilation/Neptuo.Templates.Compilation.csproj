@@ -167,7 +167,6 @@
     <Compile Include="CodeObjects\IObserversCodeObject.cs" />
     <Compile Include="CodeObjects\IPlainValueCodeObject.cs" />
     <Compile Include="CodeObjects\IPropertiesCodeObject.cs" />
-    <Compile Include="_Properties\CodeObjects\IPropertyInfo.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />

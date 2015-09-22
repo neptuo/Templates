@@ -58,6 +58,8 @@
     <Compile Include="Descriptors\IFieldDescriptor.cs" />
     <Compile Include="ICodeObjectBuilder.cs" />
     <Compile Include="ICodeObjectBuilderContext.cs" />
+    <Compile Include="ICodePropertyBuilder.cs" />
+    <Compile Include="ICodePropertyBuilderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxTrees\CurlySyntax.cs" />
     <Compile Include="SyntaxTrees\CurlySyntaxBuilder.cs" />

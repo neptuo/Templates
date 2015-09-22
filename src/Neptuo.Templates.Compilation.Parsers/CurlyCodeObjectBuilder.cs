@@ -44,8 +44,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IFieldDescriptor fieldDescriptor;
                 if(fields.TryGetValue(nodeName, out fieldDescriptor))
                 {
-                    // Bind field.
-                    codeObject.AddProperty(new SetCodeProperty())
+                    //ICodeProperty property = fieldDescriptor.CreateProperty();
+                    //property.SetValue(null);
+                    //// Bind field.
+                    //codeObject.AddProperty(property);
+
+                    //context.Registry
                 }
             }
 

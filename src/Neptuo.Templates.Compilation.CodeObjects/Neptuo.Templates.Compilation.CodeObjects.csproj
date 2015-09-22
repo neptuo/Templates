@@ -49,6 +49,7 @@
     <Compile Include="ICodeObject.cs" />
     <Compile Include="ICodeProperty.cs" />
     <Compile Include="IFieldCollectionCodeObject.cs" />
+    <Compile Include="IPropertyInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

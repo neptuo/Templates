@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Syntax node processor responsible for creating code objects.
+    /// Syntax node processor responsible for creating code properties.
     /// </summary>
-    public interface ICodeObjectBuilder
+    public interface ICodePropertyBuilder
     {
         /// <summary>
-        /// Creates enumeration of code objects from <paramref name="node"/>.
+        /// Creates enumeration of code properties from <paramref name="node"/>.
         /// </summary>
         /// <param name="node">Syntax node to process.</param>
         /// <param name="context">Processing context.</param>
         /// <returns>Enumeration of code objects representing <paramref name="node"/>.</returns>
-        IEnumerable<ICodeObject> TryBuild(ISyntaxNode node, ICodeObjectBuilderContext context);
+        IEnumerable<ICodeProperty> TryBuild(ISyntaxNode node, ICodePropertyBuilderContext context);
     }
 }
