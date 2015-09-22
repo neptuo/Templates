@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Extensible registry for sub parsers.
     /// </summary>
-    public interface IParserRegistry
+    public interface IParserCollection
     {
         /// <summary>
         /// Returns <c>true</c> if <typeparamref name="T"/> is registered; otherwise returns <c>false</c>.

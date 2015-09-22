@@ -13,9 +13,9 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public partial class TextTokenValueParser : ITextValueParser
     {
-        private readonly IParserRegistry registry;
+        private readonly IParserCollection registry;
 
-        public TextTokenValueParser(IParserRegistry registry)
+        public TextTokenValueParser(IParserCollection registry)
         {
             Ensure.NotNull(registry, "registry");
             this.registry = registry;

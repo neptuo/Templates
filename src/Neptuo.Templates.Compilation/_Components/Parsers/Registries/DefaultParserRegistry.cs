@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Default implementation of <see cref="IParserRegistry"/>.
+    /// Default implementation of <see cref="IParserCollection"/>.
     /// </summary>
-    public class DefaultParserRegistry : IParserRegistry
+    public class DefaultParserRegistry : IParserCollection
     {
         private readonly Dictionary<Type, Dictionary<string, object>> storage = new Dictionary<Type, Dictionary<string, object>>();
 

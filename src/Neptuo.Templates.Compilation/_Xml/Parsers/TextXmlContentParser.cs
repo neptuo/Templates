@@ -19,11 +19,11 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         public static string FakeRootElementName = "NeptuoTemplatesRoot";
 
-        private readonly IParserRegistry registry;
+        private readonly IParserCollection registry;
 
         public bool UseLinqApi { get; set; }
 
-        public TextXmlContentParser(IParserRegistry registry, bool useLinqApi = false)
+        public TextXmlContentParser(IParserCollection registry, bool useLinqApi = false)
         {
             Ensure.NotNull(registry, "registry");
             this.registry = registry;
@@ -112,7 +112,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return documentElement;
         }
 
-        private string PrepareXmlContent(string content, IParserRegistry registry)
+        private string PrepareXmlContent(string content, IParserCollection registry)
         {
             // If we start with property xml definition name, we are assuming that content is prefectly valid.
             if (content.StartsWith("<?xml"))

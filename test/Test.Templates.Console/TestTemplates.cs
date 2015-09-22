@@ -95,7 +95,7 @@ namespace Test.Templates
             );
 
             // Create extensible parser registry.
-            IParserRegistry parserRegistry = new DefaultParserRegistry()
+            IParserCollection parserRegistry = new DefaultParserRegistry()
                 .AddPropertyNormalizer(new LowerInvariantNameNormalizer())
                 .AddTypeScanner(
                     new TypeScanner()
