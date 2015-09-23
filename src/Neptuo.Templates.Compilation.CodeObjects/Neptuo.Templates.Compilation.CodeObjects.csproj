@@ -36,6 +36,10 @@
       <HintPath>..\..\packages\Neptuo.5.0.1\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Neptuo.Models.Features, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Models.Features.1.0.0\lib\net45\Neptuo.Models.Features.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -46,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComponentCodeObject.cs" />
+    <Compile Include="Features\FieldCollectionCodeObject.cs" />
     <Compile Include="ICodeObject.cs" />
     <Compile Include="ICodeProperty.cs" />
     <Compile Include="IFieldCollectionCodeObject.cs" />

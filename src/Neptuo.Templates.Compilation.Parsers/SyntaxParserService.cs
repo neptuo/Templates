@@ -21,12 +21,15 @@ namespace Neptuo.Templates.Compilation.Parsers
         public SyntaxParserService()
         {
             Tokenizer = new ComposableTokenizer();
+            SyntaxBuilders = new SyntaxBuilderCollection();
         }
 
         public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
         {
             IList<ComposableToken> tokens = Tokenizer.Tokenize(new StringReader(content.TextContent), null);
             ISyntaxNode node = SyntaxBuilders.Build(tokens, 0);
+
+            context.DependencyProvider
 
             throw new NotImplementedException();
         }

@@ -1,4 +1,6 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Models.Features;
+using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.CodeObjects.Features;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
@@ -24,7 +26,21 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected override IEnumerable<ICodeObject> TryBuild(CurlySyntax node, ICodeObjectBuilderContext context)
         {
             ComponentCodeObject codeObject = new ComponentCodeObject();
-            throw new NotImplementedException();
+
+            bool result = true;
+            FieldCollectionCodeObject fields = new FieldCollectionCodeObject();
+            if (TryBuildAttributes(node.Attributes, fields, context))
+                codeObject.Add<IFieldCollectionCodeObject>(fields);
+            else
+                result = false;
+
+
+            // If all binding was ok, return code object wrapped in list.
+            if (result)
+                return new CodeObjectList().Add(codeObject);
+
+            // Otherwise return null.
+            return null;
         }
 
         protected bool TryBuildAttributes(IEnumerable<CurlyAttributeSyntax> attributeNodes, IFieldCollectionCodeObject codeObject, ICodeObjectBuilderContext context)
