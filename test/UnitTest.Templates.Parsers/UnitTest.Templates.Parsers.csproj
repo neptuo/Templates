@@ -41,6 +41,10 @@
       <HintPath>..\..\packages\Neptuo.5.0.1\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Neptuo.Models.Features, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Models.Features.1.0.0\lib\net45\Neptuo.Models.Features.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -61,6 +65,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.CodeObjects\Neptuo.Templates.Compilation.CodeObjects.csproj">
+      <Project>{c285ce2d-1b99-484a-9ffe-2d0aade22af7}</Project>
+      <Name>Neptuo.Templates.Compilation.CodeObjects</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
       <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>
@@ -72,6 +80,10 @@
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj">
       <Project>{3418325a-d861-4fb7-bf59-215a0d19c5a1}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
     </ProjectReference>
     <ProjectReference Include="..\UnitTest.Templates.Parsers.Tokenizers\UnitTest.Templates.Parsers.Tokenizers.csproj">
       <Project>{7a2007bb-86bf-4999-a86b-37dc66fd97a5}</Project>

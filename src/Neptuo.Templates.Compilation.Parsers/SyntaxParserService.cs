@@ -15,23 +15,35 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// </summary>
     public class SyntaxParserService : IParserService
     {
+        private readonly IParserProvider parserProvider;
+
         public ComposableTokenizer Tokenizer { get; private set; }
         public SyntaxBuilderCollection SyntaxBuilders { get; private set; }
 
-        public SyntaxParserService()
+        public SyntaxParserService(IParserProvider parserProvider)
         {
+            Ensure.NotNull(parserProvider, "parserProvider");
+            this.parserProvider = parserProvider;
             Tokenizer = new ComposableTokenizer();
             SyntaxBuilders = new SyntaxBuilderCollection();
         }
 
         public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
         {
-            IList<ComposableToken> tokens = Tokenizer.Tokenize(new StringReader(content.TextContent), null);
+            IList<ComposableToken> tokens = Tokenizer.Tokenize(
+                new StringReader(content.TextContent), 
+                new DefaultTokenizerContext(context.DependencyProvider, context.Errors)
+            );
             ISyntaxNode node = SyntaxBuilders.Build(tokens, 0);
 
-            context.DependencyProvider
+            IEnumerable<ICodeObject> codeObjects = parserProvider
+                .WithObjectBuilder()
+                .TryBuild(node, new DefaultCodeObjectBuilderContext(parserProvider));
 
-            throw new NotImplementedException();
+            if (codeObjects == null)
+                return null;
+
+            return codeObjects.FirstOrDefault();
         }
 
         public ICodeObject ProcessValue(string name, ISourceContent value, IParserServiceContext context)

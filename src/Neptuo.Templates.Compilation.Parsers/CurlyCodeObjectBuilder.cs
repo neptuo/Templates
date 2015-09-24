@@ -34,7 +34,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             else
                 result = false;
 
-
             // If all binding was ok, return code object wrapped in list.
             if (result)
                 return new CodeObjectList().Add(codeObject);
@@ -49,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (!descriptor.TryWithFields(out feature))
                 return false;
 
-            INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
+            INameNormalizer nameNormalizer = context.ParserProvider.WithPropertyNormalizer();
             Dictionary<string, IFieldDescriptor> fields = new Dictionary<string, IFieldDescriptor>();
             foreach (IFieldDescriptor fieldDescriptor in feature)
                 fields[nameNormalizer.PrepareName(fieldDescriptor.Name)] = fieldDescriptor;
@@ -61,7 +60,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IFieldDescriptor fieldDescriptor;
                 if (fields.TryGetValue(nodeName, out fieldDescriptor))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.Registry.WithPropertyBuilder().TryBuild(node.Value, null);
+                    IEnumerable<ICodeProperty> codeProperties = context.ParserProvider.WithPropertyBuilder().TryBuild(node.Value, null);
                     if (codeProperties == null)
                     {
                         result = false;

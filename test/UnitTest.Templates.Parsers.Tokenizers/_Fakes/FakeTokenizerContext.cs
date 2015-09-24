@@ -22,7 +22,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
     }
 
-    class FakeDependencyProvider : IDependencyProvider
+    public class FakeDependencyProvider : IDependencyProvider
     {
         public object Resolve(Type requiredType)
         {
