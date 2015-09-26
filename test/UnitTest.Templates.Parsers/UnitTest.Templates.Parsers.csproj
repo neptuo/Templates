@@ -60,6 +60,7 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Extensions\BindingExtension.cs" />
     <Compile Include="Parser_Curly.cs" />
     <Compile Include="Syntax_Curly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

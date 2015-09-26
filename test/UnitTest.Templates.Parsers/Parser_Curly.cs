@@ -1,8 +1,11 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
+using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
+using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Templates.Compilation.Parsers.SyntaxTrees;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers;
 using System;
@@ -10,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnitTest.Templates.Parsers.Extensions;
 using UnitTest.Templates.Parsers.Tokenizers;
 
 namespace UnitTest.Templates.Parsers
@@ -20,16 +24,21 @@ namespace UnitTest.Templates.Parsers
         [TestMethod]
         public void Basic()
         {
+            DefaultComponentDescriptor bindingDescriptor = new DefaultComponentDescriptor();
+            bindingDescriptor
+                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(typeof(BindingExtension)));
+
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
                  .Add(typeof(SyntaxNodeCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
-                 .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(new ComponentDescriptorCollection()));
+                 .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
 
             IParserProvider parserProvider = new DefaultParserRegistry()
                 .AddRegistry<ICodeObjectBuilder>(codeObjectBuilders)
-                .AddRegistry<ICodePropertyBuilder>(codePropertyBuilders);
+                .AddRegistry<ICodePropertyBuilder>(codePropertyBuilders)
+                .AddPropertyNormalizer(new LowerInvariantNameNormalizer());
 
             SyntaxParserService parserService = new SyntaxParserService(parserProvider);
             parserService.Tokenizer

@@ -55,7 +55,10 @@
     <Compile Include="CodePropertyBuilderCollection.cs" />
     <Compile Include="CurlyCodeObjectBuilder.cs" />
     <Compile Include="DefaultCodeObjectBuilderContext.cs" />
-    <Compile Include="Descriptors\ComponentDescriptorCollection.cs" />
+    <Compile Include="DefaultCodePropertyBuilderContext.cs" />
+    <Compile Include="Descriptors\DefaultComponentDescriptor.cs" />
+    <Compile Include="Descriptors\Features\TypePropertyFieldDescriptor.cs" />
+    <Compile Include="Descriptors\Features\TypePropertyFieldEnumerator.cs" />
     <Compile Include="Descriptors\Features\_ComponentDescriptorExtensions.cs" />
     <Compile Include="Descriptors\IComponentDescriptor.cs" />
     <Compile Include="Descriptors\Features\IDefaultFieldEnumerator.cs" />

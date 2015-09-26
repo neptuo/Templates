@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Descriptors
 {
-    public class ComponentDescriptorCollection : CollectionFeatureModel, IComponentDescriptor
+    public class DefaultComponentDescriptor : CollectionFeatureModel, IComponentDescriptor
     { }
 }
