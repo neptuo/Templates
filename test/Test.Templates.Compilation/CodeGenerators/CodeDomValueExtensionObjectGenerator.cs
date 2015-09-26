@@ -75,7 +75,7 @@ namespace Test.Templates.Compilation.CodeGenerators
                             TypeHelper.MethodName<Type, Type>(t => t.GetType)
                         ),
                         TypeHelper.MethodName<Type, string, PropertyInfo>(t => t.GetProperty),
-                        new CodePrimitiveExpression(codeProperty.Property.Name)
+                        new CodePrimitiveExpression(codeProperty.Name)
                     );
                 }
                 else

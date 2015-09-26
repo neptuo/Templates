@@ -31,14 +31,14 @@ namespace Test.Templates.Compilation.Parsers
 
             codeProperty.SetRangeValue(values);
             templateCodeObject.Properties.Add(codeProperty);
-            return new CodePropertyList(new SetCodeProperty(context.PropertyInfo, templateCodeObject));
+            return new CodePropertyList(new XSetCodeProperty(context.PropertyInfo, templateCodeObject));
         }
 
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             XComponentCodeObject templateCodeObject = new XComponentCodeObject(typeof(FileTemplate));
             templateCodeObject.Properties.Add(
-                new SetCodeProperty(
+                new XSetCodeProperty(
                     new TypePropertyInfo(
                         typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path))
                     ),
@@ -46,7 +46,7 @@ namespace Test.Templates.Compilation.Parsers
                 )
             );
 
-            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo);
+            ICodeProperty codeProperty = new XSetCodeProperty(context.PropertyInfo);
             codeProperty.SetValue(templateCodeObject);
             return new CodePropertyList(codeProperty);
         }

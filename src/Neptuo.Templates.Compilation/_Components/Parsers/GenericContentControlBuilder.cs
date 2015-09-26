@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ICodeObject codeObject = base.CreateCodeObject(context, element);
 
             ((IPropertiesCodeObject)codeObject).Properties.Add(
-                new SetCodeProperty(
+                new XSetCodeProperty(
                     new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), 
                     new PlainValueCodeObject(element.Name)
                 )

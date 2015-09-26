@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 //Collection item
                 ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
-                bool isTextAssignable = codeProperty.Property.CanAssign(typeof(string));
+                bool isTextAssignable = codeProperty.Type.IsAssignableFrom(typeof(string));
                 foreach (IXmlNode node in content)
                 {
                     if (!isTextAssignable && node.NodeType == XmlNodeType.Text)

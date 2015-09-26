@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddCodeProperty.cs" />
     <Compile Include="ComponentCodeObject.cs" />
     <Compile Include="Features\FieldCollectionCodeObject.cs" />
     <Compile Include="ICodeObject.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="IFieldCollectionCodeObject.cs" />
     <Compile Include="IPropertyInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SetCodeProperty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

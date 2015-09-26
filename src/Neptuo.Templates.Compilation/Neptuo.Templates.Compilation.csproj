@@ -206,7 +206,7 @@
     <Compile Include="_Components\CodeObjects\MethodInvokePropertyInfo.cs" />
     <Compile Include="_Components\CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\RootCodeObject.cs" />
-    <Compile Include="_Components\CodeObjects\SetCodeProperty.cs" />
+    <Compile Include="_Components\CodeObjects\XSetCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\_ComponentsCodeObjectListExtensions.cs" />
     <Compile Include="_Components\ComponentAttribute.cs" />
     <Compile Include="_Components\Parsers\DefaultLiteralControlBuilder.cs" />

@@ -17,15 +17,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Descriptors.Features
             get { return propertyInfo.Name; }
         }
 
+        public Type FieldType
+        {
+            get { return propertyInfo.PropertyType; }
+        }
+
         public TypePropertyFieldDescriptor(PropertyInfo propertyInfo)
         {
             Ensure.NotNull(propertyInfo, "propertyInfo");
             this.propertyInfo = propertyInfo;
-        }
-
-        public ICodeProperty CreateProperty()
-        {
-            throw new NotImplementedException();
         }
     }
 }

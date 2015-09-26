@@ -24,7 +24,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
-            bool isWriteable = !codeProperty.Property.IsReadOnly;
+            //bool isWriteable = !codeProperty.Property.IsReadOnly;
             Type targetKeyItemType = typeof(object);
             Type targetValueItemType = typeof(object);
 
@@ -32,16 +32,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             CodeExpression targetField = context.PropertyTarget;
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
                 targetField,
-                codeProperty.Property.Name
+                codeProperty.Name
             );
 
             // Try to get target property type.
-            MethodInfo methodInfo = codeProperty.Property.Type.GetMethod(addMethodName);
+            MethodInfo methodInfo = codeProperty.Type.GetMethod(addMethodName);
             if (methodInfo == null)
             {
                 context.AddError(
                     "Unnable to bind property of type '{0}' using 'DictionaryAddCodeProperty' because it doesn't have Add method with two parameters.",
-                    codeProperty.Property.Type.FullName
+                    codeProperty.Type.FullName
                 );
                 return null;
             }
@@ -51,7 +51,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             {
                 context.AddError(
                     "Unnable to bind property of type '{0}' using 'DictionaryAddCodeProperty' because it doesn't have Add method with two parameters.",
-                    codeProperty.Property.Type.FullName
+                    codeProperty.Type.FullName
                 );
                 return null;
             }
@@ -59,9 +59,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             targetKeyItemType = parameters[0].ParameterType;
             targetValueItemType = parameters[1].ParameterType;
 
-            if (codeProperty.Property.Type.IsGenericType)
+            if (codeProperty.Type.IsGenericType)
             {
-                Type[] genericArguments = codeProperty.Property.Type.GetGenericArguments();
+                Type[] genericArguments = codeProperty.Type.GetGenericArguments();
                 if (genericArguments.Length == 2)
                 {
                     targetKeyItemType = genericArguments[0];
@@ -69,16 +69,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 }
             }
 
-            // If writeable, create new instance.
-            if (isWriteable)
-            {
-                statements.AddStatement(
-                    new CodeAssignStatement(
-                        codePropertyReference,
-                        new CodeObjectCreateExpression(codeProperty.Property.Type)
-                    )
-                );
-            }
+            // TODO: If writeable, create new instance.
+            //if (isWriteable)
+            //{
+            //    statements.AddStatement(
+            //        new CodeAssignStatement(
+            //            codePropertyReference,
+            //            new CodeObjectCreateExpression(codeProperty.Type)
+            //        )
+            //    );
+            //}
 
             // Foreach property value...
             foreach (KeyValuePair<ICodeObject, ICodeObject> propertyValue in codeProperty.Values)

@@ -11,16 +11,17 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         private MethodInvokePropertyInfo property;
 
         public MethodInfo Method { get; set; }
-        public IPropertyInfo Property
+
+        public string Name
         {
-            get { return property; }
-            set
-            {
-                MethodInvokePropertyInfo newValue = value as MethodInvokePropertyInfo;
-                if (newValue != null)
-                    property = newValue;
-            }
+            get { return property.Name; }
         }
+
+        public Type Type
+        {
+            get { return property.Type; }
+        }
+
         public List<ICodeObject> Parameters { get; protected set; }
 
         public MethodInvokeCodeProperty(MethodInfo methodInfo)

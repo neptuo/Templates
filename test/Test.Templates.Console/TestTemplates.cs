@@ -138,7 +138,7 @@ namespace Test.Templates
                     )
                     .AddPropertyGenerator(
                         new CodeDomPropertyGeneratorRegistry()
-                            .AddGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator())
+                            .AddGenerator<XSetCodeProperty>(new CodeDomSetPropertyGenerator())
                             .AddGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator())
                             .AddGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
                     )

@@ -6,18 +6,29 @@ using System.Text;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class SetCodeProperty : ICodeProperty
+    public class XSetCodeProperty : ICodeProperty
     {
-        public IPropertyInfo Property { get; set; }
+        private readonly IPropertyInfo property;
+
+        public string Name
+        {
+            get { return property.Name; }
+        }
+
+        public Type Type
+        {
+            get { return property.Type; }
+        }
+
         public ICodeObject Value { get; set; }
         public bool IsDefaultValue { get; set; }
 
-        public SetCodeProperty(IPropertyInfo propertyName)
+        public XSetCodeProperty(IPropertyInfo propertyName)
         {
-            Property = propertyName;
+            this.property = propertyName;
         }
 
-        public SetCodeProperty(IPropertyInfo propertyName, ICodeObject value)
+        public XSetCodeProperty(IPropertyInfo propertyName, ICodeObject value)
             : this(propertyName)
         {
             SetValue(value);

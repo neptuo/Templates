@@ -12,9 +12,14 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     public interface ICodeProperty
     {
         /// <summary>
-        /// Property info.
+        /// Name of the property.
         /// </summary>
-        IPropertyInfo Property { get; set; }
+        string Name { get; }
+
+        /// <summary>
+        /// Type of the property.
+        /// </summary>
+        Type Type { get; }
 
         /// <summary>
         /// Value setter.

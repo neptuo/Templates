@@ -18,9 +18,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Descriptors
         string Name { get; }
 
         /// <summary>
-        /// Creates property describing this field.
+        /// Type of field value.
         /// </summary>
-        /// <returns></returns>
-        ICodeProperty CreateProperty();
+        Type FieldType { get; }
     }
 }

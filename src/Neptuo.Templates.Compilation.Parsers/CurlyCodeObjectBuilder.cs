@@ -60,7 +60,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IFieldDescriptor fieldDescriptor;
                 if (fields.TryGetValue(nodeName, out fieldDescriptor))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.ParserProvider.WithPropertyBuilder().TryBuild(node.Value, new DefaultCodePropertyBuilderContext(context.ParserProvider));
+                    IEnumerable<ICodeProperty> codeProperties = context.ParserProvider.WithPropertyBuilder().TryBuild(node.Value, context.CreatePropertyContext(fieldDescriptor));
                     if (codeProperties == null)
                     {
                         result = false;

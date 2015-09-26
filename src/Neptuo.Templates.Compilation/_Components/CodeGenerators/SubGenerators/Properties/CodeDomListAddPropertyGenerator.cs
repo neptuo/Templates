@@ -24,9 +24,9 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
-            bool isGenericProperty = codeProperty.Property.Type.IsGenericType;
+            bool isGenericProperty = codeProperty.Type.IsGenericType;
             bool isCastingRequired = false;
-            bool isWriteable = !codeProperty.Property.IsReadOnly;
+            //bool isWriteable = !codeProperty.Property.IsReadOnly;
             Type targetType = null;
             Type targetItemType = typeof(object);
 
@@ -34,19 +34,19 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             CodeExpression targetField = context.PropertyTarget;
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
                 targetField,
-                codeProperty.Property.Name
+                codeProperty.Name
             );
 
             // Try to get target property type.
-            if (typeof(IEnumerable).IsAssignableFrom(codeProperty.Property.Type))
+            if (typeof(IEnumerable).IsAssignableFrom(codeProperty.Type))
             {
                 isCastingRequired = true;
                 if (isGenericProperty)
                 {
-                    targetItemType = codeProperty.Property.Type.GetGenericArguments()[0];
+                    targetItemType = codeProperty.Type.GetGenericArguments()[0];
                     targetType = typeof(List<>).MakeGenericType(targetItemType);
 
-                    if (typeof(ICollection<>).IsAssignableFrom(codeProperty.Property.Type.GetGenericTypeDefinition()))
+                    if (typeof(ICollection<>).IsAssignableFrom(codeProperty.Type.GetGenericTypeDefinition()))
                         isCastingRequired = false;
                 }
                 else
@@ -55,16 +55,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 }
             }
 
-            // If writeable, create new instance.
-            if (isWriteable)
-            {
-                statements.AddStatement(
-                    new CodeAssignStatement(
-                        codePropertyReference,
-                        new CodeObjectCreateExpression(targetType)
-                    )
-                );
-            }
+            // TODO: If writeable, create new instance.
+            //if (isWriteable)
+            //{
+            //    statements.AddStatement(
+            //        new CodeAssignStatement(
+            //            codePropertyReference,
+            //            new CodeObjectCreateExpression(targetType)
+            //        )
+            //    );
+            //}
 
             // Is adding items will required casting (eg.: we created instance of type List<T>, but property is of type IEnumerable<T>).
             if (isCastingRequired)

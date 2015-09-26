@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             Ensure.NotNull(codeObject, "codeObject");
             foreach (ICodeProperty codeProperty in codeObject.Properties)
-                BoundProperties.Add(nameNormalizer.PrepareName(codeProperty.Property.Name));
+                BoundProperties.Add(nameNormalizer.PrepareName(codeProperty.Name));
         }
 
         private static bool IsBindableProperty(IPropertyInfo propertyInfo)

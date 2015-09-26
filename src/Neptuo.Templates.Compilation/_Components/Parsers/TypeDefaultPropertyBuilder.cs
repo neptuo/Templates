@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (IsCollectionProperty(propertyInfo))
                 codeProperty = new ListAddCodeProperty(propertyInfo);
             else
-                codeProperty = new SetCodeProperty(propertyInfo);
+                codeProperty = new XSetCodeProperty(propertyInfo);
 
             return codeProperty;
         }

@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
                 return;
             }
 
-            SetCodeProperty set = codeProperty as SetCodeProperty;
+            XSetCodeProperty set = codeProperty as XSetCodeProperty;
             if (set != null)
             {
                 Visit(set);
@@ -91,7 +91,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
                 Visit(codeObject);
         }
 
-        protected virtual void Visit(SetCodeProperty codeProperty)
+        protected virtual void Visit(XSetCodeProperty codeProperty)
         {
             Visit(codeProperty.Value);
         }

@@ -8,20 +8,19 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomSetPropertyGenerator : CodeDomPropertyGeneratorBase<SetCodeProperty>
+    public class CodeDomSetPropertyGenerator : CodeDomPropertyGeneratorBase<XSetCodeProperty>
     {
-        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, SetCodeProperty codeProperty)
+        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, XSetCodeProperty codeProperty)
         {
             CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
-            bool isWriteable = !codeProperty.Property.IsReadOnly;
-            Type targetItemType = codeProperty.Property.Type;
+            Type targetItemType = codeProperty.Type;
 
             // Expression for accessing target property.
             CodeExpression targetField = context.PropertyTarget;
             CodeExpression codePropertyReference = new CodePropertyReferenceExpression(
                 targetField,
-                codeProperty.Property.Name
+                codeProperty.Name
             );
 
             // Resolve code object value.

@@ -8,7 +8,18 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 {
     public class DictionaryAddCodeProperty : ICodeProperty
     {
-        public IPropertyInfo Property { get; set; }
+        private readonly IPropertyInfo property;
+
+        public string Name
+        {
+            get { return property.Name; }
+        }
+
+        public Type Type
+        {
+            get { return property.Type; }
+        }
+
         public Dictionary<ICodeObject, ICodeObject> Values { get; set; }
 
         public ICodeObject CurrentKey { get; set; }
@@ -16,7 +27,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         public DictionaryAddCodeProperty(IPropertyInfo property)
         {
             Ensure.NotNull(property, "property");
-            Property = property;
+            this.property = property;
             Values = new Dictionary<ICodeObject, ICodeObject>();
         }
 

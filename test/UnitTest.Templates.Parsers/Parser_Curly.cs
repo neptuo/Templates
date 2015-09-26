@@ -31,9 +31,12 @@ namespace UnitTest.Templates.Parsers
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
                  .Add(typeof(SyntaxNodeCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
+                 .Add(typeof(TextSyntax), new TextCodeObjectBuilder())
                  .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
+            codePropertyBuilders
+                .AddSearchHandler(CreateCodePropertyBuilder);
 
             IParserProvider parserProvider = new DefaultParserRegistry()
                 .AddRegistry<ICodeObjectBuilder>(codeObjectBuilders)
@@ -55,6 +58,12 @@ namespace UnitTest.Templates.Parsers
                 new DefaultSourceContent("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"), 
                 new DefaultParserServiceContext(new FakeDependencyProvider())
             );
+        }
+
+        private bool CreateCodePropertyBuilder(Type propertyType, out ICodePropertyBuilder builder)
+        {
+            builder = new DefaultCodePropertyBuilder();
+            return true;
         }
     }
 }

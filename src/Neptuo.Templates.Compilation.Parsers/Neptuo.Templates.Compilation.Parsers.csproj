@@ -55,6 +55,7 @@
     <Compile Include="CodePropertyBuilderCollection.cs" />
     <Compile Include="CurlyCodeObjectBuilder.cs" />
     <Compile Include="DefaultCodeObjectBuilderContext.cs" />
+    <Compile Include="DefaultCodePropertyBuilder.cs" />
     <Compile Include="DefaultCodePropertyBuilderContext.cs" />
     <Compile Include="Descriptors\DefaultComponentDescriptor.cs" />
     <Compile Include="Descriptors\Features\TypePropertyFieldDescriptor.cs" />
@@ -85,6 +86,9 @@
     <Compile Include="SyntaxTrees\_EnsureConditionExtensions.cs" />
     <Compile Include="SyntaxTrees\_TokenListReaderExtensions.cs" />
     <Compile Include="SyntaxParserService.cs" />
+    <Compile Include="TextCodeObjectBuilder.cs" />
+    <Compile Include="_CodeObjectBuilderContextExtensions.cs" />
+    <Compile Include="_CodePropertyBuilderContextExtensions.cs" />
     <Compile Include="_IListExtensions.cs" />
     <Compile Include="_ParserCollectionExtensions.cs" />
   </ItemGroup>

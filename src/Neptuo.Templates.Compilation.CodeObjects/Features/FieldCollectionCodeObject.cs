@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects.Features
         public void AddProperty(ICodeProperty property)
         {
             Ensure.NotNull(property, "property");
-            properties[property.Property.Name] = property;
+            properties[property.Name] = property;
         }
 
         public bool TryGetProperty(string propertyName, out ICodeProperty property)
