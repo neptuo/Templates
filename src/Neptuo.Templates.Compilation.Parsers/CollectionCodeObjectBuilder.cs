@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers
 {
-    public class SyntaxNodeCollectionCodeObjectBuilder : CodeObjectBuilderBase<SyntaxNodeCollection>
+    public class CollectionCodeObjectBuilder : CodeObjectBuilderBase<SyntaxNodeCollection>
     {
         private readonly ICodeObjectBuilder itemBuilder;
 
-        public SyntaxNodeCollectionCodeObjectBuilder(ICodeObjectBuilder itemBuilder)
+        public CollectionCodeObjectBuilder(ICodeObjectBuilder itemBuilder)
         {
             Ensure.NotNull(itemBuilder, "itemBuilder");
             this.itemBuilder = itemBuilder;

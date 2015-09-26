@@ -22,12 +22,14 @@ namespace UnitTest.Templates.Parsers
         {
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
-                 .Add(typeof(SyntaxNodeCollection), new SyntaxNodeCollectionCodeObjectBuilder(codeObjectBuilders))
+                 .Add(typeof(SyntaxNodeCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
                  .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(new ComponentDescriptorCollection()));
+
+            CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
 
             IParserProvider parserProvider = new DefaultParserRegistry()
                 .AddRegistry<ICodeObjectBuilder>(codeObjectBuilders)
-                .AddRegistry<ICodePropertyBuilder>(new CodePropertyBuilderCollection());
+                .AddRegistry<ICodePropertyBuilder>(codePropertyBuilders);
 
             SyntaxParserService parserService = new SyntaxParserService(parserProvider);
             parserService.Tokenizer
