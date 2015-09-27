@@ -43,6 +43,14 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (codeObjects == null)
                 return null;
 
+            if (codeObjects.Count() > 1)
+            {
+                CodeObjectCollection result = new CodeObjectCollection()
+                    .AddRange(codeObjects);
+
+                return result;
+            }
+
             return codeObjects.FirstOrDefault();
         }
 

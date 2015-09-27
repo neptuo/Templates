@@ -58,6 +58,7 @@ namespace UnitTest.Templates.Parsers
                 new DefaultSourceContent("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"), 
                 new DefaultParserServiceContext(new FakeDependencyProvider())
             );
+            Console.WriteLine(codeObject);
         }
 
         private bool CreateCodePropertyBuilder(Type propertyType, out ICodePropertyBuilder builder)
