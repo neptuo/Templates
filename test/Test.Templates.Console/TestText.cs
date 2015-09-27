@@ -47,11 +47,11 @@ namespace Test.Templates
         }
     }
 
-    public static class TestTemplates
+    public static class TestText
     {
         private static IDependencyContainer container;
 
-        static TestTemplates()
+        static TestText()
         {
             container = new UnityDependencyContainer();
             container.Definitions

@@ -8,14 +8,14 @@ using Test.Templates.UI.Data;
 
 namespace Test.Templates.UI
 {
-    [DefaultProperty("Expression")]
+    [DefaultProperty("Path")]
     public class BindingExtension : IValueExtension
     {
         private DataStorage dataStorage;
         private IValueConverterService valueConverterService;
 
-        public string Expression { get; set; }
-        public string ConverterKey { get; set; }
+        public string Path { get; set; }
+        public string Converter { get; set; }
 
         public BindingExtension(DataStorage dataStorage, IValueConverterService valueConverterService)
         {
@@ -26,10 +26,10 @@ namespace Test.Templates.UI
         public object ProvideValue(IValueExtensionContext context)
         {
             object data = dataStorage.Peek();
-            data = BindingManager.GetValue(Expression, data);
+            data = BindingManager.GetValue(Path, data);
 
-            if (!String.IsNullOrEmpty(ConverterKey))
-                data = valueConverterService.GetConverter(ConverterKey).ConvertTo(data);
+            if (!String.IsNullOrEmpty(Converter))
+                data = valueConverterService.GetConverter(Converter).ConvertTo(data);
 
             //if (data == null)
             //    return null;
