@@ -1,6 +1,8 @@
 ﻿using Neptuo.Activators;
+using Neptuo.Identifiers;
 using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation;
+using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
@@ -13,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Test.Templates.Compilation.CodeGenerators;
 using Test.Templates.UI;
 
 namespace Test.Templates
@@ -20,6 +23,21 @@ namespace Test.Templates
     class TestSyntax
     {
         public static void Test()
+        {
+            DefaultViewService viewService = new DefaultViewService();
+            viewService.AddParserService(CreateParserService());
+            viewService.GeneratorService.AddGenerator("CodeDom", CreateCodeGenerator());
+            
+
+            ICodeObject codeObject = viewService.ParserService.ProcessContent(
+                "Default",
+                new DefaultSourceContent("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"),
+                new DefaultParserServiceContext(new UnityDependencyContainer())
+            );
+            Console.WriteLine(codeObject);
+        }
+
+        private static IParserService CreateParserService()
         {
             DefaultComponentDescriptor bindingDescriptor = new DefaultComponentDescriptor();
             bindingDescriptor
@@ -50,18 +68,55 @@ namespace Test.Templates
                 .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
                 .Add(ComposableTokenType.Text, new TextSyntaxBuilder());
 
-            ICodeObject codeObject = parserService.ProcessContent(
-                "Default",
-                new DefaultSourceContent("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"),
-                new DefaultParserServiceContext(new UnityDependencyContainer())
-            );
-            Console.WriteLine(codeObject);
+            return parserService;
         }
 
         private static bool CreateCodePropertyBuilder(Type propertyType, out ICodePropertyBuilder builder)
         {
             builder = new DefaultCodePropertyBuilder();
             return true;
+        }
+
+        private static ICodeGenerator CreateCodeGenerator()
+        {
+            // Create code generator.
+            IUniqueNameProvider nameProvider = new SequenceUniqueNameProvider("field", 1);
+            CodeDomGenerator codeGenerator = new CodeDomGenerator(
+                new CodeDomDefaultRegistry()
+                    .AddObjectGenerator(
+                        new CodeDomObjectGeneratorRegistry()
+                            .AddGenerator<CommentCodeObject>(new CodeDomCommentObjectGenerator())
+                            .AddGenerator<XComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
+                            .AddGenerator<ObserverCodeObject>(new CodeDomObserverObjectGenerator(nameProvider))
+                            .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
+                            .AddGenerator<PlainValueCodeObject>(new CodeDomLiteralObjectGenerator())
+                    )
+                    .AddPropertyGenerator(
+                        new CodeDomPropertyGeneratorRegistry()
+                            .AddGenerator<XSetCodeProperty>(new CodeDomSetPropertyGenerator())
+                            .AddGenerator<ListAddCodeProperty>(new CodeDomListAddPropertyGenerator())
+                            .AddGenerator<DictionaryAddCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
+                    )
+                    .AddStructureGenerator(new CodeDomDefaultStructureGenerator()
+                        .SetBaseType<GeneratedView>()
+                        .AddInterface<IDisposable>()
+                        .SetEntryPointName(CodeDomStructureGenerator.Names.CreateViewPageControlsMethod)
+                        .AddEntryPointParameter<GeneratedView>(CodeDomStructureGenerator.Names.EntryPointFieldName)
+                    )
+                    .AddAttributeGenerator(new CodeDomAttributeGeneratorRegistry()
+                        .AddDefaultValueGenerator()
+                    )
+                    .AddTypeConversionGenerator(new CodeDomDefaultTypeConvertionGenerator())
+                    .AddVisitor(new CodeDomVisitorRegistry())
+                    .AddDependencyGenerator(new CodeDomDependencyProviderGenerator())
+                ,
+                new CodeDomDefaultConfiguration()
+                    .IsDirectObjectResolve(false)
+                    .IsAttributeDefaultEnabled(false)
+                    .IsPropertyTypeDefaultEnabled(false)
+            );
+
+            return codeGenerator;
         }
     }
 }

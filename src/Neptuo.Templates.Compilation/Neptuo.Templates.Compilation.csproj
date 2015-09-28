@@ -49,9 +49,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeCompilers\StaticCodeCompilerBase.cs" />
-    <Compile Include="CodeObjects\CodeObjectList.cs" />
-    <Compile Include="CodeObjects\CommentCodeObject.cs" />
-    <Compile Include="CodeObjects\_CodeObjectListExtensions.cs" />
     <Compile Include="DefaultPipelineDispatcher.cs" />
     <Compile Include="Parsers\Normalization\NullNameNormalizer.cs" />
     <Compile Include="Parsers\_Text\_TextParserServiceExtensions.cs" />
@@ -168,7 +165,6 @@
     <Compile Include="CodeObjects\IPlainValueCodeObject.cs" />
     <Compile Include="CodeObjects\IPropertiesCodeObject.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
-    <Compile Include="CodeObjects\PlainValueCodeObject.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="DefaultViewService.cs" />

@@ -185,7 +185,8 @@ namespace Test.Templates
             viewService.Pipeline.AddViewActivatorService("SharpKit", "CodeDom");
 
             // Register view service to the container.
-            container.Definitions.AddScoped<IViewService>(container.ScopeName, viewService);
+            container.Definitions
+                .AddScoped<IViewService>(container.ScopeName, viewService);
 
             StringWriter output = new StringWriter();
 
