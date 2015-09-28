@@ -27,12 +27,17 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             ComponentCodeObject codeObject = new ComponentCodeObject();
 
+            // Try add fields.
             bool result = true;
             FieldCollectionCodeObject fields = new FieldCollectionCodeObject();
             if (TryBuildAttributes(node.Attributes, fields, context))
                 codeObject.Add<IFieldCollectionCodeObject>(fields);
             else
                 result = false;
+
+            // Add name.
+            NameCodeObject name = new NameCodeObject(node.Name.PrefixToken.Text + node.Name.NameSeparatorToken.Text + node.Name.NameToken.Text);
+            codeObject.Add<INameCodeObject>(name);
 
             // If all binding was ok, return code object wrapped in list.
             if (result)
