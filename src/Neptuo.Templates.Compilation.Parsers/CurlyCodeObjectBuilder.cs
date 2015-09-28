@@ -36,8 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 result = false;
 
             // Add name.
-            NameCodeObject name = new NameCodeObject(node.Name.PrefixToken.Text + node.Name.NameSeparatorToken.Text + node.Name.NameToken.Text);
-            codeObject.Add<INameCodeObject>(name);
+            codeObject.AddName(node.Name.PrefixToken.Text + node.Name.NameSeparatorToken.Text + node.Name.NameToken.Text);
 
             // If all binding was ok, return code object wrapped in list.
             if (result)
