@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected override IEnumerable<ICodeObject> TryBuild(TextSyntax node, ICodeObjectBuilderContext context)
         {
-            return new CodeObjectList().AddPlainValue(node.TextToken.Text);
+            return new CodeObjectCollection().AddPlainValue(node.TextToken.Text);
         }
     }
 }

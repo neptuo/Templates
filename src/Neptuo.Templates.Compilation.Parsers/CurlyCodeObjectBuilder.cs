@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             // If all binding was ok, return code object wrapped in list.
             if (result)
-                return new CodeObjectList().Add(codeObject);
+                return new CodeObjectCollection().Add(codeObject);
 
             // Otherwise return null.
             return null;

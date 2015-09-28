@@ -86,7 +86,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected IEnumerable<ICodeObject> ProcessAsTextXmlTag(IContentBuilderContext context, IXmlElement element)
         {
-            CodeObjectList result = new CodeObjectList();
+            CodeObjectCollection result = new CodeObjectCollection();
             if (element.ChildNodes.Any())
             {
                 if (element.Attributes.Any())

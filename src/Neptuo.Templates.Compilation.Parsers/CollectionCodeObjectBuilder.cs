@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected override IEnumerable<ICodeObject> TryBuild(SyntaxNodeCollection node, ICodeObjectBuilderContext context)
         {
             bool isOk = true;
-            CodeObjectList result = new CodeObjectList();
+            CodeObjectCollection result = new CodeObjectCollection();
             foreach (ISyntaxNode item in node.Nodes)
             {
                 IEnumerable<ICodeObject> items = itemBuilder.TryBuild(item, context);

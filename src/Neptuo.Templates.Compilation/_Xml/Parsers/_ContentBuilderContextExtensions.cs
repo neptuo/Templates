@@ -137,7 +137,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             Ensure.NotNull(context, "context");
             Ensure.NotNull(nodes, "nodes");
 
-            CodeObjectList result = new CodeObjectList();
+            CodeObjectCollection result = new CodeObjectCollection();
             foreach (IXmlNode node in nodes)
             {
                 IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context, node);

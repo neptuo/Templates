@@ -27,5 +27,32 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 
             return collection;
         }
+
+
+        /// <summary>
+        /// Adds <see cref="PlainValueCodeObject"/> with value <paramref name="value"/> to the <paramref name="list"/>.
+        /// </summary>
+        /// <param name="list">Target list of code objects.</param>
+        /// <param name="value">Plain value to add.</param>
+        /// <returns><paramref name="list"/>.</returns>
+        public static CodeObjectCollection AddPlainValue(this CodeObjectCollection list, object value)
+        {
+            Ensure.NotNull(list, "list");
+            list.Add(new PlainValueCodeObject(value));
+            return list;
+        }
+
+        /// <summary>
+        /// Adds <see cref="CommentCodeObject"/> with value <paramref name="commentText"/> to the <paramref name="list"/>.
+        /// </summary>
+        /// <param name="list">Target list of code objects.</param>
+        /// <param name="commentText">Comment text.</param>
+        /// <returns><paramref name="list"/>.</returns>
+        public static CodeObjectCollection AddComment(this CodeObjectCollection list, string commentText)
+        {
+            Ensure.NotNull(list, "list");
+            list.Add(new CommentCodeObject(commentText));
+            return list;
+        }
     }
 }

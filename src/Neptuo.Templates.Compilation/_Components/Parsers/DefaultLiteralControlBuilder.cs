@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public override IEnumerable<ICodeObject> TryParseText(IContentBuilderContext context, string text)
         {
             Ensure.NotNull(context, "context");
-            return new CodeObjectList().AddLiteral(literalControlType, textProperty, text);
+            return new CodeObjectCollection().AddLiteral(literalControlType, textProperty, text);
         }
     }
 }

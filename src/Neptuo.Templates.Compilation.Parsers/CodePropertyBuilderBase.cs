@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected IEnumerable<ICodeObject> Result(params ICodeObject[] codeObjects)
         {
-            return new CodeObjectList().AddRange(codeObjects);
+            return new CodeObjectCollection().AddRange(codeObjects);
         }
     }
 }
