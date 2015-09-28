@@ -12,10 +12,10 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     public interface IFieldCollectionCodeObject
     {
         /// <summary>
-        /// Adds <paramref name="property"/> to collection of properties.
+        /// Adds <paramref name="property"/> to the collection of properties.
         /// If collection already contains such property, previous value is overriden.
         /// </summary>
-        /// <param name="property">Property to add.</param>
+        /// <param name="property">The property to add.</param>
         void AddProperty(ICodeProperty property);
 
         /// <summary>
