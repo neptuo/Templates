@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -34,13 +35,15 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             ICodeObject codeObject = base.CreateCodeObject(context, element);
+            IPropertiesCodeObject properties = codeObject as IPropertiesCodeObject;
+            if (properties != null)
+            {
+                PropertyInfo propertyInfo = GetControlType(element).GetProperty(tagNameProperty);
 
-            ((IPropertiesCodeObject)codeObject).Properties.Add(
-                new XSetCodeProperty(
-                    new TypePropertyInfo(GetControlType(element).GetProperty(tagNameProperty)), 
-                    new PlainValueCodeObject(element.Name)
-                )
-            );
+                ICodeProperty codeProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.PropertyType);
+                codeProperty.SetValue(new PlainValueCodeObject(element.Name));
+                properties.Properties.Add(codeProperty);
+            }
             return codeObject;
         }
 

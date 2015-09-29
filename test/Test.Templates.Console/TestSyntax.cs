@@ -93,7 +93,7 @@ namespace Test.Templates
                     )
                     .AddPropertyGenerator(
                         new CodeDomPropertyGeneratorRegistry()
-                            .AddGenerator<XSetCodeProperty>(new CodeDomSetPropertyGenerator())
+                            .AddGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator())
                             .AddGenerator<AddCodeProperty>(new CodeDomAddPropertyGenerator())
                             .AddGenerator<MapCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
                     )

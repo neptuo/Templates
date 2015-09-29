@@ -41,14 +41,14 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         protected void Visit(ICodeProperty codeProperty)
         {
-            AddCodeProperty listAdd = codeProperty as AddCodeProperty;
-            if (listAdd != null)
+            AddCodeProperty add = codeProperty as AddCodeProperty;
+            if (add != null)
             {
-                Visit(listAdd);
+                Visit(add);
                 return;
             }
 
-            XSetCodeProperty set = codeProperty as XSetCodeProperty;
+            SetCodeProperty set = codeProperty as SetCodeProperty;
             if (set != null)
             {
                 Visit(set);
@@ -62,10 +62,10 @@ namespace Neptuo.Templates.Compilation.PreProcessing
                 return;
             }
 
-            MapCodeProperty dictionaryAdd = codeProperty as MapCodeProperty;
-            if (dictionaryAdd != null)
+            MapCodeProperty map = codeProperty as MapCodeProperty;
+            if (map != null)
             {
-                Visit(dictionaryAdd);
+                Visit(map);
                 return;
             }
 
@@ -91,7 +91,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
                 Visit(codeObject);
         }
 
-        protected virtual void Visit(XSetCodeProperty codeProperty)
+        protected virtual void Visit(SetCodeProperty codeProperty)
         {
             Visit(codeProperty.Value);
         }

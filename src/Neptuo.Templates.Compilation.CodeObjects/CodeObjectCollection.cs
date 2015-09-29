@@ -12,7 +12,15 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// </summary>
     public class CodeObjectCollection : ICodeObject, IEnumerable<ICodeObject>
     {
-        private readonly List<ICodeObject> values = new List<ICodeObject>();
+        private readonly List<ICodeObject> storage = new List<ICodeObject>();
+
+        public CodeObjectCollection(params ICodeObject[] codeObjects)
+        {
+            Ensure.NotNull(codeObjects, "codeObjects");
+
+            foreach (ICodeObject codeObject in codeObjects)
+                Add(codeObject);
+        }
 
         /// <summary>
         /// Adds <paramref name="codeObject"/> to the collection.
@@ -22,14 +30,14 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         public CodeObjectCollection Add(ICodeObject codeObject)
         {
             if (codeObject != null)
-                values.Add(codeObject);
+                storage.Add(codeObject);
 
             return this;
         }
 
         public IEnumerator<ICodeObject> GetEnumerator()
         {
-            return values.GetEnumerator();
+            return storage.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

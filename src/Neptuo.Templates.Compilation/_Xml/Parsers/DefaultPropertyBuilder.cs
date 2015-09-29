@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                 ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
                 codeProperty.SetValue(new PlainValueCodeObject(contentValue.ToString()));
-                return new CodePropertyList(codeProperty);
+                return new CodePropertyCollection(codeProperty);
             }
             else if (typeof(IEnumerable).IsAssignableFrom(context.PropertyInfo.Type))
             {
@@ -50,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                         codeProperty.SetRangeValue(values);
                 }
 
-                return new CodePropertyList(codeProperty);
+                return new CodePropertyCollection(codeProperty);
             }
             else
             {
@@ -69,7 +69,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                             {
                                 //TODO: Here MUST be only one value!
                                 codeProperty.SetRangeValue(values);
-                                return new CodePropertyList().Add(codeProperty);
+                                return new CodePropertyCollection().Add(codeProperty);
                             }
                         }
                         return null;
@@ -90,7 +90,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
                     ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
                     codeProperty.SetValue(new PlainValueCodeObject(contentValue.ToString()));
-                    return new CodePropertyList(codeProperty);
+                    return new CodePropertyCollection(codeProperty);
                 }
             }
         }
@@ -102,7 +102,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
                 codeProperty.SetValue(propertyValue);
-                return new CodePropertyList(codeProperty);
+                return new CodePropertyCollection(codeProperty);
             }
 
             return null;

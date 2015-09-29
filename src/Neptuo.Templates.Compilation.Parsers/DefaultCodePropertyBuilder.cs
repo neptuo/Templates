@@ -47,7 +47,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 {
                     codeProperty.SetRangeValue(codeObjects);
                     //TODO: If is SET property and codeObjects has more than one value, add error.
-                    return new CodePropertyList(codeProperty);
+                    return new CodePropertyCollection(codeProperty);
                 }
             }
 

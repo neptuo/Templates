@@ -5,6 +5,7 @@ using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Test.Templates.Compilation.CodeObjects;
@@ -31,24 +32,25 @@ namespace Test.Templates.Compilation.Parsers
 
             codeProperty.SetRangeValue(values);
             templateCodeObject.Properties.Add(codeProperty);
-            return new CodePropertyList(new XSetCodeProperty(context.PropertyInfo, templateCodeObject));
+
+            ICodeProperty resultProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
+            resultProperty.SetValue(templateCodeObject);
+            return new CodePropertyCollection(resultProperty);
         }
 
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             XComponentCodeObject templateCodeObject = new XComponentCodeObject(typeof(FileTemplate));
-            templateCodeObject.Properties.Add(
-                new XSetCodeProperty(
-                    new TypePropertyInfo(
-                        typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path))
-                    ),
-                    new PlainValueCodeObject(value.TextContent)
-                )
-            );
 
-            ICodeProperty codeProperty = new XSetCodeProperty(context.PropertyInfo);
+            PropertyInfo propertyInfo = typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path));
+
+            ICodeProperty pathProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.PropertyType);
+            pathProperty.SetValue(new PlainValueCodeObject(value.TextContent));
+            templateCodeObject.Properties.Add(pathProperty);
+
+            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
             codeProperty.SetValue(templateCodeObject);
-            return new CodePropertyList(codeProperty);
+            return new CodePropertyCollection(codeProperty);
         }
     }
 }

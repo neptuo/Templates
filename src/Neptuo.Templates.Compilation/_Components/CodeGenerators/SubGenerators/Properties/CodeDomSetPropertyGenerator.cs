@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomSetPropertyGenerator : CodeDomPropertyGeneratorBase<XSetCodeProperty>
+    public class CodeDomSetPropertyGenerator : CodeDomPropertyGeneratorBase<SetCodeProperty>
     {
-        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, XSetCodeProperty codeProperty)
+        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, SetCodeProperty codeProperty)
         {
             CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
