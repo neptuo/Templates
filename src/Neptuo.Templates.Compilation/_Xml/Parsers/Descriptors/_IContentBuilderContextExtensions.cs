@@ -24,10 +24,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             return (ICodeObject)context.CustomValues["CodeObject"];
         }
 
-        public static IPropertiesCodeObject CodeObjectAsProperties(this IContentBuilderContext context)
+        public static IFieldCollectionCodeObject CodeObjectAsProperties(this IContentBuilderContext context)
         {
             Ensure.NotNull(context, "context");
-            return (IPropertiesCodeObject)CodeObject(context);
+            return (IFieldCollectionCodeObject)CodeObject(context);
         }
 
         public static IObserversCodeObject CodeObjectAsObservers(this IContentBuilderContext context)

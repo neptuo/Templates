@@ -186,7 +186,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
             List<CodeStatement> statements = new List<CodeStatement>();
             CodeDomPropertyDefaultValueFeature generator = new CodeDomPropertyDefaultValueFeature();
 
-            HashSet<string> boundProperties = new HashSet<string>(codeObject.Properties.Select(p => p.Name));
+            HashSet<string> boundProperties = new HashSet<string>(codeObject.EnumerateProperties().Select(p => p.Name));
             foreach (PropertyInfo propertyInfo in codeObject.Type.GetProperties())
             {
                 if (!boundProperties.Contains(propertyInfo.Name))

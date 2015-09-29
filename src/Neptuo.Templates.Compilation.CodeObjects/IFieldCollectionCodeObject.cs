@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Defines code object with collection of properties.
     /// </summary>
-    public interface IFieldCollectionCodeObject
+    public interface IFieldCollectionCodeObject : ICodeObject
     {
         /// <summary>
         /// Adds <paramref name="property"/> to the collection of properties.

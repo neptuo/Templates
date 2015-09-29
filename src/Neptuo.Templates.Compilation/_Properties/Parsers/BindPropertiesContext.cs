@@ -45,11 +45,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             : this(componentDescriptor.GetProperties().Where(IsBindableProperty).ToDictionary(p => nameNormalizer.PrepareName(p.Name)))
         { }
 
-        public BindPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
+        public BindPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IFieldCollectionCodeObject codeObject)
             : this(componentDescriptor, nameNormalizer)
         {
             Ensure.NotNull(codeObject, "codeObject");
-            foreach (ICodeProperty codeProperty in codeObject.Properties)
+            foreach (ICodeProperty codeProperty in codeObject.EnumerateProperties())
                 BoundProperties.Add(nameNormalizer.PrepareName(codeProperty.Name));
         }
 

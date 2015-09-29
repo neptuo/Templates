@@ -26,7 +26,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             : base(componentDescriptor, nameNormalizer)
         { }
 
-        public BindContentPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IPropertiesCodeObject codeObject)
+        public BindContentPropertiesContext(IXComponentDescriptor componentDescriptor, INameNormalizer nameNormalizer, IFieldCollectionCodeObject codeObject)
             : base(componentDescriptor, nameNormalizer, codeObject)
         { }
     }

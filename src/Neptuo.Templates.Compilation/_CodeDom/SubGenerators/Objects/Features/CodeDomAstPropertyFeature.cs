@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object to process.</param>
         /// <param name="variableName">Name of the variable for <paramref name="codeObject"/>.</param>
         /// <returns>Enumeration of statements for properties on <paramref name="codeObject"/>.</returns>
-        public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IPropertiesCodeObject codeObject, string variableName)
+        public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IFieldCollectionCodeObject codeObject, string variableName)
         {
             Type componentType = null;
             ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
@@ -29,7 +29,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
 
             List<CodeStatement> statements = new List<CodeStatement>();
             CodeExpression variableExpression = new CodeVariableReferenceExpression(variableName);
-            foreach (ICodeProperty codeProperty in codeObject.Properties)
+            foreach (ICodeProperty codeProperty in codeObject.EnumerateProperties())
             {
                 ICodeDomPropertyResult result = context.Registry.WithPropertyGenerator().Generate(
                     context.CreatePropertyContext(variableExpression).AddFieldType(componentType),

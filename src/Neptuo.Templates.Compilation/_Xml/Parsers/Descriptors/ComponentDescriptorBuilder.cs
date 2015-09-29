@@ -38,7 +38,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
-                    context.CodeObjectAsProperties().Properties.AddRange(codeProperties);
+                    IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
+                    foreach (ICodeProperty codeProperty in codeProperties)
+                        fields.AddProperty(codeProperty);
+
                     context.BindPropertiesContext().BoundProperties.Add(name);
                     return true;
                 }
@@ -58,7 +61,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
                 {
-                    context.CodeObjectAsProperties().Properties.AddRange(codeProperties);
+                    IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
+                    foreach (ICodeProperty codeProperty in codeProperties)
+                        fields.AddProperty(codeProperty);
+
                     context.BindPropertiesContext().BoundProperties.Add(name);
                     context.BindPropertiesContext().IsBoundFromContent = true;
                     return true;
@@ -124,7 +130,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                     IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, unboundNodes);
                     if (codeProperties != null)
                     {
-                        context.CodeObjectAsProperties().Properties.AddRange(codeProperties);
+                        IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
+                        foreach (ICodeProperty codeProperty in codeProperties)
+                            fields.AddProperty(codeProperty);
+
                         context.BindPropertiesContext().BoundProperties.Add(nameNormalizer.PrepareName(defaultProperty.Name));
                         return true;
                     }

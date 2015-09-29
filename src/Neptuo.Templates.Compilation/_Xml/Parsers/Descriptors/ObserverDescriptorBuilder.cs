@@ -35,14 +35,14 @@ namespace Neptuo.Templates.Compilation.Parsers
             IXComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
 
             // Create new observer or update existing?
-            IPropertiesCodeObject observerObject = (IPropertiesCodeObject)IsObserverContained(context, codeObject, attribute);
+            IFieldCollectionCodeObject observerObject = (IFieldCollectionCodeObject)IsObserverContained(context, codeObject, attribute);
             if (observerObject != null)
             {
                 bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
             else
             {
-                observerObject = (IPropertiesCodeObject)CreateCodeObject(context, attribute);
+                observerObject = (IFieldCollectionCodeObject)CreateCodeObject(context, attribute);
                 codeObject.Observers.Add(observerObject);
                 bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
@@ -58,7 +58,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IPropertiesCodeObject codeObject, IXmlAttribute attribute)
+        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IFieldCollectionCodeObject codeObject, IXmlAttribute attribute)
         {
             string attributeName = context.Registry.WithPropertyNormalizer().PrepareName(attribute.LocalName);
             IPropertyInfo propertyInfo;
@@ -67,7 +67,10 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, attribute.GetValue());
                 if(codeProperties != null)
                 {
-                    codeObject.Properties.AddRange(codeProperties);
+                    IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
+                    foreach (ICodeProperty codeProperty in codeProperties)
+                        fields.AddProperty(codeProperty);
+
                     bindContext.BoundProperties.Add(attributeName);
                     return true;
                 }
@@ -78,7 +81,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IPropertiesCodeObject codeObject, IXmlAttribute unboundAttribute)
+        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IFieldCollectionCodeObject codeObject, IXmlAttribute unboundAttribute)
         {
             context.AddError(unboundAttribute, "Unnable to attach attribute to observer.");
             return false;

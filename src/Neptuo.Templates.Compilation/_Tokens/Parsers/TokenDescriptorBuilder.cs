@@ -34,8 +34,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
             ICodeObject codeObject = CreateCodeObject(context, extension);
-            IPropertiesCodeObject propertiesCodeObject = codeObject as IPropertiesCodeObject;
-            if (propertiesCodeObject != null && BindProperties(context, propertiesCodeObject, extension))
+            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
+            if (fields != null && BindProperties(context, fields, extension))
                 return codeObject;
 
             return null;
@@ -48,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Code object to bind properties to.</param>
         /// <param name="token">Token to process attributes from.</param>
         /// <returns><c>true</c> if binding was successfull; otherwise <c>false</c>.</returns>
-        protected virtual bool BindProperties(ITokenBuilderContext context, IPropertiesCodeObject codeObject, Token token)
+        protected virtual bool BindProperties(ITokenBuilderContext context, IFieldCollectionCodeObject codeObject, Token token)
         {
             bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();
@@ -67,7 +67,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                     IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, new DefaultSourceContent(attribute.Value, token));
                     if(codeProperties != null) 
                     {
-                        codeObject.Properties.AddRange(codeProperties);
+                        foreach (ICodeProperty codeProperty in codeProperties)
+                            codeObject.AddProperty(codeProperty);
+
                         bindContext.BoundProperties.Add(name);
                         continue;
                     }
@@ -85,7 +87,9 @@ namespace Neptuo.Templates.Compilation.Parsers
                     IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
                     if(codeProperties != null)
                     {
-                        codeObject.Properties.AddRange(codeProperties);
+                        foreach (ICodeProperty codeProperty in codeProperties)
+                            codeObject.AddProperty(codeProperty);
+
                         bindContext.BoundProperties.Add(nameNormalizer.PrepareName(defaultProperty.Name));
                     }
                     else

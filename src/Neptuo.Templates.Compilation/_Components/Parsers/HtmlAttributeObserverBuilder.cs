@@ -43,8 +43,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             if (typeCodeObject == null)
                 return false;
 
-            IPropertiesCodeObject propertiesCodeObject = codeObject as IPropertiesCodeObject;
-            if (propertiesCodeObject == null)
+            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
+            if (fields == null)
                 return false;
 
             if (requiredInterface.IsAssignableFrom(typeCodeObject.Type))
@@ -54,7 +54,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (value != null)
                 {
                     codeProperty.SetKeyValue(new LiteralCodeObject(attribute.Name), value);
-                    propertiesCodeObject.Properties.Add(codeProperty);
+                    fields.AddProperty(codeProperty);
                     return true;
                 }
             }

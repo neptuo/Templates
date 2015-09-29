@@ -35,14 +35,14 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             ICodeObject codeObject = base.CreateCodeObject(context, element);
-            IPropertiesCodeObject properties = codeObject as IPropertiesCodeObject;
-            if (properties != null)
+            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
+            if (fields != null)
             {
                 PropertyInfo propertyInfo = GetControlType(element).GetProperty(tagNameProperty);
 
                 ICodeProperty codeProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.PropertyType);
                 codeProperty.SetValue(new LiteralCodeObject(element.Name));
-                properties.Properties.Add(codeProperty);
+                fields.AddProperty(codeProperty);
             }
             return codeObject;
         }

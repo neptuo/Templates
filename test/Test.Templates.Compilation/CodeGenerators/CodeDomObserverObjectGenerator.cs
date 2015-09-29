@@ -32,15 +32,16 @@ namespace Test.Templates.Compilation.CodeGenerators
                 return null;
             }
 
-            IPropertiesCodeObject propertiesCodeObject = codeObject as IPropertiesCodeObject;
-            if (propertiesCodeObject == null)
+            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
+            if (fields == null)
             {
                 context.AddError("Unnable to generate code for observer, which is not IPropertiesCodeObject.");
                 return null;
             }
 
             XComponentCodeObject component = new XComponentCodeObject(typeCodeObject.Type);
-            component.Properties.AddRange(propertiesCodeObject.Properties);
+            foreach (ICodeProperty codeProperty in fields.EnumerateProperties())
+                component.AddProperty(codeProperty);
             
             return base.Generate(context, component);
         }

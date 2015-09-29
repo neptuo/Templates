@@ -31,7 +31,7 @@ namespace Test.Templates.Compilation.Parsers
                 return null;
 
             codeProperty.SetRangeValue(values);
-            templateCodeObject.Properties.Add(codeProperty);
+            templateCodeObject.AddProperty(codeProperty);
 
             ICodeProperty resultProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
             resultProperty.SetValue(templateCodeObject);
@@ -46,7 +46,7 @@ namespace Test.Templates.Compilation.Parsers
 
             ICodeProperty pathProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.PropertyType);
             pathProperty.SetValue(new LiteralCodeObject(value.TextContent));
-            templateCodeObject.Properties.Add(pathProperty);
+            templateCodeObject.AddProperty(pathProperty);
 
             ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
             codeProperty.SetValue(templateCodeObject);
