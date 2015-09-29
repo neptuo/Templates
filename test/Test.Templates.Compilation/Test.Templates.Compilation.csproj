@@ -57,9 +57,13 @@
     <Compile Include="CodeGenerators\Features\CodeDomAstObserverFeature.cs" />
     <Compile Include="CodeObjects\MethodReferenceCodeObject.cs" />
     <Compile Include="CodeGenerators\SharpKitCodeCompiler.cs" />
+    <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\TemplateCodeObject.cs" />
+    <Compile Include="Parsers\DefaultTypeObserverBuilder.cs" />
+    <Compile Include="Parsers\Registries\_ObserverBuilderRegistryExtensions.cs" />
     <Compile Include="Parsers\StringPropertyBuilder.cs" />
     <Compile Include="Parsers\TemplatePropertyBuilder.cs" />
+    <Compile Include="Parsers\TypeObserverBuilder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

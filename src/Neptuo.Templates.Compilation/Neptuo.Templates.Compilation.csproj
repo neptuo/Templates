@@ -134,7 +134,6 @@
     <Compile Include="_Components\Parsers\Registries\TokenBuilderRegistry.cs" />
     <Compile Include="_Components\Parsers\Registries\_ContentBuilderRegistryExtensions.cs" />
     <Compile Include="_Components\Parsers\Registries\_DefaultParserRegistryExtensions.cs" />
-    <Compile Include="_Components\Parsers\Registries\_ObserverBuilderRegistryExtensions.cs" />
     <Compile Include="_DefaultPipelineDispatcherExtensions.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />
     <Compile Include="ISourceContent.cs" />
@@ -196,14 +195,12 @@
     <Compile Include="_Components\CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokeCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokePropertyInfo.cs" />
-    <Compile Include="_Components\CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\RootCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\_ComponentsCodeObjectListExtensions.cs" />
     <Compile Include="_Components\ComponentAttribute.cs" />
     <Compile Include="_Components\Parsers\DefaultLiteralControlBuilder.cs" />
     <Compile Include="_Components\Parsers\DefaultTypeTokenBuilder.cs" />
     <Compile Include="_Components\Parsers\DefaultTypeComponentBuilder.cs" />
-    <Compile Include="_Components\Parsers\DefaultTypeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\HtmlAttributeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\PropertyDescriptorPropertyInfo.cs" />
     <Compile Include="_Components\Parsers\RootComponentDescriptor.cs" />
@@ -211,7 +208,6 @@
     <Compile Include="_Components\Parsers\TypeComponentBuilder.cs" />
     <Compile Include="_Components\Parsers\TypeDefaultPropertyBuilder.cs" />
     <Compile Include="_Components\Parsers\TypeComponentDescriptor.cs" />
-    <Compile Include="_Components\Parsers\TypeObserverBuilder.cs" />
     <Compile Include="_Components\Parsers\TypePropertyInfo.cs" />
     <Compile Include="_Components\PreProcessing\VisitorBase.cs" />
     <Compile Include="_Components\PropertyAttribute.cs" />
