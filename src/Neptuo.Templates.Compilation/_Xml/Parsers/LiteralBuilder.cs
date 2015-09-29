@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
     /// Default implementation of <see cref="ILiteralBuilder"/>.
-    /// Creates instance of <see cref="PlainValueCodeObject"/> or <see cref="CommentCodeObject"/>.
+    /// Creates instance of <see cref="LiteralCodeObject"/> or <see cref="CommentCodeObject"/>.
     /// </summary>
     public class LiteralBuilder : ILiteralBuilder
     {

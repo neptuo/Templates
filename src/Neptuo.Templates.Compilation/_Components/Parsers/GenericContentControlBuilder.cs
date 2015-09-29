@@ -41,7 +41,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 PropertyInfo propertyInfo = GetControlType(element).GetProperty(tagNameProperty);
 
                 ICodeProperty codeProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.PropertyType);
-                codeProperty.SetValue(new PlainValueCodeObject(element.Name));
+                codeProperty.SetValue(new LiteralCodeObject(element.Name));
                 properties.Properties.Add(codeProperty);
             }
             return codeObject;
@@ -61,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     return true;
 
                 // Is not plain value code object.
-                IPlainValueCodeObject plainValue = value as IPlainValueCodeObject;
+                ILiteralCodeObject plainValue = value as ILiteralCodeObject;
                 if (plainValue == null)
                 {
                     isComponentRequired = true;

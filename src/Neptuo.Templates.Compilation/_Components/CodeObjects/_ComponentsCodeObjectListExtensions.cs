@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         public static CodeObjectCollection AddLiteral(this CodeObjectCollection list, Type literalType, string textProperty, object value)
         {
             Ensure.NotNull(list, "list");
-            list.Add(new LiteralCodeObject(literalType, textProperty, value));
+            list.Add(new LiteralControlCodeObject(literalType, textProperty, value));
             return list;
         }
     }

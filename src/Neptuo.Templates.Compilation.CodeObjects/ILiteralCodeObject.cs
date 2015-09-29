@@ -6,13 +6,13 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
     /// <summary>
-    /// Static value object.
+    /// Defines code object with static/const value.
     /// </summary>
-    public interface IPlainValueCodeObject : ICodeObject
+    public interface ILiteralCodeObject : ICodeObject
     {
         /// <summary>
-        /// Static value.
+        /// Literal value.
         /// </summary>
-        object Value { get; set; }
+        object Value { get; }
     }
 }

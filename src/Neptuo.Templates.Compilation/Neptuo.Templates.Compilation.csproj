@@ -159,7 +159,6 @@
     <Compile Include="CodeGenerators\ICodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\ICodeGeneratorServiceContext.cs" />
     <Compile Include="CodeObjects\IObserversCodeObject.cs" />
-    <Compile Include="CodeObjects\IPlainValueCodeObject.cs" />
     <Compile Include="CodeObjects\IPropertiesCodeObject.cs" />
     <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />
@@ -192,7 +191,7 @@
     <Compile Include="_Components\CodeCompilers\CodeCompiler.cs" />
     <Compile Include="_Components\CodeObjects\XComponentCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DependencyCodeObject.cs" />
-    <Compile Include="_Components\CodeObjects\LiteralCodeObject.cs" />
+    <Compile Include="_Components\CodeObjects\LiteralControlCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokeCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokePropertyInfo.cs" />
     <Compile Include="_Components\CodeObjects\RootCodeObject.cs" />

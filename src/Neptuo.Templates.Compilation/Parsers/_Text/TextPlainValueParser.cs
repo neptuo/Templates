@@ -9,13 +9,13 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.Parsers
 {
     /// <summary>
-    /// Parses any value as <see cref="IPlainValueCodeObject"/>.
+    /// Parses any value as <see cref="ILiteralCodeObject"/>.
     /// </summary>
     public class TextPlainValueParser : ITextValueParser
     {
         public ICodeObject Parse(ISourceContent content, ITextValueParserContext context)
         {
-            return new PlainValueCodeObject(content.TextContent);
+            return new LiteralCodeObject(content.TextContent);
         }
     }
 }

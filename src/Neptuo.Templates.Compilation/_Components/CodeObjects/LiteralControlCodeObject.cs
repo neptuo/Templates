@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class LiteralCodeObject : PlainValueCodeObject
+    public class LiteralControlCodeObject : LiteralCodeObject
     {
         public Type LiteralType { get; set; }
         public string TextProperty { get; set; }
 
-        public LiteralCodeObject(Type literalType, string textProperty, object value)
+        public LiteralControlCodeObject(Type literalType, string textProperty, object value)
             : base(value)
         {
             Ensure.NotNull(literalType, "literalType");

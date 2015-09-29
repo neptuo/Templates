@@ -54,6 +54,7 @@
     <Compile Include="CodePropertyCollection.cs" />
     <Compile Include="CommentCodeObject.cs" />
     <Compile Include="ComponentCodeObject.cs" />
+    <Compile Include="ILiteralCodeObject.cs" />
     <Compile Include="MapCodeProperty.cs" />
     <Compile Include="Features\FieldCollectionCodeObject.cs" />
     <Compile Include="Features\NameCodeObject.cs" />
@@ -64,7 +65,7 @@
     <Compile Include="INameCodeObject.cs" />
     <Compile Include="IObserverCollectionCodeObject.cs" />
     <Compile Include="IPropertyInfo.cs" />
-    <Compile Include="PlainValueCodeObject.cs" />
+    <Compile Include="LiteralCodeObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SetCodeProperty.cs" />
     <Compile Include="_CodeObjectCollectionExtensions.cs" />

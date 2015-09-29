@@ -28,7 +28,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     contentValue.Append(node.OuterXml);
 
                 ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
-                codeProperty.SetValue(new PlainValueCodeObject(contentValue.ToString()));
+                codeProperty.SetValue(new LiteralCodeObject(contentValue.ToString()));
                 return new CodePropertyCollection(codeProperty);
             }
             else if (typeof(IEnumerable).IsAssignableFrom(context.PropertyInfo.Type))
@@ -89,7 +89,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                         contentValue.Append(node.OuterXml);
 
                     ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
-                    codeProperty.SetValue(new PlainValueCodeObject(contentValue.ToString()));
+                    codeProperty.SetValue(new LiteralCodeObject(contentValue.ToString()));
                     return new CodePropertyCollection(codeProperty);
                 }
             }

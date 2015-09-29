@@ -45,7 +45,7 @@ namespace Test.Templates.Compilation.Parsers
             PropertyInfo propertyInfo = typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path));
 
             ICodeProperty pathProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.PropertyType);
-            pathProperty.SetValue(new PlainValueCodeObject(value.TextContent));
+            pathProperty.SetValue(new LiteralCodeObject(value.TextContent));
             templateCodeObject.Properties.Add(pathProperty);
 
             ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);

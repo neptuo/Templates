@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeGenerators
 {
-    public class CodeDomLiteralObjectGenerator : CodeDomObjectGeneratorBase<IPlainValueCodeObject>
+    public class CodeDomLiteralObjectGenerator : CodeDomObjectGeneratorBase<ILiteralCodeObject>
     {
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, IPlainValueCodeObject codeObject)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ILiteralCodeObject codeObject)
         {
             object value = codeObject.Value;
             Type returnType = typeof(void);

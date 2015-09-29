@@ -53,7 +53,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 ICodeObject value = context.TryProcessValue(attribute.GetValue());
                 if (value != null)
                 {
-                    codeProperty.SetKeyValue(new PlainValueCodeObject(attribute.Name), value);
+                    codeProperty.SetKeyValue(new LiteralCodeObject(attribute.Name), value);
                     propertiesCodeObject.Properties.Add(codeProperty);
                     return true;
                 }

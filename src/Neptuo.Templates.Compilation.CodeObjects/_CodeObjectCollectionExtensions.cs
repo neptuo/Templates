@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
 
 
         /// <summary>
-        /// Adds <see cref="PlainValueCodeObject"/> with value <paramref name="value"/> to the <paramref name="list"/>.
+        /// Adds <see cref="LiteralCodeObject"/> with value <paramref name="value"/> to the <paramref name="list"/>.
         /// </summary>
         /// <param name="list">Target list of code objects.</param>
         /// <param name="value">Plain value to add.</param>
@@ -38,7 +38,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         public static CodeObjectCollection AddPlainValue(this CodeObjectCollection list, object value)
         {
             Ensure.NotNull(list, "list");
-            list.Add(new PlainValueCodeObject(value));
+            list.Add(new LiteralCodeObject(value));
             return list;
         }
 
