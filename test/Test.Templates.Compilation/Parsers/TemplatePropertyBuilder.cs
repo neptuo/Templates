@@ -24,7 +24,7 @@ namespace Test.Templates.Compilation.Parsers
             );
 
             //Collection item
-            ICodeProperty codeProperty = new ListAddCodeProperty(targetProperty);
+            ICodeProperty codeProperty = new AddCodeProperty(targetProperty.Name, targetProperty.Type);
             IEnumerable<ICodeObject> values = context.BuilderContext.TryProcessContentNodes(content);
             if (values == null)
                 return null;

@@ -14,6 +14,6 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// <summary>
         /// Name of the code object.
         /// </summary>
-        public string Name { get; set; }
+        string Name { get; }
     }
 }

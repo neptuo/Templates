@@ -116,7 +116,7 @@
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomRootObjectGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomDictionaryAddPropertyGenerator.cs" />
-    <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomListAddPropertyGenerator.cs" />
+    <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomAddPropertyGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomSetPropertyGenerator.cs" />
     <Compile Include="_Components\AssemblyScanning\TypeScanner.cs" />
     <Compile Include="_Components\Parsers\GenericContentControlBuilder.cs" />
@@ -196,7 +196,6 @@
     <Compile Include="_Components\CodeObjects\XComponentCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DependencyCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DictionaryAddCodeProperty.cs" />
-    <Compile Include="_Components\CodeObjects\ListAddCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokeCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokePropertyInfo.cs" />

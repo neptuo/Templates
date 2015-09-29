@@ -13,14 +13,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Generator for properties which should use <see cref="List{T}.Add"/> method.
     /// </summary>
-    public class CodeDomListAddPropertyGenerator : CodeDomPropertyGeneratorBase<ListAddCodeProperty>
+    public class CodeDomAddPropertyGenerator : CodeDomPropertyGeneratorBase<AddCodeProperty>
     {
         /// <summary>
         /// Name of the <see cref="List{T}.Add"/> method.
         /// </summary>
         private static string addMethodName = TypeHelper.MethodName<ICollection<object>, object>(c => c.Add);
 
-        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, ListAddCodeProperty codeProperty)
+        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, AddCodeProperty codeProperty)
         {
             CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 

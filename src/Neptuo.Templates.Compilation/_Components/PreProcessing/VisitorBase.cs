@@ -41,7 +41,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
 
         protected void Visit(ICodeProperty codeProperty)
         {
-            ListAddCodeProperty listAdd = codeProperty as ListAddCodeProperty;
+            AddCodeProperty listAdd = codeProperty as AddCodeProperty;
             if (listAdd != null)
             {
                 Visit(listAdd);
@@ -85,7 +85,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
         /// <param name="codeObject">Code object to visit.</param>
         protected abstract void Visit(ICodeObject codeObject);
 
-        protected virtual void Visit(ListAddCodeProperty codeProperty)
+        protected virtual void Visit(AddCodeProperty codeProperty)
         {
             foreach (ICodeObject codeObject in codeProperty.Values)
                 Visit(codeObject);
