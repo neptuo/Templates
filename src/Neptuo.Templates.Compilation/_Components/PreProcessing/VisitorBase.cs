@@ -62,7 +62,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
                 return;
             }
 
-            DictionaryAddCodeProperty dictionaryAdd = codeProperty as DictionaryAddCodeProperty;
+            MapCodeProperty dictionaryAdd = codeProperty as MapCodeProperty;
             if (dictionaryAdd != null)
             {
                 Visit(dictionaryAdd);
@@ -102,7 +102,7 @@ namespace Neptuo.Templates.Compilation.PreProcessing
                 Visit(codeObject);
         }
 
-        protected virtual void Visit(DictionaryAddCodeProperty codeProperty)
+        protected virtual void Visit(MapCodeProperty codeProperty)
         {
             foreach (KeyValuePair<ICodeObject, ICodeObject> item in codeProperty.Values)
             {

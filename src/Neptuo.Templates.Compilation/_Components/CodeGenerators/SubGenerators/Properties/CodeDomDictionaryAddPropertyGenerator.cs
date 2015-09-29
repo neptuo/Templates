@@ -13,14 +13,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Generator for properties which should use <see cref="Dictionary{K,V}.Add"/> method.
     /// </summary>
-    public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<DictionaryAddCodeProperty>
+    public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<MapCodeProperty>
     {
         /// <summary>
         /// Name of the <see cref="Dictionary{K,V}.Add"/> method.
         /// </summary>
         private static string addMethodName = TypeHelper.MethodName<IDictionary<string, string>, string, string>(d => d.Add);
 
-        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, DictionaryAddCodeProperty codeProperty)
+        protected override ICodeDomPropertyResult Generate(ICodeDomPropertyContext context, MapCodeProperty codeProperty)
         {
             CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 

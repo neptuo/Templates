@@ -53,6 +53,7 @@
     <Compile Include="CodeObjectCollection.cs" />
     <Compile Include="CommentCodeObject.cs" />
     <Compile Include="ComponentCodeObject.cs" />
+    <Compile Include="MapCodeProperty.cs" />
     <Compile Include="Features\FieldCollectionCodeObject.cs" />
     <Compile Include="Features\NameCodeObject.cs" />
     <Compile Include="Features\ObserverCollectionCodeObject.cs" />

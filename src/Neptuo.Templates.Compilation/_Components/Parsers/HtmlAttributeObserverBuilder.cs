@@ -30,10 +30,10 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.propertyName = propertyName;
         }
 
-        private DictionaryAddCodeProperty CreateCodeProperty(ITypeCodeObject typeCodeObject)
+        private MapCodeProperty CreateCodeProperty(ITypeCodeObject typeCodeObject)
         {
             TypePropertyInfo propertyInfo = new TypePropertyInfo(typeCodeObject.Type.GetProperty(propertyName));
-            DictionaryAddCodeProperty codeProperty = new DictionaryAddCodeProperty(propertyInfo);
+            MapCodeProperty codeProperty = new MapCodeProperty(propertyInfo.Name, propertyInfo.Type);
             return codeProperty;
         }
 
@@ -49,13 +49,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             if (requiredInterface.IsAssignableFrom(typeCodeObject.Type))
             {
-                DictionaryAddCodeProperty codeProperty = CreateCodeProperty(typeCodeObject);
-                codeProperty.SetValue(new PlainValueCodeObject(attribute.Name));
-
+                MapCodeProperty codeProperty = CreateCodeProperty(typeCodeObject);
                 ICodeObject value = context.TryProcessValue(attribute.GetValue());
                 if (value != null)
                 {
-                    codeProperty.SetValue(value);
+                    codeProperty.SetKeyValue(new PlainValueCodeObject(attribute.Name), value);
                     propertiesCodeObject.Properties.Add(codeProperty);
                     return true;
                 }

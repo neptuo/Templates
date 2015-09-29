@@ -195,7 +195,6 @@
     <Compile Include="_Components\CodeCompilers\CodeCompiler.cs" />
     <Compile Include="_Components\CodeObjects\XComponentCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\DependencyCodeObject.cs" />
-    <Compile Include="_Components\CodeObjects\DictionaryAddCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\LiteralCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokeCodeProperty.cs" />
     <Compile Include="_Components\CodeObjects\MethodInvokePropertyInfo.cs" />
