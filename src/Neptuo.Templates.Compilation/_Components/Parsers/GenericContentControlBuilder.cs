@@ -53,7 +53,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             ComponentCodeObject codeObject = new ComponentCodeObject();
             codeObject
-                .Add<ITypeCodeObject>(new TypeCodeObject(typeof(T)));
+                .Add<ITypeCodeObject>(new TypeCodeObject(typeof(T)))
+                .Add<IFieldCollectionCodeObject>(new FieldCollectionCodeObject());
 
             bool isComponentRequired = false;
             foreach (IXmlAttribute attribute in element.Attributes)

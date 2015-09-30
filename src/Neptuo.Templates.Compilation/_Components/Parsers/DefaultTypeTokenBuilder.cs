@@ -24,7 +24,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             ComponentCodeObject codeObject = new ComponentCodeObject();
             codeObject
-                .Add<ITypeCodeObject>(new TypeCodeObject(Type));
+                .Add<ITypeCodeObject>(new TypeCodeObject(Type))
+                .Add<IFieldCollectionCodeObject>(new FieldCollectionCodeObject());
 
             return codeObject;
         }

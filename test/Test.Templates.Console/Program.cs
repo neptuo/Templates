@@ -10,8 +10,8 @@ namespace Test.Templates
     {
         static void Main(string[] args)
         {
-            //TestText.Test();
-            TestSyntax.Test();
+            TestText.Test();
+            //TestSyntax.Test();
             //TestOnlineSharpkitCompile.Test();
 
             Console.ReadKey(true);

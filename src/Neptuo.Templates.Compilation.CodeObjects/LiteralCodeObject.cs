@@ -8,7 +8,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Property value (in final state) or literal object.
     /// </summary>
-    public class LiteralCodeObject : ICodeObject
+    public class LiteralCodeObject : ICodeObject, ILiteralCodeObject
     {
         public object Value { get; private set; }
 

@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Models.Features;
+using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,17 @@ namespace Neptuo.Templates.Compilation.Parsers
         public static IFieldCollectionCodeObject CodeObjectAsProperties(this IContentBuilderContext context)
         {
             Ensure.NotNull(context, "context");
-            return (IFieldCollectionCodeObject)CodeObject(context);
+
+            ICodeObject codeObject = CodeObject(context);
+            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
+            if (fields != null)
+                return fields;
+
+            IFeatureModel featureObject = codeObject as IFeatureModel;
+            if (featureObject != null)
+                return featureObject.With<IFieldCollectionCodeObject>();
+
+            throw new NotSupportedException();
         }
 
         #endregion
