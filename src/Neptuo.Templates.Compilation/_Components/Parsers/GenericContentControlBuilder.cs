@@ -1,7 +1,9 @@
 ﻿using Neptuo;
 using Neptuo.Linq.Expressions;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.CodeObjects.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,7 +51,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected virtual bool IsComponentRequired(IContentBuilderContext context, IXmlElement element)
         {
-            XComponentCodeObject codeObject = new XComponentCodeObject(typeof(T));
+            ComponentCodeObject codeObject = new ComponentCodeObject();
+            codeObject
+                .Add<ITypeCodeObject>(new TypeCodeObject(typeof(T)));
 
             bool isComponentRequired = false;
             foreach (IXmlAttribute attribute in element.Attributes)
@@ -68,12 +72,12 @@ namespace Neptuo.Templates.Compilation.Parsers
                     break;
                 }
 
-                // Is observer.
-                if (context.Registry.WithObserverBuilder().TryParse(context, codeObject, attribute) && codeObject.Observers.Any())
-                {
-                    isComponentRequired = true;
-                    break;
-                }
+                // TODO: Is observer.
+                //if (context.Registry.WithObserverBuilder().TryParse(context, codeObject, attribute) && codeObject.Observers.Any())
+                //{
+                //    isComponentRequired = true;
+                //    break;
+                //}
             }
 
             return isComponentRequired;

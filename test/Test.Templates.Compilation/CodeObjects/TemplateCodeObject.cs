@@ -13,11 +13,8 @@ using Test.Templates.UI;
 
 namespace Test.Templates.Compilation.CodeObjects
 {
-    public class TemplateCodeObject : XComponentCodeObject
+    public class TemplateCodeObject : ComponentCodeObject
     {
-        public TemplateCodeObject(Type type)
-            : base(type)
-        { }
     }
 
     public class CodeDomTemplateGenerator : CodeDomComponentObjectGenerator

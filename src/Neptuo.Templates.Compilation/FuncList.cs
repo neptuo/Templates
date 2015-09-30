@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation
 {
-    internal class FuncList<TInput, TOutput>
+    public class FuncList<TInput, TOutput>
     {
         private readonly int offset;
         private readonly List<Func<TInput, TOutput>> delegates = new List<Func<TInput, TOutput>>();

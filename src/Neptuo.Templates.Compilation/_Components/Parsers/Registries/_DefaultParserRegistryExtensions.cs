@@ -205,33 +205,6 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #endregion
 
-        #region IObserverBuilder
-
-        /// <summary>
-        /// Register <paramref name="builder"/> to the <paramref name="registry"/>.
-        /// </summary>
-        /// <param name="registry">Parser registry to register to.</param>
-        /// <param name="builder">Instance of observer builder.</param>
-        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddObserverBuilder(this DefaultParserRegistry registry, IObserverBuilder builder)
-        {
-            Ensure.NotNull(registry, "registry");
-            return registry.AddRegistry<IObserverBuilder>(builder);
-        }
-
-        /// <summary>
-        /// Returns registered instance of observer builder in <paramref name="registry"/>.
-        /// </summary>
-        /// <param name="registry">Parser registry to read observer builder from.</param>
-        /// <returns>Registered instance of observer builder in <paramref name="registry"/>.</returns>
-        public static IObserverBuilder WithObserverBuilder(this IParserProvider registry)
-        {
-            Ensure.NotNull(registry, "registry");
-            return registry.With<IObserverBuilder>();
-        }
-
-        #endregion
-
         #region IContentPropertyBuilder
 
         /// <summary>

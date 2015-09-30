@@ -1,5 +1,7 @@
 ﻿using Neptuo.Linq.Expressions;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.CodeObjects.Features;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -19,7 +21,11 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
-            return new XComponentCodeObject(GetControlType(element));
+            ComponentCodeObject codeObject = new ComponentCodeObject();
+            codeObject
+                .Add<ITypeCodeObject>(new TypeCodeObject(GetControlType(element)));
+
+            return codeObject;
         }
 
         protected override IXComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)

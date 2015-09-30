@@ -87,7 +87,7 @@ namespace Test.Templates
                     .AddObjectGenerator(
                         new CodeDomObjectGeneratorRegistry()
                             .AddGenerator<CommentCodeObject>(new CodeDomCommentObjectGenerator())
-                            .AddGenerator<XComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
+                            .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
                     )
                     .AddPropertyGenerator(

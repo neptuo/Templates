@@ -1,5 +1,6 @@
 ﻿using Neptuo.Identifiers;
 using Neptuo.Linq.Expressions;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
@@ -27,7 +28,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             IsPropertyAssignmentInCreateMethod = false;
         }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, XComponentCodeObject codeObject, string fieldName)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             ICodeDomObjectResult result = base.Generate(context, codeObject, fieldName);
             CodeMemberMethod bindMethod = GenerateBindMethod(context, codeObject, fieldName);
@@ -42,7 +43,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             return result;
         }
 
-        protected override IEnumerable<CodeStatement> GenerateCreateMethodAdditionalStatements(ICodeDomObjectContext context, XComponentCodeObject codeObject, string fieldName)
+        protected override IEnumerable<CodeStatement> GenerateCreateMethodAdditionalStatements(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             List<CodeStatement> statements = new List<CodeStatement>(base.GenerateCreateMethodAdditionalStatements(context, codeObject, fieldName));
 
@@ -64,7 +65,7 @@ namespace Test.Templates.Compilation.CodeGenerators
 
             // Generate and attach observers.
             CodeDomAstObserverFeature generator = new CodeDomAstObserverFeature();
-            IEnumerable<CodeStatement> result = generator.Generate(context, codeObject, fieldName);
+            IEnumerable<CodeStatement> result = generator.Generate(context, codeObject.With<IObserversCodeObject>(), fieldName);
             if (result == null)
                 return null;
 
@@ -72,7 +73,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             return statements;
         }
 
-        protected virtual CodeMemberMethod GenerateBindMethod(ICodeDomObjectContext context, XComponentCodeObject codeObject, string fieldName)
+        protected virtual CodeMemberMethod GenerateBindMethod(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             // Bind method.
             CodeMemberMethod bindMethod = new CodeMemberMethod()
@@ -83,7 +84,7 @@ namespace Test.Templates.Compilation.CodeGenerators
 
             // Bind method parameter.
             bindMethod.Parameters.Add(new CodeParameterDeclarationExpression(
-                new CodeTypeReference(codeObject.Type),
+                new CodeTypeReference(codeObject.With<ITypeCodeObject>().Type),
                 fieldName
             ));
 

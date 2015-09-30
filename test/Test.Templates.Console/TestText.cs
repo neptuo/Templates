@@ -131,7 +131,7 @@ namespace Test.Templates
                     .AddObjectGenerator(
                         new CodeDomObjectGeneratorRegistry()
                             .AddGenerator<CommentCodeObject>(new CodeDomCommentObjectGenerator())
-                            .AddGenerator<XComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
+                            .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
                             .AddGenerator<ObserverCodeObject>(new CodeDomObserverObjectGenerator(nameProvider))
                             .AddGenerator<RootCodeObject>(new CodeDomRootObjectGenerator(CodeDomStructureGenerator.Names.EntryPointFieldName))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())

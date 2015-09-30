@@ -40,6 +40,10 @@
       <HintPath>..\..\packages\Neptuo.Compilers.SharpKit.1.0.1\lib\net45\Neptuo.Compilers.SharpKit.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Neptuo.Models.Features, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Models.Features.1.0.0\lib\net45\Neptuo.Models.Features.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -55,12 +59,19 @@
     <Compile Include="CodeGenerators\CodeDomObserverObjectGenerator.cs" />
     <Compile Include="CodeGenerators\CodeDomValueExtensionObjectGenerator.cs" />
     <Compile Include="CodeGenerators\Features\CodeDomAstObserverFeature.cs" />
+    <Compile Include="CodeObjects\Features\DefaultObserversCodeObject.cs" />
+    <Compile Include="CodeObjects\IObserversCodeObject.cs" />
     <Compile Include="CodeObjects\MethodReferenceCodeObject.cs" />
     <Compile Include="CodeGenerators\SharpKitCodeCompiler.cs" />
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\TemplateCodeObject.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilder.cs" />
     <Compile Include="Parsers\Descriptors\ObserverDescriptorBuilder.cs" />
+    <Compile Include="Parsers\Descriptors\_IContentBuilderContextExtensions.cs" />
+    <Compile Include="Parsers\HtmlAttributeObserverBuilder.cs" />
+    <Compile Include="Parsers\IObserverBuilder.cs" />
+    <Compile Include="Parsers\Registries\ObserverBuilderRegistry.cs" />
+    <Compile Include="Parsers\Registries\_DefaultParserRegistryExtensions.cs" />
     <Compile Include="Parsers\Registries\_ObserverBuilderRegistryExtensions.cs" />
     <Compile Include="Parsers\StringPropertyBuilder.cs" />
     <Compile Include="Parsers\TemplatePropertyBuilder.cs" />

@@ -1,6 +1,8 @@
 ﻿using Neptuo.Linq.Expressions;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.CodeObjects.Features;
 using Neptuo.Templates.Compilation.Parsers;
 using System;
 using System.Collections.Generic;
@@ -17,7 +19,11 @@ namespace Test.Templates.Compilation.Parsers
     {
         public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
-            TemplateCodeObject templateCodeObject = new TemplateCodeObject(typeof(ContentTemplate));
+            TemplateCodeObject templateCodeObject = new TemplateCodeObject();
+            templateCodeObject
+                .Add<ITypeCodeObject>(new TypeCodeObject(typeof(ContentTemplate)))
+                .Add<IFieldCollectionCodeObject>(new FieldCollectionCodeObject());
+
             IPropertyInfo targetProperty = new TypePropertyInfo(
                 typeof(ContentTemplateContent).GetProperty(
                     TypeHelper.PropertyName<ContentTemplateContent, object>(t => t.Content)
@@ -31,7 +37,7 @@ namespace Test.Templates.Compilation.Parsers
                 return null;
 
             codeProperty.SetRangeValue(values);
-            templateCodeObject.AddProperty(codeProperty);
+            templateCodeObject.With<IFieldCollectionCodeObject>().AddProperty(codeProperty);
 
             ICodeProperty resultProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
             resultProperty.SetValue(templateCodeObject);
@@ -40,13 +46,16 @@ namespace Test.Templates.Compilation.Parsers
 
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            XComponentCodeObject templateCodeObject = new XComponentCodeObject(typeof(FileTemplate));
+            TemplateCodeObject templateCodeObject = new TemplateCodeObject();
+            templateCodeObject
+                .Add<ITypeCodeObject>(new TypeCodeObject(typeof(ContentTemplate)))
+                .Add<IFieldCollectionCodeObject>(new FieldCollectionCodeObject());
 
             PropertyInfo propertyInfo = typeof(FileTemplate).GetProperty(TypeHelper.PropertyName<FileTemplate, string>(t => t.Path));
 
             ICodeProperty pathProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.PropertyType);
             pathProperty.SetValue(new LiteralCodeObject(value.TextContent));
-            templateCodeObject.AddProperty(pathProperty);
+            templateCodeObject.With<IFieldCollectionCodeObject>().AddProperty(pathProperty);
 
             ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
             codeProperty.SetValue(templateCodeObject);

@@ -30,12 +30,6 @@ namespace Neptuo.Templates.Compilation.Parsers
             return (IFieldCollectionCodeObject)CodeObject(context);
         }
 
-        public static IObserversCodeObject CodeObjectAsObservers(this IContentBuilderContext context)
-        {
-            Ensure.NotNull(context, "context");
-            return (IObserversCodeObject)CodeObject(context);
-        }
-
         #endregion
 
         #region ComponentDescriptor

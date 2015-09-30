@@ -1,5 +1,6 @@
 ﻿using Neptuo.Identifiers;
 using Neptuo.Linq.Expressions;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
@@ -22,13 +23,13 @@ namespace Test.Templates.Compilation.CodeGenerators
             : base(nameProvider)
         { }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, XComponentCodeObject codeObject, string fieldName)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             ICodeDomObjectResult result = base.Generate(context, codeObject, fieldName);
 
             if (result != null && result.HasExpression())
             {
-                Type returnType = GetExtensionProvideValueReturnType(codeObject.Type);
+                Type returnType = GetExtensionProvideValueReturnType(codeObject.With<ITypeCodeObject>().Type);
                 CodeExpression expression = new CodeMethodInvokeExpression(
                     result.Expression,
                     TypeHelper.MethodName<IValueExtension, IValueExtensionContext, object>(e => e.ProvideValue),
@@ -58,7 +59,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             return typeof(object);
         }
 
-        protected CodeExpression GenerateValueExtensionContext(ICodeDomObjectContext context, XComponentCodeObject codeObject, string fieldName)
+        protected CodeExpression GenerateValueExtensionContext(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             CodeExpression propertyTarget = null;
             context.TryGetPropertyTarget(out propertyTarget);

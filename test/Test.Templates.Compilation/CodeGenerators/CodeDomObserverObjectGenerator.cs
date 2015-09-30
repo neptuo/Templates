@@ -1,7 +1,9 @@
 ﻿using Neptuo.Identifiers;
 using Neptuo.Linq.Expressions;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.CodeObjects.Features;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -39,14 +41,18 @@ namespace Test.Templates.Compilation.CodeGenerators
                 return null;
             }
 
-            XComponentCodeObject component = new XComponentCodeObject(typeCodeObject.Type);
+            ComponentCodeObject component = new ComponentCodeObject();
+            component
+                .Add<ITypeCodeObject>(new TypeCodeObject(typeCodeObject.Type))
+                .Add<IFieldCollectionCodeObject>(new FieldCollectionCodeObject());
+
             foreach (ICodeProperty codeProperty in fields.EnumerateProperties())
-                component.AddProperty(codeProperty);
+                component.With<IFieldCollectionCodeObject>().AddProperty(codeProperty);
             
             return base.Generate(context, component);
         }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, XComponentCodeObject codeObject, string fieldName)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
         {
             ICodeDomObjectResult result = base.Generate(context, codeObject, fieldName);
             if (result == null)
