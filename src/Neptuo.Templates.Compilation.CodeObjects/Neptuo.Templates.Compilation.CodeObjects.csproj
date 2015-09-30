@@ -54,7 +54,9 @@
     <Compile Include="CodePropertyCollection.cs" />
     <Compile Include="CommentCodeObject.cs" />
     <Compile Include="ComponentCodeObject.cs" />
+    <Compile Include="Features\TypeCodeObject.cs" />
     <Compile Include="ILiteralCodeObject.cs" />
+    <Compile Include="ITypeCodeObject.cs" />
     <Compile Include="MapCodeProperty.cs" />
     <Compile Include="Features\FieldCollectionCodeObject.cs" />
     <Compile Include="Features\NameCodeObject.cs" />

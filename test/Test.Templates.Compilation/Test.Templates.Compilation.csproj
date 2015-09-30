@@ -60,6 +60,7 @@
     <Compile Include="CodeObjects\ObserverCodeObject.cs" />
     <Compile Include="CodeObjects\TemplateCodeObject.cs" />
     <Compile Include="Parsers\DefaultTypeObserverBuilder.cs" />
+    <Compile Include="Parsers\Descriptors\ObserverDescriptorBuilder.cs" />
     <Compile Include="Parsers\Registries\_ObserverBuilderRegistryExtensions.cs" />
     <Compile Include="Parsers\StringPropertyBuilder.cs" />
     <Compile Include="Parsers\TemplatePropertyBuilder.cs" />

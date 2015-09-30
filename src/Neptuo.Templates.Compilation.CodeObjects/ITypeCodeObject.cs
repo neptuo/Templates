@@ -6,13 +6,13 @@ using System.Text;
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
     /// <summary>
-    /// Object that has type.
+    /// Defines code object which takes component type.
     /// </summary>
     public interface ITypeCodeObject : ICodeObject
     {
         /// <summary>
-        /// Object type.
+        /// The type.
         /// </summary>
-        Type Type { get; set; }
+        Type Type { get; }
     }
 }

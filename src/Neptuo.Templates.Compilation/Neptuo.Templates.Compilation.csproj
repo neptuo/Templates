@@ -159,7 +159,6 @@
     <Compile Include="CodeGenerators\ICodeGeneratorService.cs" />
     <Compile Include="CodeGenerators\ICodeGeneratorServiceContext.cs" />
     <Compile Include="CodeObjects\IObserversCodeObject.cs" />
-    <Compile Include="CodeObjects\ITypeCodeObject.cs" />
     <Compile Include="ExceptionErrorInfo.cs" />
     <Compile Include="Properties\VersionInfo.cs" />
     <Compile Include="DefaultViewService.cs" />
@@ -243,7 +242,6 @@
     <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlText.cs" />
     <Compile Include="_Tokens\Parsers\NotSupportedTokenBuilder.cs" />
     <Compile Include="_Xml\Parsers\NotSupportedContentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\Descriptors\ObserverDescriptorBuilder.cs" />
     <Compile Include="_Xml\Parsers\XmlAbstractions\XDocumentSupport.cs" />
     <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\TextXmlContentParser.cs" />
