@@ -13,12 +13,14 @@
             </ui:panel>
             <div>
                 <ui:panel header="Postal code:">
-                    <ui:textbox name="postalcode" text="{ui:Binding PostalCode}" class="textbox" />
+                    <ui:textbox name="postalcode" text="{ui:Binding PostalCode}" /> <!-- class="textbox" -->
                 </ui:panel>
             </div>
         </div>
         <div class="person-links">
-            <ui:anchor url="http://www.google.com" target="_blank" security="{ui:Security Identifier={ui:Parameter Name=F, Value=X}}">
+            <!-- target="_blank" -->
+            <!-- security="{ui:Security Identifier={ui:Parameter Name=F, Value=X}}" -->
+            <ui:anchor url="http://www.google.com" >
                 <parameters>
                     <ui:parameter name="q" value="{ui:Binding Firstname}" />
                 </parameters>

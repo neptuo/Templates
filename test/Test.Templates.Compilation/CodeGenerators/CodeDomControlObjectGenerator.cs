@@ -63,13 +63,13 @@ namespace Test.Templates.Compilation.CodeGenerators
                 )
             ));
 
-            // Generate and attach observers.
-            CodeDomAstObserverFeature generator = new CodeDomAstObserverFeature();
-            IEnumerable<CodeStatement> result = generator.Generate(context, codeObject.With<IObserversCodeObject>(), fieldName);
-            if (result == null)
-                return null;
+            // TODO: Generate and attach observers.
+            //CodeDomAstObserverFeature generator = new CodeDomAstObserverFeature();
+            //IEnumerable<CodeStatement> result = generator.Generate(context, codeObject.With<IObserversCodeObject>(), fieldName);
+            //if (result == null)
+            //    return null;
 
-            statements.AddRange(result);
+            //statements.AddRange(result);
             return statements;
         }
 

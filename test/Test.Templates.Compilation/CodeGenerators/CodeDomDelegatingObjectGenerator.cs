@@ -1,4 +1,5 @@
 ﻿using Neptuo.Identifiers;
+using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
@@ -12,7 +13,7 @@ namespace Test.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Component generator which delegates execution to sub generator.
     /// </summary>
-    public class CodeDomDelegatingObjectGenerator : CodeDomObjectGeneratorBase<ITypeCodeObject>
+    public class CodeDomDelegatingObjectGenerator : CodeDomObjectGeneratorBase<ComponentCodeObject>
     {
         private readonly ICodeDomObjectGenerator controlGenerator;
         private readonly ICodeDomObjectGenerator extensionGenerator;
@@ -25,11 +26,12 @@ namespace Test.Templates.Compilation.CodeGenerators
             objectGenerator = new CodeDomComponentObjectGenerator(nameProvider);
         }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ITypeCodeObject codeObject)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject)
         {
-            if (typeof(IValueExtension).IsAssignableFrom(codeObject.Type))
+            ITypeCodeObject typeObject = codeObject.With<ITypeCodeObject>();
+            if (typeof(IValueExtension).IsAssignableFrom(typeObject.Type))
                 return extensionGenerator.Generate(context, codeObject);
-            else if (typeof(IControl).IsAssignableFrom(codeObject.Type))
+            else if (typeof(IControl).IsAssignableFrom(typeObject.Type))
                 return controlGenerator.Generate(context, codeObject);
             else
                 return objectGenerator.Generate(context, codeObject);
