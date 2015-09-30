@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Models.Features;
+using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Text.Tokens;
 using System;
@@ -20,7 +21,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="context">Builder context.</param>
         /// <param name="token">Token to create code object for.</param>
         /// <returns>Code object for <paramref name="token"/>.</returns>
-        protected abstract ICodeObject CreateCodeObject(ITokenBuilderContext context, Token token);
+        protected abstract ComponentCodeObject CreateCodeObject(ITokenBuilderContext context, Token token);
 
         /// <summary>
         /// Should return component descriptor for <paramref name="token"/>.
@@ -33,8 +34,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
-            ICodeObject codeObject = CreateCodeObject(context, extension);
-            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
+            ComponentCodeObject codeObject = CreateCodeObject(context, extension);
+            IFieldCollectionCodeObject fields = codeObject.With<IFieldCollectionCodeObject>();
             if (fields != null && BindProperties(context, fields, extension))
                 return codeObject;
 
