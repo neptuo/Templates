@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.CodeObjects
 {
-    public class ComponentCodeObject : CollectionFeatureModel, IComponentCodeObject
-    {
-    }
+    /// <summary>
+    /// Defines extensible code object.
+    /// </summary>
+    public interface IComponentCodeObject : IFeatureModel, ICodeObject
+    { }
 }

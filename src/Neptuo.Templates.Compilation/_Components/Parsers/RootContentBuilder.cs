@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,9 +10,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class RootContentBuilder : ComponentDescriptorBuilder
     {
-        private readonly IPropertyInfo defaultProperty;
+        private readonly PropertyInfo defaultProperty;
 
-        public RootContentBuilder(IPropertyInfo defaultProperty)
+        public RootContentBuilder(PropertyInfo defaultProperty)
         {
             Ensure.NotNull(defaultProperty, "defaultProperty");
             this.defaultProperty = defaultProperty;
@@ -19,12 +20,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
-            return new RootCodeObject();
+            return new RootCodeObject(defaultProperty.DeclaringType);
         }
 
         protected override IXComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
         {
-            return new RootComponentDescriptor(defaultProperty);
+            return new RootComponentDescriptor(new TypePropertyInfo(defaultProperty));
         }
 
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)

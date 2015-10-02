@@ -23,7 +23,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             : base(nameProvider)
         { }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, IComponentCodeObject codeObject, string fieldName)
         {
             ICodeDomObjectResult result = base.Generate(context, codeObject, fieldName);
 
@@ -59,7 +59,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             return typeof(object);
         }
 
-        protected CodeExpression GenerateValueExtensionContext(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected CodeExpression GenerateValueExtensionContext(ICodeDomObjectContext context, IComponentCodeObject codeObject, string fieldName)
         {
             CodeExpression propertyTarget = null;
             context.TryGetPropertyTarget(out propertyTarget);

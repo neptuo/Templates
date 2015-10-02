@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Models.Features;
+using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.CodeDom;
 using System.Collections.Generic;
@@ -20,16 +21,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object to process.</param>
         /// <param name="variableName">Name of the variable for <paramref name="codeObject"/>.</param>
         /// <returns>Enumeration of statements for properties on <paramref name="codeObject"/>.</returns>
-        public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IFieldCollectionCodeObject codeObject, string variableName)
+        public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IComponentCodeObject codeObject, string variableName)
         {
             Type componentType = null;
-            ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
-            if (typeCodeObject != null)
+            ITypeCodeObject typeCodeObject;
+            if (codeObject.TryWith<ITypeCodeObject>(out typeCodeObject))
                 componentType = typeCodeObject.Type;
 
             List<CodeStatement> statements = new List<CodeStatement>();
             CodeExpression variableExpression = new CodeVariableReferenceExpression(variableName);
-            foreach (ICodeProperty codeProperty in codeObject.EnumerateProperties())
+            foreach (ICodeProperty codeProperty in codeObject.With<IFieldCollectionCodeObject>().EnumerateProperties())
             {
                 ICodeDomPropertyResult result = context.Registry.WithPropertyGenerator().Generate(
                     context.CreatePropertyContext(variableExpression).AddFieldType(componentType),

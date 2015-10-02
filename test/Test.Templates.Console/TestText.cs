@@ -214,14 +214,13 @@ namespace Test.Templates
                         view.Dispose();
                     });
 
+                    Console.WriteLine(output);
+                    Console.WriteLine("Output size {0}ch", output.ToString().Length);
+
+                    string javascriptCode = (string)viewService.ProcessContent("SharpKit", content, context);
+                    Console.WriteLine(javascriptCode);
                 }
-
-                Console.WriteLine(output);
-                Console.WriteLine("Output size {0}ch", output.ToString().Length);
             });
-
-            string javascriptCode = (string)viewService.ProcessContent("SharpKit", content, context);
-            Console.WriteLine(javascriptCode);
         }
     }
 }

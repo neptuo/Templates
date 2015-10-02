@@ -52,7 +52,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             return base.Generate(context, component);
         }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject, string fieldName)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, IComponentCodeObject codeObject, string fieldName)
         {
             ICodeDomObjectResult result = base.Generate(context, codeObject, fieldName);
             if (result == null)

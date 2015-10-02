@@ -20,9 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             return AddRootBuilder(
                 registry,
-                new RootContentBuilder(
-                    new TypePropertyInfo(typeof(T).GetProperty(TypeHelper.PropertyName(rootPropertyGetter)))
-                )
+                new RootContentBuilder(typeof(T).GetProperty(TypeHelper.PropertyName(rootPropertyGetter)))
             );
         }
 

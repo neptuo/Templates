@@ -13,7 +13,7 @@ namespace Test.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Component generator which delegates execution to sub generator.
     /// </summary>
-    public class CodeDomDelegatingObjectGenerator : CodeDomObjectGeneratorBase<ComponentCodeObject>
+    public class CodeDomDelegatingObjectGenerator : CodeDomObjectGeneratorBase<IComponentCodeObject>
     {
         private readonly ICodeDomObjectGenerator controlGenerator;
         private readonly ICodeDomObjectGenerator extensionGenerator;
@@ -26,7 +26,7 @@ namespace Test.Templates.Compilation.CodeGenerators
             objectGenerator = new CodeDomComponentObjectGenerator(nameProvider);
         }
 
-        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ComponentCodeObject codeObject)
+        protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, IComponentCodeObject codeObject)
         {
             ITypeCodeObject typeObject = codeObject.With<ITypeCodeObject>();
             if (typeof(IValueExtension).IsAssignableFrom(typeObject.Type))
