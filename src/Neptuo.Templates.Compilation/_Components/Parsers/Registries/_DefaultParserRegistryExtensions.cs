@@ -3,6 +3,7 @@ using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -95,9 +96,38 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 TypeScanner typeScanner = registry.With<TypeScanner>();
                 typeScanner.AddTypeProcessor((prefix, type) => builder.AddBuilder(
-                    prefix, 
-                    type.Name, 
+                    prefix,
+                    type.Name,
                     new DefaultTypeComponentBuilder(type)
+                ));
+            }
+
+            return registry.AddRegistry<IContentBuilder>(builder);
+        }
+
+        /// <summary>
+        /// Registers <paramref name="builder"/> to the <paramref name="registry"/> 
+        /// and if <paramref name="registry"/> contains <see cref="TypeScanner"/>, attaches to mapping types (using <see cref="DefaultTypeComponentBuilder"/>).
+        /// </summary>
+        /// <param name="registry">Parser registry to register to.</param>
+        /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
+        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
+        public static DefaultParserRegistry AddContentBuilderRegistry<TContentBuilder>(this DefaultParserRegistry registry, ContentBuilderRegistry builder)
+        {
+            Ensure.NotNull(registry, "registry");
+
+            Type builderType = typeof(TContentBuilder);
+            ConstructorInfo constructorInfo = builderType.GetConstructor(new Type[] { typeof(Type) });
+            if(constructorInfo == null)
+                throw Ensure.Exception.Argument("TContentBuilder", "Passed type '{0}' doesn't contain public constructor with one parameter of type '{1}'.", builderType.FullName, typeof(Type).FullName);
+
+            if (registry.Has<TypeScanner>())
+            {
+                TypeScanner typeScanner = registry.With<TypeScanner>();
+                typeScanner.AddTypeProcessor((prefix, type) => builder.AddBuilder(
+                    prefix,
+                    type.Name,
+                    (IContentBuilder)constructorInfo.Invoke(new Type[] { type })
                 ));
             }
 

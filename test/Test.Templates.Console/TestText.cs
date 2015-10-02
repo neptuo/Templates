@@ -104,7 +104,7 @@ namespace Test.Templates
                         .AddAssembly("ui", "Test.Templates.UI", "Test.Templates")
                         .AddEmptyPrefix("data", "Observers")
                 )
-                .AddContentBuilderRegistry(
+                .AddContentBuilderRegistry<ControlContentBuilder>(
                     new ContentBuilderRegistry(componentNormalizer)
                         .AddGenericControlSearchHandler<GenericContentControl>(c => c.TagName)
                         .AddRootBuilder<GeneratedView>(v => v.Content)
