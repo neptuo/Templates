@@ -1,4 +1,5 @@
-﻿using Neptuo.Linq.Expressions;
+﻿using Neptuo.Models.Features;
+using Neptuo.Linq.Expressions;
 using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
@@ -37,16 +38,13 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeProperty;
         }
 
-        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
-            ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
-            if (typeCodeObject == null)
+            ITypeCodeObject typeCodeObject;
+            if (!codeObject.TryWith(out typeCodeObject))
                 return false;
 
-            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
-            if (fields == null)
-                return false;
-
+            IFieldCollectionCodeObject fields = codeObject.With<IFieldCollectionCodeObject>();
             if (requiredInterface.IsAssignableFrom(typeCodeObject.Type))
             {
                 MapCodeProperty codeProperty = CreateCodeProperty(typeCodeObject);

@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.defaultProperty = defaultProperty;
         }
 
-        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
+        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
             return new RootCodeObject(defaultProperty.DeclaringType);
         }

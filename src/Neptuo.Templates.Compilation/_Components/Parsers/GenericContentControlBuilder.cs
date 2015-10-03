@@ -34,11 +34,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             this.tagNameProperty = TypeHelper.PropertyName(tagNameProperty);
         }
 
-        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
+        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element)
         {
-            ICodeObject codeObject = base.CreateCodeObject(context, element);
-            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
-            if (fields != null)
+            IComponentCodeObject codeObject = base.CreateCodeObject(context, element);
+            IFieldCollectionCodeObject fields;
+            if (codeObject.TryWith(out fields))
             {
                 PropertyInfo propertyInfo = GetControlType(element).GetProperty(tagNameProperty);
 
@@ -72,13 +72,6 @@ namespace Neptuo.Templates.Compilation.Parsers
                     isComponentRequired = true;
                     break;
                 }
-
-                // TODO: Is observer.
-                //if (context.Registry.WithObserverBuilder().TryParse(context, codeObject, attribute) && codeObject.Observers.Any())
-                //{
-                //    isComponentRequired = true;
-                //    break;
-                //}
             }
 
             return isComponentRequired;

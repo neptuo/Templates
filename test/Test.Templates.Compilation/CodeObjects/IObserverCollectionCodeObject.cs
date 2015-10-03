@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// </summary>
         /// <param name="observer">The observer to add.</param>
         /// <returns>Self (for fluency).</returns>
-        IObserverCollectionCodeObject AdddObserver(ICodeObject observer);
+        IObserverCollectionCodeObject AddObserver(ICodeObject observer);
 
         /// <summary>
         /// Returns enumeration of observers.

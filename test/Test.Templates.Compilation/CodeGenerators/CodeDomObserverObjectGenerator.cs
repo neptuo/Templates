@@ -27,29 +27,23 @@ namespace Test.Templates.Compilation.CodeGenerators
 
         public override ICodeDomObjectResult Generate(ICodeDomObjectContext context, ICodeObject codeObject)
         {
-            ITypeCodeObject typeCodeObject = codeObject as ITypeCodeObject;
-            if (typeCodeObject == null)
+            IComponentCodeObject source = (IComponentCodeObject)codeObject;
+
+            ITypeCodeObject type;
+            if (!source.TryWith(out type))
             {
                 context.AddError("Unnable to generate code for observer, which is not ITypeCodeObject.");
                 return null;
             }
 
-            IFieldCollectionCodeObject fields = codeObject as IFieldCollectionCodeObject;
-            if (fields == null)
+            IFieldCollectionCodeObject fields;
+            if (!source.TryWith(out fields))
             {
                 context.AddError("Unnable to generate code for observer, which is not IPropertiesCodeObject.");
                 return null;
             }
 
-            ComponentCodeObject component = new ComponentCodeObject();
-            component
-                .Add<ITypeCodeObject>(new TypeCodeObject(typeCodeObject.Type))
-                .Add<IFieldCollectionCodeObject>(new FieldCollectionCodeObject());
-
-            foreach (ICodeProperty codeProperty in fields.EnumerateProperties())
-                component.With<IFieldCollectionCodeObject>().AddProperty(codeProperty);
-            
-            return base.Generate(context, component);
+            return base.Generate(context, source);
         }
 
         protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, IComponentCodeObject codeObject, string fieldName)

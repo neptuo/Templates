@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects.Features
     {
         private readonly List<ICodeObject> storage = new List<ICodeObject>();
 
-        public IObserverCollectionCodeObject AdddObserver(ICodeObject observer)
+        public IObserverCollectionCodeObject AddObserver(ICodeObject observer)
         {
             Ensure.NotNull(observer, "observer");
             storage.Add(observer);

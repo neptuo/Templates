@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Neptuo.Models.Features;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,32 +9,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
     /// <summary>
     /// Observer.
     /// </summary>
-    public class ObserverCodeObject : ITypeCodeObject, IFieldCollectionCodeObject
+    public class ObserverCodeObject : CollectionFeatureModel, IComponentCodeObject
     {
-        public Type Type { get; set; }
-        public List<ICodeProperty> Properties { get; set; }
-
-        public ObserverCodeObject(Type type)
-        {
-            Ensure.NotNull(type, "type");
-            Type = type;
-            Properties = new List<ICodeProperty>();
-        }
-
-        public void AddProperty(ICodeProperty property)
-        {
-            Properties.Add(property);
-        }
-
-        public bool TryGetProperty(string propertyName, out ICodeProperty property)
-        {
-            property = Properties.FirstOrDefault(p => p.Name == propertyName);
-            return property != null;
-        }
-
-        public IEnumerable<ICodeProperty> EnumerateProperties()
-        {
-            return Properties;
-        }
     }
 }

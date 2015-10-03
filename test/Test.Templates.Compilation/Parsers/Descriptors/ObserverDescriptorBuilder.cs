@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Models.Features;
+using Neptuo.Templates.Compilation.CodeObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,27 +24,27 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Should return not null value to indicate that <paramref name="attribute"/> should be attached to existing observer.
         /// If returns <c>null</c>, new observer will be created and attached.
         /// </returns>
-        protected abstract ICodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IComponentCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
 
-        protected abstract ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
+        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
 
-        protected abstract IXComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IXComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
 
-        public bool TryParse(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             BindContentPropertiesContext bindContext;
             IXComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
 
             // Create new observer or update existing?
-            IFieldCollectionCodeObject observerObject = (IFieldCollectionCodeObject)IsObserverContained(context, codeObject, attribute);
+            IComponentCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
             if (observerObject != null)
             {
                 bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
             else
             {
-                observerObject = (IFieldCollectionCodeObject)CreateCodeObject(context, attribute);
-                codeObject.Observers.Add(observerObject);
+                observerObject = CreateCodeObject(context, attribute);
+                codeObject.With<IObserverCollectionCodeObject>().AddObserver(observerObject);
                 bindContext = new BindContentPropertiesContext(observerDescriptor, context.Registry.WithPropertyNormalizer());
             }
 
@@ -58,7 +59,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IFieldCollectionCodeObject codeObject, IXmlAttribute attribute)
+        protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             string attributeName = context.Registry.WithPropertyNormalizer().PrepareName(attribute.LocalName);
             IPropertyInfo propertyInfo;
@@ -67,9 +68,8 @@ namespace Neptuo.Templates.Compilation.Parsers
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, attribute.GetValue());
                 if(codeProperties != null)
                 {
-                    IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
                     foreach (ICodeProperty codeProperty in codeProperties)
-                        fields.AddProperty(codeProperty);
+                        codeObject.With<IFieldCollectionCodeObject>().AddProperty(codeProperty);
 
                     bindContext.BoundProperties.Add(attributeName);
                     return true;
@@ -81,7 +81,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return false;
         }
 
-        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IFieldCollectionCodeObject codeObject, IXmlAttribute unboundAttribute)
+        protected virtual bool ProcessUnboundAttribute(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute unboundAttribute)
         {
             context.AddError(unboundAttribute, "Unnable to attach attribute to observer.");
             return false;

@@ -22,10 +22,10 @@ namespace Test.Templates.Compilation.CodeGenerators
         /// <param name="codeObject">Code object with control observers.</param>
         /// <param name="fieldName">Name of where observers should be attached.</param>
         /// <returns>Enumeration of statements for registering observers on <paramref name="fieldName"/>.</returns>
-        public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IObserversCodeObject codeObject, string fieldName)
+        public IEnumerable<CodeStatement> Generate(ICodeDomContext context, IObserverCollectionCodeObject codeObject, string fieldName)
         {
             List<CodeStatement> statements = new List<CodeStatement>();
-            foreach (ICodeObject observer in codeObject.Observers)
+            foreach (ICodeObject observer in codeObject.EnumerateObservers())
             {
                 ICodeDomObjectResult result = context.Registry.WithObjectGenerator().Generate(
                     context.CreateObjectContext().AddObserverTarget(fieldName), 

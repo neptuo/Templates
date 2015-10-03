@@ -61,12 +61,10 @@
     <Compile Include="MapCodeProperty.cs" />
     <Compile Include="Features\FieldCollectionCodeObject.cs" />
     <Compile Include="Features\NameCodeObject.cs" />
-    <Compile Include="Features\ObserverCollectionCodeObject.cs" />
     <Compile Include="ICodeObject.cs" />
     <Compile Include="ICodeProperty.cs" />
     <Compile Include="IFieldCollectionCodeObject.cs" />
     <Compile Include="INameCodeObject.cs" />
-    <Compile Include="IObserverCollectionCodeObject.cs" />
     <Compile Include="IPropertyInfo.cs" />
     <Compile Include="LiteralCodeObject.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

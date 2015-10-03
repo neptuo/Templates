@@ -162,7 +162,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Should create code object for this component.
         /// </summary>
-        protected abstract ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
+        protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlElement element);
 
         /// <summary>
         /// Gets current component definition.

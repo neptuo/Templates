@@ -1,4 +1,6 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Models.Features;
+using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.CodeObjects.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +14,26 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         protected abstract Type GetObserverType(IXmlAttribute attribute);
 
-        protected override ICodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)
+        protected override IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute)
         {
-            return new ObserverCodeObject(GetObserverType(attribute));
+            ObserverCodeObject codeObject = new ObserverCodeObject();
+            codeObject
+                .Add<ITypeCodeObject>(new TypeCodeObject(GetObserverType(attribute)))
+                .Add<IFieldCollectionCodeObject>(new FieldCollectionCodeObject());
+
+            return codeObject;
         }
 
-        protected override IXComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        protected override IXComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             return new TypeComponentDescriptor(GetObserverType(attribute));
         }
 
-        protected override ICodeObject IsObserverContained(IContentBuilderContext context, IObserversCodeObject codeObject, IXmlAttribute attribute)
+        protected override IComponentCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             Type observerType = GetObserverType(attribute);
-            return codeObject.Observers.OfType<ITypeCodeObject>().FirstOrDefault(o => o.Type == observerType);
+            ITypeCodeObject typeCodeObject;
+            return codeObject.With<IObserverCollectionCodeObject>().EnumerateObservers().OfType<IComponentCodeObject>().FirstOrDefault(o => o.TryWith(out typeCodeObject) && typeCodeObject.Type == observerType);
         }
     }
 }

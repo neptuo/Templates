@@ -37,6 +37,7 @@ namespace Test.Templates.Compilation.CodeGenerators
 
             // Append bind method right after create method for this field.
             string createMethodName = FormatUniqueName(fieldName, CreateMethodSuffix);
+            IEnumerable<string> names = context.Structure.Class.Members.OfType<CodeMemberMethod>().Select(m => m.Name);
             int createMethodIndex = context.Structure.Class.Members.IndexOf(context.Structure.Class.Members.OfType<CodeMemberMethod>().First(m => m.Name == createMethodName));
             context.Structure.Class.Members.Insert(createMethodIndex + 1, bindMethod);
 
@@ -63,13 +64,18 @@ namespace Test.Templates.Compilation.CodeGenerators
                 )
             ));
 
-            // TODO: Generate and attach observers.
-            //CodeDomAstObserverFeature generator = new CodeDomAstObserverFeature();
-            //IEnumerable<CodeStatement> result = generator.Generate(context, codeObject.With<IObserversCodeObject>(), fieldName);
-            //if (result == null)
-            //    return null;
+            // Generate and attach observers.
+            IObserverCollectionCodeObject observers;
+            if (codeObject.TryWith(out observers))
+            {
+                CodeDomAstObserverFeature generator = new CodeDomAstObserverFeature();
+                IEnumerable<CodeStatement> result = generator.Generate(context, observers, fieldName);
+                if (result == null)
+                    return null;
 
-            //statements.AddRange(result);
+                statements.AddRange(result);
+            }
+
             return statements;
         }
 
