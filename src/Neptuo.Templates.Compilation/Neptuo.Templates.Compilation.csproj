@@ -230,7 +230,7 @@
     <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\Descriptors\IComponentDescriptor.cs" />
+    <Compile Include="_Xml\Parsers\Descriptors\IXComponentDescriptor.cs" />
     <Compile Include="_Xml\Parsers\IContentBuilderContext.cs" />
     <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
     <Compile Include="_Properties\Parsers\IPropertyBuilder.cs" />
