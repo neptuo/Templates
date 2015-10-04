@@ -1,6 +1,7 @@
 ﻿using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.CodeObjects.Features;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
@@ -30,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeObject;
         }
 
-        protected override IXComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token extension)
+        protected override IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token extension)
         {
             return new TypeComponentDescriptor(Type);
         }

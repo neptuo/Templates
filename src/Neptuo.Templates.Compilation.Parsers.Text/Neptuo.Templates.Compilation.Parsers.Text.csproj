@@ -68,7 +68,6 @@
     <Compile Include="_Xml\DefaultPropertyBuilder.cs" />
     <Compile Include="_Xml\Descriptors\BindContentPropertiesContext.cs" />
     <Compile Include="_Xml\Descriptors\ComponentDescriptorBuilder.cs" />
-    <Compile Include="_Xml\Descriptors\IXComponentDescriptor.cs" />
     <Compile Include="_Xml\Descriptors\_IContentBuilderContextExtensions.cs" />
     <Compile Include="_Xml\IContentBuilder.cs" />
     <Compile Include="_Xml\IContentBuilderContext.cs" />
@@ -101,7 +100,6 @@
     <Compile Include="_Components\RootComponentDescriptor.cs" />
     <Compile Include="_Components\RootContentBuilder.cs" />
     <Compile Include="_Components\TypeComponentBuilder.cs" />
-    <Compile Include="_Components\TypeComponentDescriptor.cs" />
     <Compile Include="_Components\TypeDefaultPropertyBuilder.cs" />
     <Compile Include="_Components\TypePropertyInfo.cs" />
     <Compile Include="_Xml\_ContentBuilderContextExtensions.cs" />

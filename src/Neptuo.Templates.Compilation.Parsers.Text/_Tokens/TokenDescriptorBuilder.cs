@@ -1,5 +1,6 @@
 ﻿using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Text.Tokens;
 using System;
@@ -30,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="codeObject">Code object for <paramref name="token"/>.</param>
         /// <param name="token">Token to create component descriptor for.</param>
         /// <returns>Component descriptor for <paramref name="token"/>.</returns>
-        protected abstract IXComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token token);
+        protected abstract IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token token);
         
         public ICodeObject TryParse(ITokenBuilderContext context, Token extension)
         {
@@ -54,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             bool result = true;
             HashSet<string> boundProperies = new HashSet<string>();
             INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
-            IXComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
+            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
 
             BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition, context.Registry.WithPropertyNormalizer());
@@ -63,7 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 string name = nameNormalizer.PrepareName(attribute.Name);
 
                 IPropertyInfo propertyInfo;
-                if (bindContext.Properties.TryGetValue(name, out propertyInfo))
+                if (bindContext.Fields.TryGetValue(name, out propertyInfo))
                 {
                     IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, new DefaultSourceContent(attribute.Value, token));
                     if(codeProperties != null) 

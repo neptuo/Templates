@@ -63,7 +63,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             string attributeName = context.Registry.WithPropertyNormalizer().PrepareName(attribute.LocalName);
             IPropertyInfo propertyInfo;
-            if (bindContext.Properties.TryGetValue(attributeName, out propertyInfo))
+            if (bindContext.Fields.TryGetValue(attributeName, out propertyInfo))
             {
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, attribute.GetValue());
                 if(codeProperties != null)

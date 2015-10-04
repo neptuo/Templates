@@ -2,6 +2,8 @@
 using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.CodeObjects.Features;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
+using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -29,9 +31,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeObject;
         }
 
-        protected override IXComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
+        protected override IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element)
         {
-            return new TypeComponentDescriptor(GetControlType(element));
+            Type controlType = GetControlType(element);
+
+            DefaultComponentDescriptor component = new DefaultComponentDescriptor();
+            component
+                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(controlType));
+                // TODO: Add default property
+                //.Add<IDefaultFieldEnumerator>(new TypePropertyFieldEnumerator;
+
+            return component;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections;
@@ -18,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         public override IEnumerable<ICodeObject> TryParse(IContentBuilderContext context, IXmlElement element)
         {
             ICodeObject codeObject = CreateCodeObject(context, element);
-            IXComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
+            IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
             IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
             BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition, context.Registry.WithPropertyNormalizer());
             context.CodeObject(codeObject);
@@ -33,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, ISourceContent value)
         {
             IPropertyInfo propertyInfo;
-            if (context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
+            if (context.BindPropertiesContext().Fields.TryGetValue(name, out propertyInfo))
             {
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
@@ -56,7 +57,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
             IPropertyInfo propertyInfo;
-            if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Properties.TryGetValue(name, out propertyInfo))
+            if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Fields.TryGetValue(name, out propertyInfo))
             {
                 IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
                 if (codeProperties != null)
@@ -167,6 +168,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Gets current component definition.
         /// </summary>
-        protected abstract IXComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element);
+        protected abstract IComponentDescriptor GetComponentDescriptor(IContentBuilderContext context, ICodeObject codeObject, IXmlElement element);
     }
 }

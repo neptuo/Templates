@@ -1,5 +1,6 @@
 ﻿using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,13 +46,13 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region ComponentDescriptor
 
-        public static IXComponentDescriptor ComponentDescriptor(this IContentBuilderContext context)
+        public static IComponentDescriptor ComponentDescriptor(this IContentBuilderContext context)
         {
             Ensure.NotNull(context, "context");
-            return (IXComponentDescriptor)context.CustomValues["ComponentDescriptor"];
+            return (IComponentDescriptor)context.CustomValues["ComponentDescriptor"];
         }
 
-        public static IContentBuilderContext ComponentDescriptor(this IContentBuilderContext context, IXComponentDescriptor componentDescriptor)
+        public static IContentBuilderContext ComponentDescriptor(this IContentBuilderContext context, IComponentDescriptor componentDescriptor)
         {
             Ensure.NotNull(context, "context");
             context.CustomValues["ComponentDescriptor"] = componentDescriptor;
