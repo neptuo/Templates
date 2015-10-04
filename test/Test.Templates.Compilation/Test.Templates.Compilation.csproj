@@ -84,6 +84,10 @@
       <Project>{c285ce2d-1b99-484a-9ffe-2d0aade22af7}</Project>
       <Name>Neptuo.Templates.Compilation.CodeObjects</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Text\Neptuo.Templates.Compilation.Parsers.Text.csproj">
+      <Project>{e9de792a-332b-40b1-b424-4acc2549ff49}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Text</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>

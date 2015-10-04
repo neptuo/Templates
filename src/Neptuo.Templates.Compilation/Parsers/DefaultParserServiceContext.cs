@@ -22,17 +22,5 @@ namespace Neptuo.Templates.Compilation.Parsers
             DependencyProvider = dependencyProvider;
             Errors = errors ?? new List<IErrorInfo>();
         }
-
-        public ITextContentParserContext CreateContentContext(string name, IParserService service)
-        {
-            Ensure.NotNull(service, "service");
-            return new TextParserContext(name, service, this);
-        }
-
-        public ITextValueParserContext CreateValueContext(string name, IParserService service)
-        {
-            Ensure.NotNull(service, "service");
-            return new TextParserContext(name, service, this);
-        }
     }
 }

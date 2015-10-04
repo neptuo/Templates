@@ -79,7 +79,6 @@ namespace Neptuo.Templates.Compilation
         public DefaultViewService(Func<object, string> keyMapper = null)
             : base(Console.Out)
         {
-            ParserService = new TextParserService();
             PreProcessorService = new DefaultPreProcessorService();
             GeneratorService = new DefaultCodeGeneratorService();
             CompilerService = new DefaultCodeCompilerService();

@@ -54,8 +54,10 @@
   <ItemGroup>
     <Compile Include="CodeCompilers\StaticCodeCompilerBase.cs" />
     <Compile Include="DefaultPipelineDispatcher.cs" />
+    <Compile Include="Parsers\DefaultParserCollection.cs" />
+    <Compile Include="Parsers\IParserProvider.cs" />
     <Compile Include="Parsers\Normalization\NullNameNormalizer.cs" />
-    <Compile Include="Parsers\_Text\_TextParserServiceExtensions.cs" />
+    <Compile Include="Parsers\_DefaultParserProviderExtensions.cs" />
     <Compile Include="_CodeDom\CodeDomGenerator.cs" />
     <Compile Include="_CodeDom\Configuration\CodeDomDefaultConfiguration.cs" />
     <Compile Include="_CodeDom\Configuration\ICodeDomConfiguration.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="_CodeDom\SubGenerators\Properties\_CodeDomPropertyResultExtensions.cs" />
     <Compile Include="_CodeDom\SubGenerators\_CodeDomContextExtensions.cs" />
     <Compile Include="_CodeDom\_CodeDomExtensions.cs" />
+    <Compile Include="_Components\AssemblyScanning\NamespaceDeclaration.cs" />
     <Compile Include="_Components\AssemblyScanning\_TypeScannerExtensions.cs" />
     <Compile Include="_Components\CodeGenerators\CodeDomStructureGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\PropertyDefaults\CodeDomDefaultValueAttributeGenerator.cs" />
@@ -123,20 +126,11 @@
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomAddPropertyGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomSetPropertyGenerator.cs" />
     <Compile Include="_Components\AssemblyScanning\TypeScanner.cs" />
-    <Compile Include="_Components\Parsers\GenericContentControlBuilder.cs" />
     <Compile Include="Parsers\Normalization\CompositeNameNormalizer.cs" />
-    <Compile Include="_Components\Parsers\Registries\ContentBuilderRegistry.cs" />
     <Compile Include="Parsers\Normalization\INameNormalizer.cs" />
     <Compile Include="Parsers\Normalization\LowerInvariantNameNormalizer.cs" />
     <Compile Include="Parsers\Normalization\SuffixNameNormalizer.cs" />
-    <Compile Include="_Components\Parsers\Registries\ContentPropertyBuilderRegistry.cs" />
-    <Compile Include="_Components\Parsers\Registries\DefaultParserRegistry.cs" />
     <Compile Include="FuncList.cs" />
-    <Compile Include="_Components\Parsers\Registries\IParserProvider.cs" />
-    <Compile Include="_Components\Parsers\Registries\NamespaceDeclaration.cs" />
-    <Compile Include="_Components\Parsers\Registries\TokenBuilderRegistry.cs" />
-    <Compile Include="_Components\Parsers\Registries\_ContentBuilderRegistryExtensions.cs" />
-    <Compile Include="_Components\Parsers\Registries\_DefaultParserRegistryExtensions.cs" />
     <Compile Include="_DefaultPipelineDispatcherExtensions.cs" />
     <Compile Include="DefaultSourceLineInfo.cs" />
     <Compile Include="ISourceContent.cs" />
@@ -167,16 +161,9 @@
     <Compile Include="DefaultViewServiceContext.cs" />
     <Compile Include="IViewService.cs" />
     <Compile Include="IViewServiceContext.cs" />
-    <Compile Include="Parsers\_Text\TextParserContext.cs" />
-    <Compile Include="Parsers\_Text\TextParserService.cs" />
     <Compile Include="Parsers\DefaultParserServiceContext.cs" />
-    <Compile Include="Parsers\_Text\ITextContentParser.cs" />
-    <Compile Include="Parsers\_Text\ITextContentParserContext.cs" />
     <Compile Include="Parsers\IParserService.cs" />
     <Compile Include="Parsers\IParserServiceContext.cs" />
-    <Compile Include="Parsers\_Text\ITextValueParser.cs" />
-    <Compile Include="Parsers\_Text\ITextValueParserContext.cs" />
-    <Compile Include="Parsers\_Text\TextPlainValueParser.cs" />
     <Compile Include="PreProcessing\DefaultVisitorContext.cs" />
     <Compile Include="PreProcessing\DefaultPreProcessorService.cs" />
     <Compile Include="PreProcessing\DefaultPreProcessorServiceContext.cs" />
@@ -196,58 +183,9 @@
     <Compile Include="_Components\CodeObjects\RootCodeObject.cs" />
     <Compile Include="_Components\CodeObjects\_ComponentsCodeObjectListExtensions.cs" />
     <Compile Include="_Components\ComponentAttribute.cs" />
-    <Compile Include="_Components\Parsers\DefaultLiteralControlBuilder.cs" />
-    <Compile Include="_Components\Parsers\DefaultTypeTokenBuilder.cs" />
-    <Compile Include="_Components\Parsers\DefaultTypeComponentBuilder.cs" />
-    <Compile Include="_Components\Parsers\PropertyDescriptorPropertyInfo.cs" />
-    <Compile Include="_Components\Parsers\RootComponentDescriptor.cs" />
-    <Compile Include="_Components\Parsers\RootContentBuilder.cs" />
-    <Compile Include="_Components\Parsers\TypeComponentBuilder.cs" />
-    <Compile Include="_Components\Parsers\TypeDefaultPropertyBuilder.cs" />
-    <Compile Include="_Components\Parsers\TypeComponentDescriptor.cs" />
-    <Compile Include="_Components\Parsers\TypePropertyInfo.cs" />
     <Compile Include="_Components\PreProcessing\VisitorBase.cs" />
     <Compile Include="_Components\PropertyAttribute.cs" />
     <Compile Include="_ErrorInfoExtensions.cs" />
-    <Compile Include="_Properties\Parsers\BindPropertiesContext.cs" />
-    <Compile Include="_Properties\Parsers\IPropertyBuilderContext.cs" />
-    <Compile Include="_Properties\Parsers\PropertyBuilderContext.cs" />
-    <Compile Include="_Tokens\Parsers\ITokenBuilder.cs" />
-    <Compile Include="_Tokens\Parsers\ITokenBuilderContext.cs" />
-    <Compile Include="_Tokens\Parsers\TokenBuilderContext.cs" />
-    <Compile Include="_Tokens\Parsers\_TokenBuilderContextExtensions.cs" />
-    <Compile Include="_Tokens\Parsers\TokenDescriptorBuilder.cs" />
-    <Compile Include="_Tokens\Parsers\_TokenExtensions.cs" />
-    <Compile Include="_Tokens\Parsers\TextTokenValueParser.cs" />
-    <Compile Include="_Xml\Parsers\ContentPropertyBuilderContext.cs" />
-    <Compile Include="_Xml\Parsers\Descriptors\BindContentPropertiesContext.cs" />
-    <Compile Include="_Xml\Parsers\ComponentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\Descriptors\ComponentDescriptorBuilder.cs" />
-    <Compile Include="_Xml\Parsers\Descriptors\_IContentBuilderContextExtensions.cs" />
-    <Compile Include="_Xml\Parsers\IContentPropertyBuilderContext.cs" />
-    <Compile Include="_Xml\Parsers\IContentPropertyBuilder.cs" />
-    <Compile Include="_Xml\Parsers\_ContentBuilderContextExtensions.cs" />
-    <Compile Include="_Xml\Parsers\DefaultPropertyBuilder.cs" />
-    <Compile Include="_Xml\Parsers\LiteralBuilder.cs" />
-    <Compile Include="_Xml\Parsers\IContentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\Descriptors\IXComponentDescriptor.cs" />
-    <Compile Include="_Xml\Parsers\IContentBuilderContext.cs" />
-    <Compile Include="_Xml\Parsers\ILiteralBuilder.cs" />
-    <Compile Include="_Properties\Parsers\IPropertyBuilder.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlAttribute.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlElement.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlName.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlNode.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\IXmlText.cs" />
-    <Compile Include="_Tokens\Parsers\NotSupportedTokenBuilder.cs" />
-    <Compile Include="_Xml\Parsers\NotSupportedContentBuilder.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\XDocumentSupport.cs" />
-    <Compile Include="_Xml\Parsers\XmlContentBuilderContext.cs" />
-    <Compile Include="_Xml\Parsers\TextXmlContentParser.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\XmlDocumentSupport.cs" />
-    <Compile Include="_Xml\Parsers\XmlAbstractions\XmlExtensions.cs" />
-    <Compile Include="_Properties\Parsers\_PropertyBuilderContextExtensions.cs" />
-    <Compile Include="_Xml\Parsers\_ContentPropertyBuilderContextExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Neptuo.Templates.Compilation.nuspec" />
@@ -261,7 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CodeObjects\" />
-    <Folder Include="_Properties\CodeObjects\" />
+    <Folder Include="_Components\Parsers\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\build\Neptuo.Build.targets" />

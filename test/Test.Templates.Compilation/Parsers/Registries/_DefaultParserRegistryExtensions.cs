@@ -15,8 +15,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of observer builder.</param>
-        /// <returns>Result from <see cref="DefaultParserRegistry.AddRegistry"/>.</returns>
-        public static DefaultParserRegistry AddObserverBuilder(this DefaultParserRegistry registry, IObserverBuilder builder)
+        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        public static DefaultParserCollection AddObserverBuilder(this DefaultParserCollection registry, IObserverBuilder builder)
         {
             Ensure.NotNull(registry, "registry");
             return registry.AddRegistry<IObserverBuilder>(builder);

@@ -55,7 +55,7 @@ namespace Test.Templates
         {
             container = new UnityDependencyContainer();
             container.Definitions
-                .AddScoped<DataStorage>(container.ScopeName, new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", 23, "Prague", 10001))))
+                .AddScoped<DataStorage>(container.ScopeName, new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", "23", "Prague", "10001"))))
                 .AddScoped<IValueConverterService>(container.ScopeName, new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()))
                 .AddScoped<IViewServiceContext, DefaultViewServiceContext>(container.ScopeName);
         }
@@ -95,7 +95,7 @@ namespace Test.Templates
             );
 
             // Create extensible parser registry.
-            IParserProvider parserRegistry = new DefaultParserRegistry()
+            IParserProvider parserRegistry = new DefaultParserCollection()
                 .AddPropertyNormalizer(new LowerInvariantNameNormalizer())
                 .AddTypeScanner(
                     new TypeScanner()

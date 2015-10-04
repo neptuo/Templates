@@ -23,11 +23,11 @@ namespace Test.Templates.UI.Models
     public class AddressModel
     {
         public string Street { get; set; }
-        public int HouseNumber { get; set; }
+        public string HouseNumber { get; set; }
         public string City { get; set; }
-        public int PostalCode { get; set; }
+        public string PostalCode { get; set; }
 
-        public AddressModel(string street, int houseNumber, string city, int postalCode)
+        public AddressModel(string street, string houseNumber, string city, string postalCode)
         {
             Street = street;
             HouseNumber = houseNumber;

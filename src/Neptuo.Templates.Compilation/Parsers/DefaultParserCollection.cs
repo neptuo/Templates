@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers
     /// <summary>
     /// Default implementation of <see cref="IParserProvider"/>.
     /// </summary>
-    public class DefaultParserRegistry : IParserProvider
+    public class DefaultParserCollection : IParserProvider
     {
         private readonly Dictionary<Type, Dictionary<string, object>> storage = new Dictionary<Type, Dictionary<string, object>>();
 
@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <typeparam name="T">Type of interface to register.</typeparam>
         /// <param name="parser">Instance to map to <typeparamref name="T"/>.</param>
         /// <returns>Self (fluently).</returns>
-        public DefaultParserRegistry AddRegistry<T>(T parser)
+        public DefaultParserCollection AddRegistry<T>(T parser)
         {
             return AddRegistry(String.Empty, parser);
         }
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="name">Name to register instance with.</param>
         /// <param name="parser">Instance to map to <typeparamref name="T"/>.</param>
         /// <returns>Self (fluently).</returns>
-        public DefaultParserRegistry AddRegistry<T>(string name, T parser)
+        public DefaultParserCollection AddRegistry<T>(string name, T parser)
         {
             Ensure.NotNull(name, "name");
             Ensure.NotNull(parser, "parser");

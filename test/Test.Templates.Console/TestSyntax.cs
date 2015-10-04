@@ -54,7 +54,7 @@ namespace Test.Templates
             codePropertyBuilders
                 .AddSearchHandler(CreateCodePropertyBuilder);
 
-            IParserProvider parserProvider = new DefaultParserRegistry()
+            IParserProvider parserProvider = new DefaultParserCollection()
                 .AddRegistry<ICodeObjectBuilder>(codeObjectBuilders)
                 .AddRegistry<ICodePropertyBuilder>(codePropertyBuilders)
                 .AddPropertyNormalizer(new LowerInvariantNameNormalizer());
