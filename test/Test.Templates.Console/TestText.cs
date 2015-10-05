@@ -95,7 +95,7 @@ namespace Test.Templates
             );
 
             // Create extensible parser registry.
-            IParserProvider parserRegistry = new DefaultParserCollection()
+            IParserProvider parserProvider = new DefaultParserCollection()
                 .AddPropertyNormalizer(new LowerInvariantNameNormalizer())
                 .AddTypeScanner(
                     new TypeScanner()
@@ -168,9 +168,9 @@ namespace Test.Templates
 
             DefaultViewService viewService = new DefaultViewService();
             viewService.AddParserService(new TextParserService()
-                .AddContentParser("Default", new TextXmlContentParser(parserRegistry, true))
+                .AddContentParser("Default", new TextXmlContentParser(parserProvider, true))
                 .AddValueParser("Default", new TextPlainValueParser())
-                .AddValueParser("Default", new TextTokenValueParser(parserRegistry))
+                .AddValueParser("Default", new TextTokenValueParser(parserProvider))
             );
 
             viewService.GeneratorService.AddGenerator("CodeDom", codeGenerator);

@@ -28,7 +28,6 @@ namespace Test.Templates
             viewService.AddParserService(CreateParserService());
             viewService.GeneratorService.AddGenerator("CodeDom", CreateCodeGenerator());
             
-
             ICodeObject codeObject = viewService.ParserService.ProcessContent(
                 "Default",
                 new DefaultSourceContent("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"),
