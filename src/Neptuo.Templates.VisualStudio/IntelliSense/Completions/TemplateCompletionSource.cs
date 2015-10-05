@@ -66,6 +66,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             if (completionSets.Any())
                 completionSets.RemoveAt(0);
 
+            newCompletionSet.SelectBestMatch();
             completionSets.Add(newCompletionSet);
         }
 
