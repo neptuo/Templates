@@ -87,8 +87,8 @@ namespace Test.Templates.Compilation.CodeGenerators
 
             return new CodeObjectCreateExpression(
                 new CodeTypeReference(typeof(DefaultValueExtensionContext)),
-                propertyTarget,
-                propertyInfo,
+                propertyTarget ?? new CodePrimitiveExpression(null),
+                propertyInfo ?? new CodePrimitiveExpression(null),
                 new CodeFieldReferenceExpression(
                     new CodeThisReferenceExpression(),
                     "dependencyProvider"

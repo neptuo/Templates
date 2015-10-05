@@ -121,6 +121,7 @@
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomCommentObjectGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomComponentObjectGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomLiteralObjectGenerator.cs" />
+    <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomObjectCollectionGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Objects\CodeDomRootObjectGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomDictionaryAddPropertyGenerator.cs" />
     <Compile Include="_Components\CodeGenerators\SubGenerators\Properties\CodeDomAddPropertyGenerator.cs" />

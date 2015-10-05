@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.CodeObjects
         /// If collection already contains such property, previous value is overriden.
         /// </summary>
         /// <param name="property">The property to add.</param>
-        void AddProperty(ICodeProperty property);
+        IFieldCollectionCodeObject AddProperty(ICodeProperty property);
 
         /// <summary>
         /// Tries to get already set property by its name.

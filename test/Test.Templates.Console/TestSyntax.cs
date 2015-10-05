@@ -1,7 +1,11 @@
 ﻿using Neptuo.Activators;
+using Neptuo.Compilers;
+using Neptuo.Compilers.Errors;
+using Neptuo.Diagnostics;
 using Neptuo.Identifiers;
 using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation;
+using Neptuo.Templates.Compilation.CodeCompilers;
 using Neptuo.Templates.Compilation.CodeGenerators;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers;
@@ -10,30 +14,99 @@ using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Templates.Compilation.Parsers.SyntaxTrees;
 using Neptuo.Templates.Compilation.Parsers.Tokenizers;
+using Neptuo.Templates.Compilation.ViewActivators;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Test.Templates.Compilation.CodeGenerators;
+using Test.Templates.Runtime;
 using Test.Templates.UI;
+using Test.Templates.UI.Converters;
+using Test.Templates.UI.Data;
+using Test.Templates.UI.Models;
 
 namespace Test.Templates
 {
     class TestSyntax
     {
+        private static IDependencyContainer container;
+
+        static TestSyntax()
+        {
+            container = new UnityDependencyContainer();
+            container.Definitions
+                .AddScoped<DataStorage>(container.ScopeName, new DataStorage(new PersonModel("Jon", "Doe", new AddressModel("Dlouhá street", "23", "Prague", "10001"))))
+                .AddScoped<IValueConverterService>(container.ScopeName, new ValueConverterService().SetConverter("NullToBool", new NullToBoolValueConverter()))
+                .AddScoped<IViewServiceContext, DefaultViewServiceContext>(container.ScopeName);
+        }
+
         public static void Test()
         {
             DefaultViewService viewService = new DefaultViewService();
             viewService.AddParserService(CreateParserService());
-            viewService.GeneratorService.AddGenerator("CodeDom", CreateCodeGenerator());
             
-            ICodeObject codeObject = viewService.ParserService.ProcessContent(
-                "Default",
-                new DefaultSourceContent("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"),
-                new DefaultParserServiceContext(new UnityDependencyContainer())
-            );
-            Console.WriteLine(codeObject);
+            //ICodeObject codeObject = viewService.ParserService.ProcessContent(
+            //    "Default",
+            //    new DefaultSourceContent("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"),
+            //    new DefaultParserServiceContext(new UnityDependencyContainer())
+            //);
+            //Console.WriteLine(codeObject);
+
+
+            CodeCompiler codeCompiler = new CodeCompiler();
+            codeCompiler.AddTempDirectory(Environment.CurrentDirectory);
+            codeCompiler.AddIsDebugMode(true);
+            codeCompiler.References().AddDirectory(Environment.CurrentDirectory);
+
+            viewService.GeneratorService.AddGenerator("CodeDom", CreateCodeGenerator());
+            viewService.ActivatorService.AddActivator("CodeDom", new NullViewActivator());
+            viewService.CompilerService.AddCompiler("CodeDom", codeCompiler);
+
+            viewService.CompilerService.AddCompiler("SharpKit", new SharpKitCodeCompiler());
+
+            viewService.Pipeline.AddParserService("CodeDom", "Default");
+            viewService.Pipeline.AddParserService("SharpKit", "Default");
+            viewService.Pipeline.AddCodeGeneratorService("SharpKit", "CodeDom");
+            viewService.Pipeline.AddViewActivatorService("SharpKit", "CodeDom");
+
+
+
+            StringWriter output = new StringWriter();
+
+            IViewServiceContext context = new DefaultViewServiceContext(container);
+
+            container.Definitions.AddScoped<ICodeDomNaming>(container.ScopeName, new CodeDomDefaultNaming("Neptuo.Templates", "SyntaxIndex"));
+
+            ISourceContent content = new DefaultSourceContent("Text {data:Binding Path=ID, Converter=NullToBool} Text {ui:Template Path=~/Test.nt}");
+            DebugHelper.Debug("Execute", () =>
+            {
+                GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
+                if (view == null || context.Errors.Any())
+                {
+                    Console.WriteLine("Unnable to compile view...");
+
+                    foreach (IErrorInfo errorInfo in context.Errors)
+                        Console.WriteLine("{0}:{1} -> {2}", errorInfo.LineNumber, errorInfo.ColumnIndex, errorInfo.ErrorText);
+                }
+                else
+                {
+                    DebugHelper.Debug("Run", () =>
+                    {
+                        view.Init(container, new ComponentManager());
+                        view.Render(new HtmlTextWriter(output));
+                        view.Dispose();
+                    });
+
+                    Console.WriteLine(output);
+                    Console.WriteLine("Output size {0}ch", output.ToString().Length);
+
+                    string javascriptCode = (string)viewService.ProcessContent("SharpKit", content, context);
+                    Console.WriteLine(javascriptCode);
+                }
+            });
         }
 
         private static IParserService CreateParserService()
@@ -88,6 +161,7 @@ namespace Test.Templates
                             .AddGenerator<CommentCodeObject>(new CodeDomCommentObjectGenerator())
                             .AddGenerator<ComponentCodeObject>(new CodeDomDelegatingObjectGenerator(nameProvider))
                             .AddGenerator<LiteralCodeObject>(new CodeDomLiteralObjectGenerator())
+                            .AddGenerator<CodeObjectCollection>(new CodeDomObjectCollectionGenerator(typeof(GeneratedView), "view", "Content"))
                     )
                     .AddPropertyGenerator(
                         new CodeDomPropertyGeneratorRegistry()

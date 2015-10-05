@@ -35,6 +35,11 @@ namespace Neptuo.Templates.Compilation.Parsers
             else
                 result = false;
 
+            // Try add type.
+            ITypeAware type;
+            if (descriptor.TryWith<ITypeAware>(out type))
+                codeObject.Add<ITypeCodeObject>(new TypeCodeObject(type.Type));
+
             // Add name.
             codeObject.AddName(node.Name.PrefixToken.Text + node.Name.NameSeparatorToken.Text + node.Name.NameToken.Text);
 

@@ -28,13 +28,16 @@ namespace Test.Templates.Compilation.CodeGenerators
 
         protected override ICodeDomObjectResult Generate(ICodeDomObjectContext context, IComponentCodeObject codeObject)
         {
-            ITypeCodeObject typeObject = codeObject.With<ITypeCodeObject>();
-            if (typeof(IValueExtension).IsAssignableFrom(typeObject.Type))
-                return extensionGenerator.Generate(context, codeObject);
-            else if (typeof(IControl).IsAssignableFrom(typeObject.Type))
-                return controlGenerator.Generate(context, codeObject);
-            else
-                return objectGenerator.Generate(context, codeObject);
+            ITypeCodeObject typeObject;
+            if (codeObject.TryWith(out typeObject))
+            {
+                if (typeof(IValueExtension).IsAssignableFrom(typeObject.Type))
+                    return extensionGenerator.Generate(context, codeObject);
+                else if (typeof(IControl).IsAssignableFrom(typeObject.Type))
+                    return controlGenerator.Generate(context, codeObject);
+            }
+
+            return objectGenerator.Generate(context, codeObject);
         }
     }
 }

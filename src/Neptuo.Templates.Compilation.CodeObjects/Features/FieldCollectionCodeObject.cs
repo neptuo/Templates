@@ -10,10 +10,11 @@ namespace Neptuo.Templates.Compilation.CodeObjects.Features
     {
         private readonly Dictionary<string, ICodeProperty> properties = new Dictionary<string, ICodeProperty>();
 
-        public void AddProperty(ICodeProperty property)
+        public IFieldCollectionCodeObject AddProperty(ICodeProperty property)
         {
             Ensure.NotNull(property, "property");
             properties[property.Name] = property;
+            return this;
         }
 
         public bool TryGetProperty(string propertyName, out ICodeProperty property)

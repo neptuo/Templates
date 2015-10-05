@@ -36,9 +36,10 @@ namespace Neptuo.Templates.Compilation.CodeObjects
             return false;
         }
 
-        public void AddProperty(ICodeProperty property)
+        public IFieldCollectionCodeObject AddProperty(ICodeProperty property)
         {
             Properties.Add(property);
+            return this;
         }
 
         public bool TryGetProperty(string propertyName, out ICodeProperty property)
