@@ -12,19 +12,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// </summary>
     public abstract class TokenizerBase : IComposableTokenizer
     {
-        public IList<ComposableToken> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
+        public IList<Token> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
         {
             Ensure.NotNull(decorator, "decorator");
             Ensure.NotNull(context, "context");
 
-            List<ComposableToken> result = new List<ComposableToken>();
+            List<Token> result = new List<Token>();
             Tokenize(decorator, context, result);
             return result;
         }
 
-        protected abstract void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result);
+        protected abstract void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result);
 
-        protected virtual void CreateToken(ContentDecorator decorator, List<ComposableToken> result, ComposableTokenType tokenType, int stepsToGoBack = -1)
+        protected virtual void CreateToken(ContentDecorator decorator, List<Token> result, TokenType tokenType, int stepsToGoBack = -1)
         {
             if (stepsToGoBack > 0)
             {
@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             string text = decorator.CurrentContent();
             if (!String.IsNullOrEmpty(text))
             {
-                result.Add(new ComposableToken(tokenType, text)
+                result.Add(new Token(tokenType, text)
                 {
                     TextSpan = decorator.CurrentContentInfo(),
                     DocumentSpan = decorator.CurrentLineInfo(),
@@ -48,9 +48,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 decorator.Read(stepsToGoBack);
         }
 
-        protected virtual void CreateVirtualToken(List<ComposableToken> result, ComposableTokenType tokenType, string text)
+        protected virtual void CreateVirtualToken(List<Token> result, TokenType tokenType, string text)
         {
-            result.Add(new ComposableToken(tokenType, text)
+            result.Add(new Token(tokenType, text)
             {
                 IsVirtual = true
             });

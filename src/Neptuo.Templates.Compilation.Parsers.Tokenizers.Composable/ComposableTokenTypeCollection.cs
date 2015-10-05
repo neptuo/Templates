@@ -10,24 +10,24 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Collection of supported comsable tokens.
     /// </summary>
-    public class ComposableTokenTypeCollection : IEnumerable<ComposableTokenType>
+    public class ComposableTokenTypeCollection : IEnumerable<TokenType>
     {
-        private readonly HashSet<ComposableTokenType> storage;
+        private readonly HashSet<TokenType> storage;
 
         /// <summary>
         /// Creates new empty collection.
         /// </summary>
         public ComposableTokenTypeCollection()
-            : this(Enumerable.Empty<ComposableTokenType>())
+            : this(Enumerable.Empty<TokenType>())
         { }
 
         /// <summary>
         /// Creates collection with initial token types.
         /// </summary>
         /// <param name="initialTokens">Initial token types.</param>
-        public ComposableTokenTypeCollection(IEnumerable<ComposableTokenType> initialTokens)
+        public ComposableTokenTypeCollection(IEnumerable<TokenType> initialTokens)
         {
-            storage = new HashSet<ComposableTokenType>(initialTokens);
+            storage = new HashSet<TokenType>(initialTokens);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="tokenType">Token type to add.</param>
         /// <returns>Self (for fluency).</returns>
         /// <exception cref="ArgumentNullException">When <paramref name="tokenType"/> is <c>null</c>.</exception>
-        public ComposableTokenTypeCollection Add(ComposableTokenType tokenType)
+        public ComposableTokenTypeCollection Add(TokenType tokenType)
         {
             Ensure.NotNull(tokenType, "token");
             storage.Add(tokenType);
@@ -51,7 +51,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="tokenType">Token to test.</param>
         /// <returns><c>true</c> if collection contains <paramref name="tokenType"/>; otherwise <c>false</c>.</returns>
         /// <exception cref="ArgumentNullException">When <paramref name="tokenType"/> is <c>null</c>.</exception>
-        public bool IsContained(ComposableTokenType tokenType)
+        public bool IsContained(TokenType tokenType)
         {
             Ensure.NotNull(tokenType, "token");
             return storage.Contains(tokenType);
@@ -59,7 +59,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         #region IEnumerable
 
-        public IEnumerator<ComposableTokenType> GetEnumerator()
+        public IEnumerator<TokenType> GetEnumerator()
         {
             return storage.GetEnumerator();
         }

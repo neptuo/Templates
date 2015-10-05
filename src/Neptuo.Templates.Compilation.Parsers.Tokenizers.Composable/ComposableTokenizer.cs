@@ -11,7 +11,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Extensible implementation of <see cref="ITokenizer{T}"/>.
     /// </summary>
-    public class ComposableTokenizer : ITokenizer<ComposableToken>, IComposableTokenizerCollection
+    public class ComposableTokenizer : ITokenizer, IComposableTokenizerCollection
     {
         private readonly ComposableTokenTypeCollection supportedTokens;
         private readonly List<IComposableTokenizer> tokenizers;
@@ -20,20 +20,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// Creates new instance of tokenizer.
         /// </summary>
         public ComposableTokenizer()
-            : this(new List<ComposableTokenType>() { ComposableTokenType.Text, ComposableTokenType.Whitespace })
+            : this(new List<TokenType>() { TokenType.Text, TokenType.Whitespace })
         { }
 
         /// <summary>
         /// Creates new instance with initially supported tokens.
         /// </summary>
         /// <param name="supportedTokens">Initially supported tokens.</param>
-        public ComposableTokenizer(IEnumerable<ComposableTokenType> supportedTokens)
+        public ComposableTokenizer(IEnumerable<TokenType> supportedTokens)
         {
             this.supportedTokens = new ComposableTokenTypeCollection(supportedTokens);
             this.tokenizers = new List<IComposableTokenizer>() { };//new PlainComposableTokenizer() };
         }
 
-        public IList<ComposableToken> Tokenize(IContentReader reader, ITokenizerContext context)
+        public IList<Token> Tokenize(IContentReader reader, ITokenizerContext context)
         {
             IFactory<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
@@ -41,12 +41,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                 IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, tokenizer, context, new Stack<IComposableTokenizer>());
                 ContentDecorator decorator = new ContentDecorator(factory.Create());
 
-                IList<ComposableToken> tokens = tokenizer.Tokenize(decorator, superContext);
+                IList<Token> tokens = tokenizer.Tokenize(decorator, superContext);
                 if (tokens.Any())
                     return tokens;
             }
 
-            return new List<ComposableToken>();
+            return new List<Token>();
         }
 
         public IComposableTokenizerCollection Add(IComposableTokenizer tokenizer)

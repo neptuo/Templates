@@ -32,10 +32,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
             List<Completion> result = new List<Completion>();
-            IList<ComposableToken> tokens = tokenizer.Tokenize(textBuffer);
+            IList<Token> tokens = tokenizer.Tokenize(textBuffer);
 
             SnapshotPoint cursorPosition = session.TextView.Caret.Position.BufferPosition;
-            ComposableToken currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
+            Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
             if (currentToken != null)
             {
                 if(currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
@@ -69,7 +69,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             completionSets.Add(newCompletionSet);
         }
 
-        private Completion CreateItem(ComposableToken currentToken, string targetValue, StandardGlyphGroup glyphGroup, StandardGlyphItem glyphItem = StandardGlyphItem.GlyphItemPublic)
+        private Completion CreateItem(Token currentToken, string targetValue, StandardGlyphGroup glyphGroup, StandardGlyphItem glyphItem = StandardGlyphItem.GlyphItemPublic)
         {
             return new Completion(
                 targetValue, 
@@ -100,7 +100,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return newCompletionSet;
         }
 
-        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, ComposableToken currentToken)
+        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, Token currentToken)
         {
             int startIndex = point.GetPosition(textBuffer.CurrentSnapshot);
             int length = Math.Max(0, currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length - startIndex);

@@ -9,9 +9,9 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class CurlySyntax : SyntaxNodeBase<CurlySyntax>
     {
-        public ComposableToken OpenToken { get; set; }
+        public Token OpenToken { get; set; }
         public CurlyNameSyntax Name { get; set; }
-        public ComposableToken CloseToken { get; set; }
+        public Token CloseToken { get; set; }
         public IList<CurlyAttributeSyntax> Attributes { get; set; }
 
         public CurlySyntax()
@@ -34,9 +34,9 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             return result;
         }
 
-        protected override IEnumerable<ComposableToken> GetTokensInternal()
+        protected override IEnumerable<Token> GetTokensInternal()
         {
-            List<ComposableToken> result = new List<ComposableToken>();
+            List<Token> result = new List<Token>();
 
             if (OpenToken != null)
                 result.Add(OpenToken);
@@ -56,9 +56,9 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
     public class CurlyNameSyntax : SyntaxNodeBase<CurlyNameSyntax>
     {
-        public ComposableToken PrefixToken { get; set; }
-        public ComposableToken NameSeparatorToken { get; set; }
-        public ComposableToken NameToken { get; set; }
+        public Token PrefixToken { get; set; }
+        public Token NameSeparatorToken { get; set; }
+        public Token NameToken { get; set; }
 
         protected override CurlyNameSyntax CloneInternal()
         {
@@ -70,9 +70,9 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             };
         }
 
-        protected override IEnumerable<ComposableToken> GetTokensInternal()
+        protected override IEnumerable<Token> GetTokensInternal()
         {
-            List<ComposableToken> result = new List<ComposableToken>();
+            List<Token> result = new List<Token>();
 
             if (PrefixToken != null)
                 result.Add(PrefixToken);
@@ -89,8 +89,8 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
     public class CurlyAttributeSyntax : SyntaxNodeBase<CurlyAttributeSyntax>
     {
-        public ComposableToken NameToken { get; set; }
-        public ComposableToken ValueSeparatorToken { get; set; }
+        public Token NameToken { get; set; }
+        public Token ValueSeparatorToken { get; set; }
         public ISyntaxNode Value { get; set; }
 
         protected override CurlyAttributeSyntax CloneInternal()
@@ -110,9 +110,9 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             return result;
         }
 
-        protected override IEnumerable<ComposableToken> GetTokensInternal()
+        protected override IEnumerable<Token> GetTokensInternal()
         {
-            List<ComposableToken> result = new List<ComposableToken>();
+            List<Token> result = new List<Token>();
 
             if (NameToken != null)
                 result.Add(NameToken);

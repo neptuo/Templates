@@ -9,12 +9,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     public class ComposableTokenBuilder
     {
-        private readonly ComposableToken token;
+        private readonly Token token;
 
         public ComposableTokenBuilder()
         { }
 
-        public ComposableTokenBuilder(ComposableToken token)
+        public ComposableTokenBuilder(Token token)
         {
             Ensure.NotNull(token, "token");
             this.token = token;

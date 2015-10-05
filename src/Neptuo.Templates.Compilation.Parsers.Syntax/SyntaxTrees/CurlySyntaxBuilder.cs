@@ -9,12 +9,12 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class CurlySyntaxBuilder : IComposableSyntaxBuilder
     {
-        public ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex, IComposableSyntaxBuilderContext context)
+        public ISyntaxNode Build(IList<Token> tokens, int startIndex, IComposableSyntaxBuilderContext context)
         {
             CurlySyntax result = new CurlySyntax();
 
             TokenListReader reader = new TokenListReader(tokens, startIndex);
-            ComposableToken token = reader.Current;
+            Token token = reader.Current;
 
             while (token.Type == CurlyTokenType.Whitespace)
             {

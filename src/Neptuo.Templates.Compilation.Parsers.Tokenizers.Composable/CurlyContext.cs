@@ -11,16 +11,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     {
         public ContentDecorator Decorator { get; private set; }
         public IComposableTokenizerContext TokenizerContext { get; private set; }
-        public List<ComposableToken> Result { get; private set; }
+        public List<Token> Result { get; private set; }
 
         public CurlyContext(ContentDecorator decorator, IComposableTokenizerContext context)
         {
-            Result = new List<ComposableToken>();
+            Result = new List<Token>();
             Decorator = decorator;
             TokenizerContext = context;
         }
 
-        public ComposableTokenBuilder CreateToken(ComposableTokenType tokenType, int stepsToGoBack = -1, bool isSkipped = false)
+        public ComposableTokenBuilder CreateToken(TokenType tokenType, int stepsToGoBack = -1, bool isSkipped = false)
         {
             if (stepsToGoBack > 0)
             {
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             string text = Decorator.CurrentContent();
             if (!String.IsNullOrEmpty(text))
             {
-                ComposableToken token = new ComposableToken(tokenType, text)
+                Token token = new Token(tokenType, text)
                 {
                     TextSpan = Decorator.CurrentContentInfo(),
                     DocumentSpan = Decorator.CurrentLineInfo(),
@@ -49,9 +49,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             return new ComposableTokenBuilder();
         }
 
-        public void CreateVirtualToken(ComposableTokenType tokenType, string text)
+        public void CreateVirtualToken(TokenType tokenType, string text)
         {
-            Result.Add(new ComposableToken(tokenType, text)
+            Result.Add(new Token(tokenType, text)
             {
                 IsVirtual = true
             });

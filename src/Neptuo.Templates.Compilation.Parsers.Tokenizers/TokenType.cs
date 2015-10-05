@@ -9,17 +9,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Token type for <see cref="ComposableToken"/>.
     /// </summary>
-    public class ComposableTokenType
+    public class TokenType
     {
         /// <summary>
         /// Plain text token type.
         /// </summary>
-        public static readonly ComposableTokenType Text = new ComposableTokenType("Text");
+        public static readonly TokenType Text = new TokenType("Text");
 
         /// <summary>
         /// Whitespace only text token type.
         /// </summary>
-        public static readonly ComposableTokenType Whitespace = new ComposableTokenType("Whitespace");
+        public static readonly TokenType Whitespace = new TokenType("Whitespace");
 
         /// <summary>
         /// Unique token type name.
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// Creates instance of token type.
         /// </summary>
         /// <param name="uniqueName">Unique token type name.</param>
-        public ComposableTokenType(string uniqueName)
+        public TokenType(string uniqueName)
         {
             Ensure.NotNullOrEmpty(uniqueName, "uniqueName");
             UniqueName = uniqueName;
@@ -44,7 +44,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
         public override bool Equals(object obj)
         {
-            ComposableTokenType otherType = obj as ComposableTokenType;
+            TokenType otherType = obj as TokenType;
             if(otherType == null)
                 return false;
 

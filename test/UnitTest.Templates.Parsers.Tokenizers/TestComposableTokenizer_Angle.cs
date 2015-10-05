@@ -15,7 +15,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Angle_ValidEmptyTag()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty />"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "/>");
             AssertTokenTypes(
@@ -30,7 +30,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Angle_ValidEmptyPrefixedTag()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty />"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "abc", ":", "empty", " ", "/>");
             AssertTokenTypes(
@@ -47,7 +47,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Angle_ValidEmptyPrefixedTagWithAttributes()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty id=\"test\" class=\"btn-empty\" />"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty id=\"test\" class=\"btn-empty\" />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "abc", ":", "empty", " ", "id", "=", "\"", "test", "\"", " ", "class", "=", "\"", "btn-empty", "\"", " ", "/>");
             AssertTokenTypes(
@@ -76,7 +76,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Angle_MultipleValidEmptyTagsSeparatedWithText()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty /> Hello, World! <empty2 />"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty /> Hello, World! <empty2 />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "/>", " Hello, World! ", "<", "empty2", " ", "/>");
             AssertTokenTypes(
@@ -96,7 +96,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Angle_UnfinishedTag()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty <empty2"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty <empty2"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "/>", "<", "empty2", "/>");
             AssertTokenTypes(
@@ -116,7 +116,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Angle_UnfinishedAttribute()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty id class= />"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty id class= />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "id", " ", "=", "\"", "\"", "class", "=", " ", "\"", "\"", "/>");
             AssertTokenTypes(

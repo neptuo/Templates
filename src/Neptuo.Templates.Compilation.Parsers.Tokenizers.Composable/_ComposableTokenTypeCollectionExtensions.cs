@@ -17,12 +17,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="collection"></param>
         /// <param name="tokenTypes"></param>
         /// <returns></returns>
-        public static ComposableTokenTypeCollection AddRange(this ComposableTokenTypeCollection collection, IEnumerable<ComposableTokenType> tokenTypes)
+        public static ComposableTokenTypeCollection AddRange(this ComposableTokenTypeCollection collection, IEnumerable<TokenType> tokenTypes)
         {
             Ensure.NotNull(collection, "collection");
             Ensure.NotNull(tokenTypes, "tokenTypes");
 
-            foreach (ComposableTokenType tokenType in tokenTypes)
+            foreach (TokenType tokenType in tokenTypes)
                 collection.Add(tokenType);
 
             return collection;

@@ -15,7 +15,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_ValidToken()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}"), new FakeTokenizerContext());
 
             AssertLength(tokens, 3);
             AssertTokens(tokens, "{", "Binding", "}");
@@ -29,7 +29,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_ValidWithPrefixToken()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{data:Binding}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{data:Binding}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "data", ":", "Binding", "}");
             AssertContentInfo(tokens,
@@ -44,7 +44,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_ValidTokenWithText()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("abc {Binding}  subtraction(); adaptation(); "), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("abc {Binding}  subtraction(); adaptation(); "), new FakeTokenizerContext());
 
             AssertLength(tokens, 5);
             AssertTokens(tokens, "abc ", "{", "Binding", "}", "  subtraction(); adaptation(); ");
@@ -53,7 +53,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_ValidTokenWithDefaultAttributes()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID,Name,Price}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID,Name,Price}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "ID", ",", "Name", ",", "Price", "}");
         }
@@ -61,7 +61,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_ValidTokenWithNamedAttributes()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path=ID, Converter=Default}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path=ID, Converter=Default}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "ID", ",", " ", "Converter", "=", "Default", "}");
         }
@@ -69,7 +69,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_ValidTokenWithDefaultAndNamedAttributes()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID, Converter=Default}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID, Converter=Default}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "ID", ",", " ", "Converter", "=", "Default", "}");
         }
@@ -77,7 +77,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_InValidTokenWithoutCloseBrace()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", "}");
             AssertAreEqual(tokens[2].IsVirtual, true);
@@ -86,7 +86,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_InValidTokenWithDoubleOpenBrace()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{{Binding"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{{Binding"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "{", "Binding", "}");
             AssertAreEqual(tokens[0].IsSkipped, true);
@@ -96,7 +96,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_InValidTokenWithTripleCloseBrace()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}}}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding}}}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", "}", "}", "}");
             AssertAreEqual(tokens[3].IsSkipped, true);
@@ -106,7 +106,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_InValidTokenMissingCloseWithNextValid()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding as {Binding}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding as {Binding}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "as ", "}", "{", "Binding", "}");
             AssertAreEqual(tokens[4].IsVirtual, true);
@@ -115,7 +115,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_InValidTokenWithInValidName()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "1Binding", "}");
             AssertAreEqual(tokens[1].IsSkipped, true);
@@ -124,7 +124,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Curly_InValidTokenWithDefaultAttributeAfterNamed()
         {
-            IList<ComposableToken> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=Default, ID}"), new FakeTokenizerContext());
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=Default, ID}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "=", "", "}");
             AssertAreEqual(tokens[8].Type, CurlyTokenType.AttributeName);

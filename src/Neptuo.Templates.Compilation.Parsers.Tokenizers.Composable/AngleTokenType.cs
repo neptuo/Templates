@@ -6,28 +6,28 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class AngleTokenType : ComposableTokenType
+    public class AngleTokenType : TokenType
     {
-        public static readonly ComposableTokenType OpenBrace = new ComposableTokenType("Angle.OpenBrace");
-        public static readonly ComposableTokenType NamePrefix = new ComposableTokenType("Angle.NamePrefix");
-        public static readonly ComposableTokenType NameSeparator = new ComposableTokenType("Angle.NameSeparator");
-        public static readonly ComposableTokenType Name = new ComposableTokenType("Angle.Name");
-        public static readonly ComposableTokenType SelfCloseBrace = new ComposableTokenType("Angle.SelfCloseBrace");
-        public static readonly ComposableTokenType CloseBrace = new ComposableTokenType("Angle.CloseBrace");
+        public static readonly TokenType OpenBrace = new TokenType("Angle.OpenBrace");
+        public static readonly TokenType NamePrefix = new TokenType("Angle.NamePrefix");
+        public static readonly TokenType NameSeparator = new TokenType("Angle.NameSeparator");
+        public static readonly TokenType Name = new TokenType("Angle.Name");
+        public static readonly TokenType SelfCloseBrace = new TokenType("Angle.SelfCloseBrace");
+        public static readonly TokenType CloseBrace = new TokenType("Angle.CloseBrace");
 
-        public static readonly ComposableTokenType AttributeNamePrefix = new ComposableTokenType("Angle.AttributeNamePrefix");
-        public static readonly ComposableTokenType AttributeNameSeparator = new ComposableTokenType("Angle.AttributeNameSeparator");
-        public static readonly ComposableTokenType AttributeName = new ComposableTokenType("Angle.AttributeName");
-        public static readonly ComposableTokenType AttributeValueSeparator = new ComposableTokenType("Angle.AttributeValueSeparator");
-        public static readonly ComposableTokenType AttributeOpenValue = new ComposableTokenType("Angle.AttributeOpenValue");
-        public static readonly ComposableTokenType AttributeCloseValue = new ComposableTokenType("Angle.AttributeCloseValue");
+        public static readonly TokenType AttributeNamePrefix = new TokenType("Angle.AttributeNamePrefix");
+        public static readonly TokenType AttributeNameSeparator = new TokenType("Angle.AttributeNameSeparator");
+        public static readonly TokenType AttributeName = new TokenType("Angle.AttributeName");
+        public static readonly TokenType AttributeValueSeparator = new TokenType("Angle.AttributeValueSeparator");
+        public static readonly TokenType AttributeOpenValue = new TokenType("Angle.AttributeOpenValue");
+        public static readonly TokenType AttributeCloseValue = new TokenType("Angle.AttributeCloseValue");
 
-        public static readonly ComposableTokenType OpenDirective = new ComposableTokenType("Angle.OpenDirective");
+        public static readonly TokenType OpenDirective = new TokenType("Angle.OpenDirective");
 
-        public static readonly ComposableTokenType OpenComment = new ComposableTokenType("Angle.OpenComment");
-        public static readonly ComposableTokenType CloseComment = new ComposableTokenType("Angle.CloseComment");
+        public static readonly TokenType OpenComment = new TokenType("Angle.OpenComment");
+        public static readonly TokenType CloseComment = new TokenType("Angle.CloseComment");
 
-        public static readonly ComposableTokenType Error = new ComposableTokenType("Error");
+        public static readonly TokenType Error = new TokenType("Error");
 
         private AngleTokenType() 
             : base("")

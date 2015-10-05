@@ -16,7 +16,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
                 throw Ensure.Exception.NotSupported();
         }
 
-        public static void NextRequiredOfType(this TokenListReader reader, ComposableTokenType tokenType)
+        public static void NextRequiredOfType(this TokenListReader reader, TokenType tokenType)
         {
             Ensure.NotNull(reader, "reader");
             Ensure.NotNull(tokenType, "tokenType");

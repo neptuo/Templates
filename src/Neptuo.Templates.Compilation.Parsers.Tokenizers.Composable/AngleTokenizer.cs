@@ -9,9 +9,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     public class AngleTokenizer : TokenizerBase, IComposableTokenTypeProvider
     {
-        public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
+        public IEnumerable<TokenType> GetSupportedTokenTypes()
         {
-            return new List<ComposableTokenType>()
+            return new List<TokenType>()
             {
                 AngleTokenType.OpenBrace,
                 AngleTokenType.NamePrefix,
@@ -34,11 +34,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             };
         }
 
-        protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             while (decorator.Current != '<' && decorator.Current != ContentReader.EndOfInput)
             {
-                IList<ComposableToken> tokens = context.TokenizePartial(decorator, '<', '>');
+                IList<Token> tokens = context.TokenizePartial(decorator, '<', '>');
                 result.AddRange(tokens);
             }
 
@@ -57,7 +57,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             throw Ensure.Exception.NotImplemented();
         }
 
-        private bool ChooseNodeType(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ChooseNodeType(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             // <
             if (!decorator.Next())
@@ -121,7 +121,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             throw Ensure.Exception.NotImplemented();
         }
 
-        private bool ReadElementName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ReadElementName(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             if (decorator.CurrentWhile(Char.IsLetterOrDigit))
             {
@@ -155,7 +155,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             return false;
         }
 
-        private bool ReadOpenElementContent(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ReadOpenElementContent(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             if (decorator.CurrentWhile(Char.IsWhiteSpace) && decorator.CanResetCurrentPosition(1))
                 CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
@@ -199,7 +199,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             return false;
         }
 
-        private bool ReadAttributeName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ReadAttributeName(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             if (decorator.CurrentWhile(Char.IsLetterOrDigit))
             {
@@ -277,12 +277,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             return false;
         }
 
-        private bool ReadAttributeValue(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ReadAttributeValue(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             CreateToken(decorator, result, AngleTokenType.AttributeOpenValue);
 
             decorator.Next();
-            IList<ComposableToken> attributeValue = context.TokenizePartial(decorator, '"');
+            IList<Token> attributeValue = context.TokenizePartial(decorator, '"');
             result.AddRange(attributeValue);
             decorator.ResetCurrentPosition(1);
             decorator.ResetCurrentInfo();
@@ -292,12 +292,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             return true;
         }
 
-        private bool ReadDirectiveName(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ReadDirectiveName(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             throw Ensure.Exception.NotImplemented();
         }
 
-        private bool ReadComment(ContentDecorator decorator, IComposableTokenizerContext context, List<ComposableToken> result)
+        private bool ReadComment(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
             throw Ensure.Exception.NotImplemented();
         }

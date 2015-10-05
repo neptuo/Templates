@@ -9,19 +9,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     public static class _ComposableTokenizerContextExtensions
     {
-        public static IList<ComposableToken> Tokenize(this IComposableTokenizerContext context, ContentDecorator decorator)
+        public static IList<Token> Tokenize(this IComposableTokenizerContext context, ContentDecorator decorator)
         {
             Ensure.NotNull(context, "context");
             return context.Tokenize(decorator, decorator);
         }
 
-        public static IList<ComposableToken> TokenizePartial(this IComposableTokenizerContext context, ContentDecorator decorator, Func<char, bool> terminator)
+        public static IList<Token> TokenizePartial(this IComposableTokenizerContext context, ContentDecorator decorator, Func<char, bool> terminator)
         {
             Ensure.NotNull(context, "context");
             return context.Tokenize(ContentReader.Partial(decorator, terminator), decorator);
         }
 
-        public static IList<ComposableToken> TokenizePartial(this IComposableTokenizerContext context, ContentDecorator decorator, params char[] terminators)
+        public static IList<Token> TokenizePartial(this IComposableTokenizerContext context, ContentDecorator decorator, params char[] terminators)
         {
             Ensure.NotNull(context, "context");
             return context.Tokenize(ContentReader.Partial(decorator, terminators), decorator);

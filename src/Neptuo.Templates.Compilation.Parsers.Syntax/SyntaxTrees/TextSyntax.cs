@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class TextSyntax : SyntaxNodeBase<TextSyntax>
     {
-        public ComposableToken TextToken { get; set; }
+        public Token TextToken { get; set; }
 
         protected override TextSyntax CloneInternal()
         {
@@ -19,9 +19,9 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             };
         }
 
-        protected override IEnumerable<ComposableToken> GetTokensInternal()
+        protected override IEnumerable<Token> GetTokensInternal()
         {
-            List<ComposableToken> result = new List<ComposableToken>();
+            List<Token> result = new List<Token>();
 
             if (TextToken != null)
                 result.Add(TextToken);

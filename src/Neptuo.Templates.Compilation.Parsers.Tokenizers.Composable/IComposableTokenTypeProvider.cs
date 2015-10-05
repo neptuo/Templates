@@ -15,6 +15,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// Returns enumeration of supported token types.
         /// </summary>
         /// <returns>Enumeration of supported token types.</returns>
-        IEnumerable<ComposableTokenType> GetSupportedTokenTypes();
+        IEnumerable<TokenType> GetSupportedTokenTypes();
     }
 }

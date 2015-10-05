@@ -13,14 +13,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// </summary>
     public class PlainTokenizer : IComposableTokenizer
     {
-        public IList<ComposableToken> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
+        public IList<Token> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
         {
-            List<ComposableToken> result = new List<ComposableToken>();
+            List<Token> result = new List<Token>();
             
             string content = decorator.CurrentToEnd().ToString();
             if (!String.IsNullOrEmpty(content))
             {
-                result.Add(new ComposableToken(ComposableTokenType.Text, content)
+                result.Add(new Token(TokenType.Text, content)
                 {
                     TextSpan = decorator.CurrentContentInfo(),
                     DocumentSpan = decorator.CurrentLineInfo()

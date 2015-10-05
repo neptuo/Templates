@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             return result;
         }
 
-        protected override IEnumerable<ComposableToken> GetTokensInternal()
+        protected override IEnumerable<Token> GetTokensInternal()
         {
             return Nodes.SelectMany(n => n.GetTokens());
         }

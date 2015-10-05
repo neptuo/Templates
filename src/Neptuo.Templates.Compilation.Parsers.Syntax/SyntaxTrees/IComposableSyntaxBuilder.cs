@@ -9,6 +9,6 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public interface IComposableSyntaxBuilder
     {
-        ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex, IComposableSyntaxBuilderContext context);
+        ISyntaxNode Build(IList<Token> tokens, int startIndex, IComposableSyntaxBuilderContext context);
     }
 }

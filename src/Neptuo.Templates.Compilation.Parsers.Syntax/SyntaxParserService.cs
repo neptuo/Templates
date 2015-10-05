@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
         {
-            IList<ComposableToken> tokens = Tokenizer.Tokenize(
+            IList<Token> tokens = Tokenizer.Tokenize(
                 new StringReader(content.TextContent), 
                 new DefaultTokenizerContext(context.DependencyProvider, context.Errors)
             );

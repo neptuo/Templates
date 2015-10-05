@@ -10,13 +10,13 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
     public abstract class SyntaxNodeBase<T> : ISyntaxNode, ICloneable<T>
         where T : SyntaxNodeBase<T>
     {
-        public IList<ComposableToken> LeadingTrivia { get; protected set; }
-        public IList<ComposableToken> TrailingTrivia { get; protected set; }
+        public IList<Token> LeadingTrivia { get; protected set; }
+        public IList<Token> TrailingTrivia { get; protected set; }
 
         public SyntaxNodeBase()
         {
-            LeadingTrivia = new List<ComposableToken>();
-            TrailingTrivia = new List<ComposableToken>();
+            LeadingTrivia = new List<Token>();
+            TrailingTrivia = new List<Token>();
         }
 
         public T Clone()
@@ -34,13 +34,13 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 
         protected abstract T CloneInternal();
 
-        public IEnumerable<ComposableToken> GetTokens()
+        public IEnumerable<Token> GetTokens()
         {
-            IEnumerable<ComposableToken> result = Enumerable.Empty<ComposableToken>();
+            IEnumerable<Token> result = Enumerable.Empty<Token>();
             if (LeadingTrivia.Count > 0)
                 result = Enumerable.Concat(result, LeadingTrivia);
 
-            IEnumerable<ComposableToken> tokens = GetTokensInternal();
+            IEnumerable<Token> tokens = GetTokensInternal();
             if (tokens != null)
                 result = Enumerable.Concat(result, tokens);
 
@@ -50,13 +50,13 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             return result;
         }
 
-        protected abstract IEnumerable<ComposableToken> GetTokensInternal();
+        protected abstract IEnumerable<Token> GetTokensInternal();
 
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
 
-            foreach (ComposableToken token in GetTokens())
+            foreach (Token token in GetTokens())
                 result.Append(token.Text);
 
             return result.ToString();

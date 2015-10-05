@@ -51,7 +51,7 @@ namespace UnitTest.Templates.Parsers
 
             parserService.SyntaxBuilders
                 .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
-                .Add(ComposableTokenType.Text, new TextSyntaxBuilder());
+                .Add(TokenType.Text, new TextSyntaxBuilder());
 
             ICodeObject codeObject = parserService.ProcessContent(
                 "Default", 

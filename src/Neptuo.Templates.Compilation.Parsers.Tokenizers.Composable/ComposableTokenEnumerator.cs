@@ -7,20 +7,20 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class ComposableTokenEnumerator : IEnumerator<ComposableToken>
+    public class ComposableTokenEnumerator : IEnumerator<Token>
     {
-        private readonly IList<ComposableToken> tokens;
+        private readonly IList<Token> tokens;
         private readonly int startIndex;
         private int currentIndex;
 
-        public ComposableTokenEnumerator(IList<ComposableToken> tokens, int startIndex)
+        public ComposableTokenEnumerator(IList<Token> tokens, int startIndex)
         {
             this.tokens = tokens;
             this.startIndex = startIndex;
             this.currentIndex = startIndex;
         }
 
-        public ComposableToken Current
+        public Token Current
         {
             get { return tokens[currentIndex]; }
         }

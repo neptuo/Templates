@@ -18,6 +18,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="reader">Input content reader.</param>
         /// <param name="currentInfo">Offset info.</param>
         /// <returns>List of syntactic tokens from <paramref name="decorator"/>.</returns>
-        IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo);
+        IList<Token> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo);
     }
 }

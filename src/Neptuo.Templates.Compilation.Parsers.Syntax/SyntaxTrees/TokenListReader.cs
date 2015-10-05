@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class TokenListReader
     {
-        public IList<ComposableToken> Tokens { get; private set; }
+        public IList<Token> Tokens { get; private set; }
 
         /// <summary>
         /// Current reader position/index.
@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
         /// <summary>
         /// Token at index <see cref="TokenListReader.Position"/>.
         /// </summary>
-        public ComposableToken Current
+        public Token Current
         {
             get
             {
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
             }
         }
 
-        public TokenListReader(IList<ComposableToken> tokens, int startIndex = -1)
+        public TokenListReader(IList<Token> tokens, int startIndex = -1)
         {
             Ensure.NotNull(tokens, "tokens");
             Tokens = tokens;

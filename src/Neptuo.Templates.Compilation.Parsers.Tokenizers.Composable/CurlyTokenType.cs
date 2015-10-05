@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class CurlyTokenType : ComposableTokenType
+    public class CurlyTokenType : TokenType
     {
-        public static readonly ComposableTokenType OpenBrace = new ComposableTokenType("Curly.OpenBrace");
-        public static readonly ComposableTokenType NamePrefix = new ComposableTokenType("Curly.NamePrefix");
-        public static readonly ComposableTokenType NameSeparator = new ComposableTokenType("Curly.NameSeparator");
-        public static readonly ComposableTokenType Name = new ComposableTokenType("Curly.Name");
+        public static readonly TokenType OpenBrace = new TokenType("Curly.OpenBrace");
+        public static readonly TokenType NamePrefix = new TokenType("Curly.NamePrefix");
+        public static readonly TokenType NameSeparator = new TokenType("Curly.NameSeparator");
+        public static readonly TokenType Name = new TokenType("Curly.Name");
 
-        public static readonly ComposableTokenType DefaultAttributeValue = new ComposableTokenType("Curly.DefaultAttributeName");
-        public static readonly ComposableTokenType AttributeSeparator = new ComposableTokenType("Curly.AttributeSeparator");
+        public static readonly TokenType DefaultAttributeValue = new TokenType("Curly.DefaultAttributeName");
+        public static readonly TokenType AttributeSeparator = new TokenType("Curly.AttributeSeparator");
 
-        public static readonly ComposableTokenType AttributeName = new ComposableTokenType("Curly.AttributeName");
-        public static readonly ComposableTokenType AttributeValueSeparator = new ComposableTokenType("Curly.AttributeValueSeparator");
+        public static readonly TokenType AttributeName = new TokenType("Curly.AttributeName");
+        public static readonly TokenType AttributeValueSeparator = new TokenType("Curly.AttributeValueSeparator");
 
-        public static readonly ComposableTokenType CloseBrace = new ComposableTokenType("Curly.CloseBrace");
+        public static readonly TokenType CloseBrace = new TokenType("Curly.CloseBrace");
 
         private CurlyTokenType() 
             : base("")

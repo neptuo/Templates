@@ -139,7 +139,7 @@ namespace Test.Templates
 
             parserService.SyntaxBuilders
                 .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
-                .Add(ComposableTokenType.Text, new TextSyntaxBuilder());
+                .Add(TokenType.Text, new TextSyntaxBuilder());
 
             return parserService;
         }

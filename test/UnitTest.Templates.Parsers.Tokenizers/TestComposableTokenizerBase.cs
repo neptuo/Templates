@@ -27,12 +27,12 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             return new StringReader(text);
         }
 
-        protected void AssertLength(IList<ComposableToken> tokens, int count)
+        protected void AssertLength(IList<Token> tokens, int count)
         {
             AssertAreEqual(tokens.Count, count);
         }
 
-        protected void AssertTokens(IList<ComposableToken> tokens, params string[] values)
+        protected void AssertTokens(IList<Token> tokens, params string[] values)
         {
             int positionIndex = 0;
 
@@ -54,7 +54,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected void AssertTokenTypes(IList<ComposableToken> tokens, params ComposableTokenType[] types)
+        protected void AssertTokenTypes(IList<Token> tokens, params TokenType[] types)
         {
             AssertLength(tokens, types.Length);
             for (int i = 0; i < types.Length; i++)
@@ -63,7 +63,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
-        protected void AssertContentInfo(IList<ComposableToken> tokens, params ITextSpan[] values)
+        protected void AssertContentInfo(IList<Token> tokens, params ITextSpan[] values)
         {
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)

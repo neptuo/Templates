@@ -11,9 +11,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     public class CurlyTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
     {
-        public IEnumerable<ComposableTokenType> GetSupportedTokenTypes()
+        public IEnumerable<TokenType> GetSupportedTokenTypes()
         {
-            return new List<ComposableTokenType>()
+            return new List<TokenType>()
             {
                 CurlyTokenType.OpenBrace,
                 CurlyTokenType.Name,
@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             };
         }
 
-        public IList<ComposableToken> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
+        public IList<Token> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
         {
             CurlyContext thisContext = new CurlyContext(decorator, context);
             ReadTokenStart(thisContext);
@@ -42,7 +42,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         {
             if (context.Decorator.Current != '{')
             {
-                IList<ComposableToken> tokens = context.TokenizerContext.TokenizePartial(context.Decorator, '{', '}');
+                IList<Token> tokens = context.TokenizerContext.TokenizePartial(context.Decorator, '{', '}');
                 context.Result.AddRange(tokens);
             }
 
@@ -78,7 +78,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
             if (context.Decorator.Current == '{')
             {
-                ComposableToken lastToken = context.Result.Last();
+                Token lastToken = context.Result.Last();
                 lastToken.Errors.Add(new DefaultErrorMessage("Not valid here"));
                 lastToken.IsSkipped = true;
                 context.CreateToken(CurlyTokenType.OpenBrace);
@@ -204,7 +204,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 
                 // Use as attribute value.
                 context.Decorator.Next();
-                IList<ComposableToken> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, ',', '}');
+                IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, ',', '}');
                 context.Result.AddRange(attributeValue);
                 context.Decorator.ResetCurrentPosition(1);
                 context.Decorator.ResetCurrentInfo();

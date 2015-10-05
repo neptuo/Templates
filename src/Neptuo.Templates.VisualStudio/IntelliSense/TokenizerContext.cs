@@ -20,7 +20,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             tokenizer.Add(new PlainTokenizer());
         }
 
-        public IList<ComposableToken> Tokenize(ITextBuffer textBuffer)
+        public IList<Token> Tokenize(ITextBuffer textBuffer)
         {
             string textContent = textBuffer.CurrentSnapshot.GetText();
             return tokenizer.Tokenize(new StringReader(textContent), new FakeTokenizerContext());

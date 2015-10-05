@@ -39,7 +39,7 @@ namespace PerfTest.Templates.Parsers.Tokenizers
 
             Console.WriteLine(content.Length);
             ComposableTokenizer tokenizer = CreateTokenizer();
-            IList<ComposableToken> tokens = Debug("Composable", () => tokenizer.Tokenize(new StringReader(content), new FakeTokenizerContext()));
+            IList<Token> tokens = Debug("Composable", () => tokenizer.Tokenize(new StringReader(content), new FakeTokenizerContext()));
         }
     }
 }

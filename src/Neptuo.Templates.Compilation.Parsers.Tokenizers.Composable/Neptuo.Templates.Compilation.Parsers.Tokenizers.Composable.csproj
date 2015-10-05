@@ -47,11 +47,9 @@
   <ItemGroup>
     <Compile Include="AngleTokenizer.cs" />
     <Compile Include="AngleTokenType.cs" />
-    <Compile Include="ComposableToken.cs" />
     <Compile Include="ComposableTokenEnumerator.cs" />
     <Compile Include="ComposableTokenTypeCollection.cs" />
     <Compile Include="ComposableTokenizer.cs" />
-    <Compile Include="ComposableTokenType.cs" />
     <Compile Include="CurlyContext.cs" />
     <Compile Include="CurlyTokenizer.cs" />
     <Compile Include="CurlyTokenType.cs" />

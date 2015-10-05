@@ -9,10 +9,10 @@ namespace Neptuo.Templates.Compilation.Parsers.SyntaxTrees
 {
     public class TextSyntaxBuilder : IComposableSyntaxBuilder
     {
-        public ISyntaxNode Build(IList<ComposableToken> tokens, int startIndex, IComposableSyntaxBuilderContext context)
+        public ISyntaxNode Build(IList<Token> tokens, int startIndex, IComposableSyntaxBuilderContext context)
         {
-            ComposableToken token = tokens[startIndex];
-            if (token.Type == ComposableTokenType.Text)
+            Token token = tokens[startIndex];
+            if (token.Type == TokenType.Text)
             {
                 return new TextSyntax
                 {

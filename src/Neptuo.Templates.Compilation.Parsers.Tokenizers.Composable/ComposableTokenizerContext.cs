@@ -28,10 +28,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             this.currentTokenizers = currentTokenizers;
         }
 
-        public IList<ComposableToken> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo)
+        public IList<Token> Tokenize(IContentReader reader, ICurrentInfoAware currentInfo)
         {
             currentTokenizers.Push(targetTokenizer);
-            IList<ComposableToken> tokens = new List<ComposableToken>();
+            IList<Token> tokens = new List<Token>();
             IFactory<IContentReader> factory = new ContentFactory(reader);
             foreach (IComposableTokenizer tokenizer in tokenizers)
             {
