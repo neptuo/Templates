@@ -11,12 +11,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Parses content as single text token.
     /// </summary>
-    public class PlainTokenizer : IComposableTokenizer
+    public class PlainTokenizer : TokenizerBase
     {
-        public IList<Token> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
+        protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
-            List<Token> result = new List<Token>();
-            
             string content = decorator.CurrentToEnd().ToString();
             if (!String.IsNullOrEmpty(content))
             {
@@ -26,8 +24,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
                     DocumentSpan = decorator.CurrentLineInfo()
                 });
             }
-
-            return result;
         }
     }
 }

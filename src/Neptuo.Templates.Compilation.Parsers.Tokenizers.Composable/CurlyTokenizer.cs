@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class CurlyTokenizer : IComposableTokenizer, IComposableTokenTypeProvider
+    public class CurlyTokenizer : TokenizerBase, ITokenTypeProvider
     {
         public IEnumerable<TokenType> GetSupportedTokenTypes()
         {
@@ -31,11 +31,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             };
         }
 
-        public IList<Token> Tokenize(ContentDecorator decorator, IComposableTokenizerContext context)
+        protected override void Tokenize(ContentDecorator decorator, IComposableTokenizerContext context, List<Token> result)
         {
-            CurlyContext thisContext = new CurlyContext(decorator, context);
+            CurlyContext thisContext = new CurlyContext(result, decorator, context);
             ReadTokenStart(thisContext);
-            return thisContext.Result;
         }
 
         private bool ReadTokenStart(CurlyContext context)

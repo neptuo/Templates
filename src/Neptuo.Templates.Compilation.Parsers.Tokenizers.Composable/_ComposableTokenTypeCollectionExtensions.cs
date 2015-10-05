@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     /// <summary>
-    /// Common extensions for <see cref="ComposableTokenTypeCollection"/>.
+    /// Common extensions for <see cref="TokenTypeCollection"/>.
     /// </summary>
     public static class _ComposableTokenTypeCollectionExtensions
     {
@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="collection"></param>
         /// <param name="tokenTypes"></param>
         /// <returns></returns>
-        public static ComposableTokenTypeCollection AddRange(this ComposableTokenTypeCollection collection, IEnumerable<TokenType> tokenTypes)
+        public static TokenTypeCollection AddRange(this TokenTypeCollection collection, IEnumerable<TokenType> tokenTypes)
         {
             Ensure.NotNull(collection, "collection");
             Ensure.NotNull(tokenTypes, "tokenTypes");

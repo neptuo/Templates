@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Provider for token types.
     /// </summary>
-    public interface IComposableTokenTypeProvider
+    public interface ITokenTypeProvider
     {
         /// <summary>
         /// Returns enumeration of supported token types.

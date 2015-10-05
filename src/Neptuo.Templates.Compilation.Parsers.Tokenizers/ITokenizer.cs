@@ -10,7 +10,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Describes component that passes throught reader and creates list of syntactic tokens.
     /// </summary>
-    /// <typeparam name="TToken">Type of token.</typeparam>
     public interface ITokenizer
     {
         /// <summary>

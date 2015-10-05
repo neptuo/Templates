@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
-    public class AngleTokenizer : TokenizerBase, IComposableTokenTypeProvider
+    public class AngleTokenizer : TokenizerBase, ITokenTypeProvider
     {
         public IEnumerable<TokenType> GetSupportedTokenTypes()
         {

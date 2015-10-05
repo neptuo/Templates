@@ -10,14 +10,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Collection of supported comsable tokens.
     /// </summary>
-    public class ComposableTokenTypeCollection : IEnumerable<TokenType>
+    public class TokenTypeCollection : IEnumerable<TokenType>
     {
         private readonly HashSet<TokenType> storage;
 
         /// <summary>
         /// Creates new empty collection.
         /// </summary>
-        public ComposableTokenTypeCollection()
+        public TokenTypeCollection()
             : this(Enumerable.Empty<TokenType>())
         { }
 
@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// Creates collection with initial token types.
         /// </summary>
         /// <param name="initialTokens">Initial token types.</param>
-        public ComposableTokenTypeCollection(IEnumerable<TokenType> initialTokens)
+        public TokenTypeCollection(IEnumerable<TokenType> initialTokens)
         {
             storage = new HashSet<TokenType>(initialTokens);
         }
@@ -37,7 +37,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="tokenType">Token type to add.</param>
         /// <returns>Self (for fluency).</returns>
         /// <exception cref="ArgumentNullException">When <paramref name="tokenType"/> is <c>null</c>.</exception>
-        public ComposableTokenTypeCollection Add(TokenType tokenType)
+        public TokenTypeCollection Add(TokenType tokenType)
         {
             Ensure.NotNull(tokenType, "token");
             storage.Add(tokenType);

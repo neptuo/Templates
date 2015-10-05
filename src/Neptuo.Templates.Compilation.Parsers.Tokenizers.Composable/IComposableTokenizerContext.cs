@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
 {
     /// <summary>
-    /// Context for <see cref="IComposableTokenizer"/>.
+    /// Context for <see cref="TokenizerBase"/>.
     /// </summary>
     public interface IComposableTokenizerContext : ITokenizerContext
     {

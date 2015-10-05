@@ -57,11 +57,13 @@
     <Compile Include="IO\StringReader.cs" />
     <Compile Include="IO\_ContentDecoratorExtensions.cs" />
     <Compile Include="IO\_ContentReaderExtensions.cs" />
+    <Compile Include="ITokenTypeProvider.cs" />
     <Compile Include="Token.cs" />
     <Compile Include="ITokenizer.cs" />
     <Compile Include="ITokenizerContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TokenType.cs" />
+    <Compile Include="TokenTypeCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">

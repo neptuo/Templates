@@ -13,9 +13,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         public IComposableTokenizerContext TokenizerContext { get; private set; }
         public List<Token> Result { get; private set; }
 
-        public CurlyContext(ContentDecorator decorator, IComposableTokenizerContext context)
+        public CurlyContext(List<Token> result, ContentDecorator decorator, IComposableTokenizerContext context)
         {
-            Result = new List<Token>();
+            Result = result;
             Decorator = decorator;
             TokenizerContext = context;
         }

@@ -11,10 +11,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// <summary>
     /// Extensible implementation of <see cref="ITokenizer{T}"/>.
     /// </summary>
-    public class ComposableTokenizer : ITokenizer, IComposableTokenizerCollection
+    public class ComposableTokenizer : ITokenizer, ITokenizerCollection
     {
-        private readonly ComposableTokenTypeCollection supportedTokens;
-        private readonly List<IComposableTokenizer> tokenizers;
+        private readonly TokenTypeCollection supportedTokens;
+        private readonly List<TokenizerBase> tokenizers;
 
         /// <summary>
         /// Creates new instance of tokenizer.
@@ -29,16 +29,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <param name="supportedTokens">Initially supported tokens.</param>
         public ComposableTokenizer(IEnumerable<TokenType> supportedTokens)
         {
-            this.supportedTokens = new ComposableTokenTypeCollection(supportedTokens);
-            this.tokenizers = new List<IComposableTokenizer>() { };//new PlainComposableTokenizer() };
+            this.supportedTokens = new TokenTypeCollection(supportedTokens);
+            this.tokenizers = new List<TokenizerBase>() { };//new PlainComposableTokenizer() };
         }
 
         public IList<Token> Tokenize(IContentReader reader, ITokenizerContext context)
         {
             IFactory<IContentReader> factory = new ContentFactory(reader);
-            foreach (IComposableTokenizer tokenizer in tokenizers)
+            foreach (TokenizerBase tokenizer in tokenizers)
             {
-                IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, tokenizer, context, new Stack<IComposableTokenizer>());
+                IComposableTokenizerContext superContext = new ComposableTokenizerContext(tokenizers, tokenizer, context, new Stack<TokenizerBase>());
                 ContentDecorator decorator = new ContentDecorator(factory.Create());
 
                 IList<Token> tokens = tokenizer.Tokenize(decorator, superContext);
@@ -49,12 +49,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             return new List<Token>();
         }
 
-        public IComposableTokenizerCollection Add(IComposableTokenizer tokenizer)
+        public ITokenizerCollection Add(TokenizerBase tokenizer)
         {
             Ensure.NotNull(tokenizer, "tokenizer");
             tokenizers.Add(tokenizer);
 
-            IComposableTokenTypeProvider provider = tokenizer as IComposableTokenTypeProvider;
+            ITokenTypeProvider provider = tokenizer as ITokenTypeProvider;
             if (provider != null)
                 supportedTokens.AddRange(provider.GetSupportedTokenTypes());
 

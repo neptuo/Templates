@@ -13,11 +13,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     /// </summary>
     internal class ComposableTokenizerContext : DefaultTokenizerContext, IComposableTokenizerContext
     {
-        private readonly List<IComposableTokenizer> tokenizers;
-        private readonly IComposableTokenizer targetTokenizer;
-        private readonly Stack<IComposableTokenizer> currentTokenizers;
+        private readonly List<TokenizerBase> tokenizers;
+        private readonly TokenizerBase targetTokenizer;
+        private readonly Stack<TokenizerBase> currentTokenizers;
 
-        public ComposableTokenizerContext(List<IComposableTokenizer> tokenizers, IComposableTokenizer targetTokenizer, ITokenizerContext context, Stack<IComposableTokenizer> currentTokenizers)
+        public ComposableTokenizerContext(List<TokenizerBase> tokenizers, TokenizerBase targetTokenizer, ITokenizerContext context, Stack<TokenizerBase> currentTokenizers)
             : base(context.DependencyProvider, context.Errors)
         {
             Ensure.NotNull(tokenizers, "tokenizers");
@@ -33,7 +33,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             currentTokenizers.Push(targetTokenizer);
             IList<Token> tokens = new List<Token>();
             IFactory<IContentReader> factory = new ContentFactory(reader);
-            foreach (IComposableTokenizer tokenizer in tokenizers)
+            foreach (TokenizerBase tokenizer in tokenizers)
             {
                 if (!currentTokenizers.Contains(tokenizer))
                 {
