@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         public Dictionary<string, object> CustomValues { get; private set; }
         public TextXmlContentParser Parser { get { return BuilderContext.Parser; } }
 
-        public ContentPropertyBuilderContext(IContentBuilderContext builderContext, IPropertyInfo propertyInfo)
-            : base(builderContext.ParserContext.Name, builderContext.ParserContext, builderContext.ParserContext.ParserService, propertyInfo)
+        public ContentPropertyBuilderContext(IContentBuilderContext builderContext, IFieldDescriptor fieldDescriptor)
+            : base(builderContext.ParserContext.Name, builderContext.ParserContext, builderContext.ParserContext.ParserService, fieldDescriptor)
         {
             Ensure.NotNull(builderContext, "builderContext");
             BuilderContext = builderContext;

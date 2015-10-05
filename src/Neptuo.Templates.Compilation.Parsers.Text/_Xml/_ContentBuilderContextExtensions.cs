@@ -1,5 +1,6 @@
 ﻿using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
@@ -195,26 +196,26 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Parses property value.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="propertyInfo">Property to build.</param>
+        /// <param name="fieldDescriptor">Property to build.</param>
         /// <param name="value">Value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IFieldDescriptor fieldDescriptor, ISourceContent value)
         {
             Ensure.NotNull(context, "context");
-            return context.Registry.XWithPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), value);
+            return context.Registry.XWithPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, fieldDescriptor), value);
         }
 
         /// <summary>
         /// Parses property value.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="propertyInfo">Property to build.</param>
+        /// <param name="fieldDescriptor">Property to build.</param>
         /// <param name="content">Content.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IPropertyInfo propertyInfo, IEnumerable<IXmlNode> content)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this IContentBuilderContext context, IFieldDescriptor fieldDescriptor, IEnumerable<IXmlNode> content)
         {
             Ensure.NotNull(context, "context");
-            return context.Registry.WithContentPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, propertyInfo), content);
+            return context.Registry.WithContentPropertyBuilder().TryParse(new ContentPropertyBuilderContext(context, fieldDescriptor), content);
         }
     }
 }

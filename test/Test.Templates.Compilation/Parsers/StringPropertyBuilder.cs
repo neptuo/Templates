@@ -13,7 +13,7 @@ namespace Test.Templates.Compilation.Parsers
     {
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
-            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
+            ICodeProperty codeProperty = new SetCodeProperty(context.FieldDescriptor.Name, context.FieldDescriptor.FieldType);
             ICodeObject valueObject = context.ParserService.ProcessValue(context.Name, value, context.CreateValueContext(context.Name, context.ParserService));
             if (valueObject != null)
             {

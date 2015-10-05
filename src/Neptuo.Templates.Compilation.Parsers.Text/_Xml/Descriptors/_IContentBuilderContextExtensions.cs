@@ -80,16 +80,16 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         #region DefaultProperty
 
-        public static IPropertyInfo DefaultProperty(this IContentBuilderContext context)
+        public static IFieldDescriptor DefaultField(this IContentBuilderContext context)
         {
             Ensure.NotNull(context, "context");
-            return (IPropertyInfo)context.CustomValues["DefaultProperty"];
+            return (IFieldDescriptor)context.CustomValues["DefaultField"];
         }
 
-        public static IContentBuilderContext DefaultProperty(this IContentBuilderContext context, IPropertyInfo defaultProperty)
+        public static IContentBuilderContext DefaultField(this IContentBuilderContext context, IFieldDescriptor defaultField)
         {
-            Ensure.NotNull(context, "context");
-            context.CustomValues["DefaultProperty"] = defaultProperty;
+            Ensure.NotNull(context, "defaultField");
+            context.CustomValues["DefaultField"] = defaultField;
             return context;
         }
 

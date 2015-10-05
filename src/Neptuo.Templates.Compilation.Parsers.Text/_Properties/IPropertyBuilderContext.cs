@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,6 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <summary>
         /// Property to build.
         /// </summary>
-        IPropertyInfo PropertyInfo { get; }
+        IFieldDescriptor FieldDescriptor { get; }
     }
 }

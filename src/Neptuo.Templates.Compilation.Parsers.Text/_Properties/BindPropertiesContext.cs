@@ -58,6 +58,9 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         private static bool IsBindableProperty(IFieldDescriptor field)
         {
+            if (!field.IsReadOnly)
+                return true;
+
             if (typeof(string) == field.FieldType)
                 return false;
 

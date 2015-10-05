@@ -1,6 +1,7 @@
 ﻿using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
+using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using Neptuo.Text.Tokens;
 using System;
@@ -56,17 +57,17 @@ namespace Neptuo.Templates.Compilation.Parsers
             HashSet<string> boundProperies = new HashSet<string>();
             INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, token);
-            IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
+            IFieldDescriptor defaultField = componentDefinition.With<IDefaultFieldEnumerator>().FirstOrDefault();
 
             BindPropertiesContext<TokenAttribute> bindContext = new BindPropertiesContext<TokenAttribute>(componentDefinition, context.Registry.WithPropertyNormalizer());
             foreach (TokenAttribute attribute in token.Attributes)
             {
                 string name = nameNormalizer.PrepareName(attribute.Name);
 
-                IPropertyInfo propertyInfo;
-                if (bindContext.Fields.TryGetValue(name, out propertyInfo))
+                IFieldDescriptor fieldDescriptor;
+                if (bindContext.Fields.TryGetValue(name, out fieldDescriptor))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, new DefaultSourceContent(attribute.Value, token));
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(fieldDescriptor, new DefaultSourceContent(attribute.Value, token));
                     if(codeProperties != null) 
                     {
                         foreach (ICodeProperty codeProperty in codeProperties)
@@ -81,18 +82,18 @@ namespace Neptuo.Templates.Compilation.Parsers
                 result = false;
             }
 
-            if (defaultProperty != null && !boundProperies.Contains(nameNormalizer.PrepareName(defaultProperty.Name)))
+            if (defaultField != null && !boundProperies.Contains(nameNormalizer.PrepareName(defaultField.Name)))
             {
                 string defaultAttributeValue = token.DefaultAttributes.FirstOrDefault();
                 if (!String.IsNullOrEmpty(defaultAttributeValue))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, new DefaultSourceContent(defaultAttributeValue, token));
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultField, new DefaultSourceContent(defaultAttributeValue, token));
                     if(codeProperties != null)
                     {
                         foreach (ICodeProperty codeProperty in codeProperties)
                             codeObject.AddProperty(codeProperty);
 
-                        bindContext.BoundProperties.Add(nameNormalizer.PrepareName(defaultProperty.Name));
+                        bindContext.BoundProperties.Add(nameNormalizer.PrepareName(defaultField.Name));
                     }
                     else
                     {

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,24 +11,24 @@ namespace Neptuo.Templates.Compilation.Parsers
 {
     public class TypeDefaultPropertyBuilder : DefaultPropertyBuilder
     {
-        protected bool IsCollectionProperty(IPropertyInfo propertyInfo)
+        protected bool IsCollectionProperty(IFieldDescriptor fieldDescriptor)
         {
-            if (typeof(string) == propertyInfo.Type)
+            if (typeof(string) == fieldDescriptor.FieldType)
                 return false;
 
-            return typeof(IEnumerable).IsAssignableFrom(propertyInfo.Type);
+            return typeof(IEnumerable).IsAssignableFrom(fieldDescriptor.FieldType);
             //TODO: Test for IEnumerable should be enough.
             //return typeof(ICollection).IsAssignableFrom(propertyInfo.Type)
             //    || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()));
         }
 
-        protected override ICodeProperty CreateCodeProperty(IPropertyInfo propertyInfo)
+        protected override ICodeProperty CreateCodeProperty(IFieldDescriptor fieldDescriptor)
         {
             ICodeProperty codeProperty = null;
-            if (IsCollectionProperty(propertyInfo))
-                codeProperty = new AddCodeProperty(propertyInfo.Name, propertyInfo.Type);
+            if (IsCollectionProperty(fieldDescriptor))
+                codeProperty = new AddCodeProperty(fieldDescriptor.Name, fieldDescriptor.FieldType);
             else
-                codeProperty = new SetCodeProperty(propertyInfo.Name, propertyInfo.Type);
+                codeProperty = new SetCodeProperty(fieldDescriptor.Name, fieldDescriptor.FieldType);
 
             return codeProperty;
         }

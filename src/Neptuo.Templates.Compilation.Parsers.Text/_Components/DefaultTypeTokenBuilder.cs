@@ -2,6 +2,7 @@
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.CodeObjects.Features;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
+using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
@@ -33,7 +34,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override IComponentDescriptor GetComponentDescriptor(ITokenBuilderContext context, ICodeObject codeObject, Token extension)
         {
-            return new TypeComponentDescriptor(Type);
+            DefaultComponentDescriptor component = new DefaultComponentDescriptor();
+            component
+                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(Type))
+                .Add<IDefaultFieldEnumerator>(new DefaultPropertyFieldEnumerator(Type));
+
+            return component;
         }
     }
 }

@@ -22,6 +22,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Descriptors.Features
             get { return propertyInfo.PropertyType; }
         }
 
+        public bool IsReadOnly
+        {
+            get { return propertyInfo.GetSetMethod() == null; }
+        }
+
         public TypePropertyFieldDescriptor(PropertyInfo propertyInfo)
         {
             Ensure.NotNull(propertyInfo, "propertyInfo");

@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,27 +15,27 @@ namespace Neptuo.Templates.Compilation.Parsers
     public abstract class DefaultPropertyBuilder : IContentPropertyBuilder, IPropertyBuilder
     {
         /// <summary>
-        /// Should create property descriptor for <paramref name="propertyInfo"/>.
+        /// Should create property descriptor for <paramref name="fieldDescriptor"/>.
         /// </summary>
-        protected abstract ICodeProperty CreateCodeProperty(IPropertyInfo propertyInfo);
+        protected abstract ICodeProperty CreateCodeProperty(IFieldDescriptor fieldDescriptor);
 
         public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
-            if (typeof(string) == context.PropertyInfo.Type)
+            if (typeof(string) == context.FieldDescriptor.FieldType)
             {
                 //Get string and add as plain value
                 StringBuilder contentValue = new StringBuilder();
                 foreach (IXmlNode node in content)
                     contentValue.Append(node.OuterXml);
 
-                ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                ICodeProperty codeProperty = CreateCodeProperty(context.FieldDescriptor);
                 codeProperty.SetValue(new LiteralCodeObject(contentValue.ToString()));
                 return new CodePropertyCollection(codeProperty);
             }
-            else if (typeof(IEnumerable).IsAssignableFrom(context.PropertyInfo.Type))
+            else if (typeof(IEnumerable).IsAssignableFrom(context.FieldDescriptor.FieldType))
             {
                 //Collection item
-                ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                ICodeProperty codeProperty = CreateCodeProperty(context.FieldDescriptor);
                 bool isTextAssignable = codeProperty.Type.IsAssignableFrom(typeof(string));
                 foreach (IXmlNode node in content)
                 {
@@ -61,7 +62,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     // One IXmlElement is ok
                     if (elements.Count() == 1)
                     {
-                        ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                        ICodeProperty codeProperty = CreateCodeProperty(context.FieldDescriptor);
                         foreach (IXmlElement node in elements)
                         {
                             IEnumerable<ICodeObject> values = context.Parser.TryProcessNode(context.BuilderContext, node);
@@ -88,7 +89,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                     foreach (IXmlNode node in content)
                         contentValue.Append(node.OuterXml);
 
-                    ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                    ICodeProperty codeProperty = CreateCodeProperty(context.FieldDescriptor);
                     codeProperty.SetValue(new LiteralCodeObject(contentValue.ToString()));
                     return new CodePropertyCollection(codeProperty);
                 }
@@ -100,7 +101,7 @@ namespace Neptuo.Templates.Compilation.Parsers
             ICodeObject propertyValue = context.ParserService.ProcessValue(context.Name, value, context);
             if (propertyValue != null)
             {
-                ICodeProperty codeProperty = CreateCodeProperty(context.PropertyInfo);
+                ICodeProperty codeProperty = CreateCodeProperty(context.FieldDescriptor);
                 codeProperty.SetValue(propertyValue);
                 return new CodePropertyCollection(codeProperty);
             }

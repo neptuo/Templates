@@ -1,4 +1,5 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections.Generic;
@@ -15,8 +16,8 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly Dictionary<Type, IContentPropertyBuilder> contentStorage = new Dictionary<Type, IContentPropertyBuilder>();
         private readonly Dictionary<Type, IPropertyBuilder> storage = new Dictionary<Type, IPropertyBuilder>();
-        private readonly FuncList<IPropertyInfo, IContentPropertyBuilder> onSearchContentBuilder = new FuncList<IPropertyInfo, IContentPropertyBuilder>(o => new NullBuilder());
-        private readonly FuncList<IPropertyInfo, IPropertyBuilder> onSearchBuilder = new FuncList<IPropertyInfo, IPropertyBuilder>(o => new NullBuilder());
+        private readonly FuncList<IFieldDescriptor, IContentPropertyBuilder> onSearchContentBuilder = new FuncList<IFieldDescriptor, IContentPropertyBuilder>(o => new NullBuilder());
+        private readonly FuncList<IFieldDescriptor, IPropertyBuilder> onSearchBuilder = new FuncList<IFieldDescriptor, IPropertyBuilder>(o => new NullBuilder());
 
         /// <summary>
         /// Maps <paramref name="builder"/> to process properties of type <paramref name="builder" />
@@ -47,7 +48,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// (Last registered is executed the first).
         /// </summary>
         /// <param name="searchHandler">Builder provider method.</param>
-        public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IContentPropertyBuilder> searchHandler)
+        public ContentPropertyBuilderRegistry AddSearchHandler(Func<IFieldDescriptor, IContentPropertyBuilder> searchHandler)
         {
             Ensure.NotNull(searchHandler, "searchHandler");
             onSearchContentBuilder.Add(searchHandler);
@@ -60,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// (Last registered is executed the first).
         /// </summary>
         /// <param name="searchHandler">Builder provider method.</param>
-        public ContentPropertyBuilderRegistry AddSearchHandler(Func<IPropertyInfo, IPropertyBuilder> searchHandler)
+        public ContentPropertyBuilderRegistry AddSearchHandler(Func<IFieldDescriptor, IPropertyBuilder> searchHandler)
         {
             Ensure.NotNull(searchHandler, "searchHandler");
             onSearchBuilder.Add(searchHandler);
@@ -70,8 +71,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         public IEnumerable<ICodeProperty> TryParse(IContentPropertyBuilderContext context, IEnumerable<IXmlNode> content)
         {
             IContentPropertyBuilder builder;
-            if (!contentStorage.TryGetValue(context.PropertyInfo.Type, out builder))
-                builder = onSearchContentBuilder.Execute(context.PropertyInfo);
+            if (!contentStorage.TryGetValue(context.FieldDescriptor.FieldType, out builder))
+                builder = onSearchContentBuilder.Execute(context.FieldDescriptor);
 
             if (builder != null)
                 return builder.TryParse(context, content);
@@ -82,8 +83,8 @@ namespace Neptuo.Templates.Compilation.Parsers
         public IEnumerable<ICodeProperty> TryParse(IPropertyBuilderContext context, ISourceContent value)
         {
             IPropertyBuilder builder;
-            if (!storage.TryGetValue(context.PropertyInfo.Type, out builder))
-                builder = onSearchBuilder.Execute(context.PropertyInfo);
+            if (!storage.TryGetValue(context.FieldDescriptor.FieldType, out builder))
+                builder = onSearchBuilder.Execute(context.FieldDescriptor);
 
             if (builder != null)
                 return builder.TryParse(context, value);
@@ -97,8 +98,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 context.AddError(String.Format(
                     "Unnable to process property '{0}' of property type '{1}'.", 
-                    context.PropertyInfo.Name, 
-                    context.PropertyInfo.Type.FullName
+                    context.FieldDescriptor.Name, 
+                    context.FieldDescriptor.FieldType.FullName
                 ));
                 return null;
             }
@@ -107,8 +108,8 @@ namespace Neptuo.Templates.Compilation.Parsers
             {
                 context.AddError(String.Format(
                     "Unnable to process property '{0}' of property type '{1}'.",
-                    context.PropertyInfo.Name,
-                    context.PropertyInfo.Type.FullName
+                    context.FieldDescriptor.Name,
+                    context.FieldDescriptor.FieldType.FullName
                 ));
                 return null;
             }

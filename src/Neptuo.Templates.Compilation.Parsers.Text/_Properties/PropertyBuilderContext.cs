@@ -1,6 +1,7 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,20 +19,20 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public string Name { get; private set; }
         public IParserService ParserService { get; private set; }
-        public IPropertyInfo PropertyInfo { get; private set; }
+        public IFieldDescriptor FieldDescriptor { get; private set; }
         public IDependencyProvider DependencyProvider { get { return context.DependencyProvider; } }
         public ICollection<IErrorInfo> Errors { get { return context.Errors; } }
 
-        public PropertyBuilderContext(string name, IParserServiceContext context, IParserService parserService, IPropertyInfo propertyInfo)
+        public PropertyBuilderContext(string name, IParserServiceContext context, IParserService parserService, IFieldDescriptor fieldDescriptor)
         {
             Ensure.NotNull(name, "name");
             Ensure.NotNull(context, "context");
             Ensure.NotNull(parserService, "parserService");
-            Ensure.NotNull(propertyInfo, "propertyInfo");
+            Ensure.NotNull(fieldDescriptor, "fieldDescriptor");
             this.context = context;
             Name = name;
             ParserService = parserService;
-            PropertyInfo = propertyInfo;
+            FieldDescriptor = fieldDescriptor;
         }
 
         public ITextContentParserContext CreateContentContext(string name, IParserService service)

@@ -37,9 +37,8 @@ namespace Neptuo.Templates.Compilation.Parsers
 
             DefaultComponentDescriptor component = new DefaultComponentDescriptor();
             component
-                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(controlType));
-                // TODO: Add default property
-                //.Add<IDefaultFieldEnumerator>(new TypePropertyFieldEnumerator;
+                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(controlType))
+                .Add<IDefaultFieldEnumerator>(new DefaultPropertyFieldEnumerator(controlType));
 
             return component;
         }

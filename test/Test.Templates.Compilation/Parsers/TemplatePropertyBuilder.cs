@@ -39,7 +39,7 @@ namespace Test.Templates.Compilation.Parsers
             codeProperty.SetRangeValue(values);
             templateCodeObject.With<IFieldCollectionCodeObject>().AddProperty(codeProperty);
 
-            ICodeProperty resultProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
+            ICodeProperty resultProperty = new SetCodeProperty(context.FieldDescriptor.Name, context.FieldDescriptor.FieldType);
             resultProperty.SetValue(templateCodeObject);
             return new CodePropertyCollection(resultProperty);
         }
@@ -57,7 +57,7 @@ namespace Test.Templates.Compilation.Parsers
             pathProperty.SetValue(new LiteralCodeObject(value.TextContent));
             templateCodeObject.With<IFieldCollectionCodeObject>().AddProperty(pathProperty);
 
-            ICodeProperty codeProperty = new SetCodeProperty(context.PropertyInfo.Name, context.PropertyInfo.Type);
+            ICodeProperty codeProperty = new SetCodeProperty(context.FieldDescriptor.Name, context.FieldDescriptor.FieldType);
             codeProperty.SetValue(templateCodeObject);
             return new CodePropertyCollection(codeProperty);
         }

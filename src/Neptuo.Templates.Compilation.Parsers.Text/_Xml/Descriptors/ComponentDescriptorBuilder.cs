@@ -1,5 +1,7 @@
-﻿using Neptuo.Templates.Compilation.CodeObjects;
+﻿using Neptuo.Models.Features;
+using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
+using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
 using System;
 using System.Collections;
@@ -20,12 +22,12 @@ namespace Neptuo.Templates.Compilation.Parsers
         {
             ICodeObject codeObject = CreateCodeObject(context, element);
             IComponentDescriptor componentDefinition = GetComponentDescriptor(context, codeObject, element);
-            IPropertyInfo defaultProperty = componentDefinition.GetDefaultProperty();
+            IFieldDescriptor defaultField = componentDefinition.With<IDefaultFieldEnumerator>().FirstOrDefault();
             BindContentPropertiesContext bindContext = new BindContentPropertiesContext(componentDefinition, context.Registry.WithPropertyNormalizer());
             context.CodeObject(codeObject);
             context.ComponentDescriptor(componentDefinition);
             context.BindPropertiesContext(bindContext);
-            context.DefaultProperty(defaultProperty);
+            context.DefaultField(defaultField);
 
             BindProperties(context, element);
             return new List<ICodeObject> { codeObject };
@@ -33,10 +35,10 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, ISourceContent value)
         {
-            IPropertyInfo propertyInfo;
-            if (context.BindPropertiesContext().Fields.TryGetValue(name, out propertyInfo))
+            IFieldDescriptor fieldDescriptor;
+            if (context.BindPropertiesContext().Fields.TryGetValue(name, out fieldDescriptor))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(fieldDescriptor, value);
                 if (codeProperties != null)
                 {
                     IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
@@ -56,10 +58,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         protected override bool TryBindProperty(IContentBuilderContext context, string prefix, string name, IEnumerable<IXmlNode> value)
         {
-            IPropertyInfo propertyInfo;
-            if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Fields.TryGetValue(name, out propertyInfo))
+            IFieldDescriptor fieldDescriptor;
+            if (!context.BindPropertiesContext().BoundProperties.Contains(name) && context.BindPropertiesContext().Fields.TryGetValue(name, out fieldDescriptor))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, value);
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(fieldDescriptor, value);
                 if (codeProperties != null)
                 {
                     IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
@@ -124,18 +126,18 @@ namespace Neptuo.Templates.Compilation.Parsers
                 }
 
                 // Bind content elements
-                IPropertyInfo defaultProperty = context.DefaultProperty();
+                IFieldDescriptor defaultField = context.DefaultField();
                 INameNormalizer nameNormalizer = context.Registry.WithPropertyNormalizer();
-                if (defaultProperty != null && !context.BindPropertiesContext().BoundProperties.Contains(nameNormalizer.PrepareName(defaultProperty.Name)))
+                if (defaultField != null && !context.BindPropertiesContext().BoundProperties.Contains(nameNormalizer.PrepareName(defaultField.Name)))
                 {
-                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultProperty, unboundNodes);
+                    IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(defaultField, unboundNodes);
                     if (codeProperties != null)
                     {
                         IFieldCollectionCodeObject fields = context.CodeObjectAsProperties();
                         foreach (ICodeProperty codeProperty in codeProperties)
                             fields.AddProperty(codeProperty);
 
-                        context.BindPropertiesContext().BoundProperties.Add(nameNormalizer.PrepareName(defaultProperty.Name));
+                        context.BindPropertiesContext().BoundProperties.Add(nameNormalizer.PrepareName(defaultField.Name));
                         return true;
                     }
                 }

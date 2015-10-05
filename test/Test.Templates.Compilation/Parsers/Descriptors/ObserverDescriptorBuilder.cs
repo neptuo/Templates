@@ -1,5 +1,6 @@
 ﻿using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,12 +29,12 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         protected abstract IComponentCodeObject CreateCodeObject(IContentBuilderContext context, IXmlAttribute attribute);
 
-        protected abstract IXComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
+        protected abstract IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute);
 
         public bool TryParse(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             BindContentPropertiesContext bindContext;
-            IXComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
+            IComponentDescriptor observerDescriptor = GetObserverDescriptor(context, codeObject, attribute);
 
             // Create new observer or update existing?
             IComponentCodeObject observerObject = IsObserverContained(context, codeObject, attribute);
@@ -62,10 +63,10 @@ namespace Neptuo.Templates.Compilation.Parsers
         protected virtual bool TryBindProperty(IContentBuilderContext context, BindContentPropertiesContext bindContext, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
             string attributeName = context.Registry.WithPropertyNormalizer().PrepareName(attribute.LocalName);
-            IPropertyInfo propertyInfo;
-            if (bindContext.Fields.TryGetValue(attributeName, out propertyInfo))
+            IFieldDescriptor fieldDescriptor;
+            if (bindContext.Fields.TryGetValue(attributeName, out fieldDescriptor))
             {
-                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(propertyInfo, attribute.GetValue());
+                IEnumerable<ICodeProperty> codeProperties = context.TryProcessProperty(fieldDescriptor, attribute.GetValue());
                 if(codeProperties != null)
                 {
                     foreach (ICodeProperty codeProperty in codeProperties)

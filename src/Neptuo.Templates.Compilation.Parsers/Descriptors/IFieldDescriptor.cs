@@ -21,5 +21,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Descriptors
         /// Type of field value.
         /// </summary>
         Type FieldType { get; }
+
+        /// <summary>
+        /// Whether new value can be assigned; if <c>false</c> only 
+        /// modification of current value can be processed.
+        /// </summary>
+        bool IsReadOnly { get; }
     }
 }

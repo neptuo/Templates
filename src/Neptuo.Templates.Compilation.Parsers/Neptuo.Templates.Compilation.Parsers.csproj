@@ -58,6 +58,7 @@
     <Compile Include="DefaultCodePropertyBuilder.cs" />
     <Compile Include="DefaultCodePropertyBuilderContext.cs" />
     <Compile Include="Descriptors\DefaultComponentDescriptor.cs" />
+    <Compile Include="Descriptors\Features\DefaultPropertyFieldEnumerator.cs" />
     <Compile Include="Descriptors\Features\DefaultTypeAware.cs" />
     <Compile Include="Descriptors\Features\ITypeAware.cs" />
     <Compile Include="Descriptors\Features\TypePropertyFieldDescriptor.cs" />

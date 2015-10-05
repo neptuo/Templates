@@ -1,6 +1,8 @@
 ﻿using Neptuo.Models.Features;
 using Neptuo.Templates.Compilation.CodeObjects;
 using Neptuo.Templates.Compilation.CodeObjects.Features;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
+using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,9 +26,16 @@ namespace Neptuo.Templates.Compilation.Parsers
             return codeObject;
         }
 
-        protected override IXComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
+        protected override IComponentDescriptor GetObserverDescriptor(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)
         {
-            return new TypeComponentDescriptor(GetObserverType(attribute));
+            Type observerType = GetObserverType(attribute);
+
+            DefaultComponentDescriptor component = new DefaultComponentDescriptor();
+            component
+                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(observerType))
+                .Add<IDefaultFieldEnumerator>(new DefaultPropertyFieldEnumerator(observerType));
+
+            return component;
         }
 
         protected override IComponentCodeObject IsObserverContained(IContentBuilderContext context, IComponentCodeObject codeObject, IXmlAttribute attribute)

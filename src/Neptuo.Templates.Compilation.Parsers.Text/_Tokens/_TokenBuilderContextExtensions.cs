@@ -1,5 +1,6 @@
 ﻿using Neptuo.Compilers.Errors;
 using Neptuo.Templates.Compilation.CodeObjects;
+using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Text.Tokens;
 using System;
 using System.Collections.Generic;
@@ -110,15 +111,15 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Parses value using property builder.
         /// </summary>
         /// <param name="context">Builder context.</param>
-        /// <param name="propertyInfo">Property to build.</param>
+        /// <param name="fieldDescriptor">Property to build.</param>
         /// <param name="value">Value.</param>
         /// <returns>Parsed property descriptors.</returns>
-        public static IEnumerable<ICodeProperty> TryProcessProperty(this ITokenBuilderContext context, IPropertyInfo propertyInfo, ISourceContent value)
+        public static IEnumerable<ICodeProperty> TryProcessProperty(this ITokenBuilderContext context, IFieldDescriptor fieldDescriptor, ISourceContent value)
         {
             Ensure.NotNull(context, "context");
             return context.Registry
                 .XWithPropertyBuilder()
-                .TryParse(new PropertyBuilderContext(context.ParserContext.Name, context.ParserContext, context.ParserContext.ParserService, propertyInfo), value);
+                .TryParse(new PropertyBuilderContext(context.ParserContext.Name, context.ParserContext, context.ParserContext.ParserService, fieldDescriptor), value);
         }
     }
 }

@@ -31,7 +31,7 @@ namespace Neptuo.Templates.Compilation.Parsers
 
         public IEnumerator<IFieldDescriptor> GetEnumerator()
         {
-            return fields;
+            return fields.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()

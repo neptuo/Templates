@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         public bool IsBoundFromContent { get; set; }
 
-        public BindContentPropertiesContext(Dictionary<string, IPropertyInfo> properties)
+        public BindContentPropertiesContext(Dictionary<string, IFieldDescriptor> properties)
             : base(properties)
         { }
 
