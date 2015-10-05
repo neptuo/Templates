@@ -46,9 +46,9 @@ namespace Test.Templates
 
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
-                 .Add(typeof(SyntaxNodeCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
-                 .Add(typeof(TextSyntax), new TextCodeObjectBuilder())
-                 .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(bindingDescriptor));
+                 .Add<SyntaxNodeCollection>(new CollectionCodeObjectBuilder(codeObjectBuilders))
+                 .Add<TextSyntax>(new TextCodeObjectBuilder())
+                 .Add<CurlySyntax>(new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
             codePropertyBuilders

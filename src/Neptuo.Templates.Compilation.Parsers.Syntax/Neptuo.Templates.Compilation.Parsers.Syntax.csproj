@@ -79,6 +79,7 @@
     <Compile Include="SyntaxTrees\_EnsureConditionExtensions.cs" />
     <Compile Include="SyntaxTrees\_TokenListReaderExtensions.cs" />
     <Compile Include="TextCodeObjectBuilder.cs" />
+    <Compile Include="_CodeObjectBuilderCollectionExtensions.cs" />
     <Compile Include="_CodeObjectBuilderContextExtensions.cs" />
     <Compile Include="_CodePropertyBuilderContextExtensions.cs" />
     <Compile Include="_ParserCollectionExtensions.cs" />
