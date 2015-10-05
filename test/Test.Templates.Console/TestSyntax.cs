@@ -80,7 +80,7 @@ namespace Test.Templates
 
             container.Definitions.AddScoped<ICodeDomNaming>(container.ScopeName, new CodeDomDefaultNaming("Neptuo.Templates", "SyntaxIndex"));
 
-            ISourceContent content = new DefaultSourceContent("Text {data:Binding Path=ID, Converter=NullToBool} Text {ui:Template Path=~/Test.nt}");
+            ISourceContent content = new DefaultSourceContent("FirstName: {data:Binding Path=Firstname}, LastName: {data:Binding Path=Lastname}");
             DebugHelper.Debug("Execute", () =>
             {
                 GeneratedView view = (GeneratedView)viewService.ProcessContent("CodeDom", content, context);
