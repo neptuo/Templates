@@ -16,12 +16,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
         /// <summary>
         /// Token line info.
         /// </summary>
-        IDocumentSpan LineInfo { get; set; }
+        IDocumentSpan DocumentSpan { get; set; }
 
         /// <summary>
         /// Token content info.
         /// </summary>
-        ITextSpan ContentInfo { get; set; }
+        ITextSpan TextSpan { get; set; }
 
         /// <summary>
         /// Token text.

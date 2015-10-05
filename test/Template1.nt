@@ -1,1 +1,1 @@
-aslkd jaskld jalskd {Binding Path} asdk jalsd {inding ath}
+aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static}

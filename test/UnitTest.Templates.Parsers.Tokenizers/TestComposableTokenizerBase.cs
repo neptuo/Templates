@@ -43,13 +43,13 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 
                 if (tokens[i].IsVirtual)
                 {
-                    AssertAreEqual(null, tokens[i].ContentInfo);
+                    AssertAreEqual(null, tokens[i].TextSpan);
                 }
                 else
                 {
-                    AssertAreEqual(positionIndex, tokens[i].ContentInfo.StartIndex);
-                    AssertAreEqual(values[i].Length, tokens[i].ContentInfo.Length);
-                    positionIndex += tokens[i].ContentInfo.Length;
+                    AssertAreEqual(positionIndex, tokens[i].TextSpan.StartIndex);
+                    AssertAreEqual(values[i].Length, tokens[i].TextSpan.Length);
+                    positionIndex += tokens[i].TextSpan.Length;
                 }
             }
         }
@@ -68,9 +68,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertLength(tokens, values.Length);
             for (int i = 0; i < values.Length; i++)
             {
-                Assert.IsNotNull(tokens[i].ContentInfo);
-                AssertAreEqual(tokens[i].ContentInfo.StartIndex, values[i].StartIndex);
-                AssertAreEqual(tokens[i].ContentInfo.Length, values[i].Length);
+                Assert.IsNotNull(tokens[i].TextSpan);
+                AssertAreEqual(tokens[i].TextSpan.StartIndex, values[i].StartIndex);
+                AssertAreEqual(tokens[i].TextSpan.Length, values[i].Length);
             }
         }
 

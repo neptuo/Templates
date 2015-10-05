@@ -35,7 +35,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             IList<ComposableToken> tokens = tokenizer.Tokenize(textBuffer);
 
             SnapshotPoint cursorPosition = session.TextView.Caret.Position.BufferPosition;
-            ComposableToken currentToken = tokens.FirstOrDefault(t => t.ContentInfo.StartIndex <= cursorPosition && t.ContentInfo.StartIndex + t.ContentInfo.Length >= cursorPosition);
+            ComposableToken currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
             if (currentToken != null)
             {
                 if(currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
@@ -74,7 +74,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return new Completion(
                 targetValue, 
                 targetValue.Substring(currentToken.Text.Length), 
-                "This such a usefull description for this item.",
+                "This is such a usefull description for this item.",
                 glyphService.GetGlyph(glyphGroup, glyphItem), 
                 "Hello, Template!"
             );
@@ -102,13 +102,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
         private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, ComposableToken currentToken)
         {
-            SnapshotPoint currentPoint = session
-                .GetTriggerPoint(textBuffer)
-                .GetPoint(textBuffer.CurrentSnapshot);
+            int startIndex = point.GetPosition(textBuffer.CurrentSnapshot);
+            int length = Math.Max(0, currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length - startIndex);
 
-            return currentPoint.Snapshot.CreateTrackingSpan(
-                currentToken.ContentInfo.StartIndex,
-                currentToken.ContentInfo.Length, 
+            return textBuffer.CurrentSnapshot.CreateTrackingSpan(
+                startIndex,
+                length,
                 SpanTrackingMode.EdgeInclusive
             );
         }

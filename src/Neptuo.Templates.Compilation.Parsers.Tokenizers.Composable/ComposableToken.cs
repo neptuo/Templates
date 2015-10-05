@@ -14,8 +14,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
     public class ComposableToken : IToken<ComposableTokenType>
     {
         public ComposableTokenType Type { get; set; }
-        public IDocumentSpan LineInfo { get; set; }
-        public ITextSpan ContentInfo { get; set; }
+        public IDocumentSpan DocumentSpan { get; set; }
+        public ITextSpan TextSpan { get; set; }
         public string Text { get; set; }
         public IList<IErrorMessage> Errors { get; private set; }
 
@@ -46,10 +46,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             string position = null;
             if(IsVirtual)
                 position = "<Virtual>";
-            else if(ContentInfo != null)
-                position = ContentInfo.ToString();
-            else if(LineInfo != null)
-                position = LineInfo.ToString();
+            else if(TextSpan != null)
+                position = TextSpan.ToString();
+            else if(DocumentSpan != null)
+                position = DocumentSpan.ToString();
 
             return String.Format("{0} {1} \"{2}\"{3}", position, Type, Text, HasError ? " !" : "");
         }

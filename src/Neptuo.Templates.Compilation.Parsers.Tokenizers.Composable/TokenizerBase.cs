@@ -37,8 +37,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Tokenizers
             {
                 result.Add(new ComposableToken(tokenType, text)
                 {
-                    ContentInfo = decorator.CurrentContentInfo(),
-                    LineInfo = decorator.CurrentLineInfo(),
+                    TextSpan = decorator.CurrentContentInfo(),
+                    DocumentSpan = decorator.CurrentLineInfo(),
                 });
 
                 decorator.ResetCurrentInfo();
