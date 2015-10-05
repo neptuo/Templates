@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{3418325A-D861-4FB7-BF59-215A0D19C5A1}</ProjectGuid>
+    <ProjectGuid>{8F815ABF-62A1-4117-B484-ABF6B659D65F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Neptuo.Templates.Compilation.Parsers</RootNamespace>
-    <AssemblyName>Neptuo.Templates.Compilation.Parsers</AssemblyName>
+    <RootNamespace>Neptuo.Templates.Compilation.Parsers.Syntax</RootNamespace>
+    <AssemblyName>Neptuo.Templates.Compilation.Parsers.Syntax</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
@@ -49,24 +49,56 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Descriptors\DefaultComponentDescriptor.cs" />
-    <Compile Include="Descriptors\Features\DefaultPropertyFieldEnumerator.cs" />
-    <Compile Include="Descriptors\Features\DefaultTypeAware.cs" />
-    <Compile Include="Descriptors\Features\ITypeAware.cs" />
-    <Compile Include="Descriptors\Features\TypePropertyFieldDescriptor.cs" />
-    <Compile Include="Descriptors\Features\TypePropertyFieldEnumerator.cs" />
-    <Compile Include="Descriptors\Features\_ComponentDescriptorExtensions.cs" />
-    <Compile Include="Descriptors\IComponentDescriptor.cs" />
-    <Compile Include="Descriptors\Features\IDefaultFieldEnumerator.cs" />
-    <Compile Include="Descriptors\Features\IFieldEnumerator.cs" />
-    <Compile Include="Descriptors\IFieldDescriptor.cs" />
+    <Compile Include="CodeObjectBuilderBase.cs" />
+    <Compile Include="CodeObjectBuilderCollection.cs" />
+    <Compile Include="CodePropertyBuilderBase.cs" />
+    <Compile Include="CodePropertyBuilderCollection.cs" />
+    <Compile Include="CollectionCodeObjectBuilder.cs" />
+    <Compile Include="CurlyCodeObjectBuilder.cs" />
+    <Compile Include="DefaultCodeObjectBuilderContext.cs" />
+    <Compile Include="DefaultCodePropertyBuilder.cs" />
+    <Compile Include="DefaultCodePropertyBuilderContext.cs" />
+    <Compile Include="ICodeObjectBuilder.cs" />
+    <Compile Include="ICodeObjectBuilderContext.cs" />
+    <Compile Include="ICodePropertyBuilder.cs" />
+    <Compile Include="ICodePropertyBuilderContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_IListExtensions.cs" />
+    <Compile Include="SyntaxParserService.cs" />
+    <Compile Include="SyntaxTrees\CurlySyntax.cs" />
+    <Compile Include="SyntaxTrees\CurlySyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\IComposableSyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\IComposableSyntaxBuilderContext.cs" />
+    <Compile Include="SyntaxTrees\ISyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\ISyntaxNode.cs" />
+    <Compile Include="SyntaxTrees\SyntaxBuilderCollection.cs" />
+    <Compile Include="SyntaxTrees\SyntaxNodeBase.cs" />
+    <Compile Include="SyntaxTrees\SyntaxNodeCollection.cs" />
+    <Compile Include="SyntaxTrees\TextSyntax.cs" />
+    <Compile Include="SyntaxTrees\TextSyntaxBuilder.cs" />
+    <Compile Include="SyntaxTrees\TokenListReader.cs" />
+    <Compile Include="SyntaxTrees\_EnsureConditionExtensions.cs" />
+    <Compile Include="SyntaxTrees\_TokenListReaderExtensions.cs" />
+    <Compile Include="TextCodeObjectBuilder.cs" />
+    <Compile Include="_CodeObjectBuilderContextExtensions.cs" />
+    <Compile Include="_CodePropertyBuilderContextExtensions.cs" />
+    <Compile Include="_ParserCollectionExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.CodeObjects\Neptuo.Templates.Compilation.CodeObjects.csproj">
       <Project>{c285ce2d-1b99-484a-9ffe-2d0aade22af7}</Project>
       <Name>Neptuo.Templates.Compilation.CodeObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
+      <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
+      <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj">
+      <Project>{3418325a-d861-4fb7-bf59-215a0d19c5a1}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers</Name>
     </ProjectReference>
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
