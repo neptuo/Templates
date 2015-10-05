@@ -21,11 +21,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="typeScanner">Instance of type scanner.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddTypeScanner(this DefaultParserCollection registry, TypeScanner typeScanner)
         {
             Ensure.NotNull(registry, "registry");
-            return registry.AddRegistry<TypeScanner>(typeScanner);
+            return registry.Add<TypeScanner>(typeScanner);
         }
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// Executes type scannes method <see cref="TypeScanner.Run"/>.
         /// </summary>
         /// <param name="registry">Parser registry to read type scanner from.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection RunTypeScanner(this DefaultParserCollection registry)
         {
             Ensure.NotNull(registry, "registry");
@@ -87,7 +87,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddContentBuilderRegistry(this DefaultParserCollection registry, ContentBuilderRegistry builder)
         {
             Ensure.NotNull(registry, "registry");
@@ -102,7 +102,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 ));
             }
 
-            return registry.AddRegistry<IContentBuilder>(builder);
+            return registry.Add<IContentBuilder>(builder);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddContentBuilderRegistry<TContentBuilder>(this DefaultParserCollection registry, ContentBuilderRegistry builder)
         {
             Ensure.NotNull(registry, "registry");
@@ -131,7 +131,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 ));
             }
 
-            return registry.AddRegistry<IContentBuilder>(builder);
+            return registry.Add<IContentBuilder>(builder);
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Content builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
         /// <param name="builderFactory">Factory method for registering content builders when type scanner emits type.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddContentBuilderRegistry(this DefaultParserCollection registry, ContentBuilderRegistry builder, Func<string, Type, IContentBuilder> builderFactory)
         {
             Ensure.NotNull(registry, "registry");
@@ -156,7 +156,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 ));
             }
 
-            return registry.AddRegistry<IContentBuilder>(builder);
+            return registry.Add<IContentBuilder>(builder);
         }
 
         /// <summary>
@@ -164,11 +164,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of content builder.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddContentBuilder(this DefaultParserCollection registry, IContentBuilder builder)
         {
             Ensure.NotNull(registry, "registry");
-            return registry.AddRegistry<IContentBuilder>(builder);
+            return registry.Add<IContentBuilder>(builder);
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Token builder registry to regiter to <paramref name="registry"/> and (eventualy) attach to type scanner.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddTokenBuilder(this DefaultParserCollection registry, TokenBuilderRegistry builder)
         {
             Ensure.NotNull(registry, "registry");
@@ -207,7 +207,7 @@ namespace Neptuo.Templates.Compilation.Parsers
                 ));
             }
 
-            return registry.AddRegistry<ITokenBuilder>(builder);
+            return registry.Add<ITokenBuilder>(builder);
         }
 
         /// <summary>
@@ -215,11 +215,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of token builder.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddTokenBuilder(this DefaultParserCollection registry, ITokenBuilder builder)
         {
             Ensure.NotNull(registry, "registry");
-            return registry.AddRegistry<ITokenBuilder>(builder);
+            return registry.Add<ITokenBuilder>(builder);
         }
 
         /// <summary>
@@ -242,13 +242,13 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of property builder.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddPropertyBuilder(this DefaultParserCollection registry, IContentPropertyBuilder builder)
         {
             Ensure.NotNull(registry, "registry");
             return registry
-                .AddRegistry<IContentPropertyBuilder>(builder)
-                .AddRegistry<IPropertyBuilder>(builder);
+                .Add<IContentPropertyBuilder>(builder)
+                .Add<IPropertyBuilder>(builder);
         }
 
         /// <summary>
@@ -282,11 +282,11 @@ namespace Neptuo.Templates.Compilation.Parsers
         /// </summary>
         /// <param name="registry">Parser registry to register to.</param>
         /// <param name="builder">Instance of literal builder.</param>
-        /// <returns>Result from <see cref="DefaultParserCollection.AddRegistry"/>.</returns>
+        /// <returns>Result from <see cref="DefaultParserCollection.Add"/>.</returns>
         public static DefaultParserCollection AddLiteralBuilder(this DefaultParserCollection registry, ILiteralBuilder builder)
         {
             Ensure.NotNull(registry, "registry");
-            return registry.AddRegistry<ILiteralBuilder>(builder);
+            return registry.Add<ILiteralBuilder>(builder);
         }
 
         /// <summary>
