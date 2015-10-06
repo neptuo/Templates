@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class SyntaxBuilderCollection : ISyntaxBuilder, IComposableSyntaxBuilderContext
+    public class SyntaxBuilderCollection : ISyntaxNodeBuilder, IComposableSyntaxBuilderContext
     {
         private readonly Dictionary<TokenType, IComposableSyntaxBuilder> storage = new Dictionary<TokenType, IComposableSyntaxBuilder>();
 

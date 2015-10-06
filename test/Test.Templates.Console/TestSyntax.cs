@@ -133,7 +133,7 @@ namespace Test.Templates
                 .AddPropertyNormalizer(new LowerInvariantNameNormalizer());
 
             SyntaxParserService parserService = new SyntaxParserService(parserProvider);
-            parserService.Tokenizer
+            parserService.ContentTokenizer
                 .Add(new CurlyTokenBuilder())
                 .Add(new AngleTokenBuilder())
                 .Add(new LiteralTokenBuilder());

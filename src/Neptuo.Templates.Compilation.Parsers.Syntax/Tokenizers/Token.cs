@@ -58,14 +58,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         }
 
         public Token()
-        { }
+        { 
+            Errors = new List<IErrorMessage>();
+        }
 
         public Token(TokenType type, string text)
+            : this()
         {
             Ensure.NotNull(type, "type");
             Type = type;
             Text = text;
-            Errors = new List<IErrorMessage>();
         }
 
         public override string ToString()

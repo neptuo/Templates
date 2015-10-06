@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public interface IComposableSyntaxBuilderContext : ISyntaxBuilder
+    public interface IComposableSyntaxBuilderContext : ISyntaxNodeBuilder
     {
         ISyntaxNode BuildNext(IList<Token> tokens, int startIndex);
     }

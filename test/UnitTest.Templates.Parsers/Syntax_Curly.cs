@@ -18,7 +18,7 @@ namespace UnitTest.Templates.Parsers
             IList<Token> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"), new FakeTokenizerContext());
             //IList<ComposableToken> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID} Text"), new FakeTokenizerContext());
 
-            ISyntaxBuilder builder = new SyntaxBuilderCollection()
+            ISyntaxNodeBuilder builder = new SyntaxBuilderCollection()
                 .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
                 .Add(TokenType.Literal, new TextSyntaxBuilder());
 

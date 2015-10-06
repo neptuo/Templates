@@ -117,6 +117,7 @@
     <Compile Include="_CodeObjectBuilderContextExtensions.cs" />
     <Compile Include="_CodePropertyBuilderContextExtensions.cs" />
     <Compile Include="_ParserCollectionExtensions.cs" />
+    <Compile Include="_SyntaxParserServiceExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Neptuo.Templates.Compilation.CodeObjects\Neptuo.Templates.Compilation.CodeObjects.csproj">

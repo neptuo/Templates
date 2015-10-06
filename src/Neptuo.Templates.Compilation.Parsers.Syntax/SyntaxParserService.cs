@@ -17,21 +17,28 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
     {
         private readonly IParserProvider parserProvider;
 
-        public DefaultTokenizer Tokenizer { get; private set; }
+        public DefaultTokenizer ContentTokenizer { get; private set; }
+        public DefaultTokenizer ValueTokenizer { get; private set; }
         public SyntaxBuilderCollection SyntaxBuilders { get; private set; }
 
+        /// <summary>
+        /// Creates new instance.
+        /// </summary>
+        /// <param name="parserProvider">Collection of sub-parsers.</param>
         public SyntaxParserService(IParserProvider parserProvider)
         {
             Ensure.NotNull(parserProvider, "parserProvider");
             this.parserProvider = parserProvider;
-            Tokenizer = new DefaultTokenizer();
+
+            ContentTokenizer = new DefaultTokenizer();
+            ValueTokenizer = new DefaultTokenizer();
             SyntaxBuilders = new SyntaxBuilderCollection();
         }
 
-        public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
+        private ICodeObject ProcessInternal(string name, ISourceContent content, IParserServiceContext context, DefaultTokenizer tokenizer)
         {
-            IList<Token> tokens = Tokenizer.Tokenize(
-                new StringReader(content.TextContent), 
+            IList<Token> tokens = tokenizer.Tokenize(
+                new StringReader(content.TextContent),
                 new DefaultTokenizerContext(context.DependencyProvider, context.Errors)
             );
             ISyntaxNode node = SyntaxBuilders.Build(tokens, 0);
@@ -54,9 +61,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             return codeObjects.FirstOrDefault();
         }
 
+        public ICodeObject ProcessContent(string name, ISourceContent content, IParserServiceContext context)
+        {
+            return ProcessInternal(name, content, context, ContentTokenizer);
+        }
+
         public ICodeObject ProcessValue(string name, ISourceContent value, IParserServiceContext context)
         {
-            throw new NotImplementedException();
+            return ProcessInternal(name, value, context, ValueTokenizer);
         }
     }
 }
