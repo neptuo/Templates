@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers
+namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
     public abstract class CodePropertyBuilderBase<T> : ICodePropertyBuilder
         where T : ISyntaxNode

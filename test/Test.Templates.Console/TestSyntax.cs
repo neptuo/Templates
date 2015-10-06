@@ -12,6 +12,7 @@ using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
+using Neptuo.Templates.Compilation.Parsers.Syntax;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.Compilation.ViewActivators;

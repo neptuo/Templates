@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers
+namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
     /// <summary>
     /// Common extensions for <see cref="ICodePropertyBuilderContext"/>.

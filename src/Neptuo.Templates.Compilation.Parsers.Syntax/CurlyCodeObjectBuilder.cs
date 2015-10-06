@@ -11,7 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers
+namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
     public class CurlyCodeObjectBuilder : CodeObjectBuilderBase<CurlySyntax>
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers
+namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
     /// <summary>
     /// Collection by node type implementation of <see cref="ICodeObjectBuilder"/>.
