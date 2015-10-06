@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.ComponentModel;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.ComponentModel;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
@@ -13,12 +13,12 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 {
     public abstract class TestComposableTokenizerBase : TestBase
     {
-        protected ComposableTokenizer CreateTokenizer()
+        protected DefaultTokenizer CreateTokenizer()
         {
-            ComposableTokenizer tokenizer = new ComposableTokenizer();
-            tokenizer.Add(new AngleTokenizer());
-            tokenizer.Add(new CurlyTokenizer());
-            tokenizer.Add(new PlainTokenizer());
+            DefaultTokenizer tokenizer = new DefaultTokenizer();
+            tokenizer.Add(new AngleTokenBuilder());
+            tokenizer.Add(new CurlyTokenBuilder());
+            tokenizer.Add(new LiteralTokenBuilder());
             return tokenizer;
         }
 

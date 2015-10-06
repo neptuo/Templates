@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Neptuo.Templates.Compilation.Parsers;
-using Neptuo.Templates.Compilation.Parsers.SyntaxTrees;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
 using UnitTest.Templates.Parsers.Tokenizers;
@@ -14,13 +14,13 @@ namespace UnitTest.Templates.Parsers
         [TestMethod]
         public void Basic()
         {
-            ComposableTokenizer tokenizer = CreateTokenizer();
+            DefaultTokenizer tokenizer = CreateTokenizer();
             IList<Token> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"), new FakeTokenizerContext());
             //IList<ComposableToken> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID} Text"), new FakeTokenizerContext());
 
             ISyntaxBuilder builder = new SyntaxBuilderCollection()
                 .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
-                .Add(TokenType.Text, new TextSyntaxBuilder());
+                .Add(TokenType.Literal, new TextSyntaxBuilder());
 
             ISyntaxNode node = builder.Build(tokens, 0);
 

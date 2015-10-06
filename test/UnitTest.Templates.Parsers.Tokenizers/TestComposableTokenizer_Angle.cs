@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,13 +60,13 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.AttributeName, 
                 AngleTokenType.AttributeValueSeparator, 
                 AngleTokenType.AttributeOpenValue, 
-                AngleTokenType.Text, 
+                AngleTokenType.Literal, 
                 AngleTokenType.AttributeCloseValue, 
                 AngleTokenType.Whitespace, 
                 AngleTokenType.AttributeName, 
                 AngleTokenType.AttributeValueSeparator, 
                 AngleTokenType.AttributeOpenValue,
-                AngleTokenType.Text, 
+                AngleTokenType.Literal, 
                 AngleTokenType.AttributeCloseValue, 
                 AngleTokenType.Whitespace, 
                 AngleTokenType.SelfCloseBrace
@@ -85,7 +85,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
                 AngleTokenType.SelfCloseBrace,
-                AngleTokenType.Text,
+                AngleTokenType.Literal,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,

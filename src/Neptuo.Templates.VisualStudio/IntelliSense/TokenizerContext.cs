@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +11,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     public class TokenizerContext
     {
-        private readonly ComposableTokenizer tokenizer;
+        private readonly DefaultTokenizer tokenizer;
 
         public TokenizerContext()
         {
-            this.tokenizer = new ComposableTokenizer();
-            tokenizer.Add(new CurlyTokenizer());
-            tokenizer.Add(new PlainTokenizer());
+            this.tokenizer = new DefaultTokenizer();
+            tokenizer.Add(new CurlyTokenBuilder());
+            tokenizer.Add(new LiteralTokenBuilder());
         }
 
         public IList<Token> Tokenize(ITextBuffer textBuffer)

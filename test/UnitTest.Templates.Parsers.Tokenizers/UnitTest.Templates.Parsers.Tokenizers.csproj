@@ -68,13 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
-      <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
-      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
-      <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
-      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Syntax\Neptuo.Templates.Compilation.Parsers.Syntax.csproj">
+      <Project>{8f815abf-62a1-4117-b484-abf6b659d65f}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Syntax</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>

@@ -6,8 +6,8 @@ using System.ComponentModel.Composition;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Operations;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {

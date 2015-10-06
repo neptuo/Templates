@@ -1,6 +1,6 @@
 ﻿using Neptuo.Activators;
 using Neptuo.Compilers.Errors;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
 using System.Linq;

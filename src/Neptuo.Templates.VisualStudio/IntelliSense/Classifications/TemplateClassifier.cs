@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +14,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     {
         private readonly ITextBuffer buffer;
         private readonly IClassificationType curlyBrace, curlyContent, curlyError;
-        private readonly ComposableTokenizer tokenizer;
+        private readonly DefaultTokenizer tokenizer;
 
         public TemplateClassifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
         {
-            this.tokenizer = new ComposableTokenizer();
-            tokenizer.Add(new CurlyTokenizer());
-            tokenizer.Add(new PlainTokenizer());
+            this.tokenizer = new DefaultTokenizer();
+            tokenizer.Add(new CurlyTokenBuilder());
+            tokenizer.Add(new LiteralTokenBuilder());
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(TemplateClassificationType.CurlyBrace);
             curlyContent = registry.GetClassificationType(TemplateClassificationType.CurlyContent);
@@ -51,7 +51,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), curlyBrace));
                         else if (token.HasError)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), curlyError));
-                        else if (token.Type != CurlyTokenType.Text)
+                        else if (token.Type != CurlyTokenType.Literal)
                             addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), curlyContent));
                     }
                 }

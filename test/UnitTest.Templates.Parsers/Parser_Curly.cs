@@ -6,8 +6,8 @@ using Neptuo.Templates.Compilation.Parsers;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
-using Neptuo.Templates.Compilation.Parsers.SyntaxTrees;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,13 +45,13 @@ namespace UnitTest.Templates.Parsers
 
             SyntaxParserService parserService = new SyntaxParserService(parserProvider);
             parserService.Tokenizer
-                .Add(new CurlyTokenizer())
-                .Add(new AngleTokenizer())
-                .Add(new PlainTokenizer());
+                .Add(new CurlyTokenBuilder())
+                .Add(new AngleTokenBuilder())
+                .Add(new LiteralTokenBuilder());
 
             parserService.SyntaxBuilders
                 .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
-                .Add(TokenType.Text, new TextSyntaxBuilder());
+                .Add(TokenType.Literal, new TextSyntaxBuilder());
 
             ICodeObject codeObject = parserService.ProcessContent(
                 "Default", 

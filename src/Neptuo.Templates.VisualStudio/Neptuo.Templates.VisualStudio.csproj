@@ -113,17 +113,13 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable\Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable.csproj">
-      <Project>{239d1592-ba86-4231-a273-79d8b0debacf}</Project>
-      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers.Composable</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Tokenizers\Neptuo.Templates.Compilation.Parsers.Tokenizers.csproj">
-      <Project>{b12e7c16-46fb-4450-8415-e17823a8fabd}</Project>
-      <Name>Neptuo.Templates.Compilation.Parsers.Tokenizers</Name>
-    </ProjectReference>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <ProjectReference Include="..\Neptuo.Templates.Compilation.Parsers.Syntax\Neptuo.Templates.Compilation.Parsers.Syntax.csproj">
+      <Project>{8f815abf-62a1-4117-b484-abf6b659d65f}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Syntax</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

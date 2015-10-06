@@ -1,7 +1,7 @@
 ﻿using Neptuo.Templates.Compilation.CodeObjects;
-using Neptuo.Templates.Compilation.Parsers.SyntaxTrees;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,14 +17,14 @@ namespace Neptuo.Templates.Compilation.Parsers
     {
         private readonly IParserProvider parserProvider;
 
-        public ComposableTokenizer Tokenizer { get; private set; }
+        public DefaultTokenizer Tokenizer { get; private set; }
         public SyntaxBuilderCollection SyntaxBuilders { get; private set; }
 
         public SyntaxParserService(IParserProvider parserProvider)
         {
             Ensure.NotNull(parserProvider, "parserProvider");
             this.parserProvider = parserProvider;
-            Tokenizer = new ComposableTokenizer();
+            Tokenizer = new DefaultTokenizer();
             SyntaxBuilders = new SyntaxBuilderCollection();
         }
 

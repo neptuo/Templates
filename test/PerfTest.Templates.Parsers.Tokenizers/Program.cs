@@ -1,6 +1,6 @@
 ﻿using Neptuo.Diagnostics;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Tokenizers.IO;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,11 +23,11 @@ namespace PerfTest.Templates.Parsers.Tokenizers
             : base(Console.Out)
         { }
 
-        ComposableTokenizer CreateTokenizer()
+        DefaultTokenizer CreateTokenizer()
         {
-            ComposableTokenizer tokenizer = new ComposableTokenizer();
-            tokenizer.Add(new CurlyTokenizer());
-            tokenizer.Add(new PlainTokenizer());
+            DefaultTokenizer tokenizer = new DefaultTokenizer();
+            tokenizer.Add(new CurlyTokenBuilder());
+            tokenizer.Add(new LiteralTokenBuilder());
             return tokenizer;
         }
 
@@ -38,7 +38,7 @@ namespace PerfTest.Templates.Parsers.Tokenizers
                 content += content;
 
             Console.WriteLine(content.Length);
-            ComposableTokenizer tokenizer = CreateTokenizer();
+            DefaultTokenizer tokenizer = CreateTokenizer();
             IList<Token> tokens = Debug("Composable", () => tokenizer.Tokenize(new StringReader(content), new FakeTokenizerContext()));
         }
     }

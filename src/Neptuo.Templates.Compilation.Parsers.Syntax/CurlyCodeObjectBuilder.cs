@@ -4,7 +4,7 @@ using Neptuo.Templates.Compilation.CodeObjects.Features;
 using Neptuo.Templates.Compilation.Parsers.Descriptors;
 using Neptuo.Templates.Compilation.Parsers.Descriptors.Features;
 using Neptuo.Templates.Compilation.Parsers.Normalization;
-using Neptuo.Templates.Compilation.Parsers.SyntaxTrees;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
