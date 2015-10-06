@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers
 {
     [TestClass]
-    public class TestComposableTokenizer_Angle : TestComposableTokenizerBase
+    public class TestTokenizer_Angle : TestTokenizerBase
     {
         [TestMethod]
         public void Angle_ValidEmptyTag()

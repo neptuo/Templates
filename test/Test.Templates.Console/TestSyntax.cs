@@ -120,8 +120,8 @@ namespace Test.Templates
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
                  .Add<SyntaxNodeCollection>(new CollectionCodeObjectBuilder(codeObjectBuilders))
-                 .Add<TextSyntax>(new TextCodeObjectBuilder())
-                 .Add<CurlySyntax>(new CurlyCodeObjectBuilder(bindingDescriptor));
+                 .Add<LiteralSyntax>(new TextCodeObjectBuilder())
+                 .Add<CurlySyntaxNodes>(new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
             codePropertyBuilders
@@ -139,8 +139,8 @@ namespace Test.Templates
                 .Add(new LiteralTokenBuilder());
 
             parserService.SyntaxBuilders
-                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
-                .Add(TokenType.Literal, new TextSyntaxBuilder());
+                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
+                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
 
             return parserService;
         }

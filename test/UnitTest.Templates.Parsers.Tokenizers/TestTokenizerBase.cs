@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace UnitTest.Templates.Parsers.Tokenizers
 {
-    public abstract class TestComposableTokenizerBase : TestBase
+    public abstract class TestTokenizerBase : TestBase
     {
         protected DefaultTokenizer CreateTokenizer()
         {

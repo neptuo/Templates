@@ -9,7 +9,7 @@ using UnitTest.Templates.Parsers.Tokenizers;
 namespace UnitTest.Templates.Parsers
 {
     [TestClass]
-    public class Syntax_Curly : TestComposableTokenizerBase
+    public class Syntax_Curly : TestTokenizerBase
     {
         [TestMethod]
         public void Basic()
@@ -18,16 +18,16 @@ namespace UnitTest.Templates.Parsers
             IList<Token> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"), new FakeTokenizerContext());
             //IList<ComposableToken> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID} Text"), new FakeTokenizerContext());
 
-            ISyntaxNodeBuilder builder = new SyntaxBuilderCollection()
-                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
-                .Add(TokenType.Literal, new TextSyntaxBuilder());
+            ISyntaxNodeFactory builder = new SyntaxNodeBuilderCollection()
+                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
+                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
 
-            ISyntaxNode node = builder.Build(tokens, 0);
+            ISyntaxNode node = builder.Create(tokens);
 
             SyntaxNodeCollection collection = node as SyntaxNodeCollection;
             if (collection != null)
             {
-                CurlySyntax curly = collection.Nodes[1] as CurlySyntax;
+                CurlySyntaxNodes curly = collection.Nodes[1] as CurlySyntaxNodes;
                 if (curly != null)
                 {
                     AssertAreEqual(curly.Name.NameToken.Text, "Binding");

@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
-    public class CurlyCodeObjectBuilder : CodeObjectBuilderBase<CurlySyntax>
+    public class CurlyCodeObjectBuilder : CodeObjectBuilderBase<CurlySyntaxNodes>
     {
         private readonly IComponentDescriptor descriptor;
 
@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             this.descriptor = descriptor;
         }
 
-        protected override IEnumerable<ICodeObject> TryBuild(CurlySyntax node, ICodeObjectBuilderContext context)
+        protected override IEnumerable<ICodeObject> TryBuild(CurlySyntaxNodes node, ICodeObjectBuilderContext context)
         {
             ComponentCodeObject codeObject = new ComponentCodeObject();
 

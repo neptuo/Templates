@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class TextSyntax : SyntaxNodeBase<TextSyntax>
+    public class LiteralSyntax : SyntaxNodeBase<LiteralSyntax>
     {
         public Token TextToken { get; set; }
 
-        protected override TextSyntax CloneInternal()
+        protected override LiteralSyntax CloneInternal()
         {
-            return new TextSyntax
+            return new LiteralSyntax
             {
                 TextToken = TextToken
             };

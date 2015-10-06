@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class SyntaxBuilderCollection : ISyntaxNodeBuilder, IComposableSyntaxBuilderContext
+    public class SyntaxNodeBuilderCollection : ISyntaxNodeFactory, ISyntaxNodeBuilderContext
     {
-        private readonly Dictionary<TokenType, IComposableSyntaxBuilder> storage = new Dictionary<TokenType, IComposableSyntaxBuilder>();
+        private readonly Dictionary<TokenType, ISyntaxNodeBuilder> storage = new Dictionary<TokenType, ISyntaxNodeBuilder>();
 
-        public SyntaxBuilderCollection Add(TokenType tokenType, IComposableSyntaxBuilder builder)
+        public SyntaxNodeBuilderCollection Add(TokenType tokenType, ISyntaxNodeBuilder builder)
         {
             Ensure.NotNull(tokenType, "tokenType");
             Ensure.NotNull(builder, "builder");
@@ -19,10 +19,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return this;
         }
 
-        public ISyntaxNode Build(IList<Token> tokens, int startIndex)
+        public ISyntaxNode Create(IList<Token> tokens)
         {
             SyntaxNodeCollection result = new SyntaxNodeCollection();
-            for (int i = startIndex; i < tokens.Count; )
+            for (int i = 0; i < tokens.Count; )
             {
                 Token token = tokens[i];
                 ISyntaxNode node = BuildNext(tokens, i);
@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public ISyntaxNode BuildNext(IList<Token> tokens, int startIndex)
         {
             Token token = tokens[startIndex];
-            IComposableSyntaxBuilder builder;
+            ISyntaxNodeBuilder builder;
             if (storage.TryGetValue(token.Type, out builder))
             {
                 ISyntaxNode node = builder.Build(tokens, startIndex, this);

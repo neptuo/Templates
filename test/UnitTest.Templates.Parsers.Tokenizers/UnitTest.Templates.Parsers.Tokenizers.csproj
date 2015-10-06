@@ -59,10 +59,10 @@
     <Compile Include="IO\TestContentFactory.cs" />
     <Compile Include="IO\TestContentDecorator.cs" />
     <Compile Include="IO\TestPartialReader.cs" />
-    <Compile Include="TestComposableTokenizer_Curly.cs" />
-    <Compile Include="TestComposableTokenizer_Angle.cs" />
+    <Compile Include="TestTokenizer_Curly.cs" />
+    <Compile Include="TestTokenizer_Angle.cs" />
     <Compile Include="TestBase.cs" />
-    <Compile Include="TestComposableTokenizerBase.cs" />
+    <Compile Include="TestTokenizerBase.cs" />
     <Compile Include="_Fakes\FakeTokenizerContext.cs" />
     <Compile Include="IO\TestStringReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

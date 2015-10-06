@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class CurlySyntaxBuilder : IComposableSyntaxBuilder
+    public class CurlySyntaxNodeBuilder : ISyntaxNodeBuilder
     {
-        public ISyntaxNode Build(IList<Token> tokens, int startIndex, IComposableSyntaxBuilderContext context)
+        public ISyntaxNode Build(IList<Token> tokens, int startIndex, ISyntaxNodeBuilderContext context)
         {
-            CurlySyntax result = new CurlySyntax();
+            CurlySyntaxNodes result = new CurlySyntaxNodes();
 
             TokenListReader reader = new TokenListReader(tokens, startIndex);
             Token token = reader.Current;
@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        private ISyntaxNode BuildName(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
+        private ISyntaxNode BuildName(TokenListReader reader, CurlySyntaxNodes result, ISyntaxNodeBuilderContext context)
         {
             reader.NextRequired();
 
@@ -66,7 +66,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return result;
         }
 
-        private void BuildContent(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
+        private void BuildContent(TokenListReader reader, CurlySyntaxNodes result, ISyntaxNodeBuilderContext context)
         {
             reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
@@ -77,7 +77,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 throw new NotImplementedException();
         }
 
-        private void BuildAttribute(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
+        private void BuildAttribute(TokenListReader reader, CurlySyntaxNodes result, ISyntaxNodeBuilderContext context)
         {
             CurlyAttributeSyntax attribute = new CurlyAttributeSyntax()
             {
@@ -112,7 +112,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        private void BuildTokenClose(TokenListReader reader, CurlySyntax result, IComposableSyntaxBuilderContext context)
+        private void BuildTokenClose(TokenListReader reader, CurlySyntaxNodes result, ISyntaxNodeBuilderContext context)
         {
             result.CloseToken = reader.Current;
         }

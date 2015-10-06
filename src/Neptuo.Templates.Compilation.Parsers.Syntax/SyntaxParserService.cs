@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
 
         public DefaultTokenizer ContentTokenizer { get; private set; }
         public DefaultTokenizer ValueTokenizer { get; private set; }
-        public SyntaxBuilderCollection SyntaxBuilders { get; private set; }
+        public SyntaxNodeBuilderCollection SyntaxBuilders { get; private set; }
 
         /// <summary>
         /// Creates new instance.
@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
 
             ContentTokenizer = new DefaultTokenizer();
             ValueTokenizer = new DefaultTokenizer();
-            SyntaxBuilders = new SyntaxBuilderCollection();
+            SyntaxBuilders = new SyntaxNodeBuilderCollection();
         }
 
         private ICodeObject ProcessInternal(string name, ISourceContent content, IParserServiceContext context, DefaultTokenizer tokenizer)
@@ -41,7 +41,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
                 new StringReader(content.TextContent),
                 new DefaultTokenizerContext(context.DependencyProvider, context.Errors)
             );
-            ISyntaxNode node = SyntaxBuilders.Build(tokens, 0);
+            ISyntaxNode node = SyntaxBuilders.Create(tokens);
 
             IEnumerable<ICodeObject> codeObjects = parserProvider
                 .WithObjectBuilder()

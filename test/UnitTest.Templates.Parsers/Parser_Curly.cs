@@ -20,7 +20,7 @@ using UnitTest.Templates.Parsers.Tokenizers;
 namespace UnitTest.Templates.Parsers
 {
     [TestClass]
-    public class Parser_Curly : TestComposableTokenizerBase
+    public class Parser_Curly : TestTokenizerBase
     {
         [TestMethod]
         public void Basic()
@@ -32,8 +32,8 @@ namespace UnitTest.Templates.Parsers
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
                  .Add(typeof(SyntaxNodeCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
-                 .Add(typeof(TextSyntax), new TextCodeObjectBuilder())
-                 .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(bindingDescriptor));
+                 .Add(typeof(LiteralSyntax), new TextCodeObjectBuilder())
+                 .Add(typeof(CurlySyntaxNodes), new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
             codePropertyBuilders
@@ -51,8 +51,8 @@ namespace UnitTest.Templates.Parsers
                 .AddLiteralTokenBuilder();
 
             parserService.SyntaxBuilders
-                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxBuilder())
-                .Add(TokenType.Literal, new TextSyntaxBuilder());
+                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
+                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
 
             ICodeObject codeObject = parserService.ProcessContent(
                 "Default", 
