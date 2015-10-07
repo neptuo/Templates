@@ -1,0 +1,1 @@
+DirectoryRemovingTool.exe ..\..\src "\\((bin)|(obj))\\.*"

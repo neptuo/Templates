@@ -1,5 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
+using Neptuo.Activators;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 using System;
@@ -14,17 +15,16 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     {
         private readonly ITextBuffer buffer;
         private readonly IClassificationType curlyBrace, curlyContent, curlyError;
-        private readonly DefaultTokenizer tokenizer;
+        private readonly TokenizerContext tokenizerContext;
 
         public TemplateClassifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
         {
-            this.tokenizer = new DefaultTokenizer();
-            tokenizer.Add(new CurlyTokenBuilder());
-            tokenizer.Add(new LiteralTokenBuilder());
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(TemplateClassificationType.CurlyBrace);
             curlyContent = registry.GetClassificationType(TemplateClassificationType.CurlyContent);
             curlyError = registry.GetClassificationType(TemplateClassificationType.CurlyError);
+            
+            this.tokenizerContext = new TokenizerContext();
         }
 
         public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged;
@@ -42,7 +42,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 
             try
             {
-                IList<Token> tokens = tokenizer.Tokenize(new StringReader(buffer.CurrentSnapshot.GetText()), new FakeTokenizerContext());
+                IList<Token> tokens = tokenizerContext.Tokenize(buffer);
                 foreach (Token token in tokens)
                 {
                     if (!token.IsVirtual)
