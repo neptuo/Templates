@@ -69,7 +69,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             return false;
         }
 
-        private void ReadTokenName(CurlyContext context)
+        private void ReadTokenName(CurlyContext context, bool isSingleTokenOnly = false)
         {
             context.Decorator.NextWhile(Char.IsLetterOrDigit);
 
@@ -144,6 +144,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 // Close token.
                 context.CreateToken(CurlyTokenType.CloseBrace);
 
+                // Token is closed, so we can end.
+                if (isSingleTokenOnly)
+                    return;
+
                 // If there is something to read.
                 if (context.Decorator.Next())
                 {
@@ -200,14 +204,23 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         .WithError("Not valid here.");
                 }
 
-
                 // Use as attribute value.
                 context.Decorator.Next();
-                IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, ',', '}');
-                context.Result.AddRange(attributeValue);
-                context.Decorator.ResetCurrentPosition(1);
-                context.Decorator.ResetCurrentInfo();
-                context.Decorator.Next();
+                if (context.Decorator.Current == '{')
+                {
+                    // Parse as inner token.
+                    context.CreateToken(CurlyTokenType.OpenBrace);
+                    ReadTokenName(context, true);
+                    context.Decorator.Next();
+                }
+                else
+                {
+                    IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, ',', '}');
+                    context.Result.AddRange(attributeValue);
+                    context.Decorator.ResetCurrentPosition(1);
+                    context.Decorator.ResetCurrentInfo();
+                    context.Decorator.Next();
+                }
 
                 if (context.Decorator.Current == ',')
                 {

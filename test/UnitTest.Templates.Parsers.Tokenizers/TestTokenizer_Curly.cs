@@ -131,5 +131,13 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertAreEqual(tokens[9].IsVirtual, true);
             AssertAreEqual(tokens[10].IsVirtual, true);
         }
+
+        [TestMethod]
+        public void Curly_ValidTokenWithInnerToken()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter={StaticConverter IntToBool}}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "{", "StaticConverter", " ", "IntToBool", "}", "}");
+        }
     }
 }
