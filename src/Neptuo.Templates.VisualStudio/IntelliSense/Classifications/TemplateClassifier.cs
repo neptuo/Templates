@@ -27,7 +27,11 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             this.tokenizerContext = new TokenizerContext();
         }
 
-        public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged;
+        public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged
+        {
+            add { }
+            remove { }
+        }
 
         public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span)
         {

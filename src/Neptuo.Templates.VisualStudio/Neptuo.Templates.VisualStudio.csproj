@@ -76,6 +76,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntelliSense\Classifications\Definitions\CurlyBraceDefinition.cs" />
+    <Compile Include="IntelliSense\Classifications\Definitions\CurlyContentDefinition.cs" />
+    <Compile Include="IntelliSense\Classifications\Definitions\CurlyErrorDefinition.cs" />
     <Compile Include="IntelliSense\Classifications\TemplateClassifierProvider.cs" />
     <Compile Include="IntelliSense\TokenizerContext.cs" />
     <Compile Include="IntelliSense\Classifications\TemplateClassificationType.cs" />
