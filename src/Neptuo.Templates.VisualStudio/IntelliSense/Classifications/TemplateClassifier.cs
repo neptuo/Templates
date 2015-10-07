@@ -35,35 +35,39 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 
         public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span)
         {
-            var spans = new List<ClassificationSpan>();
-            Action<ClassificationSpan> addSpan = s =>
-            {
-                if (s.Span.IntersectsWith(span))
-                {
-                    spans.Add(s);
-                }
-            };
-
+            List<ClassificationSpan> result = new List<ClassificationSpan>();
             try
             {
                 IList<Token> tokens = tokenizerContext.Tokenize(buffer);
+                Token previousToken = null;
                 foreach (Token token in tokens)
                 {
-                    if (!token.IsVirtual)
-                    {
-                        if (token.Type == CurlyTokenType.OpenBrace || token.Type == CurlyTokenType.CloseBrace)
-                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), curlyBrace));
-                        else if (token.HasError)
-                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), curlyError));
-                        else if (token.Type != CurlyTokenType.Literal)
-                            addSpan(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), curlyContent));
-                    }
+                    IClassificationType type = MapTokenToClassificationType(token, previousToken);
+                    if (type != null)
+                        result.Add(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), type));
+
+                    previousToken = token;
                 }
             }
             catch (Exception)
             { }
 
-            return spans;
+            return result;
+        }
+
+        private IClassificationType MapTokenToClassificationType(Token token, Token previousToken)
+        {
+            if (token.IsVirtual)
+                return null;
+
+            if (token.Type == CurlyTokenType.OpenBrace || token.Type == CurlyTokenType.CloseBrace)
+                return curlyBrace;
+            else if (token.HasError)
+                return curlyError;
+            else if (token.Type != CurlyTokenType.Literal || (previousToken != null && previousToken.Type == CurlyTokenType.AttributeValueSeparator))
+                return curlyContent;
+
+            return null;
         }
     }
 
