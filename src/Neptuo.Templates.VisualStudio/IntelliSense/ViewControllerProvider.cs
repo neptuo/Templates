@@ -18,7 +18,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     [Name("token completion handler")]
     [ContentType(TemplateContentType.ContentType)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    internal class TemplateViewControllerProvider : IVsTextViewCreationListener
+    internal class ViewControllerProvider : IVsTextViewCreationListener
     {
         [Import]
         internal IVsEditorAdaptersFactoryService AdapterService { get; set; }
@@ -33,9 +33,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (textView == null)
                 return;
 
-            Func<TemplateViewController> createCommandHandler = delegate()
+            Func<ViewController> createCommandHandler = delegate()
             {
-                TemplateViewController controller = new TemplateViewController(textViewAdapter, textView, CompletionBroker, ServiceProvider);
+                ViewController controller = new ViewController(textViewAdapter, textView, CompletionBroker, ServiceProvider);
                 return controller;
             };
             textView.Properties.GetOrCreateSingletonProperty(createCommandHandler);

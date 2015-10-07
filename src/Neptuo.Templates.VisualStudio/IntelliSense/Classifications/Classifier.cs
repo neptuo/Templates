@@ -11,18 +11,18 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
-    public class TemplateClassifier : IClassifier
+    interface class Classifier : IClassifier
     {
         private readonly ITextBuffer buffer;
         private readonly IClassificationType curlyBrace, curlyContent, curlyError;
         private readonly TokenizerContext tokenizerContext;
 
-        public TemplateClassifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
+        public Classifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
         {
             this.buffer = buffer;
-            curlyBrace = registry.GetClassificationType(TemplateClassificationType.CurlyBrace);
-            curlyContent = registry.GetClassificationType(TemplateClassificationType.CurlyContent);
-            curlyError = registry.GetClassificationType(TemplateClassificationType.CurlyError);
+            curlyBrace = registry.GetClassificationType(ClassificationType.CurlyBrace);
+            curlyContent = registry.GetClassificationType(ClassificationType.CurlyContent);
+            curlyError = registry.GetClassificationType(ClassificationType.CurlyError);
             
             this.tokenizerContext = new TokenizerContext();
         }

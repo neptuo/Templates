@@ -11,7 +11,7 @@ using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
-    internal class TemplateCompletionSource : DisposableBase, ICompletionSource
+    internal class CompletionSource : DisposableBase, ICompletionSource
     {
         public const string Moniker = "ntemplate";
 
@@ -22,7 +22,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         private readonly List<string> tokenNames = new List<string>() { "Binding", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
 
-        public TemplateCompletionSource(ITextBuffer textBuffer, IGlyphService glyphService)
+        public CompletionSource(ITextBuffer textBuffer, IGlyphService glyphService)
         {
             this.textBuffer = textBuffer;
             this.glyphService = glyphService;

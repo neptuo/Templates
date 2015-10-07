@@ -13,14 +13,14 @@ using Microsoft.VisualStudio.Utilities;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    internal class TemplateViewController : IOleCommandTarget
+    internal class ViewController : IOleCommandTarget
     {
         private readonly IOleCommandTarget nextController;
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
         private readonly CompletionSession completionSession;
 
-        internal TemplateViewController(IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
+        internal ViewController(IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
             this.textView = textView;
             this.serviceProvider = serviceProvider;

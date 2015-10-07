@@ -9,7 +9,7 @@ using System.Windows;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
-    internal static class TemplateClassificationType
+    internal static class ClassificationType
     {
         public const string Name = "ntemplate";
         public const string CurlyBrace = "ntemplate_CurlyBrace";

@@ -61,7 +61,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 //if the selection is fully selected, commit the current session 
                 if (currentSession.SelectedCompletionSet.SelectionStatus.IsSelected)
                 {
-                    if (currentSession.SelectedCompletionSet.Moniker == TemplateCompletionSource.Moniker)
+                    if (currentSession.SelectedCompletionSet.Moniker == CompletionSource.Moniker)
                     {
                         currentSession.Commit();
                         return CommitResult.Commited;

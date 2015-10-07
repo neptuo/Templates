@@ -12,14 +12,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
     [Export(typeof(IClassifierProvider))]
     [ContentType(TemplateContentType.ContentType)]
-    public class TemplateClassifierProvider : IClassifierProvider
+    internal class ClassifierProvider : IClassifierProvider
     {
         [Import]
         internal IClassificationTypeRegistryService Registry { get; set; }
 
         public IClassifier GetClassifier(ITextBuffer textBuffer)
         {
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new TemplateClassifier(Registry, textBuffer));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new Classifier(Registry, textBuffer));
         }
     }
 }

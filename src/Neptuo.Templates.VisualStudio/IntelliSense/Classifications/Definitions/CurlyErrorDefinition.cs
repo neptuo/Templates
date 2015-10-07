@@ -12,8 +12,8 @@ using System.Windows.Media;
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications.Definitions
 {
     [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = TemplateClassificationType.CurlyError)]
-    [Name(TemplateClassificationType.CurlyError)]
+    [ClassificationType(ClassificationTypeNames = ClassificationType.CurlyError)]
+    [Name(ClassificationType.CurlyError)]
     [UserVisible(true)]
     [Order(After = Priority.Default)]
     internal sealed class CurlyErrorDefinition : ClassificationFormatDefinition

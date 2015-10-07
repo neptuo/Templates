@@ -20,7 +20,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
     [Export(typeof(ICompletionSourceProvider))]
     [Name(TemplateContentType.ContentType)]
     [ContentType(TemplateContentType.ContentType)]
-    internal class TemplateCompletionSourceProvider : ICompletionSourceProvider
+    internal class CompletionSourceProvider : ICompletionSourceProvider
     {
         [Import]
         public IGlyphService GlyphService { get; set; }
@@ -28,7 +28,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
             //ServiceProvider.GlobalProvider.GetService(typeof(DTE2))
-            return new TemplateCompletionSource(textBuffer, GlyphService);
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(textBuffer, GlyphService));
         }
     }
 }

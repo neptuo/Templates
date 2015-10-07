@@ -11,8 +11,8 @@ using System.Windows.Media;
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications.Definitions
 {
     [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = TemplateClassificationType.CurlyContent)]
-    [Name(TemplateClassificationType.CurlyContent)]
+    [ClassificationType(ClassificationTypeNames = ClassificationType.CurlyContent)]
+    [Name(ClassificationType.CurlyContent)]
     [UserVisible(true)]
     [Order(After = Priority.Default)]
     internal sealed class CurlyContentDefinition : ClassificationFormatDefinition
