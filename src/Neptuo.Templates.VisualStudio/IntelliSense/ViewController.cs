@@ -18,13 +18,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly IOleCommandTarget nextController;
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
-        private readonly CompletionSession completionSession;
+        private readonly CompletionContext completionSession;
 
         internal ViewController(IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
             this.textView = textView;
             this.serviceProvider = serviceProvider;
-            this.completionSession = new CompletionSession(textView, completionBroker);
+            this.completionSession = new CompletionContext(textView, completionBroker);
 
             //add the command to the command chain
             textViewAdapter.AddCommandFilter(this, out nextController);
@@ -61,31 +61,21 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (pguidCmdGroup == VSConstants.VSStd2K && nCmdID == (uint)VSConstants.VSStd2KCmdID.TYPECHAR)
                 typedChar = (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
 
-            // Try start completion on 'Ctrl+Space'.
-            if (nCmdID == (uint)VSConstants.VSStd2KCmdID.COMPLETEWORD)
-            {
-                if (!completionSession.HasSession)
-                    completionSession.TryStartSession();
-
-                completionSession.TryFilter();
-                return VSConstants.S_OK;
-            }
-
-            // If we have active session.
             if (completionSession.HasSession)
             {
-                // Try commit completion (Enter, Tab or Space).
-                if (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB || Char.IsWhiteSpace(typedChar))
+                if (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB)
                 {
-                    switch (completionSession.TryCommit())
-                    {
-                        case CompletionSession.CommitResult.Commited:
-                        case CompletionSession.CommitResult.NoSession:
-                            completionSession.TryDismiss();
-                            return VSConstants.S_OK;
-                        case CompletionSession.CommitResult.OtherMoniker:
-                            return nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
-                    }
+                    completionSession.TryCommit();
+                    completionSession.TryDismiss();
+                    return VSConstants.S_OK;
+                }
+            }
+            else
+            {
+                if (nCmdID == (uint)VSConstants.VSStd2KCmdID.COMPLETEWORD)
+                {
+                    completionSession.TryStartSession();
+                    return VSConstants.S_OK;
                 }
             }
 
@@ -93,14 +83,16 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             int nextResult = nextController.Exec(ref pguidCmdGroup, nCmdID, nCmdexecopt, pvaIn, pvaOut);
 
             // On text input, filter out completion.
-            if (!typedChar.Equals(Char.MinValue) && (Char.IsLetterOrDigit(typedChar) || typedChar == '{' || typedChar == '='))
+            if (!typedChar.Equals(Char.MinValue))
             {
-                // If this is not deletion, start session.
-                if (!completionSession.HasSession && commandID != (uint)VSConstants.VSStd2KCmdID.BACKSPACE && commandID != (uint)VSConstants.VSStd2KCmdID.DELETE) 
+                // If there is session, update filter.
+                if (completionSession.HasSession) 
+                    completionSession.TryFilter();
+
+                // If some interesting char was typed, start session.
+                if (completionSession.IsCompletableToken())
                     completionSession.TryStartSession();
 
-                // Update filter.
-                completionSession.TryFilter();
                 return VSConstants.S_OK;
             }
             

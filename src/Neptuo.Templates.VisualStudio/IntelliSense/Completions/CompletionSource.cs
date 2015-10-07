@@ -19,7 +19,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         private readonly IGlyphService glyphService;
         private readonly TokenizerContext tokenizer;
 
-        private readonly List<string> tokenNames = new List<string>() { "Binding", "StaticResource" };
+        private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
 
         public CompletionSource(ITextBuffer textBuffer, IGlyphService glyphService)
@@ -41,14 +41,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 if(currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
                 {
                     result.AddRange(tokenNames
-                        .Where(n => n.StartsWith(currentToken.Text))
+                        .Where(n => currentToken.Type == CurlyTokenType.OpenBrace || n.StartsWith(currentToken.Text))
                         .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
                     );
                 }
-                else if (currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
+                else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName)
                 {
                     result.AddRange(attributeNames
-                        .Where(n => n.StartsWith(currentToken.Text))
+                        .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))
                         .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
                     );
                 }
@@ -74,7 +74,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         {
             return new Completion(
                 targetValue, 
-                targetValue.Substring(currentToken.Text.Length), 
+                targetValue, 
                 "This is such a usefull description for this item.",
                 glyphService.GetGlyph(glyphGroup, glyphItem), 
                 "Hello, Template!"
@@ -103,8 +103,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
         private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, Token currentToken)
         {
-            int startIndex = point.GetPosition(textBuffer.CurrentSnapshot);
+            int startIndex = currentToken.TextSpan.StartIndex;
             int length = Math.Max(0, currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length - startIndex);
+            if (currentToken.Type == CurlyTokenType.OpenBrace)
+            {
+                startIndex = point.GetPosition(textBuffer.CurrentSnapshot);
+                length = 0;
+            }
 
             return textBuffer.CurrentSnapshot.CreateTrackingSpan(
                 startIndex,

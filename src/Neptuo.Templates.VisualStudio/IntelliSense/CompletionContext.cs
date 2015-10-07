@@ -11,20 +11,32 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    internal class CompletionSession
+    internal class CompletionContext
     {
         private readonly ITextView textView;
         private readonly ICompletionBroker completionBroker;
         private readonly TokenizerContext tokenizer;
+        private readonly List<TokenType> completableTokens = new List<TokenType>() { CurlyTokenType.OpenBrace, CurlyTokenType.Name, CurlyTokenType.NamePrefix, CurlyTokenType.AttributeName, TokenType.Whitespace };
 
         private ICompletionSession currentSession;
 
-        public CompletionSession(ITextView textView, ICompletionBroker completionBroker)
+        public CompletionContext(ITextView textView, ICompletionBroker completionBroker)
         {
             this.textView = textView;
             this.completionBroker = completionBroker;
             this.tokenizer = new TokenizerContext();
         }
+
+        public bool IsCompletableToken()
+        {
+            IList<Token> tokens = tokenizer.Tokenize(textView.TextBuffer);
+
+            SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
+            Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
+
+            return completableTokens.Contains(currentToken.Type);
+        }
+
 
         public bool TryStartSession()
         {

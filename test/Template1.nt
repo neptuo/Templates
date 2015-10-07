@@ -4,4 +4,6 @@ asd klas dajslkd askld asd
 f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
 dasd as
 d as das d as das
- dasd sa dasd as das askld jsalkj fa jflkdsjf dlkfjsdlkf  {Binding} {StaticResource} asd ....
+ dasd sa dasd as das askld jsalkj fa jflkdsjf dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding} yy {TemplateBinding} {Binding} {TemplateBinding}
