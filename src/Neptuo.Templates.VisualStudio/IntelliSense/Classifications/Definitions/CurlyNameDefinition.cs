@@ -11,17 +11,15 @@ using System.Windows.Media;
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications.Definitions
 {
     [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = ClassificationType.CurlyBrace)]
-    [Name(ClassificationType.CurlyBrace)]
+    [ClassificationType(ClassificationTypeNames = ClassificationType.CurlyName)]
+    [Name(ClassificationType.CurlyName)]
     [UserVisible(true)]
     [Order(After = Priority.Default)]
-    internal sealed class CurlyBraceDefinition : ClassificationFormatDefinition
+    internal class CurlyNameDefinition : ClassificationFormatDefinition
     {
-        public CurlyBraceDefinition()
+        public CurlyNameDefinition()
         {
-            ForegroundColor = Color.FromRgb(127, 110, 78);
-            DisplayName = "Template Curly Brace";
+            ForegroundColor = Color.FromRgb(187, 160, 140);
         }
     }
-
 }

@@ -13,7 +13,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     {
         public const string Name = "ntemplate";
         public const string CurlyBrace = "ntemplate_CurlyBrace";
-        public const string CurlyContent = "ntemplate_CurlyContent";
+        public const string CurlyName = "ntemplate_CurlyName";
+        public const string CurlyAttributeName = "ntemplate_CurlyAttributeName";
         public const string CurlyError = "ntemplate_CurlyError";
 
         [Export(typeof(ClassificationTypeDefinition))]
@@ -21,8 +22,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         internal static ClassificationTypeDefinition CurlyBraceDefinition = null;
 
         [Export(typeof(ClassificationTypeDefinition))]
-        [Name(CurlyContent)]
-        internal static ClassificationTypeDefinition CurlyContentDefinition = null;
+        [Name(CurlyName)]
+        internal static ClassificationTypeDefinition CurlyNameDefinition = null;
+
+        [Export(typeof(ClassificationTypeDefinition))]
+        [Name(CurlyAttributeName)]
+        internal static ClassificationTypeDefinition CurlyAttributeNameDefinition = null;
 
         [Export(typeof(ClassificationTypeDefinition))]
         [Name(CurlyError)]

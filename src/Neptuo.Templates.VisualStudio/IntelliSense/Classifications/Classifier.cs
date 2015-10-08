@@ -14,14 +14,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     internal class Classifier : IClassifier
     {
         private readonly ITextBuffer buffer;
-        private readonly IClassificationType curlyBrace, curlyContent, curlyError;
+        private readonly IClassificationType curlyBrace, curlyName, curlyAttributeName, curlyError;
         private readonly TokenizerContext tokenizerContext;
 
         public Classifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
         {
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(ClassificationType.CurlyBrace);
-            curlyContent = registry.GetClassificationType(ClassificationType.CurlyContent);
+            curlyName = registry.GetClassificationType(ClassificationType.CurlyName);
+            curlyAttributeName = registry.GetClassificationType(ClassificationType.CurlyAttributeName);
             curlyError = registry.GetClassificationType(ClassificationType.CurlyError);
             
             this.tokenizerContext = new TokenizerContext();
@@ -60,12 +61,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             if (token.IsVirtual)
                 return null;
 
-            if (token.Type == CurlyTokenType.OpenBrace || token.Type == CurlyTokenType.CloseBrace)
+            if (token.Type == CurlyTokenType.OpenBrace || token.Type == CurlyTokenType.CloseBrace || token.Type == CurlyTokenType.AttributeSeparator || token.Type == CurlyTokenType.AttributeValueSeparator)
                 return curlyBrace;
+            else if (token.Type == CurlyTokenType.Name || token.Type == CurlyTokenType.NamePrefix || token.Type == CurlyTokenType.NameSeparator)
+                return curlyName;
+            else if (token.Type == CurlyTokenType.AttributeName)
+                return curlyAttributeName;
             else if (token.HasError)
                 return curlyError;
-            else if (token.Type != CurlyTokenType.Literal || (previousToken != null && previousToken.Type == CurlyTokenType.AttributeValueSeparator))
-                return curlyContent;
 
             return null;
         }

@@ -11,17 +11,15 @@ using System.Windows.Media;
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications.Definitions
 {
     [Export(typeof(EditorFormatDefinition))]
-    [ClassificationType(ClassificationTypeNames = ClassificationType.CurlyContent)]
-    [Name(ClassificationType.CurlyContent)]
+    [ClassificationType(ClassificationTypeNames = ClassificationType.CurlyAttributeName)]
+    [Name(ClassificationType.CurlyAttributeName)]
     [UserVisible(true)]
     [Order(After = Priority.Default)]
-    internal sealed class CurlyContentDefinition : ClassificationFormatDefinition
+    internal class CurlyAttributeNameDefinition : ClassificationFormatDefinition
     {
-        public CurlyContentDefinition()
+        public CurlyAttributeNameDefinition()
         {
-            BackgroundColor = Color.FromRgb(244, 244, 244);
-            ForegroundColor = Colors.Blue;
-            DisplayName = "Template Curly Content";
+            ForegroundColor = Color.FromRgb(215, 186, 125);
         }
     }
 }
