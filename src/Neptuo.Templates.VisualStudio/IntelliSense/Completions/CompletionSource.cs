@@ -15,43 +15,33 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
     {
         public const string Moniker = "ntemplate";
 
-        private readonly ITextBuffer textBuffer;
-        private readonly IGlyphService glyphService;
         private readonly TokenContext tokenContext;
+        private readonly ICompletionProvider completionProvider;
+        private readonly List<ITokenTrigger> triggers;
+        private readonly ITextBuffer textBuffer;
 
-        private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
-        private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
-
-        public CompletionSource(TokenContext tokenContext, ITextBuffer textBuffer, IGlyphService glyphService)
+        public CompletionSource(TokenContext tokenContext, ICompletionProvider completionProvider, ITokenTriggerProvider triggerProvider, ITextBuffer textBuffer)
         {
             this.textBuffer = textBuffer;
-            this.glyphService = glyphService;
+            this.completionProvider = completionProvider;
+            this.triggers = triggerProvider.GetTriggers().ToList();
             this.tokenContext = tokenContext;
         }
 
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
             List<Completion> result = new List<Completion>();
-            IList<Token> tokens = tokenContext.Tokens;
+            IReadOnlyList<Token> tokens = tokenContext.Tokens;
 
             SnapshotPoint cursorPosition = session.TextView.Caret.Position.BufferPosition;
             Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
             if (currentToken != null)
             {
-                if(currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
-                {
-                    result.AddRange(tokenNames
-                        .Where(n => currentToken.Type == CurlyTokenType.OpenBrace || n.StartsWith(currentToken.Text))
-                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
-                    );
-                }
-                else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
-                {
-                    result.AddRange(attributeNames
-                        .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))
-                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
-                    );
-                }
+                IEnumerable<Completion> completions = completionProvider
+                    .GetCompletions(tokens, currentToken)
+                    .Select(c => new Completion(c.DisplayText, c.InsertionText, c.DescriptionText, c.IconSource, String.Empty));
+
+                result.AddRange(completions);
             }
 
             CompletionSet newCompletionSet = new CompletionSet(
@@ -70,14 +60,22 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             completionSets.Add(newCompletionSet);
         }
 
-        private Completion CreateItem(Token currentToken, string targetValue, StandardGlyphGroup glyphGroup, StandardGlyphItem glyphItem = StandardGlyphItem.GlyphItemPublic)
+        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, Token currentToken)
         {
-            return new Completion(
-                targetValue, 
-                targetValue, 
-                "This is such a usefull description for this item.",
-                glyphService.GetGlyph(glyphGroup, glyphItem), 
-                "Hello, Template!"
+            int startIndex = currentToken.TextSpan.StartIndex;
+            int length = Math.Max(0, currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length - startIndex);
+
+            ITokenTrigger trigger = triggers.FirstOrDefault(t => t.Type == currentToken.Type);
+            if (trigger == null || !trigger.IsValueReplaced)
+            {
+                startIndex = point.GetPosition(textBuffer.CurrentSnapshot);
+                length = 0;
+            }
+
+            return textBuffer.CurrentSnapshot.CreateTrackingSpan(
+                startIndex,
+                length,
+                SpanTrackingMode.EdgeInclusive
             );
         }
 
@@ -99,23 +97,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             }
 
             return newCompletionSet;
-        }
-
-        private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, Token currentToken)
-        {
-            int startIndex = currentToken.TextSpan.StartIndex;
-            int length = Math.Max(0, currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length - startIndex);
-            if (currentToken.Type == CurlyTokenType.OpenBrace || currentToken.Type == CurlyTokenType.Whitespace)
-            {
-                startIndex = point.GetPosition(textBuffer.CurrentSnapshot);
-                length = 0;
-            }
-
-            return textBuffer.CurrentSnapshot.CreateTrackingSpan(
-                startIndex,
-                length,
-                SpanTrackingMode.EdgeInclusive
-            );
         }
     }
 }

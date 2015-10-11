@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
     [Export(typeof(IClassifierProvider))]
-    [ContentType(TemplateContentType.ContentType)]
+    [ContentType(ContentType.TextValue)]
     internal class ClassifierProvider : IClassifierProvider
     {
         [Import]

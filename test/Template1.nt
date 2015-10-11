@@ -9,4 +9,6 @@ d as das d as das
 aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
 asd jkaskld ajsd a\sd as
 d as das dasd a
-sdd asdsada sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+
+asd asd jalskd jasd {TemplateBinding Path=XX} asd asd 

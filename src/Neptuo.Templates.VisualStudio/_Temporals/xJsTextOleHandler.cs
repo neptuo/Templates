@@ -34,7 +34,7 @@ namespace Neptuo.Templates.VisualStudio.Completions
             if (textView.Properties.ContainsProperty("JsCommandFilter"))
                 return;
 
-            if (!subjectBuffers.Any(b => b.ContentType.IsOfType(TemplateContentType.ContentType)))
+            if (!subjectBuffers.Any(b => b.ContentType.IsOfType(ContentType.TextValue)))
                 return;
 
             var adapter = EditorAdaptersFactoryService.GetViewAdapter(textView);

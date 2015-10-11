@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio
 {
-    public class TemplateContentType
+    public class ContentType
     {
-        public const string ContentType = "ntemplate";
+        public const string TextValue = "ntemplate";
 
         [Export(typeof(ContentTypeDefinition))]
-        [Name(ContentType)]
+        [Name(TextValue)]
         [BaseDefinition("htmlx")]
-        public TemplateContentType ContentTypeDefinition { get; set; }
+        public ContentType ContentTypeDefinition { get; set; }
 
         [Export(typeof(FileExtensionToContentTypeDefinition))]
         [FileExtension(".nt")]
-        [ContentType(ContentType)]
+        [ContentType(TextValue)]
         public FileExtensionToContentTypeDefinition FileExtensionDefinition { get; set; }
     }
 }

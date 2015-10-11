@@ -81,6 +81,7 @@
     <Compile Include="IntelliSense\Classifications\ClassifierProvider.cs" />
     <Compile Include="IntelliSense\Classifications\Definitions\CurlyAttributeNameDefinition.cs" />
     <Compile Include="IntelliSense\Classifications\Definitions\CurlyNameDefinition.cs" />
+    <Compile Include="IntelliSense\Completions\CurlyProvider.cs" />
     <Compile Include="IntelliSense\TokenContext.cs" />
     <Compile Include="IntelliSense\Classifications\ClassificationType.cs" />
     <Compile Include="IntelliSense\Classifications\Classifier.cs" />
@@ -90,7 +91,7 @@
     <Compile Include="IntelliSense\Completions\CompletionSource.cs" />
     <Compile Include="IntelliSense\Completions\CompletionSourceProvider.cs" />
     <Compile Include="_Temporals\xJsTextOleHandler.cs" />
-    <Compile Include="TemplateContentType.cs" />
+    <Compile Include="ContentType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

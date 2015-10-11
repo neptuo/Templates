@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
+using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -17,7 +18,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     [Export(typeof(IVsTextViewCreationListener))]
     [Name("token completion handler")]
-    [ContentType(TemplateContentType.ContentType)]
+    [ContentType(ContentType.TextValue)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
     internal class ViewControllerProvider : IVsTextViewCreationListener
     {
@@ -27,6 +28,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         internal ICompletionBroker CompletionBroker { get; set; }
         [Import]
         internal SVsServiceProvider ServiceProvider { get; set; }
+        [Import]
+        public IGlyphService GlyphService { get; set; }
 
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
@@ -35,7 +38,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 return;
 
             TokenContext tokenContext = textView.TextBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textView.TextBuffer));
-            textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(tokenContext, textViewAdapter, textView, CompletionBroker, ServiceProvider));
+            textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(tokenContext, new CurlyProvider(GlyphService), textViewAdapter, textView, CompletionBroker, ServiceProvider));
         }
     }
 }

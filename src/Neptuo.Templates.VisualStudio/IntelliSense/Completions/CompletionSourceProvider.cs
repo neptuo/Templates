@@ -18,8 +18,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
     [Order(Before = "default")]
     [Export(typeof(ICompletionSourceProvider))]
-    [Name(TemplateContentType.ContentType)]
-    [ContentType(TemplateContentType.ContentType)]
+    [Name(ContentType.TextValue)]
+    [ContentType(ContentType.TextValue)]
     internal class CompletionSourceProvider : ICompletionSourceProvider
     {
         [Import]
@@ -27,8 +27,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
+            CurlyProvider curlyProvider = new CurlyProvider(GlyphService);
+
             TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textBuffer));
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(tokenContext, textBuffer, GlyphService));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(tokenContext, curlyProvider, curlyProvider, textBuffer));
         }
     }
 }

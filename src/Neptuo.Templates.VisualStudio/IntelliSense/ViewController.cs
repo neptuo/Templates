@@ -10,21 +10,22 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
+using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     internal class ViewController : IOleCommandTarget
     {
+        private readonly CompletionContext completionSession;
         private readonly IOleCommandTarget nextController;
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
-        private readonly CompletionContext completionSession;
 
-        internal ViewController(TokenContext tokenContext, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
+        internal ViewController(TokenContext tokenContext, ITokenTriggerProvider triggerProvider, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
+            this.completionSession = new CompletionContext(tokenContext, triggerProvider, textView, completionBroker);
             this.textView = textView;
             this.serviceProvider = serviceProvider;
-            this.completionSession = new CompletionContext(tokenContext, textView, completionBroker);
 
             //add the command to the command chain
             textViewAdapter.AddCommandFilter(this, out nextController);

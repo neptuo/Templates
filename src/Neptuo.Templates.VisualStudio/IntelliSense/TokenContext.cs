@@ -19,7 +19,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly IDependencyContainer dependencyContainer;
         private readonly ITextBuffer textBuffer;
 
-        public IList<Token> Tokens { get; private set; }
+        public IReadOnlyList<Token> Tokens { get; private set; }
 
         public TokenContext(ITextBuffer textBuffer)
         {
@@ -44,7 +44,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private void TokenizeCurrentContent()
         {
             string textContent = textBuffer.CurrentSnapshot.GetText();
-            Tokens = tokenizer.Tokenize(new StringReader(textContent), new DefaultTokenizerContext(dependencyContainer));
+            Tokens = tokenizer
+                .Tokenize(new StringReader(textContent), new DefaultTokenizerContext(dependencyContainer))
+                .ToList();
         }
 
         protected override void DisposeManagedResources()
