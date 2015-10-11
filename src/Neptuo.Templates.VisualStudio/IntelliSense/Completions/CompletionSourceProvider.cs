@@ -27,8 +27,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
-            //ServiceProvider.GlobalProvider.GetService(typeof(DTE2))
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(textBuffer, GlyphService));
+            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textBuffer));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(tokenContext, textBuffer, GlyphService));
         }
     }
 }

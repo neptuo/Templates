@@ -20,11 +20,11 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly SVsServiceProvider serviceProvider;
         private readonly CompletionContext completionSession;
 
-        internal ViewController(IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
+        internal ViewController(TokenContext tokenContext, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
             this.textView = textView;
             this.serviceProvider = serviceProvider;
-            this.completionSession = new CompletionContext(textView, completionBroker);
+            this.completionSession = new CompletionContext(tokenContext, textView, completionBroker);
 
             //add the command to the command chain
             textViewAdapter.AddCommandFilter(this, out nextController);

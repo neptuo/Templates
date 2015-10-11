@@ -17,22 +17,22 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
         private readonly ITextBuffer textBuffer;
         private readonly IGlyphService glyphService;
-        private readonly TokenizerContext tokenizer;
+        private readonly TokenContext tokenContext;
 
         private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
 
-        public CompletionSource(ITextBuffer textBuffer, IGlyphService glyphService)
+        public CompletionSource(TokenContext tokenContext, ITextBuffer textBuffer, IGlyphService glyphService)
         {
             this.textBuffer = textBuffer;
             this.glyphService = glyphService;
-            this.tokenizer = new TokenizerContext();
+            this.tokenContext = tokenContext;
         }
 
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
             List<Completion> result = new List<Completion>();
-            IList<Token> tokens = tokenizer.Tokenize(textBuffer);
+            IList<Token> tokens = tokenContext.Tokens;
 
             SnapshotPoint cursorPosition = session.TextView.Caret.Position.BufferPosition;
             Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
@@ -45,7 +45,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                         .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
                     );
                 }
-                else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName)
+                else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
                 {
                     result.AddRange(attributeNames
                         .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))

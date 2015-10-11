@@ -13,23 +13,23 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     internal class CompletionContext
     {
+        private readonly TokenContext tokenContext;
         private readonly ITextView textView;
         private readonly ICompletionBroker completionBroker;
-        private readonly TokenizerContext tokenizer;
-        private readonly List<TokenType> completableTokens = new List<TokenType>() { CurlyTokenType.OpenBrace, CurlyTokenType.Name, CurlyTokenType.NamePrefix, CurlyTokenType.AttributeName, TokenType.Whitespace };
 
+        private readonly List<TokenType> completableTokens = new List<TokenType>() { CurlyTokenType.OpenBrace, CurlyTokenType.Name, CurlyTokenType.NamePrefix, CurlyTokenType.AttributeName, TokenType.Whitespace };
         private ICompletionSession currentSession;
 
-        public CompletionContext(ITextView textView, ICompletionBroker completionBroker)
+        public CompletionContext(TokenContext tokenContext, ITextView textView, ICompletionBroker completionBroker)
         {
+            this.tokenContext = tokenContext;
             this.textView = textView;
             this.completionBroker = completionBroker;
-            this.tokenizer = new TokenizerContext();
         }
 
         public bool IsCompletableToken()
         {
-            IList<Token> tokens = tokenizer.Tokenize(textView.TextBuffer);
+            IList<Token> tokens = tokenContext.Tokens;
 
             SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
             Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);

@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
@@ -33,12 +34,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (textView == null)
                 return;
 
-            Func<ViewController> createCommandHandler = delegate()
-            {
-                ViewController controller = new ViewController(textViewAdapter, textView, CompletionBroker, ServiceProvider);
-                return controller;
-            };
-            textView.Properties.GetOrCreateSingletonProperty(createCommandHandler);
+            TokenContext tokenContext = textView.TextBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textView.TextBuffer));
+            textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(tokenContext, textViewAdapter, textView, CompletionBroker, ServiceProvider));
         }
     }
 }

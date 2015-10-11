@@ -60,8 +60,8 @@
       <HintPath>..\..\packages\Neptuo.5.0.1\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Neptuo.Activators.Unity, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.Activators.Unity.1.0.0\lib\net45\Neptuo.Activators.Unity.dll</HintPath>
+    <Reference Include="Neptuo.Activators.Simple, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Activators.Simple.1.0.0\lib\net45\Neptuo.Activators.Simple.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -81,7 +81,7 @@
     <Compile Include="IntelliSense\Classifications\ClassifierProvider.cs" />
     <Compile Include="IntelliSense\Classifications\Definitions\CurlyAttributeNameDefinition.cs" />
     <Compile Include="IntelliSense\Classifications\Definitions\CurlyNameDefinition.cs" />
-    <Compile Include="IntelliSense\TokenizerContext.cs" />
+    <Compile Include="IntelliSense\TokenContext.cs" />
     <Compile Include="IntelliSense\Classifications\ClassificationType.cs" />
     <Compile Include="IntelliSense\Classifications\Classifier.cs" />
     <Compile Include="IntelliSense\CompletionContext.cs" />

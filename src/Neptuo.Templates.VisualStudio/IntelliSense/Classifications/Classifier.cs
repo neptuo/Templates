@@ -15,17 +15,17 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     {
         private readonly ITextBuffer buffer;
         private readonly IClassificationType curlyBrace, curlyName, curlyAttributeName, curlyError;
-        private readonly TokenizerContext tokenizerContext;
+        private readonly TokenContext tokenContext;
 
-        public Classifier(IClassificationTypeRegistryService registry, ITextBuffer buffer)
+        public Classifier(TokenContext tokenContext, IClassificationTypeRegistryService registry, ITextBuffer buffer)
         {
             this.buffer = buffer;
             curlyBrace = registry.GetClassificationType(ClassificationType.CurlyBrace);
             curlyName = registry.GetClassificationType(ClassificationType.CurlyName);
             curlyAttributeName = registry.GetClassificationType(ClassificationType.CurlyAttributeName);
             curlyError = registry.GetClassificationType(ClassificationType.CurlyError);
-            
-            this.tokenizerContext = new TokenizerContext();
+
+            this.tokenContext = tokenContext;
         }
 
         public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged
@@ -37,21 +37,17 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         public IList<ClassificationSpan> GetClassificationSpans(SnapshotSpan span)
         {
             List<ClassificationSpan> result = new List<ClassificationSpan>();
-            try
-            {
-                IList<Token> tokens = tokenizerContext.Tokenize(buffer);
-                Token previousToken = null;
-                foreach (Token token in tokens)
-                {
-                    IClassificationType type = MapTokenToClassificationType(token, previousToken);
-                    if (type != null)
-                        result.Add(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), type));
 
-                    previousToken = token;
-                }
+            IList<Token> tokens = tokenContext.Tokens.ToList();
+            Token previousToken = null;
+            foreach (Token token in tokens)
+            {
+                IClassificationType type = MapTokenToClassificationType(token, previousToken);
+                if (type != null)
+                    result.Add(new ClassificationSpan(new SnapshotSpan(span.Snapshot, token.TextSpan.StartIndex, token.TextSpan.Length), type));
+
+                previousToken = token;
             }
-            catch (Exception)
-            { }
 
             return result;
         }
