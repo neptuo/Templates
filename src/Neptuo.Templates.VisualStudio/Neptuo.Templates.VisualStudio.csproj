@@ -139,6 +139,10 @@
       <Project>{8f815abf-62a1-4117-b484-abf6b659d65f}</Project>
       <Name>Neptuo.Templates.Compilation.Parsers.Syntax</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Templates.VisualStudio.IntelliSense\Neptuo.Templates.VisualStudio.IntelliSense.csproj">
+      <Project>{6ad9a968-9ea6-44a1-93c7-cd6358837365}</Project>
+      <Name>Neptuo.Templates.VisualStudio.IntelliSense</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
