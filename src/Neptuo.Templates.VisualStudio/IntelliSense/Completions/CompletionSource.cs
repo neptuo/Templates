@@ -105,7 +105,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         {
             int startIndex = currentToken.TextSpan.StartIndex;
             int length = Math.Max(0, currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length - startIndex);
-            if (currentToken.Type == CurlyTokenType.OpenBrace)
+            if (currentToken.Type == CurlyTokenType.OpenBrace || currentToken.Type == CurlyTokenType.Whitespace)
             {
                 startIndex = point.GetPosition(textBuffer.CurrentSnapshot);
                 length = 0;
