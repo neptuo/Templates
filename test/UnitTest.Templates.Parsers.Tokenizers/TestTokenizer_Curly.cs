@@ -130,6 +130,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertAreEqual(tokens[8].Type, CurlyTokenType.AttributeName);
             AssertAreEqual(tokens[9].IsVirtual, true);
             AssertAreEqual(tokens[10].IsVirtual, true);
+            AssertAreEqual(tokens[11].Type, CurlyTokenType.CloseBrace);
         }
 
         [TestMethod]

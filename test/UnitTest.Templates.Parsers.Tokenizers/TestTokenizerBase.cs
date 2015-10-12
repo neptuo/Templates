@@ -43,7 +43,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 
                 if (tokens[i].IsVirtual)
                 {
-                    AssertAreEqual(null, tokens[i].TextSpan);
+                    AssertAreEqual(0, tokens[i].TextSpan.Length);
+                    AssertAreEqual(positionIndex, tokens[i].TextSpan.StartIndex);
                 }
                 else
                 {

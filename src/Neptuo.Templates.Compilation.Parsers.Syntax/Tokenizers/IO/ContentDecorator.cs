@@ -143,10 +143,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
         /// Returns current 'token' content info.
         /// Values are reseted calling <see cref="ContentDecorator.ResetCurrentInfo"/>.
         /// </summary>
+        /// <param name="length">Optional override of length.</param>
         /// <returns>Current 'token' content info.</returns>
-        public ITextSpan CurrentContentInfo()
+        public ITextSpan CurrentContentInfo(int? length = null)
         {
-            return new DefaultTextSpan(currentStartIndex, currentLength);
+            return new DefaultTextSpan(currentStartIndex, length ?? currentLength);
         }
 
         /// <summary>

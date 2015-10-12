@@ -252,6 +252,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         context.CreateToken(CurlyTokenType.AttributeName, 1);
                         context.CreateVirtualToken(CurlyTokenType.AttributeValueSeparator, "=");
                         context.CreateVirtualToken(CurlyTokenType.Literal, "");
+                        context.Decorator.Next();
                     }
                     else
                     {

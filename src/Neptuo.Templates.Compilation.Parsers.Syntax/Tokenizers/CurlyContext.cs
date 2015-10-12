@@ -53,7 +53,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         {
             Result.Add(new Token(tokenType, text)
             {
-                IsVirtual = true
+                IsVirtual = true,
+                TextSpan = Decorator.CurrentContentInfo(0)
             });
         }
     }
