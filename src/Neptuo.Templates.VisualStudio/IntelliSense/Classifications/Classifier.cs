@@ -14,7 +14,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     internal class Classifier : IClassifier
     {
         private readonly ITextBuffer buffer;
-        private readonly IClassificationType curlyBrace, curlyName, curlyAttributeName, curlyError;
+        private readonly IClassificationType curlyBrace, curlyName, curlyAttributeName;
         private readonly TokenContext tokenContext;
 
         public Classifier(TokenContext tokenContext, IClassificationTypeRegistryService registry, ITextBuffer buffer)
@@ -23,7 +23,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             curlyBrace = registry.GetClassificationType(ClassificationType.CurlyBrace);
             curlyName = registry.GetClassificationType(ClassificationType.CurlyName);
             curlyAttributeName = registry.GetClassificationType(ClassificationType.CurlyAttributeName);
-            curlyError = registry.GetClassificationType(ClassificationType.CurlyError);
 
             this.tokenContext = tokenContext;
         }
@@ -63,8 +62,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                 return curlyName;
             else if (token.Type == CurlyTokenType.AttributeName)
                 return curlyAttributeName;
-            else if (token.HasError)
-                return curlyError;
 
             return null;
         }
