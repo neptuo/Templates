@@ -24,15 +24,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         public IEnumerable<ITagSpan<IErrorTag>> GetTags(NormalizedSnapshotSpanCollection spans)
         {
             List<ITagSpan<IErrorTag>> result = new List<ITagSpan<IErrorTag>>();
-            IReadOnlyList<Token> tokens = tokenContext.Tokens;
-
-            IEnumerable<Token> errorTokens = tokens.Where(t => t.HasError);
-            foreach (Token errorToken in errorTokens)
+            foreach (Token token in tokenContext.Tokens)
             {
-                result.Add(new TagSpan<ErrorTag>(
-                    new SnapshotSpan(textBuffer.CurrentSnapshot, errorToken.TextSpan.StartIndex, errorToken.TextSpan.Length),
-                    new ErrorTag("E01", "Syntax error.")
-                ));
+                if (token.HasError)
+                {
+                    result.Add(new TagSpan<ErrorTag>(
+                        new SnapshotSpan(textBuffer.CurrentSnapshot, token.TextSpan.StartIndex, token.TextSpan.Length),
+                        new ErrorTag("SyntaxError", String.Join(Environment.NewLine, token.Errors.Select(e => e.Text)))
+                    ));
+                }
             }
 
             return result;
@@ -44,6 +44,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             //return Enumerable.Empty<ITagSpan<IErrorTag>>();
         }
 
-        public event EventHandler<SnapshotSpanEventArgs> TagsChanged;
+        public event EventHandler<SnapshotSpanEventArgs> TagsChanged
+        {
+            add { }
+            remove { }
+        }
     }
 }
