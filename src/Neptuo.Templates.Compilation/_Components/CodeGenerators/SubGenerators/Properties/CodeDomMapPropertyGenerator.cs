@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
     /// <summary>
     /// Generator for properties which should use <see cref="Dictionary{K,V}.Add"/> method.
     /// </summary>
-    public class CodeDomDictionaryAddPropertyGenerator : CodeDomPropertyGeneratorBase<MapCodeProperty>
+    public class CodeDomMapPropertyGenerator : CodeDomPropertyGeneratorBase<MapCodeProperty>
     {
         /// <summary>
         /// Name of the <see cref="Dictionary{K,V}.Add"/> method.
@@ -24,7 +24,7 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
         {
             CodeDomDefaultPropertyResult statements = new CodeDomDefaultPropertyResult();
 
-            //bool isWriteable = !codeProperty.Property.IsReadOnly;
+            bool isWriteable = false;
             Type targetKeyItemType = typeof(object);
             Type targetValueItemType = typeof(object);
 
@@ -34,6 +34,14 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 targetField,
                 codeProperty.Name
             );
+
+            Type declaringType;
+            if (context.TryGetFieldType(out declaringType))
+            {
+                PropertyInfo propertyInfo = declaringType.GetProperty(codeProperty.Name);
+                if (propertyInfo != null && propertyInfo.GetSetMethod() != null)
+                    isWriteable = propertyInfo.CanWrite;
+            }
 
             // Try to get target property type.
             MethodInfo methodInfo = codeProperty.Type.GetMethod(addMethodName);
@@ -69,16 +77,16 @@ namespace Neptuo.Templates.Compilation.CodeGenerators
                 }
             }
 
-            // TODO: If writeable, create new instance.
-            //if (isWriteable)
-            //{
-            //    statements.AddStatement(
-            //        new CodeAssignStatement(
-            //            codePropertyReference,
-            //            new CodeObjectCreateExpression(codeProperty.Type)
-            //        )
-            //    );
-            //}
+            // If writeable, create new instance.
+            if (isWriteable)
+            {
+                statements.AddStatement(
+                    new CodeAssignStatement(
+                        codePropertyReference,
+                        new CodeObjectCreateExpression(codeProperty.Type)
+                    )
+                );
+            }
 
             // Foreach property value...
             foreach (KeyValuePair<ICodeObject, ICodeObject> propertyValue in codeProperty.Values)

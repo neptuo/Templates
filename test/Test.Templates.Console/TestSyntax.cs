@@ -168,7 +168,7 @@ namespace Test.Templates
                         new CodeDomPropertyGeneratorRegistry()
                             .AddGenerator<SetCodeProperty>(new CodeDomSetPropertyGenerator())
                             .AddGenerator<AddCodeProperty>(new CodeDomAddPropertyGenerator())
-                            .AddGenerator<MapCodeProperty>(new CodeDomDictionaryAddPropertyGenerator())
+                            .AddGenerator<MapCodeProperty>(new CodeDomMapPropertyGenerator())
                     )
                     .AddStructureGenerator(new CodeDomDefaultStructureGenerator()
                         .SetBaseType<GeneratedView>()
