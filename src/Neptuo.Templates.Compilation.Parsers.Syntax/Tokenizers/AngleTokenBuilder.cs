@@ -187,12 +187,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
             else if (decorator.Current == '<')
             {
-                CreateVirtualToken(result, AngleTokenType.SelfCloseBrace, "/>");
+                CreateVirtualToken(result, decorator, AngleTokenType.SelfCloseBrace, "/>");
                 return ChooseNodeType(decorator, context, result);
             }
             else if (decorator.Current == ContentReader.EndOfInput)
             {
-                CreateVirtualToken(result, AngleTokenType.SelfCloseBrace, "/>");
+                CreateVirtualToken(result, decorator, AngleTokenType.SelfCloseBrace, "/>");
                 return true;
             }
 
@@ -245,8 +245,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         }
                         else
                         {
-                            CreateVirtualToken(result, AngleTokenType.AttributeOpenValue, "\"");
-                            CreateVirtualToken(result, AngleTokenType.AttributeCloseValue, "\"");
+                            CreateVirtualToken(result, decorator, AngleTokenType.AttributeOpenValue, "\"");
+                            CreateVirtualToken(result, decorator, AngleTokenType.AttributeCloseValue, "\"");
                             return ReadOpenElementContent(decorator, context, result);
                         }
                     }
@@ -255,7 +255,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 {
                     if (decorator.Current == '"')
                     {
-                        CreateVirtualToken(result, AngleTokenType.AttributeValueSeparator, "=");
+                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeValueSeparator, "=");
                         if (ReadAttributeValue(decorator, context, result))
                         {
                             decorator.Next();
@@ -266,9 +266,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     }
                     else //if (decorator.Current == '/' || decorator.Current == '>' || decorator.IsCurrentEndOfInput())
                     {
-                        CreateVirtualToken(result, AngleTokenType.AttributeValueSeparator, "=");
-                        CreateVirtualToken(result, AngleTokenType.AttributeOpenValue, "\"");
-                        CreateVirtualToken(result, AngleTokenType.AttributeCloseValue, "\"");
+                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeValueSeparator, "=");
+                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeOpenValue, "\"");
+                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeCloseValue, "\"");
                         return ReadOpenElementContent(decorator, context, result);
                     }
                 }

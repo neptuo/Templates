@@ -54,11 +54,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 decorator.Read(stepsToGoBack);
         }
 
-        protected virtual void CreateVirtualToken(List<Token> result, TokenType tokenType, string text)
+        protected virtual void CreateVirtualToken(List<Token> result, ContentDecorator decorator, TokenType tokenType, string text)
         {
             result.Add(new Token(tokenType, text)
             {
-                IsVirtual = true
+                IsVirtual = true,
+                TextSpan = decorator.CurrentContentInfo(0)
             });
         }
     }
