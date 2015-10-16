@@ -21,9 +21,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
                 return false;
 
             return typeof(IEnumerable).IsAssignableFrom(propertyType);
-            //TODO: Test for IEnumerable should be enough.
-            //return typeof(ICollection).IsAssignableFrom(propertyType)
-            //    || (propertyType.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyType.GetGenericTypeDefinition()));
         }
 
         protected virtual ICodeProperty CreateCodeProperty(ICodePropertyBuilderContext context)

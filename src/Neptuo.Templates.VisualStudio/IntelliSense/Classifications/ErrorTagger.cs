@@ -26,22 +26,38 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             List<ITagSpan<IErrorTag>> result = new List<ITagSpan<IErrorTag>>();
             foreach (Token token in tokenContext.Tokens)
             {
-                if (token.HasError)
+                ErrorTag errorTag;
+                if (TryGetErrorTag(token, out errorTag))
                 {
                     result.Add(new TagSpan<ErrorTag>(
                         new SnapshotSpan(textBuffer.CurrentSnapshot, token.TextSpan.StartIndex, token.TextSpan.Length),
-                        new ErrorTag("SyntaxError", String.Join(Environment.NewLine, token.Errors.Select(e => e.Text)))
+                        errorTag
                     ));
                 }
             }
 
             return result;
 
-            // TODO: Add virtual tokens as errors...
-
             // Displaying errors in error output: ErrorTask
             //throw new NotImplementedException();
             //return Enumerable.Empty<ITagSpan<IErrorTag>>();
+        }
+
+        private bool TryGetErrorTag(Token token, out ErrorTag errorTag)
+        {
+            if (token.HasError)
+            {
+                errorTag = new ErrorTag("SyntaxError", String.Join(Environment.NewLine, token.Errors.Select(e => e.Text)));
+                return true;
+            }
+            else if (token.IsVirtual)
+            {
+                errorTag = new ErrorTag("SyntaxError", String.Format("Missing: {0}", token.Text));
+                return true;
+            }
+
+            errorTag = null;
+            return false;
         }
 
         public event EventHandler<SnapshotSpanEventArgs> TagsChanged

@@ -93,10 +93,6 @@ namespace Neptuo.Templates.Compilation.Parsers
                 if (nameNormalizer.PreparePrefix(attribute.Prefix) == "xmlns")
                     boundAttribute = true;
 
-                // TODO: Try process as observer.
-                //if (!boundAttribute && context.Registry.WithObserverBuilder().TryParse(context, context.CodeObjectAsObservers(), attribute))
-                //    boundAttribute = true;
-
                 // Call base if attribute was not bound.
                 if (!boundAttribute && !ProcessUnboundAttribute(context, attribute))
                     result = false;

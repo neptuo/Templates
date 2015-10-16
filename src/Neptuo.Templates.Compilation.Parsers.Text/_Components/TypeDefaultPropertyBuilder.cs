@@ -17,9 +17,6 @@ namespace Neptuo.Templates.Compilation.Parsers
                 return false;
 
             return typeof(IEnumerable).IsAssignableFrom(fieldDescriptor.FieldType);
-            //TODO: Test for IEnumerable should be enough.
-            //return typeof(ICollection).IsAssignableFrom(propertyInfo.Type)
-            //    || (propertyInfo.Type.IsGenericType && typeof(ICollection<>).IsAssignableFrom(propertyInfo.Type.GetGenericTypeDefinition()));
         }
 
         protected override ICodeProperty CreateCodeProperty(IFieldDescriptor fieldDescriptor)
