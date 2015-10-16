@@ -140,5 +140,14 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "{", "StaticConverter", " ", "IntToBool", "}", "}");
         }
+
+        [TestMethod]
+        public void Curly_InValidAttributeSeparatorBeforeCloseBrace()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=AA,}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "AA", ",", "}");
+            AssertAreEqual(tokens[6].HasError, true);
+        }
     }
 }

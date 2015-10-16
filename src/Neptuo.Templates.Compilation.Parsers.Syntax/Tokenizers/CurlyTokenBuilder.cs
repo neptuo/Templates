@@ -187,6 +187,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
         }
 
+        /// <summary>
+        /// Reads token attribute or default attribute.
+        /// </summary>
         private void ReadTokenAttribute(CurlyContext context, bool supportDefaultAttributes = true)
         {
             List<char> specials = new List<char>() { '=', ',', '{', '}' };
@@ -268,6 +271,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         context
                             .CreateToken(CurlyTokenType.Literal, 1, true)
                             .WithError("Not valid here.");
+
+                        // We are not able to create token attribute, so last separator is wrong.
+                        if (context.Decorator.Current == '}' && context.Result.Last().Type == CurlyTokenType.AttributeSeparator)
+                        {
+                            new TokenFactory(context.Result.Last())
+                                .WithError("Not valid here.");
+                        }
                     }
                 }
 
