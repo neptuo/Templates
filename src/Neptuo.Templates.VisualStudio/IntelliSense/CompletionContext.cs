@@ -34,6 +34,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
             SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
             Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
+            if (currentToken == null)
+                return false;
 
             return completableTokens.Contains(currentToken.Type);
         }

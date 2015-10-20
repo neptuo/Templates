@@ -109,7 +109,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
             Ensure.PositiveOrZero(lastCharsToRemove, "lastCharsToRemove");
 
             string text = decorator.CurrentContent();
-            if (lastCharsToRemove > 0 && text.Length - lastCharsToRemove > 0)
+            if (lastCharsToRemove > 0 && text.Length - lastCharsToRemove >= 0)
                 text = text.Substring(0, text.Length - lastCharsToRemove);
 
             return text;

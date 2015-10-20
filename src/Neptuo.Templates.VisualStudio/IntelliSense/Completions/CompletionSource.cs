@@ -42,22 +42,22 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                     .Select(c => new Completion(c.DisplayText, c.InsertionText, c.DescriptionText, c.IconSource, String.Empty));
 
                 result.AddRange(completions);
+
+
+                CompletionSet newCompletionSet = new CompletionSet(
+                    Moniker,
+                    "Neptuo Templates",
+                    FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session, currentToken),
+                    result,
+                    null
+                );
+
+                if (completionSets.Any())
+                    completionSets.RemoveAt(0);
+
+                newCompletionSet.SelectBestMatch();
+                completionSets.Add(newCompletionSet);
             }
-
-            CompletionSet newCompletionSet = new CompletionSet(
-                Moniker,
-                "Neptuo Templates",
-                FindTokenSpanAtPosition(session.GetTriggerPoint(textBuffer), session, currentToken),
-                result,
-                null
-            );
-            //completionSets.Add(MergeCompletionSets(completionSets, newCompletionSet));
-
-            if (completionSets.Any())
-                completionSets.RemoveAt(0);
-
-            newCompletionSet.SelectBestMatch();
-            completionSets.Add(newCompletionSet);
         }
 
         private ITrackingSpan FindTokenSpanAtPosition(ITrackingPoint point, ICompletionSession session, Token currentToken)
