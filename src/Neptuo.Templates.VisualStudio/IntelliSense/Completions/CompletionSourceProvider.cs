@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
-    [Order(Before = "default")]
     [Export(typeof(ICompletionSourceProvider))]
     [Name(ContentType.TextValue)]
     [ContentType(ContentType.TextValue)]
