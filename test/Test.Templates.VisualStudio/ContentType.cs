@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio
+namespace Test.Templates.VisualStudio
 {
     public class ContentType
     {

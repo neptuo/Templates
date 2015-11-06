@@ -16,7 +16,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.Completions
+namespace Test.Templates.VisualStudio.Completions
 {
     //[Export(typeof(IWpfTextViewConnectionListener))]
     //[ContentType(TestContentTypeDefinition.ContentType)]

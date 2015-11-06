@@ -30,7 +30,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="envdte, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="envdte80, Version=8.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="Microsoft.VisualStudio.CoreUtility, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Editor, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Language.Intellisense, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.OLE.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Shell.12.0, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Immutable.10.0, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Shell.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <Reference Include="Microsoft.VisualStudio.Text.Data, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Text.Logic, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Text.UI, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.Text.UI.Wpf, Version=12.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.TextManager.Interop, Version=7.1.40304.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -39,17 +58,45 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ContentType.cs" />
+    <Compile Include="IntelliSense\Classifications\ClassifierProvider.cs" />
+    <Compile Include="IntelliSense\Classifications\ErrorTaggerProvider.cs" />
+    <Compile Include="IntelliSense\Completions\CompletionSourceProvider.cs" />
+    <Compile Include="IntelliSense\ViewControllerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="_Temporals\xJsTextOleHandler.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.CodeObjects\Neptuo.Templates.Compilation.CodeObjects.csproj">
+      <Project>{c285ce2d-1b99-484a-9ffe-2d0aade22af7}</Project>
+      <Name>Neptuo.Templates.Compilation.CodeObjects</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Syntax\Neptuo.Templates.Compilation.Parsers.Syntax.csproj">
+      <Project>{8f815abf-62a1-4117-b484-abf6b659d65f}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Syntax</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Text\Neptuo.Templates.Compilation.Parsers.Text.csproj">
+      <Project>{e9de792a-332b-40b1-b424-4acc2549ff49}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers.Text</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj">
+      <Project>{3418325a-d861-4fb7-bf59-215a0d19c5a1}</Project>
+      <Name>Neptuo.Templates.Compilation.Parsers</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
+      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
+      <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\src\Neptuo.Templates.VisualStudio.IntelliSense\Neptuo.Templates.VisualStudio.IntelliSense.csproj">
       <Project>{6ad9a968-9ea6-44a1-93c7-cd6358837365}</Project>
       <Name>Neptuo.Templates.VisualStudio.IntelliSense</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj">
+      <Project>{9aa671e2-fb2e-48b1-bd9f-3d7796ceddd7}</Project>
+      <Name>Neptuo.Templates.VisualStudio</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="IntelliSense\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

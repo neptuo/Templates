@@ -14,14 +14,14 @@ using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    internal class ViewController : IOleCommandTarget
+    public class ViewController : IOleCommandTarget
     {
         private readonly CompletionContext completionSession;
         private readonly IOleCommandTarget nextController;
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
 
-        internal ViewController(TokenContext tokenContext, ITokenTriggerProvider triggerProvider, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
+        public ViewController(TokenContext tokenContext, ITokenTriggerProvider triggerProvider, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
             this.completionSession = new CompletionContext(tokenContext, triggerProvider, textView, completionBroker);
             this.textView = textView;
