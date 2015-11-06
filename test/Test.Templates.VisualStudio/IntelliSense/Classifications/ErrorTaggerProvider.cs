@@ -1,6 +1,8 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.Utilities;
+using Neptuo.Templates.VisualStudio.IntelliSense;
+using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -8,7 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
+namespace Test.Templates.VisualStudio.IntelliSense.Classifications
 {
     [Export(typeof(ITaggerProvider))]
     [ContentType(ContentType.TextValue)]
