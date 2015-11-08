@@ -64,10 +64,13 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IntelliSense\Classifications\Definitions\CurlyBraceDefinition.cs" />
+    <Compile Include="IntelliSense\Classifications\ClassifierProviderBase.cs" />
     <Compile Include="IntelliSense\Classifications\Definitions\CurlyAttributeNameDefinition.cs" />
+    <Compile Include="IntelliSense\Classifications\Definitions\CurlyBraceDefinition.cs" />
     <Compile Include="IntelliSense\Classifications\Definitions\CurlyNameDefinition.cs" />
     <Compile Include="IntelliSense\Classifications\ErrorTagger.cs" />
+    <Compile Include="IntelliSense\Classifications\ErrorTaggerProviderBase.cs" />
+    <Compile Include="IntelliSense\Completions\CompletionSourceProviderBase.cs" />
     <Compile Include="IntelliSense\Completions\CurlyProvider.cs" />
     <Compile Include="IntelliSense\TokenContext.cs" />
     <Compile Include="IntelliSense\Classifications\ClassificationType.cs" />
@@ -75,6 +78,7 @@
     <Compile Include="IntelliSense\CompletionContext.cs" />
     <Compile Include="IntelliSense\ViewController.cs" />
     <Compile Include="IntelliSense\Completions\CompletionSource.cs" />
+    <Compile Include="IntelliSense\ViewControllerProviderBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

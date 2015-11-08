@@ -11,7 +11,7 @@ using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
-    public class CompletionSource : DisposableBase, ICompletionSource
+    internal class CompletionSource : DisposableBase, ICompletionSource
     {
         public const string Moniker = "ntemplate";
 

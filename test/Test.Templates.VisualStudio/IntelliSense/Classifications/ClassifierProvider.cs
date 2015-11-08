@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Utilities;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense;
 using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
 using System;
@@ -14,15 +15,11 @@ namespace Test.Templates.VisualStudio.IntelliSense.Classifications
 {
     [Export(typeof(IClassifierProvider))]
     [ContentType(ContentType.TextValue)]
-    internal class ClassifierProvider : IClassifierProvider
+    internal class ClassifierProvider : ClassifierProviderBase
     {
-        [Import]
-        internal IClassificationTypeRegistryService Registry { get; set; }
-
-        public IClassifier GetClassifier(ITextBuffer textBuffer)
+        protected override ITokenizer CreateTokenizer()
         {
-            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textBuffer));
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new Classifier(tokenContext, Registry, textBuffer));
+            return new TokenizerFactory().Create();
         }
     }
 }

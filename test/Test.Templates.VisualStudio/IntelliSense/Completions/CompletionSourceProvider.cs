@@ -7,6 +7,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
 using Microsoft.VisualStudio.Text.Operations;
 using Microsoft.VisualStudio.Utilities;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
@@ -21,17 +22,11 @@ namespace Test.Templates.VisualStudio.IntelliSense.Completions
     [Export(typeof(ICompletionSourceProvider))]
     [Name(ContentType.TextValue)]
     [ContentType(ContentType.TextValue)]
-    internal class CompletionSourceProvider : ICompletionSourceProvider
+    internal class CompletionSourceProvider : CompletionSourceProviderBase
     {
-        [Import]
-        public IGlyphService GlyphService { get; set; }
-
-        public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
+        protected override ITokenizer CreateTokenizer()
         {
-            CurlyProvider curlyProvider = new CurlyProvider(GlyphService);
-
-            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textBuffer));
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(tokenContext, curlyProvider, curlyProvider, textBuffer));
+            return new TokenizerFactory().Create();
         }
     }
 }

@@ -15,21 +15,19 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     /// </summary>
     public class TokenContext : DisposableBase
     {
-        private readonly DefaultTokenizer tokenizer;
+        private readonly ITokenizer tokenizer;
         private readonly IDependencyContainer dependencyContainer;
         private readonly ITextBuffer textBuffer;
 
         public IReadOnlyList<Token> Tokens { get; private set; }
 
-        public TokenContext(ITextBuffer textBuffer)
+        public TokenContext(ITextBuffer textBuffer, ITokenizer tokenizer)
         {
             Ensure.NotNull(textBuffer, "textBuffer");
-            this.tokenizer = new DefaultTokenizer();
-            tokenizer.Add(new CurlyTokenBuilder());
-            tokenizer.Add(new LiteralTokenBuilder());
-
-            this.dependencyContainer = new SimpleDependencyContainer();
+            Ensure.NotNull(tokenizer, "tokenizer");
             this.textBuffer = textBuffer;
+            this.tokenizer = tokenizer;
+            this.dependencyContainer = new SimpleDependencyContainer();
             Tokens = new List<Token>();
 
             this.textBuffer.Changed += OnTextBufferChanged;

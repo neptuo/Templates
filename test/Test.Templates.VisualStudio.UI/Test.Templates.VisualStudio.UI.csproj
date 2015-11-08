@@ -178,6 +178,12 @@
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\src\Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj">
+      <Project>{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}</Project>
+      <Name>Neptuo.Templates.VisualStudio</Name>
+      <IncludeOutputGroupsInVSIX>BuiltProjectOutputGroup%3bBuiltProjectOutputGroupDependencies%3bGetCopyToOutputDirectoryItems%3bSatelliteDllsProjectOutputGroup%3b</IncludeOutputGroupsInVSIX>
+      <IncludeOutputGroupsInVSIXLocalOnly>DebugSymbolsProjectOutputGroup%3b</IncludeOutputGroupsInVSIXLocalOnly>
+    </ProjectReference>
     <ProjectReference Include="..\Test.Templates.Compilation\Test.Templates.Compilation.csproj">
       <Project>{bc762024-b072-4030-b33e-7900493ac41d}</Project>
       <Name>Test.Templates.Compilation</Name>

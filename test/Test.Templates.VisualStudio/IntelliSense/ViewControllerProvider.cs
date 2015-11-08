@@ -6,6 +6,7 @@ using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
@@ -18,28 +19,22 @@ using System.Threading.Tasks;
 namespace Test.Templates.VisualStudio.IntelliSense
 {
     [Export(typeof(IVsTextViewCreationListener))]
-    [Name("token completion handler")]
+    [Name(ContentType.TextValue)]
     [ContentType(ContentType.TextValue)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    internal class ViewControllerProvider : IVsTextViewCreationListener
+    internal class ViewControllerProvider : ViewControllerProviderBase, IVsTextViewCreationListener
     {
-        [Import]
-        internal IVsEditorAdaptersFactoryService AdapterService { get; set; }
-        [Import]
-        internal ICompletionBroker CompletionBroker { get; set; }
-        [Import]
-        internal SVsServiceProvider ServiceProvider { get; set; }
         [Import]
         public IGlyphService GlyphService { get; set; }
 
-        public void VsTextViewCreated(IVsTextView textViewAdapter)
+        protected override ITokenizer CreateTokenizer()
         {
-            ITextView textView = AdapterService.GetWpfTextView(textViewAdapter);
-            if (textView == null)
-                return;
+            return new TokenizerFactory().Create();
+        }
 
-            TokenContext tokenContext = textView.TextBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textView.TextBuffer));
-            textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(tokenContext, new CurlyProvider(GlyphService), textViewAdapter, textView, CompletionBroker, ServiceProvider));
+        protected override ITokenTriggerProvider CreateTokenTriggerProvider()
+        {
+            return new CurlyProvider(GlyphService);
         }
     }
 }

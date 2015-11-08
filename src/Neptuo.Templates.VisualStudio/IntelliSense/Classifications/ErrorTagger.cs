@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
-    public class ErrorTagger : ITagger<IErrorTag>
+    internal class ErrorTagger : ITagger<IErrorTag>
     {
         private readonly TokenContext tokenContext;
         private readonly ITextBuffer textBuffer;

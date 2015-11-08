@@ -15,5 +15,6 @@
     <Assets>
         <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
         <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="Test.Templates.VisualStudio" Path="|Test.Templates.VisualStudio|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="Neptuo.Templates.VisualStudio" Path="|Neptuo.Templates.VisualStudio|" />
     </Assets>
 </PackageManifest>

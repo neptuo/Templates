@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
-    public class Classifier : IClassifier
+    internal class Classifier : IClassifier
     {
         private readonly ITextBuffer buffer;
         private readonly IClassificationType curlyBrace, curlyName, curlyAttributeName;
