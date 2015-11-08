@@ -32,9 +32,9 @@ namespace Test.Templates.VisualStudio.IntelliSense
             return new TokenizerFactory().Create();
         }
 
-        protected override ITokenTriggerProvider CreateTokenTriggerProvider()
+        protected override ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer)
         {
-            return new CurlyProvider(GlyphService);
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
         }
     }
 }

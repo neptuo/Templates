@@ -9,7 +9,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
     public interface ICompletionProvider
     {
-
         /// <summary>
         /// Returns completion items for cursor at <paramref name="currentToken"/> in <paramref name="tokens"/>.
         /// </summary>

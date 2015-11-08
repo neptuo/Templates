@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualStudio.Editor;
 using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Shell;
+using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
@@ -30,11 +31,18 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 return;
 
             TokenContext tokenContext = textView.TextBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textView.TextBuffer, CreateTokenizer()));
-            textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(tokenContext, CreateTokenTriggerProvider(), textViewAdapter, textView, CompletionBroker, ServiceProvider));
+            textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(
+                tokenContext, 
+                CreateTokenTriggerProvider(textView.TextBuffer), 
+                textViewAdapter, 
+                textView, 
+                CompletionBroker, 
+                ServiceProvider
+            ));
         }
 
         protected abstract ITokenizer CreateTokenizer();
 
-        protected abstract ITokenTriggerProvider CreateTokenTriggerProvider();
+        protected abstract ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer);
     }
 }

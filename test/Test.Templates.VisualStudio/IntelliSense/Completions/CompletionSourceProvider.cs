@@ -24,9 +24,22 @@ namespace Test.Templates.VisualStudio.IntelliSense.Completions
     [ContentType(ContentType.TextValue)]
     internal class CompletionSourceProvider : CompletionSourceProviderBase
     {
+        [Import]
+        public IGlyphService GlyphService { get; set; }
+
         protected override ITokenizer CreateTokenizer()
         {
             return new TokenizerFactory().Create();
+        }
+
+        protected override ICompletionProvider CreateCompletionProvider(ITextBuffer textBuffer)
+        {
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
+        }
+
+        protected override ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer)
+        {
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
         }
     }
 }

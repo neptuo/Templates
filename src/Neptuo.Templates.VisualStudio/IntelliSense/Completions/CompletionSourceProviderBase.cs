@@ -12,17 +12,21 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
     public abstract class CompletionSourceProviderBase : ICompletionSourceProvider
     {
-        [Import]
-        public IGlyphService GlyphService { get; set; }
-
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
-            CurlyProvider curlyProvider = new CurlyProvider(GlyphService);
-
             TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textBuffer, CreateTokenizer()));
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(tokenContext, curlyProvider, curlyProvider, textBuffer));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CompletionSource(
+                tokenContext,
+                CreateCompletionProvider(textBuffer), 
+                CreateTokenTriggerProvider(textBuffer), 
+                textBuffer
+            ));
         }
 
         protected abstract ITokenizer CreateTokenizer();
+
+        protected abstract ICompletionProvider CreateCompletionProvider(ITextBuffer textBuffer);
+
+        protected abstract ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer);
     }
 }
