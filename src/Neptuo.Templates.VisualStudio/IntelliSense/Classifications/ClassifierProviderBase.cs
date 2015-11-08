@@ -18,8 +18,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         public IClassifier GetClassifier(ITextBuffer textBuffer)
         {
             TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textBuffer, CreateTokenizer()));
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new Classifier(tokenContext, Registry, textBuffer));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new Classifier(
+                tokenContext, 
+                Registry, 
+                textBuffer,
+                CreateTokenClassificationProvider()
+            ));
         }
+
+        protected abstract ITokenClassificationProvider CreateTokenClassificationProvider();
 
         protected abstract ITokenizer CreateTokenizer();
     }

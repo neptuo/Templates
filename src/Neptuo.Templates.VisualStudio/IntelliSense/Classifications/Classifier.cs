@@ -17,14 +17,16 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         private readonly IClassificationType curlyBrace, curlyName, curlyAttributeName;
         private readonly TokenContext tokenContext;
 
-        public Classifier(TokenContext tokenContext, IClassificationTypeRegistryService registry, ITextBuffer buffer)
-        {
-            this.buffer = buffer;
-            curlyBrace = registry.GetClassificationType(ClassificationType.CurlyBrace);
-            curlyName = registry.GetClassificationType(ClassificationType.CurlyName);
-            curlyAttributeName = registry.GetClassificationType(ClassificationType.CurlyAttributeName);
+        private readonly ITokenClassificationProvider tokenClassification;
+        private readonly IClassificationTypeRegistryService registry;
+        private readonly Dictionary<TokenType, IClassificationType> typeCache = new Dictionary<TokenType, IClassificationType>();
 
+        public Classifier(TokenContext tokenContext, IClassificationTypeRegistryService registry, ITextBuffer buffer, ITokenClassificationProvider tokenClassification)
+        {
             this.tokenContext = tokenContext;
+            this.registry = registry;
+            this.buffer = buffer;
+            this.tokenClassification = tokenClassification;
         }
 
         public event EventHandler<ClassificationChangedEventArgs> ClassificationChanged
@@ -56,21 +58,19 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             if (token.IsVirtual)
                 return null;
 
-            if (token.Type == CurlyTokenType.OpenBrace || token.Type == CurlyTokenType.CloseBrace || token.Type == CurlyTokenType.AttributeSeparator || token.Type == CurlyTokenType.AttributeValueSeparator)
-                return curlyBrace;
-            else if (token.Type == CurlyTokenType.Name || token.Type == CurlyTokenType.NamePrefix || token.Type == CurlyTokenType.NameSeparator)
-                return curlyName;
-            else if (token.Type == CurlyTokenType.AttributeName)
-                return curlyAttributeName;
+            IClassificationType result;
+            if (typeCache.TryGetValue(token.Type, out result))
+                return result;
+
+            string classificationName;
+            if (tokenClassification.TryGet(token.Type, out classificationName))
+            {
+                result = registry.GetClassificationType(classificationName);
+                typeCache[token.Type] = result;
+                return result;
+            }
 
             return null;
         }
-    }
-
-    public enum CurlyTokenState
-    {
-        Other,
-        Open,
-        Name
     }
 }

@@ -1,17 +1,19 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
+using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
+namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     /// <summary>
     /// 'Curly' implementation of <see cref="ITokenTriggerProvider"/> and <see cref="ICompletionProvider"/>.
     /// </summary>
-    public class CurlyProvider : ITokenTriggerProvider, ICompletionProvider
+    public class CurlyProvider : ITokenTriggerProvider, ICompletionProvider, ITokenClassificationProvider
     {
         private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
@@ -63,6 +65,28 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 "This is such a usefull description for this item.",
                 glyphService.GetGlyph(glyphGroup, glyphItem)
             );
+        }
+
+        public bool TryGet(TokenType tokenType, out string classificationName)
+        {
+            if (tokenType == CurlyTokenType.OpenBrace || tokenType == CurlyTokenType.CloseBrace || tokenType == CurlyTokenType.AttributeSeparator || tokenType == CurlyTokenType.AttributeValueSeparator)
+            {
+                classificationName = ClassificationType.CurlyBrace;
+                return true;
+            }
+            else if (tokenType == CurlyTokenType.Name || tokenType == CurlyTokenType.NamePrefix || tokenType == CurlyTokenType.NameSeparator)
+            {
+                classificationName = ClassificationType.CurlyName;
+                return true;
+            }
+            else if (tokenType == CurlyTokenType.AttributeName)
+            {
+                classificationName = ClassificationType.CurlyAttributeName;
+                return true;
+            }
+
+            classificationName = null;
+            return false;
         }
     }
 }

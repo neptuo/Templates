@@ -70,8 +70,9 @@
     <Compile Include="IntelliSense\Classifications\Definitions\CurlyNameDefinition.cs" />
     <Compile Include="IntelliSense\Classifications\ErrorTagger.cs" />
     <Compile Include="IntelliSense\Classifications\ErrorTaggerProviderBase.cs" />
+    <Compile Include="IntelliSense\Completions\AngleProvider.cs" />
     <Compile Include="IntelliSense\Completions\CompletionSourceProviderBase.cs" />
-    <Compile Include="IntelliSense\Completions\CurlyProvider.cs" />
+    <Compile Include="IntelliSense\CurlyProvider.cs" />
     <Compile Include="IntelliSense\TokenContext.cs" />
     <Compile Include="IntelliSense\Classifications\ClassificationType.cs" />
     <Compile Include="IntelliSense\Classifications\Classifier.cs" />
