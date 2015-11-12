@@ -20,6 +20,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly ITextBuffer textBuffer;
 
         public IReadOnlyList<Token> Tokens { get; private set; }
+        public event Action<TokenContext> OnTokensChanged;
 
         public TokenContext(ITextBuffer textBuffer, ITokenizer tokenizer)
         {
@@ -37,6 +38,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private void OnTextBufferChanged(object sender, TextContentChangedEventArgs e)
         {
             TokenizeCurrentContent();
+
+            if (OnTokensChanged != null)
+                OnTokensChanged(this);
         }
 
         private void TokenizeCurrentContent()
