@@ -96,6 +96,21 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         [TestMethod]
         public void Angle_UnfinishedTag()
         {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "empty", "/>");
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.Name,
+                AngleTokenType.SelfCloseBrace
+            );
+            AssertAreEqual(tokens[2].IsVirtual, true);
+        }
+
+        [TestMethod]
+        public void Angle_UnfinishedTagWithNextTag()
+        {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty <empty2"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "/>", "<", "empty2", "/>");
