@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classifications\ITokenClassificationProvider.cs" />
+    <Compile Include="Classifications\TokenClassificationCollection.cs" />
     <Compile Include="Completions\CompletionProviderCollection.cs" />
     <Compile Include="Completions\DefaultCompletion.cs" />
     <Compile Include="Completions\DefaultTokenTrigger.cs" />

@@ -67,12 +67,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             );
         }
 
-        private const string delimeter = "XML Delimiter";
-        private const string name = "XML Name";
-        private const string attributeName = "XML Attribute";
-        private const string attributeValueSeparator = "XML Attribute Value";
-        private const string attributeOpenQuotes = "XML Attribute Quotes";
-        private const string attributeComment = "XML Comment";
+        private const string delimeter = "HTML Tag Delimiter";
+        private const string name = "HTML Element Name";
+        private const string attributeName = "HTML Attribute Name";
+        private const string attributeValueSeparator = "HTML Attribute Value";
+        private const string attributeOpenQuotes = "HTML Attribute Value";
+        private const string attributeComment = "HTML Comment";
 
         public bool TryGet(TokenType tokenType, out string classificationName)
         {
