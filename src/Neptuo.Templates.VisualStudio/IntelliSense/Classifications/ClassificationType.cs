@@ -12,6 +12,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     internal static class ClassificationType
     {
         public const string Name = "ntemplate";
+
         public const string CurlyBrace = "ntemplate_CurlyBrace";
         public const string CurlyName = "ntemplate_CurlyName";
         public const string CurlyAttributeName = "ntemplate_CurlyAttributeName";
@@ -27,5 +28,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         [Export(typeof(ClassificationTypeDefinition))]
         [Name(CurlyAttributeName)]
         internal static ClassificationTypeDefinition CurlyAttributeNameDefinition = null;
+
+
     }
 }

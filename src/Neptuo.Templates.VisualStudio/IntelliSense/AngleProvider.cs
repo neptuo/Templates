@@ -1,21 +1,24 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
+using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
+namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     /// <summary>
     /// 'Angle' implementation of <see cref="ITokenTriggerProvider"/> and <see cref="ICompletionProvider"/>.
     /// </summary>
-    public class AngleProvider : ITokenTriggerProvider, ICompletionProvider
+    public class AngleProvider : ITokenTriggerProvider, ICompletionProvider, ITokenClassificationProvider
     {
         private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
         private readonly IGlyphService glyphService;
+        private readonly Dictionary<TokenType, string> classifications = new Dictionary<TokenType, string>();
 
         public AngleProvider(IGlyphService glyphService)
         {
@@ -62,6 +65,41 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 "This is such a usefull description for this item.",
                 glyphService.GetGlyph(glyphGroup, glyphItem)
             );
+        }
+
+        private const string delimeter = "XML Delimiter";
+        private const string name = "XML Name";
+        private const string attributeName = "XML Attribute";
+        private const string attributeValueSeparator = "XML Attribute Value";
+        private const string attributeOpenQuotes = "XML Attribute Quotes";
+        private const string attributeComment = "XML Comment";
+
+        public bool TryGet(TokenType tokenType, out string classificationName)
+        {
+            if (classifications.Count == 0)
+            {
+                classifications[AngleTokenType.OpenBrace] = delimeter;
+                classifications[AngleTokenType.CloseBrace] = delimeter;
+                classifications[AngleTokenType.NameSeparator] = delimeter;
+                classifications[AngleTokenType.AttributeNameSeparator] = delimeter;
+                classifications[AngleTokenType.SelfCloseBrace] = delimeter;
+
+                classifications[AngleTokenType.Name] = name;
+                classifications[AngleTokenType.NamePrefix] = name;
+
+                classifications[AngleTokenType.AttributeName] = attributeName;
+                classifications[AngleTokenType.AttributeNamePrefix] = attributeName;
+
+                classifications[AngleTokenType.AttributeValueSeparator] = attributeValueSeparator;
+
+                classifications[AngleTokenType.AttributeOpenValue] = attributeOpenQuotes;
+                classifications[AngleTokenType.AttributeCloseValue] = attributeOpenQuotes;
+
+                classifications[AngleTokenType.OpenComment] = attributeComment;
+                classifications[AngleTokenType.CloseComment] = attributeComment;
+            }
+
+            return classifications.TryGetValue(tokenType, out classificationName);
         }
     }
 }

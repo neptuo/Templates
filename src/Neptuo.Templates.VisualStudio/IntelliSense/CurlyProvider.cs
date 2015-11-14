@@ -18,6 +18,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
         private readonly IGlyphService glyphService;
+        private readonly Dictionary<TokenType, string> classifications = new Dictionary<TokenType, string>();
 
         public CurlyProvider(IGlyphService glyphService)
         {
@@ -69,24 +70,21 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         public bool TryGet(TokenType tokenType, out string classificationName)
         {
-            if (tokenType == CurlyTokenType.OpenBrace || tokenType == CurlyTokenType.CloseBrace || tokenType == CurlyTokenType.AttributeSeparator || tokenType == CurlyTokenType.AttributeValueSeparator)
+            if (classifications.Count == 0)
             {
-                classificationName = ClassificationType.CurlyBrace;
-                return true;
-            }
-            else if (tokenType == CurlyTokenType.Name || tokenType == CurlyTokenType.NamePrefix || tokenType == CurlyTokenType.NameSeparator)
-            {
-                classificationName = ClassificationType.CurlyName;
-                return true;
-            }
-            else if (tokenType == CurlyTokenType.AttributeName)
-            {
-                classificationName = ClassificationType.CurlyAttributeName;
-                return true;
+                classifications[CurlyTokenType.OpenBrace] = ClassificationType.CurlyBrace;
+                classifications[CurlyTokenType.CloseBrace] = ClassificationType.CurlyBrace;
+                classifications[CurlyTokenType.AttributeSeparator] = ClassificationType.CurlyBrace;
+                classifications[CurlyTokenType.AttributeValueSeparator] = ClassificationType.CurlyBrace;
+                classifications[CurlyTokenType.NameSeparator] = ClassificationType.CurlyBrace;
+
+                classifications[CurlyTokenType.Name] = ClassificationType.CurlyName;
+                classifications[CurlyTokenType.NamePrefix] = ClassificationType.CurlyName;
+
+                classifications[CurlyTokenType.AttributeName] = ClassificationType.CurlyAttributeName;
             }
 
-            classificationName = null;
-            return false;
+            return classifications.TryGetValue(tokenType, out classificationName);
         }
     }
 }

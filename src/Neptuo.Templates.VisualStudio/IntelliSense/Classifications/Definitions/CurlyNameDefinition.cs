@@ -20,6 +20,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications.Definitions
         public CurlyNameDefinition()
         {
             ForegroundColor = Color.FromRgb(187, 160, 140);
+            DisplayName = "Template Curly Name";
         }
     }
 }
