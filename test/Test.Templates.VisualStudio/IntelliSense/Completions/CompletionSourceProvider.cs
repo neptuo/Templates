@@ -34,12 +34,16 @@ namespace Test.Templates.VisualStudio.IntelliSense.Completions
 
         protected override ICompletionProvider CreateCompletionProvider(ITextBuffer textBuffer)
         {
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
+            return new CompletionProviderCollection()
+                .Add(new AngleProvider(GlyphService))
+                .Add(new CurlyProvider(GlyphService));
         }
 
         protected override ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer)
         {
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
+            return new TokenTriggerProviderCollection()
+                .Add(new AngleProvider(GlyphService))
+                .Add(new CurlyProvider(GlyphService));
         }
     }
 }

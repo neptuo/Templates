@@ -15,8 +15,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     /// </summary>
     public class AngleProvider : ITokenTriggerProvider, ICompletionProvider, ITokenClassificationProvider
     {
-        private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
-        private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
+        private readonly List<string> elementNames = new List<string>() { "Literal" };
+        private readonly List<string> attributeNames = new List<string>() { "Text" };
         private readonly IGlyphService glyphService;
         private readonly Dictionary<TokenType, string> classifications = new Dictionary<TokenType, string>();
 
@@ -40,14 +40,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         {
             List<ICompletion> result = new List<ICompletion>();
 
-            if (currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
+            if (currentToken.Type == AngleTokenType.Name || currentToken.Type == AngleTokenType.OpenBrace)
             {
-                result.AddRange(tokenNames
-                    .Where(n => currentToken.Type == CurlyTokenType.OpenBrace || n.StartsWith(currentToken.Text))
+                result.AddRange(elementNames
+                    .Where(n => currentToken.Type == AngleTokenType.OpenBrace || n.StartsWith(currentToken.Text))
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
                 );
             }
-            else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
+            else if (currentToken.Type == AngleTokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeName)
             {
                 result.AddRange(attributeNames
                     .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))

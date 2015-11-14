@@ -28,7 +28,7 @@ namespace Test.Templates.VisualStudio.IntelliSense.Classifications
 
         protected override ITokenClassificationProvider CreateTokenClassificationProvider()
         {
-            return new TokenClassificationCollection()
+            return new TokenClassificationProviderCollection()
                 .Add(new CurlyProvider(GlyphService))
                 .Add(new AngleProvider(GlyphService));
         }

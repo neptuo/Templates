@@ -11,7 +11,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
     /// Composite implementation of <see cref="ITokenClassificationProvider"/>.
     /// Calls registered providers until first one returns success.
     /// </summary>
-    public class TokenClassificationCollection : ITokenClassificationProvider
+    public class TokenClassificationProviderCollection : ITokenClassificationProvider
     {
         private readonly List<ITokenClassificationProvider> providers = new List<ITokenClassificationProvider>();
 
@@ -20,7 +20,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         /// </summary>
         /// <param name="provider">Provider to add.</param>
         /// <returns>Self (for fluency).</returns>
-        public TokenClassificationCollection Add(ITokenClassificationProvider provider)
+        public TokenClassificationProviderCollection Add(ITokenClassificationProvider provider)
         {
             Ensure.NotNull(provider, "provider");
             providers.Add(provider);
@@ -31,10 +31,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
         /// Adds <paramref name="provider"/> at <paramref name="index"/>.
         /// If <paramref name="index"/> if greater than size of collection <paramref name="provider"/> is added as last one.
         /// </summary>
-        /// <param name="index">Index to insert at.</param>
-        /// <param name="provider">Provider to add.</param>
+        /// <param name="index">The index to insert at.</param>
+        /// <param name="provider">The provider to add.</param>
         /// <returns>Self (for fluency).</returns>
-        public TokenClassificationCollection Add(int index, ITokenClassificationProvider provider)
+        public TokenClassificationProviderCollection Add(int index, ITokenClassificationProvider provider)
         {
             Ensure.PositiveOrZero(index, "index");
             Ensure.NotNull(provider, "provider");

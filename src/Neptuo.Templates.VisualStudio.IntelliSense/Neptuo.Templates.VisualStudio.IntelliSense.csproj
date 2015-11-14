@@ -48,7 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classifications\ITokenClassificationProvider.cs" />
-    <Compile Include="Classifications\TokenClassificationCollection.cs" />
+    <Compile Include="Classifications\TokenClassificationProviderCollection.cs" />
     <Compile Include="Completions\CompletionProviderCollection.cs" />
     <Compile Include="Completions\DefaultCompletion.cs" />
     <Compile Include="Completions\DefaultTokenTrigger.cs" />
@@ -56,6 +56,7 @@
     <Compile Include="Completions\ICompletionProvider.cs" />
     <Compile Include="Completions\ITokenTrigger.cs" />
     <Compile Include="Completions\ITokenTriggerProvider.cs" />
+    <Compile Include="Completions\TokenTriggerProviderCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
