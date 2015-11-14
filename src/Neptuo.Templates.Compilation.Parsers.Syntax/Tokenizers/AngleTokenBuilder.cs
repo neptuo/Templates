@@ -48,7 +48,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 decorator.ResetCurrentInfo();
                 decorator.Next();
 
-                ChooseNodeType(decorator, context, result);
+                if (!ChooseNodeType(decorator, context, result))
+                {
+                    if (decorator.CanResetCurrentPosition(1))
+                        CreateToken(decorator, result, AngleTokenType.Error, 1);
+
+                    return;
+                }
             }
 
             if (decorator.Current == ContentReader.EndOfInput)
@@ -114,7 +120,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
             else
             {
-                CreateToken(decorator, result, AngleTokenType.Error);
+                CreateToken(decorator, result, AngleTokenType.Error, 1);
                 return false;
             }
 
