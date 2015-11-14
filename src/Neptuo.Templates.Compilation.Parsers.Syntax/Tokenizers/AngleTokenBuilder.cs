@@ -34,248 +34,268 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             };
         }
 
+        
+
         protected override void Tokenize(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
         {
-            while (decorator.Current != '<' && decorator.Current != ContentReader.EndOfInput)
+            InternalContext thisContext = new InternalContext(result, decorator, context);
+            Tokenize(thisContext);
+        }
+
+        private void Tokenize(InternalContext context)
+        {
+            while (context.Decorator.Current != '<' && context.Decorator.Current != ContentReader.EndOfInput)
             {
-                IList<Token> tokens = context.TokenizePartial(decorator, '<', '>');
-                result.AddRange(tokens);
+                IList<Token> tokens = context.TokenizerContext.TokenizePartial(context.Decorator, '<', '>');
+                context.Result.AddRange(tokens);
             }
 
-            if (decorator.Current == '<')
+            if (context.Decorator.Current == '<')
             {
-                decorator.ResetCurrentPosition(1);
-                decorator.ResetCurrentInfo();
-                decorator.Next();
+                context.Decorator.ResetCurrentPosition(1);
+                context.Decorator.ResetCurrentInfo();
+                context.Decorator.Next();
 
-                if (!ChooseNodeType(decorator, context, result))
+                if (!ChooseNodeType(context))
                 {
-                    if (decorator.CanResetCurrentPosition(1))
-                        CreateToken(decorator, result, AngleTokenType.Error, 1);
+                    if (context.Decorator.CanResetCurrentPosition(1))
+                        context.CreateToken(AngleTokenType.Error, 1);
 
                     return;
                 }
             }
 
-            if (decorator.Current == ContentReader.EndOfInput)
+            if (context.Decorator.Current == ContentReader.EndOfInput)
                 return;
 
             throw Ensure.Exception.NotImplemented();
         }
 
-        private bool ChooseNodeType(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        private bool ChooseNodeType(InternalContext context)
         {
             // <
-            if (!decorator.Next())
+            if (!context.Decorator.Next())
                 return false;
 
             // <[a-Z]
-            if (Char.IsLetter(decorator.Current))
+            if (Char.IsLetter(context.Decorator.Current))
             {
-                CreateToken(decorator, result, AngleTokenType.OpenBrace, 1);
-                if (ReadElementName(decorator, context, result))
+                context.CreateToken(AngleTokenType.OpenBrace, 1);
+                if (ReadElementName(context))
                 {
-                    decorator.Next();
-                    Tokenize(decorator, context, result);
+                    context.Decorator.Next();
+                    Tokenize(context);
                     return true;
                 }
             }
             // <!
-            else if (decorator.Current == '!')
+            else if (context.Decorator.Current == '!')
             {
-                if (decorator.Next())
+                if (context.Decorator.Next())
                 {
                     // <!-
-                    if (decorator.Current == '-')
+                    if (context.Decorator.Current == '-')
                     {
                         // <!--
-                        if (decorator.Next() && decorator.Current == '-')
+                        if (context.Decorator.Next() && context.Decorator.Current == '-')
                         {
-                            CreateToken(decorator, result, AngleTokenType.OpenComment);
-                            ReadComment(decorator, context, result);
+                            context.CreateToken(AngleTokenType.OpenComment);
+                            ReadComment(context);
                         }
                         else
                         {
-                            CreateToken(decorator, result, AngleTokenType.Error);
+                            context.CreateToken(AngleTokenType.Error);
                             return false;
                         }
                     }
                     // <![a-Z
-                    else if(Char.IsLetter(decorator.Current))
+                    else if (Char.IsLetter(context.Decorator.Current))
                     {
-                        CreateToken(decorator, result, AngleTokenType.OpenDirective);
-                        return ReadDirectiveName(decorator, context, result);
+                        context.CreateToken(AngleTokenType.OpenDirective);
+                        return ReadDirectiveName(context);
                     }
                     else
                     {
-                        CreateToken(decorator, result, AngleTokenType.Error);
+                        context.CreateToken(AngleTokenType.Error);
                         return false;
                     }
                 }
                 else
                 {
-                    CreateToken(decorator, result, AngleTokenType.Error);
+                    context.CreateToken(AngleTokenType.Error);
                     return false;
                 }
             }
             else
             {
-                CreateToken(decorator, result, AngleTokenType.Error, 1);
+                context.CreateToken(AngleTokenType.Error, 1);
                 return false;
             }
 
             throw Ensure.Exception.NotImplemented();
         }
 
-        private bool ReadElementName(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        private bool ReadElementName(InternalContext context)
         {
-            if (decorator.CurrentWhile(Char.IsLetterOrDigit))
+            if (context.Decorator.CurrentWhile(Char.IsLetterOrDigit))
             {
-                if (decorator.Current == ':')
+                if (context.Decorator.Current == ':')
                 {
-                    CreateToken(decorator, result, AngleTokenType.NamePrefix, 1);
-                    CreateToken(decorator, result, AngleTokenType.NameSeparator);
-                    if (decorator.NextWhile(Char.IsLetterOrDigit))
+                    context.CreateToken(AngleTokenType.NamePrefix, 1);
+                    context.CreateToken(AngleTokenType.NameSeparator);
+                    if (context.Decorator.NextWhile(Char.IsLetterOrDigit))
                     {
-                        CreateToken(decorator, result, AngleTokenType.Name, 1);
+                        context.CreateToken(AngleTokenType.Name, 1);
                     }
                     else
                     {
-                        CreateToken(decorator, result, AngleTokenType.Error);
+                        context.CreateToken(AngleTokenType.Error);
                         return false;
                     }
                 }
                 else
                 {
-                    CreateToken(decorator, result, AngleTokenType.Name, 1);
+                    context.CreateToken(AngleTokenType.Name, 1);
                 }
 
-                return ReadOpenElementContent(decorator, context, result);
+                return ReadOpenElementContent(context);
             }
-            else if (decorator.Current == ContentReader.EndOfInput)
+            else if (context.Decorator.Current == ContentReader.EndOfInput)
             {
-                CreateToken(decorator, result, AngleTokenType.Name);
-                return ReadOpenElementContent(decorator, context, result);
+                context.CreateToken(AngleTokenType.Name);
+                return ReadOpenElementContent(context);
             }
 
             return false;
         }
 
-        private bool ReadOpenElementContent(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        private bool ReadOpenElementContent(InternalContext context)
         {
-            if (decorator.CurrentWhile(Char.IsWhiteSpace) && decorator.CanResetCurrentPosition(1))
-                CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
+            if (context.Decorator.CurrentWhile(Char.IsWhiteSpace) && context.Decorator.CanResetCurrentPosition(1))
+                context.CreateToken(AngleTokenType.Whitespace, 1);
 
-            if (decorator.Current == '/')
+            if (context.Decorator.Current == '/')
             {
-                if (decorator.Next())
+                if (context.Decorator.Next())
                 {
-                    if (decorator.Current == '>')
+                    if (context.Decorator.Current == '>')
                     {
-                        CreateToken(decorator, result, AngleTokenType.SelfCloseBrace);
+                        context.CreateToken(AngleTokenType.SelfCloseBrace);
                         return true;
                     }
                     else
                     {
-                        CreateToken(decorator, result, AngleTokenType.Error);
+                        context.CreateToken(AngleTokenType.Error);
                         return false;
                     }
                 }
             }
-            else if (decorator.Current == '>')
+            else if (context.Decorator.Current == '>')
             {
-                CreateToken(decorator, result, AngleTokenType.CloseBrace);
+                context.CreateToken(AngleTokenType.CloseBrace);
                 throw new NotImplementedException();
             }
-            else if (Char.IsLetterOrDigit(decorator.Current))
+            else if (Char.IsLetterOrDigit(context.Decorator.Current))
             {
-                return ReadAttributeName(decorator, context, result);
+                return ReadAttributeName(context);
             }
-            else if (decorator.Current == '<')
+            else if (context.Decorator.Current == '<')
             {
-                CreateVirtualToken(result, decorator, AngleTokenType.SelfCloseBrace, "/>");
-                return ChooseNodeType(decorator, context, result);
+                context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                return ChooseNodeType(context);
             }
-            else if (decorator.Current == ContentReader.EndOfInput)
+            else if (context.Decorator.Current == ContentReader.EndOfInput)
             {
-                CreateVirtualToken(result, decorator, AngleTokenType.SelfCloseBrace, "/>");
+                context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
                 return true;
             }
 
             return false;
         }
 
-        private bool ReadAttributeName(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        private bool ReadAttributeName(InternalContext context)
         {
-            if (decorator.CurrentWhile(Char.IsLetterOrDigit))
+            if (context.Decorator.CurrentWhile(Char.IsLetterOrDigit))
             {
-                if (decorator.Current == ':')
+                if (context.Decorator.Current == ':')
                 {
-                    CreateToken(decorator, result, AngleTokenType.AttributeNamePrefix, 1);
-                    CreateToken(decorator, result, AngleTokenType.AttributeNameSeparator);
-                    if (decorator.NextWhile(Char.IsLetterOrDigit))
+                    context.CreateToken(AngleTokenType.AttributeNamePrefix, 1);
+                    context.CreateToken(AngleTokenType.AttributeNameSeparator);
+                    if (context.Decorator.NextWhile(Char.IsLetterOrDigit))
                     {
-                        CreateToken(decorator, result, AngleTokenType.AttributeName, 1);
+                        context.CreateToken(AngleTokenType.AttributeName, 1);
                     }
                     else
                     {
-                        CreateToken(decorator, result, AngleTokenType.Error);
+                        context.CreateToken(AngleTokenType.Error);
                         return false;
                     }
                 }
                 else
                 {
-                    CreateToken(decorator, result, AngleTokenType.AttributeName, 1);
+                    context.CreateToken(AngleTokenType.AttributeName, 1);
                 }
 
-                if (decorator.CurrentWhile(Char.IsWhiteSpace))
-                    CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
+                if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
+                    context.CreateToken(AngleTokenType.Whitespace, 1);
 
-                if (decorator.Current == '=')
+                if (context.Decorator.Current == '=')
                 {
-                    CreateToken(decorator, result, AngleTokenType.AttributeValueSeparator);
-                    if (decorator.Next())
+                    context.CreateToken(AngleTokenType.AttributeValueSeparator);
+                    if (context.Decorator.Next())
                     {
-                        if (decorator.CurrentWhile(Char.IsWhiteSpace))
-                            CreateToken(decorator, result, AngleTokenType.Whitespace, 1);
+                        if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
+                            context.CreateToken(AngleTokenType.Whitespace, 1);
 
-                        if (decorator.Current == '"')
+                        if (context.Decorator.Current == '"')
                         {
-                            if (ReadAttributeValue(decorator, context, result))
+                            if (ReadAttributeValue(context))
                             {
-                                decorator.Next();
-                                return ReadOpenElementContent(decorator, context, result);
+                                context.Decorator.Next();
+                                return ReadOpenElementContent(context);
                             }
 
                             return false;
                         }
+                        else if (HasCloseElement(context.Decorator))
+                        {
+                            context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
+                            context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
+                            return ReadOpenElementContent(context);
+                        }
                         else
                         {
-                            CreateVirtualToken(result, decorator, AngleTokenType.AttributeOpenValue, "\"");
-                            CreateVirtualToken(result, decorator, AngleTokenType.AttributeCloseValue, "\"");
-                            return ReadOpenElementContent(decorator, context, result);
+                            // TODO: Close
+                            context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                            return true;
                         }
                     }
                 }
                 else
                 {
-                    if (decorator.Current == '"')
+                    if (context.Decorator.Current == '"')
                     {
-                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeValueSeparator, "=");
-                        if (ReadAttributeValue(decorator, context, result))
+                        context.CreateVirtualToken(AngleTokenType.AttributeValueSeparator, "=");
+                        if (ReadAttributeValue(context))
                         {
-                            decorator.Next();
-                            return ReadOpenElementContent(decorator, context, result);
+                            context.Decorator.Next();
+                            return ReadOpenElementContent(context);
                         }
 
                         return false;
                     }
-                    else //if (decorator.Current == '/' || decorator.Current == '>' || decorator.IsCurrentEndOfInput())
+                    else if (HasCloseElement(context.Decorator))
                     {
-                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeValueSeparator, "=");
-                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeOpenValue, "\"");
-                        CreateVirtualToken(result, decorator, AngleTokenType.AttributeCloseValue, "\"");
-                        return ReadOpenElementContent(decorator, context, result);
+                        context.CreateVirtualToken(AngleTokenType.AttributeValueSeparator, "=");
+                        context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
+                        context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
+                        return ReadOpenElementContent(context);
+                    }
+                    else
+                    {
+                        // TODO: Close
+                        context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                        return true;
                     }
                 }
             }
@@ -283,27 +303,38 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             return false;
         }
 
-        private bool ReadAttributeValue(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        private bool HasCloseElement(ContentDecorator decorator)
         {
-            CreateToken(decorator, result, AngleTokenType.AttributeOpenValue);
+            bool result = false;
+            int position = decorator.Position;
+            if (decorator.NextUntil(c => c == '>' || c == '<'))
+                result = decorator.Current == '>';
 
-            decorator.Next();
-            IList<Token> attributeValue = context.TokenizePartial(decorator, '"');
-            result.AddRange(attributeValue);
-            decorator.ResetCurrentPosition(1);
-            decorator.ResetCurrentInfo();
-            decorator.Next();
-            
-            CreateToken(decorator, result, AngleTokenType.AttributeCloseValue);
+            decorator.ResetCurrentPosition(decorator.Position - position);
+            return result;
+        }
+
+        private bool ReadAttributeValue(InternalContext context)
+        {
+            context.CreateToken(AngleTokenType.AttributeOpenValue);
+
+            context.Decorator.Next();
+            IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, '"');
+            context.Result.AddRange(attributeValue);
+            context.Decorator.ResetCurrentPosition(1);
+            context.Decorator.ResetCurrentInfo();
+            context.Decorator.Next();
+
+            context.CreateToken(AngleTokenType.AttributeCloseValue);
             return true;
         }
 
-        private bool ReadDirectiveName(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        private bool ReadDirectiveName(InternalContext context)
         {
             throw Ensure.Exception.NotImplemented();
         }
 
-        private bool ReadComment(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        private bool ReadComment(InternalContext context)
         {
             throw Ensure.Exception.NotImplemented();
         }

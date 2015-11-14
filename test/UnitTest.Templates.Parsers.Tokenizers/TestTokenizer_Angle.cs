@@ -129,8 +129,32 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Angle_UnfinishedAttribute()
+        public void Angle_UnfinishedTagWithNextPlainText()
         {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty a b c"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "empty", " ", "a", " ", "/>", "b c");
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.AttributeName,
+                AngleTokenType.AttributeValueSeparator,
+                AngleTokenType.AttributeOpenValue,
+                AngleTokenType.AttributeCloseValue,
+                AngleTokenType.Whitespace,
+                AngleTokenType.SelfCloseBrace,
+                TokenType.Literal
+            );
+            AssertAreEqual(tokens[4].IsVirtual, true);
+            AssertAreEqual(tokens[5].IsVirtual, true);
+            AssertAreEqual(tokens[6].IsVirtual, true);
+        }
+
+        [TestMethod]
+        public void Angle_UnfinishedAttribute()
+        {                                                                       //0123456789012345678
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty id class= />"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "id", " ", "=", "\"", "\"", "class", "=", " ", "\"", "\"", "/>");

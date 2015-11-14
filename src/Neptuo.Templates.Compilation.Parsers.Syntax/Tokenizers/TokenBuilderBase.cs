@@ -29,38 +29,5 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         }
 
         protected abstract void Tokenize(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result);
-
-        protected virtual void CreateToken(ContentDecorator decorator, List<Token> result, TokenType tokenType, int stepsToGoBack = -1)
-        {
-            if (stepsToGoBack > 0)
-            {
-                if (!decorator.ResetCurrentPosition(stepsToGoBack))
-                    throw Ensure.Exception.NotSupported("Unnable to process back steps.");
-            }
-
-            string text = decorator.CurrentContent();
-            if (!String.IsNullOrEmpty(text))
-            {
-                result.Add(new Token(tokenType, text)
-                {
-                    TextSpan = decorator.CurrentContentInfo(),
-                    DocumentSpan = decorator.CurrentLineInfo(),
-                });
-
-                decorator.ResetCurrentInfo();
-            }
-
-            if (stepsToGoBack > 0)
-                decorator.Read(stepsToGoBack);
-        }
-
-        protected virtual void CreateVirtualToken(List<Token> result, ContentDecorator decorator, TokenType tokenType, string text)
-        {
-            result.Add(new Token(tokenType, text)
-            {
-                IsVirtual = true,
-                TextSpan = decorator.CurrentContentInfo(0)
-            });
-        }
     }
 }

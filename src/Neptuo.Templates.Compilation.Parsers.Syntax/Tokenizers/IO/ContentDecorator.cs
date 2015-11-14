@@ -17,16 +17,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
         private readonly Dictionary<int, int> lineLenghts = new Dictionary<int, int>();
         private readonly IContentReader contentReader;
         private readonly int positionOffset;
-        private IContentReader currentReader;
+        private Stack<IContentReader> currentReader;
 
         private IContentReader CurrentReader
         {
             get
             {
-                if (currentReader == null)
+                if (currentReader.Count == 0)
                     return contentReader;
 
-                return currentReader;
+                return currentReader.Peek();
             }
         }
 
@@ -60,6 +60,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
             Ensure.NotNull(contentReader, "contentReader");
             this.contentReader = contentReader;
             this.currentContent = new StringBuilder();
+            this.currentReader = new Stack<IContentReader>();
             UpdateContentInfoState();
         }
 
@@ -77,6 +78,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
             Ensure.PositiveOrZero(columnOffset, "columnOffset");
             this.contentReader = contentReader;
             this.currentContent = new StringBuilder();
+            this.currentReader = new Stack<IContentReader>();
             this.positionOffset = positionOffset;
             currentStartIndex = positionOffset;
             currentLineIndex = currentStartLineIndex = lineOffset;
@@ -99,11 +101,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
         public bool Next()
         {
             bool hasNext = false;
-            if (currentReader != null)
+            while (!hasNext && currentReader.Count != 0)
             {
-                hasNext = currentReader.Next();
+                hasNext = currentReader.Peek().Next();
                 if (!hasNext)
-                    currentReader = null;
+                    currentReader.Pop();
             }
 
             if (!hasNext)
@@ -219,7 +221,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
 
             // Prepare temporal reader.
             currentLength = currentContent.Length;
-            currentReader = new StringReader(firstChar + toResetText, currentStartIndex);
+            currentReader.Push(new StringReader(firstChar + toResetText, currentStartIndex));
 
             // Update line info.
             foreach (char item in toResetText.Reverse())

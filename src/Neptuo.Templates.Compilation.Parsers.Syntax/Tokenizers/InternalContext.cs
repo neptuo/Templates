@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 {
-    internal class CurlyContext
+    internal class InternalContext
     {
         public ContentDecorator Decorator { get; private set; }
         public ITokenBuilderContext TokenizerContext { get; private set; }
         public List<Token> Result { get; private set; }
 
-        public CurlyContext(List<Token> result, ContentDecorator decorator, ITokenBuilderContext context)
+        public InternalContext(List<Token> result, ContentDecorator decorator, ITokenBuilderContext context)
         {
             Result = result;
             Decorator = decorator;
@@ -28,10 +28,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     throw Ensure.Exception.NotSupported("Unnable to process back steps.");
             }
 
+            Token token = null;
             string text = Decorator.CurrentContent();
             if (!String.IsNullOrEmpty(text))
             {
-                Token token = new Token(tokenType, text)
+                token = new Token(tokenType, text)
                 {
                     TextSpan = Decorator.CurrentContentInfo(),
                     DocumentSpan = Decorator.CurrentLineInfo(),
@@ -39,14 +40,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 };
                 Result.Add(token);
                 Decorator.ResetCurrentInfo();
-
-                return new TokenFactory(token);
             }
 
             if (stepsToGoBack > 0)
                 Decorator.Read(stepsToGoBack);
 
-            return new TokenFactory();
+            if (token == null)
+                return new TokenFactory();
+
+            return new TokenFactory(token);
         }
 
         public void CreateVirtualToken(TokenType tokenType, string text)

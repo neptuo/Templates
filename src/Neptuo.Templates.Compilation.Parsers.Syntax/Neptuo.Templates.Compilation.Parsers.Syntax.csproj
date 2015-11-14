@@ -101,7 +101,7 @@
     <Compile Include="Tokenizers\TokenTypeCollection.cs" />
     <Compile Include="Tokenizers\AngleTokenBuilder.cs" />
     <Compile Include="Tokenizers\AngleTokenType.cs" />
-    <Compile Include="Tokenizers\CurlyContext.cs" />
+    <Compile Include="Tokenizers\InternalContext.cs" />
     <Compile Include="Tokenizers\CurlyTokenBuilder.cs" />
     <Compile Include="Tokenizers\CurlyTokenType.cs" />
     <Compile Include="Tokenizers\DefaultTokenBuilderContext.cs" />

@@ -33,11 +33,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
         protected override void Tokenize(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
         {
-            CurlyContext thisContext = new CurlyContext(result, decorator, context);
+            InternalContext thisContext = new InternalContext(result, decorator, context);
             ReadTokenStart(thisContext);
         }
 
-        private bool ReadTokenStart(CurlyContext context)
+        private bool ReadTokenStart(InternalContext context)
         {
             if (context.Decorator.Current != '{')
             {
@@ -69,7 +69,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             return false;
         }
 
-        private void ReadTokenName(CurlyContext context, bool isSingleTokenOnly = false)
+        private void ReadTokenName(InternalContext context, bool isSingleTokenOnly = false)
         {
             context.Decorator.NextWhile(Char.IsLetterOrDigit);
 
@@ -190,7 +190,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         /// <summary>
         /// Reads token attribute or default attribute.
         /// </summary>
-        private void ReadTokenAttribute(CurlyContext context, bool supportDefaultAttributes = true)
+        private void ReadTokenAttribute(InternalContext context, bool supportDefaultAttributes = true)
         {
             List<char> specials = new List<char>() { '=', ',', '{', '}' };
             context.Decorator.NextUntil(specials.Contains);
