@@ -217,6 +217,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         {
             if (context.Decorator.CurrentWhile(Char.IsLetterOrDigit))
             {
+                if (!HasAttributeValue(context.Decorator) && !HasCloseOpeningElement(context.Decorator))
+                {
+                    context.Decorator.ResetCurrentPosition(context.Decorator.CurrentContent().Length);
+                    context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                    return true;
+                }
+
                 if (context.Decorator.Current == ':')
                 {
                     context.CreateToken(AngleTokenType.AttributeNamePrefix, 1);
@@ -235,17 +242,19 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 {
                     context.CreateToken(AngleTokenType.AttributeName, 1);
                 }
-
-                if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
-                    context.CreateToken(AngleTokenType.Whitespace, 1);
+                
+                // TODO: Remove support for spaces before attribute value.
+                //if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
+                //    context.CreateToken(AngleTokenType.Whitespace, 1);
 
                 if (context.Decorator.Current == '=')
                 {
                     context.CreateToken(AngleTokenType.AttributeValueSeparator);
                     if (context.Decorator.Next())
                     {
-                        if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
-                            context.CreateToken(AngleTokenType.Whitespace, 1);
+                        // TODO: Remove support for spaces before attribute value.
+                        //if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
+                        //    context.CreateToken(AngleTokenType.Whitespace, 1);
 
                         if (context.Decorator.Current == '"')
                         {
@@ -257,7 +266,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                             return false;
                         }
-                        else if (HasCloseElement(context.Decorator))
+                        else if (HasCloseOpeningElement(context.Decorator))
                         {
                             context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
                             context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
@@ -284,7 +293,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                         return false;
                     }
-                    else if (HasCloseElement(context.Decorator))
+                    else if (HasCloseOpeningElement(context.Decorator))
                     {
                         context.CreateVirtualToken(AngleTokenType.AttributeValueSeparator, "=");
                         context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
@@ -303,14 +312,25 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             return false;
         }
 
-        private bool HasCloseElement(ContentDecorator decorator)
+        private bool HasCloseOpeningElement(ContentDecorator decorator)
         {
             bool result = false;
             int position = decorator.Position;
             if (decorator.NextUntil(c => c == '>' || c == '<'))
                 result = decorator.Current == '>';
 
-            decorator.ResetCurrentPosition(decorator.Position - position);
+            decorator.ResetCurrentPositionToIndex(position);
+            return result;
+        }
+
+        private bool HasAttributeValue(ContentDecorator decorator)
+        {
+            bool result = false;
+            int position = decorator.Position;
+            if (decorator.CurrentUntil(c => !Char.IsLetterOrDigit(c) || c == '=' || c == '>' || c == '<'))
+                result = decorator.Current == '=';
+
+            decorator.ResetCurrentPositionToIndex(position);
             return result;
         }
 

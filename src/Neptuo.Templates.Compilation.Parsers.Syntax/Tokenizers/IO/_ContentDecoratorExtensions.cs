@@ -114,5 +114,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
 
             return text;
         }
+
+        /// <summary>
+        /// Resets current position of <see cref="decorator"/> to <paramref name="position"/>.
+        /// </summary>
+        /// <param name="decorator">The content decorator.</param>
+        /// <param name="position">The position to reset to.</param>
+        /// <exception cref="ArgumentOutOfRangeException">When <paramref name="position"/> is greater that current position of <paramref name="decorator"/>.</exception>
+        public static void ResetCurrentPositionToIndex(this ContentDecorator decorator, int position)
+        {
+            Ensure.NotNull(decorator, "decorator");
+            if (decorator.Position < position)
+                Ensure.Exception.ArgumentOutOfRange("decorator", "Current position must be greater or equal to position to reset to.");
+
+            decorator.ResetCurrentPosition(decorator.Position - position);
+        }
     }
 }

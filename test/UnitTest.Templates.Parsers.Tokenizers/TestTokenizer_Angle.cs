@@ -133,23 +133,16 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty a b c"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", " ", "a", " ", "/>", "b c");
+            AssertTokens(tokens, "<", "empty", " ", "/>", "a b c");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
-                AngleTokenType.AttributeName,
-                AngleTokenType.AttributeValueSeparator,
-                AngleTokenType.AttributeOpenValue,
-                AngleTokenType.AttributeCloseValue,
-                AngleTokenType.Whitespace,
                 AngleTokenType.SelfCloseBrace,
                 TokenType.Literal
             );
-            AssertAreEqual(tokens[4].IsVirtual, true);
-            AssertAreEqual(tokens[5].IsVirtual, true);
-            AssertAreEqual(tokens[6].IsVirtual, true);
+            AssertAreEqual(tokens[3].IsVirtual, true);
         }
 
         [TestMethod]
@@ -157,29 +150,29 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {                                                                       //0123456789012345678
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty id class= />"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", " ", "id", " ", "=", "\"", "\"", "class", "=", " ", "\"", "\"", "/>");
+            AssertTokens(tokens, "<", "empty", " ", "id", "=", "\"", "\"", " ", "class", "=", "\"", "\"", " ", "/>");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
                 AngleTokenType.AttributeName,
-                AngleTokenType.Whitespace,
                 AngleTokenType.AttributeValueSeparator,
                 AngleTokenType.AttributeOpenValue,
                 AngleTokenType.AttributeCloseValue,
+                AngleTokenType.Whitespace,
                 AngleTokenType.AttributeName,
                 AngleTokenType.AttributeValueSeparator,
-                AngleTokenType.Whitespace,
                 AngleTokenType.AttributeOpenValue,
                 AngleTokenType.AttributeCloseValue,
+                AngleTokenType.Whitespace,
                 AngleTokenType.SelfCloseBrace
             );
+            AssertAreEqual(tokens[4].IsVirtual, true);
             AssertAreEqual(tokens[5].IsVirtual, true);
             AssertAreEqual(tokens[6].IsVirtual, true);
-            AssertAreEqual(tokens[7].IsVirtual, true);
+            AssertAreEqual(tokens[10].IsVirtual, true);
             AssertAreEqual(tokens[11].IsVirtual, true);
-            AssertAreEqual(tokens[12].IsVirtual, true);
         }
     }
 }

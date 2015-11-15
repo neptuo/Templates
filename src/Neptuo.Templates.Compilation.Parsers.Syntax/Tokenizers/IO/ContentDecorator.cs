@@ -192,7 +192,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
         /// <returns><c>true</c> if current state enables to take <paramref name="stepsToGoBack"/> steps back; <c>false</c> otherwise.</returns>
         public bool CanResetCurrentPosition(int stepsToGoBack)
         {
-            if (currentContent.Length < stepsToGoBack)
+            if (currentContent.Length < stepsToGoBack || stepsToGoBack < 0)
                 return false;
 
             return true;
@@ -210,10 +210,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
             if (!CanResetCurrentPosition(stepsToGoBack))
                 return false;
 
+            // Trying to move by 0 is totally ok.
+            if (stepsToGoBack == 0)
+                return true;
+
             string text = currentContent.ToString();
             string toResetText = text.Substring(text.Length - stepsToGoBack);
             string newCurrent = text.Substring(0, text.Length - stepsToGoBack);
             char firstChar = newCurrent.Length > 0 ? newCurrent[newCurrent.Length - 1] : ContentReader.EndOfInput;
+            int startIndex = firstChar == ContentReader.EndOfInput ? currentStartIndex - 1 : currentStartIndex;
 
             // Update current 'token'.
             currentContent.Clear();
@@ -221,7 +226,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
 
             // Prepare temporal reader.
             currentLength = currentContent.Length;
-            currentReader.Push(new StringReader(firstChar + toResetText, currentStartIndex));
+            currentReader.Push(new StringReader(firstChar + toResetText, startIndex));
 
             // Update line info.
             foreach (char item in toResetText.Reverse())
