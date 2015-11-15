@@ -26,7 +26,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             this.glyphService = glyphService;
         }
 
-        public IEnumerable<ITokenTrigger> GetTriggers()
+        public IEnumerable<ITokenTrigger> GetStartTriggers()
         {
             yield return new DefaultTokenTrigger(AngleTokenType.OpenBrace, false);
             yield return new DefaultTokenTrigger(AngleTokenType.Name, true);
@@ -34,6 +34,11 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             yield return new DefaultTokenTrigger(AngleTokenType.NameSeparator, false);
             yield return new DefaultTokenTrigger(AngleTokenType.Whitespace, false);
             yield return new DefaultTokenTrigger(AngleTokenType.AttributeName, true);
+        }
+
+        public IEnumerable<ITokenTrigger> GetCommitTriggers()
+        {
+            yield return new DefaultTokenTrigger(AngleTokenType.AttributeValueSeparator, false);
         }
 
         public IEnumerable<ICompletion> GetCompletions(IReadOnlyList<Token> tokens, Token currentToken)

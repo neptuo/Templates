@@ -16,14 +16,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     internal class ViewController : IOleCommandTarget
     {
-        private readonly CompletionContext completionSession;
+        private readonly CompletionContext completionContext;
         private readonly IOleCommandTarget nextController;
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
 
         public ViewController(TokenContext tokenContext, ITokenTriggerProvider triggerProvider, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
-            this.completionSession = new CompletionContext(tokenContext, triggerProvider, textView, completionBroker);
+            this.completionContext = new CompletionContext(tokenContext, triggerProvider, textView, completionBroker);
             this.textView = textView;
             this.serviceProvider = serviceProvider;
 
@@ -62,12 +62,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (pguidCmdGroup == VSConstants.VSStd2K && nCmdID == (uint)VSConstants.VSStd2KCmdID.TYPECHAR)
                 typedChar = (char)(ushort)Marshal.GetObjectForNativeVariant(pvaIn);
 
-            if (completionSession.HasSession)
+            if (completionContext.HasSession)
             {
                 if (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB)
                 {
-                    completionSession.TryCommit();
-                    completionSession.TryDismiss();
+                    completionContext.TryCommit();
+                    completionContext.TryDismiss();
                     return VSConstants.S_OK;
                 }
             }
@@ -75,7 +75,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             {
                 if (nCmdID == (uint)VSConstants.VSStd2KCmdID.COMPLETEWORD)
                 {
-                    completionSession.TryStartSession();
+                    completionContext.TryStartSession();
                     return VSConstants.S_OK;
                 }
             }
@@ -87,12 +87,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (!typedChar.Equals(Char.MinValue))
             {
                 // If there is session, update filter.
-                if (completionSession.HasSession) 
-                    completionSession.TryFilter();
+                if (completionContext.HasSession) 
+                    completionContext.TryFilter();
 
-                // If some interesting char was typed, start session.
-                if (completionSession.IsCompletableToken())
-                    completionSession.TryStartSession();
+                // If some interesting char was typed, start session. Or try commit?
+                if (completionContext.IsStartToken())
+                    completionContext.TryStartSession();
+                else if (completionContext.IsCommitToken())
+                    completionContext.TryCommit();
 
                 return VSConstants.S_OK;
             }

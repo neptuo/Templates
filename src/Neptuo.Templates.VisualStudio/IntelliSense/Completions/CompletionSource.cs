@@ -24,7 +24,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         {
             this.textBuffer = textBuffer;
             this.completionProvider = completionProvider;
-            this.triggers = triggerProvider.GetTriggers().ToList();
+            this.triggers = triggerProvider.GetStartTriggers().ToList();
             this.tokenContext = tokenContext;
         }
 

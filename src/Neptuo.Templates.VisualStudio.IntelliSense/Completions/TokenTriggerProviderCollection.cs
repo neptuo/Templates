@@ -15,16 +15,21 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         /// </summary>
         /// <param name="provider">Provider to add.</param>
         /// <returns>Self (for fluency).</returns>
-        public TokenTriggerProviderCollection Add(ITokenTriggerProvider provider)
+        public TokenTriggerProviderCollection AddStart(ITokenTriggerProvider provider)
         {
             Ensure.NotNull(provider, "provider");
             providers.Add(provider);
             return this;
         }
 
-        public IEnumerable<ITokenTrigger> GetTriggers()
+        public IEnumerable<ITokenTrigger> GetStartTriggers()
         {
-            return providers.SelectMany(p => p.GetTriggers());
+            return providers.SelectMany(p => p.GetStartTriggers());
+        }
+
+        public IEnumerable<ITokenTrigger> GetCommitTriggers()
+        {
+            return providers.SelectMany(p => p.GetCommitTriggers());
         }
     }
 }

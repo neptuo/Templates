@@ -42,8 +42,8 @@ namespace Test.Templates.VisualStudio.IntelliSense.Completions
         protected override ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer)
         {
             return new TokenTriggerProviderCollection()
-                .Add(new AngleProvider(GlyphService))
-                .Add(new CurlyProvider(GlyphService));
+                .AddStart(new AngleProvider(GlyphService))
+                .AddStart(new CurlyProvider(GlyphService));
         }
     }
 }

@@ -6,12 +6,21 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
+    /// <summary>
+    /// Completion start and commit token triggers provider.
+    /// </summary>
     public interface ITokenTriggerProvider
     {
         /// <summary>
-        /// Returns enumeration of completion token triggers.
+        /// Returns the enumeration of token triggers for starting completion.
         /// </summary>
-        /// <returns>Enumeration of completion token triggers.</returns>
-        IEnumerable<ITokenTrigger> GetTriggers();
+        /// <returns>The enumeration of token triggers for starting completion.</returns>
+        IEnumerable<ITokenTrigger> GetStartTriggers();
+
+        /// <summary>
+        /// Returns the enumeration of token triggers for committing completion.
+        /// </summary>
+        /// <returns>The enumeration of token triggers for committing completion.</returns>
+        IEnumerable<ITokenTrigger> GetCommitTriggers();
     }
 }

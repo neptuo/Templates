@@ -17,29 +17,45 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly ITextView textView;
         private readonly ICompletionBroker completionBroker;
 
-        private readonly List<TokenType> completableTokens;
+        private readonly List<TokenType> startTokens;
+        private readonly List<TokenType> commitTokens;
         private ICompletionSession currentSession;
 
         public CompletionContext(TokenContext tokenContext, ITokenTriggerProvider triggerProvider, ITextView textView, ICompletionBroker completionBroker)
         {
             this.tokenContext = tokenContext;
-            this.completableTokens = triggerProvider.GetTriggers().Select(t => t.Type).ToList();
+            this.startTokens = triggerProvider.GetStartTriggers().Select(t => t.Type).ToList();
+            this.commitTokens = triggerProvider.GetCommitTriggers().Select(t => t.Type).ToList();
             this.textView = textView;
             this.completionBroker = completionBroker;
         }
 
-        public bool IsCompletableToken()
+        private Token FindCurrentToken()
         {
             IReadOnlyList<Token> tokens = tokenContext.Tokens;
 
             SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
             Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
+            return currentToken;
+        }
+
+        public bool IsStartToken()
+        {
+            Token currentToken = FindCurrentToken();
             if (currentToken == null)
                 return false;
 
-            return completableTokens.Contains(currentToken.Type);
+            return startTokens.Contains(currentToken.Type);
         }
 
+        public bool IsCommitToken()
+        {
+            Token currentToken = FindCurrentToken();
+            if (currentToken == null)
+                return false;
+
+            return commitTokens.Contains(currentToken.Type);
+        }
 
         public bool TryStartSession()
         {
