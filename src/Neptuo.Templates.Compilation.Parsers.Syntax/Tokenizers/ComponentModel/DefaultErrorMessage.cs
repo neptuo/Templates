@@ -17,5 +17,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.ComponentModel
         {
             Text = text;
         }
+
+        public override string ToString()
+        {
+            return String.Format("Error: {0}.", Text);
+        }
     }
 }

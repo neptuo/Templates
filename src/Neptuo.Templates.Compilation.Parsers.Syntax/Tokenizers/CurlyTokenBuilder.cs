@@ -56,7 +56,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 ReadTokenName(context);
                 return true;
             }
-            else if(context.Decorator.Current != ContentReader.EndOfInput)
+            else if(!context.Decorator.IsCurrentEndOfInput())
             {
                 context
                     .CreateToken(CurlyTokenType.Literal, -1, true)
@@ -89,7 +89,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             {
                 // Use as prefix.
                 context.CreateToken(CurlyTokenType.NamePrefix, 1);
-                context.Decorator.Next();
                 context.CreateToken(CurlyTokenType.NameSeparator);
 
                 context.Decorator.NextWhile(Char.IsLetterOrDigit);
@@ -113,7 +112,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                 context.Decorator.NextWhile(Char.IsWhiteSpace);
                 context.CreateToken(CurlyTokenType.Whitespace, 1);
-                context.Decorator.Next();
 
                 hasName = true;
             }
@@ -132,7 +130,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 {
                     // Use as name.
                     context.CreateToken(CurlyTokenType.Name, 1);
-                    context.Decorator.Next();
                 }
                 else if (currentContent != String.Empty)
                 {
@@ -144,13 +141,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                 // Close token.
                 context.CreateToken(CurlyTokenType.CloseBrace);
+                context.Decorator.Next();
 
                 // Token is closed, so we can end.
                 if (isSingleTokenOnly)
                     return;
 
                 // If there is something to read.
-                if (context.Decorator.Next())
+                if (context.Decorator.IsCurrentEndOfInput())
                 {
                     // Read tokens and accept last characters as text.
                     ReadTokenStart(context);
@@ -190,10 +188,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         /// <summary>
         /// Reads token attribute or default attribute.
         /// </summary>
-        private void ReadTokenAttribute(InternalContext context, bool supportDefaultAttributes = true)
+        private bool ReadTokenAttribute(InternalContext context, bool supportDefaultAttributes = true)
         {
             List<char> specials = new List<char>() { '=', ',', '{', '}' };
-            context.Decorator.NextUntil(specials.Contains);
+            context.Decorator.CurrentUntil(specials.Contains);
+            bool result = false;
 
             if (context.Decorator.Current == '=')
             {
@@ -201,8 +200,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 {
                     // Use as attribute name.
                     context.CreateToken(CurlyTokenType.AttributeName, 1);
-                    context.Decorator.Next();
                     context.CreateToken(CurlyTokenType.AttributeValueSeparator);
+                    context.Decorator.Next();
                 }
                 else
                 {
@@ -213,13 +212,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 }
 
                 // Use as attribute value.
-                context.Decorator.Next();
                 if (context.Decorator.Current == '{')
                 {
                     // Parse as inner token.
                     context.CreateToken(CurlyTokenType.OpenBrace);
                     ReadTokenName(context, true);
-                    context.Decorator.Next();
                 }
                 else
                 {
@@ -237,14 +234,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                     // Read all whitespaces.
                     if (context.Decorator.NextWhile(Char.IsWhiteSpace))
-                    {
                         context.CreateToken(CurlyTokenType.Whitespace, 1);
-                        context.Decorator.Next();
-                    }
 
                     // Try read next attribute.
-                    ReadTokenAttribute(context, false);
+                    if (!ReadTokenAttribute(context, false))
+                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.");
                 }
+
+                result = true;
             }
             else
             {
@@ -252,7 +249,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 if (supportDefaultAttributes)
                 {
                     context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
-                    context.Decorator.Next();
+                    result = true;
                 }
                 else
                 {
@@ -263,7 +260,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         context.CreateToken(CurlyTokenType.AttributeName, 1);
                         context.CreateVirtualToken(CurlyTokenType.AttributeValueSeparator, "=");
                         context.CreateVirtualToken(CurlyTokenType.Literal, "");
-                        context.Decorator.Next();
+                        result = true;
+                        supportDefaultAttributes = false;
                     }
                     else if (currentContent != String.Empty)
                     {
@@ -271,13 +269,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         context
                             .CreateToken(CurlyTokenType.Literal, 1, true)
                             .WithError("Not valid here.");
-
-                        // We are not able to create token attribute, so last separator is wrong.
-                        if (context.Decorator.Current == '}' && context.Result.Last().Type == CurlyTokenType.AttributeSeparator)
-                        {
-                            new TokenFactory(context.Result.Last())
-                                .WithError("Not valid here.");
-                        }
                     }
                 }
 
@@ -289,15 +280,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                     // While whitespaces, read..
                     if (context.Decorator.NextWhile(Char.IsWhiteSpace))
-                    {
                         context.CreateToken(CurlyTokenType.Whitespace, 1);
-                        context.Decorator.Next();
-                    }
 
                     // Try read next attribute.
-                    ReadTokenAttribute(context);
+                    if (!ReadTokenAttribute(context, supportDefaultAttributes))
+                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.");
                 }
             }
+
+            return result;
         }
 
         private bool IsValidIdentifier(string text)

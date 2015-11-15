@@ -218,7 +218,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
             string toResetText = text.Substring(text.Length - stepsToGoBack);
             string newCurrent = text.Substring(0, text.Length - stepsToGoBack);
             char firstChar = newCurrent.Length > 0 ? newCurrent[newCurrent.Length - 1] : ContentReader.EndOfInput;
-            int startIndex = firstChar == ContentReader.EndOfInput ? currentStartIndex - 1 : currentStartIndex;
+            int startIndex = currentStartIndex - 1;
 
             // Update current 'token'.
             currentContent.Clear();

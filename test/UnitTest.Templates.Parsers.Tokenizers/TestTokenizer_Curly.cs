@@ -134,8 +134,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Curly_ValidTokenWithInnerToken()
-        {
+        public void Curly_ValidTokenWithInnerToken()                            //0         1         2         3         4      
+        {                                                                       //01234567890123456789012345678901234567890123456
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter={StaticConverter IntToBool}}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "{", "StaticConverter", " ", "IntToBool", "}", "}");
