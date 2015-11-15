@@ -30,10 +30,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (textView == null)
                 return;
 
-            TokenContext tokenContext = textView.TextBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textView.TextBuffer, CreateTokenizer()));
+            ITextBuffer textBuffer = textView.TextBuffer;
+
+            TextContext textContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TextContext(textBuffer));
+            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, CreateTokenizer()));
             textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(
-                tokenContext, 
-                CreateTokenTriggerProvider(textView.TextBuffer), 
+                tokenContext,
+                CreateTokenTriggerProvider(textBuffer), 
                 textViewAdapter, 
                 textView, 
                 CompletionBroker, 

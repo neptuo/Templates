@@ -15,37 +15,38 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     /// </summary>
     public class TokenContext : DisposableBase
     {
+        private readonly TextContext textContext;
         private readonly ITokenizer tokenizer;
         private readonly IDependencyContainer dependencyContainer;
-        private readonly ITextBuffer textBuffer;
 
         public IReadOnlyList<Token> Tokens { get; private set; }
-        public event Action<TokenContext> OnTokensChanged;
+        public event Action<TokenContext> TokensChanged;
 
-        public TokenContext(ITextBuffer textBuffer, ITokenizer tokenizer)
+        public TokenContext(TextContext textContext, ITokenizer tokenizer)
         {
-            Ensure.NotNull(textBuffer, "textBuffer");
+            Ensure.NotNull(textContext, "textContext");
             Ensure.NotNull(tokenizer, "tokenizer");
-            this.textBuffer = textBuffer;
+            this.textContext = textContext;
+
             this.tokenizer = tokenizer;
             this.dependencyContainer = new SimpleDependencyContainer();
             Tokens = new List<Token>();
 
-            this.textBuffer.Changed += OnTextBufferChanged;
             TokenizeCurrentContent();
+            textContext.TextChanged += OnTextChanged;
         }
 
-        private void OnTextBufferChanged(object sender, TextContentChangedEventArgs e)
+        private void OnTextChanged(TextContext context)
         {
             TokenizeCurrentContent();
 
-            if (OnTokensChanged != null)
-                OnTokensChanged(this);
+            if (TokensChanged != null)
+                TokensChanged(this);
         }
 
         private void TokenizeCurrentContent()
         {
-            string textContent = textBuffer.CurrentSnapshot.GetText();
+            string textContent = textContext.Text;
             Tokens = tokenizer
                 .Tokenize(new StringReader(textContent), new DefaultTokenizerContext(dependencyContainer))
                 .ToList();
@@ -54,7 +55,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         protected override void DisposeManagedResources()
         {
             base.DisposeManagedResources();
-            textBuffer.Changed -= OnTextBufferChanged;
+            textContext.TextChanged -= OnTextChanged;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             this.tokenContext = tokenContext;
             this.nodeFactory = nodeFactory;
 
-            tokenContext.OnTokensChanged += OnTokensChanged;
+            tokenContext.TokensChanged += OnTokensChanged;
             BuildRootNode();
         }
 

@@ -74,6 +74,7 @@
     <Compile Include="IntelliSense\Completions\CompletionSourceProviderBase.cs" />
     <Compile Include="IntelliSense\CurlyProvider.cs" />
     <Compile Include="IntelliSense\SyntaxContext.cs" />
+    <Compile Include="IntelliSense\TextContext.cs" />
     <Compile Include="IntelliSense\TokenContext.cs" />
     <Compile Include="IntelliSense\Classifications\ClassificationType.cs" />
     <Compile Include="IntelliSense\Classifications\Classifier.cs" />

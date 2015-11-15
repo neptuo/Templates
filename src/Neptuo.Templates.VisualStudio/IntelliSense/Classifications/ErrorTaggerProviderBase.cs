@@ -11,11 +11,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
     public abstract class ErrorTaggerProviderBase : ITaggerProvider
     {
-        public ITagger<T> CreateTagger<T>(ITextBuffer buffer)
+        public ITagger<T> CreateTagger<T>(ITextBuffer textBuffer)
             where T : ITag
         {
-            TokenContext tokenContext = buffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(buffer, CreateTokenizer()));
-            return (ITagger<T>)buffer.Properties.GetOrCreateSingletonProperty(() => new ErrorTagger(tokenContext, buffer));
+            TextContext textContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TextContext(textBuffer));
+            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, CreateTokenizer()));
+            return (ITagger<T>)textBuffer.Properties.GetOrCreateSingletonProperty(() => new ErrorTagger(tokenContext, textBuffer));
         }
 
         protected abstract ITokenizer CreateTokenizer();
