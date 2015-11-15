@@ -57,12 +57,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 context.Decorator.Next();
 
                 if (!ChooseNodeType(context))
-                {
-                    if (context.Decorator.CanResetCurrentPosition(1))
-                        context.CreateToken(AngleTokenType.Error, 1);
-
                     Tokenize(context);
-                }
             }
 
             if (context.Decorator.Current == ContentReader.EndOfInput)
@@ -128,7 +123,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
             else
             {
-                context.CreateToken(AngleTokenType.Error, 1);
+                context
+                    .CreateToken(AngleTokenType.OpenBrace, 1)
+                    .WithError("Missing tag name.");
+
                 return false;
             }
 

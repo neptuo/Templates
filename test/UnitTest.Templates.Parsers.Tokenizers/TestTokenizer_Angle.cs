@@ -101,9 +101,10 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertTokens(tokens, "<", " ");
             AssertTokenTypes(
                 tokens,
-                AngleTokenType.Error,
+                AngleTokenType.OpenBrace,
                 AngleTokenType.Literal
             );
+            AssertAreEqual(tokens[0].HasError, true);
         }
 
         [TestMethod]
