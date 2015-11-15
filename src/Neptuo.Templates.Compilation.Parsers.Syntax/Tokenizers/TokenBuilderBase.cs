@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 {
     /// <summary>
-    /// Util methods the every tokenizer needs.
+    /// Util methods the every token builder needs.
     /// </summary>
     public abstract class TokenBuilderBase : ITokenBuilder
     {
