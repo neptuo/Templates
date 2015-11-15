@@ -61,7 +61,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     if (context.Decorator.CanResetCurrentPosition(1))
                         context.CreateToken(AngleTokenType.Error, 1);
 
-                    return;
+                    Tokenize(context);
                 }
             }
 
