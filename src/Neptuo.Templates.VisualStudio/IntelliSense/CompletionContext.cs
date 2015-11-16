@@ -90,7 +90,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (HasSession)
             {
                 //if the selection is fully selected, commit the current session 
-                if (currentSession.SelectedCompletionSet.SelectionStatus.IsSelected)
+                if (currentSession.SelectedCompletionSet.SelectionStatus.IsSelected || currentSession.SelectedCompletionSet.SelectionStatus.IsUnique)
                 {
                     if (currentSession.SelectedCompletionSet.Moniker == CompletionSource.Moniker)
                     {

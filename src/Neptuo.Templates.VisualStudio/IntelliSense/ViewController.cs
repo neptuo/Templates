@@ -86,15 +86,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             // On text input, filter out completion.
             if (!typedChar.Equals(Char.MinValue))
             {
-                // If there is session, update filter.
-                if (completionContext.HasSession) 
-                    completionContext.TryFilter();
-
-                // If some interesting char was typed, start session. Or try commit?
                 if (completionContext.IsStartToken())
                     completionContext.TryStartSession();
                 else if (completionContext.IsCommitToken())
                     completionContext.TryCommit();
+                else if (completionContext.HasSession)
+                    completionContext.TryFilter();
 
                 return VSConstants.S_OK;
             }
