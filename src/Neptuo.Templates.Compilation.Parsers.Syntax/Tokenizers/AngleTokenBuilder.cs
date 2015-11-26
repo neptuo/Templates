@@ -337,7 +337,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             context.CreateToken(AngleTokenType.AttributeOpenValue);
 
             context.Decorator.Next();
-            IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, '"');
+            IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, '"', '\r', '\n');
             context.Result.AddRange(attributeValue);
             context.Decorator.ResetCurrentPosition(1);
             context.Decorator.ResetCurrentInfo();
