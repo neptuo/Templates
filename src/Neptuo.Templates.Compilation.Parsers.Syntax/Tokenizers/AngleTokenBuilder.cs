@@ -185,7 +185,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     else
                     {
                         new TokenFactory(context.Result.Last()).WithError("Missing close brace '>'.");
-                        return false;
+                        return true;
                     }
                 }
             }
