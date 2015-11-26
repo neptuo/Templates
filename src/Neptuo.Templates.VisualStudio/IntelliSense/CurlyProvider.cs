@@ -50,7 +50,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             {
                 result.AddRange(tokenNames
                     .Where(n => currentToken.Type == CurlyTokenType.OpenBrace || n.StartsWith(currentToken.Text))
-                    .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
+                    .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphExtensionMethod))
                 );
             }
             else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
@@ -58,6 +58,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 result.AddRange(attributeNames
                     .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
+                );
+            }
+            else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace)
+            {
+                result.AddRange(tokenNames
+                    .Select(n => CreateItem(currentToken, "{" + n, StandardGlyphGroup.GlyphExtensionMethod))
                 );
             }
 

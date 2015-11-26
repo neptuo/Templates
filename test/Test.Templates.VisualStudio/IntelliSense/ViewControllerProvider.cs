@@ -34,7 +34,11 @@ namespace Test.Templates.VisualStudio.IntelliSense
 
         protected override ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer)
         {
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(
+                () => new TokenTriggerProviderCollection()
+                    .Add(new AngleProvider(GlyphService))
+                    .Add(new CurlyProvider(GlyphService))
+            );
         }
     }
 }

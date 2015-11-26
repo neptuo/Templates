@@ -15,7 +15,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         /// </summary>
         /// <param name="provider">Provider to add.</param>
         /// <returns>Self (for fluency).</returns>
-        public TokenTriggerProviderCollection AddStart(ITokenTriggerProvider provider)
+        public TokenTriggerProviderCollection Add(ITokenTriggerProvider provider)
         {
             Ensure.NotNull(provider, "provider");
             providers.Add(provider);

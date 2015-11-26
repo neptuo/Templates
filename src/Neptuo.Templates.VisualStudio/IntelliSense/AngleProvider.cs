@@ -59,6 +59,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
                 );
             }
+            else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace)
+            {
+                result.AddRange(elementNames
+                    .Select(n => CreateItem(currentToken, "<" + n, StandardGlyphGroup.GlyphGroupClass))
+                );
+            }
 
             return result;
         }
