@@ -17,7 +17,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 AngleTokenType.NamePrefix,
                 AngleTokenType.NameSeparator,
                 AngleTokenType.Name,
-                AngleTokenType.SelfCloseBrace,
+                AngleTokenType.SelfClose,
                 AngleTokenType.CloseBrace,
                 
                 AngleTokenType.AttributeNamePrefix,
@@ -174,16 +174,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
             if (context.Decorator.Current == '/')
             {
+                context.CreateToken(AngleTokenType.SelfClose);
                 if (context.Decorator.Next())
                 {
                     if (context.Decorator.Current == '>')
                     {
-                        context.CreateToken(AngleTokenType.SelfCloseBrace);
+                    context.CreateToken(AngleTokenType.CloseBrace);
                         return true;
                     }
                     else
                     {
-                        context.CreateToken(AngleTokenType.Error);
+                        new TokenFactory(context.Result.Last()).WithError("Missing close brace '>'.");
                         return false;
                     }
                 }
@@ -199,12 +200,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
             else if (context.Decorator.Current == '<')
             {
-                context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
                 return ChooseNodeType(context);
             }
             else if (context.Decorator.Current == ContentReader.EndOfInput)
             {
-                context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
                 return true;
             }
 
@@ -218,7 +221,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 if (!HasAttributeValue(context.Decorator) && !HasCloseOpeningElement(context.Decorator))
                 {
                     context.Decorator.ResetCurrentPosition(context.Decorator.CurrentContent().Length);
-                    context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                    context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                    context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
                     return true;
                 }
 
@@ -273,7 +277,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         else
                         {
                             // TODO: Close
-                            context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                            context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                            context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
                             return true;
                         }
                     }
@@ -301,7 +306,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     else
                     {
                         // TODO: Close
-                        context.CreateVirtualToken(AngleTokenType.SelfCloseBrace, "/>");
+                        context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                        context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
                         return true;
                     }
                 }

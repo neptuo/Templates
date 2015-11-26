@@ -12,7 +12,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         public static readonly TokenType NamePrefix = new TokenType("Angle.NamePrefix");
         public static readonly TokenType NameSeparator = new TokenType("Angle.NameSeparator");
         public static readonly TokenType Name = new TokenType("Angle.Name");
-        public static readonly TokenType SelfCloseBrace = new TokenType("Angle.SelfCloseBrace");
+        public static readonly TokenType SelfClose = new TokenType("Angle.SelfClose");
         public static readonly TokenType CloseBrace = new TokenType("Angle.CloseBrace");
 
         public static readonly TokenType AttributeNamePrefix = new TokenType("Angle.AttributeNamePrefix");

@@ -93,7 +93,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 classifications[AngleTokenType.CloseBrace] = delimeter;
                 classifications[AngleTokenType.NameSeparator] = delimeter;
                 classifications[AngleTokenType.AttributeNameSeparator] = delimeter;
-                classifications[AngleTokenType.SelfCloseBrace] = delimeter;
+                classifications[AngleTokenType.SelfClose] = delimeter;
 
                 classifications[AngleTokenType.Name] = name;
                 classifications[AngleTokenType.NamePrefix] = name;

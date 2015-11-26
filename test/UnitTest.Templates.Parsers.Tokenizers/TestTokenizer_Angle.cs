@@ -17,13 +17,14 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty />"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", " ", "/>");
+            AssertTokens(tokens, "<", "empty", " ", "/", ">");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
-                AngleTokenType.SelfCloseBrace
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
             );
         }
 
@@ -32,7 +33,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty />"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "abc", ":", "empty", " ", "/>");
+            AssertTokens(tokens, "<", "abc", ":", "empty", " ", "/", ">");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
@@ -40,7 +41,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.NameSeparator,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
-                AngleTokenType.SelfCloseBrace
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
             );
         }
 
@@ -49,7 +51,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<abc:empty id=\"test\" class=\"btn-empty\" />"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "abc", ":", "empty", " ", "id", "=", "\"", "test", "\"", " ", "class", "=", "\"", "btn-empty", "\"", " ", "/>");
+            AssertTokens(tokens, "<", "abc", ":", "empty", " ", "id", "=", "\"", "test", "\"", " ", "class", "=", "\"", "btn-empty", "\"", " ", "/", ">");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace, 
@@ -69,7 +71,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.Literal, 
                 AngleTokenType.AttributeCloseValue, 
                 AngleTokenType.Whitespace, 
-                AngleTokenType.SelfCloseBrace
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
             );
         }
 
@@ -78,18 +81,20 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty /> Hello, World! <empty2 />"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", " ", "/>", " Hello, World! ", "<", "empty2", " ", "/>");
+            AssertTokens(tokens, "<", "empty", " ", "/", ">", " Hello, World! ", "<", "empty2", " ", "/", ">");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
-                AngleTokenType.SelfCloseBrace,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace,
                 AngleTokenType.Literal,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
-                AngleTokenType.SelfCloseBrace
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
             );
         }
 
@@ -112,12 +117,13 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", "/>");
+            AssertTokens(tokens, "<", "empty", "/", ">");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
-                AngleTokenType.SelfCloseBrace
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
             );
             AssertAreEqual(tokens[2].IsVirtual, true);
         }
@@ -127,19 +133,23 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty <empty2"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", " ", "/>", "<", "empty2", "/>");
+            AssertTokens(tokens, "<", "empty", " ", "/", ">", "<", "empty2", "/", ">");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
-                AngleTokenType.SelfCloseBrace,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
-                AngleTokenType.SelfCloseBrace
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
             );
             AssertAreEqual(tokens[3].IsVirtual, true);
-            AssertAreEqual(tokens[6].IsVirtual, true);
+            AssertAreEqual(tokens[4].IsVirtual, true);
+            AssertAreEqual(tokens[7].IsVirtual, true);
+            AssertAreEqual(tokens[8].IsVirtual, true);
         }
 
         [TestMethod]
@@ -147,13 +157,14 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty a b c"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", " ", "/>", "a b c");
+            AssertTokens(tokens, "<", "empty", " ", "/", ">", "a b c");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
                 AngleTokenType.Name,
                 AngleTokenType.Whitespace,
-                AngleTokenType.SelfCloseBrace,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace,
                 TokenType.Literal
             );
             AssertAreEqual(tokens[3].IsVirtual, true);
@@ -164,7 +175,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         {                                                                       //0123456789012345678
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty id class= />"), new FakeTokenizerContext());
 
-            AssertTokens(tokens, "<", "empty", " ", "id", "=", "\"", "\"", " ", "class", "=", "\"", "\"", " ", "/>");
+            AssertTokens(tokens, "<", "empty", " ", "id", "=", "\"", "\"", " ", "class", "=", "\"", "\"", " ", "/", ">");
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
@@ -180,7 +191,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.AttributeOpenValue,
                 AngleTokenType.AttributeCloseValue,
                 AngleTokenType.Whitespace,
-                AngleTokenType.SelfCloseBrace
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
             );
             AssertAreEqual(tokens[4].IsVirtual, true);
             AssertAreEqual(tokens[5].IsVirtual, true);
