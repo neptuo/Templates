@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
-    public class TokenTriggerProviderCollection : ITokenTriggerProvider
+    public class CompletionTriggerProviderCollection : ICompletionTriggerProvider
     {
-        private readonly List<ITokenTriggerProvider> providers = new List<ITokenTriggerProvider>();
+        private readonly List<ICompletionTriggerProvider> providers = new List<ICompletionTriggerProvider>();
 
         /// <summary>
         /// Adds <paramref name="provider"/> at the end of collection.
         /// </summary>
         /// <param name="provider">Provider to add.</param>
         /// <returns>Self (for fluency).</returns>
-        public TokenTriggerProviderCollection Add(ITokenTriggerProvider provider)
+        public CompletionTriggerProviderCollection Add(ICompletionTriggerProvider provider)
         {
             Ensure.NotNull(provider, "provider");
             providers.Add(provider);

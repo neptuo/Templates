@@ -16,16 +16,18 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly TokenContext tokenContext;
         private readonly ITextView textView;
         private readonly ICompletionBroker completionBroker;
+        private readonly IAutomaticCompletionProvider automaticCompletionProvider;
 
         private readonly List<TokenType> startTokens;
         private readonly List<TokenType> commitTokens;
         private ICompletionSession currentSession;
 
-        public CompletionContext(TokenContext tokenContext, ITokenTriggerProvider triggerProvider, ITextView textView, ICompletionBroker completionBroker)
+        public CompletionContext(TokenContext tokenContext, ICompletionTriggerProvider triggerProvider, IAutomaticCompletionProvider automaticCompletionProvider, ITextView textView, ICompletionBroker completionBroker)
         {
             this.tokenContext = tokenContext;
             this.startTokens = triggerProvider.GetStartTriggers().Select(t => t.Type).ToList();
             this.commitTokens = triggerProvider.GetCommitTriggers().Select(t => t.Type).ToList();
+            this.automaticCompletionProvider = automaticCompletionProvider;
             this.textView = textView;
             this.completionBroker = completionBroker;
         }
@@ -134,6 +136,53 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             get { return currentSession != null && !currentSession.IsDismissed; }
         }
 
+        public bool TryInsertAutomaticContent()
+        {
+            Token currentToken = FindCurrentToken();
+            if (currentToken == null)
+                return false;
+
+            IAutomaticCompletion completion;
+            if (automaticCompletionProvider.TryGet(currentToken, RelativePosition.Start(), out completion))
+            {
+                using (ITextEdit textEdit = textView.TextBuffer.CreateEdit())
+                {
+                    int position = currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length + completion.InsertPosition.Value;
+                    textEdit.Insert(position, completion.Text);
+                    textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position + completion.Text.Length + completion.CursorPosition.Value));
+                    textEdit.Apply();
+                    TryStartSession();
+                }
+            }
+            else if (currentToken.Text == "=")
+            {
+                using (ITextEdit textEdit = textView.TextBuffer.CreateEdit())
+                {
+                    int position = currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length;
+                    textEdit.Insert(position, "\"\"");
+                    textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position));
+                    textEdit.Apply();
+                    TryStartSession();
+                }
+
+                return true;
+            }
+            else if (currentToken.Text == "/")
+            {
+                using (ITextEdit textEdit = textView.TextBuffer.CreateEdit())
+                {
+                    int position = currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length;
+                    textEdit.Insert(position, ">");
+                    textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position + 1));
+                    textEdit.Apply();
+                    TryDismiss();
+                }
+
+                return true;
+            }
+
+            return false;
+        }
 
 
         public enum CommitResult

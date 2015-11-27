@@ -20,7 +20,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         private readonly List<ITokenTrigger> triggers;
         private readonly ITextBuffer textBuffer;
 
-        public CompletionSource(TokenContext tokenContext, ICompletionProvider completionProvider, ITokenTriggerProvider triggerProvider, ITextBuffer textBuffer)
+        public CompletionSource(TokenContext tokenContext, ICompletionProvider completionProvider, ICompletionTriggerProvider triggerProvider, ITextBuffer textBuffer)
         {
             this.textBuffer = textBuffer;
             this.completionProvider = completionProvider;

@@ -32,13 +32,18 @@ namespace Test.Templates.VisualStudio.IntelliSense
             return new TokenizerFactory().Create();
         }
 
-        protected override ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer)
+        protected override ICompletionTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer)
         {
             return textBuffer.Properties.GetOrCreateSingletonProperty(
-                () => new TokenTriggerProviderCollection()
+                () => new CompletionTriggerProviderCollection()
                     .Add(new AngleProvider(GlyphService))
                     .Add(new CurlyProvider(GlyphService))
             );
+        }
+
+        protected override IAutomaticCompletionProvider CreateAutomaticCompletionProvider(ITextBuffer textBuffer)
+        {
+            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
         }
     }
 }

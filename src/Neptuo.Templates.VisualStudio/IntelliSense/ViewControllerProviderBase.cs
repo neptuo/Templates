@@ -37,6 +37,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(
                 tokenContext,
                 CreateTokenTriggerProvider(textBuffer), 
+                CreateAutomaticCompletionProvider(textBuffer),
                 textViewAdapter, 
                 textView, 
                 CompletionBroker, 
@@ -46,6 +47,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         protected abstract ITokenizer CreateTokenizer();
 
-        protected abstract ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer);
+        protected abstract ICompletionTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer);
+
+        protected abstract IAutomaticCompletionProvider CreateAutomaticCompletionProvider(ITextBuffer textBuffer);
     }
 }

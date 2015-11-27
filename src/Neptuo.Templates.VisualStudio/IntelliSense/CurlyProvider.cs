@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     /// <summary>
-    /// 'Curly' implementation of <see cref="ITokenTriggerProvider"/> and <see cref="ICompletionProvider"/>.
+    /// 'Curly' implementation of <see cref="ICompletionTriggerProvider"/> and <see cref="ICompletionProvider"/>.
     /// </summary>
-    public class CurlyProvider : ITokenTriggerProvider, ICompletionProvider, ITokenClassificationProvider
+    public class CurlyProvider : ICompletionTriggerProvider, ICompletionProvider, IAutomaticCompletionProvider, ITokenClassificationProvider
     {
         private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
@@ -25,6 +25,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             Ensure.NotNull(glyphService, "glyphService");
             this.glyphService = glyphService;
         }
+
+        #region Completions
 
         public IEnumerable<ITokenTrigger> GetStartTriggers()
         {
@@ -60,7 +62,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
                 );
             }
-            else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace)
+            else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeOpenValue)
             {
                 result.AddRange(tokenNames
                     .Select(n => CreateItem(currentToken, "{" + n, StandardGlyphGroup.GlyphExtensionMethod))
@@ -78,6 +80,26 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 glyphService.GetGlyph(glyphGroup, glyphItem)
             );
         }
+
+        #endregion
+
+        #region AutomaticCompletions
+
+        public bool TryGet(Token currentToken, RelativePosition cursorPosition, out IAutomaticCompletion completion)
+        {
+            if (currentToken.Type == CurlyTokenType.OpenBrace)
+            {
+                completion = new DefaultAutomaticCompletion("}", RelativePosition.Start(), new RelativePosition(-1));
+                return true;
+            }
+
+            completion = null;
+            return false;
+        }
+
+        #endregion
+
+        #region Classification
 
         public bool TryGet(TokenType tokenType, out string classificationName)
         {
@@ -97,5 +119,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
             return classifications.TryGetValue(tokenType, out classificationName);
         }
+
+        #endregion
     }
 }

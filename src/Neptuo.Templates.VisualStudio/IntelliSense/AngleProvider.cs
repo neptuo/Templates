@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     /// <summary>
-    /// 'Angle' implementation of <see cref="ITokenTriggerProvider"/> and <see cref="ICompletionProvider"/>.
+    /// 'Angle' implementation of <see cref="ICompletionTriggerProvider"/> and <see cref="ICompletionProvider"/>.
     /// </summary>
-    public class AngleProvider : ITokenTriggerProvider, ICompletionProvider, ITokenClassificationProvider
+    public class AngleProvider : ICompletionTriggerProvider, ICompletionProvider, ITokenClassificationProvider
     {
         private readonly List<string> elementNames = new List<string>() { "Literal" };
         private readonly List<string> attributeNames = new List<string>() { "Text" };

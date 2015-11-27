@@ -21,9 +21,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
 
-        public ViewController(TokenContext tokenContext, ITokenTriggerProvider triggerProvider, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
+        public ViewController(TokenContext tokenContext, ICompletionTriggerProvider triggerProvider, IAutomaticCompletionProvider automaticCompletionProvider, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
         {
-            this.completionContext = new CompletionContext(tokenContext, triggerProvider, textView, completionBroker);
+            this.completionContext = new CompletionContext(tokenContext, triggerProvider, automaticCompletionProvider, textView, completionBroker);
             this.textView = textView;
             this.serviceProvider = serviceProvider;
 
@@ -86,12 +86,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             // On text input, filter out completion.
             if (!typedChar.Equals(Char.MinValue))
             {
-                if (completionContext.IsStartToken())
-                    completionContext.TryStartSession();
-                else if (completionContext.IsCommitToken())
-                    completionContext.TryCommit();
-                else if (completionContext.HasSession)
-                    completionContext.TryFilter();
+                if (!completionContext.TryInsertAutomaticContent())
+                {
+                    if (completionContext.IsStartToken())
+                        completionContext.TryStartSession();
+                    else if (completionContext.IsCommitToken())
+                        completionContext.TryCommit();
+                    else if (completionContext.HasSession)
+                        completionContext.TryFilter();
+                }
 
                 return VSConstants.S_OK;
             }

@@ -9,7 +9,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
     /// <summary>
     /// Completion start and commit token triggers provider.
     /// </summary>
-    public interface ITokenTriggerProvider
+    public interface ICompletionTriggerProvider
     {
         /// <summary>
         /// Returns the enumeration of token triggers for starting completion.

@@ -50,13 +50,17 @@
     <Compile Include="Classifications\ITokenClassificationProvider.cs" />
     <Compile Include="Classifications\TokenClassificationProviderCollection.cs" />
     <Compile Include="Completions\CompletionProviderCollection.cs" />
+    <Compile Include="Completions\DefaultAutomaticCompletion.cs" />
     <Compile Include="Completions\DefaultCompletion.cs" />
     <Compile Include="Completions\DefaultTokenTrigger.cs" />
+    <Compile Include="Completions\IAutomaticCompletion.cs" />
+    <Compile Include="Completions\IAutomaticCompletionProvider.cs" />
     <Compile Include="Completions\ICompletion.cs" />
     <Compile Include="Completions\ICompletionProvider.cs" />
     <Compile Include="Completions\ITokenTrigger.cs" />
-    <Compile Include="Completions\ITokenTriggerProvider.cs" />
-    <Compile Include="Completions\TokenTriggerProviderCollection.cs" />
+    <Compile Include="Completions\ICompletionTriggerProvider.cs" />
+    <Compile Include="Completions\CompletionTriggerProviderCollection.cs" />
+    <Compile Include="Completions\RelativePosition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

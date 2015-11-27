@@ -28,6 +28,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
         protected abstract ICompletionProvider CreateCompletionProvider(ITextBuffer textBuffer);
 
-        protected abstract ITokenTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer);
+        protected abstract ICompletionTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer);
     }
 }
