@@ -85,9 +85,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         #region AutomaticCompletions
 
-        public bool TryGet(Token currentToken, RelativePosition cursorPosition, out IAutomaticCompletion completion)
+        public bool TryGet(TokenCursor cursor, RelativePosition cursorPosition, out IAutomaticCompletion completion)
         {
-            if (currentToken.Type == CurlyTokenType.OpenBrace)
+            if (cursor.Current.Type == CurlyTokenType.OpenBrace && !(cursor.HasNext() && cursor.Next().Current.Type == CurlyTokenType.CloseBrace))
             {
                 completion = new DefaultAutomaticCompletion("}", RelativePosition.Start(), new RelativePosition(-1));
                 return true;

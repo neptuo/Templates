@@ -34,11 +34,27 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         private Token FindCurrentToken()
         {
-            IReadOnlyList<Token> tokens = tokenContext.Tokens;
+            int index;
+            return FindCurrentToken(out index);
+        }
 
+        private Token FindCurrentToken(out int index)
+        {
             SnapshotPoint cursorPosition = textView.Caret.Position.BufferPosition;
-            Token currentToken = tokens.FirstOrDefault(t => t.TextSpan.StartIndex <= cursorPosition && t.TextSpan.StartIndex + t.TextSpan.Length >= cursorPosition);
-            return currentToken;
+
+            IReadOnlyList<Token> tokens = tokenContext.Tokens;
+            for (int i = 0; i < tokens.Count; i++)
+            {
+                Token token = tokens[i];
+                if(token.TextSpan.StartIndex <= cursorPosition && token.TextSpan.StartIndex + token.TextSpan.Length >= cursorPosition)
+                {
+                    index = i;
+                    return token;
+                }
+            }
+
+            index = -1;
+            return null;
         }
 
         public bool IsStartToken()
@@ -138,12 +154,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         public bool TryInsertAutomaticContent()
         {
-            Token currentToken = FindCurrentToken();
+            int index;
+            Token currentToken = FindCurrentToken(out index);
             if (currentToken == null)
                 return false;
 
             IAutomaticCompletion completion;
-            if (automaticCompletionProvider.TryGet(currentToken, RelativePosition.Start(), out completion))
+            if (automaticCompletionProvider.TryGet(new TokenCursor(tokenContext.Tokens, index), RelativePosition.Start(), out completion))
             {
                 using (ITextEdit textEdit = textView.TextBuffer.CreateEdit())
                 {
