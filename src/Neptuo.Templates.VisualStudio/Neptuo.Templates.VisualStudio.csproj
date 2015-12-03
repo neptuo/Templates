@@ -83,6 +83,7 @@
     <Compile Include="IntelliSense\ViewController.cs" />
     <Compile Include="IntelliSense\Completions\CompletionSource.cs" />
     <Compile Include="IntelliSense\ViewControllerProviderBase.cs" />
+    <Compile Include="IntelliSense\_TokenCursorExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
