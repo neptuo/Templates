@@ -130,7 +130,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 return false;
             }
 
-            throw Ensure.Exception.NotImplemented();
+            context
+                .CreateToken(AngleTokenType.Literal)
+                .WithError("Not supported '<' in text. Encode it as HTML entity or complete tag.");
+
+            return false;
         }
 
         private bool ReadElementName(InternalContext context)

@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Classifications\ITokenClassificationProvider.cs" />
     <Compile Include="Classifications\TokenClassificationProviderCollection.cs" />
+    <Compile Include="Completions\AutomaticCompletionProviderCollection.cs" />
     <Compile Include="Completions\CompletionProviderCollection.cs" />
     <Compile Include="Completions\DefaultAutomaticCompletion.cs" />
     <Compile Include="Completions\DefaultCompletion.cs" />

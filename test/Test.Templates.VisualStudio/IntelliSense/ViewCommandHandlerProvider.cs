@@ -22,7 +22,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
     [Name(ContentType.TextValue)]
     [ContentType(ContentType.TextValue)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    internal class ViewControllerProvider : ViewControllerProviderBase, IVsTextViewCreationListener
+    internal class ViewCommandHandlerProvider : ViewCommandHandlerProviderBase, IVsTextViewCreationListener
     {
         [Import]
         public IGlyphService GlyphService { get; set; }
@@ -43,7 +43,11 @@ namespace Test.Templates.VisualStudio.IntelliSense
 
         protected override IAutomaticCompletionProvider CreateAutomaticCompletionProvider(ITextBuffer textBuffer)
         {
-            return textBuffer.Properties.GetOrCreateSingletonProperty(() => new CurlyProvider(GlyphService));
+            return textBuffer.Properties.GetOrCreateSingletonProperty(
+                () => new AutomaticCompletionProviderCollection()
+                    .Add(new AngleProvider(GlyphService))
+                    .Add(new CurlyProvider(GlyphService))
+            );
         }
     }
 }

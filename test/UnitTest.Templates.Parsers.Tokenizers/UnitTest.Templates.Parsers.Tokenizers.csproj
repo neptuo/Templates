@@ -63,6 +63,7 @@
     <Compile Include="TestTokenizer_Angle.cs" />
     <Compile Include="TestBase.cs" />
     <Compile Include="TestTokenizerBase.cs" />
+    <Compile Include="TestTokenizer_Mixed.cs" />
     <Compile Include="_Fakes\FakeTokenizerContext.cs" />
     <Compile Include="IO\TestStringReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

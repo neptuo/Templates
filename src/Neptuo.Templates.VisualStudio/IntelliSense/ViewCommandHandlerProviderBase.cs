@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    public abstract class ViewControllerProviderBase : IVsTextViewCreationListener
+    public abstract class ViewCommandHandlerProviderBase : IVsTextViewCreationListener
     {
         [Import]
         internal IVsEditorAdaptersFactoryService AdapterService { get; set; }
@@ -34,13 +34,17 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
             TextContext textContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TextContext(textBuffer));
             TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, CreateTokenizer()));
-            textView.Properties.GetOrCreateSingletonProperty(() => new ViewController(
-                tokenContext,
-                CreateTokenTriggerProvider(textBuffer), 
-                CreateAutomaticCompletionProvider(textBuffer),
+
+            ViewCommandHandler viewController = textView.Properties.GetOrCreateSingletonProperty(() => new ViewCommandHandler(
+                new CompletionContext(
+                    tokenContext, 
+                    CreateTokenTriggerProvider(textBuffer), 
+                    CreateAutomaticCompletionProvider(textBuffer), 
+                    textView, 
+                    CompletionBroker
+                ),
                 textViewAdapter, 
                 textView, 
-                CompletionBroker, 
                 ServiceProvider
             ));
         }

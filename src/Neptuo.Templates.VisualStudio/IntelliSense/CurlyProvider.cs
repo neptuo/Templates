@@ -87,10 +87,14 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         public bool TryGet(TokenCursor cursor, RelativePosition cursorPosition, out IAutomaticCompletion completion)
         {
-            if (cursor.Current.Type == CurlyTokenType.OpenBrace && !(cursor.HasNext() && cursor.Next().Current.Type == CurlyTokenType.CloseBrace))
+            if (cursor.Current.Type == CurlyTokenType.OpenBrace)
             {
-                completion = new DefaultAutomaticCompletion("}", RelativePosition.Start(), new RelativePosition(-1));
-                return true;
+                TokenCursor nextCursor;
+                if (cursor.TryNext(out nextCursor) && (nextCursor.Current.Type != CurlyTokenType.CloseBrace || nextCursor.Current.IsVirtual))
+                {
+                    completion = new DefaultAutomaticCompletion("}", RelativePosition.Start(), new RelativePosition(-1));
+                    return true;
+                }
             }
 
             completion = null;

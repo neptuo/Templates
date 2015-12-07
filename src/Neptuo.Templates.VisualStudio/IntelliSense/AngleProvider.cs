@@ -13,7 +13,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     /// <summary>
     /// 'Angle' implementation of <see cref="ICompletionTriggerProvider"/> and <see cref="ICompletionProvider"/>.
     /// </summary>
-    public class AngleProvider : ICompletionTriggerProvider, ICompletionProvider, ITokenClassificationProvider
+    public class AngleProvider : ICompletionTriggerProvider, ICompletionProvider, IAutomaticCompletionProvider, ITokenClassificationProvider
     {
         private readonly List<string> elementNames = new List<string>() { "Literal" };
         private readonly List<string> attributeNames = new List<string>() { "Text" };
@@ -25,6 +25,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             Ensure.NotNull(glyphService, "glyphService");
             this.glyphService = glyphService;
         }
+
+        #region Completions
 
         public IEnumerable<ITokenTrigger> GetStartTriggers()
         {
@@ -78,6 +80,44 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             );
         }
 
+        #endregion
+
+        #region AutomaticCompletions
+
+        public bool TryGet(TokenCursor cursor, RelativePosition cursorPosition, out IAutomaticCompletion completion)
+        {
+            if (cursor.Current.Type == AngleTokenType.AttributeValueSeparator)
+            {
+                TokenCursor nextCursor;
+                if (cursor.TryNext(out nextCursor) && IsNotOfTypeOrIsVirtual(nextCursor, AngleTokenType.AttributeOpenValue))
+                {
+                    completion = new DefaultAutomaticCompletion("\"\"", RelativePosition.Start(), new RelativePosition(-1));
+                    return true;
+                }
+            }
+            else if (cursor.Current.Type == AngleTokenType.SelfClose)
+            {
+                TokenCursor nextCursor;
+                if (cursor.TryNext(out nextCursor) && IsNotOfTypeOrIsVirtual(nextCursor, AngleTokenType.CloseBrace))
+                {
+                    completion = new DefaultAutomaticCompletion(">", RelativePosition.Start(), RelativePosition.Start());
+                    return true;
+                }
+            }
+
+            completion = null;
+            return false;
+        }
+
+        private bool IsNotOfTypeOrIsVirtual(TokenCursor cursor, TokenType type)
+        {
+            return cursor.Current.Type != type || cursor.Current.IsVirtual;
+        }
+
+        #endregion
+
+        #region Classification
+
         private const string delimeter = "HTML Tag Delimiter";
         private const string name = "HTML Element Name";
         private const string attributeName = "HTML Attribute Name";
@@ -112,5 +152,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
             return classifications.TryGetValue(tokenType, out classificationName);
         }
+
+        #endregion
     }
 }

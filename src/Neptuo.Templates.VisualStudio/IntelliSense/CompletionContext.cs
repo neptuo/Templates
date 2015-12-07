@@ -162,40 +162,16 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             IAutomaticCompletion completion;
             if (automaticCompletionProvider.TryGet(new TokenCursor(tokenContext.Tokens, index), RelativePosition.Start(), out completion))
             {
+                int position = currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length + completion.InsertPosition.Value;
                 using (ITextEdit textEdit = textView.TextBuffer.CreateEdit())
                 {
-                    int position = currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length + completion.InsertPosition.Value;
                     textEdit.Insert(position, completion.Text);
-                    textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position + completion.Text.Length + completion.CursorPosition.Value));
                     textEdit.Apply();
-                    TryStartSession();
-                }
-            }
-            else if (currentToken.Text == "=")
-            {
-                using (ITextEdit textEdit = textView.TextBuffer.CreateEdit())
-                {
-                    int position = currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length;
-                    textEdit.Insert(position, "\"\"");
-                    textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position));
-                    textEdit.Apply();
-                    TryStartSession();
                 }
 
-                return true;
-            }
-            else if (currentToken.Text == "/")
-            {
-                using (ITextEdit textEdit = textView.TextBuffer.CreateEdit())
-                {
-                    int position = currentToken.TextSpan.StartIndex + currentToken.TextSpan.Length;
-                    textEdit.Insert(position, ">");
-                    textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position + 1));
-                    textEdit.Apply();
-                    TryDismiss();
-                }
-
-                return true;
+                textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position + completion.Text.Length + completion.CursorPosition.Value));
+                if (!TryStartSession())
+                    TryFilter();
             }
 
             return false;

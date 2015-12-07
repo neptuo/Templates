@@ -14,20 +14,20 @@ using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    internal class ViewController : IOleCommandTarget
+    internal class ViewCommandHandler : IOleCommandTarget
     {
         private readonly CompletionContext completionContext;
         private readonly IOleCommandTarget nextController;
         private readonly ITextView textView;
         private readonly SVsServiceProvider serviceProvider;
 
-        public ViewController(TokenContext tokenContext, ICompletionTriggerProvider triggerProvider, IAutomaticCompletionProvider automaticCompletionProvider, IVsTextView textViewAdapter, ITextView textView, ICompletionBroker completionBroker, SVsServiceProvider serviceProvider)
+        public ViewCommandHandler(CompletionContext completionContext, IVsTextView textViewAdapter, ITextView textView, SVsServiceProvider serviceProvider)
         {
-            this.completionContext = new CompletionContext(tokenContext, triggerProvider, automaticCompletionProvider, textView, completionBroker);
+            this.completionContext = completionContext;
             this.textView = textView;
             this.serviceProvider = serviceProvider;
 
-            //add the command to the command chain
+            // Add the command to the command chain.
             textViewAdapter.AddCommandFilter(this, out nextController);
         }
 
