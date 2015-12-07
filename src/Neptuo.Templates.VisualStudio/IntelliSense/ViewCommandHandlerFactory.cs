@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
+using Neptuo.Activators;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
@@ -15,7 +16,8 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    public abstract class ViewCommandHandlerProviderBase : IVsTextViewCreationListener
+    [Export(typeof(ViewCommandHandlerFactory))]
+    public class ViewCommandHandlerFactory
     {
         [Import]
         internal IVsEditorAdaptersFactoryService AdapterService { get; set; }
@@ -24,7 +26,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         [Import]
         internal SVsServiceProvider ServiceProvider { get; set; }
 
-        public void VsTextViewCreated(IVsTextView textViewAdapter)
+        public void Attach(IVsTextView textViewAdapter, ITokenizerFactory tokenizerFactory, ICompletionTriggerProviderFactory tokenTriggerProviderFactory, IAutomaticCompletionProviderFactory automaticCompletionProviderFactory)
         {
             ITextView textView = AdapterService.GetWpfTextView(textViewAdapter);
             if (textView == null)
@@ -33,26 +35,20 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             ITextBuffer textBuffer = textView.TextBuffer;
 
             TextContext textContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TextContext(textBuffer));
-            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, CreateTokenizer()));
+            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, tokenizerFactory.Create(textBuffer)));
 
             ViewCommandHandler viewController = textView.Properties.GetOrCreateSingletonProperty(() => new ViewCommandHandler(
                 new CompletionContext(
-                    tokenContext, 
-                    CreateTokenTriggerProvider(textBuffer), 
-                    CreateAutomaticCompletionProvider(textBuffer), 
-                    textView, 
+                    tokenContext,
+                    tokenTriggerProviderFactory.Create(textBuffer),
+                    automaticCompletionProviderFactory.Create(textBuffer),
+                    textView,
                     CompletionBroker
                 ),
-                textViewAdapter, 
-                textView, 
+                textViewAdapter,
+                textView,
                 ServiceProvider
             ));
         }
-
-        protected abstract ITokenizer CreateTokenizer();
-
-        protected abstract ICompletionTriggerProvider CreateTokenTriggerProvider(ITextBuffer textBuffer);
-
-        protected abstract IAutomaticCompletionProvider CreateAutomaticCompletionProvider(ITextBuffer textBuffer);
     }
 }

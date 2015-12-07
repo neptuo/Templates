@@ -15,10 +15,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
             where T : ITag
         {
             TextContext textContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TextContext(textBuffer));
-            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, CreateTokenizer()));
+            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, CreateTokenizer(textBuffer)));
             return (ITagger<T>)textBuffer.Properties.GetOrCreateSingletonProperty(() => new ErrorTagger(tokenContext, textBuffer));
         }
 
-        protected abstract ITokenizer CreateTokenizer();
+        protected abstract ITokenizer CreateTokenizer(ITextBuffer textBuffer);
     }
 }

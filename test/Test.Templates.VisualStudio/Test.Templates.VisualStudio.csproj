@@ -68,8 +68,9 @@
     <Compile Include="IntelliSense\Classifications\ClassifierProvider.cs" />
     <Compile Include="IntelliSense\Classifications\ErrorTaggerProvider.cs" />
     <Compile Include="IntelliSense\Completions\CompletionSourceProvider.cs" />
+    <Compile Include="IntelliSense\CompletionTriggerProviderFactory.cs" />
+    <Compile Include="IntelliSense\EditorService.cs" />
     <Compile Include="IntelliSense\TokenizerFactory.cs" />
-    <Compile Include="IntelliSense\ViewCommandHandlerProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Temporals\xJsTextOleHandler.cs" />
   </ItemGroup>

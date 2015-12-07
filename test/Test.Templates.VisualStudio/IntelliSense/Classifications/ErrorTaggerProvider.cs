@@ -18,9 +18,9 @@ namespace Test.Templates.VisualStudio.IntelliSense.Classifications
     [TagType(typeof(ErrorTag))]
     internal class ErrorTaggerProvider : ErrorTaggerProviderBase
     {
-        protected override ITokenizer CreateTokenizer()
+        protected override ITokenizer CreateTokenizer(ITextBuffer textBuffer)
         {
-            return new TokenizerFactory().Create();
+            return new TokenizerFactory().Create(textBuffer);
         }
     }
 }

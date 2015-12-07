@@ -27,9 +27,9 @@ namespace Test.Templates.VisualStudio.IntelliSense.Completions
         [Import]
         public IGlyphService GlyphService { get; set; }
 
-        protected override ITokenizer CreateTokenizer()
+        protected override ITokenizer CreateTokenizer(ITextBuffer textBuffer)
         {
-            return new TokenizerFactory().Create();
+            return new TokenizerFactory().Create(textBuffer);
         }
 
         protected override ICompletionProvider CreateCompletionProvider(ITextBuffer textBuffer)
