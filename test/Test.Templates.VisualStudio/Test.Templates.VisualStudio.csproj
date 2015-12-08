@@ -64,8 +64,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ContentType.cs" />
-    <Compile Include="IntelliSense\EditorService.cs" />
+    <Compile Include="NtContentType.cs" />
+    <Compile Include="IntelliSense\NtEditorService.cs" />
     <Compile Include="IntelliSense\TokenizerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="_Temporals\xJsTextOleHandler.cs" />

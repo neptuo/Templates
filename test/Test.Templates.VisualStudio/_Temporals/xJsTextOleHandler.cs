@@ -34,7 +34,7 @@ namespace Test.Templates.VisualStudio.Completions
             if (textView.Properties.ContainsProperty("JsCommandFilter"))
                 return;
 
-            if (!subjectBuffers.Any(b => b.ContentType.IsOfType(ContentType.TextValue)))
+            if (!subjectBuffers.Any(b => b.ContentType.IsOfType(NtContentType.TextValue)))
                 return;
 
             var adapter = EditorAdaptersFactoryService.GetViewAdapter(textView);

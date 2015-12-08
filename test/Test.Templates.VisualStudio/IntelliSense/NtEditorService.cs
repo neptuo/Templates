@@ -23,10 +23,10 @@ namespace Test.Templates.VisualStudio.IntelliSense
     [Export(typeof(IClassifierProvider))]
     [Export(typeof(ITaggerProvider))]
     [TagType(typeof(ErrorTag))]
-    [Name(ContentType.TextValue)]
-    [ContentType(ContentType.TextValue)]
+    [Name(NtContentType.TextValue)]
+    [ContentType(NtContentType.TextValue)]
     [TextViewRole(PredefinedTextViewRoles.Interactive)]
-    public class EditorService : IVsTextViewCreationListener, ICompletionSourceProvider, IClassifierProvider, ITaggerProvider
+    public class NtEditorService : IVsTextViewCreationListener, ICompletionSourceProvider, IClassifierProvider, ITaggerProvider
     {
         [Import]
         internal ViewCommandHandlerFactory ViewCommandHandlerFactory { get; set; }

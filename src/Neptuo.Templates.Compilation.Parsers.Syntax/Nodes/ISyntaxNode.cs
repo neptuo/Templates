@@ -7,10 +7,30 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
+    /// <summary>
+    /// The item of the syntax tree.
+    /// </summary>
     public interface ISyntaxNode
     {
+        /// <summary>
+        /// Enumerates the all contained tokens.
+        /// </summary>
+        /// <returns>The enumeration of the all contained tokens.</returns>
         IEnumerable<Token> GetTokens();
+
+        /// <summary>
+        /// Gets the parent node.
+        /// </summary>
+        ISyntaxNode Parent { get; }
+
+        /// <summary>
+        /// Gets list of the line leading trivia.
+        /// </summary>
         IList<Token> LeadingTrivia { get; }
+
+        /// <summary>
+        /// Gets list of the line trailing trivia.
+        /// </summary>
         IList<Token> TrailingTrivia { get; }
     }
 }

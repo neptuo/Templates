@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace Test.Templates.VisualStudio
 {
-    public class ContentType
+    public class NtContentType
     {
         public const string TextValue = "ntemplate";
 
         [Export(typeof(ContentTypeDefinition))]
         [Name(TextValue)]
         [BaseDefinition("code")]
-        public ContentType ContentTypeDefinition { get; set; }
+        public NtContentType ContentTypeDefinition { get; set; }
 
         [Export(typeof(FileExtensionToContentTypeDefinition))]
         [FileExtension(".nt")]
