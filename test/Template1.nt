@@ -1,8 +1,8 @@
  aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
-asd klas dajslkd askld asd
- fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" />
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
 f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
-dasd as
+dasd as 
 d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
  dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
 

@@ -48,6 +48,18 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             {
                 IList<Token> tokens = context.TokenizerContext.TokenizePartial(context.Decorator, '<', '>');
                 context.Result.AddRange(tokens);
+
+                if (tokens.Count == 0)
+                {
+                    if (context.Decorator.Current == '>')
+                    {
+                        context
+                            .CreateToken(AngleTokenType.Literal)
+                            .WithError("Not supported '>' in text. Encode it as HTML entity.");
+
+                        context.Decorator.Next();
+                    }
+                }
             }
 
             if (context.Decorator.Current == '<')

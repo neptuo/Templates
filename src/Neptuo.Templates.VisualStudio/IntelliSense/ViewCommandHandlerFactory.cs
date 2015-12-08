@@ -26,29 +26,66 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         [Import]
         internal SVsServiceProvider ServiceProvider { get; set; }
 
-        public void Attach(IVsTextView textViewAdapter, ITokenizerFactory tokenizerFactory, ICompletionTriggerProviderFactory tokenTriggerProviderFactory, IAutomaticCompletionProviderFactory automaticCompletionProviderFactory)
+        private bool TryGetTextView(IVsTextView textViewAdapter, out ITextView textView)
         {
-            ITextView textView = AdapterService.GetWpfTextView(textViewAdapter);
-            if (textView == null)
-                return;
+            textView = AdapterService.GetWpfTextView(textViewAdapter);
+            return textView != null;
+        }
 
-            ITextBuffer textBuffer = textView.TextBuffer;
+        public bool TryGetTextBuffer(IVsTextView textViewAdapter, out ITextBuffer textBuffer)
+        {
+            ITextView textView;
+            if (TryGetTextView(textViewAdapter, out textView))
+            {
+                textBuffer = textView.TextBuffer;
+                return true;
+            }
 
-            TextContext textContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TextContext(textBuffer));
-            TokenContext tokenContext = textBuffer.Properties.GetOrCreateSingletonProperty(() => new TokenContext(textContext, tokenizerFactory.Create(textBuffer)));
+            textBuffer = null;
+            return false;
+        }
 
-            ViewCommandHandler viewController = textView.Properties.GetOrCreateSingletonProperty(() => new ViewCommandHandler(
-                new CompletionContext(
-                    tokenContext,
-                    tokenTriggerProviderFactory.Create(textBuffer),
-                    automaticCompletionProviderFactory.Create(textBuffer),
-                    textView,
-                    CompletionBroker
-                ),
-                textViewAdapter,
-                textView,
-                ServiceProvider
-            ));
+        public bool TryGet(IVsTextView textViewAdapter, out IViewCommandHandler viewCommandHandler)
+        {
+            ITextView textView;
+            if (TryGetTextView(textViewAdapter, out textView))
+                return textView.Properties.TryGetProperty(typeof(ViewCommandHandler), out viewCommandHandler);
+
+            viewCommandHandler = null;
+            return false;
+        }
+
+        public IViewCommandHandler Create(IVsTextView textViewAdapter, ITokenizer tokenizer, ICompletionTriggerProvider tokenTriggerProvider, IAutomaticCompletionProvider automaticCompletionProvider)
+        {
+            ITextView textView;
+            if (TryGetTextView(textViewAdapter, out textView))
+            {
+                return textView.Properties.GetOrCreateSingletonProperty(() =>
+                {
+                    ITextBuffer textBuffer = textView.TextBuffer;
+
+                    TextContext textContext = textBuffer.Properties
+                        .GetOrCreateSingletonProperty(() => new TextContext(textBuffer));
+
+                    TokenContext tokenContext = textBuffer.Properties
+                        .GetOrCreateSingletonProperty(() => new TokenContext(textContext, tokenizer));
+
+                    return new ViewCommandHandler(
+                        new CompletionContext(
+                            tokenContext,
+                            tokenTriggerProvider,
+                            automaticCompletionProvider,
+                            textView,
+                            CompletionBroker
+                        ),
+                        textViewAdapter,
+                        textView,
+                        ServiceProvider
+                    );
+                });
+            }
+
+            throw Ensure.Exception.NotSupported("Unnable to attach view command handler without ITextView.");
         }
     }
 }

@@ -14,7 +14,7 @@ using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
-    internal class ViewCommandHandler : IOleCommandTarget
+    internal class ViewCommandHandler : IViewCommandHandler, IOleCommandTarget
     {
         private readonly CompletionContext completionContext;
         private readonly IOleCommandTarget nextController;

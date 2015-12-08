@@ -65,10 +65,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContentType.cs" />
-    <Compile Include="IntelliSense\Classifications\ClassifierProvider.cs" />
-    <Compile Include="IntelliSense\Classifications\ErrorTaggerProvider.cs" />
-    <Compile Include="IntelliSense\Completions\CompletionSourceProvider.cs" />
-    <Compile Include="IntelliSense\CompletionTriggerProviderFactory.cs" />
     <Compile Include="IntelliSense\EditorService.cs" />
     <Compile Include="IntelliSense\TokenizerFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -107,6 +103,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
