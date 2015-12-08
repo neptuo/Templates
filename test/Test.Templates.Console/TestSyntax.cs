@@ -119,9 +119,9 @@ namespace Test.Templates
 
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
-                 .Add<SyntaxNodeCollection>(new CollectionCodeObjectBuilder(codeObjectBuilders))
+                 .Add<SyntaxCollection>(new CollectionCodeObjectBuilder(codeObjectBuilders))
                  .Add<LiteralSyntax>(new TextCodeObjectBuilder())
-                 .Add<CurlySyntaxNodes>(new CurlyCodeObjectBuilder(bindingDescriptor));
+                 .Add<CurlySyntax>(new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
             codePropertyBuilders

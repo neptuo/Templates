@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
-    public class CollectionCodeObjectBuilder : CodeObjectBuilderBase<SyntaxNodeCollection>
+    public class CollectionCodeObjectBuilder : CodeObjectBuilderBase<SyntaxCollection>
     {
         private readonly ICodeObjectBuilder itemBuilder;
 
@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             this.itemBuilder = itemBuilder;
         }
 
-        protected override IEnumerable<ICodeObject> TryBuild(SyntaxNodeCollection node, ICodeObjectBuilderContext context)
+        protected override IEnumerable<ICodeObject> TryBuild(SyntaxCollection node, ICodeObjectBuilderContext context)
         {
             bool isOk = true;
             CodeObjectCollection result = new CodeObjectCollection();

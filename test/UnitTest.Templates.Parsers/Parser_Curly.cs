@@ -31,9 +31,9 @@ namespace UnitTest.Templates.Parsers
 
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
-                 .Add(typeof(SyntaxNodeCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
+                 .Add(typeof(SyntaxCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
                  .Add(typeof(LiteralSyntax), new TextCodeObjectBuilder())
-                 .Add(typeof(CurlySyntaxNodes), new CurlyCodeObjectBuilder(bindingDescriptor));
+                 .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
             codePropertyBuilders

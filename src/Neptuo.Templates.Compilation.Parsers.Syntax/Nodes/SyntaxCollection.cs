@@ -7,18 +7,18 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class SyntaxNodeCollection : SyntaxNodeBase<SyntaxNodeCollection>
+    public class SyntaxCollection : SyntaxNodeBase<SyntaxCollection>
     {
         public IList<ISyntaxNode> Nodes { get; private set; }
 
-        public SyntaxNodeCollection()
+        public SyntaxCollection()
         {
             Nodes = new List<ISyntaxNode>();
         }
 
-        protected override SyntaxNodeCollection CloneInternal()
+        protected override SyntaxCollection CloneInternal()
         {
-            SyntaxNodeCollection result = new SyntaxNodeCollection();
+            SyntaxCollection result = new SyntaxCollection();
 
             foreach (ISyntaxNode node in Nodes)
             {

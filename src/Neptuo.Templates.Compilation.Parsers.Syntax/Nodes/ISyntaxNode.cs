@@ -19,11 +19,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         IEnumerable<Token> GetTokens();
 
         /// <summary>
-        /// Gets the parent node.
-        /// </summary>
-        ISyntaxNode Parent { get; }
-
-        /// <summary>
         /// Gets list of the line leading trivia.
         /// </summary>
         IList<Token> LeadingTrivia { get; }

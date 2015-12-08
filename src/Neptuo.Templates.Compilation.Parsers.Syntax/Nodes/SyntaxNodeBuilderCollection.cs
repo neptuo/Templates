@@ -21,7 +21,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
         public ISyntaxNode Create(IList<Token> tokens)
         {
-            SyntaxNodeCollection result = new SyntaxNodeCollection();
+            SyntaxCollection result = new SyntaxCollection();
             for (int i = 0; i < tokens.Count; )
             {
                 Token token = tokens[i];

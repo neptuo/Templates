@@ -24,10 +24,10 @@ namespace UnitTest.Templates.Parsers
 
             ISyntaxNode node = builder.Create(tokens);
 
-            SyntaxNodeCollection collection = node as SyntaxNodeCollection;
+            SyntaxCollection collection = node as SyntaxCollection;
             if (collection != null)
             {
-                CurlySyntaxNodes curly = collection.Nodes[1] as CurlySyntaxNodes;
+                CurlySyntax curly = collection.Nodes[1] as CurlySyntax;
                 if (curly != null)
                 {
                     AssertAreEqual(curly.Name.NameToken.Text, "Binding");

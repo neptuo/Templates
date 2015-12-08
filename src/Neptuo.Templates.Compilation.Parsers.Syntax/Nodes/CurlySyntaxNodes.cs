@@ -7,21 +7,21 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class CurlySyntaxNodes : SyntaxNodeBase<CurlySyntaxNodes>
+    public class CurlySyntax : SyntaxNodeBase<CurlySyntax>
     {
         public Token OpenToken { get; set; }
         public CurlyNameSyntax Name { get; set; }
         public Token CloseToken { get; set; }
         public IList<CurlyAttributeSyntax> Attributes { get; set; }
 
-        public CurlySyntaxNodes()
+        public CurlySyntax()
         {
             Attributes = new List<CurlyAttributeSyntax>();
         }
 
-        protected override CurlySyntaxNodes CloneInternal()
+        protected override CurlySyntax CloneInternal()
         {
-            CurlySyntaxNodes result = new CurlySyntaxNodes
+            CurlySyntax result = new CurlySyntax
             {
                 OpenToken = OpenToken,
                 Name = Name != null ? Name.Clone() : null,
