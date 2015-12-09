@@ -113,6 +113,15 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
+        public void Curly_InValidTokenMissingOneCloseWhenTwoRequired()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path={Binding}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "{", "Binding", "}", "}");
+            AssertAreEqual(tokens[7].IsVirtual, true);
+        }
+
+        [TestMethod]
         public void Curly_InValidTokenWithInValidName()
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());

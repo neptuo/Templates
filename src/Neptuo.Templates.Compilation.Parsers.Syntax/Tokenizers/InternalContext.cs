@@ -10,14 +10,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
     internal class InternalContext
     {
         public ContentDecorator Decorator { get; private set; }
-        public ITokenBuilderContext TokenizerContext { get; private set; }
+        public ITokenBuilderContext BuilderContext { get; private set; }
         public List<Token> Result { get; private set; }
 
         public InternalContext(List<Token> result, ContentDecorator decorator, ITokenBuilderContext context)
         {
             Result = result;
             Decorator = decorator;
-            TokenizerContext = context;
+            BuilderContext = context;
         }
 
         public TokenFactory CreateToken(TokenType tokenType, int stepsToGoBack = -1, bool isSkipped = false)

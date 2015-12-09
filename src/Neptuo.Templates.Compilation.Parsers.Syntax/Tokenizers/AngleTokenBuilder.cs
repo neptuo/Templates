@@ -46,7 +46,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         {
             while (context.Decorator.Current != '<' && context.Decorator.Current != ContentReader.EndOfInput)
             {
-                IList<Token> tokens = context.TokenizerContext.TokenizePartial(context.Decorator, '<', '>');
+                IList<Token> tokens = context.BuilderContext.TokenizePartial(context.Decorator, '<', '>');
                 context.Result.AddRange(tokens);
 
                 if (tokens.Count == 0)
@@ -359,7 +359,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             context.CreateToken(AngleTokenType.AttributeOpenValue);
 
             context.Decorator.Next();
-            IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, '"', '\r', '\n');
+            IList<Token> attributeValue = context.BuilderContext.TokenizePartial(context.Decorator, '"', '\r', '\n');
             context.Result.AddRange(attributeValue);
             context.Decorator.ResetCurrentPosition(1);
             context.Decorator.ResetCurrentInfo();

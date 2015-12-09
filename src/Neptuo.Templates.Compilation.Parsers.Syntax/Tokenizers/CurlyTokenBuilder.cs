@@ -41,7 +41,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         {
             if (context.Decorator.Current != '{')
             {
-                IList<Token> tokens = context.TokenizerContext.TokenizePartial(context.Decorator, '{', '}');
+                IList<Token> tokens = context.BuilderContext.TokenizePartial(context.Decorator, '{', '}');
                 context.Result.AddRange(tokens);
             }
 
@@ -214,13 +214,38 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 // Use as attribute value.
                 if (context.Decorator.Current == '{')
                 {
-                    // Parse as inner token.
-                    context.CreateToken(CurlyTokenType.OpenBrace);
-                    ReadTokenName(context, true);
+                    // Check if current line contains '}' + 1 to '{'.
+                    // Read inner token until (excluding) last '}'.
+                    int countToRead;
+                    if (TryGetNextIndexOfInnerTokenCloseBrace(context.Decorator, out countToRead))
+                    {
+                        // Parse as inner token.
+                        IContentReader partialReader = ContentReader.Partial(context.Decorator, c => --countToRead < 0);
+                        ContentDecorator partialDecorator = new ContentDecorator(
+                            partialReader,
+                            context.Decorator.Position,
+                            context.Decorator.LineIndex,
+                            context.Decorator.ColumnIndex
+                        );
+
+                        IList<Token> innerTokens = Tokenize(partialDecorator, context.BuilderContext);
+                        context.Result.AddRange(innerTokens);
+
+                        context.Decorator.ResetCurrentPosition(1);
+                        context.Decorator.ResetCurrentInfo();
+                        context.Decorator.Next();
+                    }
+                    else
+                    {
+                        throw Ensure.Exception.NotSupported();
+                    }
+
+                    //context.CreateToken(CurlyTokenType.OpenBrace);
+                    //ReadTokenName(context, true);
                 }
                 else
                 {
-                    IList<Token> attributeValue = context.TokenizerContext.TokenizePartial(context.Decorator, ',', '}');
+                    IList<Token> attributeValue = context.BuilderContext.TokenizePartial(context.Decorator, ',', '}');
                     context.Result.AddRange(attributeValue);
                     context.Decorator.ResetCurrentPosition(1);
                     context.Decorator.ResetCurrentInfo();
@@ -289,6 +314,41 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
 
             return result;
+        }
+
+        private bool TryGetNextIndexOfInnerTokenCloseBrace(ContentDecorator decorator, out int lastCloseIndex)
+        {
+            int position = decorator.Position;
+
+            int openCount = 0;
+            lastCloseIndex = 0;
+            while (decorator.Next())
+            {
+                if (decorator.Current == '{')
+                    openCount++;
+
+                if (decorator.Current == '}')
+                {
+                    if (openCount == -1)
+                        break;
+
+                    lastCloseIndex = decorator.Position;
+                    openCount--;
+                }
+
+                if (decorator.Current == '\r' || decorator.Current == '\n')
+                    break;
+            }
+
+            decorator.ResetCurrentPositionToIndex(position);
+            if (lastCloseIndex == 0)
+            {
+                lastCloseIndex = -1;
+                return false;
+            }
+
+            lastCloseIndex -= (position - 1);
+            return true;
         }
 
         private bool IsValidIdentifier(string text)
