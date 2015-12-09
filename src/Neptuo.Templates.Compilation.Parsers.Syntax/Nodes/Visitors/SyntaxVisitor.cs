@@ -27,9 +27,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 
         private class SyntaxProcessor : ISyntaxNodeProcessor
         {
-
-
-            public void Process(ISyntaxNode node)
+            public void Process(ISyntaxNode node, ISyntaxNodeProcessor nextProcessor)
             {
                 throw new NotImplementedException();
             }
