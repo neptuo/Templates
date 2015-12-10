@@ -220,6 +220,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     if (TryGetNextIndexOfInnerTokenCloseBrace(context.Decorator, out countToRead))
                     {
                         // Parse as inner token.
+                        context.Decorator.ResetCurrentPosition(1);
+                        countToRead++;
                         IContentReader partialReader = ContentReader.Partial(context.Decorator, c => --countToRead < 0);
                         ContentDecorator partialDecorator = new ContentDecorator(
                             partialReader,
@@ -227,6 +229,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                             context.Decorator.LineIndex,
                             context.Decorator.ColumnIndex
                         );
+                        partialDecorator.Next();
 
                         IList<Token> innerTokens = Tokenize(partialDecorator, context.BuilderContext);
                         context.Result.AddRange(innerTokens);
@@ -329,24 +332,21 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                 if (decorator.Current == '}')
                 {
-                    if (openCount == -1)
-                        break;
-
                     lastCloseIndex = decorator.Position;
                     openCount--;
+
+                    if (openCount == -2)
+                        break;
                 }
 
                 if (decorator.Current == '\r' || decorator.Current == '\n')
                     break;
             }
 
-            decorator.ResetCurrentPositionToIndex(position);
-            if (lastCloseIndex == 0)
-            {
-                lastCloseIndex = -1;
-                return false;
-            }
+            if (openCount != -2)
+                lastCloseIndex--;
 
+            decorator.ResetCurrentPositionToIndex(position);
             lastCloseIndex -= (position - 1);
             return true;
         }

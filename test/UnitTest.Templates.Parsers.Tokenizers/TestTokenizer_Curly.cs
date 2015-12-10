@@ -113,15 +113,6 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Curly_InValidTokenMissingOneCloseWhenTwoRequired()
-        {
-            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path={Binding}"), new FakeTokenizerContext());
-
-            AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "{", "Binding", "}", "}");
-            AssertAreEqual(tokens[7].IsVirtual, true);
-        }
-
-        [TestMethod]
         public void Curly_InValidTokenWithInValidName()
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{1Binding}"), new FakeTokenizerContext());
@@ -148,6 +139,24 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter={StaticConverter IntToBool}}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "{", "StaticConverter", " ", "IntToBool", "}", "}");
+        }
+
+        [TestMethod]
+        public void Curly_InValidTokenMissingOneCloseWhenTwoRequired()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path={Binding}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "{", "Binding", "}", "}");
+            AssertAreEqual(tokens[7].IsVirtual, true);
+        }
+
+        [TestMethod]
+        public void Curly_InValidTokenMissingOneCloseWhenThreeRequired()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path={Binding Path={StaticResource Abc}}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "{", "Binding", " ", "Path", "=", "{", "StaticResource", " ", "Abc", "}", "}", "}");
+            AssertAreEqual(tokens[14].IsVirtual, true);
         }
 
         [TestMethod]
