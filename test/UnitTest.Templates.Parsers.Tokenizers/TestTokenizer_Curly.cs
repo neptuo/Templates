@@ -151,8 +151,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
-        public void Curly_InValidTokenMissingOneCloseWhenThreeRequired()
-        {
+        public void Curly_InValidTokenMissingOneCloseWhenThreeRequired()        //0         1         2         3         4
+        {                                                                       //0123456789012345678901234567890123456789012345678
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path={Binding Path={StaticResource Abc}}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "{", "Binding", " ", "Path", "=", "{", "StaticResource", " ", "Abc", "}", "}", "}");

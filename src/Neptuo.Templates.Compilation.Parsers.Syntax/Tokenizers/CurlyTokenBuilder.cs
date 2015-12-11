@@ -276,7 +276,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 // Use as default attribute or mark as error.
                 if (supportDefaultAttributes)
                 {
-                    context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
+                    if(context.Decorator.Current == ContentReader.EndOfInput)
+                        context.CreateToken(CurlyTokenType.DefaultAttributeValue);
+                    else
+                        context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
+
                     result = true;
                 }
                 else
