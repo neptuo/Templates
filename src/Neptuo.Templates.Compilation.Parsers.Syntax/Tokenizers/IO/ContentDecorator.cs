@@ -80,7 +80,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
             this.currentContent = new StringBuilder();
             this.currentReader = new Stack<IContentReader>();
             this.positionOffset = positionOffset;
-            currentStartIndex = positionOffset;
+            currentStartIndex = contentReader.Position + positionOffset;
             currentLineIndex = currentStartLineIndex = lineOffset;
             currentColumnIndex = currentStartColumnIndex = columnOffset;
             UpdateContentInfoState();

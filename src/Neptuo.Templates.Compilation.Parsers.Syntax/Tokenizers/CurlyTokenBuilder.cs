@@ -223,9 +223,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         context.Decorator.ResetCurrentPosition(1);
                         countToRead++;
                         IContentReader partialReader = ContentReader.Partial(context.Decorator, c => --countToRead < 0);
+                        // TODO: This makes problem, because Partial read also starts at X, but decorator with offset doubles it!
                         ContentDecorator partialDecorator = new ContentDecorator(
                             partialReader,
-                            context.Decorator.Position,
+                            0, //context.Decorator.Position,
                             context.Decorator.LineIndex,
                             context.Decorator.ColumnIndex
                         );
