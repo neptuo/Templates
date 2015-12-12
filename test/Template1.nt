@@ -7,7 +7,7 @@ d as das d as das <Literal Path="{TemplateBinding Path=ID}" />
  dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
 
 aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
-asd jkaskld ajsd a\sd as
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
 d as das dasd a
 sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
 
