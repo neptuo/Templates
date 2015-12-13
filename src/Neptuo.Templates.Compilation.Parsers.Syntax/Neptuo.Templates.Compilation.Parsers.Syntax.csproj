@@ -62,6 +62,8 @@
     <Compile Include="ICodeObjectBuilderContext.cs" />
     <Compile Include="ICodePropertyBuilder.cs" />
     <Compile Include="ICodePropertyBuilderContext.cs" />
+    <Compile Include="Nodes\AngleSyntaxNodeBuilder.cs" />
+    <Compile Include="Nodes\AngleSyntaxNodes.cs" />
     <Compile Include="Nodes\Visitors\EmptySyntaxNodeProcessor.cs" />
     <Compile Include="Nodes\Visitors\ISyntaxNodeProcessor.cs" />
     <Compile Include="Nodes\Visitors\ISyntaxNodeVisitor.cs" />
