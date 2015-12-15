@@ -84,6 +84,16 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
+        public void Curly_InValidMissingName()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "", "}");
+            AssertAreEqual(tokens[1].IsVirtual, true);
+            AssertAreEqual(tokens[1].HasError, true);
+        }
+
+        [TestMethod]
         public void Curly_InValidTokenWithDoubleOpenBrace()
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{{Binding"), new FakeTokenizerContext());

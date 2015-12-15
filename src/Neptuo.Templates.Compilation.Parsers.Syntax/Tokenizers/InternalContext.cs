@@ -51,13 +51,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             return new TokenFactory(token);
         }
 
-        public void CreateVirtualToken(TokenType tokenType, string text)
+        public TokenFactory CreateVirtualToken(TokenType tokenType, string text)
         {
-            Result.Add(new Token(tokenType, text)
+            Token token = new Token(tokenType, text)
             {
                 IsVirtual = true,
                 TextSpan = Decorator.CurrentContentInfo(0)
-            });
+            };
+            Result.Add(token);
+
+            return new TokenFactory(token);
         }
     }
 }
