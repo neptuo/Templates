@@ -200,5 +200,22 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertAreEqual(tokens[10].IsVirtual, true);
             AssertAreEqual(tokens[11].IsVirtual, true);
         }
+
+        [TestMethod]
+        public void Angle_UnfinishedTagWithSelfCloseButWithoutCloseBrace()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty /"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "empty", " ", "/", ">");
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
+            );
+            AssertAreEqual(tokens[4].IsVirtual, true);
+        }
     }
 }

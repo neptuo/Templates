@@ -195,7 +195,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 {
                     if (context.Decorator.Current == '>')
                     {
-                    context.CreateToken(AngleTokenType.CloseBrace);
+                        context.CreateToken(AngleTokenType.CloseBrace);
                         return true;
                     }
                     else
@@ -203,6 +203,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         new TokenFactory(context.Result.Last()).WithError("Missing close brace '>'.");
                         return true;
                     }
+                }
+                else
+                {
+                    context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
+                    return true;
                 }
             }
             else if (context.Decorator.Current == '>')
