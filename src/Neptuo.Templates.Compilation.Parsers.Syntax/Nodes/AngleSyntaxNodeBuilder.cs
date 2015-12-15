@@ -121,6 +121,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             attribute.AttributeOpenValueToken = reader.Current;
 
             reader.NextRequired();
+            // TODO: Must be used in try-get manner to support empty attribute value.
             attribute.Value = context.BuildNext(reader);
 
             reader.NextRequiredOfType(AngleTokenType.AttributeCloseValue);

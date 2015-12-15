@@ -60,7 +60,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             {
                 context
                     .CreateToken(CurlyTokenType.Literal, -1, true)
-                    .WithError("Not valid here.", true);
+                    .WithError("Not valid here.");
 
                 if (context.Decorator.Next())
                     return ReadTokenStart(context);
@@ -107,7 +107,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     // Use as error
                     context
                         .CreateToken(CurlyTokenType.Literal, 1, true)
-                        .WithError("Not valid here.", true);
+                        .WithError("Not valid here.");
                 }
 
                 context.Decorator.NextWhile(Char.IsWhiteSpace);
@@ -136,7 +136,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     // Use as error
                     context
                         .CreateToken(CurlyTokenType.Literal, 1, true)
-                        .WithError("Not valid here.", true);
+                        .WithError("Not valid here.");
                 }
 
                 // Close token.
@@ -160,7 +160,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             {
                 // Use as name and close token (virtually).
                 if (hasName)
-                    context.CreateToken(CurlyTokenType.AttributeName).WithError("Missing attribute value", true);
+                    context.CreateToken(CurlyTokenType.AttributeName).WithError("Missing attribute value");
                 else
                     context.CreateToken(CurlyTokenType.Name);
 
@@ -177,7 +177,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     context.Decorator.NextUntil(c => c == '{');
                     context
                         .CreateToken(CurlyTokenType.Literal, 1, true)
-                        .WithError("Not valid here.", true);
+                        .WithError("Not valid here.");
                 }
 
                 context.CreateToken(CurlyTokenType.OpenBrace);
@@ -208,7 +208,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     // Use as error.
                     context
                         .CreateToken(CurlyTokenType.Literal, 1, true)
-                        .WithError("Not valid here.", true);
+                        .WithError("Not valid here.");
                 }
 
                 // Use as attribute value.
@@ -267,7 +267,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                     // Try read next attribute.
                     if (!ReadTokenAttribute(context, false))
-                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.", true);
+                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.");
                 }
 
                 result = true;
@@ -301,7 +301,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         // Use as error.
                         context
                             .CreateToken(CurlyTokenType.Literal, 1, true)
-                            .WithError("Not valid here.", true);
+                            .WithError("Not valid here.");
                     }
                 }
 
@@ -317,7 +317,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                     // Try read next attribute.
                     if (!ReadTokenAttribute(context, supportDefaultAttributes))
-                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.", true);
+                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.");
                 }
             }
 

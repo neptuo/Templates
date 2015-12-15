@@ -36,7 +36,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             return this;
         }
 
-        public TokenFactory WithError(string errorMessage, bool isSkipped = false)
+        public TokenFactory WithError(string errorMessage, bool isSkipped = true)
         {
             token.Errors.Add(new DefaultErrorMessage(errorMessage));
             token.IsSkipped = isSkipped;

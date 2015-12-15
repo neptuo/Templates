@@ -298,6 +298,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                             return true;
                         }
                     }
+                    else
+                    {
+                        context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
+                        context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
+                        context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                        context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
+                        return true;
+                    }
                 }
                 else
                 {
