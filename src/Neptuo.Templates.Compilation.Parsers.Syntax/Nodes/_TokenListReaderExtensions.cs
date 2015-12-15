@@ -34,11 +34,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
         public static void CurrentRequiredOfType(this TokenListReader reader, TokenType tokenType)
         {
+            if (!IsCurrentOfType(reader, tokenType))
+                throw Ensure.Exception.NotSupported();
+        }
+
+        public static bool IsCurrentOfType(this TokenListReader reader, TokenType tokenType)
+        {
             Ensure.NotNull(reader, "reader");
             Ensure.NotNull(tokenType, "tokenType");
-            
-            if (reader.Current.Type != tokenType)
-                throw Ensure.Exception.NotSupported();
+            return reader.Current.Type == tokenType;
         }
     }
 }

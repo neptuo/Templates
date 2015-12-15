@@ -121,11 +121,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             attribute.AttributeOpenValueToken = reader.Current;
 
             reader.NextRequired();
-            // TODO: Must be used in try-get manner to support empty attribute value.
-            attribute.Value = context.BuildNext(reader);
+            if (reader.IsCurrentOfType(AngleTokenType.AttributeCloseValue))
+            {
+                attribute.AttributeCloseValueToken = reader.Current;
+            }
+            else
+            {
+                attribute.Value = context.BuildNext(reader);
 
-            reader.NextRequiredOfType(AngleTokenType.AttributeCloseValue);
-            attribute.AttributeCloseValueToken = reader.Current;
+                reader.NextRequiredOfType(AngleTokenType.AttributeCloseValue);
+                attribute.AttributeCloseValueToken = reader.Current;
+            }
 
             TryAppendTrailingTrivia(reader, attribute);
             BuildContent(reader, result, context);
