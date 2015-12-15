@@ -138,11 +138,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                         .CreateToken(CurlyTokenType.Literal, 1, true)
                         .WithError("Not valid here.");
                 }
-                else
+                else if (!hasName)
                 {
                     context
                         .CreateVirtualToken(CurlyTokenType.Name, "")
-                        .WithError("Missing curly token name.");
+                        .WithError("Missing curly token name.", false);
                 }
 
                 // Close token.

@@ -128,9 +128,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             attribute.ValueSeparatorToken = reader.Current;
 
             reader.NextRequired();
-            attribute.Value = context.BuildNext(reader);
-
-            reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
             {
                 TryAppendTrailingTrivia(reader, attribute);
@@ -144,13 +141,32 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 reader.NextRequiredOfType(CurlyTokenType.AttributeName);
                 BuildAttribute(reader, result, context);
             }
-            else if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue || reader.Current.Type == CurlyTokenType.Literal)
-            {
-                BuildDefaultAttribute(reader, result, context);
-            }
             else
             {
-                throw new NotImplementedException();
+                attribute.Value = context.BuildNext(reader);
+
+                reader.NextRequired();
+                if (reader.Current.Type == CurlyTokenType.CloseBrace)
+                {
+                    TryAppendTrailingTrivia(reader, attribute);
+                    BuildTokenClose(reader, result, context);
+                }
+                else if (reader.Current.Type == CurlyTokenType.AttributeSeparator)
+                {
+                    attribute.TrailingTrivia.Add(reader.Current);
+                    TryAppendTrailingTrivia(reader, attribute);
+
+                    reader.NextRequiredOfType(CurlyTokenType.AttributeName);
+                    BuildAttribute(reader, result, context);
+                }
+                else if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue || reader.Current.Type == CurlyTokenType.Literal)
+                {
+                    BuildDefaultAttribute(reader, result, context);
+                }
+                else
+                {
+                    throw new NotImplementedException();
+                }
             }
         }
 

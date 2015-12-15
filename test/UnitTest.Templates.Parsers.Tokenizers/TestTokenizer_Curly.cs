@@ -94,6 +94,14 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
+        public void Curly_ValidWithSpaceAfterName()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding }"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "}");
+        }
+
+        [TestMethod]
         public void Curly_InValidTokenWithDoubleOpenBrace()
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{{Binding"), new FakeTokenizerContext());
