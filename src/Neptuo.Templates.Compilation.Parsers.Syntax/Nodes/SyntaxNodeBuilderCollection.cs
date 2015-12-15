@@ -22,24 +22,23 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public ISyntaxNode Create(IList<Token> tokens)
         {
             SyntaxCollection result = new SyntaxCollection();
-            for (int i = 0; i < tokens.Count; )
+            TokenListReader reader = new TokenListReader(tokens, true);
+            while (reader.Next())
             {
-                Token token = tokens[i];
-                ISyntaxNode node = BuildNext(tokens, i);
-                i += node.GetTokens().Count();
+                Token token = reader.Current;
+                ISyntaxNode node = BuildNext(reader);
                 result.Nodes.Add(node);
             }
 
             return result;
         }
 
-        public ISyntaxNode BuildNext(IList<Token> tokens, int startIndex)
+        public ISyntaxNode BuildNext(TokenListReader reader)
         {
-            Token token = tokens[startIndex];
             ISyntaxNodeBuilder builder;
-            if (storage.TryGetValue(token.Type, out builder))
+            if (storage.TryGetValue(reader.Current.Type, out builder))
             {
-                ISyntaxNode node = builder.Build(tokens, startIndex, this);
+                ISyntaxNode node = builder.Build(reader, this);
                 return node;
             }
             else

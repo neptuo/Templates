@@ -9,13 +9,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     public class CurlySyntaxNodeBuilder : ISyntaxNodeBuilder
     {
-        public ISyntaxNode Build(IList<Token> tokens, int startIndex, ISyntaxNodeBuilderContext context)
+        public ISyntaxNode Build(TokenListReader reader, ISyntaxNodeBuilderContext context)
         {
             CurlySyntax result = new CurlySyntax();
 
-            TokenListReader reader = new TokenListReader(tokens, startIndex);
             Token token = reader.Current;
-
             while (token.Type == CurlyTokenType.Whitespace)
             {
                 result.LeadingTrivia.Add(token);
@@ -73,8 +71,49 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 BuildTokenClose(reader, result, context);
             else if (reader.Current.Type == CurlyTokenType.AttributeName)
                 BuildAttribute(reader, result, context);
+            else if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue || reader.Current.Type == CurlyTokenType.Literal)
+                BuildDefaultAttribute(reader, result, context);
             else
                 throw new NotImplementedException();
+        }
+
+        private void BuildDefaultAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
+        {
+            CyrlyDefaultAttributeSyntax attribute = new CyrlyDefaultAttributeSyntax()
+            {
+                Value = reader.Current
+            };
+            result.DefaultAttributes.Add(attribute);
+
+            reader.NextRequired();
+
+            //TODO: Partially copied from BuildAttribute.
+            if (reader.Current.Type == CurlyTokenType.CloseBrace)
+            {
+                TryAppendTrailingTrivia(reader, attribute);
+                BuildTokenClose(reader, result, context);
+            }
+            else if (reader.Current.Type == CurlyTokenType.AttributeSeparator)
+            {
+                attribute.TrailingTrivia.Add(reader.Current);
+                TryAppendTrailingTrivia(reader, attribute);
+
+                reader.NextRequired();
+                if (reader.Current.Type == CurlyTokenType.AttributeName)
+                    BuildAttribute(reader, result, context);
+                else if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue || reader.Current.Type == CurlyTokenType.Literal)
+                    BuildDefaultAttribute(reader, result, context);
+                else
+                    throw new NotImplementedException();
+            }
+            else if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue || reader.Current.Type == CurlyTokenType.Literal)
+            {
+                BuildDefaultAttribute(reader, result, context);
+            }
+            else
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private void BuildAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
@@ -89,10 +128,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             attribute.ValueSeparatorToken = reader.Current;
 
             reader.NextRequired();
-            attribute.Value = context.BuildNext(reader.Tokens, reader.Position);
-            if (attribute.Value != null)
-                reader.Next(attribute.Value.GetTokens().Count());
+            attribute.Value = context.BuildNext(reader);
 
+            reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
             {
                 TryAppendTrailingTrivia(reader, attribute);
@@ -105,6 +143,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
                 reader.NextRequiredOfType(CurlyTokenType.AttributeName);
                 BuildAttribute(reader, result, context);
+            }
+            else if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue || reader.Current.Type == CurlyTokenType.Literal)
+            {
+                BuildDefaultAttribute(reader, result, context);
             }
             else
             {

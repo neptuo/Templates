@@ -9,13 +9,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     public class AngleSyntaxNodeBuilder : ISyntaxNodeBuilder
     {
-        public ISyntaxNode Build(IList<Token> tokens, int startIndex, ISyntaxNodeBuilderContext context)
+        public ISyntaxNode Build(TokenListReader reader, ISyntaxNodeBuilderContext context)
         {
             AngleSyntax result = new AngleSyntax();
 
-            TokenListReader reader = new TokenListReader(tokens, startIndex);
             Token token = reader.Current;
-
             while (token.Type == AngleTokenType.Whitespace)
             {
                 result.LeadingTrivia.Add(token);
@@ -102,7 +100,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             reader.NextRequired();
             if (reader.Current.Type == AngleTokenType.SelfClose)
                 BuildSelfClose(reader, result, context);
-            else if (reader.Current.Type == AngleTokenType.AttributeName)
+            else if (reader.Current.Type == AngleTokenType.AttributeName || reader.Current.Type == AngleTokenType.AttributeNamePrefix)
                 BuildAttribute(reader, result, context);
             else
                 throw new NotImplementedException();
@@ -123,23 +121,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             attribute.AttributeOpenValueToken = reader.Current;
 
             reader.NextRequired();
-            attribute.Value = context.BuildNext(reader.Tokens, reader.Position);
-            if (attribute.Value != null)
-                reader.Next(attribute.Value.GetTokens().Count());
+            attribute.Value = context.BuildNext(reader);
 
-            reader.CurrentRequiredOfType(AngleTokenType.AttributeCloseValue);
+            reader.NextRequiredOfType(AngleTokenType.AttributeCloseValue);
             attribute.AttributeCloseValueToken = reader.Current;
 
             TryAppendTrailingTrivia(reader, attribute);
-            reader.NextRequired();
-            if (reader.Current.Type == AngleTokenType.SelfClose)
-            {
-                BuildSelfClose(reader, result, context);
-            }
-            else
-            {
-                throw new NotImplementedException();
-            }
+            BuildContent(reader, result, context);
         }
 
         private void BuildSelfClose(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)

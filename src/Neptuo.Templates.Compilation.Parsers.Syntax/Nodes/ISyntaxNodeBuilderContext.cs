@@ -9,6 +9,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     public interface ISyntaxNodeBuilderContext : ISyntaxNodeFactory
     {
-        ISyntaxNode BuildNext(IList<Token> tokens, int startIndex);
+        ISyntaxNode BuildNext(TokenListReader reader);
     }
 }

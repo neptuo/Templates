@@ -6,6 +6,8 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.Text.Tagging;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Microsoft.VisualStudio.Utilities;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense;
 using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
@@ -86,6 +88,30 @@ namespace Test.Templates.VisualStudio.IntelliSense
             );
         }
 
+        private SyntaxContext CreateSyntaxContext(ITextBuffer textBuffer)
+        {
+            ISyntaxNodeFactory builder = new SyntaxNodeBuilderCollection()
+                .Add(AngleTokenType.OpenBrace, new AngleSyntaxNodeBuilder())
+                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
+                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
+
+            return textBuffer.Properties.GetOrCreateSingletonProperty(
+                () =>
+                {
+                    SyntaxContext context = new SyntaxContext(
+                        textBuffer.Properties.GetProperty<TokenContext>(typeof(TokenContext)),
+                        builder
+                    );
+                    context.OnRootNodeChanged += OnSyntaxRootNodeChanged;
+                    return context;
+                }
+            );
+        }
+
+        private void OnSyntaxRootNodeChanged(SyntaxContext context)
+        {
+
+        }
 
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
@@ -113,6 +139,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
             ICompletionSource completionSource;
             if (!CompletionSourceProviderFactory.TryGet(textBuffer, out completionSource))
             {
+                CreateSyntaxContext(textBuffer);
                 Initialize();
                 completionSource = CompletionSourceProviderFactory.Create(
                     textBuffer, 

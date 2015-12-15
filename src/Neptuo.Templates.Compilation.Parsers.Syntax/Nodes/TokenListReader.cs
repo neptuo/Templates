@@ -11,6 +11,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
     {
         public IList<Token> Tokens { get; private set; }
 
+        public bool IsSkippedTokensSkipped { get; private set; }
+
         /// <summary>
         /// Current reader position/index.
         /// </summary>
@@ -30,10 +32,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        public TokenListReader(IList<Token> tokens, int startIndex = -1)
+        public TokenListReader(IList<Token> tokens, bool isSkippedTokensSkipped = true, int startIndex = -1)
         {
             Ensure.NotNull(tokens, "tokens");
             Tokens = tokens;
+            IsSkippedTokensSkipped = isSkippedTokensSkipped;
             Position = startIndex;
         }
 
@@ -47,7 +50,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             if(Position < Tokens.Count)
             {
                 Position++;
-                return Position < Tokens.Count;
+                return Position < Tokens.Count && (!IsSkippedTokensSkipped || !Current.IsSkipped || Next());
             }
 
             return false;

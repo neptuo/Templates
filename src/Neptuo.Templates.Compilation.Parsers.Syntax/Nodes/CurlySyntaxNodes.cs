@@ -12,10 +12,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public Token OpenToken { get; set; }
         public CurlyNameSyntax Name { get; set; }
         public Token CloseToken { get; set; }
+        public IList<CyrlyDefaultAttributeSyntax> DefaultAttributes { get; set; }
         public IList<CurlyAttributeSyntax> Attributes { get; set; }
 
         public CurlySyntax()
         {
+            DefaultAttributes = new List<CyrlyDefaultAttributeSyntax>();
             Attributes = new List<CurlyAttributeSyntax>();
         }
 
@@ -28,7 +30,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 CloseToken = CloseToken
             };
 
-            if (Attributes.Count > 0)
+            if (DefaultAttributes != null && DefaultAttributes.Count > 0)
+                result.DefaultAttributes.AddRange(DefaultAttributes.Select(da => da.Clone()));
+
+            if (Attributes != null && Attributes.Count > 0)
                 result.Attributes.AddRange(Attributes.Select(a => a.Clone()));
 
             return result;
@@ -44,7 +49,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             if (Name != null)
                 result.AddRange(Name.GetTokens());
 
-            if (Attributes.Count > 0)
+            if (DefaultAttributes != null && DefaultAttributes.Count > 0)
+                result.AddRange(DefaultAttributes.SelectMany(da => da.GetTokens()));
+
+            if (Attributes != null && Attributes.Count > 0)
                 result.AddRange(Attributes.SelectMany(a => a.GetTokens()));
 
             if (CloseToken != null)
@@ -84,6 +92,24 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 result.Add(NameToken);
 
             return result;
+        }
+    }
+
+    public class CyrlyDefaultAttributeSyntax : SyntaxNodeBase<CyrlyDefaultAttributeSyntax>
+    {
+        public Token Value { get; set; }
+
+        protected override CyrlyDefaultAttributeSyntax CloneInternal()
+        {
+            return new CyrlyDefaultAttributeSyntax()
+            {
+                Value = Value
+            };
+        }
+
+        protected override IEnumerable<Token> GetTokensInternal()
+        {
+            return new List<Token>() { Value };
         }
     }
 

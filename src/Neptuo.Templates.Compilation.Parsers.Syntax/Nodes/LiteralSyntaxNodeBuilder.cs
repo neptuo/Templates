@@ -9,14 +9,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     public class LiteralSyntaxNodeBuilder : ISyntaxNodeBuilder
     {
-        public ISyntaxNode Build(IList<Token> tokens, int startIndex, ISyntaxNodeBuilderContext context)
+        public ISyntaxNode Build(TokenListReader reader, ISyntaxNodeBuilderContext context)
         {
-            Token token = tokens[startIndex];
-            if (token.Type == TokenType.Literal)
+            if (reader.Current.Type == TokenType.Literal)
             {
                 return new LiteralSyntax
                 {
-                    TextToken = token
+                    TextToken = reader.Current
                 };
             }
 
