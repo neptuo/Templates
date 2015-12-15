@@ -13,7 +13,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public AngleNameSyntax Name { get; set; }
         public Token SelfCloseToken { get; set; }
         public Token CloseToken { get; set; }
-        public IList<CurlyAttributeSyntax> Attributes { get; set; }
+        public IList<AngleAttributeSyntax> Attributes { get; set; }
+
+        public AngleSyntax()
+        {
+            Attributes = new List<AngleAttributeSyntax>();
+        }
 
         protected override AngleSyntax CloneInternal()
         {
@@ -44,11 +49,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             if (Attributes.Count > 0)
                 result.AddRange(Attributes.SelectMany(a => a.GetTokens()));
 
-            if (CloseToken != null)
-                result.Add(CloseToken);
-
             if (SelfCloseToken != null)
                 result.Add(SelfCloseToken);
+
+            if (CloseToken != null)
+                result.Add(CloseToken);
 
             return result;
         }
