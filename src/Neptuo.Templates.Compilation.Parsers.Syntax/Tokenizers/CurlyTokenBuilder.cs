@@ -167,8 +167,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 // Use as name and close token (virtually).
                 if (hasName)
                     context.CreateToken(CurlyTokenType.AttributeName).WithError("Missing attribute value");
-                else
+                else if (context.Decorator.CurrentContent().Length > 0)
                     context.CreateToken(CurlyTokenType.Name);
+                else
+                    context.CreateVirtualToken(CurlyTokenType.Name, "").WithError("Missing curly token name.", false);
 
                 context.CreateVirtualToken(CurlyTokenType.CloseBrace, "}");
             }
@@ -273,7 +275,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                     // Try read next attribute.
                     if (!ReadTokenAttribute(context, false))
-                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.");
+                        new TokenFactory(context.Result.Last(t => t.Type == CurlyTokenType.AttributeSeparator)).WithError("Missing attribute definition.");
                 }
 
                 result = true;
@@ -283,12 +285,14 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 // Use as default attribute or mark as error.
                 if (supportDefaultAttributes)
                 {
-                    if(context.Decorator.Current == ContentReader.EndOfInput)
+                    int tokenCount = context.Result.Count;
+                    if (context.Decorator.Current == ContentReader.EndOfInput)
                         context.CreateToken(CurlyTokenType.DefaultAttributeValue);
                     else
                         context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
 
-                    result = true;
+                    // Attribute was added, result is ok, otherwise result is nok.
+                    result = tokenCount < context.Result.Count;
                 }
                 else
                 {
@@ -323,7 +327,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
                     // Try read next attribute.
                     if (!ReadTokenAttribute(context, supportDefaultAttributes))
-                        new TokenFactory(context.Result.Last()).WithError("Missing attribute definition.");
+                        new TokenFactory(context.Result.Last(t => t.Type == CurlyTokenType.AttributeSeparator)).WithError("Missing attribute definition.");
                 }
             }
 

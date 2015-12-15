@@ -94,6 +94,17 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
+        public void Curly_InValidMissingNameInsideAnotherToken()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID, Converter={}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "ID", ",", " ", "Converter", "=", "{", "", "}", "}");
+            AssertAreEqual(tokens[9].IsVirtual, true);
+            AssertAreEqual(tokens[9].HasError, true);
+            AssertAreEqual(tokens[10].IsVirtual, true);
+        }
+
+        [TestMethod]
         public void Curly_ValidWithSpaceAfterName()
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding }"), new FakeTokenizerContext());
@@ -184,6 +195,22 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "AA", ",", "}");
             AssertAreEqual(tokens[6].HasError, true);
+        }
+
+        [TestMethod]
+        public void Curly_InValidAttributeSeparatorAfterDefaultAttributeBeforeCloseBrace()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID,}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "ID", ",", "}");
+            AssertAreEqual(tokens[4].HasError, true);
+
+
+            tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding ID, }"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Binding", " ", "ID", ",", " ", "}");
+            AssertAreEqual(tokens[4].HasError, true);
+            AssertAreEqual(tokens[5].HasError, false);
         }
     }
 }
