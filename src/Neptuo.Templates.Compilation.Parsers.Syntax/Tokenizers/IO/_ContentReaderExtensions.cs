@@ -74,5 +74,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
             Ensure.NotNull(contentReader, "contentReader");
             return contentReader.Current == ContentReader.EndOfInput;
         }
+
+        /// <summary>
+        /// Returns <c>true</c> if <paramref name="IContentReader.Current"/> is contained in <paramref name="items"/>.
+        /// </summary>
+        /// <param name="items">The sequence of chars to test.</param>
+        /// <returns></returns>
+        public static bool IsCurrentContained(this IContentReader contentReader, params char[] items)
+        {
+            Ensure.NotNull(contentReader, "contentReader");
+            Ensure.NotNull(items, "items");
+            return items.Contains(contentReader.Current);
+        }
     }
 }

@@ -129,6 +129,26 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
+        public void Angle_UnfinishedTagWithPrefix()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<ui:empty"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "ui", ":", "empty", "/", ">");
+            AssertWithoutSkipped(tokens);
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.NamePrefix,
+                AngleTokenType.NameSeparator,
+                AngleTokenType.Name,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
+            );
+            AssertAreEqual(tokens[4].IsVirtual, true);
+            AssertAreEqual(tokens[5].IsVirtual, true);
+        }
+
+        [TestMethod]
         public void Angle_UnfinishedTagWithNextTag()
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty <empty2"), new FakeTokenizerContext());
@@ -207,6 +227,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<empty /"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "<", "empty", " ", "/", ">");
+            AssertWithoutSkipped(tokens);
             AssertTokenTypes(
                 tokens,
                 AngleTokenType.OpenBrace,
@@ -216,6 +237,27 @@ namespace UnitTest.Templates.Parsers.Tokenizers
                 AngleTokenType.CloseBrace
             );
             AssertAreEqual(tokens[4].IsVirtual, true);
+        }
+
+        [TestMethod]
+        public void Angle_UnfinishedTagNameAfterPrefix()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("<ui:"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "<", "ui", ":", "", "/", ">");
+            AssertWithoutSkipped(tokens);
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.NamePrefix,
+                AngleTokenType.NameSeparator,
+                AngleTokenType.Name,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace
+            );
+            AssertAreEqual(tokens[3].IsVirtual, true);
+            AssertAreEqual(tokens[4].IsVirtual, true);
+            AssertAreEqual(tokens[5].IsVirtual, true);
         }
     }
 }

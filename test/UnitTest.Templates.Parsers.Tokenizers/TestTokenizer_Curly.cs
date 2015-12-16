@@ -156,6 +156,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter=Default, ID}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "Default", ",", " ", "ID", "=", "", "}");
+            AssertWithoutError(tokens);
             AssertAreEqual(tokens[8].Type, CurlyTokenType.AttributeName);
             AssertAreEqual(tokens[9].IsVirtual, true);
             AssertAreEqual(tokens[10].IsVirtual, true);
@@ -168,6 +169,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Converter={StaticConverter IntToBool}}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Converter", "=", "{", "StaticConverter", " ", "IntToBool", "}", "}");
+            AssertWithoutError(tokens);
         }
 
         [TestMethod]
@@ -176,6 +178,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path={Binding}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "{", "Binding", "}", "}");
+            AssertWithoutError(tokens);
             AssertAreEqual(tokens[7].IsVirtual, true);
         }
 
@@ -185,6 +188,7 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding Path={Binding Path={StaticResource Abc}}"), new FakeTokenizerContext());
 
             AssertTokens(tokens, "{", "Binding", " ", "Path", "=", "{", "Binding", " ", "Path", "=", "{", "StaticResource", " ", "Abc", "}", "}", "}");
+            AssertWithoutError(tokens);
             AssertAreEqual(tokens[14].IsVirtual, true);
         }
 
@@ -211,6 +215,24 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertTokens(tokens, "{", "Binding", " ", "ID", ",", " ", "}");
             AssertAreEqual(tokens[4].HasError, true);
             AssertAreEqual(tokens[5].HasError, false);
+        }
+
+        [TestMethod]
+        public void Curly_ValidWithAttributeValueNotLetterOrDigit()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Source ~/Templates/Layout.nt}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Source", " ", "~/Templates/Layout.nt", "}");
+            AssertWithoutError(tokens);
+        }
+
+        [TestMethod]
+        public void Curly_ValidWithAttributeValueNotLetterOrDigitAndOtherAttributes()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Source ~/Templates/Layout.nt, Type=File}"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "{", "Source", " ", "~/Templates/Layout.nt", ",", " ", "Type", "=", "File", "}");
+            AssertWithoutError(tokens);
         }
     }
 }

@@ -75,6 +75,18 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             }
         }
 
+        protected void AssertWithoutError(IEnumerable<Token> tokens)
+        {
+            foreach (Token token in tokens)
+                AssertAreEqual(token.HasError, false);
+        }
+
+        protected void AssertWithoutSkipped(IEnumerable<Token> tokens)
+        {
+            foreach (Token token in tokens)
+                AssertAreEqual(token.IsSkipped, false);
+        }
+
         protected ITextSpan CreateContentInfo(int startIndex, int length)
         {
             return new DefaultTextSpan(startIndex, length);

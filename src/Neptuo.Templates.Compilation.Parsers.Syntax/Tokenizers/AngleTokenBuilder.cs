@@ -157,14 +157,32 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 {
                     context.CreateToken(AngleTokenType.NamePrefix, 1);
                     context.CreateToken(AngleTokenType.NameSeparator);
-                    if (context.Decorator.NextWhile(Char.IsLetterOrDigit))
+                    context.Decorator.NextWhile(Char.IsLetterOrDigit);
+                    if (Char.IsLetterOrDigit(context.Decorator.Current))
                     {
                         context.CreateToken(AngleTokenType.Name, 1);
                     }
+                    else if (context.Decorator.Current == ContentReader.EndOfInput)
+                    {
+                        context.CreateToken(AngleTokenType.Name);
+                    }
                     else
                     {
-                        context.CreateToken(AngleTokenType.Error);
-                        return false;
+                        if (context.Decorator.CurrentContent().Length == 0)
+                        {
+                            context
+                                .CreateVirtualToken(AngleTokenType.Name, "")
+                                .WithError("Missing element name after prefix");
+
+                            return ReadOpenElementContent(context);
+                        }
+                        else
+                        {
+                            context
+                                .CreateToken(AngleTokenType.Error);
+
+                            return false;
+                        }
                     }
                 }
                 else
@@ -219,17 +237,22 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             {
                 return ReadAttributeName(context);
             }
-            else if (context.Decorator.Current == '<')
+            else if (context.Decorator.IsCurrentContained('<', ContentReader.EndOfInput))
             {
-                context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
-                context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
-                return ChooseNodeType(context);
-            }
-            else if (context.Decorator.Current == ContentReader.EndOfInput)
-            {
-                context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
-                context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
-                return true;
+                context
+                    .CreateVirtualToken(AngleTokenType.SelfClose, "/")
+                    .WithError("Missing element close sequence '/>'.");
+
+                context
+                    .CreateVirtualToken(AngleTokenType.CloseBrace, ">")
+                    .WithError("Missing element close sequence '/>'.");
+
+                if (context.Decorator.Current == '<')
+                    return ChooseNodeType(context);
+                else if (context.Decorator.Current == ContentReader.EndOfInput)
+                    return true;
+                else
+                    throw Ensure.Exception.NotImplemented("Missing IF for input '{0}'.", context.Decorator.Current);
             }
 
             return false;

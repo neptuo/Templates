@@ -116,10 +116,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 hasName = true;
             }
 
-            if (Char.IsLetter(context.Decorator.Current))
+            if (hasName)
             {
-                // Attribute or default attribute.
-                ReadTokenAttribute(context);
+                if (Char.IsLetter(context.Decorator.Current))
+                {
+                    // Attribute or default attribute.
+                    ReadTokenAttribute(context);
+                }
+                else
+                {
+                    ReadDefaultAttribute(context);
+                }
             }
 
             if (context.Decorator.Current == '}')
@@ -142,7 +149,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 {
                     context
                         .CreateVirtualToken(CurlyTokenType.Name, "")
-                        .WithError("Missing curly token name.", false);
+                        .WithError("Missing curly token name.");
+
+                    hasName = true;
                 }
 
                 // Close token.
@@ -170,7 +179,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                 else if (context.Decorator.CurrentContent().Length > 0)
                     context.CreateToken(CurlyTokenType.Name);
                 else
-                    context.CreateVirtualToken(CurlyTokenType.Name, "").WithError("Missing curly token name.", false);
+                    context.CreateVirtualToken(CurlyTokenType.Name, "").WithError("Missing curly token name.");
 
                 context.CreateVirtualToken(CurlyTokenType.CloseBrace, "}");
             }
@@ -198,8 +207,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         /// </summary>
         private bool ReadTokenAttribute(InternalContext context, bool supportDefaultAttributes = true)
         {
-            List<char> specials = new List<char>() { '=', ',', '{', '}' };
-            context.Decorator.CurrentUntil(specials.Contains);
+            ReadUntilSpecials(context.Decorator);
             bool result = false;
 
             if (context.Decorator.Current == '=')
@@ -282,53 +290,65 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
             else
             {
-                // Use as default attribute or mark as error.
-                if (supportDefaultAttributes)
-                {
-                    int tokenCount = context.Result.Count;
-                    if (context.Decorator.Current == ContentReader.EndOfInput)
-                        context.CreateToken(CurlyTokenType.DefaultAttributeValue);
-                    else
-                        context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
+                result = ReadDefaultAttribute(context, supportDefaultAttributes, true);
+            }
 
-                    // Attribute was added, result is ok, otherwise result is nok.
-                    result = tokenCount < context.Result.Count;
-                }
+            return result;
+        }
+
+        private bool ReadDefaultAttribute(InternalContext context, bool supportDefaultAttributes = true, bool isPreread = false)
+        {
+            if (!isPreread)
+                ReadUntilSpecials(context.Decorator);
+
+            bool result = false;
+
+            // Use as default attribute or mark as error.
+            if (supportDefaultAttributes)
+            {
+                int tokenCount = context.Result.Count;
+                if (context.Decorator.Current == ContentReader.EndOfInput)
+                    context.CreateToken(CurlyTokenType.DefaultAttributeValue);
                 else
+                    context.CreateToken(CurlyTokenType.DefaultAttributeValue, 1);
+
+                // Attribute was added, result is ok, otherwise result is nok.
+                result = tokenCount < context.Result.Count;
+            }
+            else
+            {
+                string currentContent = context.Decorator.CurrentContent(1);
+                if (IsValidIdentifier(currentContent))
                 {
-                    string currentContent = context.Decorator.CurrentContent(1);
-                    if (IsValidIdentifier(currentContent))
-                    {
-                        // Use as attribute name.
-                        context.CreateToken(CurlyTokenType.AttributeName, 1);
-                        context.CreateVirtualToken(CurlyTokenType.AttributeValueSeparator, "=");
-                        context.CreateVirtualToken(CurlyTokenType.Literal, "");
-                        result = true;
-                        supportDefaultAttributes = false;
-                    }
-                    else if (currentContent != String.Empty)
-                    {
-                        // Use as error.
-                        context
-                            .CreateToken(CurlyTokenType.Literal, 1, true)
-                            .WithError("Not valid here.");
-                    }
+                    // Use as attribute name.
+                    context.CreateToken(CurlyTokenType.AttributeName, 1);
+                    context.CreateVirtualToken(CurlyTokenType.AttributeValueSeparator, "=");
+                    context.CreateVirtualToken(CurlyTokenType.Literal, "");
+                    result = true;
+                    supportDefaultAttributes = false;
                 }
-
-                // If separator was found.
-                if (context.Decorator.Current == ',')
+                else if (currentContent != String.Empty)
                 {
-                    // Use as separator.
-                    context.CreateToken(CurlyTokenType.AttributeSeparator);
-
-                    // While whitespaces, read..
-                    if (context.Decorator.NextWhile(Char.IsWhiteSpace))
-                        context.CreateToken(CurlyTokenType.Whitespace, 1);
-
-                    // Try read next attribute.
-                    if (!ReadTokenAttribute(context, supportDefaultAttributes))
-                        new TokenFactory(context.Result.Last(t => t.Type == CurlyTokenType.AttributeSeparator)).WithError("Missing attribute definition.");
+                    // Use as error.
+                    context
+                        .CreateToken(CurlyTokenType.Literal, 1, true)
+                        .WithError("Not valid here.");
                 }
+            }
+
+            // If separator was found.
+            if (context.Decorator.Current == ',')
+            {
+                // Use as separator.
+                context.CreateToken(CurlyTokenType.AttributeSeparator);
+
+                // While whitespaces, read..
+                if (context.Decorator.NextWhile(Char.IsWhiteSpace))
+                    context.CreateToken(CurlyTokenType.Whitespace, 1);
+
+                // Try read next attribute.
+                if (!ReadTokenAttribute(context, supportDefaultAttributes))
+                    new TokenFactory(context.Result.Last(t => t.Type == CurlyTokenType.AttributeSeparator)).WithError("Missing attribute definition.");
             }
 
             return result;
@@ -381,6 +401,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
             }
 
             return true;
+        }
+
+        private bool ReadUntilSpecials(ContentDecorator decorator)
+        {
+            List<char> specials = new List<char>() { '=', ',', '{', '}' };
+            return decorator.CurrentUntil(specials.Contains);
         }
     }
 }
