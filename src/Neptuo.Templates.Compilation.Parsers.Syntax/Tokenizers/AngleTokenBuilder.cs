@@ -158,7 +158,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     context.CreateToken(AngleTokenType.NamePrefix, 1);
                     context.CreateToken(AngleTokenType.NameSeparator);
                     context.Decorator.NextWhile(Char.IsLetterOrDigit);
-                    if (Char.IsLetterOrDigit(context.Decorator.Current))
+                    if (context.Decorator.Current == ' ')
                     {
                         context.CreateToken(AngleTokenType.Name, 1);
                     }
