@@ -164,7 +164,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     }
                     else if (context.Decorator.Current == ContentReader.EndOfInput)
                     {
-                        context.CreateToken(AngleTokenType.Name);
+                        if (context.Decorator.CurrentContent() == String.Empty)
+                            context.CreateVirtualToken(AngleTokenType.Name, "").WithError("Missing element name");
+                        else
+                            context.CreateToken(AngleTokenType.Name);
                     }
                     else
                     {
