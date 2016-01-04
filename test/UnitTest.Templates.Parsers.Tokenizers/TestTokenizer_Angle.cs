@@ -259,5 +259,51 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             AssertAreEqual(tokens[4].IsVirtual, true);
             AssertAreEqual(tokens[5].IsVirtual, true);
         }
+
+        [TestMethod]
+        public void Angle_RandomCharsInsteadOfName()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("aa <ui:\r\nbb"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "aa ", "<", "ui", ":", "", "\r\n", "/", ">", "bb");
+            AssertWithoutSkipped(tokens);
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.Literal,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.NamePrefix,
+                AngleTokenType.NameSeparator,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace,
+                AngleTokenType.Literal
+            );
+        }
+
+        [TestMethod]
+        public void Angle_RandomCharsInsteadOfAttributeValue()
+        {
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("aa <ui:Literal Path=\r\nbb"), new FakeTokenizerContext());
+
+            AssertTokens(tokens, "aa ", "<", "ui", ":", "Literal", " ", "Path", "=", "\"", "\"", "/", ">", "\r\nbb");
+            AssertWithoutSkipped(tokens);
+            AssertTokenTypes(
+                tokens,
+                AngleTokenType.Literal,
+                AngleTokenType.OpenBrace,
+                AngleTokenType.NamePrefix,
+                AngleTokenType.NameSeparator,
+                AngleTokenType.Name,
+                AngleTokenType.Whitespace,
+                AngleTokenType.AttributeName,
+                AngleTokenType.AttributeValueSeparator,
+                AngleTokenType.AttributeOpenValue,
+                AngleTokenType.AttributeCloseValue,
+                AngleTokenType.SelfClose,
+                AngleTokenType.CloseBrace,
+                AngleTokenType.Literal
+            );
+        }
     }
 }

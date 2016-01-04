@@ -158,9 +158,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     context.CreateToken(AngleTokenType.NamePrefix, 1);
                     context.CreateToken(AngleTokenType.NameSeparator);
                     context.Decorator.NextWhile(Char.IsLetterOrDigit);
-                    if (context.Decorator.Current == ' ')
+                    
+                    if (Char.IsWhiteSpace(context.Decorator.Current))
                     {
-                        context.CreateToken(AngleTokenType.Name, 1);
+                        if (context.Decorator.CurrentContent(1) == String.Empty)
+                            context.CreateVirtualToken(AngleTokenType.Name, "").WithError("Missing element name");
+                        else
+                            context.CreateToken(AngleTokenType.Name, 1);
                     }
                     else if (context.Decorator.Current == ContentReader.EndOfInput)
                     {
@@ -221,7 +225,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     }
                     else
                     {
-                        new TokenFactory(context.Result.Last()).WithError("Missing close brace '>'.");
+                        context.CreateVirtualToken(AngleTokenType.CloseBrace, ">").WithError("Missing close brace '>'.");
                         return true;
                     }
                 }
@@ -263,86 +267,50 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
 
         private bool ReadAttributeName(InternalContext context)
         {
-            if (context.Decorator.CurrentWhile(Char.IsLetterOrDigit))
+            context.Decorator.CurrentWhile(Char.IsLetterOrDigit);
+             
+            if (!HasAttributeValue(context.Decorator) && !HasCloseOpeningElement(context.Decorator))
             {
-                if (!HasAttributeValue(context.Decorator) && !HasCloseOpeningElement(context.Decorator))
-                {
-                    context.Decorator.ResetCurrentPosition(context.Decorator.CurrentContent().Length);
-                    context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
-                    context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
-                    return true;
-                }
+                context.Decorator.ResetCurrentPosition(context.Decorator.CurrentContent().Length);
+                context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
+                return true;
+            }
 
-                if (context.Decorator.Current == ':')
-                {
-                    context.CreateToken(AngleTokenType.AttributeNamePrefix, 1);
-                    context.CreateToken(AngleTokenType.AttributeNameSeparator);
-                    if (context.Decorator.NextWhile(Char.IsLetterOrDigit))
-                    {
-                        context.CreateToken(AngleTokenType.AttributeName, 1);
-                    }
-                    else
-                    {
-                        context.CreateToken(AngleTokenType.Error);
-                        return false;
-                    }
-                }
-                else
+            if (context.Decorator.Current == ':')
+            {
+                context.CreateToken(AngleTokenType.AttributeNamePrefix, 1);
+                context.CreateToken(AngleTokenType.AttributeNameSeparator);
+                if (context.Decorator.NextWhile(Char.IsLetterOrDigit))
                 {
                     context.CreateToken(AngleTokenType.AttributeName, 1);
                 }
-                
-                // TODO: Remove support for spaces before attribute value.
-                //if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
-                //    context.CreateToken(AngleTokenType.Whitespace, 1);
-
-                if (context.Decorator.Current == '=')
-                {
-                    context.CreateToken(AngleTokenType.AttributeValueSeparator);
-                    if (context.Decorator.Next())
-                    {
-                        // TODO: Remove support for spaces before attribute value.
-                        //if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
-                        //    context.CreateToken(AngleTokenType.Whitespace, 1);
-
-                        if (context.Decorator.Current == '"')
-                        {
-                            if (ReadAttributeValue(context))
-                            {
-                                context.Decorator.Next();
-                                return ReadOpenElementContent(context);
-                            }
-
-                            return false;
-                        }
-                        else if (HasCloseOpeningElement(context.Decorator))
-                        {
-                            context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
-                            context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
-                            return ReadOpenElementContent(context);
-                        }
-                        else
-                        {
-                            // TODO: Close
-                            context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
-                            context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
-                        context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
-                        context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
-                        context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
-                        return true;
-                    }
-                }
                 else
                 {
+                    context.CreateToken(AngleTokenType.Error);
+                    return false;
+                }
+            }
+            else
+            {
+                context.CreateToken(AngleTokenType.AttributeName, 1);
+            }
+                
+            // TODO: Remove support for spaces before attribute value.
+            //if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
+            //    context.CreateToken(AngleTokenType.Whitespace, 1);
+
+            if (context.Decorator.Current == '=')
+            {
+                context.CreateToken(AngleTokenType.AttributeValueSeparator);
+                if (context.Decorator.Next())
+                {
+                    // TODO: Remove support for spaces before attribute value.
+                    //if (context.Decorator.CurrentWhile(Char.IsWhiteSpace))
+                    //    context.CreateToken(AngleTokenType.Whitespace, 1);
+
                     if (context.Decorator.Current == '"')
                     {
-                        context.CreateVirtualToken(AngleTokenType.AttributeValueSeparator, "=");
                         if (ReadAttributeValue(context))
                         {
                             context.Decorator.Next();
@@ -353,18 +321,44 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
                     }
                     else if (HasCloseOpeningElement(context.Decorator))
                     {
-                        context.CreateVirtualToken(AngleTokenType.AttributeValueSeparator, "=");
                         context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
                         context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
                         return ReadOpenElementContent(context);
                     }
-                    else
+
+                    context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
+                    context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
+                    context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                    context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
+                    return true;
+                }
+            }
+            else
+            {
+                if (context.Decorator.Current == '"')
+                {
+                    context.CreateVirtualToken(AngleTokenType.AttributeValueSeparator, "=");
+                    if (ReadAttributeValue(context))
                     {
-                        // TODO: Close
-                        context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
-                        context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
-                        return true;
+                        context.Decorator.Next();
+                        return ReadOpenElementContent(context);
                     }
+
+                    return false;
+                }
+                else if (HasCloseOpeningElement(context.Decorator))
+                {
+                    context.CreateVirtualToken(AngleTokenType.AttributeValueSeparator, "=");
+                    context.CreateVirtualToken(AngleTokenType.AttributeOpenValue, "\"");
+                    context.CreateVirtualToken(AngleTokenType.AttributeCloseValue, "\"");
+                    return ReadOpenElementContent(context);
+                }
+                else
+                {
+                    // TODO: Close
+                    context.CreateVirtualToken(AngleTokenType.SelfClose, "/");
+                    context.CreateVirtualToken(AngleTokenType.CloseBrace, ">");
+                    return true;
                 }
             }
 
