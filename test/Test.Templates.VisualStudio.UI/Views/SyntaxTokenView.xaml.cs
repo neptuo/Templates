@@ -22,12 +22,8 @@ namespace Test.Templates.VisualStudio.UI.Views
     /// </summary>
     public partial class SyntaxTokenView : UserControl
     {
-        private readonly TokenContext context;
-
-        public SyntaxTokenView(TokenContext context)
+        public SyntaxTokenView()
         {
-            Ensure.NotNull(context, "context");
-            this.context = context;
             InitializeComponent();
         }
     }
