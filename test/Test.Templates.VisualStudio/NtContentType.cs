@@ -11,6 +11,7 @@ namespace Test.Templates.VisualStudio
     public class NtContentType
     {
         public const string TextValue = "ntemplate";
+        public const string FileExtension = ".nt";
 
         [Export(typeof(ContentTypeDefinition))]
         [Name(TextValue)]
@@ -18,7 +19,7 @@ namespace Test.Templates.VisualStudio
         public NtContentType ContentTypeDefinition { get; set; }
 
         [Export(typeof(FileExtensionToContentTypeDefinition))]
-        [FileExtension(".nt")]
+        [FileExtension(FileExtension)]
         [ContentType(TextValue)]
         public FileExtensionToContentTypeDefinition FileExtensionDefinition { get; set; }
     }

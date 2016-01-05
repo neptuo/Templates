@@ -73,6 +73,10 @@
       <HintPath>..\..\packages\Neptuo.Observables.1.1.0\lib\net45\Neptuo.Observables.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Neptuo.Windows.Threading, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.Windows.Threading.1.0.1\lib\net45\Neptuo.Windows.Threading.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />

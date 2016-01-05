@@ -8,12 +8,14 @@ using Microsoft.VisualStudio.TextManager.Interop;
 using Neptuo.Localization;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense;
+using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Test.Templates.VisualStudio.UI.ViewModels;
 
 namespace Test.Templates.VisualStudio.UI.Views
@@ -75,29 +77,33 @@ namespace Test.Templates.VisualStudio.UI.Views
 
         private void OnWindowActivated(Window gotFocus, Window lostFocus)
         {
-            ITextView textView;
-            TokenContext context;
-
-            if (TryGetTokenContext(out context, out textView))
+            DispatcherHelper.Run(Dispatcher.CurrentDispatcher, () =>
             {
-                // If context is different.
-                if (currentTextView != textView)
+                ITextView textView;
+                TokenContext context;
+
+                if (TryGetTokenContext(out context, out textView))
                 {
-                    // Unsubscribe.
-                    if (currentContext != null)
-                        currentContext.TokensChanged -= OnCurrentTokensChanged;
+                    // If context is different.
+                    if (currentTextView != textView)
+                    {
+                        // Unsubscribe.
+                        if (currentContext != null)
+                            currentContext.TokensChanged -= OnCurrentTokensChanged;
 
-                    // Store view for view operations.
-                    currentTextView = textView;
+                        // Store view for view operations.
+                        currentTextView = textView;
 
-                    // Subscribe to the new context.
-                    context.TokensChanged += OnCurrentTokensChanged;
-                    currentContext = context;
-                    OnCurrentTokensChanged(currentContext);
+                        // Subscribe to the new context.
+                        context.TokensChanged += OnCurrentTokensChanged;
+                        currentContext = context;
+                        OnCurrentTokensChanged(currentContext);
 
-                    UpdateTitle(gotFocus.Caption);
+                        if (gotFocus.Caption.EndsWith(NtContentType.FileExtension))
+                            UpdateTitle(gotFocus.Caption);
+                    }
                 }
-            }
+            }, 300);
         }
 
         private void OnSelectedTokenChanged(Token token)
