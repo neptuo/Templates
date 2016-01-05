@@ -7,6 +7,14 @@
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}">
+    <UserControl.Resources>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <ListView ItemsSource="{Binding Tokens}" SelectedItem="{Binding SelectedToken}" />
     </Grid>
