@@ -24,7 +24,8 @@ namespace Test.Templates.VisualStudio.UI.Views
         private readonly IVsTextManager viewManager;
         private readonly IVsEditorAdaptersFactoryService adapterService;
 
-        private TokenContext currenContext;
+        private ITextView currentTextView;
+        private TokenContext currentContext;
 
         public SyntaxTokenView ContentView
         {
@@ -48,6 +49,7 @@ namespace Test.Templates.VisualStudio.UI.Views
 
             ContentView = new SyntaxTokenView();
             ViewModel = new SyntaxTokenViewModel();
+            ViewModel.SelectedTokenChanged += OnSelectedTokenChanged;
 
             DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
             events = dte.Events.WindowEvents;
@@ -58,39 +60,57 @@ namespace Test.Templates.VisualStudio.UI.Views
             adapterService = componentModel.GetService<IVsEditorAdaptersFactoryService>();
         }
 
+        private void OnSelectedTokenChanged(Token token)
+        {
+            if (token != null && currentTextView != null)
+            {
+                if (!token.IsVirtual)
+                {
+                    SnapshotSpan selection = new SnapshotSpan(currentTextView.TextSnapshot, token.TextSpan.StartIndex, token.TextSpan.Length);
+                    currentTextView.Selection.Select(selection, false);
+                    currentTextView.Caret.MoveTo(selection.Start);
+                }
+            }
+        }
+
         private void OnWindowActivated(Window gotFocus, Window lostFocus)
         {
+            ITextView view;
             TokenContext context;
-            if (TryGetTokenContext(out context))
+            if (TryGetTokenContext(out context, out view))
             {
-                if (currenContext != context)
+                if (currentContext != context)
                 {
-                    if (currenContext != null)
-                        currenContext.TokensChanged -= OnCurrentTokensChanged;
+                    if (currentContext != null)
+                        currentContext.TokensChanged -= OnCurrentTokensChanged;
+
+                    currentTextView = view;
 
                     context.TokensChanged += OnCurrentTokensChanged;
-                    currenContext = context;
-                    OnCurrentTokensChanged(currenContext);
+                    currentContext = context;
+                    OnCurrentTokensChanged(currentContext);
                 }
             }
         }
 
         private void OnCurrentTokensChanged(TokenContext context)
         {
+            ViewModel.SelectedToken = null;
             ViewModel.Tokens.Clear();
             ViewModel.Tokens.AddRange(context.Tokens);
         }
 
-        private bool TryGetTokenContext(out TokenContext context)
+        private bool TryGetTokenContext(out TokenContext context, out ITextView textView)
         {
             IVsTextView view;
             if (viewManager.GetActiveView(1, null, out view) == 0)
             {
-                ITextView textView = adapterService.GetWpfTextView(view);
+                textView = adapterService.GetWpfTextView(view);
                 ITextBuffer textBuffer = textView.TextBuffer;
                 return textBuffer.Properties.TryGetProperty(typeof(TokenContext), out context);
             }
 
+            textView = null;
             context = null;
             return false;
         }

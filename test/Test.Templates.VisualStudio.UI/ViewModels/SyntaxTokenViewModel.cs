@@ -13,7 +13,26 @@ namespace Test.Templates.VisualStudio.UI.ViewModels
 {
     public class SyntaxTokenViewModel : ObservableObject
     {
+        private Token selectedToken;
+        public Token SelectedToken
+        {
+            get { return selectedToken; }
+            set
+            {
+                if (selectedToken != value)
+                {
+                    selectedToken = value;
+                    RaisePropertyChanged();
+
+                    if (SelectedTokenChanged != null)
+                        SelectedTokenChanged(selectedToken);
+                }
+            }
+        }
+
         public ObservableCollection<Token> Tokens { get; private set; }
+
+        public event Action<Token> SelectedTokenChanged;
 
         public SyntaxTokenViewModel()
         {
