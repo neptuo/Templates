@@ -24,6 +24,8 @@ namespace Test.Templates.VisualStudio.UI.Views
         private readonly IVsTextManager viewManager;
         private readonly IVsEditorAdaptersFactoryService adapterService;
 
+        private TokenContext currenContext;
+
         public SyntaxTokenView ContentView
         {
             get { return (SyntaxTokenView)Content; }
@@ -58,22 +60,39 @@ namespace Test.Templates.VisualStudio.UI.Views
 
         private void OnWindowActivated(Window gotFocus, Window lostFocus)
         {
-            ViewModel.Tokens.Add(new Token(TokenType.Literal, gotFocus.Caption));
+            TokenContext context;
+            if (TryGetTokenContext(out context))
+            {
+                if (currenContext != context)
+                {
+                    if (currenContext != null)
+                        currenContext.TokensChanged -= OnCurrentTokensChanged;
 
-            
+                    context.TokensChanged += OnCurrentTokensChanged;
+                    currenContext = context;
+                    OnCurrentTokensChanged(currenContext);
+                }
+            }
+        }
+
+        private void OnCurrentTokensChanged(TokenContext context)
+        {
+            ViewModel.Tokens.Clear();
+            ViewModel.Tokens.AddRange(context.Tokens);
+        }
+
+        private bool TryGetTokenContext(out TokenContext context)
+        {
             IVsTextView view;
             if (viewManager.GetActiveView(1, null, out view) == 0)
             {
                 ITextView textView = adapterService.GetWpfTextView(view);
                 ITextBuffer textBuffer = textView.TextBuffer;
-
-                TokenContext context;
-                if (textBuffer.Properties.TryGetProperty(typeof(TokenContext), out context))
-                {
-                    ViewModel.Tokens.Clear();
-                    ViewModel.Tokens.AddRange(context.Tokens);
-                }
+                return textBuffer.Properties.TryGetProperty(typeof(TokenContext), out context);
             }
+
+            context = null;
+            return false;
         }
 
         protected override void Dispose(bool disposing)
