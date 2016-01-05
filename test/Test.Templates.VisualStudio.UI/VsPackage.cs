@@ -27,7 +27,10 @@ namespace Test.Templates.VisualStudio.UI
     // This attribute is used to register the information needed to show this package
     // in the Help/About dialog of Visual Studio.
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-    [Guid(GuidList.PkgString)]
+    [Guid(MyConstants.PackageString)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
+    [ProvideMenuResource("Menus.ctmenu", 1)]
+    [ProvideToolWindow(typeof(SyntaxTokenView))]
     public sealed class VsPackage : Package
     {
         /// <summary>
@@ -42,10 +45,6 @@ namespace Test.Templates.VisualStudio.UI
             Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
         }
 
-        /////////////////////////////////////////////////////////////////////////////
-        // Overridden Package Implementation
-        #region Package Members
-
         /// <summary>
         /// Initialization of the package; this method is called right after the package is sited, so this is the place
         /// where you can put all the initialization code that rely on services provided by VisualStudio.
@@ -55,8 +54,21 @@ namespace Test.Templates.VisualStudio.UI
             Debug.WriteLine(String.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
-        }
-        #endregion
+            OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
+            CommandID commandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.SyntaxTokenView);
+            MenuCommand menuItem = new MenuCommand(OnSyntaxTokenView, commandID);
+            commandService.AddCommand(menuItem);
+        }
+
+        private void OnSyntaxTokenView(object sender, EventArgs e)
+        {
+            SyntaxTokenView window = (SyntaxTokenView)FindToolWindow(typeof(SyntaxTokenView), 0, true);
+            if (window != null && window.Frame != null)
+            {
+                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+                ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            }
+        }
     }
 }
