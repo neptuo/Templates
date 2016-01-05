@@ -8,6 +8,7 @@ using Microsoft.VisualStudio;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
+using Test.Templates.VisualStudio.UI.Views;
 
 namespace Test.Templates.VisualStudio.UI
 {
@@ -30,7 +31,7 @@ namespace Test.Templates.VisualStudio.UI
     [Guid(MyConstants.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
-    [ProvideToolWindow(typeof(SyntaxTokenView))]
+    [ProvideToolWindow(typeof(SyntaxTokenWindow))]
     public sealed class VsPackage : Package
     {
         /// <summary>
@@ -63,7 +64,8 @@ namespace Test.Templates.VisualStudio.UI
 
         private void OnSyntaxTokenView(object sender, EventArgs e)
         {
-            SyntaxTokenView window = (SyntaxTokenView)FindToolWindow(typeof(SyntaxTokenView), 0, true);
+            SyntaxTokenWindow window = (SyntaxTokenWindow)FindToolWindow(typeof(SyntaxTokenWindow), 0, true);
+            //QuickWindow window = (QuickWindow)FindToolWindow(typeof(QuickWindow), 0, true);
             if (window != null && window.Frame != null)
             {
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
