@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             {
                 ICloneable<ISyntaxNode> cloneableNode = node as ICloneable<ISyntaxNode>;
                 if (cloneableNode != null)
-                    result.Nodes.Add(cloneableNode.Clone());
+                    result.Add(cloneableNode.Clone());
                 else
                     throw Ensure.Condition.NotCloneable(node);
             }
