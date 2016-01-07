@@ -66,5 +66,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
         {
             return token;
         }
+
+        public static implicit operator Token(TokenFactory factory)
+        {
+            Ensure.NotNull(factory, "factory");
+            return factory.ToToken();
+        }
     }
 }

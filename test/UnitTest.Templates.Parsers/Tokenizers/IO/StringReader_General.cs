@@ -5,7 +5,7 @@ using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {
     [TestClass]
-    public class TestStringReader : TestBase
+    public class StringReader_General : TestBase
     {
         [TestMethod]
         public void ContentReader_ReadingValue()

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UnitTest.Templates.Parsers.Tokenizers
+namespace UnitTest.Templates.Parsers
 {
     public abstract class TestBase
     {

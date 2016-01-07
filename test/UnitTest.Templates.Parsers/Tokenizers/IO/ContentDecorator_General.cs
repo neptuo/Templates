@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {
     [TestClass]
-    public class TestContentDecorator : TestBase
+    public class ContentDecorator_General : TestBase
     {
         private void AssertSourceContentInfo(ITextSpan contentInfo, int startIndex, int length)
         {

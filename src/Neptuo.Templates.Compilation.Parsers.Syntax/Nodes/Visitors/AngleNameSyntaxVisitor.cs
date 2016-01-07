@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public interface ISyntaxNodeProcessor
+    public class AngleNameSyntaxVisitor : SyntaxNodeVisitorBase<AngleNameSyntax>
     {
-        void Process(ISyntaxNode node);
+        protected override void Visit(AngleNameSyntax node, ISyntaxNodeProcessor processor)
+        { }
     }
 }

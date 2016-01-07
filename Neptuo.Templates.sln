@@ -32,8 +32,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStudio", "src\Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj", "{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.Templates.Parsers.Tokenizers", "test\UnitTest.Templates.Parsers.Tokenizers\UnitTest.Templates.Parsers.Tokenizers.csproj", "{7A2007BB-86BF-4999-A86B-37DC66FD97A5}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Parsers", "src\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj", "{3418325A-D861-4FB7-BF59-215A0D19C5A1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTest.Templates.Parsers.Tokenizers", "test\PerfTest.Templates.Parsers.Tokenizers\PerfTest.Templates.Parsers.Tokenizers.csproj", "{D51E2E8C-6BC8-4AE9-8159-7741597AC06E}"
@@ -142,16 +140,6 @@ Global
 		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}.Release|x86.ActiveCfg = Release|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5}.Release|x86.ActiveCfg = Release|Any CPU
 		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3418325A-D861-4FB7-BF59-215A0D19C5A1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
@@ -254,7 +242,6 @@ Global
 		{BC762024-B072-4030-B33E-7900493AC41D} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{08038638-BA5E-4032-91D1-CFA70B9777BB} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
 		{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
-		{7A2007BB-86BF-4999-A86B-37DC66FD97A5} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{D51E2E8C-6BC8-4AE9-8159-7741597AC06E} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{33730985-4BA4-4CA4-84FD-3306FEDED025} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{6AD9A968-9EA6-44A1-93C7-CD6358837365} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
@@ -262,7 +249,7 @@ Global
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4} = {6B93C14C-2672-4935-AE18-C28432632F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

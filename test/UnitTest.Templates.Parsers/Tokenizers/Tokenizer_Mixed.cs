@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers
 {
     [TestClass]
-    public class TestTokenizer_Mixed : TestTokenizerBase
+    public class Tokenizer_Mixed : TestTokenizerBase
     {
         [TestMethod]
         public void Mixed_UnfinishedAngleWithCurlyInAttribute()

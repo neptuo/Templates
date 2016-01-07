@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers
 {
     [TestClass]
-    public class TestTokenizer_Curly : TestTokenizerBase
+    public class Tokenizer_Curly : TestTokenizerBase
     {
         [TestMethod]
         public void Curly_ValidToken()

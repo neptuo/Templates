@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {
     [TestClass]
-    public class TestPartialReader : TestBase
+    public class PartialReader_General : TestBase
     {
         [TestMethod]
         public void PartialContentReader_ContentWithoutEscape()

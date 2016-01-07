@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {
     [TestClass]
-    public class TestContentFactory : TestBase
+    public class ContentFactory_General : TestBase
     {
         [TestMethod]
         public void ContentFactory_BaseTest()

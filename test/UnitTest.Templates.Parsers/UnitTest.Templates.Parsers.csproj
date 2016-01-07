@@ -65,6 +65,18 @@
     <Compile Include="Syntax_Angle.cs" />
     <Compile Include="Syntax_Curly.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestVisitorBase.cs" />
+    <Compile Include="Tokenizers\IO\ContentDecorator_General.cs" />
+    <Compile Include="Tokenizers\IO\ContentFactory_General.cs" />
+    <Compile Include="Tokenizers\IO\PartialReader_General.cs" />
+    <Compile Include="Tokenizers\IO\StringReader_General.cs" />
+    <Compile Include="TestBase.cs" />
+    <Compile Include="Tokenizers\TestTokenizerBase.cs" />
+    <Compile Include="Tokenizers\Tokenizer_Angle.cs" />
+    <Compile Include="Tokenizers\Tokenizer_Curly.cs" />
+    <Compile Include="Tokenizers\Tokenizer_Mixed.cs" />
+    <Compile Include="Visitor_Mixed.cs" />
+    <Compile Include="_Fakes\FakeTokenizerContext.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.CodeObjects\Neptuo.Templates.Compilation.CodeObjects.csproj">
@@ -82,10 +94,6 @@
     <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UnitTest.Templates.Parsers.Tokenizers\UnitTest.Templates.Parsers.Tokenizers.csproj">
-      <Project>{7a2007bb-86bf-4999-a86b-37dc66fd97a5}</Project>
-      <Name>UnitTest.Templates.Parsers.Tokenizers</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
