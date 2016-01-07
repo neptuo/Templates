@@ -97,7 +97,7 @@ namespace Test.Templates.VisualStudio.UI.Views
 
         private void OnCurrentRootNodeChanged(SyntaxContext context)
         {
-            // TODO: Replace old nodes by the new nodes.
+            // TODO: Replace old nodes by the new nodes. 
         }
 
         private void OnCurrentErrorRaised(SyntaxContext context, SyntaxNodeException e)

@@ -76,6 +76,7 @@
     <Compile Include="Nodes\Visitors\SyntaxCollectionVisitor.cs" />
     <Compile Include="Nodes\Visitors\SyntaxNodeVisitorBase.cs" />
     <Compile Include="Nodes\Visitors\SyntaxVisitor.cs" />
+    <Compile Include="Nodes\Visitors\TokenAtPositionFinder.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SyntaxParserService.cs" />
     <Compile Include="Nodes\CurlySyntaxNodes.cs" />
