@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             {
                 result.LeadingTrivia.Add(token);
                 if (!reader.Next())
-                    throw new NotImplementedException();
+                    throw new MissingNextTokenException();
 
                 token = reader.Current;
             }
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                throw new NotSupportedException();
+                throw new InvalidTokenTypeException(reader.Current, AngleTokenType.OpenBrace);
             }
         }
 
@@ -64,7 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                throw new NotImplementedException();
+                throw new InvalidTokenTypeException(reader.Current, AngleTokenType.NamePrefix, AngleTokenType.Name);
             }
 
             return name;
@@ -89,7 +89,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                throw new NotImplementedException();
+                throw new InvalidTokenTypeException(reader.Current, AngleTokenType.AttributeNamePrefix, AngleTokenType.AttributeName);
             }
 
             return name;
@@ -103,7 +103,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             else if (reader.Current.Type == AngleTokenType.AttributeName || reader.Current.Type == AngleTokenType.AttributeNamePrefix)
                 BuildAttribute(reader, result, context);
             else
-                throw new NotImplementedException();
+                throw new InvalidTokenTypeException(reader.Current, AngleTokenType.SelfClose, AngleTokenType.AttributeNamePrefix, AngleTokenType.AttributeName);
         }
 
         private void BuildAttribute(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)

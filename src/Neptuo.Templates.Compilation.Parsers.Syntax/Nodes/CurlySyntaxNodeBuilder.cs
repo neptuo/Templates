@@ -18,7 +18,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             {
                 result.LeadingTrivia.Add(token);
                 if (!reader.Next())
-                    throw new NotImplementedException();
+                    throw new MissingNextTokenException();
 
                 token = reader.Current;
             }
@@ -30,7 +30,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                throw new NotSupportedException();
+                throw new InvalidTokenTypeException(reader.Current, CurlyTokenType.OpenBrace);
             }
         }
 
@@ -55,7 +55,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                throw new NotImplementedException();
+                throw new InvalidTokenTypeException(reader.Current, CurlyTokenType.NamePrefix, CurlyTokenType.Name);
             }
 
             TryAppendTrailingTrivia(reader, name);
@@ -74,7 +74,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             else if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue || reader.Current.Type == CurlyTokenType.Literal)
                 BuildDefaultAttribute(reader, result, context);
             else
-                throw new NotImplementedException();
+                throw new InvalidTokenTypeException(reader.Current, CurlyTokenType.CloseBrace, CurlyTokenType.AttributeName, CurlyTokenType.DefaultAttributeValue, CurlyTokenType.Literal);
         }
 
         private void BuildDefaultAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
@@ -112,7 +112,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                throw new NotImplementedException();
+                throw new InvalidTokenTypeException(reader.Current, CurlyTokenType.CloseBrace, CurlyTokenType.AttributeSeparator, CurlyTokenType.DefaultAttributeValue, CurlyTokenType.Literal);
             }
         }
 
@@ -165,7 +165,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 }
                 else
                 {
-                    throw new NotImplementedException();
+                    throw new InvalidTokenTypeException(reader.Current, CurlyTokenType.CloseBrace, CurlyTokenType.AttributeSeparator, CurlyTokenType.DefaultAttributeValue, CurlyTokenType.Literal);
                 }
             }
         }

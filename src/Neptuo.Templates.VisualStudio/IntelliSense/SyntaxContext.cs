@@ -17,6 +17,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         public ISyntaxNode RootNode { get; private set; }
         public event Action<SyntaxContext> OnRootNodeChanged;
+        public event Action<SyntaxContext, SyntaxNodeException> OnError;
 
         public SyntaxContext(TokenContext tokenContext, ISyntaxNodeFactory nodeFactory)
         {
@@ -38,7 +39,17 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
         protected void BuildRootNode()
         {
-            RootNode = nodeFactory.Create(tokenContext.Tokens.ToList());
+            try
+            {
+                RootNode = nodeFactory.Create(tokenContext.Tokens.ToList());
+            }
+            catch (SyntaxNodeException e)
+            {
+                RootNode = null;
+
+                if (OnError != null)
+                    OnError(this, e);
+            }
         }
     }
 }

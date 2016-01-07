@@ -64,6 +64,9 @@
     <Compile Include="ICodePropertyBuilderContext.cs" />
     <Compile Include="Nodes\AngleSyntaxNodeBuilder.cs" />
     <Compile Include="Nodes\AngleSyntaxNodes.cs" />
+    <Compile Include="Nodes\InvalidTokenTypeException.cs" />
+    <Compile Include="Nodes\MissingNextTokenException.cs" />
+    <Compile Include="Nodes\SyntaxNodeException.cs" />
     <Compile Include="Nodes\Visitors\EmptySyntaxNodeProcessor.cs" />
     <Compile Include="Nodes\Visitors\ISyntaxNodeProcessor.cs" />
     <Compile Include="Nodes\Visitors\ISyntaxNodeVisitor.cs" />
