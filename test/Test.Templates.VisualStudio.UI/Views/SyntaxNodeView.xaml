@@ -1,0 +1,27 @@
+﻿<UserControl x:Class="Test.Templates.VisualStudio.UI.Views.SyntaxNodeView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
+             xmlns:dd="clr-namespace:Test.Templates.VisualStudio.UI.Views.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.SyntaxNodeViewModel}"
+             d:DesignHeight="300" d:DesignWidth="300"
+             Background="{DynamicResource VsBrush.Window}"
+             Foreground="{DynamicResource VsBrush.WindowText}">
+    <UserControl.Resources>
+        <Style TargetType="ListView">
+            <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        
+        <Label Content="{Binding ErrorMessage}" />
+    </Grid>
+</UserControl>

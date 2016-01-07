@@ -146,6 +146,7 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CurrentBufferPropertyProvider.cs" />
     <Compile Include="MyConstants.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -153,8 +154,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="ViewModels\SyntaxNodeViewModel.cs" />
     <Compile Include="ViewModels\SyntaxTokenViewModel.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="Views\SyntaxNodeView.xaml.cs">
+      <DependentUpon>SyntaxNodeView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\SyntaxNodeWindow.cs" />
     <Compile Include="Views\SyntaxTokenView.xaml.cs">
       <DependentUpon>SyntaxTokenView.xaml</DependentUpon>
@@ -237,6 +242,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\SyntaxNodeView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\SyntaxTokenView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

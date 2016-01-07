@@ -40,5 +40,21 @@ namespace Test.Templates.VisualStudio.UI.Views.DesignData
                 return syntaxTokenViewModel;
             }
         }
+
+
+        private static SyntaxNodeViewModel syntaxNodeViewModel;
+
+        public static SyntaxNodeViewModel SyntaxNodeViewModel
+        {
+            get
+            {
+                if (syntaxNodeViewModel == null)
+                {
+                    syntaxNodeViewModel = new SyntaxNodeViewModel();
+                }
+
+                return syntaxNodeViewModel;
+            }
+        }
     }
 }

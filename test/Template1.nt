@@ -2,7 +2,7 @@
 asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
  fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
 f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
-dasd as 
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
 d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
  dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
 

@@ -102,7 +102,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
                         textBuffer.Properties.GetProperty<TokenContext>(typeof(TokenContext)),
                         builder
                     );
-                    context.OnRootNodeChanged += OnSyntaxRootNodeChanged;
+                    context.RootNodeChanged += OnSyntaxRootNodeChanged;
                     return context;
                 }
             );

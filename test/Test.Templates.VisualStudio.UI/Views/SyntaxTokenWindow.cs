@@ -23,13 +23,11 @@ namespace Test.Templates.VisualStudio.UI.Views
     [Guid("79D6D424-9EFA-4C1C-B0F0-D6F3E65DCE4A")]
     public class SyntaxTokenWindow : ToolWindowPane
     {
-        private readonly WindowEvents events;
-        private readonly IVsTextManager viewManager;
-        private readonly IVsEditorAdaptersFactoryService adapterService;
-
+        private readonly CurrentBufferPropertyProvider propertyProvider;
+        private readonly DTE dte;
         private ITextView currentTextView;
+
         private TokenContext currentContext;
-        private string currentCaption;
 
         public SyntaxTokenView ContentView
         {
@@ -56,15 +54,27 @@ namespace Test.Templates.VisualStudio.UI.Views
             ViewModel = new SyntaxTokenViewModel();
             ViewModel.SelectedTokenChanged += OnSelectedTokenChanged;
 
-            // Subscribe to document events.
-            DTE dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
-            events = dte.Events.WindowEvents;
-            events.WindowActivated += OnWindowActivated;
+            dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
 
-            // Find view manager (for determining current view) and WPF view adapter.
-            viewManager = (IVsTextManager)ServiceProvider.GlobalProvider.GetService(typeof(SVsTextManager));
-            IComponentModel componentModel = (IComponentModel)ServiceProvider.GlobalProvider.GetService(typeof(SComponentModel));
-            adapterService = componentModel.GetService<IVsEditorAdaptersFactoryService>();
+            propertyProvider = new CurrentBufferPropertyProvider()
+                .Add<TokenContext>(OnTokenContextChanged);
+        }
+
+        private void OnTokenContextChanged(TokenContext context, ITextView textView)
+        {
+            // Unsubscribe.
+            if (currentContext != null)
+                currentContext.TokensChanged -= OnCurrentTokensChanged;
+
+            // Subscribe to the new context.
+            context.TokensChanged += OnCurrentTokensChanged;
+            currentContext = context;
+            currentTextView = textView;
+            OnCurrentTokensChanged(currentContext);
+
+            Window gotFocus = dte.ActiveWindow;
+            if (gotFocus.Caption.EndsWith(NtContentType.FileExtension))
+                UpdateTitle(gotFocus.Caption);
         }
 
         private void UpdateTitle(string fileName)
@@ -73,37 +83,6 @@ namespace Test.Templates.VisualStudio.UI.Views
                 Caption = (L)"Syntax tokens";
             else
                 Caption = (L)"Syntax tokens: " + fileName;
-        }
-
-        private void OnWindowActivated(Window gotFocus, Window lostFocus)
-        {
-            DispatcherHelper.Run(Dispatcher.CurrentDispatcher, () =>
-            {
-                ITextView textView;
-                TokenContext context;
-
-                if (TryGetTokenContext(out context, out textView))
-                {
-                    // If context is different.
-                    if (currentTextView != textView)
-                    {
-                        // Unsubscribe.
-                        if (currentContext != null)
-                            currentContext.TokensChanged -= OnCurrentTokensChanged;
-
-                        // Store view for view operations.
-                        currentTextView = textView;
-
-                        // Subscribe to the new context.
-                        context.TokensChanged += OnCurrentTokensChanged;
-                        currentContext = context;
-                        OnCurrentTokensChanged(currentContext);
-
-                        if (gotFocus.Caption.EndsWith(NtContentType.FileExtension))
-                            UpdateTitle(gotFocus.Caption);
-                    }
-                }
-            }, 300);
         }
 
         private void OnSelectedTokenChanged(Token token)
@@ -128,27 +107,6 @@ namespace Test.Templates.VisualStudio.UI.Views
             ViewModel.Tokens.AddRange(context.Tokens);
         }
 
-        /// <summary>
-        /// Tries to get <paramref name="context"/> of currently selected document.
-        /// </summary>
-        /// <param name="context">The token context of current document.</param>
-        /// <param name="textView">The current text view.</param>
-        /// <returns><c>true</c> if both was found; <c>false</c> otherwise.</returns>
-        private bool TryGetTokenContext(out TokenContext context, out ITextView textView)
-        {
-            IVsTextView view;
-            if (viewManager.GetActiveView(1, null, out view) == 0)
-            {
-                textView = adapterService.GetWpfTextView(view);
-                ITextBuffer textBuffer = textView.TextBuffer;
-                return textBuffer.Properties.TryGetProperty(typeof(TokenContext), out context);
-            }
-
-            textView = null;
-            context = null;
-            return false;
-        }
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -158,7 +116,7 @@ namespace Test.Templates.VisualStudio.UI.Views
                 if (currentContext != null)
                     currentContext.TokensChanged -= OnCurrentTokensChanged;
 
-                events.WindowActivated -= OnWindowActivated;
+                propertyProvider.Dispose();
             }
         }
     }

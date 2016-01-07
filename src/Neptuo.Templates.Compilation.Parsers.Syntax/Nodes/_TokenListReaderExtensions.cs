@@ -13,7 +13,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         {
             Ensure.NotNull(reader, "reader");
             if (!reader.Next())
-                throw Ensure.Exception.NotSupported();
+                throw new MissingNextTokenException();
         }
 
         public static void NextRequiredOfType(this TokenListReader reader, TokenType tokenType)
@@ -35,7 +35,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public static void CurrentRequiredOfType(this TokenListReader reader, TokenType tokenType)
         {
             if (!IsCurrentOfType(reader, tokenType))
-                throw Ensure.Exception.NotSupported();
+                throw new InvalidTokenTypeException(reader.Current, tokenType);
         }
 
         public static bool IsCurrentOfType(this TokenListReader reader, TokenType tokenType)
