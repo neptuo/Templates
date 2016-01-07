@@ -31,28 +31,18 @@ namespace Test.Templates.VisualStudio.UI
     [Guid(MyConstants.PackageString)]
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
+#if DEBUG
+    [ProvideToolWindow(typeof(SyntaxTokenWindow), Style = VsDockStyle.Linked, Window = EnvDTE.Constants.vsWindowKindSolutionExplorer, DockedWidth = 300, Orientation = ToolWindowOrientation.Right)]
+#else
     [ProvideToolWindow(typeof(SyntaxTokenWindow))]
+#endif
     public sealed class VsPackage : Package
     {
         /// <summary>
-        /// Default constructor of the package.
-        /// Inside this method you can place any initialization code that does not require 
-        /// any Visual Studio service because at this point the package object is created but 
-        /// not sited yet inside Visual Studio environment. The place to do all the other 
-        /// initialization is the Initialize method.
-        /// </summary>
-        public VsPackage()
-        {
-            Debug.WriteLine(string.Format(CultureInfo.CurrentCulture, "Entering constructor for: {0}", this.ToString()));
-        }
-
-        /// <summary>
-        /// Initialization of the package; this method is called right after the package is sited, so this is the place
-        /// where you can put all the initialization code that rely on services provided by VisualStudio.
+        /// Initializes the package.
         /// </summary>
         protected override void Initialize()
         {
-            Debug.WriteLine(String.Format(CultureInfo.CurrentCulture, "Entering Initialize() of: {0}", this.ToString()));
             base.Initialize();
 
             OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
@@ -60,12 +50,19 @@ namespace Test.Templates.VisualStudio.UI
             CommandID commandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.SyntaxTokenView);
             MenuCommand menuItem = new MenuCommand(OnSyntaxTokenView, commandID);
             commandService.AddCommand(menuItem);
+
+
+#if DEBUG
+            OnSyntaxTokenView(null, null);
+#endif
         }
 
+        /// <summary>
+        /// When user clicks on "Open syntax tokens" menu command.
+        /// </summary>
         private void OnSyntaxTokenView(object sender, EventArgs e)
         {
             SyntaxTokenWindow window = (SyntaxTokenWindow)FindToolWindow(typeof(SyntaxTokenWindow), 0, true);
-            //QuickWindow window = (QuickWindow)FindToolWindow(typeof(QuickWindow), 0, true);
             if (window != null && window.Frame != null)
             {
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
