@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
             if (token.Type == AngleTokenType.OpenBrace)
             {
-                result.OpenToken = token;
+                result.WithOpenToken(token);
                 return BuildName(reader, result, context);
             }
             else
@@ -40,7 +40,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             AngleNameSyntax name = GetName(reader);
 
             TryAppendTrailingTrivia(reader, name);
-            result.Name = name;
+            result.WithName(name);
             BuildContent(reader, result, context);
             return result;
         }
@@ -50,17 +50,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             AngleNameSyntax name = new AngleNameSyntax();
             if (reader.Current.Type == AngleTokenType.NamePrefix)
             {
-                name.PrefixToken = reader.Current;
+                name.WithPrefixToken(reader.Current);
 
                 reader.NextRequiredOfType(AngleTokenType.NameSeparator);
-                name.NameSeparatorToken = reader.Current;
+                name.WithNameSeparatorToken(reader.Current);
 
                 reader.NextRequiredOfType(AngleTokenType.Name);
-                name.NameToken = reader.Current;
+                name.WithNameToken(reader.Current);
             }
             else if (reader.Current.Type == AngleTokenType.Name)
             {
-                name.NameToken = reader.Current;
+                name.WithNameToken(reader.Current);
             }
             else
             {
@@ -75,17 +75,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             AngleNameSyntax name = new AngleNameSyntax();
             if (reader.Current.Type == AngleTokenType.AttributeNamePrefix)
             {
-                name.PrefixToken = reader.Current;
+                name.WithPrefixToken(reader.Current);
 
                 reader.NextRequiredOfType(AngleTokenType.AttributeNameSeparator);
-                name.NameSeparatorToken = reader.Current;
+                name.WithNameSeparatorToken(reader.Current);
 
                 reader.NextRequiredOfType(AngleTokenType.AttributeName);
-                name.NameToken = reader.Current;
+                name.WithNameToken(reader.Current);
             }
             else if (reader.Current.Type == AngleTokenType.AttributeName)
             {
-                name.NameToken = reader.Current;
+                name.WithNameToken(reader.Current);
             }
             else
             {
@@ -109,28 +109,27 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         private void BuildAttribute(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)
         {
             AngleAttributeSyntax attribute = new AngleAttributeSyntax()
-            {
-                Name = GetAttributeName(reader)
-            };
-            result.Attributes.Add(attribute);
+                .WithName(GetAttributeName(reader));
+
+            result.AddAttribute(attribute);
 
             reader.NextRequiredOfType(AngleTokenType.AttributeValueSeparator);
-            attribute.ValueSeparatorToken = reader.Current;
+            attribute.WithValueSeparatorToken(reader.Current);
 
             reader.NextRequiredOfType(AngleTokenType.AttributeOpenValue);
-            attribute.AttributeOpenValueToken = reader.Current;
+            attribute.WithAttributeOpenValueToken(reader.Current);
 
             reader.NextRequired();
             if (reader.IsCurrentOfType(AngleTokenType.AttributeCloseValue))
             {
-                attribute.AttributeCloseValueToken = reader.Current;
+                attribute.WithAttributeCloseValueToken(reader.Current);
             }
             else
             {
-                attribute.Value = context.BuildNext(reader);
+                attribute.WithValue(context.BuildNext(reader));
 
                 reader.NextRequiredOfType(AngleTokenType.AttributeCloseValue);
-                attribute.AttributeCloseValueToken = reader.Current;
+                attribute.WithAttributeCloseValueToken(reader.Current);
             }
 
             TryAppendTrailingTrivia(reader, attribute);
@@ -139,9 +138,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
         private void BuildSelfClose(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)
         {
-            result.SelfCloseToken = reader.Current;
+            result.WithSelfCloseToken(reader.Current);
             reader.NextRequiredOfType(AngleTokenType.CloseBrace);
-            result.CloseToken = reader.Current;
+            result.WithCloseToken(reader.Current);
         }
 
         private void TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)

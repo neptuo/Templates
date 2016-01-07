@@ -9,15 +9,53 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     public class CurlySyntax : SyntaxNodeBase<CurlySyntax>
     {
-        public Token OpenToken { get; set; }
-        public CurlyNameSyntax Name { get; set; }
-        public Token CloseToken { get; set; }
-        public IList<CyrlyDefaultAttributeSyntax> DefaultAttributes { get; set; }
-        public IList<CurlyAttributeSyntax> Attributes { get; set; }
+        public Token OpenToken { get; private set; }
+        public CurlyNameSyntax Name { get; private set; }
+        public Token CloseToken { get; private set; }
+        public IList<CurlyDefaultAttributeSyntax> DefaultAttributes { get; private set; }
+        public IList<CurlyAttributeSyntax> Attributes { get; private set; }
+
+        public CurlySyntax WithOpenToken(Token openToken)
+        {
+            OpenToken = openToken;
+            return this;
+        }
+
+        public CurlySyntax WithName(CurlyNameSyntax name)
+        {
+            Name = name;
+
+            if (name != null)
+                name.Parent = this;
+
+            return this;
+        }
+
+        public CurlySyntax WithCloseToken(Token closeToken)
+        {
+            CloseToken = closeToken;
+            return this;
+        }
+
+        public CurlySyntax AddDefaultAttribute(CurlyDefaultAttributeSyntax defaultAttribute)
+        {
+            Ensure.NotNull(defaultAttribute, "defaultAttribute");
+            DefaultAttributes.Add(defaultAttribute);
+            defaultAttribute.Parent = this;
+            return this;
+        }
+
+        public CurlySyntax AddAttribute(CurlyAttributeSyntax attribute)
+        {
+            Ensure.NotNull(attribute, "attribute");
+            Attributes.Add(attribute);
+            attribute.Parent = this;
+            return this;
+        }
 
         public CurlySyntax()
         {
-            DefaultAttributes = new List<CyrlyDefaultAttributeSyntax>();
+            DefaultAttributes = new List<CurlyDefaultAttributeSyntax>();
             Attributes = new List<CurlyAttributeSyntax>();
         }
 
@@ -64,9 +102,27 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
     public class CurlyNameSyntax : SyntaxNodeBase<CurlyNameSyntax>
     {
-        public Token PrefixToken { get; set; }
-        public Token NameSeparatorToken { get; set; }
-        public Token NameToken { get; set; }
+        public Token PrefixToken { get; private set; }
+        public Token NameSeparatorToken { get; private set; }
+        public Token NameToken { get; private set; }
+
+        public CurlyNameSyntax WithPrefixToken(Token prefixToken)
+        {
+            PrefixToken = prefixToken;
+            return this;
+        }
+
+        public CurlyNameSyntax WithNameSeparatorToken(Token nameSeparatorToken)
+        {
+            NameSeparatorToken = nameSeparatorToken;
+            return this;
+        }
+
+        public CurlyNameSyntax WithNameToken(Token nameToken)
+        {
+            NameToken = nameToken;
+            return this;
+        }
 
         protected override CurlyNameSyntax CloneInternal()
         {
@@ -95,13 +151,23 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         }
     }
 
-    public class CyrlyDefaultAttributeSyntax : SyntaxNodeBase<CyrlyDefaultAttributeSyntax>
+    public class CurlyDefaultAttributeSyntax : SyntaxNodeBase<CurlyDefaultAttributeSyntax>
     {
-        public Token Value { get; set; }
+        public ISyntaxNode Value { get; private set; }
 
-        protected override CyrlyDefaultAttributeSyntax CloneInternal()
+        public CurlyDefaultAttributeSyntax WithValue(ISyntaxNode value)
         {
-            return new CyrlyDefaultAttributeSyntax()
+            Value = value;
+
+            if (value != null)
+                value.Parent = this;
+
+            return this;
+        }
+
+        protected override CurlyDefaultAttributeSyntax CloneInternal()
+        {
+            return new CurlyDefaultAttributeSyntax()
             {
                 Value = Value
             };
@@ -109,15 +175,33 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
         protected override IEnumerable<Token> GetTokensInternal()
         {
-            return new List<Token>() { Value };
+            return Value.GetTokens();
         }
     }
 
     public class CurlyAttributeSyntax : SyntaxNodeBase<CurlyAttributeSyntax>
     {
-        public Token NameToken { get; set; }
-        public Token ValueSeparatorToken { get; set; }
-        public ISyntaxNode Value { get; set; }
+        public Token NameToken { get; private set; }
+        public Token ValueSeparatorToken { get; private set; }
+        public ISyntaxNode Value { get; private set; }
+
+        public CurlyAttributeSyntax WithNameToken(Token nameToken)
+        {
+            NameToken = nameToken;
+            return this;
+        }
+
+        public CurlyAttributeSyntax WithValueSeparatorToken(Token valueSeparatorToken)
+        {
+            ValueSeparatorToken = valueSeparatorToken;
+            return this;
+        }
+
+        public CurlyAttributeSyntax WithValue(ISyntaxNode value)
+        {
+            Value = value;
+            return this;
+        }
 
         protected override CurlyAttributeSyntax CloneInternal()
         {

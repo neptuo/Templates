@@ -13,6 +13,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
     public interface ISyntaxNode
     {
         /// <summary>
+        /// The parent syntax node.
+        /// </summary>
+        ISyntaxNode Parent { get; set; }
+
+        /// <summary>
         /// Enumerates the all contained tokens.
         /// </summary>
         /// <returns>The enumeration of the all contained tokens.</returns>

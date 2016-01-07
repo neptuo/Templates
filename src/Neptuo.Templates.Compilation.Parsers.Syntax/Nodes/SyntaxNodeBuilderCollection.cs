@@ -27,7 +27,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             {
                 Token token = reader.Current;
                 ISyntaxNode node = BuildNext(reader);
-                result.Nodes.Add(node);
+                result.Add(node);
             }
 
             return result;

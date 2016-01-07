@@ -25,7 +25,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
             if (token.Type == CurlyTokenType.OpenBrace)
             {
-                result.OpenToken = token;
+                result.WithOpenToken(token);
                 return BuildName(reader, result, context);
             }
             else
@@ -41,17 +41,17 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             CurlyNameSyntax name = new CurlyNameSyntax();
             if (reader.Current.Type == CurlyTokenType.NamePrefix)
             {
-                name.PrefixToken = reader.Current;
+                name.WithPrefixToken(reader.Current);
 
                 reader.NextRequiredOfType(CurlyTokenType.NameSeparator);
-                name.NameSeparatorToken = reader.Current;
+                name.WithNameSeparatorToken(reader.Current);
 
                 reader.NextRequiredOfType(CurlyTokenType.Name);
-                name.NameToken = reader.Current;
+                name.WithNameToken(reader.Current);
             }
             else if (reader.Current.Type == CurlyTokenType.Name)
             {
-                name.NameToken = reader.Current;
+                name.WithNameToken(reader.Current);
             }
             else
             {
@@ -59,7 +59,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
 
             TryAppendTrailingTrivia(reader, name);
-            result.Name = name;
+            result.WithName(name);
             BuildContent(reader, result, context);
             return result;
         }
@@ -79,11 +79,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
         private void BuildDefaultAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
         {
-            CyrlyDefaultAttributeSyntax attribute = new CyrlyDefaultAttributeSyntax()
-            {
-                Value = reader.Current
-            };
-            result.DefaultAttributes.Add(attribute);
+            CurlyDefaultAttributeSyntax attribute = new CurlyDefaultAttributeSyntax()
+                .WithValue(context.BuildNext(reader));
+
+            result.AddDefaultAttribute(attribute);
 
             reader.NextRequired();
 
@@ -119,13 +118,12 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         private void BuildAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
         {
             CurlyAttributeSyntax attribute = new CurlyAttributeSyntax()
-            {
-                NameToken = reader.Current
-            };
-            result.Attributes.Add(attribute);
+                .WithNameToken(reader.Current);
+
+            result.AddAttribute(attribute);
 
             reader.NextRequiredOfType(CurlyTokenType.AttributeValueSeparator);
-            attribute.ValueSeparatorToken = reader.Current;
+            attribute.WithValueSeparatorToken(reader.Current);
 
             reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
@@ -143,7 +141,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                attribute.Value = context.BuildNext(reader);
+                attribute.WithValue(context.BuildNext(reader));
 
                 reader.NextRequired();
                 if (reader.Current.Type == CurlyTokenType.CloseBrace)
@@ -172,7 +170,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
         private void BuildTokenClose(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
         {
-            result.CloseToken = reader.Current;
+            result.WithCloseToken(reader.Current);
         }
 
         private void TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)

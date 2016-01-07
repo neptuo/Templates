@@ -10,6 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
     public abstract class SyntaxNodeBase<T> : ISyntaxNode, ICloneable<T>
         where T : SyntaxNodeBase<T>
     {
+        public ISyntaxNode Parent { get; set; }
         public IList<Token> LeadingTrivia { get; protected set; }
         public IList<Token> TrailingTrivia { get; protected set; }
 

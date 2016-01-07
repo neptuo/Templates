@@ -19,18 +19,16 @@ namespace UnitTest.Templates.Parsers
             ISyntaxNodeVisitor visitor = CreateVisitor();
 
             AngleSyntax syntax = new AngleSyntax()
-            {
-                OpenToken = new TokenFactory().WithText("<"),
-                Name = new AngleNameSyntax()
-                {
-                    NameToken = new TokenFactory().WithText("Literal")
-                },
-                SelfCloseToken = new TokenFactory().WithText("/"),
-                CloseToken = new TokenFactory().WithText(">")
-            };
+                .WithOpenToken(new TokenFactory().WithText("<"))
+                .WithName(
+                    new AngleNameSyntax()
+                        .WithNameToken(new TokenFactory().WithText("Literal"))
+                )
+                .WithSelfCloseToken(new TokenFactory().WithText("/"))
+                .WithCloseToken(new TokenFactory().WithText(">"));
 
             SyntaxCollection collection = new SyntaxCollection();
-            collection.Nodes.Add(syntax);
+            collection.Add(syntax);
 
             Processor1 processor = new Processor1();
             visitor.Visit(collection, processor);
@@ -48,6 +46,10 @@ namespace UnitTest.Templates.Parsers
             public void Process(ISyntaxNode node)
             {
                 Assert.IsNotNull(node);
+
+                if (VisitedTypes.Count != 0)
+                    Assert.IsNotNull(node.Parent);
+
                 VisitedTypes.Add(node.GetType());
             }
         }

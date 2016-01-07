@@ -16,6 +16,16 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             Nodes = new List<ISyntaxNode>();
         }
 
+        public SyntaxCollection Add(ISyntaxNode node)
+        {
+            Nodes.Add(node);
+
+            if (node != null)
+                node.Parent = this;
+
+            return this;
+        }
+
         protected override SyntaxCollection CloneInternal()
         {
             SyntaxCollection result = new SyntaxCollection();

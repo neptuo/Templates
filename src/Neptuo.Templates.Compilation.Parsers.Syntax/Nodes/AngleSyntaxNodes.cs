@@ -9,11 +9,47 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     public class AngleSyntax : SyntaxNodeBase<AngleSyntax>
     {
-        public Token OpenToken { get; set; }
-        public AngleNameSyntax Name { get; set; }
-        public Token SelfCloseToken { get; set; }
-        public Token CloseToken { get; set; }
-        public IList<AngleAttributeSyntax> Attributes { get; set; }
+        public Token OpenToken { get; private set; }
+        public AngleNameSyntax Name { get; private set; }
+        public Token SelfCloseToken { get; private set; }
+        public Token CloseToken { get; private set; }
+        public IList<AngleAttributeSyntax> Attributes { get; private set; }
+
+        public AngleSyntax WithOpenToken(Token openToken)
+        {
+            OpenToken = openToken;
+            return this;
+        }
+
+        public AngleSyntax WithName(AngleNameSyntax name)
+        {
+            Name = name;
+
+            if (name != null) 
+                name.Parent = this;
+
+            return this;
+        }
+
+        public AngleSyntax WithSelfCloseToken(Token selfCloseToken)
+        {
+            SelfCloseToken = selfCloseToken;
+            return this;
+        }
+
+        public AngleSyntax WithCloseToken(Token closeToken)
+        {
+            CloseToken = closeToken;
+            return this;
+        }
+
+        public AngleSyntax AddAttribute(AngleAttributeSyntax attribute)
+        {
+            Ensure.NotNull(attribute, "attribute");
+            Attributes.Add(attribute);
+            attribute.Parent = this;
+            return this;
+        }
 
         public AngleSyntax()
         {
@@ -61,9 +97,27 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
     public class AngleNameSyntax : SyntaxNodeBase<AngleNameSyntax>
     {
-        public Token PrefixToken { get; set; }
-        public Token NameSeparatorToken { get; set; }
-        public Token NameToken { get; set; }
+        public Token PrefixToken { get; private set; }
+        public Token NameSeparatorToken { get; private set; }
+        public Token NameToken { get; private set; }
+
+        public AngleNameSyntax WithPrefixToken(Token prefixToken)
+        {
+            PrefixToken = prefixToken;
+            return this;
+        }
+
+        public AngleNameSyntax WithNameSeparatorToken(Token nameSeparatorToken)
+        {
+            NameSeparatorToken = nameSeparatorToken;
+            return this;
+        }
+
+        public AngleNameSyntax WithNameToken(Token nameToken)
+        {
+            NameToken = nameToken;
+            return this;
+        }
 
         protected override AngleNameSyntax CloneInternal()
         {
@@ -94,11 +148,41 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
     public class AngleAttributeSyntax : SyntaxNodeBase<AngleAttributeSyntax>
     {
-        public AngleNameSyntax Name { get; set; }
-        public Token ValueSeparatorToken { get; set; }
-        public Token AttributeOpenValueToken { get; set; }
-        public ISyntaxNode Value { get; set; }
-        public Token AttributeCloseValueToken { get; set; }
+        public AngleNameSyntax Name { get; private set; }
+        public Token ValueSeparatorToken { get; private set; }
+        public Token AttributeOpenValueToken { get; private set; }
+        public ISyntaxNode Value { get; private set; }
+        public Token AttributeCloseValueToken { get; private set; }
+
+        public AngleAttributeSyntax WithName(AngleNameSyntax name)
+        {
+            Name = name;
+            return this;
+        }
+
+        public AngleAttributeSyntax WithValueSeparatorToken(Token valueSeparatorToken)
+        {
+            ValueSeparatorToken = valueSeparatorToken;
+            return this;
+        }
+
+        public AngleAttributeSyntax WithAttributeOpenValueToken(Token attributeOpenValueToken)
+        {
+            AttributeOpenValueToken = attributeOpenValueToken;
+            return this;
+        }
+
+        public AngleAttributeSyntax WithValue(ISyntaxNode value)
+        {
+            Value = value;
+            return this;
+        }
+
+        public AngleAttributeSyntax WithAttributeCloseValueToken(Token attributeCloseValueToken)
+        {
+            AttributeCloseValueToken = attributeCloseValueToken;
+            return this;
+        }
 
         protected override AngleAttributeSyntax CloneInternal()
         {
