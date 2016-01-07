@@ -14,6 +14,7 @@ namespace Test.Templates.VisualStudio.UI
         public static class CommandSet
         {
             public const int SyntaxTokenView = 0x100;
+            public const int SyntaxNodeView = 0x101;
         }
 
     }

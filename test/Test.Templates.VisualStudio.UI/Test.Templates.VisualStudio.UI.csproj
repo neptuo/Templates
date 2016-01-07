@@ -155,6 +155,7 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ViewModels\SyntaxTokenViewModel.cs" />
     <Compile Include="Views\DesignData\ViewModelLocator.cs" />
+    <Compile Include="Views\SyntaxNodeWindow.cs" />
     <Compile Include="Views\SyntaxTokenView.xaml.cs">
       <DependentUpon>SyntaxTokenView.xaml</DependentUpon>
     </Compile>

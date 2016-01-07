@@ -32,8 +32,10 @@ namespace Test.Templates.VisualStudio.UI
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
 #if DEBUG
+    [ProvideToolWindow(typeof(SyntaxNodeWindow), Style = VsDockStyle.Linked, Window = EnvDTE.Constants.vsWindowKindSolutionExplorer, DockedWidth = 300, Orientation = ToolWindowOrientation.Right)]
     [ProvideToolWindow(typeof(SyntaxTokenWindow), Style = VsDockStyle.Linked, Window = EnvDTE.Constants.vsWindowKindSolutionExplorer, DockedWidth = 300, Orientation = ToolWindowOrientation.Right)]
 #else
+    [ProvideToolWindow(typeof(SyntaxNodeWindow))]
     [ProvideToolWindow(typeof(SyntaxTokenWindow))]
 #endif
     public sealed class VsPackage : Package
@@ -47,13 +49,18 @@ namespace Test.Templates.VisualStudio.UI
 
             OleMenuCommandService commandService = GetService(typeof(IMenuCommandService)) as OleMenuCommandService;
 
-            CommandID commandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.SyntaxTokenView);
-            MenuCommand menuItem = new MenuCommand(OnSyntaxTokenView, commandID);
-            commandService.AddCommand(menuItem);
+            CommandID tokensCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.SyntaxTokenView);
+            MenuCommand tokensMenuItem = new MenuCommand(OnSyntaxTokenView, tokensCommandID);
+            commandService.AddCommand(tokensMenuItem);
+
+            CommandID nodesCommandID = new CommandID(MyConstants.CommandSetGuid, MyConstants.CommandSet.SyntaxNodeView);
+            MenuCommand nodesMenuItem = new MenuCommand(OnSyntaxNodeView, nodesCommandID);
+            commandService.AddCommand(nodesMenuItem);
 
 
 #if DEBUG
             OnSyntaxTokenView(null, null);
+            OnSyntaxNodeView(null, null);
 #endif
         }
 
@@ -63,6 +70,19 @@ namespace Test.Templates.VisualStudio.UI
         private void OnSyntaxTokenView(object sender, EventArgs e)
         {
             SyntaxTokenWindow window = (SyntaxTokenWindow)FindToolWindow(typeof(SyntaxTokenWindow), 0, true);
+            if (window != null && window.Frame != null)
+            {
+                IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
+                ErrorHandler.ThrowOnFailure(windowFrame.Show());
+            }
+        }
+
+        /// <summary>
+        /// When user clicks on "Open syntax nodes" menu command.
+        /// </summary>
+        private void OnSyntaxNodeView(object sender, EventArgs e)
+        {
+            SyntaxNodeWindow window = (SyntaxNodeWindow)FindToolWindow(typeof(SyntaxNodeWindow), 0, true);
             if (window != null && window.Frame != null)
             {
                 IVsWindowFrame windowFrame = (IVsWindowFrame)window.Frame;
