@@ -69,6 +69,7 @@
     <Compile Include="Nodes\SyntaxNodeException.cs" />
     <Compile Include="Nodes\Visitors\CurlyAttributeSyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\AngleAttributeSyntaxVisitor.cs" />
+    <Compile Include="Nodes\Visitors\CurlyDefaultAttributeSyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\CurlyNameSyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\AngleNameSyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\AngleSyntaxVisitor.cs" />

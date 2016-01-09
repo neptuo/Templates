@@ -115,8 +115,6 @@ namespace Test.Templates.VisualStudio.IntelliSense
 
         public void VsTextViewCreated(IVsTextView textViewAdapter)
         {
-            Initialize();
-
             IViewCommandHandler viewCommandHandler;
             if (!ViewCommandHandlerFactory.TryGet(textViewAdapter, out viewCommandHandler))
             {
@@ -130,6 +128,8 @@ namespace Test.Templates.VisualStudio.IntelliSense
                         CreateTokenTriggerProvider(textBuffer),
                         CreateAutomaticCompletionProvider(textBuffer)
                     );
+
+                    CreateSyntaxContext(textBuffer);
                 }
             }
         }
@@ -140,6 +140,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
             if (!CompletionSourceProviderFactory.TryGet(textBuffer, out completionSource))
             {
                 CreateSyntaxContext(textBuffer);
+
                 Initialize();
                 completionSource = CompletionSourceProviderFactory.Create(
                     textBuffer, 
@@ -163,6 +164,8 @@ namespace Test.Templates.VisualStudio.IntelliSense
                     tokenizerFactory.Create(textBuffer),
                     CreateTokenClassifierProvider(textBuffer)
                 );
+
+                CreateSyntaxContext(textBuffer);
             }
 
             return classifier;
@@ -178,6 +181,8 @@ namespace Test.Templates.VisualStudio.IntelliSense
                     textBuffer,
                     tokenizerFactory.Create(textBuffer)
                 );
+
+                CreateSyntaxContext(textBuffer);
             }
 
             return (ITagger<T>)tagger;

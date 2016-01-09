@@ -19,6 +19,7 @@
         <Style TargetType="Label">
             <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
             <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
+            <Setter Property="Padding" Value="0" />
         </Style>
 
         <HierarchicalDataTemplate DataType="{x:Type vm:SyntaxNodeViewModel}" ItemsSource="{Binding Children}">

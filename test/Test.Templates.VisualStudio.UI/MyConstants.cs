@@ -17,5 +17,10 @@ namespace Test.Templates.VisualStudio.UI
             public const int SyntaxNodeView = 0x101;
         }
 
+        public static class ToolWindow
+        {
+            public const string SyntaxTokenWindowString = "79D6D424-9EFA-4C1C-B0F0-D6F3E65DCE4A";
+            public const string SyntaxNodeWindowString = "B1B040F1-904C-4AAE-919C-616DB4BFA087";
+        }
     }
 }

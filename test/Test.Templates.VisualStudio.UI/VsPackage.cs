@@ -32,7 +32,7 @@ namespace Test.Templates.VisualStudio.UI
     [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
     [ProvideMenuResource("Menus.ctmenu", 1)]
 #if DEBUG
-    [ProvideToolWindow(typeof(SyntaxNodeWindow), Style = VsDockStyle.Linked, Window = EnvDTE.Constants.vsWindowKindSolutionExplorer, DockedWidth = 300, Orientation = ToolWindowOrientation.Right)]
+    [ProvideToolWindow(typeof(SyntaxNodeWindow), Style = VsDockStyle.Linked, Window = EnvDTE.Constants.vsWindowKindSolutionExplorer, DockedWidth = 450, Orientation = ToolWindowOrientation.Right)]
     [ProvideToolWindow(typeof(SyntaxTokenWindow), Style = VsDockStyle.Linked, Window = EnvDTE.Constants.vsWindowKindSolutionExplorer, DockedWidth = 300, Orientation = ToolWindowOrientation.Right)]
 #else
     [ProvideToolWindow(typeof(SyntaxNodeWindow))]
@@ -59,7 +59,7 @@ namespace Test.Templates.VisualStudio.UI
 
 
 #if DEBUG
-            OnSyntaxTokenView(null, null);
+            //OnSyntaxTokenView(null, null);
             OnSyntaxNodeView(null, null);
 #endif
         }

@@ -21,6 +21,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
                 .Add(typeof(AngleAttributeSyntax), new AngleAttributeSyntaxVisitor())
                 .Add(typeof(CurlySyntax), new CurlySyntaxVisitor())
                 .Add(typeof(CurlyNameSyntax), new CurlyNameSyntaxVisitor())
+                .Add(typeof(CurlyDefaultAttributeSyntax), new CurlyDefaultAttributeSyntaxVisitor())
                 .Add(typeof(CurlyAttributeSyntax), new CurlyAttributeSyntaxVisitor());
         }
     }

@@ -17,7 +17,7 @@ using Test.Templates.VisualStudio.UI.ViewModels;
 
 namespace Test.Templates.VisualStudio.UI.Views
 {
-    [Guid("B1B040F1-904C-4AAE-919C-616DB4BFA087")]
+    [Guid(MyConstants.ToolWindow.SyntaxNodeWindowString)]
     public class SyntaxNodeWindow : ToolWindowPane
     {
         private readonly ISyntaxNodeVisitor visitor;
@@ -168,7 +168,7 @@ namespace Test.Templates.VisualStudio.UI.Views
                     {
                         if (parents[i].SyntaxNode == node.Parent)
                         {
-                            for (int j = 0; j < i - 1; j++)
+                            for (int j = 0; j < i; j++)
                                 parents.Remove(parents[0]);
 
                             SyntaxNodeViewModel viewModel = new SyntaxNodeViewModel(node);

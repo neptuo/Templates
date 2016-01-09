@@ -13,6 +13,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
             if (node.Name != null)
                 processor.Process(node.Name);
 
+            foreach (CurlyDefaultAttributeSyntax attribute in node.DefaultAttributes)
+                processor.Process(attribute);
+
             foreach (CurlyAttributeSyntax attribute in node.Attributes)
                 processor.Process(attribute);
         }

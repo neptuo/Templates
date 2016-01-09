@@ -24,7 +24,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public AngleSyntax WithName(AngleNameSyntax name)
         {
             Name = name;
-
             if (name != null) 
                 name.Parent = this;
 
@@ -157,6 +156,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public AngleAttributeSyntax WithName(AngleNameSyntax name)
         {
             Name = name;
+            if (name != null)
+                name.Parent = this;
+
             return this;
         }
 
@@ -175,6 +177,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public AngleAttributeSyntax WithValue(ISyntaxNode value)
         {
             Value = value;
+            if (value != null)
+                value.Parent = this;
+
             return this;
         }
 

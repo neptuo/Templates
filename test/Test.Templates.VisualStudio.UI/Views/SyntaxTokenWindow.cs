@@ -20,7 +20,7 @@ using Test.Templates.VisualStudio.UI.ViewModels;
 
 namespace Test.Templates.VisualStudio.UI.Views
 {
-    [Guid("79D6D424-9EFA-4C1C-B0F0-D6F3E65DCE4A")]
+    [Guid(MyConstants.ToolWindow.SyntaxTokenWindowString)]
     public class SyntaxTokenWindow : ToolWindowPane
     {
         private readonly CurrentBufferPropertyProvider propertyProvider;
