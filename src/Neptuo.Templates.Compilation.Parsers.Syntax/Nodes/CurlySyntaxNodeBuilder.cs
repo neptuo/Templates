@@ -79,13 +79,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
         private void BuildDefaultAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
         {
-            CurlyDefaultAttributeSyntax attribute = new CurlyDefaultAttributeSyntax()
-                .WithValue(context.BuildNext(reader));
+            CurlyDefaultAttributeSyntax attribute = new CurlyDefaultAttributeSyntax();
+            if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue)
+                attribute.WithValue(new LiteralSyntax().WithTextToken(reader.Current));
+            else
+                attribute.WithValue(context.BuildNext(reader));
 
             result.AddDefaultAttribute(attribute);
 
             reader.NextRequired();
-
             //TODO: Partially copied from BuildAttribute.
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
             {

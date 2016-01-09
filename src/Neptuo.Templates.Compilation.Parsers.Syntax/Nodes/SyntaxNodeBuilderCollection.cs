@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
             else
             {
-                throw new NotImplementedException();
+                throw new InvalidTokenTypeException(reader.Current, storage.Keys.ToArray());
             }
         }
     }

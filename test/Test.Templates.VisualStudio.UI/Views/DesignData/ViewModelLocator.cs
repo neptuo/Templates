@@ -50,7 +50,7 @@ namespace Test.Templates.VisualStudio.UI.Views.DesignData
             {
                 if (syntaxNodeViewModel == null)
                 {
-                    syntaxNodeViewModel = new SyntaxNodeViewModel();
+                    syntaxNodeViewModel = new SyntaxNodeViewModel("Unnable to find syntax node builder.");
                 }
 
                 return syntaxNodeViewModel;

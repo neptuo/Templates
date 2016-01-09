@@ -13,13 +13,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         {
             if (reader.Current.Type == TokenType.Literal)
             {
-                return new LiteralSyntax
-                {
-                    TextToken = reader.Current
-                };
+                return new LiteralSyntax()
+                    .WithTextToken(reader.Current);
             }
 
-            throw new NotImplementedException();
+            throw new InvalidTokenTypeException(reader.Current, TokenType.Literal);
         }
     }
 }

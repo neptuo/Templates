@@ -1,8 +1,10 @@
 ﻿using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Text.Editor;
+using Neptuo;
 using Neptuo.Localization;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors;
 using Neptuo.Templates.VisualStudio.IntelliSense;
 using System;
 using System.Collections.Generic;
@@ -10,6 +12,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Test.Templates.VisualStudio.IntelliSense;
 using Test.Templates.VisualStudio.UI.ViewModels;
 
 namespace Test.Templates.VisualStudio.UI.Views
@@ -17,6 +20,7 @@ namespace Test.Templates.VisualStudio.UI.Views
     [Guid("B1B040F1-904C-4AAE-919C-616DB4BFA087")]
     public class SyntaxNodeWindow : ToolWindowPane
     {
+        private readonly ISyntaxNodeVisitor visitor;
         private readonly CurrentBufferPropertyProvider propertyProvider;
         private readonly DTE dte;
         private ITextView currentTextView;
@@ -47,6 +51,8 @@ namespace Test.Templates.VisualStudio.UI.Views
             ContentView = new SyntaxNodeView();
             ViewModel = new SyntaxNodeViewModel();
 
+
+            visitor = new SyntaxVisitorFactory().Create();
             dte = (DTE)ServiceProvider.GlobalProvider.GetService(typeof(DTE));
 
             propertyProvider = new CurrentBufferPropertyProvider()
@@ -64,6 +70,7 @@ namespace Test.Templates.VisualStudio.UI.Views
 
             // Subscribe to the new context.
             context.RootNodeChanged += OnCurrentRootNodeChanged;
+            context.Error += OnCurrentErrorRaised;
             currentContext = context;
             currentTextView = textView;
             OnCurrentRootNodeChanged(currentContext);
@@ -97,7 +104,17 @@ namespace Test.Templates.VisualStudio.UI.Views
 
         private void OnCurrentRootNodeChanged(SyntaxContext context)
         {
-            // TODO: Replace old nodes by the new nodes. 
+            if (context.RootNode != null)
+            {
+                ViewModelBuilder builder = new ViewModelBuilder();
+                visitor.Visit(context.RootNode, builder);
+
+                if (builder.RootViewModel != null)
+                {
+                    ViewModel = builder.RootViewModel;
+                    return;
+                }
+            }
         }
 
         private void OnCurrentErrorRaised(SyntaxContext context, SyntaxNodeException e)
@@ -121,5 +138,48 @@ namespace Test.Templates.VisualStudio.UI.Views
                 propertyProvider.Dispose();
             }
         }
+
+
+        private class ViewModelBuilder : ISyntaxNodeProcessor
+        {
+            private readonly List<SyntaxNodeViewModel> parents = new List<SyntaxNodeViewModel>();
+
+            public SyntaxNodeViewModel RootViewModel { get; private set; }
+
+            public void Process(ISyntaxNode node)
+            {
+                if (parents.Count == 0)
+                {
+                    RootViewModel = new SyntaxNodeViewModel(node);
+                    parents.Insert(0, RootViewModel);
+                    return;
+                }
+
+                if (parents[0].SyntaxNode == node.Parent)
+                {
+                    SyntaxNodeViewModel viewModel = new SyntaxNodeViewModel(node);
+                    parents[0].Children.Add(viewModel);
+                    return;
+                }
+                else 
+                {
+                    for (int i = 1; i < parents.Count; i++)
+                    {
+                        if (parents[i] == node.Parent)
+                        {
+                            for (int j = 0; j < i - 1; j++)
+                                parents.Remove(parents[0]);
+
+                            SyntaxNodeViewModel viewModel = new SyntaxNodeViewModel(node);
+                            parents[0].Children.Add(viewModel);
+                            return;
+                        }
+                    }
+                }
+
+                throw Ensure.Exception.NotSupported();
+            }
+        }
+
     }
 }

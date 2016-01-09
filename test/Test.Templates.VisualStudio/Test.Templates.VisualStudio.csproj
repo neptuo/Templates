@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IntelliSense\SyntaxVisitorFactory.cs" />
     <Compile Include="NtContentType.cs" />
     <Compile Include="IntelliSense\NtEditorService.cs" />
     <Compile Include="IntelliSense\TokenizerFactory.cs" />

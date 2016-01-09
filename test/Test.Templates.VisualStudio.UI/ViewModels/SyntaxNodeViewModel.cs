@@ -1,4 +1,7 @@
-﻿using Neptuo.Observables;
+﻿using Neptuo;
+using Neptuo.Observables;
+using Neptuo.Observables.Collections;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +24,41 @@ namespace Test.Templates.VisualStudio.UI.ViewModels
                     RaisePropertyChanged();
                 }
             }
+        }
+
+        private ISyntaxNode syntaxNode;
+        public ISyntaxNode SyntaxNode
+        {
+            get { return syntaxNode; }
+            set
+            {
+                if (syntaxNode != value)
+                {
+                    syntaxNode = value;
+                    RaisePropertyChanged();
+                }
+            }
+        }
+
+        public ObservableCollection<SyntaxNodeViewModel> Children { get; private set; }
+
+        public SyntaxNodeViewModel()
+        {
+            Children = new ObservableCollection<SyntaxNodeViewModel>();
+        }
+
+        public SyntaxNodeViewModel(string errorMessage)
+            : this()
+        {
+            Ensure.NotNullOrEmpty(errorMessage, "errorMessage");
+            ErrorMessage = errorMessage;
+        }
+
+        public SyntaxNodeViewModel(ISyntaxNode syntaxNode)
+            : this()
+        {
+            Ensure.NotNull(syntaxNode, "syntaxNode");
+            this.syntaxNode = syntaxNode;
         }
     }
 }

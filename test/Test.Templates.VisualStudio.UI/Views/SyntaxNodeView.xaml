@@ -8,11 +8,12 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}">
     <UserControl.Resources>
-        <Style TargetType="ListView">
+        <Style TargetType="TreeView">
             <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
-        <Style TargetType="TextBlock">
+        <Style TargetType="Label">
+            <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
             <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
         </Style>
     </UserControl.Resources>
@@ -23,5 +24,12 @@
         </Grid.RowDefinitions>
         
         <Label Content="{Binding ErrorMessage}" />
+        <TreeView Grid.Row="1" ItemsSource="{Binding Children}">
+            <TreeView.ItemTemplate>
+                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                    <Label Content="{Binding}" />
+                </HierarchicalDataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
     </Grid>
 </UserControl>

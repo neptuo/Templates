@@ -9,7 +9,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     public class LiteralSyntax : SyntaxNodeBase<LiteralSyntax>
     {
-        public Token TextToken { get; set; }
+        public Token TextToken { get; private set; }
+
+        public LiteralSyntax WithTextToken(Token textToken)
+        {
+            TextToken = textToken;
+            return this;
+        }
 
         protected override LiteralSyntax CloneInternal()
         {
