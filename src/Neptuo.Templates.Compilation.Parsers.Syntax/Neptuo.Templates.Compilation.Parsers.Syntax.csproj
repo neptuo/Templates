@@ -67,9 +67,12 @@
     <Compile Include="Nodes\InvalidTokenTypeException.cs" />
     <Compile Include="Nodes\MissingNextTokenException.cs" />
     <Compile Include="Nodes\SyntaxNodeException.cs" />
+    <Compile Include="Nodes\Visitors\CurlyAttributeSyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\AngleAttributeSyntaxVisitor.cs" />
+    <Compile Include="Nodes\Visitors\CurlyNameSyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\AngleNameSyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\AngleSyntaxVisitor.cs" />
+    <Compile Include="Nodes\Visitors\CurlySyntaxVisitor.cs" />
     <Compile Include="Nodes\Visitors\ISyntaxNodeProcessor.cs" />
     <Compile Include="Nodes\Visitors\ISyntaxNodeVisitor.cs" />
     <Compile Include="Nodes\Visitors\LiteralSyntaxVisitor.cs" />

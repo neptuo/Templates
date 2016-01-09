@@ -17,7 +17,10 @@ namespace UnitTest.Templates.Parsers
                 .Add(typeof(SyntaxCollection), new SyntaxCollectionVisitor())
                 .Add(typeof(AngleSyntax), new AngleSyntaxVisitor())
                 .Add(typeof(AngleNameSyntax), new AngleNameSyntaxVisitor())
-                .Add(typeof(AngleAttributeSyntax), new AngleAttributeSyntaxVisitor());
+                .Add(typeof(AngleAttributeSyntax), new AngleAttributeSyntaxVisitor())
+                .Add(typeof(CurlySyntax), new CurlySyntaxVisitor())
+                .Add(typeof(CurlyNameSyntax), new CurlyNameSyntaxVisitor())
+                .Add(typeof(CurlyAttributeSyntax), new CurlyAttributeSyntaxVisitor());
         }
     }
 }

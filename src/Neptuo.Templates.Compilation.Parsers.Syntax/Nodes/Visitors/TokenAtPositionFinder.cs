@@ -17,11 +17,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
             Position = position;
         }
 
-        public void Process(ISyntaxNode node)
+        public bool Process(ISyntaxNode node)
         {
             bool isMatch = node.GetTokens().Any(t => t.TextSpan.StartIndex <= Position && t.TextSpan.StartIndex + t.TextSpan.Length >= Position);
             if (isMatch)
                 BestMatch = node;
+
+            return true;
         }
     }
 }

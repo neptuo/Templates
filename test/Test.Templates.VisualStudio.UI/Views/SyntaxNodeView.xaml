@@ -4,6 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" 
              xmlns:dd="clr-namespace:Test.Templates.VisualStudio.UI.Views.DesignData" d:DataContext="{x:Static dd:ViewModelLocator.SyntaxNodeViewModel}"
+             xmlns:vm="clr-namespace:Test.Templates.VisualStudio.UI.ViewModels"
              d:DesignHeight="300" d:DesignWidth="300"
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}">
@@ -12,10 +13,17 @@
             <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
+        <Style TargetType="TreeViewItem">
+            <Setter Property="IsExpanded" Value="True" />
+        </Style>
         <Style TargetType="Label">
             <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
             <Setter Property="Foreground" Value="{DynamicResource VsBrush.WindowText}" />
         </Style>
+
+        <HierarchicalDataTemplate DataType="{x:Type vm:SyntaxNodeViewModel}" ItemsSource="{Binding Children}">
+            <Label Content="{Binding SyntaxNode}" />
+        </HierarchicalDataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -24,12 +32,6 @@
         </Grid.RowDefinitions>
         
         <Label Content="{Binding ErrorMessage}" />
-        <TreeView Grid.Row="1" ItemsSource="{Binding Children}">
-            <TreeView.ItemTemplate>
-                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
-                    <Label Content="{Binding}" />
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
+        <TreeView Grid.Row="1" ItemsSource="{Binding Children}" />
     </Grid>
 </UserControl>

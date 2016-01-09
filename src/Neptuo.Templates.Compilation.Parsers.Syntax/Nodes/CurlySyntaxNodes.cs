@@ -158,7 +158,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public CurlyDefaultAttributeSyntax WithValue(ISyntaxNode value)
         {
             Value = value;
-
             if (value != null)
                 value.Parent = this;
 
@@ -200,6 +199,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public CurlyAttributeSyntax WithValue(ISyntaxNode value)
         {
             Value = value;
+            if (value != null)
+                value.Parent = this;
+
             return this;
         }
 

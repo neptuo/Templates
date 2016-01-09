@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
@@ -51,6 +52,19 @@ namespace Test.Templates.VisualStudio.UI.Views.DesignData
                 if (syntaxNodeViewModel == null)
                 {
                     syntaxNodeViewModel = new SyntaxNodeViewModel("Unnable to find syntax node builder.");
+                    syntaxNodeViewModel.Children.Add(
+                        new SyntaxNodeViewModel(
+                            new AngleSyntax()
+                                .WithOpenToken(new Token(AngleTokenType.OpenBrace, "<"))
+                                .WithName(new AngleNameSyntax().WithNameToken(new Token(AngleTokenType.Name, "Binding")))
+                                .WithSelfCloseToken(new Token(AngleTokenType.SelfClose, "/"))
+                                .WithCloseToken(new Token(AngleTokenType.CloseBrace, ">"))
+                        )
+                            .AddChild(new SyntaxNodeViewModel(
+                                new AngleNameSyntax()
+                                    .WithNameToken(new Token(AngleTokenType.Name, "Binding"))
+                            ))
+                    );
                 }
 
                 return syntaxNodeViewModel;

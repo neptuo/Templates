@@ -60,5 +60,12 @@ namespace Test.Templates.VisualStudio.UI.ViewModels
             Ensure.NotNull(syntaxNode, "syntaxNode");
             this.syntaxNode = syntaxNode;
         }
+
+        public SyntaxNodeViewModel AddChild(SyntaxNodeViewModel viewModel)
+        {
+            Ensure.NotNull(viewModel, "viewModel");
+            Children.Add(viewModel);
+            return this;
+        }
     }
 }

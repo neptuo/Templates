@@ -146,38 +146,41 @@ namespace Test.Templates.VisualStudio.UI.Views
 
             public SyntaxNodeViewModel RootViewModel { get; private set; }
 
-            public void Process(ISyntaxNode node)
+            public bool Process(ISyntaxNode node)
             {
                 if (parents.Count == 0)
                 {
                     RootViewModel = new SyntaxNodeViewModel(node);
                     parents.Insert(0, RootViewModel);
-                    return;
+                    return true;
                 }
 
                 if (parents[0].SyntaxNode == node.Parent)
                 {
                     SyntaxNodeViewModel viewModel = new SyntaxNodeViewModel(node);
                     parents[0].Children.Add(viewModel);
-                    return;
+                    parents.Insert(0, viewModel);
+                    return true;
                 }
                 else 
                 {
                     for (int i = 1; i < parents.Count; i++)
                     {
-                        if (parents[i] == node.Parent)
+                        if (parents[i].SyntaxNode == node.Parent)
                         {
                             for (int j = 0; j < i - 1; j++)
                                 parents.Remove(parents[0]);
 
                             SyntaxNodeViewModel viewModel = new SyntaxNodeViewModel(node);
                             parents[0].Children.Add(viewModel);
-                            return;
+                            parents.Insert(0, viewModel);
+                            return true;
                         }
                     }
                 }
 
-                throw Ensure.Exception.NotSupported();
+                //throw Ensure.Exception.NotSupported();
+                return true;
             }
         }
 

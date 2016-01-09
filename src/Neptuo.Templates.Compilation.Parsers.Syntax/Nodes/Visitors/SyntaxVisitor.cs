@@ -48,10 +48,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
                 this.handler = handler;
             }
 
-            public void Process(ISyntaxNode node)
+            public bool Process(ISyntaxNode node)
             {
-                innerProcessor.Process(node);
-                handler(node, this);
+                bool result = innerProcessor.Process(node);
+                if (result)
+                    handler(node, this);
+
+                return result;
             }
         }
     }

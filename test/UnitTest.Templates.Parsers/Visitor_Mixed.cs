@@ -43,7 +43,7 @@ namespace UnitTest.Templates.Parsers
         {
             public readonly List<Type> VisitedTypes = new List<Type>();
 
-            public void Process(ISyntaxNode node)
+            public bool Process(ISyntaxNode node)
             {
                 Assert.IsNotNull(node);
 
@@ -51,6 +51,7 @@ namespace UnitTest.Templates.Parsers
                     Assert.IsNotNull(node.Parent);
 
                 VisitedTypes.Add(node.GetType());
+                return true;
             }
         }
 

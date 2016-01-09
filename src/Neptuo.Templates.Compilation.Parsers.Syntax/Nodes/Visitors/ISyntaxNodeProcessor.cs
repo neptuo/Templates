@@ -8,6 +8,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
     public interface ISyntaxNodeProcessor
     {
-        void Process(ISyntaxNode node);
+        bool Process(ISyntaxNode node);
     }
 }

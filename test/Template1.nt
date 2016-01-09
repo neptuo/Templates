@@ -11,4 +11,4 @@ asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
 d as das dasd a
 sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
 
-asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,}
+asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,} as 
