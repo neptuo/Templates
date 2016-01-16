@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Tagging;
+using Microsoft.VisualStudio.Text.Classification;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
@@ -10,16 +10,19 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
 {
-    [Export(typeof(ErrorTaggerProviderFactory))]
-    public class ErrorTaggerProviderFactory
+    [Export(typeof(ClassifierFactory))]
+    public class ClassifierFactory
     {
-        public bool TryGet(ITextBuffer textBuffer, out ITagger<IErrorTag> tagger)
+        [Import]
+        internal IClassificationTypeRegistryService Registry { get; set; }
+
+        public bool TryGet(ITextBuffer textBuffer, out IClassifier classifier)
         {
             Ensure.NotNull(textBuffer, "textBuffer");
-            return textBuffer.Properties.TryGetProperty(typeof(ErrorTagger), out tagger);
+            return textBuffer.Properties.TryGetProperty(typeof(Classifier), out classifier);
         }
 
-        public ITagger<IErrorTag> Create(ITextBuffer textBuffer, ITokenizer tokenizer)
+        public IClassifier Create(ITextBuffer textBuffer, ITokenizer tokenizer, ITokenClassificationProvider tokenClassificationProvider)
         {
             return textBuffer.Properties.GetOrCreateSingletonProperty(() =>
             {
@@ -29,7 +32,12 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                 TokenContext tokenContext = textBuffer.Properties
                     .GetOrCreateSingletonProperty(() => new TokenContext(textContext, tokenizer));
 
-                return new ErrorTagger(tokenContext, textBuffer);
+                return new Classifier(
+                    tokenContext,
+                    Registry,
+                    textBuffer,
+                    tokenClassificationProvider
+                );
             });
         }
     }

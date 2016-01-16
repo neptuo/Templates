@@ -34,13 +34,13 @@ namespace Test.Templates.VisualStudio.IntelliSense
         internal ViewCommandHandlerFactory ViewCommandHandlerFactory { get; set; }
 
         [Import]
-        internal CompletionSourceProviderFactory CompletionSourceProviderFactory { get; set; }
+        internal CompletionSourceFactory CompletionSourceFactory { get; set; }
 
         [Import]
-        internal ClassifierProviderFactory ClassifierProviderFactory { get; set; }
+        internal ClassifierFactory ClassifierFactory { get; set; }
 
         [Import]
-        internal ErrorTaggerProviderFactory ErrorTaggerProviderFactory { get; set; }
+        internal ErrorTaggerFactory ErrorTaggerFactory { get; set; }
 
         [Import]
         internal IGlyphService GlyphService { get; set; }
@@ -137,12 +137,12 @@ namespace Test.Templates.VisualStudio.IntelliSense
         public ICompletionSource TryCreateCompletionSource(ITextBuffer textBuffer)
         {
             ICompletionSource completionSource;
-            if (!CompletionSourceProviderFactory.TryGet(textBuffer, out completionSource))
+            if (!CompletionSourceFactory.TryGet(textBuffer, out completionSource))
             {
                 CreateSyntaxContext(textBuffer);
 
                 Initialize();
-                completionSource = CompletionSourceProviderFactory.Create(
+                completionSource = CompletionSourceFactory.Create(
                     textBuffer, 
                     tokenizerFactory.Create(textBuffer),
                     CreateCompletionProvider(textBuffer),
@@ -156,10 +156,10 @@ namespace Test.Templates.VisualStudio.IntelliSense
         public IClassifier GetClassifier(ITextBuffer textBuffer)
         {
             IClassifier classifier;
-            if (!ClassifierProviderFactory.TryGet(textBuffer, out classifier))
+            if (!ClassifierFactory.TryGet(textBuffer, out classifier))
             {
                 Initialize();
-                classifier = ClassifierProviderFactory.Create(
+                classifier = ClassifierFactory.Create(
                     textBuffer,
                     tokenizerFactory.Create(textBuffer),
                     CreateTokenClassifierProvider(textBuffer)
@@ -175,9 +175,9 @@ namespace Test.Templates.VisualStudio.IntelliSense
             where T : ITag
         {
             ITagger<IErrorTag> tagger;
-            if (!ErrorTaggerProviderFactory.TryGet(textBuffer, out tagger))
+            if (!ErrorTaggerFactory.TryGet(textBuffer, out tagger))
             {
-                tagger = ErrorTaggerProviderFactory.Create(
+                tagger = ErrorTaggerFactory.Create(
                     textBuffer,
                     tokenizerFactory.Create(textBuffer)
                 );

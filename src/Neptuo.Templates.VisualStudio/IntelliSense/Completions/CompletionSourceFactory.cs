@@ -1,5 +1,5 @@
-﻿using Microsoft.VisualStudio.Text;
-using Microsoft.VisualStudio.Text.Classification;
+﻿using Microsoft.VisualStudio.Language.Intellisense;
+using Microsoft.VisualStudio.Text;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
@@ -8,21 +8,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
+namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 {
-    [Export(typeof(ClassifierProviderFactory))]
-    public class ClassifierProviderFactory
+    [Export(typeof(CompletionSourceFactory))]
+    public class CompletionSourceFactory
     {
-        [Import]
-        internal IClassificationTypeRegistryService Registry { get; set; }
-
-        public bool TryGet(ITextBuffer textBuffer, out IClassifier classifier)
+        public bool TryGet(ITextBuffer textBuffer, out ICompletionSource completionSource)
         {
             Ensure.NotNull(textBuffer, "textBuffer");
-            return textBuffer.Properties.TryGetProperty(typeof(Classifier), out classifier);
+            return textBuffer.Properties.TryGetProperty(typeof(CompletionSource), out completionSource);
         }
 
-        public IClassifier Create(ITextBuffer textBuffer, ITokenizer tokenizer, ITokenClassificationProvider tokenClassificationProvider)
+        public ICompletionSource Create(ITextBuffer textBuffer, ITokenizer tokenizer, ICompletionProvider completionProvider, ICompletionTriggerProvider completionTriggerProvider)
         {
             return textBuffer.Properties.GetOrCreateSingletonProperty(() =>
             {
@@ -32,11 +29,11 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Classifications
                 TokenContext tokenContext = textBuffer.Properties
                     .GetOrCreateSingletonProperty(() => new TokenContext(textContext, tokenizer));
 
-                return new Classifier(
+                return new CompletionSource(
                     tokenContext,
-                    Registry,
-                    textBuffer,
-                    tokenClassificationProvider
+                    completionProvider,
+                    completionTriggerProvider,
+                    textBuffer
                 );
             });
         }
