@@ -34,7 +34,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStud
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation.Parsers", "src\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj", "{3418325A-D861-4FB7-BF59-215A0D19C5A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTest.Templates.Parsers.Tokenizers", "test\PerfTest.Templates.Parsers.Tokenizers\PerfTest.Templates.Parsers.Tokenizers.csproj", "{D51E2E8C-6BC8-4AE9-8159-7741597AC06E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PerfTest.Templates.Parsers", "test\PerfTest.Templates.Parsers\PerfTest.Templates.Parsers.csproj", "{D51E2E8C-6BC8-4AE9-8159-7741597AC06E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest.Templates.Parsers", "test\UnitTest.Templates.Parsers\UnitTest.Templates.Parsers.csproj", "{33730985-4BA4-4CA4-84FD-3306FEDED025}"
 EndProject
@@ -249,7 +249,7 @@ Global
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4} = {6B93C14C-2672-4935-AE18-C28432632F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

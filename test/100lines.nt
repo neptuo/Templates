@@ -1,0 +1,100 @@
+ aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
+f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
+d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
+ dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
+d as das dasd a
+sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+
+asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,} as 
+
+ aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
+f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
+d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
+ dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
+d as das dasd a
+sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+
+asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,} as 
+
+ aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
+f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
+d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
+ dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
+d as das dasd a
+sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+
+asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,} as 
+
+ aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
+f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
+d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
+ dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
+d as das dasd a
+sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+
+asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,} as 
+
+ aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
+f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
+d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
+ dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
+d as das dasd a
+sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+
+asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,} as 
+
+ aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
+f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
+d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
+ dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
+d as das dasd a
+sdd asdsada {Source Path=~/Templates/Index.nt} & {Template Path=~/Templates/Layout.nt} sdasdasdadsasdadsa sd {Binding Converter={StaticResource YY, Convert}} ...
+
+asd asd jalskd jasd {x:TemplateBinding Path=XX, Converter=ZZ} asd asd {TemplateBinding Key=XX, Converter=A,} as 
+ aslkd jaskld jalskd {Binding Path=X} asdk jalsd {Binding Path=ID, Converter=Static} asdad {Binding}
+asd klas dajslkd askld asd <Literal Text="{Binding Path={Binding Path={TemplateBinding X}}}" />
+ fdsf sd <ui:Literal Text="{TemplateBinding}" /> aa <Literal Text="{Binding Path}" Key="X" /> bb <Literal Text="{TemplateBinding}" Converter="{Template}" />
+f sd fsdfsdf {Binding} sadk lasjd kalsdj klas jdlkas {StaticResource} sad klas jdlkajd ad\asd as
+dasd as <ui:Literal Text="{Binding Path=ID, Converter={StaticResource IntToBool}}" />
+d as das d as das <Literal Path="{TemplateBinding Path=ID}" /> 
+ dasd sa dasd as das askld jsalkj fa jflkdsjf <ui:Literal Text="Angle" /> dlkfjsdlkf  {Binding} {StaticResource} asd {Binding} ....
+
+aa {Binding} xx {StaticResource} {StaticResource} xx {Binding Converter=XX, Path=ID, Key=A1} yy {TemplateBinding} {Binding} {TemplateBinding Path={Binding Converter={StaticResource XX}}}
+asd jkaskld ajsd a\sd as {Binding Path=ID, Converter={StaticResource IntToBool}}
+d as das dasd a

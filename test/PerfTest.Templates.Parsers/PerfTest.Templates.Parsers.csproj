@@ -7,8 +7,8 @@
     <ProjectGuid>{D51E2E8C-6BC8-4AE9-8159-7741597AC06E}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PerfTest.Templates.Parsers.Tokenizers</RootNamespace>
-    <AssemblyName>PerfTest.Templates.Parsers.Tokenizers</AssemblyName>
+    <RootNamespace>PerfTest.Templates.Parsers</RootNamespace>
+    <AssemblyName>PerfTest.Templates.Parsers</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
