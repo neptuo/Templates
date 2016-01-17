@@ -88,19 +88,24 @@ namespace Test.Templates.VisualStudio.IntelliSense
             );
         }
 
-        private SyntaxContext CreateSyntaxContext(ITextBuffer textBuffer)
+        private ISyntaxNodeFactory CreateSyntaxNodeFactory()
         {
             ISyntaxNodeFactory builder = new SyntaxNodeBuilderCollection()
                 .Add(AngleTokenType.OpenBrace, new AngleSyntaxNodeBuilder())
                 .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
                 .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
 
+            return builder;
+        }
+
+        private SyntaxContext CreateSyntaxContext(ITextBuffer textBuffer)
+        {
             return textBuffer.Properties.GetOrCreateSingletonProperty(
                 () =>
                 {
                     SyntaxContext context = new SyntaxContext(
                         textBuffer.Properties.GetProperty<TokenContext>(typeof(TokenContext)),
-                        builder
+                        CreateSyntaxNodeFactory()
                     );
                     context.RootNodeChanged += OnSyntaxRootNodeChanged;
                     return context;
@@ -145,6 +150,8 @@ namespace Test.Templates.VisualStudio.IntelliSense
                 completionSource = CompletionSourceFactory.Create(
                     textBuffer, 
                     tokenizerFactory.Create(textBuffer),
+                    CreateSyntaxNodeFactory(),
+                    new SyntaxVisitorFactory().Create(),
                     CreateCompletionProvider(textBuffer),
                     CreateTokenTriggerProvider(textBuffer)
                 );

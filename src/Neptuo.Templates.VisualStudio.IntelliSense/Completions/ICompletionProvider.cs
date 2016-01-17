@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,9 +13,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         /// <summary>
         /// Returns completion items for cursor at <paramref name="currentToken"/> in <paramref name="tokens"/>.
         /// </summary>
-        /// <param name="tokens">List of current tokens.</param>
-        /// <param name="currentToken">Token, in which cursor is.</param>
-        /// <returns>Enumeration of completion items for cursor at <paramref name="currentToken"/> in <paramref name="tokens"/>.</returns>
-        IEnumerable<ICompletion> GetCompletions(IReadOnlyList<Token> tokens, Token currentToken);
+        /// <param name="currentNode">The syntax node, where completion is to be provided.</param>
+        /// <param name="currentToken">The token, inside <paramref name="currenctNode"/>, where completion is to be provided.</param>
+        /// <returns>Enumeration of completion items for cursor at <paramref name="currentNode"/>.</returns>
+        IEnumerable<ICompletion> GetCompletions(ISyntaxNode currentNode, Token currentToken);
     }
 }

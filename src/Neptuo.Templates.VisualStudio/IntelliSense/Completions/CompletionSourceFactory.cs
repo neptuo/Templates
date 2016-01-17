@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
@@ -19,7 +21,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return textBuffer.Properties.TryGetProperty(typeof(CompletionSource), out completionSource);
         }
 
-        public ICompletionSource Create(ITextBuffer textBuffer, ITokenizer tokenizer, ICompletionProvider completionProvider, ICompletionTriggerProvider completionTriggerProvider)
+        public ICompletionSource Create(ITextBuffer textBuffer, ITokenizer tokenizer, ISyntaxNodeFactory nodeFactory, ISyntaxNodeVisitor nodeVisitor, ICompletionProvider completionProvider, ICompletionTriggerProvider completionTriggerProvider)
         {
             return textBuffer.Properties.GetOrCreateSingletonProperty(() =>
             {
@@ -29,9 +31,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
                 TokenContext tokenContext = textBuffer.Properties
                     .GetOrCreateSingletonProperty(() => new TokenContext(textContext, tokenizer));
 
+                SyntaxContext syntaxContext = textBuffer.Properties
+                    .GetOrCreateSingletonProperty(() => new SyntaxContext(tokenContext, nodeFactory));
+
                 return new CompletionSource(
-                    tokenContext,
+                    syntaxContext,
                     completionProvider,
+                    nodeVisitor,
                     completionTriggerProvider,
                     textBuffer
                 );

@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
@@ -44,7 +45,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             yield return new DefaultTokenTrigger(CurlyTokenType.AttributeValueSeparator, false);
         }
 
-        public IEnumerable<ICompletion> GetCompletions(IReadOnlyList<Token> tokens, Token currentToken)
+        public IEnumerable<ICompletion> GetCompletions(ISyntaxNode currentNode, Token currentToken)
         {
             List<ICompletion> result = new List<ICompletion>();
 

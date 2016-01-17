@@ -88,6 +88,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             else
                 currentSession = completionBroker.GetSessions(textView)[0];
 
+            currentSession.Properties.AddProperty(typeof(Token), FindCurrentToken());
             currentSession.Dismissed += OnSessionDismissed;
 
             if (!currentSession.IsStarted)
@@ -123,7 +124,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             return CommitResult.NoSession;
         }
 
-        public bool TryDismiss()
+        public bool TryDismissSession()
         {
             //check for a a selection 
             if (HasSession)
@@ -135,13 +136,28 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             return false;
         }
 
-        public bool TryFilter()
+        public bool TryFilterSession()
         {
             //check for a a selection 
             if (HasSession)
             {
-                currentSession.Filter();
-                return true;
+                Token startedOnToken = currentSession.Properties.GetProperty<Token>(typeof(Token));
+                Token currentToken = FindCurrentToken();
+
+                if (currentToken != null && startedOnToken != null)
+                {
+                    if (startedOnToken.Type == currentToken.Type)
+                    {
+                        currentSession.Filter();
+                    }
+                    else
+                    {
+                        TryDismissSession();
+                        TryStartSession();
+                    }
+
+                    return true;
+                }
             }
 
             return false;
@@ -171,7 +187,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
                 textView.Caret.MoveTo(new SnapshotPoint(textView.TextSnapshot, position + completion.Text.Length + completion.CursorPosition.Value));
                 if (!TryStartSession())
-                    TryFilter();
+                    TryFilterSession();
             }
 
             return false;

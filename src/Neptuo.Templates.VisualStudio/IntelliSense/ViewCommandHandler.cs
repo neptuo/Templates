@@ -67,7 +67,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 if (nCmdID == (uint)VSConstants.VSStd2KCmdID.RETURN || nCmdID == (uint)VSConstants.VSStd2KCmdID.TAB)
                 {
                     completionContext.TryCommit();
-                    completionContext.TryDismiss();
+                    completionContext.TryDismissSession();
                     return VSConstants.S_OK;
                 }
             }
@@ -89,11 +89,18 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 if (!completionContext.TryInsertAutomaticContent())
                 {
                     if (completionContext.IsStartToken())
-                        completionContext.TryStartSession();
+                    {
+                        if(!completionContext.TryStartSession())
+                            completionContext.TryFilterSession();
+                    }
                     else if (completionContext.IsCommitToken())
+                    {
                         completionContext.TryCommit();
+                    }
                     else if (completionContext.HasSession)
-                        completionContext.TryFilter();
+                    {
+                        completionContext.TryFilterSession();
+                    }
                 }
 
                 return VSConstants.S_OK;

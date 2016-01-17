@@ -1,4 +1,5 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -46,9 +47,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return this;
         }
 
-        public IEnumerable<ICompletion> GetCompletions(IReadOnlyList<Token> tokens, Token currentToken)
+        public IEnumerable<ICompletion> GetCompletions(ISyntaxNode currentNode, Token currentToken)
         {
-            return providers.SelectMany(p => p.GetCompletions(tokens, currentToken));
+            return providers.SelectMany(p => p.GetCompletions(currentNode, currentToken));
         }
     }
 }
