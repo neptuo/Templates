@@ -3,6 +3,7 @@ using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
+using Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,9 +20,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
         private readonly IGlyphService glyphService;
+        private readonly ICurlyCompletionSource completionSource;
         private readonly Dictionary<TokenType, string> classifications = new Dictionary<TokenType, string>();
 
-        public CurlyProvider(IGlyphService glyphService)
+        public CurlyProvider(IGlyphService glyphService, ICurlyCompletionSource completionSource)
         {
             Ensure.NotNull(glyphService, "glyphService");
             this.glyphService = glyphService;
@@ -49,19 +51,52 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         {
             List<ICompletion> result = new List<ICompletion>();
 
+            if (currentToken.Type == CurlyTokenType.OpenBrace)
+            {
+                result.AddRange(completionSource
+                    .GetNamespacesOrRootNames(null)
+                    .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphExtensionMethod))
+                );
+            }
             if (currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
             {
-                result.AddRange(tokenNames
-                    .Where(n => currentToken.Type == CurlyTokenType.OpenBrace || n.StartsWith(currentToken.Text))
+                result.AddRange(completionSource
+                    .GetNamespacesOrRootNames(currentToken.Text)
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphExtensionMethod))
                 );
             }
             else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
             {
-                result.AddRange(attributeNames
-                    .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))
-                    .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
-                );
+                CurlySyntax node = currentNode.FindFirstAncestorOfType<CurlySyntax>();
+                if (node == null)
+                    return Enumerable.Empty<ICompletion>();
+
+                string prefix = null;
+                if(node.Name.PrefixToken != null)
+                    prefix = node.Name.PrefixToken.Text;
+
+                string name = null;
+                if(node.Name.NameToken != null)
+                    name = node.Name.NameToken.Text;
+
+                ICurlyCompletionComponent component = completionSource.FindComponent(prefix, name);
+                if (component == null)
+                    return Enumerable.Empty<ICompletion>();
+
+                if (currentToken.Type == TokenType.Whitespace)
+                {
+                    result.AddRange(component
+                        .GetAttributeNames(null, null)
+                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
+                    );
+                }
+                else
+                {
+                    result.AddRange(component
+                        .GetAttributeNames(null, currentToken.Text)
+                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
+                    );
+                }
             }
             else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeOpenValue)
             {

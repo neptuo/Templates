@@ -36,6 +36,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             yield return new DefaultTokenTrigger(AngleTokenType.NamePrefix, true);
             yield return new DefaultTokenTrigger(AngleTokenType.NameSeparator, false);
             yield return new DefaultTokenTrigger(AngleTokenType.Whitespace, false);
+            yield return new DefaultTokenTrigger(AngleTokenType.Literal, false);
             yield return new DefaultTokenTrigger(AngleTokenType.AttributeName, true);
         }
 

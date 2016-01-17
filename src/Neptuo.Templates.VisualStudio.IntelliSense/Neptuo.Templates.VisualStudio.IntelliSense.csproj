@@ -54,6 +54,7 @@
     <Compile Include="Completions\DefaultAutomaticCompletion.cs" />
     <Compile Include="Completions\DefaultCompletion.cs" />
     <Compile Include="Completions\DefaultTokenTrigger.cs" />
+    <Compile Include="Completions\Sources\ICurlyCompletionSource.cs" />
     <Compile Include="Completions\IAutomaticCompletion.cs" />
     <Compile Include="Completions\IAutomaticCompletionProvider.cs" />
     <Compile Include="Completions\ICompletion.cs" />
