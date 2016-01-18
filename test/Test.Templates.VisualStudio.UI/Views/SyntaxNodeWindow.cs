@@ -6,14 +6,19 @@ using Neptuo.Localization;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors;
 using Neptuo.Templates.VisualStudio.IntelliSense;
+using Neptuo.Windows.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 using Test.Templates.VisualStudio.IntelliSense;
 using Test.Templates.VisualStudio.UI.ViewModels;
+using Task = System.Threading.Tasks.Task;
+using Thread = System.Threading.Thread;
 
 namespace Test.Templates.VisualStudio.UI.Views
 {
@@ -102,7 +107,32 @@ namespace Test.Templates.VisualStudio.UI.Views
         //    }
         //}
 
+        private Stack<DispatcherHelper> w; 
+        private List<DispatcherHelper> workers = new List<DispatcherHelper>();
+
         private void OnCurrentRootNodeChanged(SyntaxContext context)
+        {
+            if (context.RootNode != null)
+            {
+                DispatcherHelper worker = new DispatcherHelper(Dispatcher.CurrentDispatcher);
+                worker.Run(() =>
+                {
+                    if (TryRemoveWorker())
+                        DoUpdateView(context);
+                }, 2000);
+                workers.Add(worker);
+            }
+        }
+
+        private bool TryRemoveWorker()
+        {
+            if (workers.Count > 0)
+                workers.RemoveAt(0);
+
+            return workers.Count == 0;
+        }
+
+        private void DoUpdateView(SyntaxContext context)
         {
             if (context.RootNode != null)
             {
