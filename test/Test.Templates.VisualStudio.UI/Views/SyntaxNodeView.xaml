@@ -9,6 +9,8 @@
              Background="{DynamicResource VsBrush.Window}"
              Foreground="{DynamicResource VsBrush.WindowText}">
     <UserControl.Resources>
+        <SolidColorBrush x:Key="errorBrush">#FFC0CB</SolidColorBrush>
+
         <Style TargetType="TreeView">
             <Setter Property="Background" Value="{DynamicResource VsBrush.Window}" />
             <Setter Property="BorderThickness" Value="0" />
