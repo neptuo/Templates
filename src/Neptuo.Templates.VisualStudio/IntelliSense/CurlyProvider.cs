@@ -18,7 +18,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     public class CurlyProvider : ICompletionTriggerProvider, ICompletionProvider, IAutomaticCompletionProvider, ITokenClassificationProvider
     {
         private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
-        private readonly List<string> attributeNames = new List<string>() { "Path", "Converter", "Key" };
         private readonly IGlyphService glyphService;
         private readonly ICurlyCompletionSource completionSource;
         private readonly Dictionary<TokenType, string> classifications = new Dictionary<TokenType, string>();
@@ -26,7 +25,9 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         public CurlyProvider(IGlyphService glyphService, ICurlyCompletionSource completionSource)
         {
             Ensure.NotNull(glyphService, "glyphService");
+            Ensure.NotNull(completionSource, "completionSource");
             this.glyphService = glyphService;
+            this.completionSource = completionSource;
         }
 
         #region Completions
@@ -100,7 +101,8 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             }
             else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeOpenValue)
             {
-                result.AddRange(tokenNames
+                result.AddRange(completionSource
+                    .GetNamespacesOrRootNames(null)
                     .Select(n => CreateItem(currentToken, "{" + n, StandardGlyphGroup.GlyphExtensionMethod))
                 );
             }

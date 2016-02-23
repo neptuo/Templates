@@ -11,6 +11,7 @@ using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense;
 using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
+using Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -57,7 +58,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
             return textBuffer.Properties.GetOrCreateSingletonProperty<ICompletionTriggerProvider>(
                 () => new CompletionTriggerProviderCollection()
                     .Add(new AngleProvider(GlyphService))
-                    .Add(new CurlyProvider(GlyphService))
+                    .Add(new CurlyProvider(GlyphService, new DummyCurlyCompletionSource()))
             );
         }
 
@@ -66,7 +67,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
             return textBuffer.Properties.GetOrCreateSingletonProperty<IAutomaticCompletionProvider>(
                 () => new AutomaticCompletionProviderCollection()
                     .Add(new AngleProvider(GlyphService))
-                    .Add(new CurlyProvider(GlyphService))
+                    .Add(new CurlyProvider(GlyphService, new DummyCurlyCompletionSource()))
             );
         }
 
@@ -75,7 +76,7 @@ namespace Test.Templates.VisualStudio.IntelliSense
             return textBuffer.Properties.GetOrCreateSingletonProperty<ICompletionProvider>(
                 () => new CompletionProviderCollection()
                     .Add(new AngleProvider(GlyphService))
-                    .Add(new CurlyProvider(GlyphService))
+                    .Add(new CurlyProvider(GlyphService, new DummyCurlyCompletionSource()))
             );
         }
 
@@ -83,8 +84,8 @@ namespace Test.Templates.VisualStudio.IntelliSense
         {
             return textBuffer.Properties.GetOrCreateSingletonProperty<ITokenClassificationProvider>(
                 () => new TokenClassificationProviderCollection()
-                    .Add(new CurlyProvider(GlyphService))
                     .Add(new AngleProvider(GlyphService))
+                    .Add(new CurlyProvider(GlyphService, new DummyCurlyCompletionSource()))
             );
         }
 
