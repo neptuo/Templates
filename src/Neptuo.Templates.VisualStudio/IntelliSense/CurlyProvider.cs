@@ -17,7 +17,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     /// </summary>
     public class CurlyProvider : ICompletionTriggerProvider, ICompletionProvider, IAutomaticCompletionProvider, ITokenClassificationProvider
     {
-        private readonly List<string> tokenNames = new List<string>() { "Binding", "TemplateBinding", "Template", "Source", "StaticResource" };
         private readonly IGlyphService glyphService;
         private readonly ICurlyCompletionSource completionSource;
         private readonly Dictionary<TokenType, string> classifications = new Dictionary<TokenType, string>();
@@ -54,13 +53,16 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
             if (currentToken.Type == CurlyTokenType.OpenBrace)
             {
+                // Add all withnout filtering.
                 result.AddRange(completionSource
                     .GetNamespacesOrRootNames(null)
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphExtensionMethod))
                 );
             }
+
             if (currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
             {
+                // Add all matching current text (either prefix or name).
                 result.AddRange(completionSource
                     .GetNamespacesOrRootNames(currentToken.Text)
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphExtensionMethod))
@@ -68,6 +70,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             }
             else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
             {
+                // Find current component and offer attributes.
                 CurlySyntax node = currentNode.FindFirstAncestorOfType<CurlySyntax>();
                 if (node == null)
                     return Enumerable.Empty<ICompletion>();
@@ -86,6 +89,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
                 if (currentToken.Type == TokenType.Whitespace)
                 {
+                    // Add all not used attributes (without filtering).
                     result.AddRange(component
                         .GetAttributeNames(null, null)
                         .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
@@ -93,6 +97,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 }
                 else
                 {
+                    // Add all not used matching current text (name).
                     result.AddRange(component
                         .GetAttributeNames(null, currentToken.Text)
                         .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
@@ -101,6 +106,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             }
             else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeOpenValue)
             {
+                // Add all without filtering + '{' as OpenBrace, because we are at prefix token.
                 result.AddRange(completionSource
                     .GetNamespacesOrRootNames(null)
                     .Select(n => CreateItem(currentToken, "{" + n, StandardGlyphGroup.GlyphExtensionMethod))
