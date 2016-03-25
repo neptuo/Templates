@@ -50,8 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Descriptors\DefaultComponentDescriptor.cs" />
+    <Compile Include="Descriptors\Features\DefaultName.cs" />
     <Compile Include="Descriptors\Features\DefaultPropertyFieldEnumerator.cs" />
     <Compile Include="Descriptors\Features\DefaultTypeAware.cs" />
+    <Compile Include="Descriptors\Features\IName.cs" />
     <Compile Include="Descriptors\Features\ITypeAware.cs" />
     <Compile Include="Descriptors\Features\TypePropertyFieldDescriptor.cs" />
     <Compile Include="Descriptors\Features\TypePropertyFieldEnumerator.cs" />

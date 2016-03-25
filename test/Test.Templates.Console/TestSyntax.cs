@@ -114,8 +114,9 @@ namespace Test.Templates
         {
             DefaultComponentDescriptor bindingDescriptor = new DefaultComponentDescriptor();
             bindingDescriptor
-                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(typeof(BindingExtension)))
-                .Add<ITypeAware>(new DefaultTypeAware(typeof(BindingExtension)));
+                .Add<IName>(new DefaultName("data", "Binding"))
+                .Add<ITypeAware>(new DefaultTypeAware(typeof(BindingExtension)))
+                .Add<IFieldEnumerator>(new TypePropertyFieldEnumerator(typeof(BindingExtension)));
 
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
