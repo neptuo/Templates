@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
 {
@@ -11,10 +13,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
     /// </summary>
     public interface ICurlyCompletionSource
     {
-        IEnumerable<string> GetNamespacesOrRootNames(string prefixOrNameFilter);
-        IEnumerable<string> GetNamesInNamespace(string prefix, string nameFilter);
+        IEnumerable<ICompletion> GetComponents(string prefixOrNameFilter, ImageSource iconHint);
+        IEnumerable<ICompletion> GetComponents(string prefix, string nameFilter, ImageSource iconHint);
 
-        ICurlyCompletionComponent FindComponent(string prefix, string name);
+        IEnumerable<ICompletion> GetAttributes(CurlySyntax currentSyntax, string nameFilter, ImageSource iconHint);
     }
 
     public interface ICurlyCompletionComponent

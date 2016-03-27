@@ -4,6 +4,7 @@ using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
 using Neptuo.Templates.VisualStudio.IntelliSense.Classifications;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources;
+using Neptuo.Templates.VisualStudio.IntelliSense.Internals;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,7 +18,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
     /// </summary>
     public class CurlyProvider : ICompletionTriggerProvider, ICompletionProvider, IAutomaticCompletionProvider, ITokenClassificationProvider
     {
-        private readonly IGlyphService glyphService;
+        private readonly GlyphHelper glyphs;
         private readonly ICurlyCompletionSource completionSource;
         private readonly Dictionary<TokenType, string> classifications = new Dictionary<TokenType, string>();
 
@@ -25,7 +26,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
         {
             Ensure.NotNull(glyphService, "glyphService");
             Ensure.NotNull(completionSource, "completionSource");
-            this.glyphService = glyphService;
+            this.glyphs = new GlyphHelper(glyphService);
             this.completionSource = completionSource;
         }
 
@@ -54,19 +55,13 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (currentToken.Type == CurlyTokenType.OpenBrace)
             {
                 // Add all withnout filtering.
-                result.AddRange(completionSource
-                    .GetNamespacesOrRootNames(null)
-                    .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphExtensionMethod))
-                );
+                result.AddRange(completionSource.GetComponents(null, glyphs.GetExtensionMethod()));
             }
 
-            if (currentToken.Type == CurlyTokenType.Name || currentToken.Type == CurlyTokenType.OpenBrace)
+            if (currentToken.Type == CurlyTokenType.Name)
             {
                 // Add all matching current text (either prefix or name).
-                result.AddRange(completionSource
-                    .GetNamespacesOrRootNames(currentToken.Text)
-                    .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphExtensionMethod))
-                );
+                result.AddRange(completionSource.GetComponents(null, currentToken.Text, glyphs.GetExtensionMethod()));
             }
             else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
             {
@@ -83,46 +78,27 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 if(node.Name.NameToken != null)
                     name = node.Name.NameToken.Text;
 
-                ICurlyCompletionComponent component = completionSource.FindComponent(prefix, name);
-                if (component == null)
-                    return Enumerable.Empty<ICompletion>();
-
                 if (currentToken.Type == TokenType.Whitespace)
                 {
                     // Add all not used attributes (without filtering).
-                    result.AddRange(component
-                        .GetAttributeNames(null, null)
-                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
-                    );
+                    result.AddRange(completionSource.GetAttributes(node, null, glyphs.Get(StandardGlyphGroup.GlyphGroupProperty)));
                 }
                 else
                 {
                     // Add all not used matching current text (name).
-                    result.AddRange(component
-                        .GetAttributeNames(null, currentToken.Text)
-                        .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupProperty))
-                    );
+                    result.AddRange(completionSource.GetAttributes(node, currentToken.Text, glyphs.Get(StandardGlyphGroup.GlyphGroupProperty)));
                 }
             }
             else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeOpenValue)
             {
                 // Add all without filtering + '{' as OpenBrace, because we are at prefix token.
                 result.AddRange(completionSource
-                    .GetNamespacesOrRootNames(null)
-                    .Select(n => CreateItem(currentToken, "{" + n, StandardGlyphGroup.GlyphExtensionMethod))
+                    .GetComponents(null, glyphs.GetExtensionMethod())
+                    .Select(c => new DefaultCompletion(c.DisplayText, "{" + c.InsertionText, c.DescriptionText, c.IconSource))
                 );
             }
 
             return result;
-        }
-
-        private ICompletion CreateItem(Token currentToken, string targetValue, StandardGlyphGroup glyphGroup, StandardGlyphItem glyphItem = StandardGlyphItem.GlyphItemPublic)
-        {
-            return new DefaultCompletion(
-                targetValue,
-                "This is such a usefull description for this item.",
-                glyphService.GetGlyph(glyphGroup, glyphItem)
-            );
         }
 
         #endregion

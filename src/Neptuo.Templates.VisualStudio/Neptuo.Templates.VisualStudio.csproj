@@ -73,6 +73,7 @@
     <Compile Include="IntelliSense\AngleProvider.cs" />
     <Compile Include="IntelliSense\Completions\CompletionSourceFactory.cs" />
     <Compile Include="IntelliSense\CurlyProvider.cs" />
+    <Compile Include="IntelliSense\Internals\GlyphHelper.cs" />
     <Compile Include="IntelliSense\ITokenizerFactory.cs" />
     <Compile Include="IntelliSense\IViewCommandHandler.cs" />
     <Compile Include="IntelliSense\SyntaxContext.cs" />
