@@ -60,8 +60,24 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
 
             if (currentToken.Type == CurlyTokenType.Name)
             {
-                // Add all matching current text (either prefix or name).
-                result.AddRange(completionSource.GetComponents(null, currentToken.Text, glyphs.GetExtensionMethod()));
+                // Add all matching current node.
+                CurlyNameSyntax node = currentNode.FindSelfOrFirstAncestorOfType<CurlyNameSyntax>();
+                if (node == null)
+                {
+                    result.AddRange(completionSource.GetComponents(currentToken.Text, glyphs.GetExtensionMethod()));
+                }
+                else
+                {
+                    string name = currentToken.Text;
+                    if (node.NameToken != null)
+                        name = node.NameToken.Text;
+
+                    string prefix = null;
+                    if (node.PrefixToken != null)
+                        prefix = node.PrefixToken.Text;
+
+                    result.AddRange(completionSource.GetComponents(prefix, name, glyphs.GetExtensionMethod()));
+                }
             }
             else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
             {

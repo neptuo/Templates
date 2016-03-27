@@ -56,7 +56,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
                 );
             }
-            else if (currentToken.Type == AngleTokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeName)
+            else if ((currentToken.Type == AngleTokenType.Whitespace && (currentNode is AngleNameSyntax || currentNode is AngleAttributeSyntax)) || currentToken.Type == AngleTokenType.AttributeName)
             {
                 result.AddRange(attributeNames
                     .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))

@@ -26,5 +26,21 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 
             return null;
         }
+
+        public static T FindSelfOrFirstAncestorOfType<T>(this ISyntaxNode node)
+            where T: class
+        {
+            ISyntaxNode parent = node;
+            while (parent != null)
+            {
+                T result = parent as T;
+                if (result != null)
+                    return result;
+
+                parent = parent.Parent;
+            }
+
+            return null;
+        }
     }
 }
