@@ -13,8 +13,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
     /// </summary>
     public interface ICurlyCompletionSource
     {
-        IEnumerable<ICompletion> GetComponents(string prefixOrNameFilter, ImageSource iconHint);
-        IEnumerable<ICompletion> GetComponents(string prefix, string nameFilter, ImageSource iconHint);
+        IEnumerable<ICompletion> GetComponents(string nameFilter, ImageSource iconHint);
 
         IEnumerable<ICompletion> GetAttributes(CurlySyntax currentSyntax, string nameFilter, ImageSource iconHint);
     }

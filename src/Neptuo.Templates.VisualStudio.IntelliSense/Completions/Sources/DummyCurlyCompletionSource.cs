@@ -30,33 +30,18 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
             }
         };
 
-        public IEnumerable<ICompletion> GetComponents(string prefixOrNameFilter, ImageSource iconHint)
+        public IEnumerable<ICompletion> GetComponents(string nameFilter, ImageSource iconHint)
         {
-            IEnumerable<string> source = registrations.SelectMany(r => r.Value.Select(t => r.Key + ":" + t.Key));
+            IEnumerable<Tuple<string, string>> source = registrations.SelectMany(r => r.Value.Select(t => new Tuple<string, string>(r.Key + ":" + t.Key, t.Key)));
 
-            if (!String.IsNullOrEmpty(prefixOrNameFilter))
-                source = source.Where(t => t.StartsWith(prefixOrNameFilter));
+            bool hasComma = false;
+            if (!String.IsNullOrEmpty(nameFilter))
+            {
+                hasComma = nameFilter.Contains(":");
+                source = source.Where(t => t.Item1.StartsWith(nameFilter));
+            }
 
-            return source.Select(t => new DefaultCompletion(t, iconHint));
-        }
-
-        public IEnumerable<ICompletion> GetComponents(string prefix, string nameFilter, ImageSource iconHint)
-        {
-            if (prefix == null)
-                prefix = String.Empty;
-            else
-                prefix = prefix.ToLowerInvariant();
-
-            if (nameFilter == null)
-                nameFilter = String.Empty;
-            else
-                nameFilter = nameFilter.ToLowerInvariant();
-
-            IEnumerable<string> source = registrations
-                .Where(r => r.Key == prefix)
-                .SelectMany(r => r.Value.Where(t => t.Key.StartsWith(nameFilter)).Select(t => r.Key + ":" + t.Key));
-
-            return source.Select(t => new DefaultCompletion(t, iconHint));
+            return source.Select(t => new DefaultCompletion(t.Item1, hasComma ? t.Item2 : t.Item1, t.Item1, iconHint));
         }
 
         public IEnumerable<ICompletion> GetAttributes(CurlySyntax currentSyntax, string nameFilter, ImageSource iconHint)
@@ -80,7 +65,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
                     );
 
                     return component
-                        .Where(a => !usedAttributes.Contains(a))
+                        .Where(a => !usedAttributes.Contains(a.ToLowerInvariant()))
                         .Select(a => new DefaultCompletion(a, iconHint));
                 }
             }
