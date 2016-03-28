@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class TokenListReader
+    public class TokenReader
     {
         public IList<Token> Tokens { get; private set; }
 
@@ -19,7 +19,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         public int Position { get; private set; }
 
         /// <summary>
-        /// Token at index <see cref="TokenListReader.Position"/>.
+        /// Token at index <see cref="TokenReader.Position"/>.
         /// </summary>
         public Token Current
         {
@@ -32,7 +32,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        public TokenListReader(IList<Token> tokens, bool isSkippedTokensSkipped = true, int startIndex = -1)
+        public TokenReader(IList<Token> tokens, bool isSkippedTokensSkipped = true, int startIndex = -1)
         {
             Ensure.NotNull(tokens, "tokens");
             Tokens = tokens;

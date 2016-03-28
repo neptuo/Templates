@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class LiteralSyntax : SyntaxNodeBase<LiteralSyntax>
+    public class LiteralNode : NodeBase<LiteralNode>
     {
         public Token TextToken { get; private set; }
 
-        public LiteralSyntax WithTextToken(Token textToken)
+        public LiteralNode WithTextToken(Token textToken)
         {
             TextToken = textToken;
             return this;
         }
 
-        protected override LiteralSyntax CloneInternal()
+        protected override LiteralNode CloneInternal()
         {
-            return new LiteralSyntax
+            return new LiteralNode
             {
                 TextToken = TextToken
             };

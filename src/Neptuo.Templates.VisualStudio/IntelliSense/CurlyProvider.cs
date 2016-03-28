@@ -48,7 +48,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             yield return new DefaultTokenTrigger(CurlyTokenType.AttributeValueSeparator, false);
         }
 
-        public IEnumerable<ICompletion> GetCompletions(ISyntaxNode currentNode, Token currentToken)
+        public IEnumerable<ICompletion> GetCompletions(INode currentNode, Token currentToken)
         {
             List<ICompletion> result = new List<ICompletion>();
 
@@ -61,7 +61,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             if (currentToken.Type == CurlyTokenType.Name)
             {
                 // Add all matching current node.
-                CurlyNameSyntax node = currentNode.FindSelfOrFirstAncestorOfType<CurlyNameSyntax>();
+                CurlyNameNode node = currentNode.FindSelfOrFirstAncestorOfType<CurlyNameNode>();
                 if (node == null)
                 {
                     result.AddRange(completionSource.GetComponents(currentToken.Text, glyphs.GetExtensionMethod()));
@@ -75,7 +75,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
             {
                 // Find current component and offer attributes.
-                CurlySyntax node = currentNode.FindFirstAncestorOfType<CurlySyntax>();
+                CurlyNode node = currentNode.FindFirstAncestorOfType<CurlyNode>();
                 if (node == null)
                     return Enumerable.Empty<ICompletion>();
 

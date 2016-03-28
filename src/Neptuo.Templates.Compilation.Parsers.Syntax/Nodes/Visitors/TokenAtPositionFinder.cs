@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public class TokenAtPositionFinder : ISyntaxNodeProcessor
+    public class TokenAtPositionFinder : INodeProcessor
     {
         public int Position { get; private set; }
-        public ISyntaxNode BestMatch { get; private set; }
+        public INode BestMatch { get; private set; }
         public bool IsVirtualIncluded { get; private set; }
 
         public TokenAtPositionFinder(int position, bool isVirtualIncluded = false)
@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
             IsVirtualIncluded = isVirtualIncluded;
         }
 
-        public bool Process(ISyntaxNode node)
+        public bool Process(INode node)
         {
             bool isMatch = node.GetTokens().Any(IsTokenMatch);
             if (isMatch)

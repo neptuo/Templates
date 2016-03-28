@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
     public abstract class CodePropertyBuilderBase<T> : ICodePropertyBuilder
-        where T : ISyntaxNode
+        where T : INode
     {
-        public IEnumerable<ICodeProperty> TryBuild(ISyntaxNode node, ICodePropertyBuilderContext context)
+        public IEnumerable<ICodeProperty> TryBuild(INode node, ICodePropertyBuilderContext context)
         {
             return TryBuild((T)node, context);
         }

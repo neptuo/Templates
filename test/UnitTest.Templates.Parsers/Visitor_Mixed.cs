@@ -16,34 +16,34 @@ namespace UnitTest.Templates.Parsers
         [TestMethod]
         public void BaseAngleSyntaxProcessor()
         {
-            ISyntaxNodeVisitor visitor = CreateVisitor();
+            INodeVisitor visitor = CreateVisitor();
 
-            AngleSyntax syntax = new AngleSyntax()
+            AngleNode syntax = new AngleNode()
                 .WithOpenToken(new TokenFactory().WithText("<"))
                 .WithName(
-                    new AngleNameSyntax()
+                    new AngleNameNode()
                         .WithNameToken(new TokenFactory().WithText("Literal"))
                 )
                 .WithSelfCloseToken(new TokenFactory().WithText("/"))
                 .WithCloseToken(new TokenFactory().WithText(">"));
 
-            SyntaxCollection collection = new SyntaxCollection();
+            NodeCollection collection = new NodeCollection();
             collection.Add(syntax);
 
             Processor1 processor = new Processor1();
             visitor.Visit(collection, processor);
 
             AssertAreEqual(processor.VisitedTypes.Count, 3);
-            AssertAreEqual(processor.VisitedTypes[0], typeof(SyntaxCollection));
-            AssertAreEqual(processor.VisitedTypes[1], typeof(AngleSyntax));
-            AssertAreEqual(processor.VisitedTypes[2], typeof(AngleNameSyntax));
+            AssertAreEqual(processor.VisitedTypes[0], typeof(NodeCollection));
+            AssertAreEqual(processor.VisitedTypes[1], typeof(AngleNode));
+            AssertAreEqual(processor.VisitedTypes[2], typeof(AngleNameNode));
         }
 
-        private class Processor1 : ISyntaxNodeProcessor
+        private class Processor1 : INodeProcessor
         {
             public readonly List<Type> VisitedTypes = new List<Type>();
 
-            public bool Process(ISyntaxNode node)
+            public bool Process(INode node)
             {
                 Assert.IsNotNull(node);
 

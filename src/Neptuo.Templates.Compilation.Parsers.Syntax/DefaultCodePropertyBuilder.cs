@@ -34,7 +34,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             return codeProperty;
         }
 
-        public IEnumerable<ICodeProperty> TryBuild(ISyntaxNode node, ICodePropertyBuilderContext context)
+        public IEnumerable<ICodeProperty> TryBuild(INode node, ICodePropertyBuilderContext context)
         {
             IEnumerable<ICodeObject> codeObjects = context.ParserProvider.WithObjectBuilder().TryBuild(node, context.CreateObjectContext());
             if (codeObjects != null)

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public class SyntaxCollectionVisitor : SyntaxNodeVisitorBase<SyntaxCollection>
+    public class NodeCollectionVisitor : NodeVisitorBase<NodeCollection>
     {
-        protected override void Visit(SyntaxCollection node, ISyntaxNodeProcessor processor)
+        protected override void Visit(NodeCollection node, INodeProcessor processor)
         {
-            foreach (ISyntaxNode item in node.Nodes)
+            foreach (INode item in node.Nodes)
                 processor.Process(item);
         }
     }

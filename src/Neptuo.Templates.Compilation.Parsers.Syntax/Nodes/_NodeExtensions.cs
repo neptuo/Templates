@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
     /// <summary>
-    /// Common extensions for <see cref="ISyntaxNode"/>.
+    /// Common extensions for <see cref="INode"/>.
     /// </summary>
-    public static class _SyntaxNodeExtensions
+    public static class _NodeExtensions
     {
-        public static T FindFirstAncestorOfType<T>(this ISyntaxNode node)
+        public static T FindFirstAncestorOfType<T>(this INode node)
             where T: class
         {
-            ISyntaxNode parent = node.Parent;
+            INode parent = node.Parent;
             while (parent != null)
             {
                 T result = parent as T;
@@ -27,10 +27,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return null;
         }
 
-        public static T FindSelfOrFirstAncestorOfType<T>(this ISyntaxNode node)
+        public static T FindSelfOrFirstAncestorOfType<T>(this INode node)
             where T: class
         {
-            ISyntaxNode parent = node;
+            INode parent = node;
             while (parent != null)
             {
                 T result = parent as T;

@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class CurlySyntaxNodeBuilder : ISyntaxNodeBuilder
+    public class CurlyNodeBuilder : INodeBuilder
     {
-        public ISyntaxNode Build(TokenListReader reader, ISyntaxNodeBuilderContext context)
+        public INode Build(TokenReader reader, INodeBuilderContext context)
         {
-            CurlySyntax result = new CurlySyntax();
+            CurlyNode result = new CurlyNode();
 
             Token token = reader.Current;
             while (token.Type == CurlyTokenType.Whitespace)
@@ -34,11 +34,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        private ISyntaxNode BuildName(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
+        private INode BuildName(TokenReader reader, CurlyNode result, INodeBuilderContext context)
         {
             reader.NextRequired();
 
-            CurlyNameSyntax name = new CurlyNameSyntax();
+            CurlyNameNode name = new CurlyNameNode();
             if (reader.Current.Type == CurlyTokenType.NamePrefix)
             {
                 name.WithPrefixToken(reader.Current);
@@ -64,7 +64,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return result;
         }
 
-        private void BuildContent(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
+        private void BuildContent(TokenReader reader, CurlyNode result, INodeBuilderContext context)
         {
             reader.NextRequired();
             if (reader.Current.Type == CurlyTokenType.CloseBrace)
@@ -77,11 +77,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 throw new InvalidTokenTypeException(reader.Current, CurlyTokenType.CloseBrace, CurlyTokenType.AttributeName, CurlyTokenType.DefaultAttributeValue, CurlyTokenType.Literal);
         }
 
-        private void BuildDefaultAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
+        private void BuildDefaultAttribute(TokenReader reader, CurlyNode result, INodeBuilderContext context)
         {
-            CurlyDefaultAttributeSyntax attribute = new CurlyDefaultAttributeSyntax();
+            CurlyDefaultAttributeNode attribute = new CurlyDefaultAttributeNode();
             if (reader.Current.Type == CurlyTokenType.DefaultAttributeValue)
-                attribute.WithValue(new LiteralSyntax().WithTextToken(reader.Current));
+                attribute.WithValue(new LiteralNode().WithTextToken(reader.Current));
             else
                 attribute.WithValue(context.BuildNext(reader));
 
@@ -117,9 +117,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        private void BuildAttribute(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
+        private void BuildAttribute(TokenReader reader, CurlyNode result, INodeBuilderContext context)
         {
-            CurlyAttributeSyntax attribute = new CurlyAttributeSyntax()
+            CurlyAttributeNode attribute = new CurlyAttributeNode()
                 .WithNameToken(reader.Current);
 
             result.AddAttribute(attribute);
@@ -170,13 +170,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        private void BuildTokenClose(TokenListReader reader, CurlySyntax result, ISyntaxNodeBuilderContext context)
+        private void BuildTokenClose(TokenReader reader, CurlyNode result, INodeBuilderContext context)
         {
             result.WithCloseToken(reader.Current);
         }
 
-        private void TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)
-            where T : SyntaxNodeBase<T>
+        private void TryAppendTrailingTrivia<T>(TokenReader reader, T syntax)
+            where T : NodeBase<T>
         {
             while (reader.Next())
             {

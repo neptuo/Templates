@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class SyntaxNodeBuilderCollection : ISyntaxNodeFactory, ISyntaxNodeBuilderContext
+    public class NodeBuilderCollection : INodeFactory, INodeBuilderContext
     {
-        private readonly Dictionary<TokenType, ISyntaxNodeBuilder> storage = new Dictionary<TokenType, ISyntaxNodeBuilder>();
+        private readonly Dictionary<TokenType, INodeBuilder> storage = new Dictionary<TokenType, INodeBuilder>();
 
-        public SyntaxNodeBuilderCollection Add(TokenType tokenType, ISyntaxNodeBuilder builder)
+        public NodeBuilderCollection Add(TokenType tokenType, INodeBuilder builder)
         {
             Ensure.NotNull(tokenType, "tokenType");
             Ensure.NotNull(builder, "builder");
@@ -19,26 +19,26 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return this;
         }
 
-        public ISyntaxNode Create(IList<Token> tokens)
+        public INode Create(IList<Token> tokens)
         {
-            SyntaxCollection result = new SyntaxCollection();
-            TokenListReader reader = new TokenListReader(tokens, true);
+            NodeCollection result = new NodeCollection();
+            TokenReader reader = new TokenReader(tokens, true);
             while (reader.Next())
             {
                 Token token = reader.Current;
-                ISyntaxNode node = BuildNext(reader);
+                INode node = BuildNext(reader);
                 result.Add(node);
             }
 
             return result;
         }
 
-        public ISyntaxNode BuildNext(TokenListReader reader)
+        public INode BuildNext(TokenReader reader)
         {
-            ISyntaxNodeBuilder builder;
+            INodeBuilder builder;
             if (storage.TryGetValue(reader.Current.Type, out builder))
             {
-                ISyntaxNode node = builder.Build(reader, this);
+                INode node = builder.Build(reader, this);
                 return node;
             }
             else

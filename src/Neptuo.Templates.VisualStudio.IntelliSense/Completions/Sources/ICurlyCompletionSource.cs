@@ -29,6 +29,6 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
         /// <param name="nameFilter">The current attribute name to filter by.</param>
         /// <param name="iconHint">The recomended icon for completions.</param>
         /// <returns>The enumeration of completion items for the curly syntax node.</returns>
-        IEnumerable<ICompletion> GetAttributes(CurlySyntax currentSyntax, string nameFilter, ImageSource iconHint);
+        IEnumerable<ICompletion> GetAttributes(CurlyNode currentSyntax, string nameFilter, ImageSource iconHint);
     }
 }

@@ -10,7 +10,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
     /// <summary>
     /// Raised when not supported token type was found at some position.
     /// </summary>
-    public class InvalidTokenTypeException : SyntaxNodeException
+    public class InvalidTokenTypeException : NodeException
     {
         public Token FoundToken { get; private set; }
         public IEnumerable<TokenType> SupportedTypes {get; private set;}

@@ -47,7 +47,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return this;
         }
 
-        public IEnumerable<ICompletion> GetCompletions(ISyntaxNode currentNode, Token currentToken)
+        public IEnumerable<ICompletion> GetCompletions(INode currentNode, Token currentToken)
         {
             return providers.SelectMany(p => p.GetCompletions(currentNode, currentToken));
         }

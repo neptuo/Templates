@@ -26,8 +26,8 @@ namespace Test.Templates.VisualStudio.UI.ViewModels
             }
         }
 
-        private ISyntaxNode syntaxNode;
-        public ISyntaxNode SyntaxNode
+        private INode syntaxNode;
+        public INode SyntaxNode
         {
             get { return syntaxNode; }
             set
@@ -54,7 +54,7 @@ namespace Test.Templates.VisualStudio.UI.ViewModels
             ErrorMessage = errorMessage;
         }
 
-        public SyntaxNodeViewModel(ISyntaxNode syntaxNode)
+        public SyntaxNodeViewModel(INode syntaxNode)
             : this()
         {
             Ensure.NotNull(syntaxNode, "syntaxNode");

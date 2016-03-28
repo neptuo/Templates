@@ -44,7 +44,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
             return source.Select(t => new DefaultCompletion(t.Item1, hasComma ? t.Item2 : t.Item1, t.Item1, iconHint));
         }
 
-        public IEnumerable<ICompletion> GetAttributes(CurlySyntax currentSyntax, string nameFilter, ImageSource iconHint)
+        public IEnumerable<ICompletion> GetAttributes(CurlyNode currentSyntax, string nameFilter, ImageSource iconHint)
         {
             string prefix = String.Empty;
             if (currentSyntax.Name.PrefixToken != null)

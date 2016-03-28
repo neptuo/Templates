@@ -6,17 +6,17 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public class CurlySyntaxVisitor : SyntaxNodeVisitorBase<CurlySyntax>
+    public class CurlyNodeVisitor : NodeVisitorBase<CurlyNode>
     {
-        protected override void Visit(CurlySyntax node, ISyntaxNodeProcessor processor)
+        protected override void Visit(CurlyNode node, INodeProcessor processor)
         {
             if (node.Name != null)
                 processor.Process(node.Name);
 
-            foreach (CurlyDefaultAttributeSyntax attribute in node.DefaultAttributes)
+            foreach (CurlyDefaultAttributeNode attribute in node.DefaultAttributes)
                 processor.Process(attribute);
 
-            foreach (CurlyAttributeSyntax attribute in node.Attributes)
+            foreach (CurlyAttributeNode attribute in node.Attributes)
                 processor.Process(attribute);
         }
     }

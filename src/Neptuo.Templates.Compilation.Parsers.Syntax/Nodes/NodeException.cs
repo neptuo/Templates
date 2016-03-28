@@ -11,20 +11,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
     /// Base exception describing error in processing syntax nodes.
     /// </summary>
     [Serializable]
-    public class SyntaxNodeException : Exception
+    public class NodeException : Exception
     {
-        public SyntaxNodeException() 
+        public NodeException() 
         { }
 
-        public SyntaxNodeException(string message) 
+        public NodeException(string message) 
             : base(message) 
         { }
 
-        public SyntaxNodeException(string message, Exception inner) 
+        public NodeException(string message, Exception inner) 
             : base(message, inner) 
         { }
 
-        protected SyntaxNodeException(SerializationInfo info, StreamingContext context)
+        protected NodeException(SerializationInfo info, StreamingContext context)
             : base(info, context) 
         { }
     }

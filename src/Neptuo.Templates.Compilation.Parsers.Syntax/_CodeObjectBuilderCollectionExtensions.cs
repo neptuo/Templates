@@ -20,7 +20,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
         /// <param name="builder">Builder to handler nodes of type <typeparamref name="TNode"/>.</param>
         /// <returns>Self (for fluency).</returns>
         public static CodeObjectBuilderCollection Add<TNode>(this CodeObjectBuilderCollection collection, ICodeObjectBuilder builder)
-            where TNode : ISyntaxNode
+            where TNode : INode
         {
             Ensure.NotNull(collection, "collection");
             return collection.Add(typeof(TNode), builder);

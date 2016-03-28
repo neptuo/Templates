@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace Test.Templates.VisualStudio.IntelliSense
 {
-    public class SyntaxVisitorFactory : IFactory<ISyntaxNodeVisitor>
+    public class SyntaxVisitorFactory : IFactory<INodeVisitor>
     {
-        public ISyntaxNodeVisitor Create()
+        public INodeVisitor Create()
         {
-            return new SyntaxVisitor()
-                .Add(typeof(LiteralSyntax), new LiteralSyntaxVisitor())
-                .Add(typeof(SyntaxCollection), new SyntaxCollectionVisitor())
-                .Add(typeof(AngleSyntax), new AngleSyntaxVisitor())
-                .Add(typeof(AngleNameSyntax), new AngleNameSyntaxVisitor())
-                .Add(typeof(AngleAttributeSyntax), new AngleAttributeSyntaxVisitor())
-                .Add(typeof(CurlySyntax), new CurlySyntaxVisitor())
-                .Add(typeof(CurlyNameSyntax), new CurlyNameSyntaxVisitor())
-                .Add(typeof(CurlyDefaultAttributeSyntax), new CurlyDefaultAttributeSyntaxVisitor())
-                .Add(typeof(CurlyAttributeSyntax), new CurlyAttributeSyntaxVisitor());
+            return new NodeVisitor()
+                .Add(typeof(LiteralNode), new LiteralNodeVisitor())
+                .Add(typeof(NodeCollection), new NodeCollectionVisitor())
+                .Add(typeof(AngleNode), new AngleNodeVisitor())
+                .Add(typeof(AngleNameNode), new AngleNameVisitor())
+                .Add(typeof(AngleAttributeNode), new AngleAttributeVisitor())
+                .Add(typeof(CurlyNode), new CurlyNodeVisitor())
+                .Add(typeof(CurlyNameNode), new CurlyNameNodeVisitor())
+                .Add(typeof(CurlyDefaultAttributeNode), new CurlyDefaultAttributeNodeVisitor())
+                .Add(typeof(CurlyAttributeNode), new CurlyAttributeNodeVisitor());
         }
     }
 }

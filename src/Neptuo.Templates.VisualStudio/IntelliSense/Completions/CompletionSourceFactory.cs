@@ -21,7 +21,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
             return textBuffer.Properties.TryGetProperty(typeof(CompletionSource), out completionSource);
         }
 
-        public ICompletionSource Create(ITextBuffer textBuffer, ITokenizer tokenizer, ISyntaxNodeFactory nodeFactory, ISyntaxNodeVisitor nodeVisitor, ICompletionProvider completionProvider, ICompletionTriggerProvider completionTriggerProvider)
+        public ICompletionSource Create(ITextBuffer textBuffer, ITokenizer tokenizer, INodeFactory nodeFactory, INodeVisitor nodeVisitor, ICompletionProvider completionProvider, ICompletionTriggerProvider completionTriggerProvider)
         {
             return textBuffer.Properties.GetOrCreateSingletonProperty(() =>
             {

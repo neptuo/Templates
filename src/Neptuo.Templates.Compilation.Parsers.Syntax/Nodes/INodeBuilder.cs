@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public interface ISyntaxNodeBuilderContext : ISyntaxNodeFactory
+    public interface INodeBuilder
     {
-        ISyntaxNode BuildNext(TokenListReader reader);
+        INode Build(TokenReader reader, INodeBuilderContext context);
     }
 }

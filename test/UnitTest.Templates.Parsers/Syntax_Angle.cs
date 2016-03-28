@@ -20,16 +20,16 @@ namespace UnitTest.Templates.Parsers
             IList<Token> tokens = tokenizer.Tokenize(CreateContentReader("Text <ui:Literal Text=\"Hello, World!\" />"), new FakeTokenizerContext());
             //IList<ComposableToken> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID} Text"), new FakeTokenizerContext());
 
-            ISyntaxNodeFactory builder = new SyntaxNodeBuilderCollection()
-                .Add(AngleTokenType.OpenBrace, new AngleSyntaxNodeBuilder())
-                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
+            INodeFactory builder = new NodeBuilderCollection()
+                .Add(AngleTokenType.OpenBrace, new AngleNodeBuilder())
+                .Add(TokenType.Literal, new LiteralNodeBuilder());
 
-            ISyntaxNode node = builder.Create(tokens);
+            INode node = builder.Create(tokens);
 
-            SyntaxCollection collection = node as SyntaxCollection;
+            NodeCollection collection = node as NodeCollection;
             if (collection != null)
             {
-                AngleSyntax curly = collection.Nodes[1] as AngleSyntax;
+                AngleNode curly = collection.Nodes[1] as AngleNode;
                 if (curly != null)
                 {
                     AssertAreEqual(curly.Name.NameToken.Text, "Literal");

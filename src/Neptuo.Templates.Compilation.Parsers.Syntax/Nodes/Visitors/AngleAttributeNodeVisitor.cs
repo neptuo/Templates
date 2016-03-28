@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public class AngleSyntaxVisitor : SyntaxNodeVisitorBase<AngleSyntax>
+    public class AngleAttributeNodeVisitor : NodeVisitorBase<AngleAttributeNode>
     {
-        protected override void Visit(AngleSyntax node, ISyntaxNodeProcessor processor)
+        protected override void Visit(AngleAttributeNode node, INodeProcessor processor)
         {
             if (node.Name != null)
                 processor.Process(node.Name);
 
-            foreach (AngleAttributeSyntax attribute in node.Attributes)
-                processor.Process(attribute);
+            if (node.Value != null)
+                processor.Process(node.Value);
         }
     }
 }

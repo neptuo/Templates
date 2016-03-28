@@ -43,7 +43,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             return this;
         }
 
-        public IEnumerable<ICodeProperty> TryBuild(ISyntaxNode node, ICodePropertyBuilderContext context)
+        public IEnumerable<ICodeProperty> TryBuild(INode node, ICodePropertyBuilderContext context)
         {
             Ensure.NotNull(node, "node");
             Ensure.NotNull(context, "context");

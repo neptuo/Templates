@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public static class _TokenListReaderExtensions
+    public static class _TokenReaderExtensions
     {
-        public static void NextRequired(this TokenListReader reader)
+        public static void NextRequired(this TokenReader reader)
         {
             Ensure.NotNull(reader, "reader");
             if (!reader.Next())
                 throw new MissingNextTokenException();
         }
 
-        public static void NextRequiredOfType(this TokenListReader reader, TokenType tokenType)
+        public static void NextRequiredOfType(this TokenReader reader, TokenType tokenType)
         {
             Ensure.NotNull(reader, "reader");
             Ensure.NotNull(tokenType, "tokenType");
@@ -24,7 +24,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             CurrentRequiredOfType(reader, tokenType);
         }
 
-        public static void Next(this TokenListReader reader, int count)
+        public static void Next(this TokenReader reader, int count)
         {
             Ensure.NotNull(reader, "reader");
 
@@ -32,13 +32,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 reader.Next();
         }
 
-        public static void CurrentRequiredOfType(this TokenListReader reader, TokenType tokenType)
+        public static void CurrentRequiredOfType(this TokenReader reader, TokenType tokenType)
         {
             if (!IsCurrentOfType(reader, tokenType))
                 throw new InvalidTokenTypeException(reader.Current, tokenType);
         }
 
-        public static bool IsCurrentOfType(this TokenListReader reader, TokenType tokenType)
+        public static bool IsCurrentOfType(this TokenReader reader, TokenType tokenType)
         {
             Ensure.NotNull(reader, "reader");
             Ensure.NotNull(tokenType, "tokenType");

@@ -70,10 +70,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
         /// <param name="type">The type of token to be processed by <paramref name="builder"/>.</param>
         /// <param name="builder">The syntax node builder to add.</param>
         /// <returns><paramref name="service"/>.</returns>
-        public static SyntaxParserService AddSyntaxNodeBuilder(this SyntaxParserService service, TokenType type, ISyntaxNodeBuilder builder)
+        public static SyntaxParserService AddSyntaxNodeBuilder(this SyntaxParserService service, TokenType type, INodeBuilder builder)
         {
             Ensure.NotNull(service, "service");
-            service.SyntaxBuilders.Add(type, builder);
+            service.NodeBuilders.Add(type, builder);
             return service;
         }
     }

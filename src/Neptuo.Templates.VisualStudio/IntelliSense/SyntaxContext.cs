@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 namespace Neptuo.Templates.VisualStudio.IntelliSense
 {
     /// <summary>
-    /// Token list represented as <see cref="ISyntaxNode"/>.
+    /// Token list represented as <see cref="INode"/>.
     /// </summary>
     public class SyntaxContext
     {
         private readonly TokenContext tokenContext;
-        private readonly ISyntaxNodeFactory nodeFactory;
+        private readonly INodeFactory nodeFactory;
 
-        public ISyntaxNode RootNode { get; private set; }
+        public INode RootNode { get; private set; }
         public event Action<SyntaxContext> RootNodeChanged;
-        public event Action<SyntaxContext, SyntaxNodeException> Error;
+        public event Action<SyntaxContext, NodeException> Error;
 
-        public SyntaxContext(TokenContext tokenContext, ISyntaxNodeFactory nodeFactory)
+        public SyntaxContext(TokenContext tokenContext, INodeFactory nodeFactory)
         {
             Ensure.NotNull(tokenContext, "tokenContext");
             Ensure.NotNull(nodeFactory, "nodeFactory");
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             {
                 RootNode = nodeFactory.Create(tokenContext.Tokens.ToList());
             }
-            catch (SyntaxNodeException e)
+            catch (NodeException e)
             {
                 RootNode = null;
 

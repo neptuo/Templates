@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public abstract class SyntaxNodeBase<T> : ISyntaxNode, ICloneable<T>
-        where T : SyntaxNodeBase<T>
+    public abstract class NodeBase<T> : INode, ICloneable<T>
+        where T : NodeBase<T>
     {
-        public ISyntaxNode Parent { get; set; }
+        public INode Parent { get; set; }
         public IList<Token> LeadingTrivia { get; protected set; }
         public IList<Token> TrailingTrivia { get; protected set; }
 
-        public SyntaxNodeBase()
+        public NodeBase()
         {
             LeadingTrivia = new List<Token>();
             TrailingTrivia = new List<Token>();

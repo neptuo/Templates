@@ -9,7 +9,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
     /// <summary>
     /// Raised when unexpected end for token list is found.
     /// </summary>
-    public class MissingNextTokenException : SyntaxNodeException
+    public class MissingNextTokenException : NodeException
     {
         public MissingNextTokenException()
             : base("Unexcepted end to token list.")

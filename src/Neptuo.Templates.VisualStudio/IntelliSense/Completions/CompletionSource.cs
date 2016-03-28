@@ -19,11 +19,11 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
         private readonly SyntaxContext syntaxContext;
         private readonly ICompletionProvider completionProvider;
-        private readonly ISyntaxNodeVisitor nodeVisitor;
+        private readonly INodeVisitor nodeVisitor;
         private readonly List<ITokenTrigger> triggers;
         private readonly ITextBuffer textBuffer;
 
-        public CompletionSource(SyntaxContext syntaxContext, ICompletionProvider completionProvider, ISyntaxNodeVisitor nodeVisitor, ICompletionTriggerProvider triggerProvider, ITextBuffer textBuffer)
+        public CompletionSource(SyntaxContext syntaxContext, ICompletionProvider completionProvider, INodeVisitor nodeVisitor, ICompletionTriggerProvider triggerProvider, ITextBuffer textBuffer)
         {
             this.textBuffer = textBuffer;
             this.completionProvider = completionProvider;
@@ -35,7 +35,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
         public void AugmentCompletionSession(ICompletionSession session, IList<CompletionSet> completionSets)
         {
             List<Completion> result = new List<Completion>();
-            ISyntaxNode rootNode = syntaxContext.RootNode;
+            INode rootNode = syntaxContext.RootNode;
             if (rootNode == null)
                 return;
 
@@ -43,7 +43,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions
 
             TokenAtPositionFinder finder = new TokenAtPositionFinder(cursorPosition);
             nodeVisitor.Visit(rootNode, finder);
-            ISyntaxNode currentNode = finder.BestMatch;
+            INode currentNode = finder.BestMatch;
             if (currentNode == null)
                 return;
 

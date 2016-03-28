@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class LiteralSyntaxNodeBuilder : ISyntaxNodeBuilder
+    public class LiteralNodeBuilder : INodeBuilder
     {
-        public ISyntaxNode Build(TokenListReader reader, ISyntaxNodeBuilderContext context)
+        public INode Build(TokenReader reader, INodeBuilderContext context)
         {
             if (reader.Current.Type == TokenType.Literal)
             {
-                return new LiteralSyntax()
+                return new LiteralNode()
                     .WithTextToken(reader.Current);
             }
 

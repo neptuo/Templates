@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public class SyntaxVisitor : ISyntaxNodeVisitor
+    public class NodeVisitor : INodeVisitor
     {
-        private readonly Dictionary<Type, ISyntaxNodeVisitor> storage = new Dictionary<Type, ISyntaxNodeVisitor>();
+        private readonly Dictionary<Type, INodeVisitor> storage = new Dictionary<Type, INodeVisitor>();
 
-        public SyntaxVisitor Add(Type syntaxType, ISyntaxNodeVisitor visitor)
+        public NodeVisitor Add(Type syntaxType, INodeVisitor visitor)
         {
             Ensure.NotNull(syntaxType, "syntaxType");
             Ensure.NotNull(visitor, "visitor");
@@ -18,37 +18,37 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
             return this;
         }
 
-        public void Visit(ISyntaxNode node, ISyntaxNodeProcessor processor)
+        public void Visit(INode node, INodeProcessor processor)
         {
             Ensure.NotNull(node, "node");
             Ensure.NotNull(processor, "processor");
 
-            SyntaxProcessor context = new SyntaxProcessor(processor, OnVisitNode);
+            NodeProcessor context = new NodeProcessor(processor, OnVisitNode);
             context.Process(node);
         }
 
-        private void OnVisitNode(ISyntaxNode node, SyntaxProcessor context)
+        private void OnVisitNode(INode node, NodeProcessor context)
         {
             Type nodeType = node.GetType();
-            ISyntaxNodeVisitor visitor;
+            INodeVisitor visitor;
             if (storage.TryGetValue(nodeType, out visitor))
                 visitor.Visit(node, context);
             else
                 throw Ensure.Exception.NotSupported("Unsupported node type '{0}'.", nodeType.FullName);
         }
 
-        private class SyntaxProcessor : ISyntaxNodeProcessor
+        private class NodeProcessor : INodeProcessor
         {
-            private readonly ISyntaxNodeProcessor innerProcessor;
-            private readonly Action<ISyntaxNode, SyntaxProcessor> handler;
+            private readonly INodeProcessor innerProcessor;
+            private readonly Action<INode, NodeProcessor> handler;
 
-            public SyntaxProcessor(ISyntaxNodeProcessor innerProcessor, Action<ISyntaxNode, SyntaxProcessor> handler)
+            public NodeProcessor(INodeProcessor innerProcessor, Action<INode, NodeProcessor> handler)
             {
                 this.innerProcessor = innerProcessor;
                 this.handler = handler;
             }
 
-            public bool Process(ISyntaxNode node)
+            public bool Process(INode node)
             {
                 bool result = innerProcessor.Process(node);
                 if (result)

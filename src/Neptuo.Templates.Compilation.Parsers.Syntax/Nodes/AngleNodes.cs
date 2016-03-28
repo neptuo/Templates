@@ -7,45 +7,42 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class CurlySyntax : SyntaxNodeBase<CurlySyntax>
+    public class AngleNode : NodeBase<AngleNode>
     {
         public Token OpenToken { get; private set; }
-        public CurlyNameSyntax Name { get; private set; }
+        public AngleNameNode Name { get; private set; }
+        public Token SelfCloseToken { get; private set; }
         public Token CloseToken { get; private set; }
-        public IList<CurlyDefaultAttributeSyntax> DefaultAttributes { get; private set; }
-        public IList<CurlyAttributeSyntax> Attributes { get; private set; }
+        public IList<AngleAttributeNode> Attributes { get; private set; }
 
-        public CurlySyntax WithOpenToken(Token openToken)
+        public AngleNode WithOpenToken(Token openToken)
         {
             OpenToken = openToken;
             return this;
         }
 
-        public CurlySyntax WithName(CurlyNameSyntax name)
+        public AngleNode WithName(AngleNameNode name)
         {
             Name = name;
-
-            if (name != null)
+            if (name != null) 
                 name.Parent = this;
 
             return this;
         }
 
-        public CurlySyntax WithCloseToken(Token closeToken)
+        public AngleNode WithSelfCloseToken(Token selfCloseToken)
+        {
+            SelfCloseToken = selfCloseToken;
+            return this;
+        }
+
+        public AngleNode WithCloseToken(Token closeToken)
         {
             CloseToken = closeToken;
             return this;
         }
 
-        public CurlySyntax AddDefaultAttribute(CurlyDefaultAttributeSyntax defaultAttribute)
-        {
-            Ensure.NotNull(defaultAttribute, "defaultAttribute");
-            DefaultAttributes.Add(defaultAttribute);
-            defaultAttribute.Parent = this;
-            return this;
-        }
-
-        public CurlySyntax AddAttribute(CurlyAttributeSyntax attribute)
+        public AngleNode AddAttribute(AngleAttributeNode attribute)
         {
             Ensure.NotNull(attribute, "attribute");
             Attributes.Add(attribute);
@@ -53,25 +50,22 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return this;
         }
 
-        public CurlySyntax()
+        public AngleNode()
         {
-            DefaultAttributes = new List<CurlyDefaultAttributeSyntax>();
-            Attributes = new List<CurlyAttributeSyntax>();
+            Attributes = new List<AngleAttributeNode>();
         }
 
-        protected override CurlySyntax CloneInternal()
+        protected override AngleNode CloneInternal()
         {
-            CurlySyntax result = new CurlySyntax
+            AngleNode result = new AngleNode
             {
                 OpenToken = OpenToken,
                 Name = Name != null ? Name.Clone() : null,
+                SelfCloseToken = SelfCloseToken,
                 CloseToken = CloseToken
             };
 
-            if (DefaultAttributes != null && DefaultAttributes.Count > 0)
-                result.DefaultAttributes.AddRange(DefaultAttributes.Select(da => da.Clone()));
-
-            if (Attributes != null && Attributes.Count > 0)
+            if (Attributes.Count > 0)
                 result.Attributes.AddRange(Attributes.Select(a => a.Clone()));
 
             return result;
@@ -87,11 +81,11 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             if (Name != null)
                 result.AddRange(Name.GetTokens());
 
-            if (DefaultAttributes != null && DefaultAttributes.Count > 0)
-                result.AddRange(DefaultAttributes.SelectMany(da => da.GetTokens()));
-
-            if (Attributes != null && Attributes.Count > 0)
+            if (Attributes.Count > 0)
                 result.AddRange(Attributes.SelectMany(a => a.GetTokens()));
+
+            if (SelfCloseToken != null)
+                result.Add(SelfCloseToken);
 
             if (CloseToken != null)
                 result.Add(CloseToken);
@@ -100,33 +94,33 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         }
     }
 
-    public class CurlyNameSyntax : SyntaxNodeBase<CurlyNameSyntax>
+    public class AngleNameNode : NodeBase<AngleNameNode>
     {
         public Token PrefixToken { get; private set; }
         public Token NameSeparatorToken { get; private set; }
         public Token NameToken { get; private set; }
 
-        public CurlyNameSyntax WithPrefixToken(Token prefixToken)
+        public AngleNameNode WithPrefixToken(Token prefixToken)
         {
             PrefixToken = prefixToken;
             return this;
         }
 
-        public CurlyNameSyntax WithNameSeparatorToken(Token nameSeparatorToken)
+        public AngleNameNode WithNameSeparatorToken(Token nameSeparatorToken)
         {
             NameSeparatorToken = nameSeparatorToken;
             return this;
         }
 
-        public CurlyNameSyntax WithNameToken(Token nameToken)
+        public AngleNameNode WithNameToken(Token nameToken)
         {
             NameToken = nameToken;
             return this;
         }
 
-        protected override CurlyNameSyntax CloneInternal()
+        protected override AngleNameNode CloneInternal()
         {
-            return new CurlyNameSyntax
+            return new AngleNameNode
             {
                 PrefixToken = PrefixToken,
                 NameSeparatorToken = NameSeparatorToken,
@@ -151,52 +145,36 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         }
     }
 
-    public class CurlyDefaultAttributeSyntax : SyntaxNodeBase<CurlyDefaultAttributeSyntax>
+    public class AngleAttributeNode : NodeBase<AngleAttributeNode>
     {
-        public ISyntaxNode Value { get; private set; }
-
-        public CurlyDefaultAttributeSyntax WithValue(ISyntaxNode value)
-        {
-            Value = value;
-            if (value != null)
-                value.Parent = this;
-
-            return this;
-        }
-
-        protected override CurlyDefaultAttributeSyntax CloneInternal()
-        {
-            return new CurlyDefaultAttributeSyntax()
-            {
-                Value = Value
-            };
-        }
-
-        protected override IEnumerable<Token> GetTokensInternal()
-        {
-            return Value.GetTokens();
-        }
-    }
-
-    public class CurlyAttributeSyntax : SyntaxNodeBase<CurlyAttributeSyntax>
-    {
-        public Token NameToken { get; private set; }
+        public AngleNameNode Name { get; private set; }
         public Token ValueSeparatorToken { get; private set; }
-        public ISyntaxNode Value { get; private set; }
+        public Token AttributeOpenValueToken { get; private set; }
+        public INode Value { get; private set; }
+        public Token AttributeCloseValueToken { get; private set; }
 
-        public CurlyAttributeSyntax WithNameToken(Token nameToken)
+        public AngleAttributeNode WithName(AngleNameNode name)
         {
-            NameToken = nameToken;
+            Name = name;
+            if (name != null)
+                name.Parent = this;
+
             return this;
         }
 
-        public CurlyAttributeSyntax WithValueSeparatorToken(Token valueSeparatorToken)
+        public AngleAttributeNode WithValueSeparatorToken(Token valueSeparatorToken)
         {
             ValueSeparatorToken = valueSeparatorToken;
             return this;
         }
 
-        public CurlyAttributeSyntax WithValue(ISyntaxNode value)
+        public AngleAttributeNode WithAttributeOpenValueToken(Token attributeOpenValueToken)
+        {
+            AttributeOpenValueToken = attributeOpenValueToken;
+            return this;
+        }
+
+        public AngleAttributeNode WithValue(INode value)
         {
             Value = value;
             if (value != null)
@@ -205,18 +183,26 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return this;
         }
 
-        protected override CurlyAttributeSyntax CloneInternal()
+        public AngleAttributeNode WithAttributeCloseValueToken(Token attributeCloseValueToken)
         {
-            CurlyAttributeSyntax result = new CurlyAttributeSyntax
+            AttributeCloseValueToken = attributeCloseValueToken;
+            return this;
+        }
+
+        protected override AngleAttributeNode CloneInternal()
+        {
+            AngleAttributeNode result = new AngleAttributeNode
             {
-                NameToken = NameToken,
-                ValueSeparatorToken = ValueSeparatorToken
+                Name = Name.Clone(),
+                ValueSeparatorToken = ValueSeparatorToken,
+                AttributeOpenValueToken = AttributeOpenValueToken,
+                AttributeCloseValueToken = AttributeCloseValueToken
             };
 
-            ICloneable<ISyntaxNode> cloneableValue = Value as ICloneable<ISyntaxNode>;
+            ICloneable<INode> cloneableValue = Value as ICloneable<INode>;
             if (cloneableValue != null)
                 result.Value = cloneableValue.Clone();
-            else if (Value != null) 
+            else if (Value != null)
                 throw Ensure.Condition.NotCloneable(Value);
 
             return result;
@@ -226,14 +212,20 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
         {
             List<Token> result = new List<Token>();
 
-            if (NameToken != null)
-                result.Add(NameToken);
+            if (Name != null)
+                result.AddRange(Name.GetTokens());
 
             if (ValueSeparatorToken != null)
                 result.Add(ValueSeparatorToken);
 
+            if (AttributeOpenValueToken != null)
+                result.Add(AttributeOpenValueToken);
+
             if (Value != null)
                 result.AddRange(Value.GetTokens());
+
+            if (AttributeCloseValueToken != null)
+                result.Add(AttributeCloseValueToken);
 
             return result;
         }

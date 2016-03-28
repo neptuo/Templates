@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
-    public class CurlyCodeObjectBuilder : CodeObjectBuilderBase<CurlySyntax>
+    public class CurlyCodeObjectBuilder : CodeObjectBuilderBase<CurlyNode>
     {
         private readonly IComponentDescriptor descriptor;
 
@@ -23,7 +23,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             this.descriptor = descriptor;
         }
 
-        protected override IEnumerable<ICodeObject> TryBuild(CurlySyntax node, ICodeObjectBuilderContext context)
+        protected override IEnumerable<ICodeObject> TryBuild(CurlyNode node, ICodeObjectBuilderContext context)
         {
             ComponentCodeObject codeObject = new ComponentCodeObject();
 
@@ -51,7 +51,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             return null;
         }
 
-        protected bool TryBuildAttributes(IEnumerable<CurlyAttributeSyntax> attributeNodes, IFieldCollectionCodeObject codeObject, ICodeObjectBuilderContext context)
+        protected bool TryBuildAttributes(IEnumerable<CurlyAttributeNode> attributeNodes, IFieldCollectionCodeObject codeObject, ICodeObjectBuilderContext context)
         {
             IFieldEnumerator feature;
             if (!descriptor.TryWithFields(out feature))
@@ -63,7 +63,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
                 fields[nameNormalizer.PrepareName(fieldDescriptor.Name)] = fieldDescriptor;
 
             bool result = true;
-            foreach (CurlyAttributeSyntax node in attributeNodes)
+            foreach (CurlyAttributeNode node in attributeNodes)
             {
                 string nodeName = nameNormalizer.PrepareName(node.NameToken.Text);
                 IFieldDescriptor fieldDescriptor;

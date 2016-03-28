@@ -54,14 +54,14 @@ namespace Test.Templates.VisualStudio.UI.Views.DesignData
                     syntaxNodeViewModel = new SyntaxNodeViewModel("Unnable to find syntax node builder.");
                     syntaxNodeViewModel.Children.Add(
                         new SyntaxNodeViewModel(
-                            new AngleSyntax()
+                            new AngleNode()
                                 .WithOpenToken(new Token(AngleTokenType.OpenBrace, "<"))
-                                .WithName(new AngleNameSyntax().WithNameToken(new Token(AngleTokenType.Name, "Binding")))
+                                .WithName(new AngleNameNode().WithNameToken(new Token(AngleTokenType.Name, "Binding")))
                                 .WithSelfCloseToken(new Token(AngleTokenType.SelfClose, "/"))
                                 .WithCloseToken(new Token(AngleTokenType.CloseBrace, ">"))
                         )
                             .AddChild(new SyntaxNodeViewModel(
-                                new AngleNameSyntax()
+                                new AngleNameNode()
                                     .WithNameToken(new Token(AngleTokenType.Name, "Binding"))
                             ))
                     );

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public interface ISyntaxNodeProcessor
+    public interface INodeVisitor
     {
-        bool Process(ISyntaxNode node);
+        void Visit(INode node, INodeProcessor processor);
     }
 }

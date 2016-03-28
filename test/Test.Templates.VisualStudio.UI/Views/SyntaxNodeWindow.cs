@@ -25,7 +25,7 @@ namespace Test.Templates.VisualStudio.UI.Views
     [Guid(MyConstants.ToolWindow.SyntaxNodeWindowString)]
     public class SyntaxNodeWindow : ToolWindowPane
     {
-        private readonly ISyntaxNodeVisitor visitor;
+        private readonly INodeVisitor visitor;
         private readonly CurrentBufferPropertyProvider propertyProvider;
         private readonly DTE dte;
         private ITextView currentTextView;
@@ -147,7 +147,7 @@ namespace Test.Templates.VisualStudio.UI.Views
             }
         }
 
-        private void OnCurrentErrorRaised(SyntaxContext context, SyntaxNodeException e)
+        private void OnCurrentErrorRaised(SyntaxContext context, NodeException e)
         {
             // TODO: Show information about error.
             ViewModel.ErrorMessage = e.ToString();
@@ -170,13 +170,13 @@ namespace Test.Templates.VisualStudio.UI.Views
         }
 
 
-        private class ViewModelBuilder : ISyntaxNodeProcessor
+        private class ViewModelBuilder : INodeProcessor
         {
             private readonly List<SyntaxNodeViewModel> parents = new List<SyntaxNodeViewModel>();
 
             public SyntaxNodeViewModel RootViewModel { get; private set; }
 
-            public bool Process(ISyntaxNode node)
+            public bool Process(INode node)
             {
                 if (parents.Count == 0)
                 {

@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public interface ISyntaxNodeFactory : IFactory<ISyntaxNode, IList<Token>>
+    public interface INodeFactory : IFactory<INode, IList<Token>>
     { }
 }

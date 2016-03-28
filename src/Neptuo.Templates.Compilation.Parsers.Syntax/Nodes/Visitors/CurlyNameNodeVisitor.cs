@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public interface ISyntaxNodeVisitor
+    public class CurlyNameNodeVisitor : NodeVisitorBase<CurlyNameNode>
     {
-        void Visit(ISyntaxNode node, ISyntaxNodeProcessor processor);
+        protected override void Visit(CurlyNameNode node, INodeProcessor processor)
+        { }
     }
 }

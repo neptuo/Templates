@@ -45,7 +45,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
             yield return new DefaultTokenTrigger(AngleTokenType.AttributeValueSeparator, false);
         }
 
-        public IEnumerable<ICompletion> GetCompletions(ISyntaxNode currentNode, Token currentToken)
+        public IEnumerable<ICompletion> GetCompletions(INode currentNode, Token currentToken)
         {
             List<ICompletion> result = new List<ICompletion>();
 
@@ -56,7 +56,7 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                     .Select(n => CreateItem(currentToken, n, StandardGlyphGroup.GlyphGroupClass))
                 );
             }
-            else if ((currentToken.Type == AngleTokenType.Whitespace && (currentNode is AngleNameSyntax || currentNode is AngleAttributeSyntax)) || currentToken.Type == AngleTokenType.AttributeName)
+            else if ((currentToken.Type == AngleTokenType.Whitespace && (currentNode is AngleNameNode || currentNode is AngleAttributeNode)) || currentToken.Type == AngleTokenType.AttributeName)
             {
                 result.AddRange(attributeNames
                     .Where(n => currentToken.Type == TokenType.Whitespace || n.StartsWith(currentToken.Text))

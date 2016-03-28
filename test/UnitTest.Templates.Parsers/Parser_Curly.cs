@@ -31,9 +31,9 @@ namespace UnitTest.Templates.Parsers
 
             CodeObjectBuilderCollection codeObjectBuilders = new CodeObjectBuilderCollection();
             codeObjectBuilders
-                 .Add(typeof(SyntaxCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
-                 .Add(typeof(LiteralSyntax), new TextCodeObjectBuilder())
-                 .Add(typeof(CurlySyntax), new CurlyCodeObjectBuilder(bindingDescriptor));
+                 .Add(typeof(NodeCollection), new CollectionCodeObjectBuilder(codeObjectBuilders))
+                 .Add(typeof(LiteralNode), new TextCodeObjectBuilder())
+                 .Add(typeof(CurlyNode), new CurlyCodeObjectBuilder(bindingDescriptor));
 
             CodePropertyBuilderCollection codePropertyBuilders = new CodePropertyBuilderCollection();
             codePropertyBuilders
@@ -50,9 +50,9 @@ namespace UnitTest.Templates.Parsers
                 .AddAngleTokenBuilder()
                 .AddLiteralTokenBuilder();
 
-            parserService.SyntaxBuilders
-                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
-                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
+            parserService.NodeBuilders
+                .Add(CurlyTokenType.OpenBrace, new CurlyNodeBuilder())
+                .Add(TokenType.Literal, new LiteralNodeBuilder());
 
             ICodeObject codeObject = parserService.ProcessContent(
                 "Default", 

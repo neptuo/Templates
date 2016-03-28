@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class SyntaxCollection : SyntaxNodeBase<SyntaxCollection>
+    public class NodeCollection : NodeBase<NodeCollection>
     {
-        public IList<ISyntaxNode> Nodes { get; private set; }
+        public IList<INode> Nodes { get; private set; }
 
-        public SyntaxCollection()
+        public NodeCollection()
         {
-            Nodes = new List<ISyntaxNode>();
+            Nodes = new List<INode>();
         }
 
-        public SyntaxCollection Add(ISyntaxNode node)
+        public NodeCollection Add(INode node)
         {
             Nodes.Add(node);
 
@@ -26,13 +26,13 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return this;
         }
 
-        protected override SyntaxCollection CloneInternal()
+        protected override NodeCollection CloneInternal()
         {
-            SyntaxCollection result = new SyntaxCollection();
+            NodeCollection result = new NodeCollection();
 
-            foreach (ISyntaxNode node in Nodes)
+            foreach (INode node in Nodes)
             {
-                ICloneable<ISyntaxNode> cloneableNode = node as ICloneable<ISyntaxNode>;
+                ICloneable<INode> cloneableNode = node as ICloneable<INode>;
                 if (cloneableNode != null)
                     result.Add(cloneableNode.Clone());
                 else

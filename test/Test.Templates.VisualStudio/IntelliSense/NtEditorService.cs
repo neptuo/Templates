@@ -89,12 +89,12 @@ namespace Test.Templates.VisualStudio.IntelliSense
             );
         }
 
-        private ISyntaxNodeFactory CreateSyntaxNodeFactory()
+        private INodeFactory CreateSyntaxNodeFactory()
         {
-            ISyntaxNodeFactory builder = new SyntaxNodeBuilderCollection()
-                .Add(AngleTokenType.OpenBrace, new AngleSyntaxNodeBuilder())
-                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
-                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
+            INodeFactory builder = new NodeBuilderCollection()
+                .Add(AngleTokenType.OpenBrace, new AngleNodeBuilder())
+                .Add(CurlyTokenType.OpenBrace, new CurlyNodeBuilder())
+                .Add(TokenType.Literal, new LiteralNodeBuilder());
 
             return builder;
         }

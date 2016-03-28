@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public class CurlyDefaultAttributeSyntaxVisitor : SyntaxNodeVisitorBase<CurlyDefaultAttributeSyntax>
+    public class CurlyDefaultAttributeNodeVisitor : NodeVisitorBase<CurlyDefaultAttributeNode>
     {
-        protected override void Visit(CurlyDefaultAttributeSyntax node, ISyntaxNodeProcessor processor)
+        protected override void Visit(CurlyDefaultAttributeNode node, INodeProcessor processor)
         {
             if (node.Value != null)
                 processor.Process(node.Value);

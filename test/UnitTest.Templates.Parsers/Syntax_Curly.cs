@@ -18,16 +18,16 @@ namespace UnitTest.Templates.Parsers
             IList<Token> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"), new FakeTokenizerContext());
             //IList<ComposableToken> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID} Text"), new FakeTokenizerContext());
 
-            ISyntaxNodeFactory builder = new SyntaxNodeBuilderCollection()
-                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
-                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
+            INodeFactory builder = new NodeBuilderCollection()
+                .Add(CurlyTokenType.OpenBrace, new CurlyNodeBuilder())
+                .Add(TokenType.Literal, new LiteralNodeBuilder());
 
-            ISyntaxNode node = builder.Create(tokens);
+            INode node = builder.Create(tokens);
 
-            SyntaxCollection collection = node as SyntaxCollection;
+            NodeCollection collection = node as NodeCollection;
             if (collection != null)
             {
-                CurlySyntax curly = collection.Nodes[1] as CurlySyntax;
+                CurlyNode curly = collection.Nodes[1] as CurlyNode;
                 if (curly != null)
                 {
                     AssertAreEqual(curly.Name.NameToken.Text, "Binding");

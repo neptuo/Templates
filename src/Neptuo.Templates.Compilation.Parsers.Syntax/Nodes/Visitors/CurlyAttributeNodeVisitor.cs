@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public class AngleAttributeSyntaxVisitor : SyntaxNodeVisitorBase<AngleAttributeSyntax>
+    public class CurlyAttributeNodeVisitor : NodeVisitorBase<CurlyAttributeNode>
     {
-        protected override void Visit(AngleAttributeSyntax node, ISyntaxNodeProcessor processor)
+        protected override void Visit(CurlyAttributeNode node, INodeProcessor processor)
         {
-            if (node.Name != null)
-                processor.Process(node.Name);
-
             if (node.Value != null)
                 processor.Process(node.Value);
         }

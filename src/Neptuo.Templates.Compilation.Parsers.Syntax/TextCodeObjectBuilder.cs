@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax
 {
-    public class TextCodeObjectBuilder : CodeObjectBuilderBase<LiteralSyntax>
+    public class TextCodeObjectBuilder : CodeObjectBuilderBase<LiteralNode>
     {
-        protected override IEnumerable<ICodeObject> TryBuild(LiteralSyntax node, ICodeObjectBuilderContext context)
+        protected override IEnumerable<ICodeObject> TryBuild(LiteralNode node, ICodeObjectBuilderContext context)
         {
             return new CodeObjectCollection().AddPlainValue(node.TextToken.Text);
         }

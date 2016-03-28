@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors
 {
-    public abstract class SyntaxNodeVisitorBase<T> : ISyntaxNodeVisitor
-        where T : ISyntaxNode
+    public abstract class NodeVisitorBase<T> : INodeVisitor
+        where T : INode
     {
-        public void Visit(ISyntaxNode node, ISyntaxNodeProcessor processor)
+        public void Visit(INode node, INodeProcessor processor)
         {
             T targetNode = (T)node;
             Visit(targetNode, processor);
         }
 
-        protected abstract void Visit(T node, ISyntaxNodeProcessor processor);
+        protected abstract void Visit(T node, INodeProcessor processor);
     }
 }

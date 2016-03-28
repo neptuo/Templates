@@ -40,28 +40,28 @@ namespace PerfTest.Templates.Parsers.Tokenizers
             return tokenizer;
         }
 
-        SyntaxNodeBuilderCollection CreateSyntaxNodeBuilder()
+        NodeBuilderCollection CreateSyntaxNodeBuilder()
         {
-            SyntaxNodeBuilderCollection builder = new SyntaxNodeBuilderCollection()
-                .Add(AngleTokenType.OpenBrace, new AngleSyntaxNodeBuilder())
-                .Add(CurlyTokenType.OpenBrace, new CurlySyntaxNodeBuilder())
-                .Add(TokenType.Literal, new LiteralSyntaxNodeBuilder());
+            NodeBuilderCollection builder = new NodeBuilderCollection()
+                .Add(AngleTokenType.OpenBrace, new AngleNodeBuilder())
+                .Add(CurlyTokenType.OpenBrace, new CurlyNodeBuilder())
+                .Add(TokenType.Literal, new LiteralNodeBuilder());
 
             return builder;
         }
 
-        ISyntaxNodeVisitor CreateVisitor()
+        INodeVisitor CreateVisitor()
         {
-            return new SyntaxVisitor()
-                .Add(typeof(LiteralSyntax), new LiteralSyntaxVisitor())
-                .Add(typeof(SyntaxCollection), new SyntaxCollectionVisitor())
-                .Add(typeof(AngleSyntax), new AngleSyntaxVisitor())
-                .Add(typeof(AngleNameSyntax), new AngleNameSyntaxVisitor())
-                .Add(typeof(AngleAttributeSyntax), new AngleAttributeSyntaxVisitor())
-                .Add(typeof(CurlySyntax), new CurlySyntaxVisitor())
-                .Add(typeof(CurlyNameSyntax), new CurlyNameSyntaxVisitor())
-                .Add(typeof(CurlyDefaultAttributeSyntax), new CurlyDefaultAttributeSyntaxVisitor())
-                .Add(typeof(CurlyAttributeSyntax), new CurlyAttributeSyntaxVisitor());
+            return new NodeVisitor()
+                .Add(typeof(LiteralNode), new LiteralNodeVisitor())
+                .Add(typeof(NodeCollection), new NodeCollectionVisitor())
+                .Add(typeof(AngleNode), new AngleNodeVisitor())
+                .Add(typeof(AngleNameNode), new AngleNameNodeVisitor())
+                .Add(typeof(AngleAttributeNode), new AngleAttributeNodeVisitor())
+                .Add(typeof(CurlyNode), new CurlyNodeVisitor())
+                .Add(typeof(CurlyNameNode), new CurlyNameNodeVisitor())
+                .Add(typeof(CurlyDefaultAttributeNode), new CurlyDefaultAttributeNodeVisitor())
+                .Add(typeof(CurlyAttributeNode), new CurlyAttributeNodeVisitor());
         }
 
         #endregion
@@ -86,16 +86,16 @@ namespace PerfTest.Templates.Parsers.Tokenizers
             DefaultTokenizer tokenizer = CreateTokenizer();
             IList<Token> tokens = Debug("Tokenizer", () => tokenizer.Tokenize(new StringReader(File.ReadAllText(filePath)), new FakeTokenizerContext()));
 
-            SyntaxNodeBuilderCollection nodeBuilder = CreateSyntaxNodeBuilder();
-            ISyntaxNode node = Debug("NodeBuilder", () => nodeBuilder.Create(tokens));
+            NodeBuilderCollection nodeBuilder = CreateSyntaxNodeBuilder();
+            INode node = Debug("NodeBuilder", () => nodeBuilder.Create(tokens));
 
-            ISyntaxNodeVisitor visitor = CreateVisitor();
+            INodeVisitor visitor = CreateVisitor();
             Debug("NodeVisitor", () => visitor.Visit(node, new NodeProcessor()));
         }
 
-        private class NodeProcessor : ISyntaxNodeProcessor
+        private class NodeProcessor : INodeProcessor
         {
-            public bool Process(ISyntaxNode node)
+            public bool Process(INode node)
             {
                 return true;
             }

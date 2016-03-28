@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
 {
-    public class AngleSyntaxNodeBuilder : ISyntaxNodeBuilder
+    public class AngleNodeBuilder : INodeBuilder
     {
-        public ISyntaxNode Build(TokenListReader reader, ISyntaxNodeBuilderContext context)
+        public INode Build(TokenReader reader, INodeBuilderContext context)
         {
-            AngleSyntax result = new AngleSyntax();
+            AngleNode result = new AngleNode();
 
             Token token = reader.Current;
             while (token.Type == AngleTokenType.Whitespace)
@@ -34,10 +34,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             }
         }
 
-        private ISyntaxNode BuildName(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)
+        private INode BuildName(TokenReader reader, AngleNode result, INodeBuilderContext context)
         {
             reader.NextRequired();
-            AngleNameSyntax name = GetName(reader);
+            AngleNameNode name = GetName(reader);
 
             TryAppendTrailingTrivia(reader, name);
             result.WithName(name);
@@ -45,9 +45,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return result;
         }
 
-        private AngleNameSyntax GetName(TokenListReader reader)
+        private AngleNameNode GetName(TokenReader reader)
         {
-            AngleNameSyntax name = new AngleNameSyntax();
+            AngleNameNode name = new AngleNameNode();
             if (reader.Current.Type == AngleTokenType.NamePrefix)
             {
                 name.WithPrefixToken(reader.Current);
@@ -70,9 +70,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return name;
         }
 
-        private AngleNameSyntax GetAttributeName(TokenListReader reader)
+        private AngleNameNode GetAttributeName(TokenReader reader)
         {
-            AngleNameSyntax name = new AngleNameSyntax();
+            AngleNameNode name = new AngleNameNode();
             if (reader.Current.Type == AngleTokenType.AttributeNamePrefix)
             {
                 name.WithPrefixToken(reader.Current);
@@ -95,7 +95,7 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             return name;
         }
 
-        private void BuildContent(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)
+        private void BuildContent(TokenReader reader, AngleNode result, INodeBuilderContext context)
         {
             reader.NextRequired();
             if (reader.Current.Type == AngleTokenType.SelfClose)
@@ -106,9 +106,9 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
                 throw new InvalidTokenTypeException(reader.Current, AngleTokenType.SelfClose, AngleTokenType.AttributeNamePrefix, AngleTokenType.AttributeName);
         }
 
-        private void BuildAttribute(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)
+        private void BuildAttribute(TokenReader reader, AngleNode result, INodeBuilderContext context)
         {
-            AngleAttributeSyntax attribute = new AngleAttributeSyntax()
+            AngleAttributeNode attribute = new AngleAttributeNode()
                 .WithName(GetAttributeName(reader));
 
             result.AddAttribute(attribute);
@@ -136,15 +136,15 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax.Nodes
             BuildContent(reader, result, context);
         }
 
-        private void BuildSelfClose(TokenListReader reader, AngleSyntax result, ISyntaxNodeBuilderContext context)
+        private void BuildSelfClose(TokenReader reader, AngleNode result, INodeBuilderContext context)
         {
             result.WithSelfCloseToken(reader.Current);
             reader.NextRequiredOfType(AngleTokenType.CloseBrace);
             result.WithCloseToken(reader.Current);
         }
 
-        private void TryAppendTrailingTrivia<T>(TokenListReader reader, T syntax)
-            where T : SyntaxNodeBase<T>
+        private void TryAppendTrailingTrivia<T>(TokenReader reader, T syntax)
+            where T : NodeBase<T>
         {
             while (reader.Next())
             {

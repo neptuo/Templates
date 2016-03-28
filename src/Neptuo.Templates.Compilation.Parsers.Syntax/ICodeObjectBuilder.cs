@@ -19,6 +19,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
         /// <param name="node">Syntax node to process.</param>
         /// <param name="context">Processing context.</param>
         /// <returns>Enumeration of code objects representing <paramref name="node"/>.</returns>
-        IEnumerable<ICodeObject> TryBuild(ISyntaxNode node, ICodeObjectBuilderContext context);
+        IEnumerable<ICodeObject> TryBuild(INode node, ICodeObjectBuilderContext context);
     }
 }
