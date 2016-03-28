@@ -13,16 +13,22 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense.Completions.Sources
     /// </summary>
     public interface ICurlyCompletionSource
     {
+        /// <summary>
+        /// Returns an enumeration of completions for curly components based on current <paramref name="nameFilter"/>.
+        /// The <paramref name="nameFilter"/> is name, prefix or prefixed name (like ui:Binding).
+        /// </summary>
+        /// <param name="nameFilter">The current name or prefix to filter by.</param>
+        /// <param name="iconHint">The recomended icon for completions.</param>
+        /// <returns>The enumeration of completion items for curly components.</returns>
         IEnumerable<ICompletion> GetComponents(string nameFilter, ImageSource iconHint);
 
+        /// <summary>
+        /// Returns an enumeration of completions for attributes of <paramref name="currentSyntax"/>.
+        /// </summary>
+        /// <param name="currentSyntax">The curly syntax node to offer the attributes for.</param>
+        /// <param name="nameFilter">The current attribute name to filter by.</param>
+        /// <param name="iconHint">The recomended icon for completions.</param>
+        /// <returns>The enumeration of completion items for the curly syntax node.</returns>
         IEnumerable<ICompletion> GetAttributes(CurlySyntax currentSyntax, string nameFilter, ImageSource iconHint);
-    }
-
-    public interface ICurlyCompletionComponent
-    {
-        string Prefix { get; }
-        string Name { get; }
-
-        IEnumerable<string> GetAttributeNames(string prefix, string attributeNameFilter);
     }
 }
