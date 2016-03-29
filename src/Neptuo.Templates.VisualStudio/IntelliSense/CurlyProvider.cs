@@ -72,10 +72,10 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                     result.AddRange(completionSource.GetComponents(name, glyphs.GetExtensionMethod()));
                 }
             }
-            else if (currentToken.Type == TokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
+            else if (currentToken.Type == CurlyTokenType.Whitespace || currentToken.Type == CurlyTokenType.AttributeSeparator || currentToken.Type == CurlyTokenType.AttributeName || currentToken.Type == CurlyTokenType.DefaultAttributeValue)
             {
                 // Find current component and offer attributes.
-                CurlyNode node = currentNode.FindFirstAncestorOfType<CurlyNode>();
+                CurlyNode node = currentNode.FindSelfOrFirstAncestorOfType<CurlyNode>();
                 if (node == null)
                     return Enumerable.Empty<ICompletion>();
 
@@ -87,15 +87,15 @@ namespace Neptuo.Templates.VisualStudio.IntelliSense
                 if(node.Name.NameToken != null)
                     name = node.Name.NameToken.Text;
 
-                if (currentToken.Type == TokenType.Whitespace)
-                {
-                    // Add all not used attributes (without filtering).
-                    result.AddRange(completionSource.GetAttributes(node, null, glyphs.Get(StandardGlyphGroup.GlyphGroupProperty)));
-                }
-                else
+                if (currentToken.Type == CurlyTokenType.AttributeName)
                 {
                     // Add all not used matching current text (name).
                     result.AddRange(completionSource.GetAttributes(node, currentToken.Text, glyphs.Get(StandardGlyphGroup.GlyphGroupProperty)));
+                }
+                else
+                {
+                    // Add all not used attributes (without filtering).
+                    result.AddRange(completionSource.GetAttributes(node, null, glyphs.Get(StandardGlyphGroup.GlyphGroupProperty)));
                 }
             }
             else if (currentToken.Type == TokenType.Literal || currentToken.Type == TokenType.Whitespace || currentToken.Type == AngleTokenType.AttributeOpenValue)
