@@ -75,6 +75,16 @@ namespace UnitTest.Templates.Parsers.Tokenizers
         }
 
         [TestMethod]
+        public void Curly_ValidTokenWithInnerTokenAndLiteralAttributes()        //0         1         2         3         4         5
+        {                                                                       //012345678901234567890123456789012345678901234567890
+            //IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{data:Binding Converter={data:StaticResource Key=Abc}, Path=Abcd}"), new FakeTokenizerContext());
+            //AssertTokens(tokens, "{", "data", ":", "Binding", " ", "Converter", "=", "{", "data", ":", "StaticResource", " ", "Key", "=", "Abc", "}", ",", " ", "Path", "=", "Abcd", "}");
+
+            IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{A C={StaticResource Key=Abc}}"), new FakeTokenizerContext());
+            AssertTokens(tokens, "{", "A", " ", "C", "=", "{", "StaticResource", " ", "Key", "=", "Abc", "}", "}");
+        }
+
+        [TestMethod]
         public void Curly_InValidTokenWithoutCloseBrace()
         {
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{Binding"), new FakeTokenizerContext());
