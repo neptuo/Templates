@@ -80,6 +80,8 @@ namespace UnitTest.Templates.Parsers.Tokenizers
             //IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{data:Binding Converter={data:StaticResource Key=Abc}, Path=Abcd}"), new FakeTokenizerContext());
             //AssertTokens(tokens, "{", "data", ":", "Binding", " ", "Converter", "=", "{", "data", ":", "StaticResource", " ", "Key", "=", "Abc", "}", ",", " ", "Path", "=", "Abcd", "}");
 
+                                                                                //0         1         2         3
+                                                                                //0123456789012345678901234567890
             IList<Token> tokens = CreateTokenizer().Tokenize(CreateContentReader("{A C={StaticResource Key=Abc}}"), new FakeTokenizerContext());
             AssertTokens(tokens, "{", "A", " ", "C", "=", "{", "StaticResource", " ", "Key", "=", "Abc", "}", "}");
         }
