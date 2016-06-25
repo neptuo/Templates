@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0DBB3903-441E-4395-94D4-F0E3E319ED13}"
 EndProject
@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F9BE53
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{6B93C14C-2672-4935-AE18-C28432632F46}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.Compilation", "src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj", "{37BC3720-17C6-40EB-8236-037EC9BBC66B}"
 EndProject
@@ -27,8 +29,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.Compilation", "test\Test.Templates.Compilation\Test.Templates.Compilation.csproj", "{BC762024-B072-4030-B33E-7900493AC41D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStudio.UI", "src\Neptuo.Templates.VisualStudio.UI\Neptuo.Templates.VisualStudio.UI.csproj", "{08038638-BA5E-4032-91D1-CFA70B9777BB}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "VisualStudio", "VisualStudio", "{6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Templates.VisualStudio", "src\Neptuo.Templates.VisualStudio\Neptuo.Templates.VisualStudio.csproj", "{9AA671E2-FB2E-48B1-BD9F-3D7796CEDDD7}"
 EndProject
@@ -249,7 +249,7 @@ Global
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4} = {6B93C14C-2672-4935-AE18-C28432632F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal
