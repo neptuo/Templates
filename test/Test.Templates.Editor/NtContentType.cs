@@ -1,4 +1,5 @@
 ﻿using Microsoft.VisualStudio.Utilities;
+using Microsoft.Web.Core.ContentTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Test.Templates.VisualStudio
+namespace Neptuo.Templates
 {
     public class NtContentType
     {
@@ -15,7 +16,7 @@ namespace Test.Templates.VisualStudio
 
         [Export(typeof(ContentTypeDefinition))]
         [Name(TextValue)]
-        [BaseDefinition("htmlx")]
+        [BaseDefinition(HtmlContentTypeDefinition.HtmlContentType)]
         public NtContentType ContentTypeDefinition { get; set; }
 
         [Export(typeof(FileExtensionToContentTypeDefinition))]

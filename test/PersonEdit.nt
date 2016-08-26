@@ -1,16 +1,24 @@
-<div class="editor">
-	<form method="post">
-		<div class="editor-item">
-			<label for="firstName">First name:</label>
-			<input type="text" id="firstName" name="firstName" value="{Binding FirstName}" />
+<!DOCTYPE html>
+<html>
+	<head>
+		
+	</head>
+	<body>
+		<div class="editor">
+			<form method="post">
+				<div class="editor-item">
+					<label for="firstName">First name:</label>
+					<input type="text" id="firstName" name="firstName" value="{Binding FirstName}" />
+				</div>
+				<div class="editor-item">
+					<label for="lastName">First name:</label>
+					<input type="text" id="lastName" name="lastName" value="{Binding LastName}" />
+				</div>
+				<div class="editor-item">
+					<label for="birthDate">Birth date:</label>
+					<input type="text" id="birthDate" name="birthDate" value="{Binding BirthDate}" />
+				</div>
+			</form>
 		</div>
-		<div class="editor-item">
-			<label for="lastName">First name:</label>
-			<input type="text" id="lastName" name="lastName" value="{Binding LastName}" />
-		</div>
-		<div class="editor-item">
-			<label for="birthDate">Birth date:</label>
-			<input type="text" id="birthDate" name="birthDate" value="{Binding BirthDate}" />
-		</div>
-	</form>
-</div>
+	</body>
+</html>

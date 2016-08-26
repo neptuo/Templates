@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{0DBB3903-441E-4395-94D4-F0E3E319ED13}"
 EndProject
@@ -49,6 +49,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.VisualStudio", "test\Test.Templates.VisualStudio\Test.Templates.VisualStudio.csproj", "{A2D7DED3-109A-4955-910D-4092F3E77500}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.VisualStudio.UI", "test\Test.Templates.VisualStudio.UI\Test.Templates.VisualStudio.UI.csproj", "{B4756E77-D867-4252-B77F-07FD4F8F08F4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.Editor", "test\Test.Templates.Editor\Test.Templates.Editor.csproj", "{C3345B71-ED53-4868-8BD6-115F2EECDBE1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -230,6 +232,18 @@ Global
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Debug|x86.Build.0 = Debug|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|x86.ActiveCfg = Release|Any CPU
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -247,9 +261,10 @@ Global
 		{6AD9A968-9EA6-44A1-93C7-CD6358837365} = {6F94F3A2-1F21-4752-8B7F-016E2D0AAF5C}
 		{A2D7DED3-109A-4955-910D-4092F3E77500} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4} = {6B93C14C-2672-4935-AE18-C28432632F46}
+		{C3345B71-ED53-4868-8BD6-115F2EECDBE1} = {6B93C14C-2672-4935-AE18-C28432632F46}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal
