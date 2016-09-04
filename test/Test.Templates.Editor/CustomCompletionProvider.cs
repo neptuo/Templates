@@ -11,6 +11,9 @@ using Microsoft.Html.Core.Artifacts;
 using Microsoft.Web.Core.Text;
 using System.Text.RegularExpressions;
 using Microsoft.Web.Core.ContentTypes;
+using Microsoft.Web.Editor.Controller;
+using Microsoft.VisualStudio.Text;
+using Microsoft.VisualStudio.Text.Editor;
 
 namespace Neptuo.Templates
 {
@@ -28,17 +31,26 @@ namespace Neptuo.Templates
         }
     }
 
-    //[HtmlCompletionProvider(CompletionTypes.Any, "*", "*")]
-    //[ContentType(NtContentType.TextValue)]
-    //class NtCompletionProvider : IHtmlCompletionListProvider
-    //{
-    //    public IList<HtmlCompletion> GetEntries(HtmlCompletionContext context)
-    //    {
-    //        return new[] {
-    //            new HtmlCompletion("ui:Template", "ui:Template", "ui:Template", null, "", context.Session),
-    //        };
-    //    }
-    //}
+    [Export(typeof(ITextViewCreationListener))]
+    [ContentType(HtmlContentTypeDefinition.HtmlContentType)]
+    class CustomTextViewCreationListener : ITextViewCreationListener
+    {
+        public void OnTextViewCreated(ITextView textView, ITextBuffer textBuffer)
+        {
+        }
+    }
+
+    [HtmlCompletionProvider(CompletionTypes.Any, "*", "*")]
+    [ContentType(ContentType.Name)]
+    class NtCompletionProvider : IHtmlCompletionListProvider
+    {
+        public IList<HtmlCompletion> GetEntries(HtmlCompletionContext context)
+        {
+            return new[] {
+                new HtmlCompletion("ui:Template", "ui:Template", "ui:Template", null, "", context.Session),
+            };
+        }
+    }
 
 
     //[HtmlCompletionFilter(CompletionTypes.Any)]

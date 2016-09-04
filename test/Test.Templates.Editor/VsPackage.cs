@@ -15,6 +15,9 @@ using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
+using EnvDTE80;
+using Microsoft.VisualStudio.ComponentModelHost;
+using Microsoft.VisualStudio.Utilities;
 
 namespace Neptuo.Templates
 {
@@ -38,7 +41,8 @@ namespace Neptuo.Templates
     [PackageRegistration(UseManagedResourcesOnly = true)]
     [InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)] // Info on this package for Help/About
     [Guid(PackageGuidString)]
-    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
+    [ProvideAutoLoad(UIContextGuids.SolutionExists)]
+    //[ProvideAutoLoad(UIContextGuids.NoSolution)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
     public sealed class VsPackage : Package
     {
@@ -67,6 +71,15 @@ namespace Neptuo.Templates
         protected override void Initialize()
         {
             base.Initialize();
+
+
+            DTE2 dte2 = (DTE2)GetGlobalService(typeof(SDTE));
+            var sp = new ServiceProvider(dte2 as Microsoft.VisualStudio.OLE.Interop.IServiceProvider);
+            var container = sp.GetService(typeof(SComponentModel)) as IComponentModel;
+
+            IFileExtensionRegistryService fileExtensions = container.GetService<IFileExtensionRegistryService>();
+            IContentType contentType = fileExtensions.GetContentTypeForExtension(ContentType.FileExtension);
+            Console.WriteLine(contentType);
         }
 
         #endregion
