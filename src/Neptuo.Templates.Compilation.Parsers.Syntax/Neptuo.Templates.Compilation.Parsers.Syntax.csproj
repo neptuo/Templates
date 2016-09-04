@@ -32,8 +32,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Neptuo, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Neptuo.5.0.1\lib\net45\Neptuo.dll</HintPath>
+    <Reference Include="Neptuo, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Neptuo.Models.Features, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -99,40 +99,6 @@
     <Compile Include="Nodes\_EnsureConditionExtensions.cs" />
     <Compile Include="Nodes\_TokenReaderExtensions.cs" />
     <Compile Include="TextCodeObjectBuilder.cs" />
-    <Compile Include="Tokenizers\ComponentModel\DefaultErrorMessage.cs" />
-    <Compile Include="Tokenizers\ComponentModel\IErrorMessage.cs" />
-    <Compile Include="Tokenizers\DefaultTokenizerContext.cs" />
-    <Compile Include="Tokenizers\IO\ContentDecorator.cs" />
-    <Compile Include="Tokenizers\IO\ContentFactory.cs" />
-    <Compile Include="Tokenizers\IO\ContentReader.cs" />
-    <Compile Include="Tokenizers\IO\IContentReader.cs" />
-    <Compile Include="Tokenizers\IO\ICurrentInfoAware.cs" />
-    <Compile Include="Tokenizers\IO\PartialReader.cs" />
-    <Compile Include="Tokenizers\IO\StringReader.cs" />
-    <Compile Include="Tokenizers\IO\_ContentDecoratorExtensions.cs" />
-    <Compile Include="Tokenizers\IO\_ContentReaderExtensions.cs" />
-    <Compile Include="Tokenizers\ITokenizer.cs" />
-    <Compile Include="Tokenizers\ITokenizerContext.cs" />
-    <Compile Include="Tokenizers\ITokenTypeProvider.cs" />
-    <Compile Include="Tokenizers\Token.cs" />
-    <Compile Include="Tokenizers\TokenEnumerator.cs" />
-    <Compile Include="Tokenizers\TokenFactory.cs" />
-    <Compile Include="Tokenizers\TokenType.cs" />
-    <Compile Include="Tokenizers\TokenTypeCollection.cs" />
-    <Compile Include="Tokenizers\AngleTokenBuilder.cs" />
-    <Compile Include="Tokenizers\AngleTokenType.cs" />
-    <Compile Include="Tokenizers\InternalContext.cs" />
-    <Compile Include="Tokenizers\CurlyTokenBuilder.cs" />
-    <Compile Include="Tokenizers\CurlyTokenType.cs" />
-    <Compile Include="Tokenizers\DefaultTokenBuilderContext.cs" />
-    <Compile Include="Tokenizers\DefaultTokenizer.cs" />
-    <Compile Include="Tokenizers\ITokenBuilder.cs" />
-    <Compile Include="Tokenizers\ITokenBuilderCollection.cs" />
-    <Compile Include="Tokenizers\ITokenBuilderContext.cs" />
-    <Compile Include="Tokenizers\LiteralTokenBuilder.cs" />
-    <Compile Include="Tokenizers\TokenBuilderBase.cs" />
-    <Compile Include="Tokenizers\_TokenBuilderContextExtensions.cs" />
-    <Compile Include="Tokenizers\_TokenTypeCollectionExtensions.cs" />
     <Compile Include="_CodeObjectBuilderCollectionExtensions.cs" />
     <Compile Include="_CodeObjectBuilderContextExtensions.cs" />
     <Compile Include="_CodePropertyBuilderContextExtensions.cs" />
@@ -156,7 +122,9 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Tokenizers\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

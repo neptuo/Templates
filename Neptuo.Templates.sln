@@ -52,6 +52,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.VisualStudio
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test.Templates.Editor", "test\Test.Templates.Editor\Test.Templates.Editor.csproj", "{C3345B71-ED53-4868-8BD6-115F2EECDBE1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_External", "_External", "{1B264B2C-13DD-4A88-96E1-CEC5A4BFFB33}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Text.Tokenizer", "src\Neptuo.Text.Tokenizer\Neptuo.Text.Tokenizer.csproj", "{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Neptuo.Text.CurlyTokenizer", "src\Neptuo.Text.CurlyTokenizer\Neptuo.Text.CurlyTokenizer.csproj", "{830F7640-1C81-42E2-9FA6-D1D288CD81F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -244,6 +250,30 @@ Global
 		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|x86.ActiveCfg = Release|Any CPU
 		{C3345B71-ED53-4868-8BD6-115F2EECDBE1}.Release|x86.Build.0 = Release|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Debug|x86.Build.0 = Debug|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Release|x86.ActiveCfg = Release|Any CPU
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F}.Release|x86.Build.0 = Release|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Debug|x86.Build.0 = Debug|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Release|x86.ActiveCfg = Release|Any CPU
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -262,9 +292,11 @@ Global
 		{A2D7DED3-109A-4955-910D-4092F3E77500} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{B4756E77-D867-4252-B77F-07FD4F8F08F4} = {6B93C14C-2672-4935-AE18-C28432632F46}
 		{C3345B71-ED53-4868-8BD6-115F2EECDBE1} = {6B93C14C-2672-4935-AE18-C28432632F46}
+		{4CD3660A-FF82-449A-B127-5E7FA3E55B3F} = {1B264B2C-13DD-4A88-96E1-CEC5A4BFFB33}
+		{830F7640-1C81-42E2-9FA6-D1D288CD81F8} = {1B264B2C-13DD-4A88-96E1-CEC5A4BFFB33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 		VisualSVNWorkingCopyRoot = .
+		EnterpriseLibraryConfigurationToolBinariesPath = packages\Unity.2.1.505.2\lib\NET35
 	EndGlobalSection
 EndGlobal

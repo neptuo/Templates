@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D51E2E8C-6BC8-4AE9-8159-7741597AC06E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{830F7640-1C81-42E2-9FA6-D1D288CD81F8}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PerfTest.Templates.Parsers</RootNamespace>
-    <AssemblyName>PerfTest.Templates.Parsers</AssemblyName>
+    <RootNamespace>Neptuo.Text</RootNamespace>
+    <AssemblyName>Neptuo.Text.CurlyTokenizer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,9 +29,6 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Neptuo, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Neptuo.5.2.0\lib\net45\Neptuo.dll</HintPath>
@@ -45,38 +40,25 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="CurlyTokenBuilder.cs" />
+    <Compile Include="CurlyTokenType.cs" />
+    <Compile Include="InternalContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="_Fakes\FakeTokenizerContext.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers.Syntax\Neptuo.Templates.Compilation.Parsers.Syntax.csproj">
-      <Project>{8f815abf-62a1-4117-b484-abf6b659d65f}</Project>
-      <Name>Neptuo.Templates.Compilation.Parsers.Syntax</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation.Parsers\Neptuo.Templates.Compilation.Parsers.csproj">
-      <Project>{3418325a-d861-4fb7-bf59-215a0d19c5a1}</Project>
-      <Name>Neptuo.Templates.Compilation.Parsers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\src\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
-      <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
-      <Name>Neptuo.Templates.Compilation</Name>
+    <ProjectReference Include="..\Neptuo.Text.Tokenizer\Neptuo.Text.Tokenizer.csproj">
+      <Project>{4cd3660a-ff82-449a-b127-5e7fa3e55b3f}</Project>
+      <Name>Neptuo.Text.Tokenizer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
