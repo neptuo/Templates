@@ -44,7 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CurlyTokenBuilder.cs" />
+    <Compile Include="CurlyTokenizer.cs" />
     <Compile Include="CurlyTokenType.cs" />
     <Compile Include="InternalContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

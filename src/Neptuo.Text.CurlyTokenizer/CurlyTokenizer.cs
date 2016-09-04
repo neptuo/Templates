@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neptuo.Text
 {
-    public class CurlyTokenBuilder : TokenBuilderBase, ITokenTypeProvider
+    public class CurlyTokenizer : ITokenizer, ITokenTypeProvider
     {
         public IEnumerable<TokenType> GetSupportedTokenTypes()
         {
@@ -31,7 +31,15 @@ namespace Neptuo.Text
             };
         }
 
-        protected override void Tokenize(ContentDecorator decorator, ITokenBuilderContext context, List<Token> result)
+        public IList<Token> Tokenize(IContentReader reader, ITokenizerContext context)
+        {
+            ContentDecorator decorator = new ContentDecorator(reader);
+            List<Token> result = new List<Token>();
+            Tokenize(decorator, context, result);
+            return result;
+        }
+
+        protected void Tokenize(ContentDecorator decorator, ITokenizerContext context, List<Token> result)
         {
             InternalContext thisContext = new InternalContext(result, decorator, context);
             ReadTokenStart(thisContext);
@@ -41,8 +49,8 @@ namespace Neptuo.Text
         {
             if (context.Decorator.Current != '{')
             {
-                IList<Token> tokens = context.BuilderContext.TokenizePartial(context.Decorator, '{', '}');
-                context.Result.AddRange(tokens);
+                context.Decorator.NextUntil(c => c == '{' || c == '}');
+                context.CreateToken(CurlyTokenType.Literal);
             }
 
             if (context.Decorator.Current == '{')
@@ -248,7 +256,7 @@ namespace Neptuo.Text
                         );
                         partialDecorator.Next();
 
-                        IList<Token> innerTokens = Tokenize(partialDecorator, context.BuilderContext);
+                        IList<Token> innerTokens = Tokenize(partialDecorator, context.TokenizerContext);
                         context.Result.AddRange(innerTokens);
 
                         context.Decorator.ResetCurrentPosition(1);
@@ -265,8 +273,8 @@ namespace Neptuo.Text
                 }
                 else
                 {
-                    IList<Token> attributeValue = context.BuilderContext.TokenizePartial(context.Decorator, ',', '}');
-                    context.Result.AddRange(attributeValue);
+                    context.Decorator.NextUntil(c => c == ',' || c == '}');
+                    context.CreateToken(CurlyTokenType.Literal);
                     context.Decorator.ResetCurrentPosition(1);
                     context.Decorator.ResetCurrentInfo();
                     context.Decorator.Next();
