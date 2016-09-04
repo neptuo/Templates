@@ -14,7 +14,7 @@ namespace UnitTest.Templates.Parsers
         [TestMethod]
         public void Basic()
         {
-            DefaultTokenizer tokenizer = CreateTokenizer();
+            ITokenizer tokenizer = CreateTokenizer();
             IList<Token> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID, Converter=Static} Text {ui:Template Path=~/Test.nt}"), new FakeTokenizerContext());
             //IList<ComposableToken> tokens = tokenizer.Tokenize(CreateContentReader("Text {data:Binding Path=ID} Text"), new FakeTokenizerContext());
 

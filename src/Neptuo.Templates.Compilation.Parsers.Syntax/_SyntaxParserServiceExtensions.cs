@@ -14,56 +14,6 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
     public static class _SyntaxParserServiceExtensions
     {
         /// <summary>
-        /// Adds <see cref="AngleTokenBuilder"/> to the value tokenizer of <paramref name="service"/>.
-        /// If <paramref name="isIncludedInValueTokenizer"/> is <c>true</c> angle token builder is also added to the value tokenizer.
-        /// </summary>
-        /// <param name="service">The service to add tokenizer to.</param>
-        /// <param name="isIncludedInValueTokenizer">Whether to add angle token builder as value tokenizer.</param>
-        /// <returns><paramref name="service"/>.</returns>
-        public static SyntaxParserService AddAngleTokenBuilder(this SyntaxParserService service, bool isIncludedInValueTokenizer = false)
-        {
-            Ensure.NotNull(service, "service");
-            service.ContentTokenizer.Add(new AngleTokenBuilder());
-
-            if (isIncludedInValueTokenizer)
-                service.ValueTokenizer.Add(new AngleTokenBuilder());
-
-            return service;
-        }
-
-        /// <summary>
-        /// Adds <see cref="CurlyTokenBuilder"/> to the value tokenizer of <paramref name="service"/>.
-        /// If <paramref name="isIncludedInContentTokenizer"/> is <c>true</c> curly token builder is also added to the content tokenizer.
-        /// </summary>
-        /// <param name="service">The service to add tokenizer to.</param>
-        /// <param name="isIncludedInContentTokenizer">Whether to add curly token builder as content tokenizer.</param>
-        /// <returns><paramref name="service"/>.</returns>
-        public static SyntaxParserService AddCurlyTokenBuilder(this SyntaxParserService service, bool isIncludedInContentTokenizer = true)
-        {
-            Ensure.NotNull(service, "service");
-            service.ContentTokenizer.Add(new CurlyTokenBuilder());
-
-            if (isIncludedInContentTokenizer)
-                service.ValueTokenizer.Add(new CurlyTokenBuilder());
-
-            return service;
-        }
-
-        /// <summary>
-        /// Adds <see cref="LiteralTokenBuilder"/> as content and value tokenzer of <paramref name="service"/>.
-        /// </summary>
-        /// <param name="service">The service to add tokenizer to.</param>
-        /// <returns><paramref name="service"/>.</returns>
-        public static SyntaxParserService AddLiteralTokenBuilder(this SyntaxParserService service)
-        {
-            Ensure.NotNull(service, "service");
-            service.ContentTokenizer.Add(new LiteralTokenBuilder());
-            service.ContentTokenizer.Add(new LiteralTokenBuilder());
-            return service;
-        }
-
-
-        /// <summary>
         /// Adds <paramref name="builder"/> to build syntax nodes of token <paramref name="type"/>.
         /// </summary>
         /// <param name="service">The service to add node builder to.</param>

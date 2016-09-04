@@ -17,15 +17,15 @@ namespace Neptuo.Text
             {
                 CurlyTokenType.OpenBrace,
                 CurlyTokenType.Name,
-                
+
                 CurlyTokenType.DefaultAttributeValue,
                 CurlyTokenType.AttributeSeparator,
-                
+
                 CurlyTokenType.AttributeName,
                 CurlyTokenType.AttributeValueSeparator,
-                
+
                 CurlyTokenType.CloseBrace,
-                
+
                 CurlyTokenType.Whitespace,
                 CurlyTokenType.Literal
             };
@@ -47,34 +47,42 @@ namespace Neptuo.Text
 
         private bool ReadTokenStart(InternalContext context)
         {
-            if (context.Decorator.Current != '{')
+            while (true)
             {
-                context.Decorator.NextUntil(c => c == '{' || c == '}');
-                context.CreateToken(CurlyTokenType.Literal);
+                if (context.Decorator.Current != '{')
+                {
+                    if (context.Decorator.NextUntil(c => c == '{' || c == '}'))
+                        context.CreateToken(CurlyTokenType.Literal, 1);
+                }
+
+                if (context.Decorator.Current == '{')
+                {
+                    context.Decorator.ResetCurrentPosition(1);
+                    context.Decorator.ResetCurrentInfo();
+                    context.Decorator.Next();
+
+                    //context.CreateToken(CurlyTokenType.Text, 1);
+                    context.CreateToken(CurlyTokenType.OpenBrace);
+                    ReadTokenName(context);
+
+                    if (context.Decorator.IsCurrentEndOfInput())
+                        return true;
+                }
+                else if (!context.Decorator.IsCurrentEndOfInput())
+                {
+                    context
+                        .CreateToken(CurlyTokenType.Literal, -1, true)
+                        .WithError("Not valid here.");
+
+                    if (context.Decorator.Next())
+                        return ReadTokenStart(context);
+                }
+                else
+                {
+                    context.CreateToken(CurlyTokenType.Literal);
+                    return true;
+                }
             }
-
-            if (context.Decorator.Current == '{')
-            {
-                context.Decorator.ResetCurrentPosition(1);
-                context.Decorator.ResetCurrentInfo();
-                context.Decorator.Next();
-
-                //context.CreateToken(CurlyTokenType.Text, 1);
-                context.CreateToken(CurlyTokenType.OpenBrace);
-                ReadTokenName(context);
-                return true;
-            }
-            else if(!context.Decorator.IsCurrentEndOfInput())
-            {
-                context
-                    .CreateToken(CurlyTokenType.Literal, -1, true)
-                    .WithError("Not valid here.");
-
-                if (context.Decorator.Next())
-                    return ReadTokenStart(context);
-            }
-
-            return false;
         }
 
         private void ReadTokenName(InternalContext context, bool isSingleTokenOnly = false)
@@ -274,7 +282,7 @@ namespace Neptuo.Text
                 else
                 {
                     context.Decorator.NextUntil(c => c == ',' || c == '}');
-                    context.CreateToken(CurlyTokenType.Literal);
+                    context.CreateToken(CurlyTokenType.Literal, 1);
                     context.Decorator.ResetCurrentPosition(1);
                     context.Decorator.ResetCurrentInfo();
                     context.Decorator.Next();

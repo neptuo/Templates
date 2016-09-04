@@ -62,17 +62,12 @@
     <Compile Include="ICodeObjectBuilderContext.cs" />
     <Compile Include="ICodePropertyBuilder.cs" />
     <Compile Include="ICodePropertyBuilderContext.cs" />
-    <Compile Include="Nodes\AngleNodeBuilder.cs" />
-    <Compile Include="Nodes\AngleNodes.cs" />
     <Compile Include="Nodes\InvalidTokenTypeException.cs" />
     <Compile Include="Nodes\MissingNextTokenException.cs" />
     <Compile Include="Nodes\NodeException.cs" />
     <Compile Include="Nodes\Visitors\CurlyAttributeNodeVisitor.cs" />
-    <Compile Include="Nodes\Visitors\AngleAttributeNodeVisitor.cs" />
     <Compile Include="Nodes\Visitors\CurlyDefaultAttributeNodeVisitor.cs" />
     <Compile Include="Nodes\Visitors\CurlyNameNodeVisitor.cs" />
-    <Compile Include="Nodes\Visitors\AngleNameNodeVisitor.cs" />
-    <Compile Include="Nodes\Visitors\AngleNodeVisitor.cs" />
     <Compile Include="Nodes\Visitors\CurlyNodeVisitor.cs" />
     <Compile Include="Nodes\Visitors\INodeProcessor.cs" />
     <Compile Include="Nodes\Visitors\INodeVisitor.cs" />
@@ -117,6 +112,14 @@
     <ProjectReference Include="..\Neptuo.Templates.Compilation\Neptuo.Templates.Compilation.csproj">
       <Project>{37bc3720-17c6-40eb-8236-037ec9bbc66b}</Project>
       <Name>Neptuo.Templates.Compilation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Text.CurlyTokenizer\Neptuo.Text.CurlyTokenizer.csproj">
+      <Project>{830f7640-1c81-42e2-9fa6-d1d288cd81f8}</Project>
+      <Name>Neptuo.Text.CurlyTokenizer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Neptuo.Text.Tokenizer\Neptuo.Text.Tokenizer.csproj">
+      <Project>{4cd3660a-ff82-449a-b127-5e7fa3e55b3f}</Project>
+      <Name>Neptuo.Text.Tokenizer</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

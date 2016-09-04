@@ -17,8 +17,8 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
     {
         private readonly IParserProvider parserProvider;
 
-        public DefaultTokenizer ContentTokenizer { get; private set; }
-        public DefaultTokenizer ValueTokenizer { get; private set; }
+        public ITokenizer ContentTokenizer { get; set; }
+        public ITokenizer ValueTokenizer { get; set; }
         public NodeBuilderCollection NodeBuilders { get; private set; }
 
         /// <summary>
@@ -30,12 +30,10 @@ namespace Neptuo.Templates.Compilation.Parsers.Syntax
             Ensure.NotNull(parserProvider, "parserProvider");
             this.parserProvider = parserProvider;
 
-            ContentTokenizer = new DefaultTokenizer();
-            ValueTokenizer = new DefaultTokenizer();
             NodeBuilders = new NodeBuilderCollection();
         }
 
-        private ICodeObject ProcessInternal(string name, ISourceContent content, IParserServiceContext context, DefaultTokenizer tokenizer)
+        private ICodeObject ProcessInternal(string name, ISourceContent content, IParserServiceContext context, ITokenizer tokenizer)
         {
             IList<Token> tokens = tokenizer.Tokenize(
                 new StringReader(content.TextContent),

@@ -13,13 +13,9 @@ namespace UnitTest.Templates.Parsers.Tokenizers
 {
     public abstract class TestTokenizerBase : TestBase
     {
-        protected DefaultTokenizer CreateTokenizer()
+        protected ITokenizer CreateTokenizer()
         {
-            DefaultTokenizer tokenizer = new DefaultTokenizer();
-            tokenizer.Add(new AngleTokenBuilder());
-            tokenizer.Add(new CurlyTokenBuilder());
-            tokenizer.Add(new LiteralTokenBuilder());
-            return tokenizer;
+            return new CurlyTokenizer();
         }
 
         protected IContentReader CreateContentReader(string text)

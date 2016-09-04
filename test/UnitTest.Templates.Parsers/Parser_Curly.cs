@@ -45,10 +45,7 @@ namespace UnitTest.Templates.Parsers
                 .AddPropertyNormalizer(new LowerInvariantNameNormalizer());
 
             SyntaxParserService parserService = new SyntaxParserService(parserProvider);
-            parserService
-                .AddCurlyTokenBuilder()
-                .AddAngleTokenBuilder()
-                .AddLiteralTokenBuilder();
+            parserService.ContentTokenizer = new CurlyTokenizer();
 
             parserService.NodeBuilders
                 .Add(CurlyTokenType.OpenBrace, new CurlyNodeBuilder())
