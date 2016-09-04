@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
+namespace Neptuo.Text
 {
     /// <summary>
     /// Default implementation of <see cref="ITokenizerContext"/>.

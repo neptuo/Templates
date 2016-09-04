@@ -6,7 +6,7 @@ using Microsoft.VisualStudio.Text.Editor;
 using Microsoft.VisualStudio.TextManager.Interop;
 using Neptuo.Activators;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Text;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
 using System.Collections.Generic;

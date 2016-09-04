@@ -1,13 +1,13 @@
 ﻿using Neptuo.Collections.Specialized;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.ComponentModel;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
+using Neptuo.Text.ComponentModel;
+using Neptuo.Text.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
+namespace Neptuo.Text
 {
     public class CurlyTokenBuilder : TokenBuilderBase, ITokenTypeProvider
     {

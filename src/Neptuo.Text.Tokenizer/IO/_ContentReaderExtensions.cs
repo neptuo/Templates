@@ -1,11 +1,11 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.ComponentModel;
+﻿using Neptuo.Text.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO
+namespace Neptuo.Text.IO
 {
     public static class _ContentReaderExtensions
     {

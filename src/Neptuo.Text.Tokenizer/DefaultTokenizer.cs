@@ -1,12 +1,12 @@
 ﻿using Neptuo.Activators;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
+using Neptuo.Text.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
+namespace Neptuo.Text
 {
     /// <summary>
     /// Extensible implementation of <see cref="ITokenizer{T}"/>.

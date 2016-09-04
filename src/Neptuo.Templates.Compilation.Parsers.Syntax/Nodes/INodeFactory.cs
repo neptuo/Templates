@@ -1,5 +1,5 @@
 ﻿using Neptuo.Activators;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;

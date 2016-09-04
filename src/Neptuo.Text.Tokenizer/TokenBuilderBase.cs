@@ -1,11 +1,11 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
+﻿using Neptuo.Text.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
+namespace Neptuo.Text
 {
     /// <summary>
     /// Util methods the every token builder needs.

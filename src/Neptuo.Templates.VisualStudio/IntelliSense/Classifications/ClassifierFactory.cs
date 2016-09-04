@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Classification;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Text;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.Composition;

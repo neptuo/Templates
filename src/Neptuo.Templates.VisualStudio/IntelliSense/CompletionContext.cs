@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Language.Intellisense;
 using Microsoft.VisualStudio.Text;
 using Microsoft.VisualStudio.Text.Editor;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Text;
 using Neptuo.Templates.VisualStudio.IntelliSense.Completions;
 using System;
 using System.Collections.Generic;

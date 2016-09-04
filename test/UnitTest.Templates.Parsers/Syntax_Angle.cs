@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
+using Neptuo.Text;
 using System;
 using System.Collections.Generic;
 using System.Linq;

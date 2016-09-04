@@ -2,8 +2,8 @@
 using Neptuo.Diagnostics;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes;
 using Neptuo.Templates.Compilation.Parsers.Syntax.Nodes.Visitors;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
+using Neptuo.Text;
+using Neptuo.Text.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

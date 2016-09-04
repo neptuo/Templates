@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
+using Neptuo.Text.IO;
 
 namespace UnitTest.Templates.Parsers.Tokenizers.IO
 {

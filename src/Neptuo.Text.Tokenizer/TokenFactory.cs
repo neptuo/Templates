@@ -1,4 +1,4 @@
-﻿using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.ComponentModel;
+﻿using Neptuo.Text.ComponentModel;
 using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers
+namespace Neptuo.Text
 {
     public class TokenFactory
     {

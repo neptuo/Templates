@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.ComponentModel;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
+using Neptuo.Text;
+using Neptuo.Text.ComponentModel;
+using Neptuo.Text.IO;
 using Neptuo.Text.Positions;
 using System;
 using System.Collections.Generic;

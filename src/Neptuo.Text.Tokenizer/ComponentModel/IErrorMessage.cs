@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.ComponentModel
+namespace Neptuo.Text.ComponentModel
 {
     /// <summary>
     /// Describes error message.

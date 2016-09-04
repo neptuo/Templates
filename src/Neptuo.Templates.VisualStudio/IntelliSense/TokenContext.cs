@@ -1,7 +1,7 @@
 ﻿using Microsoft.VisualStudio.Text;
 using Neptuo.Activators;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers;
-using Neptuo.Templates.Compilation.Parsers.Syntax.Tokenizers.IO;
+using Neptuo.Text;
+using Neptuo.Text.IO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
