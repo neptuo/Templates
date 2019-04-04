@@ -2,19 +2,27 @@
 
   <PropertyGroup>
     <Product>Neptuo.Templates.Compilation</Product>
-    <Description>Compilation infrastructure for Templates.</Description>
+    <Description>Compilation pipeline for template processing.</Description>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <VersionPrefix>2.0.0</VersionPrefix>
+    <VersionPrefix>0.17.0</VersionPrefix>
     <PackageProjectUrl>http://www.neptuo.com/project/dev/neptuo.templates.compilation</PackageProjectUrl>
     <PackageTags>Neptuo Templates</PackageTags>
   </PropertyGroup>
+  
+  <PropertyGroup Condition="'$(Configuration)' == 'Release'">
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+
+    <!-- SourceLink -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+  </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Neptuo\Neptuo.csproj" />
-    <ProjectReference Include="..\Neptuo.Compilers\Neptuo.Compilers.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0-*" PrivateAssets="All"/>
+    <PackageReference Include="Neptuo" Version="6.0.1" />
+    <PackageReference Include="Neptuo.Compilers" Version="1.0.0" />
     <PackageReference Include="System.CodeDom" Version="4.4.0" />
   </ItemGroup>
 
